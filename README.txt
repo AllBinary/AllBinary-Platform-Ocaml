@@ -7,7 +7,7 @@ This repo is used to allow developers to skip the OCaml code generation step.
 
 What are some examples game with this OCaml code?
 
-https://allbinary.itch.io (The downloads with "-ts" in the filename are OCaml only builds. Currently that only includes nothing. Also the OCaml builds are not available on Google Play or other stores.)
+https://allbinary.itch.io (The downloads with "-ocaml" in the filename are OCaml only builds. Currently that only includes nothing. Also the OCaml builds are not available on Google Play or other stores.)
 
 What is the License?
 
