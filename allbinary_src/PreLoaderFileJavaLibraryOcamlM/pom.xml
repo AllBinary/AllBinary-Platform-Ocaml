@@ -1,0 +1,210 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>PreLoaderFileJavaLibraryOcaml</artifactId>
+    <packaging>jar</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>PreLoaderFileJavaLibraryOcaml</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <properties>
+        <cygwin.home>G:/cygwin64</cygwin.home>
+        <!-- ocamlopt builds native code with a .cmxa archive and ocamlc builds bytecode with a .cma archive -->
+        <ocaml.compiler>ocamlopt</ocaml.compiler>
+        <!-- -w +a-70 shows all warnings except missing-mli and -verbose shows the commands the compiler runs -->
+        <ocaml.compiler.flags>-w +a-70 -verbose</ocaml.compiler.flags>
+        <!-- Hand written Allbinary_java runtime module opened by all generated OCaml code -->
+        <ocaml.runtime.source.path>G:/mnt/bc/mydev/workocaml/j2me/J2SEForOcamlLibraryOcamlM/src/main/java</ocaml.runtime.source.path>
+        <!-- Set to false to continue the Maven build when the generated OCaml does not compile -->
+        <ocaml.fail.on.error>true</ocaml.fail.on.error>
+        <!-- Compiled OCaml modules of the dependencies -->
+        <ocaml.dependency.directory>${project.build.directory}/ocaml-dependencies</ocaml.dependency.directory>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>LoggingJ2MEAllOcaml</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>LogJ2SEJavaLibraryOcaml</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary.logging</groupId>
+            <artifactId>LogConfigTypeFreeblisketJavaLibraryOcaml</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>FileInitInfoJavaLibraryOcaml</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>BasicSecurityJavaLibraryOcaml</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>FileAdvancedJavaLibraryOcaml</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>FileJ2SEJavaLibraryOcaml</artifactId>
+            <!--
+            <artifactId>FileJ2SEJavaLibraryOcaml</artifactId>
+            <artifactId>FileGAEVFSJavaLibraryOcaml</artifactId>
+            appengine-java-io manually included from AppEngineIOJavaLibrary.jar
+        <dependency>
+            <groupId>com.vobject.appengine</groupId>
+            <artifactId>appengine-java-ioOcaml</artifactId>
+            <version>0.1.0</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-vfsOcaml</artifactId>
+            <version>2.0</version>
+            <optional>true</optional>
+        </dependency>
+            -->
+
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <id>unpack-ocaml-dependencies</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <includeTypes>jar</includeTypes>
+                            <excludeClassifiers>sources</excludeClassifiers>
+                            <includes>META-INF/ocaml/**</includes>
+                            <useSubDirectoryPerArtifact>true</useSubDirectoryPerArtifact>
+                            <outputDirectory>${project.build.directory}/ocaml-dependencies</outputDirectory>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>compile-ocaml-sources</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${cygwin.home}/bin/bash.exe</executable>
+                            <arguments>
+                                <argument>${project.basedir}/build-cygwin.sh</argument>
+                                <argument>${project.basedir}/src/main/java</argument>
+                                <argument>${project.build.outputDirectory}/META-INF/ocaml</argument>
+                                <argument>${project.artifactId}</argument>
+                                <argument>${ocaml.compiler}</argument>
+                                <argument>${ocaml.compiler.flags}</argument>
+                                <argument>${ocaml.fail.on.error}</argument>
+                                <argument>${ocaml.dependency.directory}</argument>
+                                <argument>${ocaml.runtime.source.path}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>
+
+

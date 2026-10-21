@@ -1,0 +1,148 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary.business</groupId>
+    <artifactId>BlisketJavaLibraryPOcaml</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>BlisketJavaLibraryPOcaml</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    
+    <modules>
+
+        <!--
+        <module>../../j2me/AllBinaryJ2MELibraryP</module>
+        -->
+        <!--
+        <module>../data/DataJavaLibraryOcamlM</module>
+        -->
+
+        <module>../licensing/TestServiceClientInfoJavaLibraryOcamlM</module>        
+
+        <module>../data/DataTableInterfacesOcamlM</module>
+        
+        <module>../QueueJavaLibraryOcamlM</module>
+        
+        <!--
+        <module>../TokenizerJavaLibraryOcamlM</module>
+        -->
+
+        <module>../logging/LogConfigTypeFreeblisketJavaLibraryOcamlM</module>
+
+        <module>../JavaUtilLibraryOcamlM</module>
+        <module>../NullInitInfoJavaLibraryOcamlM</module>        
+        <module>../InitInfoJavaLibraryOcamlM</module>
+        <module>../PreLoaderHttpJavaLibraryOcamlM</module>
+        
+        <module>../TagsBaseJavaLibraryOcamlM</module>
+        <module>../CustomLoaderJavaLibraryOcamlM</module>
+        
+        <!--
+        <module>../logic/data/file/FileJ2SEJavaLibraryOcamlM</module>
+        <module>../logic/data/file/FileJavaLibraryOcamlM</module>
+        -->
+
+        <module>../data/SQLAllBinaryJavaLibraryOcamlM</module>
+
+        <!--
+        <module>../licensing/FileLicenseInitInfoJavaLibraryOcamlM</module>
+        -->
+
+        <module>../DocumentObjectModelJavaLibraryOcamlM</module>
+
+        <module>../VisualStyleJavaLibraryOcamlM</module>
+
+        <module>../ConfigurationJavaLibraryOcamlM</module>
+
+        <module>../VisualTransformBaseJavaLibraryOcamlM</module>
+
+        <module>../CategoryBaseJavaLibraryOcamlM</module>
+        <module>../CategoryJavaLibraryOcamlM</module>
+
+        <module>../UserJavaLibraryOcamlM</module>
+
+        <module>../PaymentGatewayBaseJavaLibraryOcamlM</module>
+
+        <module>../data/vo/EntitiesBlisketVOJavaLibraryOcamlM</module>
+        <module>../PaymentGatewayJavaLibraryOcamlM</module>
+        <module>../data/vo/EntitiesOrderHistoryVOJavaLibraryOcamlM</module>
+        <module>../data/vo/EntityPaymentGatewayVOJavaLibraryOcamlM</module>
+        <module>../data/vo/EntityStoreFrontVOJavaLibraryOcamlM</module>
+
+        <module>../data/EntitiesBlisketBaseInterfacesJavaLibraryOcamlM</module>
+        <module>../data/EntitiesBlisketBaseJavaLibraryOcamlM</module>
+        
+        <module>../data/EntitiesAdvertisementBaseJavaLibraryOcamlM</module>
+        <module>../data/EntityOrderHistoryJavaLibraryOcamlM</module>
+        <module>../data/EntityPaymentGatewayJavaLibraryOcamlM</module>
+        <module>../data/EntityVisualTransformJavaLibraryOcamlM</module>
+        <module>../data/EntityUserJavaLibraryOcamlM</module>
+        <module>../data/EntityWorkflowJavaLibraryOcamlM</module>
+
+        <module>../SMTPConfigurationJavaLibraryOcamlM</module>
+        <module>../SMTPBaseJavaLibraryOcamlM</module>
+
+        <module>../VisualTransformJavaLibraryOcamlM</module>
+
+        <module>../../replace_these_stub_projects/allbinary_src/YourRuntimeEnvironmentJavaLibraryOcamlM</module>
+        <module>../GatewayJavaLibraryOcamlM</module>
+        
+        <module>../WorkflowBaseJavaLibraryOcamlM</module>
+        <module>../WorkflowJavaLibraryOcamlM</module>
+
+        <module>../IdGeneratorUsingFilesJavaLibraryOcamlM</module>
+        <module>../BlisketPreVOJavaLibraryOcamlM</module>
+
+        <!-- 
+        EntitiesOrderHistoryVOJavaLibrary
+        UserJavaLibrary
+        -->
+        
+        <module>../BlisketVOJavaLibraryOcamlM</module>
+
+        <module>../UserCommerceJavaLibraryOcamlM</module>
+
+        <module>../CustomizerValidatorsJavaLibraryOcamlM</module>
+
+        <!-- 
+        AllBinaryCacheForShiftOneJavaLibrary
+        AllBinaryJSECacheJavaLibrary
+        ColorJavaLibrary
+        ImageJavaLibrary
+        -->
+        
+        <module>../logic/data/file/FileMediaJ2SEJavaLibraryOcamlM</module>
+        <module>../BlisketBaseJavaLibraryOcamlM</module>
+
+        <module>../logging/LoggingGAEAllOcamlM</module>
+        <module>../BlisketJavaLibraryOcamlM</module>
+        
+    </modules>
+
+</project>
+

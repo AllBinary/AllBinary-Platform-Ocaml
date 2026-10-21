@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>AllBinaryBaseLibraryPOMOcaml</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>AllBinaryBaseLibraryPOMOcaml</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+        <module>../CommonJavaLibraryOcamlM</module>
+        <module>../TempBaseJavaLibraryOcamlM</module>
+        
+        <module>../../allbinary_src/LogOcamlM</module>
+        <module>../../allbinary_src/allbinary_src_designpatterns_srcOcamlM</module>
+        <module>../../allbinary_src/data/BaseDataJavaLibraryOcamlM</module>
+        <module>../../allbinary_src/cache/BaseCacheJavaLibraryOcamlM</module>
+        <module>../../allbinary_src/logic/BasePreloaderJavaLibraryOcamlM</module>
+        <module>../../allbinary_src/logic/BasePreloaderJ2MEJavaLibraryOcamlM</module>
+
+        <module>../ExceptionHTMLJavaLibraryOcamlM</module>
+        <module>../J2MEExceptionLibraryOcamlM</module>
+        <module>../../allbinary_src/J2SEExceptionLibraryOcamlM</module>
+        <module>../J2MEUtilJavaLibraryOcamlM</module>
+        <module>../J2MEColorJavaLibraryOcamlM</module>
+        <module>../EventJ2MELibraryOcamlM</module>
+
+        <module>../../allbinary_src/LogNoPlatformJavaLibraryOcamlM</module>
+        <module>../../allbinary_src/LogJ2MEJavaLibraryOcamlM</module>
+        <module>../../allbinary_src/LogJ2SEJavaLibraryOcamlM</module>
+<!--        <module>../../allbinary_src/LogAndroidJavaLibraryOcamlM</module>-->
+        <module>../logging/LoggingNoneOcamlM</module>
+        <module>../logging/LoggingJ2MEAllOcamlM</module>
+        <module>../logging/LoggingJ2MEExceptionOcamlM</module>
+<!--        <module>../logging/LoggingAndroidAllOcamlM</module>-->
+        <!--
+        //While it is a possible dependency option it really does not fit here
+        //as such it is actually build in the final POM builds instead
+        <module>../logging/LoggingRemoteExceptionOcamlM</module>  
+        -->
+        
+        <module>../J2MEWindowingJavaLibraryOcamlM</module>
+        
+        <module>../lib/BaseMathLibraryOcamlM</module>
+        <module>../lib/BasicMathLibraryOcamlM</module>
+        
+        <module>../../allbinary_src/ThreadLibraryOcamlM</module>
+        <module>../../allbinary_src/ThreadHTMLLibraryOcamlM</module>
+        <module>../../replace_these_stub_projects/allbinary_src/NoneOnlyJavaLibraryOcamlM</module>
+        <module>../../allbinary_src/ThreadJ2MELibraryOcamlM</module>
+        <module>../time/TimeJavaLibraryOcamlM</module>
+
+        <module>../statistics/ApplicationStatisticsJ2SELibraryOcamlM</module>
+        <module>../statistics/ApplicationStatisticsJ2MELibraryOcamlM</module>
+        <module>../statistics/ApplicationStatisticsJavaLibraryOcamlM</module>
+
+        <module>../../allbinary_src/logging/BasicLogConfigTypeJavaLibraryOcamlM</module>
+        <module>../../allbinary_src/logging/LogConfigTypeGameClientJavaLibraryOcamlM</module>
+
+        <module>../../allbinary_src/hardware/HardwareLibraryPOOcamlM</module>
+
+        <module>../lib/TrigBaseLibraryOcamlM</module>
+
+    </modules>
+
+</project>
+

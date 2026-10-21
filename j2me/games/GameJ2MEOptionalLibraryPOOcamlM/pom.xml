@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>GameJ2MEOptionalLibraryPOMOcaml</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>GameJ2MEOptionalLibraryPOMOcaml</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+
+    <modules>
+        
+        <module>../../ProgressLazyJ2MEJavaLibraryOcamlM</module>
+        <!--
+                <module>../../games/GameScoresBaseHTMLLibraryOcamlM</module>
+                <module>../../games/GameScoresJ2MEJavaLibraryOcamlM</module>
+                <module>../../../allbinary_src/licensing/RemoteXmlRpcJavaLibraryOcamlM</module>
+                <module>../../games/GameScoresLocalLibraryOcamlM</module>
+                <module>../../games/GameScoresRemoteAndLocalLibraryOcamlM</module>
+        -->
+<!-- in GameJ2MELibraryPOM <module>../../media/graphics/ImageCacheJ2MEJavaLibraryOcamlM</module>-->
+        <module>../../media/graphics/ImageCacheLazyJ2MEJavaLibraryOcamlM</module>
+        <!--        <module>../../media/graphics/ImageCacheOpenGLESJavaLibraryOcamlM</module>-->
+        <module>../../media/graphics/LazyGameResourceNoneJavaLibraryOcamlM</module>
+
+<!-- in GameJ2MELibraryPOM <module>../../../graphics/opengl/OpenGLNoneJavaLibraryOcamlM</module>-->
+
+        <!--
+                <module>../../../graphics/opengl/OpenGLESJavaLibraryOcamlM</module>
+        -->
+
+<!-- in GameJ2MELibraryPOM <module>../../input/JSEGyroSensorJavaLibraryOcamlM</module>-->
+        <!--        
+                <module>../../ProgressJ2MEJavaLibraryOcamlM</module>
+        -->
+        <!--        
+                //At some point the GameInput libraries were here
+        -->
+        
+        <!--
+        ../../
+        <module>../../../../work/j2me/media/graphics/FormJMEJavaLibraryOcamlM</module>
+        -->
+        <!--
+        ../../
+        <module>../../../../work/j2me/media/graphics/FormJSEJavaLibraryOcamlM</module>
+        -->
+
+        <module>../../media/sound/J2SEMediaMIDPMinimalJavaLibraryOcamlM</module>
+<!--        <module>../../media/sound/NotDeviceSpecificMIDP2JavaLibraryOcamlM</module>-->
+        <module>../../media/sound/MediaMIDP2ForHTMLJavaLibraryOcamlM</module>
+
+        <!--
+                <module>../../../../work/j2me/ScreenCaptureAndroidJavaLibraryOcamlM</module>
+        -->
+    </modules>
+
+</project>
+

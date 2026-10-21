@@ -1,0 +1,76 @@
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.media.graphics.geography.pathfinding *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import org.allbinary.util.BasicArrayList *)
+(* import org.allbinary.logic.util.cache.BaseBasicArrayListCache *)
+(* import org.allbinary.util.BasicArrayListS *)
+
+class basicGeographicMapExtractedPathsCacheFactory () =
+  object
+    inherit BaseBasicArrayListCache.baseBasicArrayListCache ()
+    val mutable maxConcurrentPaths : int = 0
+    method maxConcurrentPaths = maxConcurrentPaths
+    method set_maxConcurrentPaths value' = maxConcurrentPaths <- value'
+    val mutable maxPaths : int = 0
+    method maxPaths = maxPaths
+    method set_maxPaths value' = maxPaths <- value'
+    
+    
+
+    method init ((maxConcurrentPaths_arg : int), (maxPaths_arg : int)) : unit =
+        begin
+        if (maxConcurrentPaths_arg <> maxConcurrentPaths) then begin
+            for _index = maxConcurrentPaths_arg downto maxConcurrentPaths do
+                ignore (list#add ((new BasicArrayListS.basicArrayListS (maxPaths_arg))))
+            done;
+            maxConcurrentPaths <- maxConcurrentPaths_arg
+        end;
+        maxPaths <- maxPaths_arg
+        end [@@warning "-7"]
+    
+
+    method getPaths () : BasicArrayList.basicArrayList =
+        try
+        begin
+        if ((list#size ()) > 0) then begin
+            raise (Java_return (Obj.repr ((Obj.magic (list#removeAt (0))))))
+        end else begin
+            raise (Java_return (Obj.repr ((new BasicArrayListS.basicArrayListS (maxPaths)))))
+        end
+        end
+        with Java_return value -> Obj.obj value [@@warning "-7"]
+    
+
+    method release : 'any1. 'any1 -> unit = fun (list) ->
+        let list = Obj.repr list in
+        begin
+        for index = (((Obj.magic list)#size ()) - 1) downto 0 do
+            ignore ((BasicGeographicMapExtractedPathCacheFactory.getInstance ())#release ((Obj.magic ((Obj.magic list)#get (index)))))
+        done;
+        ignore ((Obj.magic list)#clear ());
+        ignore (list#add ((Obj.magic list)))
+        end [@@warning "-7-20"]
+
+    initializer
+      begin
+        maxConcurrentPaths <- 0;
+        maxPaths <- 0;
+        ();
+        ()
+      end
+  end
+let () = java_register_constructor "BasicGeographicMapExtractedPathsCacheFactory" (fun arguments -> Obj.repr (new basicGeographicMapExtractedPathsCacheFactory (Obj.obj arguments)))
+
+let instance = (new basicGeographicMapExtractedPathsCacheFactory ())
+let get_instance () = instance
+let () = java_register_static "BasicGeographicMapExtractedPathsCacheFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+
+let getInstance () =
+        begin
+        instance
+        end
+let () = java_register_static "BasicGeographicMapExtractedPathsCacheFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+

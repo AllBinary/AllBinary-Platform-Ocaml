@@ -1,0 +1,39 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.animation.image *)
+
+open Allbinary_java [@@warning "-33"]
+(* import javax.microedition.lcdui.Image *)
+(* import org.allbinary.animation.Animation *)
+(* import org.allbinary.animation.AnimationBehavior *)
+(* import org.allbinary.animation.IndexedAnimation *)
+(* import org.allbinary.animation.SingletonAnimationInterfaceFactory *)
+(* import org.allbinary.image.IndexedAnimationToImageArrayUtil *)
+
+class imageArraySingletonAnimationInterfaceFactory (imageArray) =
+  object
+    inherit SingletonAnimationInterfaceFactory.singletonAnimationInterfaceFactory ((new ImageArrayAnimation.imageArrayAnimation (imageArray, (AnimationBehavior.getInstance ()))))
+    
+
+    initializer
+      begin
+        ();
+        (* super(...) is the inherit clause *) ()
+      end
+  end
+let () = java_register_constructor "ImageArraySingletonAnimationInterfaceFactory" (fun arguments -> Obj.repr (new imageArraySingletonAnimationInterfaceFactory (Obj.obj arguments)))
+
+

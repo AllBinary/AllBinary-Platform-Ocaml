@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>AllBinaryPersistenceLibraryPOcaml</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>AllBinaryPersistenceLibraryPOcaml</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+        
+        <!--
+        -->
+        <module>../allbinary_src/cache/AllBinaryCacheLibraryOcamlM</module>
+        <module>../allbinary_src/PermutationsJavaLibraryOcamlM</module>
+        <module>../allbinary_src/logic/BasePreloaderFileJavaLibraryOcamlM</module>
+        <module>../allbinary_src/logic/data/file/FileJavaLibraryOcamlM</module>
+        <module>../allbinary_src/logic/data/file/FileJ2SEJavaLibraryOcamlM</module>
+        <module>../allbinary_src/data/DataJavaLibraryOcamlM</module>
+        <module>../allbinary_src/logic/data/file/FileUnamedJavaLibraryOcamlM</module>
+        <module>../allbinary_src/logic/data/file/FileAdvancedJavaLibraryOcamlM</module>
+        <module>../allbinary_src/PreLoaderJavaLibraryOcamlM</module>
+        <module>../allbinary_src/FileInitInfoJavaLibraryOcamlM</module>
+        <module>../allbinary_src/PreLoaderFileJavaLibraryOcamlM</module>
+        <module>../allbinary_src/PreLoaderLicenseJavaLibraryOcamlM</module>
+        <module>../j2me/PCResourceLibraryOcamlM</module>
+        <module>../j2me/ProgressJ2MEJavaLibraryOcamlM</module>
+        <module>../allbinary_src/licensing/ClientInfoBaseJavaLibraryOcamlM</module>
+        <module>../allbinary_src/licensing/RemoteXmlRpcJavaLibraryOcamlM</module>
+        <module>../allbinary_src/licensing/LicenseClientJavaLibraryOcamlM</module>
+
+        <!--
+        <module>../allbinary_src/PreLoaderLicenseJavaLibraryOcamlM</module>
+        -->
+    </modules>
+
+</project>
+

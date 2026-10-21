@@ -1,0 +1,68 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.graphics.j2me.workarea.tools.event *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import javax.swing.tree.MutableTreeNode *)
+
+class myGraphicItemEvent ((source : Obj.t)) =
+  object (self)
+    inherit EventObject.eventObject (source) as super
+    
+    
+
+    method getSource () : Obj.t =
+        begin
+        (Obj.repr ((super#getSource ())))
+        end [@@warning "-7"]
+    
+
+    method toString () : string =
+        begin
+        (java_string_of (Obj.repr super))
+        end [@@warning "-7"]
+    
+
+    method getCommand () : string =
+        begin
+        let myEventSource : MyGraphicItemEventSource.myGraphicItemEventSource ref = ref (((Obj.magic (self#getSource ())) :> MyGraphicItemEventSource.myGraphicItemEventSource)) in ();
+        (!myEventSource#getCommand ())
+        end [@@warning "-7"]
+    
+
+    method getTreeNode : 'return. unit -> 'return = fun () ->
+        begin
+        let myEventSource : MyGraphicItemEventSource.myGraphicItemEventSource ref = ref (((Obj.magic (self#getSource ())) :> MyGraphicItemEventSource.myGraphicItemEventSource)) in ();
+        (Obj.magic ((!myEventSource#getTreeNode ())))
+        end [@@warning "-7"]
+    
+
+    method getAngle () : float =
+        begin
+        let myEventSource : MyGraphicItemEventSource.myGraphicItemEventSource ref = ref (((Obj.magic (self#getSource ())) :> MyGraphicItemEventSource.myGraphicItemEventSource)) in ();
+        (!myEventSource#getAngle ())
+        end [@@warning "-7"]
+
+    initializer
+      begin
+        ();
+        (* super(...) is the inherit clause *) ()
+      end
+  end
+let () = java_register_constructor "MyGraphicItemEvent" (fun arguments -> Obj.repr (new myGraphicItemEvent (Obj.obj arguments)))
+
+

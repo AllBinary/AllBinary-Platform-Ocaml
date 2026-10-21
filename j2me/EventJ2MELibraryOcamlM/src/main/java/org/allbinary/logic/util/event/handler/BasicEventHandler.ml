@@ -1,0 +1,175 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.logic.util.event.handler *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import jsinterop.annotations.JsType *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
+(* import org.allbinary.logic.util.event.EventListenerInterface *)
+(* import org.allbinary.logic.util.event.EventStrings *)
+(* import org.allbinary.string.CommonStrings *)
+(* import org.allbinary.util.BasicArrayList *)
+(* import org.allbinary.util.BasicArrayListD *)
+(* import jsinterop.annotations.JsMethod *)
+(* import jsinterop.annotations.JsConstructor *)
+(* import jsinterop.annotations.JsProperty *)
+
+class basicEventHandler () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
+    method commonStrings = commonStrings
+    method set_commonStrings value' = commonStrings <- value'
+    val mutable eventStrings : EventStrings.eventStrings = (Obj.magic 0)
+    method eventStrings = eventStrings
+    method set_eventStrings value' = eventStrings <- value'
+    val mutable eventListenerInterfaceList : BasicArrayList.basicArrayList = (Obj.magic 0)
+    method eventListenerInterfaceList = eventListenerInterfaceList
+    method set_eventListenerInterfaceList value' = eventListenerInterfaceList <- value'
+    
+    
+
+    method removeAllListeners () : unit =
+        begin
+        eventListenerInterfaceList <- (new BasicArrayListD.basicArrayListD ())
+        end
+    
+
+    method addListeners : 'any1. 'any1 -> unit = fun (vector) ->
+        let vector = Obj.repr vector in
+        begin
+        let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((Obj.magic 0) :> EventListenerInterface.eventListenerInterface)) in ();
+        let size : int ref = ref (((Obj.magic vector)#size ())) in ();
+        for index = 0 to !size - 1 do
+            eventListenerInterface := (Obj.magic ((Obj.magic vector)#get (index)));
+            (self#addListenerInterface (!eventListenerInterface))
+        done
+        end [@@warning "-20"]
+    
+
+    method removeListeners : 'any1. 'any1 -> unit = fun (vector) ->
+        let vector = Obj.repr vector in
+        begin
+        let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((Obj.magic 0) :> EventListenerInterface.eventListenerInterface)) in ();
+        let size : int ref = ref (((Obj.magic vector)#size ())) in ();
+        for index = 0 to !size - 1 do
+            eventListenerInterface := (Obj.magic ((Obj.magic vector)#get (index)));
+            (self#removeListener (!eventListenerInterface))
+        done
+        end [@@warning "-20"]
+    
+
+    method addListenerSingleThreaded : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
+        let eventListenerInterface = Obj.repr eventListenerInterface in
+        begin
+        if (not (eventListenerInterfaceList#contains ((Obj.magic eventListenerInterface)))) then begin
+            ignore (eventListenerInterfaceList#add ((Obj.magic eventListenerInterface)))
+        end
+        end [@@warning "-20"]
+    
+
+    method addListenerInterface : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
+        let eventListenerInterface = Obj.repr eventListenerInterface in
+        begin
+        if (not (eventListenerInterfaceList#contains ((Obj.magic eventListenerInterface)))) then begin
+            ignore (eventListenerInterfaceList#add ((Obj.magic eventListenerInterface)))
+        end
+        end [@@warning "-20"]
+    
+
+    method removeListenerSingleThreaded : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
+        let eventListenerInterface = Obj.repr eventListenerInterface in
+        begin
+        ignore (eventListenerInterfaceList#remove ((Obj.magic eventListenerInterface)))
+        end [@@warning "-20"]
+    
+
+    method removeListener : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
+        let eventListenerInterface = Obj.repr eventListenerInterface in
+        begin
+        ignore (eventListenerInterfaceList#remove ((Obj.magic eventListenerInterface)))
+        end [@@warning "-20"]
+    
+
+    method fireEvent : 'any1. 'any1 -> unit = fun (eventObject) ->
+        let eventObject = Obj.repr eventObject in
+        begin
+        let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((Obj.magic 0) :> EventListenerInterface.eventListenerInterface)) in ();
+        let index : int ref = ref (0) in ();
+        while (!index < (eventListenerInterfaceList#size ())) do
+            (try
+                eventListenerInterface := (Obj.magic (eventListenerInterfaceList#get (!index)));
+                (self#process ((Obj.magic eventObject), !eventListenerInterface))
+            with e -> begin
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, eventStrings#fIRE_EVENT, e))
+            end);
+            index := !index + 1
+        done
+        end [@@warning "-20"]
+    
+
+    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (eventObject, eventListenerInterface) ->
+        let eventObject = Obj.repr eventObject in
+        let eventListenerInterface = Obj.repr eventListenerInterface in
+        begin
+        ignore ((Obj.magic eventListenerInterface)#onEvent ((Obj.magic eventObject)))
+        end [@@warning "-20"]
+    
+
+    method getEventListenerInterfaceListP () : BasicArrayList.basicArrayList =
+        begin
+        (eventListenerInterfaceList :> BasicArrayList.basicArrayList)
+        end
+    
+
+    method toString () : string =
+        begin
+        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!stringBuffer#append (eventStrings#tOTAL_LISTENERS));
+        ignore (!stringBuffer#appendint ((eventListenerInterfaceList#size ())));
+        let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((Obj.magic 0) :> EventListenerInterface.eventListenerInterface)) in ();
+        let index : int ref = ref (0) in ();
+        while (!index < (eventListenerInterfaceList#size ())) do
+            (try
+                eventListenerInterface := (Obj.magic (eventListenerInterfaceList#get (!index)));
+                ignore (!stringBuffer#append (eventStrings#lISTENER_LABEL));
+                ignore (!stringBuffer#append ((java_string_of (Obj.repr !eventListenerInterface))))
+            with e -> begin
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#tOSTRING, e))
+            end);
+            index := !index + 1
+        done;
+        (java_string_of (Obj.repr !stringBuffer))
+        end
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
+        eventStrings <- ((EventStrings.getInstance ()) :> EventStrings.eventStrings);
+        ();
+        ();
+        eventListenerInterfaceList <- (new BasicArrayListD.basicArrayListD ())
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "BasicEventHandler" (fun arguments -> Obj.repr (new basicEventHandler (Obj.obj arguments)))
+
+

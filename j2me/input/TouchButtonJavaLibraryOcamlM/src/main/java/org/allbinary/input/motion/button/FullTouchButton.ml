@@ -1,0 +1,67 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.input.motion.button *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import org.allbinary.animation.Animation *)
+(* import org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory *)
+(* import org.allbinary.graphics.CellPosition *)
+(* import org.allbinary.graphics.GPoint *)
+(* import org.allbinary.graphics.PointFactory *)
+(* import org.allbinary.graphics.Rectangle *)
+
+class fullTouchButton ((touchButtonInput : TouchButtonInput.touchButtonInput), animationInterface, hintAnimationInterface, rawRectangle, (cellPosition : CellPosition.cellPosition), (xBorder : int), (yBorder : int)) =
+  object (self)
+    inherit TouchButton.touchButton (touchButtonInput, animationInterface, hintAnimationInterface, rawRectangle, cellPosition, xBorder, yBorder)
+    
+    
+
+    method updateRectangle () : unit =
+        begin
+        (try
+            let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+            let x : int ref = ref (((rawRectangle#getWidth ()) * (cellPositionP#getColumn ()))) in ();
+            let y : int ref = ref (((rawRectangle#getHeight ()) * (cellPositionP#getRow ()))) in ();
+            rectangleP <- (Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (!x, !y)), ((rawRectangle#getWidth ()) + ((2 * xBorder))), ((rawRectangle#getHeight ()) + ((2 * yBorder)))))));
+            let point : GPoint.gPoint ref = ref (((rectangleP#getPoint ()) :> GPoint.gPoint)) in ();
+            animationX <- ((!point#getX ()) + xBorder);
+            animationY <- ((!point#getY ()) + yBorder);
+            hintAnimationY <- ((animationY - (rectangleP#getHeight ())) asr 1)
+        with e -> begin
+            ignore (logUtil#put (commonStrings#eXCEPTION, self, "updateRectangle", e))
+        end)
+        end [@@warning "-7"]
+
+    initializer
+      begin
+        ();
+        (* super(...) is the inherit clause *) ()
+      end
+  end
+let () = java_register_constructor "FullTouchButton" (fun arguments -> Obj.repr (new fullTouchButton (Obj.obj arguments)))
+
+let createButton : 'any1 'any2 'any3 'any4. 'any1 * 'any2 * 'any3 * 'any4 * int * int -> _ = fun (touchButtonInput, touchButtonResource, rawRectangle, cellPosition, (xBorder : int), (yBorder : int)) ->
+        let touchButtonInput = Obj.repr touchButtonInput in
+        let touchButtonResource = Obj.repr touchButtonResource in
+        let rawRectangle = Obj.repr rawRectangle in
+        let cellPosition = Obj.repr cellPosition in
+        begin
+        (new fullTouchButton ((Obj.magic touchButtonInput), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#rESOURCE))#getInstance (0)), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#hINT))#getInstance (0)), (Obj.magic rawRectangle), (Obj.magic cellPosition), xBorder, yBorder))
+        end [@@warning "-20"]
+let () = java_register_static "FullTouchButton.createButton" (fun arguments -> Obj.repr (createButton (Obj.obj arguments)))
+
+

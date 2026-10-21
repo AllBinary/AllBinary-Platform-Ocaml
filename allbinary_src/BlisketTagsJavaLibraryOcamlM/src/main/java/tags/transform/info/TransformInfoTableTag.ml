@@ -1,0 +1,35 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package tags.transform.info *)
+
+open Allbinary_java [@@warning "-33"]
+(* import admin.tags.TableTag *)
+(* import taghelpers.transform.info.TransformInfoHelperFactory *)
+
+class transformInfoTableTag () =
+  object (self)
+    inherit TableTag.tableTag ()
+    
+
+    initializer
+      begin
+        ();
+        ignore (self#setTagHelperFactory ((new TransformInfoHelperFactory.transformInfoHelperFactory ())))
+      end
+  end
+let () = java_register_constructor "TransformInfoTableTag" (fun arguments -> Obj.repr (new transformInfoTableTag (Obj.obj arguments)))
+
+

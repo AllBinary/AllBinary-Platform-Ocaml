@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>OtherGraphicsMediaLibraryPOcaml</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>OtherGraphicsMediaLibraryPOcaml</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+
+        <!--
+        -->
+        <module>../../graphics/animation/vector/VectorAnimationBaseJavaLibraryOcamlM</module>
+
+        <module>../../graphics/animation/vector/VectorAnimationJ2MEJavaLibraryOcamlM</module>
+        <module>../../graphics/animation/vector/VectorAnimationJavaLibraryOcamlM</module>
+
+        <module>../../graphics/VectorJavaLibraryOcamlM</module>
+
+        <module>../../graphics/BoundsJavaLibraryOcamlM</module>
+
+        <module>../../../../graphics/opengl/OpenGLESNullImageJavaLibraryOcamlM</module>
+        <module>../../../../graphics/opengl/OpenGLESNullImageJ2MEJavaLibraryOcamlM</module>
+
+        <module>../../graphics/animation/image/AllBinaryImageAnimationJavaLibraryOcamlM</module>
+        <module>../../graphics/animation/sprite/AllBinarySpriteAnimationJavaLibraryOcamlM</module>
+
+        <!--
+        ../../
+        <module>../../../../../work/j2me/media/graphics/animation/sprite/AllBinaryQuarterSpriteAnimationJavaLibraryOcamlM</module>
+        -->
+        <!--
+        ../../
+        <module>../../../../../work/j2me/media/graphics/animation/sprite/AllBinaryQuarterSpriteAnimation2JavaLibraryOcamlM</module>
+        -->
+
+        <module>../../graphics/animation/image/ImageJ2MEJavaLibraryOcamlM</module>
+        <!--
+        <module>../../graphics/animation/image/ImageHTMLJavaLibraryOcamlM</module>
+        -->
+        <module>../../graphics/animation/image/ImageJ2SEJavaLibraryOcamlM</module>
+        <!--
+        <module>../../graphics/animation/image/ImageAndroidJavaLibraryOcamlM</module>
+        -->
+        <!--
+        <module>../../graphics/animation/image/ImageSwtJ2SEJavaLibraryOcamlM</module>
+        -->
+        
+        <!--
+        ../../
+        <module>../../../../../work/j2me/media/graphics/layer/AllBinaryTiledLayerJavaLibraryOcamlM</module>
+        <module>../../graphics/layer/AllBinaryTiledLayerJavaLibraryOcamlM</module>
+        -->
+
+        <!-- Not used in Platform Libraries -->
+        <module>../../graphics/GraphicsBasicImageJavaLibraryOcamlM</module>
+        <!--
+        -->
+        <module>../../graphics/animation/image/AllBinaryImageAnimationRotationJavaLibraryOcamlM</module>
+
+    </modules>
+
+</project>
+

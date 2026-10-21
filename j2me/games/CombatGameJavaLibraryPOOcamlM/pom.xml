@@ -1,0 +1,143 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.allbinary</groupId>
+  <artifactId>CombatGameJavaLibraryPOMOcaml</artifactId>
+  <packaging>pom</packaging>
+  <!-- AllBinary Platform Version Start -->
+  <version>1.0.0-SNAPSHOT</version>
+  <!-- AllBinary Platform Version End -->
+
+  <name>CombatGameJavaLibraryPOMOcaml</name>
+  <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+
+        <!--
+
+        -->
+
+        <module>../../games/TickableJavaLibraryOcamlM</module>
+
+        <module>../../games/CommonHeadsUpDisplayLibraryOcamlM</module>
+
+        <module>../../../physics/MovementJavaLibraryOcamlM</module>
+        <!--        -->
+        <module>../../games/PartsJavaLibraryOcamlM</module>
+        <module>../../games/PickupGameJavaLibraryOcamlM</module>
+
+        <module>../../../allbinary_src/licensing/HardCodedLicenseInitInfoJavaLibraryOcamlM</module>
+        <module>../../../allbinary_src/licensing/FileLicenseInitInfoJavaLibraryOcamlM</module>
+        <module>../../../allbinary_src/licensing/ClientInfoLicensingJavaLibraryOcamlM</module>
+
+        <module>../../games/licensing/PartnerJ2MEJavaLibraryOcamlM</module>
+        <module>../../games/licensing/PartnerHTMLJavaLibraryOcamlM</module>
+        <module>../../games/licensing/PartnerAndroidJavaLibraryOcamlM</module>
+        <module>../../games/licensing/NoGameLicensingJavaLibraryOcamlM</module>
+        <module>../../games/licensing/GameLicensingOnlyDemoJavaLibraryOcamlM</module>
+        <module>../../games/licensing/GameLicensingOnlyNormalJavaLibraryOcamlM</module>
+        <module>../../games/licensing/GameLicensingBaseJavaLibraryOcamlM</module>
+
+        <!--
+        <module>../../games/GameScoresBaseLibraryOcamlM</module>
+        <module>../../games/GameScoresBaseHTMLLibraryOcamlM</module>
+        <module>../../games/GameScoresBaseJ2MELibraryOcamlM</module>
+        -->
+        <module>../../games/GameScoresLocalJavaLibraryOcamlM</module>
+        <module>../../games/GameScoresRemoteAndLocalJavaLibraryOcamlM</module>
+
+        <module>../../../store/ThirdPartyStoreJavaLibraryOcamlM</module>
+        <module>../../../store/NoThirdPartyStoreJavaLibraryOcamlM</module>
+
+        <module>../../media/graphics/layer/CollisionLayerJavaLibraryOcamlM</module>
+        <module>../../games/CollisionLibraryOcamlM</module>
+
+        <module>../../games/multiplayer/AllBinaryGameClientBaseNullJavaLibraryOcamlM</module>
+
+        <module>../../games/PickupLayerJavaLibraryOcamlM</module>
+
+        <module>../../games/DamageGameJavaLibraryOcamlM</module>
+        <module>../../games/DropJavaLibraryOcamlM</module>
+        <module>../../games/WeaponLayerJavaLibraryOcamlM</module>
+
+        <module>../../games/CombatGameJavaLibraryOcamlM</module>
+        <module>../../games/LifeJavaLibraryOcamlM</module>
+
+        <module>../../games/CommonHeadsUpDisplayCombatGameLibraryOcamlM</module>
+        <module>../../games/LifeOrDeathDataJavaLibraryOcamlM</module>
+
+        <module>../../games/BasicWeaponPartsJavaLibraryOcamlM</module>
+        <module>../../games/weapon/WeaponPropertiesJavaLibraryOcamlM</module>
+
+        <module>../../games/weapon/WeaponMineJavaLibraryOcamlM</module>
+
+        <!--
+        <module>../../media/graphics/effects/fireworks/FireworksJavaLibraryOcamlM</module>
+        -->
+
+        <module>../../media/graphics/geography/map/TerrainEventJavaLibraryOcamlM</module>
+
+<!--
+        <module>../../media/graphics/geography/map/BasicPlatformGeographicMapJavaLibraryOcamlM</module>
+        -->
+
+        <!--
+        <module>../../media/graphics/geography/map/RaceTrackP</module>
+        -->
+
+        <!--
+        XmlRpcJavaLibrary
+        RemoteXmlRpcJavaLibrary
+
+        Since POMs are built before the other libs is it best to handle this differently
+        ../../
+        <module>../../../../work/j2me/games/strategy/rts/RTSGameJavaLibraryP</module>
+        -->
+
+        <module>../../media/graphics/OtherGraphicsMediaLibraryP</module>
+
+        <module>../../input/NoTouchButtonResourceAnimationJavaLibraryOcamlM</module>
+        <module>../../input/TouchButtonResourceAnimationJavaLibraryOcamlM</module>
+        <module>../../input/TouchButtonResourceOpenGLESAnimationJavaLibraryOcamlM</module>
+
+        <module>../../input/TrackingEventJavaLibraryOcamlM</module>
+        <module>../../../game/behavior/BehaviorLibraryP</module>
+
+        <module>../../media/sound/OtherSoundMediaLibraryP</module>
+
+        <module>../../../allbinary_src/licensing/ApplicationConfigurationJavaLibraryOcamlM</module>
+        <module>../../../allbinary_src/licensing/ApplicationConfigurationNoFSJavaLibraryOcamlM</module>
+        <module>../../input/AllBinaryMagneticFieldSensorJavaLibraryOcamlM</module>
+        <module>../../android/VirtualKeyboardJavaLibraryOcamlM</module>
+
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+</project>
+

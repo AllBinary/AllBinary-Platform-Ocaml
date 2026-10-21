@@ -1,0 +1,77 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.logic.system.security.licensing *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.io.InputStream *)
+(* import java.io.InputStreamReader *)
+(* import org.allbinary.data.resource.ResourceUtil *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.string.StringUtil *)
+(* import org.allbinary.string.CommonStrings *)
+
+class partnerIdentifierFileUtil () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable fILE_NAME : string = ""
+    method fILE_NAME = fILE_NAME
+    method set_fILE_NAME value' = fILE_NAME <- value'
+    
+
+    method get () : string =
+        begin
+        (try
+            let resourceUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ResourceUtil.getInstance" (Obj.repr ()))))) in ();
+            let inputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !resourceUtil)#getResourceAsStream (fILE_NAME)))) in ();
+            let inputStreamReader : Obj.t ref = ref ((Obj.repr (new InputStreamReader.inputStreamReader ((Obj.magic !inputStream))))) in ();
+            let chars : char array ref = ref ((Array.make (30) '\000')) in ();
+            let size : int ref = ref (((Obj.magic !inputStreamReader)#read (!chars))) in ();
+            let partnerString : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
+            if (!size > 0) then begin
+                partnerString := (Obj.obj (java_new "String" (Obj.repr (!chars, 0, !size))))
+            end;
+            ignore ((Obj.magic !inputStreamReader)#close ());
+            !partnerString
+        with e -> begin
+            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#gET, e));
+            (StringUtil.getInstance ())#nULL_STRING
+        end)
+        end
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        fILE_NAME <- "partner.txt";
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "PartnerIdentifierFileUtil" (fun arguments -> Obj.repr (new partnerIdentifierFileUtil (Obj.obj arguments)))
+
+let instance = (new partnerIdentifierFileUtil ())
+let get_instance () = instance
+let () = java_register_static "PartnerIdentifierFileUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+
+let getInstance () =
+        begin
+        instance
+        end
+let () = java_register_static "PartnerIdentifierFileUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+

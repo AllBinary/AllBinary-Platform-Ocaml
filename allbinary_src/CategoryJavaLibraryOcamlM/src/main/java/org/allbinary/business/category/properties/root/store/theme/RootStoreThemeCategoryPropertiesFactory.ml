@@ -1,0 +1,67 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.business.category.properties.root.store.theme *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.util.HashMap *)
+(* import org.allbinary.business.category.properties.CategoryPropertiesFactoryInterface *)
+(* import org.allbinary.business.category.properties.CategoryPropertiesInterface *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.io.path.AbPath *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoInterface *)
+(* import org.allbinary.string.CommonStrings *)
+(* import org.w3c.dom.Node *)
+
+class rootStoreThemeCategoryPropertiesFactory ((transformInfoInterface : TransformInfoInterface.transformInfoInterface)) =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable categoryPropertiesInterface : CategoryPropertiesInterface.categoryPropertiesInterface = (Obj.magic 0)
+    method categoryPropertiesInterface = categoryPropertiesInterface
+    method set_categoryPropertiesInterface value' = categoryPropertiesInterface <- value'
+    
+    
+    
+    
+    
+
+    method getInstance () : CategoryPropertiesInterface.categoryPropertiesInterface =
+        begin
+        (try
+            ((Obj.magic categoryPropertiesInterface) :> CategoryPropertiesInterface.categoryPropertiesInterface)
+        with e -> begin
+            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#eNTITYFACTORYERROR)) then begin
+                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#gET_INSTANCE, e))
+            end;
+            ((Obj.magic 0) :> CategoryPropertiesInterface.categoryPropertiesInterface)
+        end)
+        end
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        ();
+        ();
+        categoryPropertiesInterface <- (Obj.magic (new RootStoreThemeCategoryProperties.rootStoreThemeCategoryProperties (transformInfoInterface)))
+      end
+  end [@@warning "-20"]
+(* Java overloaded constructors: an OCaml class has one constructor *)
+let () = java_register_constructor "RootStoreThemeCategoryPropertiesFactory" (fun arguments -> Obj.repr (new rootStoreThemeCategoryPropertiesFactory (Obj.obj arguments)))
+
+

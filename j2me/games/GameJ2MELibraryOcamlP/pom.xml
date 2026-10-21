@@ -1,0 +1,192 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.allbinary</groupId>
+  <artifactId>GameJ2MELibraryPOMOcaml</artifactId>
+  <packaging>pom</packaging>
+  <!-- AllBinary Platform Version Start -->
+  <version>1.0.0-SNAPSHOT</version>
+  <!-- AllBinary Platform Version End -->
+
+  <name>GameJ2MELibraryPOMOcaml</name>
+  <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+
+    <modules>
+
+        <!--
+        NoGyroSensorLibrary
+
+        -->
+        <module>../../android/AndroidUtilJavaLibraryOcamlM</module>
+
+        <module>../../../allbinary_src/security/SimpleCryptLibraryOcamlM</module>
+        <!--
+        <module>../../../../working_thirdparty/security/BouncyCastleDESJavaLibraryOcamlM</module>
+        <module>../../../../working_thirdparty/communication/XmlRpc/XmlRpcJavaLibraryOcamlM</module>
+        -->
+        <module>../../../allbinary_src/TokenizerJavaLibraryOcamlM</module>
+        <module>../../../allbinary_src/security/BasicSecurityJavaLibraryOcamlM</module>
+        <module>../../../replace_these_stub_projects/security/YourCryptFileJavaLibraryOcamlM</module>
+        <module>../../../replace_these_stub_projects/security/YourSecurityJavaLibraryOcamlM</module>
+        <module>../../../replace_these_stub_projects/communication/YourXmlRpcJavaLibraryOcamlM</module>
+        <module>../../../replace_these_stub_projects/allbinary_src/J2MEOnlyJavaLibraryOcamlM</module>
+        <module>../../../replace_these_stub_projects/allbinary_src/J2MECompatibilityJavaLibraryOcamlM</module>
+        <module>../../../replace_these_stub_projects/allbinary_src/J2MEJsInteropCompatibilityJavaLibraryOcamlM</module>
+
+        <module>../../DebugJavaLibraryOcamlM</module>             
+        <module>../../ResourceLibraryOcamlM</module>
+        <module>../../ResourceJ2MEJavaLibraryOcamlM</module>
+        <module>../../AndroidResourceLibraryOcamlM</module>
+        <module>../../../allbinary_src/hardware/AndroidSystemJavaLibraryOcamlM</module>
+
+        <module>../../../game/behavior/ArtificialIntelligenceLibraryOcamlM</module>
+
+        <module>../../media/graphics/PlatformNullImageJavaLibraryOcamlM</module>
+        <module>../../media/graphics/ImageCacheBaseJ2MEJavaLibraryOcamlM</module>
+        <module>../../media/graphics/ImageCacheJ2MEJavaLibraryOcamlM</module>
+        <module>../../../graphics/opengl/OpenGLJ2MENoneJavaLibraryOcamlM</module>
+        <module>../../../graphics/opengl/OpenGLNoneJavaLibraryOcamlM</module>
+        <module>../../../graphics/opengl/OpenGLNoneOtherJavaLibraryOcamlM</module>
+        <module>../../../graphics/opengl/OpenGLNoneOther2JavaLibraryOcamlM</module>
+        <module>../../../graphics/opengl/OpenGLESBaseJ2MEJavaLibraryOcamlM</module>
+
+        <module>../../media/graphics/animation/AnimationLibraryOcamlM</module>
+        <module>../../media/graphics/animation/RotationAnimationJavaLibraryOcamlM</module>
+
+        <module>../../games/GameInputLibraryOcamlM</module>
+
+        <module>../../games/GameScoresBaseJavaLibraryOcamlM</module>
+        <module>../../games/GameScoresBaseJ2MELibraryOcamlM</module>
+
+        <module>../../statistics/ApplicationStatisticsHTMLLibraryOcamlM</module>
+        <!--
+        <module>../../games/GameConfigurationHTMLJavaLibraryOcamlM</module>
+        -->
+        <module>../../games/GameConfigurationJ2MEJavaLibraryOcamlM</module>   
+        <module>../../games/GameConfigurationJavaLibraryOcamlM</module>
+
+        <module>../../games/GameIntermissionLibraryOcamlM</module>
+
+        <module>../../GroupLibraryOcamlM</module>
+
+        <module>../../input/NoSensorJavaLibraryOcamlM</module>
+
+        <module>../../input/AllBinarySensorJavaLibraryOcamlM</module>
+
+        <module>../../input/platform/me/GameInputMEJavaLibraryOcamlM</module>
+        <module>../../input/platform/me/GameInputMEKeyOnlyJavaLibraryOcamlM</module>
+        <module>../../input/platform/me/GameInputMEMotionJavaLibraryOcamlM</module>
+        <module>../../input/platform/pc/GameInputPCBaseJavaLibraryOcamlM</module>
+        <module>../../input/platform/pc/GameInputPCJavaLibraryOcamlM</module>
+        <module>../../input/platform/pc/GameInputPCKeyOnlyJavaLibraryOcamlM</module>
+        <module>../../input/platform/pc/GameInputPCMotionJavaLibraryOcamlM</module>
+        <module>../../input/platform/pc/GameInputSwtJavaLibraryOcamlM</module>
+
+        <module>../../input/AllBinaryGyroSensorJavaLibraryOcamlM</module>
+        <module>../../input/MotionGestureJavaLibraryOcamlM</module>
+        
+        <module>../../input/MotionGestureBaseJavaLibraryOcamlM</module>
+
+        <module>../../games/GameInputPersistanceLibraryOcamlM</module>
+        <module>../../games/GameInputNoPersistanceLibraryOcamlM</module>
+        
+        <module>../../lib/VectorThreeDimensionalLibraryOcamlM</module>
+        <module>../../input/AllBinaryAccelerometerSensorJavaLibraryOcamlM</module>
+        <module>../../input/NoGyroSensorJavaLibraryOcamlM</module>
+        <module>../../input/JSEGyroSensorJavaLibraryOcamlM</module>
+        <!--
+        <module>../../input/android/</module>
+        <module>../../input/platform/android/GameInputAndroidBaseJavaLibraryOcamlM</module>
+        -->
+
+        <module>../../media/sound/BasicPlayerJavaLibraryOcamlM</module>
+        <module>../../media/sound/BasicPlayerMIDP2JavaLibraryOcamlM</module>
+        <module>../../media/sound/NoPlayerJavaLibraryOcamlM</module>
+        <module>../../media/sound/SoundJ2MELibraryOcamlM</module>
+
+        <module>../../media/motion/AllBinaryVibrationJavaLibraryOcamlM</module>
+        <module>../../media/motion/NoVibrateJavaLibraryOcamlM</module>
+        <module>../../media/motion/VibrateAndroidJavaLibraryOcamlM</module>
+
+        <module>../../media/graphics/NullCustomUIJavaLibraryOcamlM</module>
+        <module>../../media/graphics/NullCustomUIBaseJavaLibraryOcamlM</module>
+
+        <module>../../media/graphics/FormValidationJavaLibraryOcamlM</module>
+        
+        <module>../../media/graphics/FormJavaLibraryOcamlM</module>
+        <module>../../media/graphics/FormBaseJavaLibraryOcamlM</module>
+        <!--
+        <module>../../media/graphics/FormJMEJavaLibraryOcamlM</module>
+        -->
+        <module>../../../j2me/media/graphics/FormJMEJavaLibraryOcamlM</module>
+
+        <module>../../media/graphics/animation/AnimationResourceJavaLibraryOcamlM</module>
+        <module>../../media/graphics/animation/TransitionAnimationJavaLibraryOcamlM</module>
+        <module>../../media/graphics/animation/NoTransitionAnimationJavaLibraryOcamlM</module>
+        <!--
+        AndroidTransitionAnimationJavaLibraryM
+        -->
+        <module>../../media/graphics/animation/GameAnimationJavaLibraryOcamlM</module>
+        <module>../../games/GameResourceJavaLibraryOcamlM</module>
+        <module>../../games/GameSoundsJavaLibraryOcamlM</module>
+
+        <module>../../input/TouchInputLibraryP</module>
+
+        <module>../../media/MediaDataOcamlM</module>
+        <module>../../media/sound/NotDeviceSpecificNoMediaMIDP1LibraryOcamlM</module>
+
+        <module>../../../allbinary_src/content/ContentNoneJavaLibraryOcamlM</module>
+        <module>../../../allbinary_src/content/ContentAndroidJavaLibraryOcamlM</module>
+
+        <module>../../games/GameConfigurationFormJavaLibraryOcamlM</module>
+
+        <module>../../FullScreenNoneJavaLibraryOcamlM</module>
+        <!--
+        <module>../../FullScreenJavaLibraryOcamlM</module>
+        -->
+
+        <module>../../../physics/VelocityLibraryOcamlM</module>
+
+        <module>../../games/weapon/SoundsBasicWeaponsJavaLibraryOcamlM</module>
+
+        <module>../../lib/TrigJ2MELibraryOcamlM</module>
+
+        <module>../../media/graphics/geography/map/LayerPlacementLibraryOcamlM</module>
+        <module>../../media/graphics/layer/AllBinaryLayerJavaLibraryOcamlM</module>
+
+        <module>../../ScreenCaptureNoneJavaLibraryOcamlM</module>
+        
+        <module>../licensing/GameLicensingNullJavaLibraryOcamlM</module>
+        
+        <module>../../business/advertisement/AllBinaryAdvertisementClientJavaLibraryOcamlM</module>
+        <module>../../business/advertisement/AdvertisementClientNoneJavaLibraryOcamlM</module>
+
+        <module>../GameNotificationJavaLibraryOcamlM</module>
+
+        <module>../../../graphics/opengl/NoSWTJavaLibraryOcamlM</module>
+        <module>../../../graphics/opengl/SWTWithoutJOGLJavaLibraryOcamlM</module>
+        <module>../SWTJavaLibraryOcamlM</module>
+        <module>../GameJ2MELibraryOcamlM</module>
+        
+        <!--
+        <module>../GameJ2MEOptionalLibraryPOOcamlM</module>
+        -->
+    
+    </modules>
+
+</project>
+

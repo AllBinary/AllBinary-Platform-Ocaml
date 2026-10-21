@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>AllBinaryPlatformAndroidLibraryPOMOcaml</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>AllBinaryPlatformAndroidLibraryPOMOcaml</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+
+    <modules>
+
+        <module>../../../j2me/AndroidBaseJavaLibraryOcamlM</module>
+        <module>../../../j2me/input/platform/android/GameInputAndroidBaseJavaLibraryOcamlM</module>
+        <module>../../../j2me/android/AndroidThroughAPI4JavaLibraryOcamlM</module>
+        <module>../../../j2me/android/AndroidAPI5AndUpJavaLibraryOcamlM</module>
+        <module>../../../j2me/android/AndroidAPI16UpTo19JavaLibraryOcamlM</module>        
+        <module>../../../j2me/android/AndroidAPI19UpTo29JavaLibraryOcamlM</module>
+        
+        <module>../../../j2me/input/android/MotionInputAndroidJavaLibraryOcamlM</module>
+        <module>../../../j2me/input/android/MotionInputAPI5AndUpAndroidJavaLibraryOcamlM</module>
+        <module>../../../j2me/input/android/MotionInputThroughAPI4AndroidJavaLibraryOcamlM</module>
+        
+<!--        <module>../j2me/input/android/MotionInputAndroidxAPI21OnUpDynamicJavaLibraryOcamlM</module>-->
+        <module>../../../j2me/input/android/MotionInputAndroidDynamicJavaLibraryOcamlM</module>
+
+        <module>../../../j2me/android/AndroidAPI3AndUpJavaLibraryOcamlM</module>
+        <module>../../../j2me/FullScreenAndroidJavaLibraryOcamlM</module>
+        
+                
+        <module>../../../j2me/AndroidToJ2MELibraryOcamlM</module>
+                
+    </modules>
+
+</project>
+
