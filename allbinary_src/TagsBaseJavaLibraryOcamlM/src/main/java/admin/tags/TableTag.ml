@@ -137,7 +137,7 @@ class tableTag () =
         with e -> begin
             let error : string ref = ref ("Failed to drop table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#dROP, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#dROP, e))
             end;
             !error
         end)
@@ -155,7 +155,7 @@ class tableTag () =
         with e -> begin
             let error : string ref = ref ("Failed to create table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "create()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "create()", e))
             end;
             !error
         end)
@@ -173,7 +173,7 @@ class tableTag () =
         with e -> begin
             let error : string ref = ref ("Failed to restore backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "restore()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "restore()", e))
             end;
             !error
         end)
@@ -191,7 +191,7 @@ class tableTag () =
         with e -> begin
             let error : string ref = ref ("Failed to make backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "backup()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "backup()", e))
             end;
             !error
         end)
@@ -208,7 +208,7 @@ class tableTag () =
         with e -> begin
             let error : string ref = ref ("Failed to insert") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "insert()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "insert()", e))
             end;
             !error
         end)
@@ -225,7 +225,7 @@ class tableTag () =
         with e -> begin
             let error : string ref = ref ("Failed to delete") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e))
             end;
             !error
         end)
@@ -242,7 +242,7 @@ class tableTag () =
         with e -> begin
             let error : string ref = ref ("Failed to update") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)
@@ -254,21 +254,21 @@ class tableTag () =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                let request : Obj.t ref = ref ((Obj.repr (Obj.magic (pageContext#getRequest ())))) in ();
+                let request : Obj.t ref = ref ((Obj.repr (Obj.magic ((self#pageContext)#getRequest ())))) in ();
                 let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
                 ignore (!stringBuffer#append ("TableTag Helper: "));
                 ignore (!stringBuffer#append ((java_get_class (Obj.repr (self#getTagHelperFactoryInterface ())))));
                 ignore (!stringBuffer#append (" Request URI: "));
                 ignore (!stringBuffer#append (((Obj.magic !request)#getRequestURI ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, tagStrings#dO_START_TAG))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#tagStrings)#dO_START_TAG))
             end;
             if ((self#getTagRequestHelperFactoryInterface ()) != (Obj.magic 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("TableTag RequestHelper: " ^ (java_get_class (Obj.repr (self#getTagRequestHelperFactoryInterface ())))), self, tagStrings#dO_START_TAG))
+                    ignore ((Obj.magic logUtil)#putF (("TableTag RequestHelper: " ^ (java_get_class (Obj.repr (self#getTagRequestHelperFactoryInterface ())))), self, (self#tagStrings)#dO_START_TAG))
                 end
             end else begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("TableTag RequestHelper: null", self, tagStrings#dO_START_TAG))
+                    ignore ((Obj.magic logUtil)#putF ("TableTag RequestHelper: null", self, (self#tagStrings)#dO_START_TAG))
                 end
             end;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
@@ -276,10 +276,10 @@ class tableTag () =
             end;
             if (self#isEnabled ()) then begin
                 if ((self#getCommand ()) != (Obj.magic 0)) then begin
-                    if (((((((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#iNSERT_INTO)) == 0)) || (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0)) || (((self#getCommand ())#compareTo (commonStrings#uPDATE)) == 0)) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#uPDATE)) == 0)) then begin
+                    if (((((((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#iNSERT_INTO)) == 0)) || (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0)) || (((self#getCommand ())#compareTo (commonStrings#uPDATE)) == 0)) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#uPDATE)) == 0)) then begin
                         requestObject <- ((self#getTagRequestHelperFactoryInterface ())#getInstance ((self#getPropertiesHashMap ()), pageContext))
                     end;
-                    if ((((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#iNSERT_INTO)) == 0)) then begin
+                    if ((((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#iNSERT_INTO)) == 0)) then begin
                         ignore (self#insert ())
                     end else if (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0) then begin
                         ignore (self#delete ())
@@ -289,7 +289,7 @@ class tableTag () =
                     if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#bACKUP)) == 0) then begin
                         let output : string ref = ref ((self#backup ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end;
                         raise (Java_return (Obj.repr (sKIP_BODY)))
                     end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#rESTORE)) == 0) then begin
@@ -297,42 +297,42 @@ class tableTag () =
                         ignore ((self#getPropertiesHashMap ())#put ("total", (self#getTotal ())));
                         let output : string ref = ref ((self#restore ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end;
                         raise (Java_return (Obj.repr (sKIP_BODY)))
                     end else if (((self#getCommand ())#compareTo (commonStrings#dROP)) == 0) then begin
                         let output : string ref = ref ((self#drop ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end;
                         raise (Java_return (Obj.repr (sKIP_BODY)))
                     end else if (((self#getCommand ())#compareTo (commonStrings#cREATE)) == 0) then begin
                         let output : string ref = ref ((self#create ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end;
                         raise (Java_return (Obj.repr (sKIP_BODY)))
                     end else if (((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) then begin
                         let output : string ref = ref ((self#insert ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end
                     end else if (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0) then begin
                         let output : string ref = ref ((self#delete ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end
                     end else if (((self#getCommand ())#compareTo (commonStrings#uPDATE)) == 0) then begin
                         let output : string ref = ref ((self#update ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end
                     end
                 end
             end;
             eVAL_BODY_INCLUDE
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end
@@ -349,7 +349,7 @@ class tableTag () =
         total <- (Obj.magic 0);
         ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

@@ -68,8 +68,8 @@ class multipassWaypointPathRunnable () =
 
     method setRunning ((isRunning : bool)) : unit =
         begin
-        runningP <- isRunning;
-        if runningP then begin
+        (self#set_runningP) (isRunning);
+        if (self#runningP) then begin
             (self#reset ());
             done_ <- false
         end
@@ -123,15 +123,15 @@ class multipassWaypointPathRunnable () =
     method processFirstRunnable () : unit =
         begin
         (try
-            ignore ((pathFindingLayer#getWaypointRunnableLogHelper ())#start (pathFindingLayer));
+            ignore (((self#pathFindingLayer)#getWaypointRunnableLogHelper ())#start ((self#pathFindingLayer)));
             (self#reset2 ());
-            let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((pathFindingLayer#getCurrentGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
+            let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref ((((self#pathFindingLayer)#getCurrentGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
             if (!geographicMapCellPosition == (Obj.magic 0)) then begin
                 raise (Failure ("Should never be running here"))
             end;
-            pathFindingInfo <- (((targetPathFindingLayer#getWaypointBehavior ())#getWaypoint ())#getPathFindingInfo (!geographicMapCellPosition));
+            pathFindingInfo <- ((((self#targetPathFindingLayer)#getWaypointBehavior ())#getWaypoint ())#getPathFindingInfo (!geographicMapCellPosition));
             let localPathFindingInfo : PathFindingInfo.pathFindingInfo ref = ref (((Obj.magic pathFindingInfo) :> PathFindingInfo.pathFindingInfo)) in ();
-            list <- (((targetPathFindingLayer#getWaypointBehavior ())#getWaypoint ())#getPathsList (!geographicMapCellPosition, !localPathFindingInfo, multipassState));
+            list <- ((((self#targetPathFindingLayer)#getWaypointBehavior ())#getWaypoint ())#getPathsList (!geographicMapCellPosition, !localPathFindingInfo, multipassState));
             if ((Obj.repr list) != (Obj.repr (basicArrayListUtil#getImmutableInstance ()))) then begin
                 ignore (eND_RUNNABLE#run ())
             end else begin
@@ -149,9 +149,9 @@ class multipassWaypointPathRunnable () =
     method processSecondRunnable () : unit =
         begin
         (try
-            let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((pathFindingLayer#getCurrentGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
+            let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref ((((self#pathFindingLayer)#getCurrentGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
             let localPathFindingInfo : PathFindingInfo.pathFindingInfo ref = ref (((Obj.magic pathFindingInfo) :> PathFindingInfo.pathFindingInfo)) in ();
-            list <- (((targetPathFindingLayer#getWaypointBehavior ())#getWaypoint ())#getPathsList (!geographicMapCellPosition, !localPathFindingInfo, multipassState));
+            list <- ((((self#targetPathFindingLayer)#getWaypointBehavior ())#getWaypoint ())#getPathsList (!geographicMapCellPosition, !localPathFindingInfo, multipassState));
             if ((Obj.repr list) != (Obj.repr (basicArrayListUtil#getImmutableInstance ()))) then begin
                 ignore (eND_RUNNABLE#run ())
             end
@@ -167,9 +167,9 @@ class multipassWaypointPathRunnable () =
     method processEndRunnable () : unit =
         begin
         (try
-            let waypointBehavior : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((pathFindingLayer#getWaypointBehavior ()) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
+            let waypointBehavior : WaypointBehaviorBase.waypointBehaviorBase ref = ref ((((self#pathFindingLayer)#getWaypointBehavior ()) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
             ignore (!waypointBehavior#setWaypointPathsList (list));
-            ignore ((pathFindingLayer#getWaypointRunnableLogHelper ())#end_ (pathFindingLayer))
+            ignore (((self#pathFindingLayer)#getWaypointRunnableLogHelper ())#end_ ((self#pathFindingLayer)))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#rUN, e));

@@ -81,7 +81,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
         begin
         ignore (virtualKeyboardEventHandler#close ());
         paintable <- pleaseWait;
-        ignore (repaintBehavior#onChangeRepaint (self));
+        ignore ((self#repaintBehavior)#onChangeRepaint (self));
         ignore (super#close ());
         ignore (self#removeCommand ((HighScoreUtil.get_sUBMIT_TEXTBOX_COMMAND ())));
         (self#update ());
@@ -91,7 +91,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
             ()
         end;
         paintable <- (NullPaintable.getInstance ());
-        ignore (repaintBehavior#onChangeRepaint (self))
+        ignore ((self#repaintBehavior)#onChangeRepaint (self))
         end [@@warning "-7"]
     
 
@@ -126,7 +126,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
       begin
         virtualKeyboardEventHandler <- ((VirtualKeyboardEventHandler.getInstance ()) :> VirtualKeyboardEventHandler.virtualKeyboardEventHandler);
         ();
-        pleaseWait <- ((new SimpleTextPaintable.simpleTextPaintable (commonStrings#pLEASE_WAIT, (BasicColorFactory.getInstance ())#wHITE)) :> Paintable.paintable);
+        pleaseWait <- ((new SimpleTextPaintable.simpleTextPaintable ((self#commonStrings)#pLEASE_WAIT, (BasicColorFactory.getInstance ())#wHITE)) :> Paintable.paintable);
         paintable <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
         submitted <- false;
         ();

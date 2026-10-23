@@ -55,8 +55,8 @@ class pathFinderGraphHackVisitor ((geographicMapInterface : BasicGeographicMap.b
         let graph = Obj.repr graph in
         let startPathFindingNodeList = Obj.repr startPathFindingNodeList in
         begin
-        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref (((geographicMapInterface#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
-        let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref (((geographicMapInterface#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
+        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref ((((self#geographicMapInterface)#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
+        let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref ((((self#geographicMapInterface)#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
         for index = (((Obj.magic startPathFindingNodeList)#size ()) - 1) downto 0 do
             let startPathFindingNode : PathFindingNode.pathFindingNode ref = ref (((Obj.magic ((Obj.magic startPathFindingNodeList)#get (index))) :> PathFindingNode.pathFindingNode)) in ();
             let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref ((!startPathFindingNode#geographicMapCellPosition :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
@@ -75,8 +75,8 @@ class pathFinderGraphHackVisitor ((geographicMapInterface : BasicGeographicMap.b
         let graph = Obj.repr graph in
         let endPathFindingNodeList = Obj.repr endPathFindingNodeList in
         begin
-        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref (((geographicMapInterface#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
-        let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref (((geographicMapInterface#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
+        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref ((((self#geographicMapInterface)#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
+        let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref ((((self#geographicMapInterface)#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
         for index = (((Obj.magic endPathFindingNodeList)#size ()) - 1) downto 0 do
             let endPathFindingNode : PathFindingNode.pathFindingNode ref = ref (((Obj.magic ((Obj.magic endPathFindingNodeList)#get (index))) :> PathFindingNode.pathFindingNode)) in ();
             let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref ((!endPathFindingNode#geographicMapCellPosition :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
@@ -95,8 +95,8 @@ class pathFinderGraphHackVisitor ((geographicMapInterface : BasicGeographicMap.b
     method fixOverPassEdges : 'any1. 'any1 -> unit = fun (graph) ->
         let graph = Obj.repr graph in
         begin
-        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref (((geographicMapInterface#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
-        let raceTrackGeographicMap : RaceTrackGeographicMap.raceTrackGeographicMap ref = ref (((Obj.magic geographicMapInterface) :> RaceTrackGeographicMap.raceTrackGeographicMap)) in ();
+        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref ((((self#geographicMapInterface)#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
+        let raceTrackGeographicMap : RaceTrackGeographicMap.raceTrackGeographicMap ref = ref (((Obj.magic (self#geographicMapInterface)) :> RaceTrackGeographicMap.raceTrackGeographicMap)) in ();
         let cellPositionArray : CellPosition.cellPosition array ref = ref (((!raceTrackGeographicMap#getRaceTrackData ())#getOverPassGeographicMapCellPositionArray ())) in ();
         for index = ((Array.length !cellPositionArray) - 1) downto 0 do
             let overPassGeographicMapCellPosition : CellPosition.cellPosition ref = ref ((!cellPositionArray.(index) :> CellPosition.cellPosition)) in ();
@@ -135,8 +135,8 @@ class pathFinderGraphHackVisitor ((geographicMapInterface : BasicGeographicMap.b
     method removeOverPassEdges : 'any1. 'any1 -> unit = fun (pathList) ->
         let pathList = Obj.repr pathList in
         begin
-        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref (((geographicMapInterface#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
-        let raceTrackGeographicMap : RaceTrackGeographicMap.raceTrackGeographicMap ref = ref (((Obj.magic geographicMapInterface) :> RaceTrackGeographicMap.raceTrackGeographicMap)) in ();
+        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref ((((self#geographicMapInterface)#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
+        let raceTrackGeographicMap : RaceTrackGeographicMap.raceTrackGeographicMap ref = ref (((Obj.magic (self#geographicMapInterface)) :> RaceTrackGeographicMap.raceTrackGeographicMap)) in ();
         let cellPositionArray : CellPosition.cellPosition array ref = ref (((!raceTrackGeographicMap#getRaceTrackData ())#getOverPassGeographicMapCellPositionArray ())) in ();
         for index = ((Array.length !cellPositionArray) - 1) downto 0 do
             let overPassGeographicMapCellPosition : CellPosition.cellPosition ref = ref ((!cellPositionArray.(index) :> CellPosition.cellPosition)) in ();

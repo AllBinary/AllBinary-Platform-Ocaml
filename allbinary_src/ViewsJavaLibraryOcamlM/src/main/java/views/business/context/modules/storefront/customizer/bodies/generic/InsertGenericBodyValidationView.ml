@@ -49,16 +49,16 @@ class insertGenericBodyValidationView ((transformInfoInterface : TransformInfoIn
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, (self#commonStrings)#iS_VALID))
             end;
-            let isValid : bool ref = ref ((body#isValid ())) in ();
+            let isValid : bool ref = ref (((self#body)#isValid ())) in ();
             if ((Obj.repr !isValid) == (Obj.repr true)) then begin
-                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic body)))
+                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic (self#body))))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -69,7 +69,7 @@ class insertGenericBodyValidationView ((transformInfoInterface : TransformInfoIn
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((body#validationInfo ())));
+            ignore (!stringBuffer#append (((self#body)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
@@ -95,10 +95,10 @@ class insertGenericBodyValidationView ((transformInfoInterface : TransformInfoIn
     method view () : string =
         begin
         (try
-            ((StoreCustomizerComponentUtil.getInstance ())#generate (abeClientInformation, (self#getTransformInfoInterface ())))
+            ((StoreCustomizerComponentUtil.getInstance ())#generate ((self#abeClientInformation), (self#getTransformInfoInterface ())))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -110,7 +110,7 @@ class insertGenericBodyValidationView ((transformInfoInterface : TransformInfoIn
         ();
         (* super(...) is the inherit clause *) ();
         let requestHashMap : java_hash_map ref = ref ((((new RequestParams.requestParams ((self#getPageContext ())))#toHashMap ()) :> java_hash_map)) in ();
-        body <- (new GenericBodyValidation.genericBodyValidation (!requestHashMap))
+        (self#set_body) ((new GenericBodyValidation.genericBodyValidation (!requestHashMap)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "InsertGenericBodyValidationView" (fun arguments -> Obj.repr (new insertGenericBodyValidationView (Obj.obj arguments)))

@@ -49,11 +49,11 @@ class specialItemsEntity () =
         (try
             ignore (super#insert ((Obj.magic values)));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, iNSERT))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, iNSERT))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, iNSERT, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, iNSERT, e))
             end
         end)
         end [@@warning "-7-20"]
@@ -64,11 +64,11 @@ class specialItemsEntity () =
         (try
             ignore (super#deleteWhere (basicItemData#iD, value));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, commonStrings#delete))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, (self#commonStrings)#delete))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#delete, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#delete, e))
             end
         end)
         end [@@warning "-7"]
@@ -77,7 +77,7 @@ class specialItemsEntity () =
     method createTableStatement () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((((((((((((((((((((((!stringBuffer#append (sqlStrings#cREATE_TABLE))#append (tableName))#append (sqlStrings#sTART))#append (basicItemData#iD))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (basicItemData#nUMBER))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#eNABLE))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((SpecialItemData.get_sTART_TIME ())))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((SpecialItemData.get_eND_TIME ())))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (basicItemData#pRICE))#append (" DECIMAL (11,2) NOT NULL,"))#append ((EntryData.getInstance ())#tIMECREATED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#lASTMODIFIED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append (basicItemData#iD))#append (sqlStrings#eND));
+        ignore ((((((((((((((((((((((!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE))#append (tableName))#append ((self#sqlStrings)#sTART))#append (basicItemData#iD))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (basicItemData#nUMBER))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#eNABLE))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((SpecialItemData.get_sTART_TIME ())))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((SpecialItemData.get_eND_TIME ())))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (basicItemData#pRICE))#append (" DECIMAL (11,2) NOT NULL,"))#append ((EntryData.getInstance ())#tIMECREATED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#lASTMODIFIED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append (basicItemData#iD))#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

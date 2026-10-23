@@ -103,7 +103,7 @@ class basicTopViewGeographicMapCellTypeFactory (tileTypeToTileIdsMap, (maxTileId
         ();
         ();
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore (logUtil#putF (!commonStrings#sTART, self, !commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF (!commonStrings#sTART, self, !commonStrings#cONSTRUCTOR));
         maxTileId <- maxTileId_arg;
         let basicTopViewGeographicMapStrings : BasicTopViewGeographicMapStrings.basicTopViewGeographicMapStrings ref = ref (((BasicTopViewGeographicMapStrings.getInstance ()) :> BasicTopViewGeographicMapStrings.basicTopViewGeographicMapStrings)) in ();
         let geographicMapCellTypeFactory : GeographicMapCellTypeFactory.geographicMapCellTypeFactory ref = ref (((GeographicMapCellTypeFactory.getInstance ()) :> GeographicMapCellTypeFactory.geographicMapCellTypeFactory)) in ();

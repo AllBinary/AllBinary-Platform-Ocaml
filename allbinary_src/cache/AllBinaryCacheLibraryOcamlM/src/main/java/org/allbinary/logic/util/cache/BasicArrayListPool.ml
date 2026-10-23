@@ -27,7 +27,7 @@ class basicArrayListPool ((cacheableInterfaceFactoryInterface : CacheableInterfa
 
     method clear () : unit =
         begin
-        ignore (buffers#clear ())
+        ignore ((self#buffers)#clear ())
         end [@@warning "-7"]
     
 
@@ -35,11 +35,11 @@ class basicArrayListPool ((cacheableInterfaceFactoryInterface : CacheableInterfa
         let key = Obj.repr key in
         try
         begin
-        let size : int ref = ref ((buffers#size ())) in ();
+        let size : int ref = ref (((self#buffers)#size ())) in ();
         if (!size > 0) then begin
-            raise (Java_return (Obj.repr ((Obj.magic (buffers#removeAt ((!size - 1)))))))
+            raise (Java_return (Obj.repr ((Obj.magic ((self#buffers)#removeAt ((!size - 1)))))))
         end else begin
-            raise (Java_return (Obj.repr ((cacheableInterfaceFactoryInterface#getInstance (key)))))
+            raise (Java_return (Obj.repr (((self#cacheableInterfaceFactoryInterface)#getInstance (key)))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

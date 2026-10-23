@@ -50,11 +50,11 @@ class progressMidlet ((clientInformationFactory : ClientInformationFactory.clien
             let runnable : java_runnable ref = ref (((new ExitRunnable.exitRunnable (self, !processor, isProgress)) :> java_runnable)) in ();
             ignore ((Obj.magic !primaryThreadPool)#runTask (!runnable))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "exit", e));
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "exit", e));
             (try
                 ignore (!processor#process ())
             with e2 -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "exit", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "exit", e))
             end)
         end)
         end [@@warning "-7"]

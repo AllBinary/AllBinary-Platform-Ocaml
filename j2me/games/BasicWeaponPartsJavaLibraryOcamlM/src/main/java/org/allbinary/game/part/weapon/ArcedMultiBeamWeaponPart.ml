@@ -52,7 +52,7 @@ class arcedMultiBeamWeaponPart (animationInterface, (sourceLayerInterface : AllB
         let next : int ref = ref (0) in ();
         let weaponLayer : WeaponLayer.weaponLayer ref = ref (((Obj.magic 0) :> WeaponLayer.weaponLayer)) in ();
         for _index = 0 to total - 1 do
-            weaponLayer := (weaponLayerCircularStaticPool#getInstanceWeaponLayer ((self#getOwnerLayerInterface ()), (relativeRelationship#getX ()), (relativeRelationship#getY ()), 0, ((!minAngle + !increment)), otherAngle, (Obj.magic weaponProperties), (Obj.magic scoreableInterface)));
+            weaponLayer := (weaponLayerCircularStaticPool#getInstanceWeaponLayer ((self#getOwnerLayerInterface ()), ((self#relativeRelationship)#getX ()), ((self#relativeRelationship)#getY ()), 0, ((!minAngle + !increment)), otherAngle, (Obj.magic weaponProperties), (Obj.magic scoreableInterface)));
             ignore ((Obj.magic allbinaryLayerManager)#append (!weaponLayer));
             next := (!next + !increment)
         done

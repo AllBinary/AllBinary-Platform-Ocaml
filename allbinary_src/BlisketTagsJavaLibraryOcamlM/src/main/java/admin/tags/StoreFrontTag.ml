@@ -61,7 +61,7 @@ class storeFrontTag () =
     method getCurrentLocation () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new StoreFrontHelperFactory.storeFrontHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new StoreFrontHelperFactory.storeFrontHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr !anyType))#getMethod ("getCurrentLocation", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
             !result
@@ -74,7 +74,7 @@ class storeFrontTag () =
     method getCurrentHomeLocation () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new StoreFrontHelperFactory.storeFrontHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new StoreFrontHelperFactory.storeFrontHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr !anyType))#getMethod ("getCurrentHomeLocation", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
             !result
@@ -98,7 +98,7 @@ class storeFrontTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end [@@warning "-7"]

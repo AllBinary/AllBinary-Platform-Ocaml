@@ -124,7 +124,7 @@ class currentlyPressedTouchButtonSingletonDebug () =
     method removeAt ((index : int)) : TouchButtonInput.touchButtonInput =
         begin
         let touchButtonInput : TouchButtonInput.touchButtonInput ref = ref (((super#removeAt (index)) :> TouchButtonInput.touchButtonInput)) in ();
-        listString <- (java_string_of (Obj.repr list));
+        listString <- (java_string_of (Obj.repr (self#list)));
         string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))));
         (!touchButtonInput :> TouchButtonInput.touchButtonInput)
         end [@@warning "-7"]
@@ -134,7 +134,7 @@ class currentlyPressedTouchButtonSingletonDebug () =
         let touchButtonInput = Obj.repr touchButtonInput in
         begin
         let isRemoved : bool ref = ref ((super#remove ((Obj.magic touchButtonInput)))) in ();
-        listString <- (java_string_of (Obj.repr list));
+        listString <- (java_string_of (Obj.repr (self#list)));
         string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))));
         !isRemoved
         end [@@warning "-7-20"]
@@ -144,7 +144,7 @@ class currentlyPressedTouchButtonSingletonDebug () =
         let touchButtonInput = Obj.repr touchButtonInput in
         begin
         ignore (super#add ((Obj.magic touchButtonInput)));
-        listString <- (java_string_of (Obj.repr list));
+        listString <- (java_string_of (Obj.repr (self#list)));
         string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))))
         end [@@warning "-7-20"]
     

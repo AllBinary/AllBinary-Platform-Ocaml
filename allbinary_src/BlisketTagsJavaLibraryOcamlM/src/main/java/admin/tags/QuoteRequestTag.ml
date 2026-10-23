@@ -66,14 +66,14 @@ class quoteRequestTag () =
                 ignore ((self#getPropertiesHashMap ())#put ((StoreFrontData.getInstance ())#nAME, storeName));
                 if (((self#getCommand ())#compareTo ("EMAIL")) == 0) then begin
                     ignore (self#email ());
-                    raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                    raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
                 end else begin
                     raise (Java_return (Obj.repr ((super#doStartTag ()))))
                 end
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

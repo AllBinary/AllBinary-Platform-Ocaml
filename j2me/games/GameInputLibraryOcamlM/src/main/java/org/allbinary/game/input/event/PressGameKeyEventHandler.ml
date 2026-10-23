@@ -68,7 +68,7 @@ class pressGameKeyEventHandler () =
                 let playerGameInput : PlayerGameInput.playerGameInput ref = ref (((Obj.magic list#objectArray.(!index)) :> PlayerGameInput.playerGameInput)) in ();
                 ignore (!playerGameInput#onPressGameKeyEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))

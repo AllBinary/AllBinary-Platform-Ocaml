@@ -65,7 +65,7 @@ class geographicMapEventHandler () =
                 let gameLayer : AllBinaryGameLayer.allBinaryGameLayer ref = ref (((Obj.magic (list#get (!index))) :> AllBinaryGameLayer.allBinaryGameLayer)) in ();
                 ignore (!gameLayer#move ())
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done
         end [@@warning "-7"]

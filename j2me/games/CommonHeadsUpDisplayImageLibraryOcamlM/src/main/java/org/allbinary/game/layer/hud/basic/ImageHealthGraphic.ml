@@ -44,14 +44,14 @@ class imageHealthGraphic ((animationInterface : AnimationInterface.animationInte
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        image <- Obj.repr ((Array.make ((healthInterface#getMaxHealth ())) (Obj.magic 0)));
+        image <- Obj.repr ((Array.make (((self#healthInterface)#getMaxHealth ())) (Obj.magic 0)));
         let imageCacheFactory : ImageCacheFactory.imageCacheFactory ref = ref (((ImageCacheFactory.getInstance ()) :> ImageCacheFactory.imageCacheFactory)) in ();
         for numOfHealth = 0 to max do
             (Obj.magic image).(numOfHealth) <- (!imageCacheFactory#get (self, (numOfHealth + (1 * 10)), 10))
         done;
         for numOfHealth = 0 to max do
             for _index = 0 to numOfHealth - 1 do
-                ignore (animationInterface#paint (((Obj.magic image).(numOfHealth)#getGraphics ()), (numOfHealth * 10), 0))
+                ignore ((self#animationInterface)#paint (((Obj.magic image).(numOfHealth)#getGraphics ()), (numOfHealth * 10), 0))
             done
         done
       end

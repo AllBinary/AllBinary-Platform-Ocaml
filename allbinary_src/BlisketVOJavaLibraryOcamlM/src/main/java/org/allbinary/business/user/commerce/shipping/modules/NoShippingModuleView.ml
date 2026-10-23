@@ -66,7 +66,7 @@ class noShippingModuleView () =
             (Obj.magic ((Obj.magic !shippingMethodNode)))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "toXmlNode", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "toXmlNode", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)

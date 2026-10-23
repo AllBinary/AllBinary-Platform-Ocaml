@@ -83,18 +83,18 @@ class unitRTSFormInput (groupInterface) =
         let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!geographicMapCellPositionArea#getNextSurroundingGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         ignore ((self#getHashtable ())#put ((Obj.magic (java_call_static "Layer.get_iD" (Obj.repr ()))), (Obj.magic associatedRtsLayer)));
         ignore ((self#getHashtable ())#put (dECAL_ID, (((Obj.magic (Obj.magic rtsPlayerLayerInterface)))#getDecalBasicColor ())));
-        if ((Obj.repr newUnconstructedRTSLayerInterfaceArray.(itemIndex)) == (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ()))) then begin
-            newUnconstructedRTSLayerInterfaceArray.(itemIndex) <- (Obj.magic ((self#getInstance ((Obj.magic layerManager), (Obj.magic item), !geographicMapCellPosition))))
+        if ((Obj.repr (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex)) == (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ()))) then begin
+            (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex) <- (Obj.magic ((self#getInstance ((Obj.magic layerManager), (Obj.magic item), !geographicMapCellPosition))))
         end else begin
             let cellPoint : GPoint.gPoint ref = ref (((!geographicMapCellPosition#getPoint ()) :> GPoint.gPoint)) in ();
-            let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic newUnconstructedRTSLayerInterfaceArray.(itemIndex)) :> RTSLayer.rTSLayer)) in ();
+            let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex)) :> RTSLayer.rTSLayer)) in ();
             ignore (!rtsLayer#setPosition ((!cellPoint#getX ()), (!cellPoint#getY ()), (!rtsLayer#getZP ())));
             let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic !rtsLayer#allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
             let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
             ignore (!rtsLayer#geographicMapCellPositionAreaBase#update (!geographicMapInterface))
         end;
         let cellPoint : GPoint.gPoint ref = ref (((!geographicMapCellPosition#getMidPoint ()) :> GPoint.gPoint)) in ();
-        let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic newUnconstructedRTSLayerInterfaceArray.(itemIndex)) :> RTSLayer.rTSLayer)) in ();
+        let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex)) :> RTSLayer.rTSLayer)) in ();
         ignore (!rtsLayer#setPosition (((!cellPoint#getX ()) - (!rtsLayer#getHalfWidth ())), ((!cellPoint#getY ()) - (!rtsLayer#getHalfHeight ())), (!rtsLayer#getZP ())));
         (self#attemptBuild (!associatedRtsLayer2, (Obj.magic rtsPlayerLayerInterface), (Obj.magic layerManager), (Obj.magic !rtsLayer), itemIndex))
         end [@@warning "-7-20"]
@@ -115,10 +115,10 @@ class unitRTSFormInput (groupInterface) =
         ignore (!stringBuffer#appendint (!cost));
         ignore (!stringBuffer#append (" with "));
         ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((!capital#getTotalMoney ()))))));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "attemptBuild"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "attemptBuild"));
         if (!cost <= (!capital#getTotalMoney ())) then begin
             ignore ((Obj.magic layerInterface)#construct ((Obj.magic rtsPlayerLayerInterface)));
-            newUnconstructedRTSLayerInterfaceArray.(itemIndex) <- (Obj.magic ((CollidableDestroyableDamageableLayer.getNullInstance ())));
+            (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex) <- (Obj.magic ((CollidableDestroyableDamageableLayer.getNullInstance ())));
             ignore ((Obj.magic rtsPlayerLayerInterface)#add ((BuildingSound.getInstance ())));
             ignore (!capital#removeMoney (!cost));
             ignore ((AssignWaypointsUtil.getInstance ())#set ((Obj.magic (Obj.magic layerInterface)), (Obj.magic (Obj.magic associatedRtsLayer))));

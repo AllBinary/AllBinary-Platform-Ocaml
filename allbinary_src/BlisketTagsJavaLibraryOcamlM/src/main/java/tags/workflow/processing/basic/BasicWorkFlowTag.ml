@@ -36,12 +36,12 @@ class basicWorkFlowTag () =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, tagStrings#dO_START_TAG))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, tagStrings#dO_START_TAG))
             end;
             ignore ((self#getPropertiesHashMap ())#put ((DynamicObjectData.get_nAME ()), "workflows.template.data.BasicStoreWorkFlow"));
             (super#doStartTag ())
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end [@@warning "-7"]
@@ -51,7 +51,7 @@ class basicWorkFlowTag () =
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

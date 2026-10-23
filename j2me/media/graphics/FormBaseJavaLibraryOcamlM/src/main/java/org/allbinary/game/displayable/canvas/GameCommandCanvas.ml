@@ -140,13 +140,13 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
         begin
         (try
             let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-            ignore (logUtil#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (commonStrings#sTART))#append (canvasStrings#fD_WIDTH))#appendint ((java_to_int (Obj.repr ((MyFontProcessor.defaultCharWidth ((Obj.magic !font))))))))#append (canvasStrings#fD_HEIGHT))#appendint ((java_to_int (Obj.repr (((Obj.magic !font)#getHeight ())))))))), self, canvasStrings#uPDATE_MEASUREMENT));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((self#canvasStrings)#fD_WIDTH))#appendint ((java_to_int (Obj.repr ((MyFontProcessor.defaultCharWidth ((Obj.magic !font))))))))#append ((self#canvasStrings)#fD_HEIGHT))#appendint ((java_to_int (Obj.repr (((Obj.magic !font)#getHeight ())))))))), self, (self#canvasStrings)#uPDATE_MEASUREMENT));
             fontHeight <- ((Obj.magic !font)#getHeight ());
             let rectangle : Obj.t ref = ref ((Obj.repr (self#createRectangle ((menuForm#size ()))))) in ();
             ignore (menuForm#init ((Obj.magic !rectangle), (FormTypeFactory.getInstance ())#vERTICAL_CENTER_FORM));
             (self#update ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, canvasStrings#oN_DISPLAY_CHANGE_EVENT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
         end);
         myFontProcessor <- (MyFontProcessor.getInstance ())
         end [@@warning "-7-20"]
@@ -160,7 +160,7 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
 
     method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#sTART))#append ((java_string_of (Obj.repr (DisplayInfoSingleton.getInstance ()))))))), self, canvasStrings#oN_DISPLAY_CHANGE_EVENT));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((java_string_of (Obj.repr (DisplayInfoSingleton.getInstance ()))))))), self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
         myFontProcessor <- updateMyFontProcessor
         end [@@warning "-7-20"]
     
@@ -197,16 +197,16 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
     method createRectangle : 'return. int -> 'return = fun ((size : int)) ->
         begin
         let height : int ref = ref ((size * fontHeight)) in ();
-        let startY : int ref = ref ((((((displayInfo#getLastHeight ()) * 2) / 3)) - !height)) in ();
+        let startY : int ref = ref (((((((self#displayInfo)#getLastHeight ()) * 2) / 3)) - !height)) in ();
         let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (30, !startY)), ((displayInfo#getLastWidth ()) - 30), !startY)))))) in ();
+        let rectangle : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (30, !startY)), (((self#displayInfo)#getLastWidth ()) - 30), !startY)))))) in ();
         (Obj.magic ((Obj.magic !rectangle)))
         end [@@warning "-7"]
     
 
     method open_ () : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, "open"));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, "open"));
         ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#addListenerInterface ((self#getMenuInputProcessor ())));
         ignore ((GameKeyEventHandler.getInstance ())#addListener ((self#getMenuInputProcessor ())));
         ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface (self))
@@ -215,7 +215,7 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
 
     method close () : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cLOSE));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cLOSE));
         ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#removeListener ((self#getMenuInputProcessor ())));
         ignore ((GameKeyEventHandler.getInstance ())#removeListener ((self#getMenuInputProcessor ())));
         ignore ((DisplayChangeEventHandler.getInstance ())#removeListener (self))
@@ -254,7 +254,7 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
 
     method keyPressedByDevice ((keyCode : int), (_deviceId : int)) : unit =
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), self, gameInputStrings#kEY_PRESSED));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), self, gameInputStrings#kEY_PRESSED));
         (self#addGameKeyEvent (keyCode, 0, false))
         end [@@warning "-7"]
     
@@ -282,10 +282,10 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
                 ignore (downGameKeyEventHandler#fireEvent (!gameKeyEvent));
                 ignore ((downGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
             end else begin
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#aDD_KEY_EVENT))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#aDD_KEY_EVENT))
             end
         with e -> begin
-            ignore (logUtil#put ("Key Event Error", self, gameInputStrings#aDD_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#aDD_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -299,10 +299,10 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
                 ignore (upGameKeyEventHandler#fireEvent (!gameKeyEvent));
                 ignore ((upGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
             end else begin
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#rEMOVE_KEY_EVENT))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#rEMOVE_KEY_EVENT))
             end
         with e -> begin
-            ignore (logUtil#put ("Key Event Error", self, gameInputStrings#rEMOVE_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#rEMOVE_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     

@@ -81,7 +81,7 @@ class testInputAutomationCaptureWorker ((inputAutomationActionInterface : InputA
 
     method process () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#pROCESS));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#pROCESS));
         ignore (self#startDataWorkers ());
         (self#processDataWorkerResults ())
         end [@@warning "-7"]
@@ -109,7 +109,7 @@ class testInputAutomationCaptureWorker ((inputAutomationActionInterface : InputA
         iMAGE_NOT_AVAILABLE <- "Image Not Available";
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((Obj.magic logUtil)#putF (mESSAGE, self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF (mESSAGE, self, (self#commonStrings)#cONSTRUCTOR));
         (self#setGenericProfileActions (genericProfileActions_arg))
       end
   end [@@warning "-20"]

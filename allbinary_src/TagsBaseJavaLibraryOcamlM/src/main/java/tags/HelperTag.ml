@@ -41,7 +41,7 @@ class helperTag (tagHelperFactoryInterface_arg) =
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
                 ignore ((Obj.magic logUtil)#putF (("Creating TagHelper with: \n" ^ (java_string_of (Obj.repr (self#getPropertiesHashMap ())))), self, "doStartTag"))
             end;
-            anyType <- ((Obj.magic tagHelperFactoryInterface)#getInstance ((self#getPropertiesHashMap ()), pageContext))
+            anyType <- ((Obj.magic tagHelperFactoryInterface)#getInstance ((self#getPropertiesHashMap ()), (self#pageContext)))
         end
         end [@@warning "-7"]
     
@@ -68,7 +68,7 @@ class helperTag (tagHelperFactoryInterface_arg) =
         anyType <- (Obj.repr (Obj.magic 0));
         ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
         end;
         tagHelperFactoryInterface <- Obj.repr (tagHelperFactoryInterface_arg)
       end

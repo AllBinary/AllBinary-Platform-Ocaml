@@ -74,9 +74,9 @@ class paymentTag () =
                     if (((self#getCommand ())#compareTo ((PaymentData.get_sELECT ()))) == 0) then begin
                         let output : string ref = ref ((self#select ())) in ();
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                            ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                            ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                         end;
-                        raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                        raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
                     end else begin
                         raise (Java_return (Obj.repr ((super#doStartTag ()))))
                     end
@@ -84,7 +84,7 @@ class paymentTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

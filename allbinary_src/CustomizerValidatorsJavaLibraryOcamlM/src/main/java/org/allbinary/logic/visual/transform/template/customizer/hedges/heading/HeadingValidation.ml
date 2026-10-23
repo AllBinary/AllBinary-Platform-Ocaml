@@ -62,7 +62,7 @@ class headingValidation () =
             let titleValid : bool ref = ref (true) in ();
             let logoValid : bool ref = ref (true) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iS_VALID))
             end;
             if (not ((title#isValid ())#booleanValue ())) then begin
                 titleValid := false
@@ -76,12 +76,12 @@ class headingValidation () =
                 valid := false
             end;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (("HeadingValidation: " ^ java_string_of (Obj.repr (!valid))), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF (("HeadingValidation: " ^ java_string_of (Obj.repr (!valid))), self, (self#commonStrings)#iS_VALID))
             end;
             !valid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

@@ -88,7 +88,7 @@ let () = java_register_static "LogConfigTypes.init" (fun arguments -> Obj.repr (
 
 let () =
         begin
-        ignore (init ())
+        ignore (Obj.magic (java_call_static "LogConfigTypes.init" (Obj.repr ())))
         end
 
 

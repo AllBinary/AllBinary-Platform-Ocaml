@@ -50,7 +50,7 @@ class topBarView ((transformInfoInterface : TransformInfoInterface.transformInfo
             (Obj.magic ((heading#toXmlNode ((Obj.magic document)))))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#xSLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "toXmlNode", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "toXmlNode", e))
             end;
             raise e
         end)
@@ -64,7 +64,7 @@ class topBarView ((transformInfoInterface : TransformInfoInterface.transformInfo
             (super#view ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)

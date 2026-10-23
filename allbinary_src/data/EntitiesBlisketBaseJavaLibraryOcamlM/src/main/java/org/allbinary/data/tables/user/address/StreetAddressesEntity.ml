@@ -54,11 +54,11 @@ class streetAddressesEntity () =
             ignore (!whereHashMap#put ((StreetAddressData.get_iD ()), (Obj.magic (string_of_int index))));
             ignore (super#deleteWhere (!whereHashMap));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "remove"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "remove"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "remove", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "remove", e))
             end
         end)
         end [@@warning "-7"]
@@ -85,11 +85,11 @@ class streetAddressesEntity () =
             ignore (super#updateWhere (!whereKeyValuePairs, !addressHashMap));
             (self#setDefault (((Obj.magic address)#getId ())));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "update"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "update"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "add", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "add", e))
             end
         end)
         end [@@warning "-7-20"]
@@ -119,7 +119,7 @@ class streetAddressesEntity () =
             (!streetAddressVector :> BasicArrayList.basicArrayList)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#gET, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#gET, e))
             end;
             ((Obj.magic 0) :> BasicArrayList.basicArrayList)
         end)
@@ -141,7 +141,7 @@ class streetAddressesEntity () =
             if (!addressHashMap != (Obj.magic 0)) then begin
                 let streetAddress : StreetAddress.streetAddress ref = ref (((new StreetAddress.streetAddress (!addressHashMap)) :> StreetAddress.streetAddress)) in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                    ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "getDefault"))
+                    ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "getDefault"))
                 end;
                 raise (Java_return (Obj.repr (!streetAddress)))
             end else begin
@@ -152,7 +152,7 @@ class streetAddressesEntity () =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "getDefault", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "getDefault", e))
             end;
             ((Obj.magic 0) :> StreetAddress.streetAddress)
         end)
@@ -176,11 +176,11 @@ class streetAddressesEntity () =
             ignore (!updateKeyAndValue#put ((StreetAddressData.get_dEFAULT ()), (StreetAddressData.get_dEFAULT ())));
             ignore (super#updateWhere (!whereKeyAndValue, !updateKeyAndValue));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "setDefault"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "setDefault"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "setShippingAddress", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "setShippingAddress", e))
             end
         end)
         end [@@warning "-7"]
@@ -195,7 +195,7 @@ class streetAddressesEntity () =
     method createTableStatement () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((((((((((((((((((((((((((!stringBuffer#append (sqlStrings#cREATE_TABLE))#append ((self#getTableName ())))#append (sqlStrings#sTART))#append ((StreetAddressData.get_iD ())))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_AUTO_INCREMENT_NOT_NULL))#append ((UserData.get_uSERNAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((StreetAddressData.get_dEFAULT ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((StreetAddressData.get_nAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((StreetAddressData.get_sTREET ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_cITY ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_sTATE ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_cODE ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_cOUNTRY ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((EntryData.getInstance ())#tIMECREATED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append ((StreetAddressData.get_iD ())))#append (sqlStrings#eND));
+        ignore ((((((((((((((((((((((((((!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE))#append ((self#getTableName ())))#append ((self#sqlStrings)#sTART))#append ((StreetAddressData.get_iD ())))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_AUTO_INCREMENT_NOT_NULL))#append ((UserData.get_uSERNAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((StreetAddressData.get_dEFAULT ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((StreetAddressData.get_nAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((StreetAddressData.get_sTREET ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_cITY ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_sTATE ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_cODE ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((StreetAddressData.get_cOUNTRY ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((EntryData.getInstance ())#tIMECREATED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append ((StreetAddressData.get_iD ())))#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

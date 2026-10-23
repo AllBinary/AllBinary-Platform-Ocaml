@@ -29,9 +29,9 @@ class healthBarTwodAnimation ((layerInterface : AllBinaryLayer.allBinaryLayer), 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (_x : int), (_y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        let ax : int ref = ref (((allbinaryLayer#getViewPosition ())#getX ())) in ();
-        ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), basicColor, colorP));
-        ignore ((Obj.magic graphics)#fillRect (!ax, ((self#getY ()) - 1), x2, thickness))
+        let ax : int ref = ref ((((self#allbinaryLayer)#getViewPosition ())#getX ())) in ();
+        ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#basicColor), (self#colorP)));
+        ignore ((Obj.magic graphics)#fillRect (!ax, ((self#getY ()) - 1), (self#x2), (self#thickness)))
         end [@@warning "-7-20"]
 
     initializer

@@ -25,7 +25,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.paint.Paintable *)
 
 class basicPaintablesCanvas (cmdListener, (name : string), (allBinaryGameLayerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager), (paintableArray_arg : Paintable.paintable array)) =
-  object
+  object (self)
     inherit GameCommandCanvas.gameCommandCanvas (cmdListener, name, (allBinaryGameLayerManager#getBackgroundBasicColor ()), (allBinaryGameLayerManager#getForegroundBasicColor ())) as super
     val mutable paintableArray : Paintable.paintable array = (Obj.magic 0)
     method paintableArray = paintableArray
@@ -40,7 +40,7 @@ class basicPaintablesCanvas (cmdListener, (name : string), (allBinaryGameLayerMa
         let graphics = Obj.repr graphics in
         begin
         ignore (colorFillPaintable#paint ((Obj.magic graphics)));
-        ignore ((Obj.magic graphics)#setColor (foregroundColor));
+        ignore ((Obj.magic graphics)#setColor ((self#foregroundColor)));
         for index = ((Array.length paintableArray) - 1) downto 0 do
             ignore (paintableArray.(index)#paint ((Obj.magic graphics)))
         done;

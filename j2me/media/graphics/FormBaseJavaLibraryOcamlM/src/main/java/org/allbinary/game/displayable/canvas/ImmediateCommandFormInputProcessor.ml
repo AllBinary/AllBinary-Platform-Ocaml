@@ -45,7 +45,7 @@ class immediateCommandFormInputProcessor ((gameKeyEventList : BasicArrayList.bas
                 ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#oN_PRESS_GAME_KEY, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#oN_PRESS_GAME_KEY, e))
         end)
         end [@@warning "-7-20"]
     
@@ -60,7 +60,7 @@ class immediateCommandFormInputProcessor ((gameKeyEventList : BasicArrayList.bas
                 ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#oN_DOWN_GAME_KEY, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#oN_DOWN_GAME_KEY, e))
         end)
         end [@@warning "-7-20"]
     
@@ -75,7 +75,7 @@ class immediateCommandFormInputProcessor ((gameKeyEventList : BasicArrayList.bas
                 ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#oN_UP_GAME_KEY, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#oN_UP_GAME_KEY, e))
         end)
         end [@@warning "-7-20"]
     
@@ -90,7 +90,7 @@ class immediateCommandFormInputProcessor ((gameKeyEventList : BasicArrayList.bas
                 ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "onMotionGestureEvent", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "onMotionGestureEvent", e))
         end)
         end [@@warning "-7-20"]
 

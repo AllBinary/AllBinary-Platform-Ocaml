@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.system.os.GenericOperatingSystem *)
 
 class linuxOS () =
-  object
+  object (self)
     inherit GenericOperatingSystem.genericOperatingSystem ()
     
     
@@ -32,7 +32,7 @@ class linuxOS () =
     initializer
       begin
         ();
-        scalable <- true
+        (self#set_scalable) (true)
       end
   end
 let () = java_register_constructor "LinuxOS" (fun arguments -> Obj.repr (new linuxOS (Obj.obj arguments)))

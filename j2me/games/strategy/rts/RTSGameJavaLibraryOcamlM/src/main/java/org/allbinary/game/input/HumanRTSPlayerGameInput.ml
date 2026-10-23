@@ -188,7 +188,7 @@ class humanRTSPlayerGameInput ((gameCanvas : AllBinaryGameCanvas.allBinaryGameCa
         ignore (!stringBuffer#appendint (!rectX2));
         ignore (!stringBuffer#append (sPACE));
         ignore (!stringBuffer#appendint (!rectY2));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, mETHOD));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, mETHOD));
         let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic 0) :> RTSLayer.rTSLayer)) in ();
         for index = ((!rtsLayerList#size ()) - 1) downto 0 do
             rtsLayer := (Obj.magic (!rtsLayerList#get (index)));
@@ -201,9 +201,9 @@ class humanRTSPlayerGameInput ((gameCanvas : AllBinaryGameCanvas.allBinaryGameCa
             ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((((!viewPosition#getX ()) + (!rtsLayer#getHalfWidth ()))))))));
             ignore (!stringBuffer#append (sPACE));
             ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((((!viewPosition#getY ()) + (!rtsLayer#getHalfHeight ()))))))));
-            ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, mETHOD));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, mETHOD));
             if ((Obj.magic rectangleCollisionUtil)#isInside (!rectX1, !rectY1, !rectX2, !rectY2, ((!viewPosition#getX ()) + (!rtsLayer#getHalfWidth ())), ((!viewPosition#getY ()) + (!rtsLayer#getHalfHeight ())))) then begin
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (aDDING))#append ((!rtsLayer#getName ()))))), self, mETHOD));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (aDDING))#append ((!rtsLayer#getName ()))))), self, mETHOD));
                 ignore (!rtsLayer#select ());
                 ignore ((self#getSelectedBuildingPlayerGameInput ())#addSelectedRTSLayer (!rtsLayer))
             end
@@ -261,7 +261,7 @@ class humanRTSPlayerGameInput ((gameCanvas : AllBinaryGameCanvas.allBinaryGameCa
         let selectedRtsFormInput = Obj.repr selectedRtsFormInput in
         begin
         let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART))#append (((StringUtil.getInstance ())#toString ((Obj.magic selectedRtsFormInput))))))), self, "setSelectedRtsFormInput"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART))#append (((StringUtil.getInstance ())#toString ((Obj.magic selectedRtsFormInput))))))), self, "setSelectedRtsFormInput"));
         ignore (super#setSelectedRtsFormInput ((Obj.magic selectedRtsFormInput)));
         (self#setSelectedRtsLayer ((CollidableDestroyableDamageableLayer.getNullInstance ())))
         end [@@warning "-7-20"]
@@ -322,7 +322,7 @@ class humanRTSPlayerGameInput ((gameCanvas : AllBinaryGameCanvas.allBinaryGameCa
                 ignore (!gameCanvas#updateCurrentTouchInputFactory (!endLevelTouchButtonsBuilder))
             end
         end else begin
-            ignore (logUtil#putF ("Set Player Default Form", self, "setSelectedRTSLayer"));
+            ignore ((self#logUtil)#putF ("Set Player Default Form", self, "setSelectedRTSLayer"));
             ignore ((self#getRtsPlayerLayerInterface ())#setCurrentScrollSelectionForm (((self#getRtsPlayerLayerInterface ())#getBuildingScrollSelectionForm ())));
             (self#setSelectedRtsFormInput (((self#getRtsPlayerLayerInterface ())#getRTSFormInput ())));
             ignore ((self#getSelectedBuildingPlayerGameInput ())#setSelectedRTSLayer ((CollidableDestroyableDamageableLayer.getNullInstance ())));

@@ -131,7 +131,7 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
         (try
             ignore (highScoresFactoryInterface#fetchHighScores ((self#getGameInfo ()), self))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#uPDATE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#uPDATE, e))
         end)
         end [@@warning "-7"]
     
@@ -146,15 +146,15 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
         begin
         (try
             if (highScoresArray != (Obj.magic 0)) then begin
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#sTART))#appendint ((Array.length highScoresArray))))), self, "setHighScoresArray"))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#appendint ((Array.length highScoresArray))))), self, "setHighScoresArray"))
             end else begin
-                ignore (logUtil#putF (commonStrings#sTART, self, "setHighScoresArray"))
+                ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, "setHighScoresArray"))
             end;
             ignore (highScoresHelper#setHighScoresArray (highScoresArray));
             (self#updateCommand ((Obj.magic currentCommand)));
             (self#setPaintable ((self#getHighScoresPaintable ())))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#uPDATE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#uPDATE, e))
         end)
         end [@@warning "-7"]
     
@@ -162,7 +162,7 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
     method updateCommand : 'any1. 'any1 -> unit = fun (command) ->
         let command = Obj.repr command in
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#sTART))#append ((stringUtil#toString ((Obj.magic command))))))), self, commonStrings#uPDATE));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append (((self#stringUtil)#toString ((Obj.magic command))))))), self, (self#commonStrings)#uPDATE));
         let gameCommandsFactory : GameCommandsFactory.gameCommandsFactory ref = ref (((GameCommandsFactory.getInstance ()) :> GameCommandsFactory.gameCommandsFactory)) in ();
         if (highScoreCommandsFactory#isHighScoreCommand ((Obj.magic command))) then begin
             let index : int ref = ref ((highScoreCommandsFactory#getIndex ((Obj.magic command)))) in ();
@@ -186,7 +186,7 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
         (self#close ());
         ignore (super#initMenu ());
         (self#open_ ());
-        ignore (repaintBehavior#onChangeRepaint (self))
+        ignore ((self#repaintBehavior)#onChangeRepaint (self))
         end [@@warning "-7-20"]
     
 
@@ -200,14 +200,14 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
         let paintable_arg = Obj.repr paintable_arg in
         begin
         paintable <- (Obj.magic paintable_arg);
-        ignore (repaintBehavior#onChangeRepaint (self))
+        ignore ((self#repaintBehavior)#onChangeRepaint (self))
         end [@@warning "-7-20"]
 
     initializer
       begin
         paintable <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
         highScoreCommandsFactory <- ((HighScoreCommandsFactory.getInstance ()) :> HighScoreCommandsFactory.highScoreCommandsFactory);
-        waitPaintable <- ((new SimpleTextPaintable.simpleTextPaintable (commonStrings#pLEASE_WAIT_FOR_SERVER, (BasicColorFactory.getInstance ())#wHITE)) :> SimpleTextPaintable.simpleTextPaintable);
+        waitPaintable <- ((new SimpleTextPaintable.simpleTextPaintable ((self#commonStrings)#pLEASE_WAIT_FOR_SERVER, (BasicColorFactory.getInstance ())#wHITE)) :> SimpleTextPaintable.simpleTextPaintable);
         ();
         ();
         ();
@@ -218,7 +218,7 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
         hasPainted <- false;
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         highScoresPaintable <- paintable_arg;
         highScoresFactoryInterface <- highScoresFactoryInterface_arg;
         highScoresCanvasInputProcessor <- Obj.repr ((highScoresCanvasInputProcessorFactoryInterface#getInstance (self)));
@@ -229,7 +229,7 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
         if ((Obj.repr (highScoresHelper#getHighScoresArray ())) == (Obj.repr (NoHighScoresFactory.getInstance ())#nO_HIGH_SCORES)) then begin
             (self#setPaintable (waitPaintable))
         end else begin
-            ignore (logUtil#putF ("Show HighScores that are already loaded", self, commonStrings#cONSTRUCTOR));
+            ignore ((self#logUtil)#putF ("Show HighScores that are already loaded", self, (self#commonStrings)#cONSTRUCTOR));
             (self#updateCommand ((Obj.magic currentCommand)));
             (self#setPaintable ((self#getHighScoresPaintable ())))
         end;

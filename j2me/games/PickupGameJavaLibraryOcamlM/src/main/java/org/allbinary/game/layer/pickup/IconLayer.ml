@@ -27,7 +27,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.view.ViewPosition *)
 
 class iconLayer (animationInterface_arg, (width : int), (height : int)) =
-  object
+  object (self)
     inherit AllBinaryLayer.allBinaryLayer ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, width, height)))), (ViewPosition.getInstanceD ()))
     val mutable animationInterface : Obj.t = Obj.repr 0
     method animationInterface : 'r. 'r = Obj.magic animationInterface
@@ -38,14 +38,14 @@ class iconLayer (animationInterface_arg, (width : int), (height : int)) =
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), x, y))
+        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), (self#x), (self#y)))
         end [@@warning "-7-20"]
     
 
     method paintThreed : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintThreedXYZ ((Obj.magic graphics), x, y, z))
+        ignore ((Obj.magic animationInterface)#paintThreedXYZ ((Obj.magic graphics), (self#x), (self#y), (self#z)))
         end [@@warning "-7-20"]
     
 

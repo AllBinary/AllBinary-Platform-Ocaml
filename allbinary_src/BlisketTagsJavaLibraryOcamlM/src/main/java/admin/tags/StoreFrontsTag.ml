@@ -83,7 +83,7 @@ class storeFrontsTag () =
                 if ((self#getCommand ()) != (Obj.magic 0)) then begin
                     let storeFrontData : StoreFrontData.storeFrontData ref = ref (((StoreFrontData.getInstance ()) :> StoreFrontData.storeFrontData)) in ();
                     if (((self#getCommand ())#compareTo (!storeFrontData#sELECT)) == 0) then begin
-                        ignore ((pageContext#getOut ())#print ((self#generateSelect ())))
+                        ignore (((self#pageContext)#getOut ())#print ((self#generateSelect ())))
                     end else if (((self#getCommand ())#compareTo (!storeFrontData#iNSTALL)) == 0) then begin
                         ignore ((self#getPropertiesHashMap ())#put ("current", (self#getCurrent ())));
                         ignore ((self#getPropertiesHashMap ())#put ("total", (self#getTotal ())));
@@ -100,7 +100,7 @@ class storeFrontsTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

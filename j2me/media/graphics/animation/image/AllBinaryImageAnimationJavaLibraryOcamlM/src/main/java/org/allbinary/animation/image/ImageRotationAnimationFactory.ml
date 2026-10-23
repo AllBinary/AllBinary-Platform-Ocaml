@@ -36,11 +36,11 @@ class imageRotationAnimationFactory (image, (width : int), (height : int), (dx :
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         try
         begin
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            ignore (animationFactoryImageScaleUtil#processAdjust (self));
-            raise (Java_return (Obj.repr ((new AdjustedImageBaseRotationAnimation.adjustedImageBaseRotationAnimation ((self#getImage ()), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            raise (Java_return (Obj.repr ((new AdjustedImageBaseRotationAnimation.adjustedImageBaseRotationAnimation ((self#getImage ()), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((new ImageBaseRotationAnimation.imageBaseRotationAnimation ((self#getImage ()), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (animationBehaviorFactory#getOrCreateInstance ()))))))
+            raise (Java_return (Obj.repr ((new ImageBaseRotationAnimation.imageBaseRotationAnimation ((self#getImage ()), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
@@ -57,8 +57,8 @@ class imageRotationAnimationFactory (image, (width : int), (height : int), (dx :
         ();
         (* super(...) is the inherit clause *) ();
         angleIncrement <- angleIncrement_arg;
-        animationFactoryInitializationVisitor#set_dx (dx);
-        animationFactoryInitializationVisitor#set_dy (dy)
+        (self#animationFactoryInitializationVisitor)#set_dx (dx);
+        (self#animationFactoryInitializationVisitor)#set_dy (dy)
       end
   end
 let () = java_register_constructor "ImageRotationAnimationFactory" (fun arguments -> Obj.repr (new imageRotationAnimationFactory (Obj.obj arguments)))

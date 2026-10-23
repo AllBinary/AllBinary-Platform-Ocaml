@@ -51,7 +51,7 @@ class pageValidationView ((transformInfoInterface : TransformInfoInterface.trans
         (try
             let isValid : bool ref = ref (true) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iS_VALID))
             end;
             let transformInfoEntityInterface : TransformInfoEntity.transformInfoEntity ref = ref (((TransformInfoEntityBuilder.getInstance ()) :> TransformInfoEntity.transformInfoEntity)) in ();
             let pageObjectConfigInterface : TransformInfoObjectConfigInterface.transformInfoObjectConfigInterface ref = ref ((((self#getTransformInfoInterface ())#getObjectConfigInterface ()) :> TransformInfoObjectConfigInterface.transformInfoObjectConfigInterface)) in ();
@@ -101,7 +101,7 @@ class pageValidationView ((transformInfoInterface : TransformInfoInterface.trans
                         ignore (!stringBuffer#append ((java_string_of (Obj.repr (!specifiedTransformInfoInterface#getDataFilePath ())))));
                         ignore (!stringBuffer#append (" to the following data:\n"));
                         ignore (!stringBuffer#append (!documentString));
-                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID))
+                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID))
                     end;
                     ignore ((CustomizerUtil.getInstance ())#write (!specifiedTransformInfoInterface, !documentString))
                 end
@@ -109,7 +109,7 @@ class pageValidationView ((transformInfoInterface : TransformInfoInterface.trans
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

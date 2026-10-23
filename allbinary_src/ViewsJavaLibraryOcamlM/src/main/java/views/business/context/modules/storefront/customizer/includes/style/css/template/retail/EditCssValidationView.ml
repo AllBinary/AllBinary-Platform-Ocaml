@@ -40,12 +40,12 @@ class editCssValidationView ((transformInfoInterface : TransformInfoInterface.tr
         begin
         (try
             let document : Obj.t ref = ref ((Obj.repr ((CustomizerUtil.getInstance ())#getViewDataForComponentsInObjectConfig ((self#getTransformInfoInterface ()))))) in ();
-            styleValidationInterface <- (new EditCssStyleValidation.editCssStyleValidation ((Obj.magic !document)));
-            let isValid : bool ref = ref ((styleValidationInterface#isValid ())) in ();
+            (self#set_styleValidationInterface) ((new EditCssStyleValidation.editCssStyleValidation ((Obj.magic !document))));
+            let isValid : bool ref = ref (((self#styleValidationInterface)#isValid ())) in ();
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -56,7 +56,7 @@ class editCssValidationView ((transformInfoInterface : TransformInfoInterface.tr
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((styleValidationInterface#validationInfo ())));
+            ignore (!stringBuffer#append (((self#styleValidationInterface)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin

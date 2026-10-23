@@ -66,8 +66,8 @@ class buildingInfoHudPaintable () =
         begin
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
         let totalLength : int ref = ref (((String.length hEALTH) + ((MathUtil.getInstance ())#getTotalDigits (currentHealth)))) in ();
-        ignore (maxHealthHud#setX ((textX + (MyFontProcessor.defaultStringWidth ((Obj.magic !font), !totalLength)))));
-        myFontProcessor <- (MyFontProcessor.getInstance ())
+        ignore (maxHealthHud#setX (((self#textX) + (MyFontProcessor.defaultStringWidth ((Obj.magic !font), !totalLength)))));
+        (self#set_myFontProcessor) ((MyFontProcessor.getInstance ()))
         end [@@warning "-7-20"]
     
 
@@ -86,12 +86,12 @@ class buildingInfoHudPaintable () =
         let graphics = Obj.repr graphics in
         begin
         ignore (super#paint ((Obj.magic graphics)));
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         ignore (productivityHud#paint ((Obj.magic graphics)));
         ignore (efficiencyHud#paint ((Obj.magic graphics)));
         ignore (healthHud#paint ((Obj.magic graphics)));
         ignore (maxHealthHud#paint ((Obj.magic graphics)));
-        ignore ((self#getAnimationInterface ())#paintXY ((Obj.magic graphics), imageX, y))
+        ignore ((self#getAnimationInterface ())#paintXY ((Obj.magic graphics), (self#imageX), (self#y)))
         end [@@warning "-7-20"]
     
 
@@ -104,7 +104,7 @@ class buildingInfoHudPaintable () =
         ignore (efficiencyHud#set ((((Obj.magic !buildingLayer)#getEfficiency ()) / 100)));
         currentHealth <- (((Obj.magic !buildingLayer)#getHealthInterface ())#getHealth ());
         ignore (healthHud#set (currentHealth));
-        myFontProcessor <- updateMyFontProcessor;
+        (self#set_myFontProcessor) ((self#updateMyFontProcessor));
         ignore (maxHealthHud#set ((((Obj.magic !buildingLayer)#getHealthInterface ())#getMaxHealth ())))
         end [@@warning "-7"]
     
@@ -135,8 +135,8 @@ class buildingInfoHudPaintable () =
             let index : int ref = ref (0) in ();
             let basicHudFactory : BasicHudFactory.basicHudFactory ref = ref (((BasicHudFactory.getInstance ()) :> BasicHudFactory.basicHudFactory)) in ();
             let basicColor : BasicColor.basicColor ref = ref (((self#getBasicColorP ()) :> BasicColor.basicColor)) in ();
-            let textX : int ref = ref (textX) in ();
-            let y : int ref = ref (y) in ();
+            let textX : int ref = ref ((self#textX)) in ();
+            let y : int ref = ref ((self#y)) in ();
             let firstIndex : int ref = ref (!index) in ();
             (* Java nested class ProductivityNumberStringHud: move it to its own module *) ();
             productivityHud_arg := (new ProductivityNumberStringHud.productivityNumberStringHud ());

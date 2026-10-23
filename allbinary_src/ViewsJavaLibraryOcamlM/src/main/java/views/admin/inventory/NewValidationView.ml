@@ -26,7 +26,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.w3c.dom.Node *)
 
 class newValidationView ((transformInfoInterface : TransformInfoInterface.transformInfoInterface)) =
-  object
+  object (self)
     inherit InventoryItemView.inventoryItemView (transformInfoInterface, (StringUtil.getInstance ())#eMPTY_STRING)
     
     
@@ -62,7 +62,7 @@ class newValidationView ((transformInfoInterface : TransformInfoInterface.transf
       begin
         ();
         (* super(...) is the inherit clause *) ();
-        itemInterface <- (Obj.magic (new BasicItem.basicItem ()))
+        (self#set_itemInterface) ((Obj.magic (new BasicItem.basicItem ())))
       end
   end
 let () = java_register_constructor "NewValidationView" (fun arguments -> Obj.repr (new newValidationView (Obj.obj arguments)))

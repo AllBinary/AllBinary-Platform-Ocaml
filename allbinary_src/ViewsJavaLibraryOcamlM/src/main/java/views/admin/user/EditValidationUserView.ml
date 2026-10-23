@@ -46,17 +46,17 @@ class editValidationUserView ((transformInfoInterface : TransformInfoInterface.t
         begin
         (try
             if ((Obj.repr ((UserName.getInstance ())#isValid (userName))) == (Obj.repr true)) then begin
-                user <- ((UserEntityFactory.getInstance ())#getUser (userName));
-                if (user == (Obj.magic 0)) then begin
+                (self#set_user) (((UserEntityFactory.getInstance ())#getUser (userName)));
+                if ((self#user) == (Obj.magic 0)) then begin
                     raise (Java_return (Obj.repr (false)))
                 end
             end else begin
                 raise (Java_return (Obj.repr (false)))
             end;
-            (user#isValid ())
+            ((self#user)#isValid ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -73,8 +73,8 @@ class editValidationUserView ((transformInfoInterface : TransformInfoInterface.t
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
                     ignore ((Obj.magic logUtil)#putF ("User Name is valid", self, "validationInfo()"))
                 end;
-                user <- ((UserEntityFactory.getInstance ())#getUser (userName));
-                if (user == (Obj.magic 0)) then begin
+                (self#set_user) (((UserEntityFactory.getInstance ())#getUser (userName)));
+                if ((self#user) == (Obj.magic 0)) then begin
                     ignore (!stringBuffer#append ("User does not exist.<br />"));
                     raise (Java_return (Obj.repr ((java_string_of (Obj.repr !stringBuffer)))))
                 end
@@ -82,12 +82,12 @@ class editValidationUserView ((transformInfoInterface : TransformInfoInterface.t
                 ignore (!stringBuffer#append ("User Name is not valid.<br />"));
                 raise (Java_return (Obj.repr ((java_string_of (Obj.repr !stringBuffer)))))
             end;
-            if ((Obj.repr (user#isValid ())) == (Obj.repr false)) then begin
+            if ((Obj.repr ((self#user)#isValid ())) == (Obj.repr false)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
                     ignore ((Obj.magic logUtil)#putF ("User exists but is invalid - Probably manually modified", self, "validationInfo()"))
                 end;
                 ignore (!stringBuffer#append ("User data is not valid - Please call administrator.<br />"));
-                ignore (!stringBuffer#append ((user#validationInfo ())))
+                ignore (!stringBuffer#append (((self#user)#validationInfo ())))
             end;
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin

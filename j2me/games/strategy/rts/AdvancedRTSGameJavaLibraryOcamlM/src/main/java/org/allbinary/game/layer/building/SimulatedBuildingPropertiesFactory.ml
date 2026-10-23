@@ -26,7 +26,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.ABHashtable *)
 
 class simulatedBuildingPropertiesFactory () =
-  object
+  object (self)
     inherit BuildingPropertiesFactory.buildingPropertiesFactory ()
     
 
@@ -39,7 +39,7 @@ class simulatedBuildingPropertiesFactory () =
     method getDamageFloaters : 'any1. 'any1 -> DamageFloaters.damageFloaters = fun (_buildingLayer) ->
         begin
         let damageFloaters : DamageFloaters.damageFloaters ref = ref (((DamageFloaters.getInstance ()) :> DamageFloaters.damageFloaters)) in ();
-        damageFloatersPaintableInterface <- !damageFloaters;
+        (self#set_damageFloatersPaintableInterface) (!damageFloaters);
         (!damageFloaters :> DamageFloaters.damageFloaters)
         end [@@warning "-7-20"]
     

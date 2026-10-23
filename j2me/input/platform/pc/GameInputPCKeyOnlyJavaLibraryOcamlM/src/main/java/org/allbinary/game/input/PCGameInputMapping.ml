@@ -30,7 +30,7 @@ class pCGameInputMapping () =
     method init : 'any1. 'any1 -> unit = fun (abeClientInformation) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#iNIT));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iNIT));
         ignore (Obj.magic (java_call_static "PCKeyFactory.getInstance" (Obj.repr ())));
         ignore (super#init ((Obj.magic abeClientInformation)));
         if (((self#getTotalMapped ()) == 0) || (self#isDefaultNew ())) then begin

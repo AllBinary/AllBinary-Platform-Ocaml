@@ -73,12 +73,12 @@ class techRTSFormInput (groupInterface) =
         let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         let technologyRTSInterfaceImageItem : TechnologyRTSInterfaceImageItem.technologyRTSInterfaceImageItem ref = ref (((Obj.magic (Obj.magic item)) :> TechnologyRTSInterfaceImageItem.technologyRTSInterfaceImageItem)) in ();
         let rtsInterface : RTSInterface.rTSInterface ref = ref (((!technologyRTSInterfaceImageItem#getRtsInterface ()) :> RTSInterface.rTSInterface)) in ();
-        ignore (logUtil#putF ((java_string_of (Obj.repr ((!stringMaker#append ("isUpgradeable: "))#appendboolean ((!rtsInterface#isUpgradeable ()))))), self, !commonStrings#pROCESS));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ("isUpgradeable: "))#appendboolean ((!rtsInterface#isUpgradeable ()))))), self, !commonStrings#pROCESS));
         if (!rtsInterface#isUpgradeable ()) then begin
             let cost : int ref = ref ((!rtsInterface#getUpgradeCost ())) in ();
             let capital : Capital.capital ref = ref ((((Obj.magic rtsPlayerLayerInterface)#getCapital ()) :> Capital.capital)) in ();
             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-            ignore (logUtil#putF ((java_string_of (Obj.repr (((!stringMaker#appendint (!cost))#append ("<="))#appendint ((java_to_int (Obj.repr ((!capital#getTotalMoney ())))))))), self, !commonStrings#pROCESS));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((!stringMaker#appendint (!cost))#append ("<="))#appendint ((java_to_int (Obj.repr ((!capital#getTotalMoney ())))))))), self, !commonStrings#pROCESS));
             if (!cost <= (!capital#getTotalMoney ())) then begin
                 ignore ((Obj.magic rtsPlayerLayerInterface)#add ((BuildingSound.getInstance ())));
                 ignore (!capital#removeMoney (!cost));

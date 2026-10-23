@@ -91,13 +91,13 @@ class pathAnimation ((pathFindingLayer_arg : PathFindingLayerInterface.pathFindi
                     for index = 0 to (!size - 1) - 1 do
                         if (index = !start) then begin
                             ignore (self#setBasicColorP (startColor));
-                            ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())))
+                            ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())))
                         end else if (!geographicMapCellHistory#isVisited (!geographicMapCellPosition)) then begin
                             ignore (self#setBasicColorP (endColor));
-                            ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())))
+                            ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())))
                         end else begin
                             ignore (self#setBasicColorP (middleColor));
-                            ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())))
+                            ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())))
                         end;
                         geographicMapCellPosition := (Obj.magic (!list#get (index)));
                         point := (!geographicMapCellPosition#getMidPoint ());

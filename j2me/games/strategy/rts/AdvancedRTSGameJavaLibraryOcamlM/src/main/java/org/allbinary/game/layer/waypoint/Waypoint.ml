@@ -107,7 +107,7 @@ class waypoint ((ownerLayer_arg : PathFindingLayerInterface.pathFindingLayerInte
         let pathsList : BasicArrayList.basicArrayList ref = ref ((paths.(((Obj.magic geographicMapCellPosition)#getColumn ())).(((Obj.magic geographicMapCellPosition)#getRow ())) :> BasicArrayList.basicArrayList)) in ();
         if ((Obj.repr !pathsList) == (Obj.repr (basicArrayListUtil#getImmutableInstance ()))) then begin
             pathsList := (self#createPaths ((Obj.magic geographicMapCellPosition)));
-            paths.(((Obj.magic geographicMapCellPosition)#getColumn ())).(((Obj.magic geographicMapCellPosition)#set_getRow ())) (!pathsList)
+            paths.(((Obj.magic geographicMapCellPosition)#getColumn ())).(((Obj.magic geographicMapCellPosition)#getRow ())) <- !pathsList
         end;
         (!pathsList :> BasicArrayList.basicArrayList)
         end [@@warning "-7-20"]
@@ -147,15 +147,15 @@ class waypoint ((ownerLayer_arg : PathFindingLayerInterface.pathFindingLayerInte
                 raise (Failure (("Start should not be End: " ^ java_string_of (Obj.repr ((endList#size ()))))))
             end
         end;
-        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
         let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
         let raceTrackGeographicMap : RaceTrackGeographicMap.raceTrackGeographicMap ref = ref (((Obj.magic !geographicMapInterface) :> RaceTrackGeographicMap.raceTrackGeographicMap)) in ();
         let raceTrackGeographicMapCellTypeFactory : GeographicMapCellTypeFactory.geographicMapCellTypeFactory ref = ref (((!raceTrackGeographicMap#getGeographicMapCellTypeFactory ()) :> GeographicMapCellTypeFactory.geographicMapCellTypeFactory)) in ();
         let customMapGenerator : Obj.t ref = ref ((Obj.repr (Obj.magic (!raceTrackGeographicMap#getCustomMapGenerator ())))) in ();
         ignore ((Obj.magic !customMapGenerator)#copyMapIntoCustomMap ());
         let customMapArray : int array array ref = ref (((Obj.magic !customMapGenerator)#getCustomMapArray ())) in ();
-        !customMapArray.(((Obj.magic startGeographicMapCellPosition)#getRow ())).(((Obj.magic startGeographicMapCellPosition)#set_getColumn ())) ((!raceTrackGeographicMapCellTypeFactory#getStartType ()));
-        !customMapArray.((!endGeographicMapCellPosition#getRow ())).((!endGeographicMapCellPosition#set_getColumn ())) ((!raceTrackGeographicMapCellTypeFactory#getEndType ()));
+        !customMapArray.(((Obj.magic startGeographicMapCellPosition)#getRow ())).(((Obj.magic startGeographicMapCellPosition)#getColumn ())) <- (!raceTrackGeographicMapCellTypeFactory#getStartType ());
+        !customMapArray.((!endGeographicMapCellPosition#getRow ())).((!endGeographicMapCellPosition#getColumn ())) <- (!raceTrackGeographicMapCellTypeFactory#getEndType ());
         let pathFindingInfo : PathFindingInfo.pathFindingInfo ref = ref ((((Obj.magic (java_call_static "PathFindingInfoFactory.getInstance" (Obj.repr ())))#getInstancePathFindingInfo (!raceTrackGeographicMap, !customMapArray)) :> PathFindingInfo.pathFindingInfo)) in ();
         let list : BasicArrayList.basicArrayList ref = ref ((((Obj.magic (java_call_static "PathGenerator.getInstance" (Obj.repr ())))#getInstanceNoCache (!geographicMapInterface, !pathFindingInfo, 2)) :> BasicArrayList.basicArrayList)) in ();
         if ((!list#size ()) < 1) then begin

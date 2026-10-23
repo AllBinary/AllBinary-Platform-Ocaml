@@ -178,7 +178,7 @@ class fileAuthenticationTag () =
             ((Obj.obj (java_new "Integer" (Obj.repr ((TagSupport.get_eVAL_BODY_INCLUDE ())))))#intValue ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "invalidateSession()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "invalidateSession()", e))
             end;
             (TagSupport.get_sKIP_BODY ())
         end)
@@ -215,7 +215,7 @@ class fileAuthenticationTag () =
             ((self#isRarelyUsedSession ())#booleanValue ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "isSessionOld()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "isSessionOld()", e))
             end;
             false
         end)
@@ -257,7 +257,7 @@ class fileAuthenticationTag () =
             (true#booleanValue ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "isRoleValid()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "isRoleValid()", e))
             end;
             false
         end)
@@ -273,7 +273,7 @@ class fileAuthenticationTag () =
         with e -> begin
             let error : string ref = ref ("Failed to set valid role") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "validRole()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "validRole()", e))
             end;
             !error
         end)
@@ -291,7 +291,7 @@ class fileAuthenticationTag () =
         with e -> begin
             let error : string ref = ref ("Failed to set role invalid") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "invalidRole()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "invalidRole()", e))
             end;
             !error
         end)
@@ -315,7 +315,7 @@ class fileAuthenticationTag () =
             (false#booleanValue ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "isAuthenticationSessionValid()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "isAuthenticationSessionValid()", e))
             end;
             false
         end)
@@ -349,7 +349,7 @@ class fileAuthenticationTag () =
             (false#booleanValue ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "processIfNewLogin()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "processIfNewLogin()", e))
             end;
             false
         end)
@@ -371,7 +371,7 @@ class fileAuthenticationTag () =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "isSetToInvalidate()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "isSetToInvalidate()", e))
             end;
             false
         end)
@@ -388,12 +388,12 @@ class fileAuthenticationTag () =
             weblisketSession <- (new BasicWeblisketSession.basicWeblisketSession (pageContext));
             (self#getFormData ());
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Started", self, tagStrings#dO_START_TAG))
+                ignore ((Obj.magic logUtil)#putF ("Started", self, (self#tagStrings)#dO_START_TAG))
             end;
             if (command <> (Obj.magic 0)) then begin
                 if ((String.compare command ((org.get_allbinary ())#globals#gLOBALS2#cHANGEPASSWORD)) == 0) then begin
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                        ignore ((Obj.magic logUtil)#putF ("Change Password", self, tagStrings#dO_START_TAG))
+                        ignore ((Obj.magic logUtil)#putF ("Change Password", self, (self#tagStrings)#dO_START_TAG))
                     end;
                     if (not (self#changePassword ())) then begin
                         ignore ((pageContext#getOut ())#print ("Password Change Attempt Failed.<p>"));
@@ -404,14 +404,14 @@ class fileAuthenticationTag () =
                     end
                 end else if ((String.compare command ((WeblisketSessionData.get_iNVALIDATESESSION ()))) == 0) then begin
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                        ignore ((Obj.magic logUtil)#putF ("INVALIDATESESSION", self, tagStrings#dO_START_TAG))
+                        ignore ((Obj.magic logUtil)#putF ("INVALIDATESESSION", self, (self#tagStrings)#dO_START_TAG))
                     end;
                     raise (Java_return (Obj.repr ((self#invalidateSession ()))))
                 end else begin
                     if (self#isSessionOld ()) then begin
                         if (self#processInvalidation ()) then begin
                             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                                ignore ((Obj.magic logUtil)#putF ("Processing Invalidation", self, tagStrings#dO_START_TAG))
+                                ignore ((Obj.magic logUtil)#putF ("Processing Invalidation", self, (self#tagStrings)#dO_START_TAG))
                             end;
                             ignore ((pageContext#getOut ())#print ("Please login again.<p>"));
                             if ((String.compare command ((org.get_allbinary ())#globals#gLOBALS2#pROCESSBODYIFAUTHENTICATED)) == 0) then begin
@@ -421,7 +421,7 @@ class fileAuthenticationTag () =
                             end
                         end else begin
                             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                                ignore ((Obj.magic logUtil)#putF ("Preparing session for invalidation", self, tagStrings#dO_START_TAG))
+                                ignore ((Obj.magic logUtil)#putF ("Preparing session for invalidation", self, (self#tagStrings)#dO_START_TAG))
                             end;
                             if ((String.compare command ((org.get_allbinary ())#globals#gLOBALS2#pROCESSBODYIFAUTHENTICATED)) == 0) then begin
                                 raise (Java_return (Obj.repr ((TagSupport.get_sKIP_BODY ()))))
@@ -432,7 +432,7 @@ class fileAuthenticationTag () =
                     end;
                     if ((((((userName = (Obj.magic 0)) || ((String.compare userName (!stringUtil#eMPTY_STRING)) == 0))) && (((password = (Obj.magic 0)) || ((String.compare password (!stringUtil#eMPTY_STRING)) == 0)))) && (roles != (Obj.magic 0))) && (self#isAuthenticationSessionValid ())) then begin
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                            ignore ((Obj.magic logUtil)#putF ("Authenticated session is valid", self, tagStrings#dO_START_TAG))
+                            ignore ((Obj.magic logUtil)#putF ("Authenticated session is valid", self, (self#tagStrings)#dO_START_TAG))
                         end;
                         if ((String.compare command ((org.get_allbinary ())#globals#gLOBALS2#pROCESSBODYIFAUTHENTICATED)) == 0) then begin
                             raise (Java_return (Obj.repr ((TagSupport.get_eVAL_BODY_INCLUDE ()))))
@@ -442,11 +442,11 @@ class fileAuthenticationTag () =
                     end;
                     if (((userName <> (Obj.magic 0)) && (password <> (Obj.magic 0))) && (self#processIfNewLogin ())) then begin
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                            ignore ((Obj.magic logUtil)#putF ("Processing new login.", self, tagStrings#dO_START_TAG))
+                            ignore ((Obj.magic logUtil)#putF ("Processing new login.", self, (self#tagStrings)#dO_START_TAG))
                         end;
                         if (self#isRoleValid ()) then begin
                             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                                ignore ((Obj.magic logUtil)#putF ("Role is valid - Processing new login", self, tagStrings#dO_START_TAG))
+                                ignore ((Obj.magic logUtil)#putF ("Role is valid - Processing new login", self, (self#tagStrings)#dO_START_TAG))
                             end;
                             ignore ((pageContext#getOut ())#print ((self#validRole ())));
                             if ((String.compare command ((org.get_allbinary ())#globals#gLOBALS2#pROCESSBODYIFAUTHENTICATED)) == 0) then begin
@@ -456,7 +456,7 @@ class fileAuthenticationTag () =
                             end
                         end else begin
                             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                                ignore ((Obj.magic logUtil)#putF ("Role is not valid - Processing new login", self, tagStrings#dO_START_TAG))
+                                ignore ((Obj.magic logUtil)#putF ("Role is not valid - Processing new login", self, (self#tagStrings)#dO_START_TAG))
                             end;
                             ignore ((pageContext#getOut ())#print ((self#invalidRole ())));
                             if ((String.compare command ((org.get_allbinary ())#globals#gLOBALS2#pROCESSBODYIFAUTHENTICATED)) == 0) then begin
@@ -467,7 +467,7 @@ class fileAuthenticationTag () =
                         end
                     end else begin
                         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                            ignore ((Obj.magic logUtil)#putF ("Invalid Login", self, tagStrings#dO_START_TAG))
+                            ignore ((Obj.magic logUtil)#putF ("Invalid Login", self, (self#tagStrings)#dO_START_TAG))
                         end;
                         if ((((userName <> (Obj.magic 0)) && ((String.compare userName ((StringUtil.getInstance ())#eMPTY_STRING)) != 0)) && (password <> (Obj.magic 0))) && ((String.compare password ((StringUtil.getInstance ())#eMPTY_STRING)) != 0)) then begin
                             ignore ((pageContext#getOut ())#print ("Sorry your username and/or password is invalid.<p>"))
@@ -481,7 +481,7 @@ class fileAuthenticationTag () =
                         ignore (!stringBuffer#append (password));
                         ignore (!stringBuffer#append (" Command: "));
                         ignore (!stringBuffer#append (command));
-                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, tagStrings#dO_START_TAG))
+                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#tagStrings)#dO_START_TAG))
                     end;
                     if ((String.compare command ((org.get_allbinary ())#globals#gLOBALS2#pROCESSBODYIFAUTHENTICATED)) == 0) then begin
                         raise (Java_return (Obj.repr ((TagSupport.get_sKIP_BODY ()))))
@@ -492,7 +492,7 @@ class fileAuthenticationTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

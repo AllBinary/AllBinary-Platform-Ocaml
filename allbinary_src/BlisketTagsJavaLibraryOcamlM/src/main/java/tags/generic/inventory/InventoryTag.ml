@@ -37,7 +37,7 @@ class inventoryTag () =
     method search () : unit =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new InventoryHelperFactory.inventoryHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new InventoryHelperFactory.inventoryHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("search", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -51,7 +51,7 @@ class inventoryTag () =
     method viewSummary () : unit =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new InventoryHelperFactory.inventoryHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new InventoryHelperFactory.inventoryHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod ("viewSummary", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -87,7 +87,7 @@ class inventoryTag () =
             end;
             raise (Failure ("Command Null"))
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

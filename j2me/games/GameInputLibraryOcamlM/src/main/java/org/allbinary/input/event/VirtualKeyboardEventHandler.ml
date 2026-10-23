@@ -49,7 +49,7 @@ class virtualKeyboardEventHandler () =
             ignore (Unix.sleepf (Float.of_int (120) /. 1000.0));
             ignore (self#fireEvent (sHOW_EVENT))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "open", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "open", e))
         end)
         end [@@warning "-7"]
     
@@ -60,7 +60,7 @@ class virtualKeyboardEventHandler () =
             ignore (Unix.sleepf (Float.of_int (120) /. 1000.0));
             ignore (self#fireEvent (hIDE_EVENT))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#cLOSE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cLOSE, e))
         end)
         end [@@warning "-7"]
 

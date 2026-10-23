@@ -20,14 +20,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.game.configuration.GameConfiguration *)
 
 class changedGameFeatureListener () =
-  object
+  object (self)
     inherit BaseChangedGameFeatureListener.baseChangedGameFeatureListener ()
     
 
     method isChangedGameConfiguration : 'any1. 'any1 -> bool = fun (gameConfiguration) ->
         let gameConfiguration = Obj.repr gameConfiguration in
         begin
-        (list#contains ((Obj.magic gameConfiguration)))
+        ((self#list)#contains ((Obj.magic gameConfiguration)))
         end [@@warning "-7-20"]
 
     initializer

@@ -80,7 +80,7 @@ class imageAnalysis () =
         ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((CommonLabels.getInstance ())#sTART)) ^ (java_string_of (Obj.repr (Obj.magic colorRangeInterface)))), self, !commonStrings#pROCESS));
         let imageAnalysisResultsArray : Obj.t ref = ref ((Obj.repr (Array.make ((Array.length bufferedImageArray)) (Obj.magic 0)))) in ();
         for index = 0 to (Array.length bufferedImageArray) - 1 do
-            (Obj.magic !imageAnalysisResultsArray).(index) <- (process (bufferedImageArray.(index), (Obj.magic colorRangeInterface)))
+            (Obj.magic !imageAnalysisResultsArray).(index) <- (Obj.magic (java_call_static "ImageAnalysis.process" (Obj.repr (bufferedImageArray.(index), (Obj.magic colorRangeInterface)))))
         done;
         (Obj.magic ((Obj.magic !imageAnalysisResultsArray)))
         end [@@warning "-20"]

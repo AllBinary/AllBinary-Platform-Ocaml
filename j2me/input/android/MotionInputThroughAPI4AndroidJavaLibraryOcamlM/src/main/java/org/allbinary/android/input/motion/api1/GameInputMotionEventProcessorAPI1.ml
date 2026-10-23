@@ -55,7 +55,7 @@ class gameInputMotionEventProcessorAPI1 () =
                 ignore (motionRecognizer#processDraggedMotionEvent (!x, !y, ((Obj.magic motionEvent)#getDeviceId ()), 0))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#pROCESS, e))
         end)
         end [@@warning "-7-20"]
 

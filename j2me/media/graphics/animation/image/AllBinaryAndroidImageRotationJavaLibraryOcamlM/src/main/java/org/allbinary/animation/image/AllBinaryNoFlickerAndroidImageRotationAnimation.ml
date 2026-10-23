@@ -89,11 +89,11 @@ class allBinaryNoFlickerAndroidImageRotationAnimation (originalImage_arg, image,
     method setAlpha ((alpha : int)) : unit =
         begin
         let changed : bool ref = ref (false) in ();
-        if (alphaP != alpha) then begin
+        if ((self#alphaP) != alpha) then begin
             changed := true
         end;
         ignore (super#setAlpha (alpha));
-        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImage), (Obj.magic imageToShow), 0, alphaP));
+        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImage), (Obj.magic imageToShow), 0, (self#alphaP)));
         if !changed then begin
             ignore ((Obj.magic matrix)#setRotate (0.0, (float_of_int (halfWidth)), (float_of_int (halfHeight))));
             (self#updateImage ())
@@ -126,10 +126,10 @@ class allBinaryNoFlickerAndroidImageRotationAnimation (originalImage_arg, image,
 
     method setFrame ((index : int)) : unit =
         begin
-        let currentFrame : int ref = ref ((circularIndexUtil#getIndex ())) in ();
-        ignore (circularIndexUtil#setIndex (index));
-        let newFrame : int ref = ref ((circularIndexUtil#getIndex ())) in ();
-        ignore (angleInfo#adjustAngle (!newFrame));
+        let currentFrame : int ref = ref (((self#circularIndexUtil)#getIndex ())) in ();
+        ignore ((self#circularIndexUtil)#setIndex (index));
+        let newFrame : int ref = ref (((self#circularIndexUtil)#getIndex ())) in ();
+        ignore ((self#angleInfo)#adjustAngle (!newFrame));
         ignore ((Obj.magic matrix)#setRotate (((float_of_int (((!newFrame - !currentFrame)))) *. (float_of_int (increment))), (float_of_int (halfWidth)), (float_of_int (halfHeight))));
         (self#updateImage ())
         end [@@warning "-7"]
@@ -149,7 +149,7 @@ class allBinaryNoFlickerAndroidImageRotationAnimation (originalImage_arg, image,
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#drawImage ((Obj.magic imageToShow), x, y, anchor))
+        ignore ((Obj.magic graphics)#drawImage ((Obj.magic imageToShow), x, y, (self#anchor)))
         end [@@warning "-7-20"]
 
     initializer
@@ -169,7 +169,7 @@ class allBinaryNoFlickerAndroidImageRotationAnimation (originalImage_arg, image,
         originalImage <- Obj.repr (originalImage_arg);
         halfWidth <- (((image#getWidth ()) asr 1));
         halfHeight <- (((image#getHeight ()) asr 1));
-        increment <- (java_to_int (Obj.repr ((((angleInfo#getAngleIncrementInfo ())#getAngleIncrement ())))));
+        increment <- (java_to_int (Obj.repr (((((self#angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ())))));
         imageToShow <- Obj.repr (image);
         (Obj.magic twoImages).(0) <- image;
         (Obj.magic twoImages).(1) <- ((Obj.magic (java_call_static "ImageCopyUtil.getInstance" (Obj.repr ())))#createImage (image))

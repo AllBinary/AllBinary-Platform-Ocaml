@@ -22,18 +22,18 @@ open Allbinary_java [@@warning "-33"]
 let getInfo () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let maxUtilizedMemoryAvailable : int ref = ref (((Runtime.getRuntime ())#maxMemory ())) in ();
-        let memoryUsed : int ref = ref (((Runtime.getRuntime ())#totalMemory ())) in ();
+        let maxUtilizedMemoryAvailable : int ref = ref (max_int) in ();
+        let memoryUsed : int ref = ref (((Gc.quick_stat ()).Gc.heap_words * (Sys.word_size / 8))) in ();
         ignore (!stringBuffer#append ("APK Memory: Available: "));
         ignore (!stringBuffer#appendlong (!maxUtilizedMemoryAvailable));
         ignore (!stringBuffer#append ("/"));
-        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr (((Runtime.getRuntime ())#maxMemory ()))))));
+        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr (max_int)))));
         ignore (!stringBuffer#append (" Used: "));
         ignore (!stringBuffer#appendlong (!memoryUsed));
         ignore (!stringBuffer#append (" Free: "));
         ignore (!stringBuffer#appendlong ((!maxUtilizedMemoryAvailable - !memoryUsed)));
         ignore (!stringBuffer#append ("/"));
-        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr ((((Runtime.getRuntime ())#maxMemory ()) - !memoryUsed))))));
+        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr ((max_int - !memoryUsed))))));
         (java_string_of (Obj.repr !stringBuffer))
         end
 

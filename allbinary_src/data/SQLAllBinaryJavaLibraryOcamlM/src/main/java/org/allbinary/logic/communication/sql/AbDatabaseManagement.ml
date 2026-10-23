@@ -109,7 +109,7 @@ class abDatabaseManagement ((databaseConnectionInfoInterface : DatabaseConnectio
         ignore (!stringBuffer#append (wITH_GRANT_OPTION));
         let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
         ignore (sqlCommandLog#append (!sqlStatement));
-        ignore (sqlCommandLog#append (commonSeps#nEW_LINE));
+        ignore (sqlCommandLog#append ((self#commonSeps)#nEW_LINE));
         ignore (super#executeSQLStatement (!sqlStatement));
         true
         end [@@warning "-7"]
@@ -121,9 +121,9 @@ class abDatabaseManagement ((databaseConnectionInfoInterface : DatabaseConnectio
     method addDb ((db : string)) : bool =
         begin
         (try
-            let sqlStatement : string ref = ref ((java_string_of (Obj.repr (sqlStrings#cREATE_DATABASE)) ^ db)) in ();
+            let sqlStatement : string ref = ref ((java_string_of (Obj.repr ((self#sqlStrings)#cREATE_DATABASE)) ^ db)) in ();
             ignore (sqlCommandLog#append (!sqlStatement));
-            ignore (sqlCommandLog#append (commonSeps#nEW_LINE));
+            ignore (sqlCommandLog#append ((self#commonSeps)#nEW_LINE));
             ignore (super#executeSQLStatement (!sqlStatement));
             true
         with e -> begin

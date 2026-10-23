@@ -53,7 +53,7 @@ class commonGameInitialization ((resourceInitializationArray : ResourceInitializ
             ignore (AngleFactory.getInstance ());
             ignore (!progressCanvas#addNormalPortion (50, "Angles"));
             (self#initGame ());
-            ignore (resourceInitializationArray.(gAME_RESOURCES)#init ())
+            ignore ((self#resourceInitializationArray).((self#gAME_RESOURCES))#init ())
         end;
         ignore (super#resourceInitialization (level))
         end [@@warning "-7-20"]

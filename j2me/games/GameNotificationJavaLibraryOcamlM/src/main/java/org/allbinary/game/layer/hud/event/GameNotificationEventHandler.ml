@@ -35,7 +35,7 @@ class gameNotificationEventHandler () =
     method removeAllListeners () : unit =
         begin
         let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((NullEventListener.get_nULL_EVENT_LISTENER ()) :> EventListenerInterface.eventListenerInterface)) in ();
-        let list : BasicArrayList.basicArrayList ref = ref ((eventListenerInterfaceList :> BasicArrayList.basicArrayList)) in ();
+        let list : BasicArrayList.basicArrayList ref = ref (((self#eventListenerInterfaceList) :> BasicArrayList.basicArrayList)) in ();
         if ((!list#size ()) > 0) then begin
             eventListenerInterface := (Obj.magic !list#objectArray.(0))
         end;

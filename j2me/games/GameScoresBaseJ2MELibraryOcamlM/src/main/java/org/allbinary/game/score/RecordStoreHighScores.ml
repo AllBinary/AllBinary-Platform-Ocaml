@@ -48,7 +48,7 @@ let get_hashTable () = Obj.magic hashTable
 let () = java_register_static "RecordStoreHighScores.get_hashTable" (fun _ -> Obj.repr (get_hashTable ()))
 class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInterface.abeClientInformationInterface), (gameInfo_arg : GameInfo.gameInfo), (name : string), (heading : string), (columnTwoHeading : string), recordComparatorInterface_arg) =
   object (self)
-    inherit HighScores.highScores (name, heading, columnTwoHeading)
+    inherit HighScores.highScores (name, heading, columnTwoHeading) as super
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
@@ -256,7 +256,7 @@ class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInt
     method toString () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         let list : BasicArrayList.basicArrayList ref = ref (((self#getList ()) :> BasicArrayList.basicArrayList)) in ();
         let size : int ref = ref ((!list#size ())) in ();
         for index = 0 to !size - 1 do

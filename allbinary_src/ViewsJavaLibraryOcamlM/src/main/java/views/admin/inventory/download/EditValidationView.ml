@@ -51,7 +51,7 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
         if (!hashMap == (Obj.magic 0)) then begin
             raise (Failure ("No Request Params Found"))
         end;
-        id <- (Obj.magic (!hashMap#get (basicItemData#iD)));
+        (self#set_id) ((Obj.magic (!hashMap#get (basicItemData#iD))));
         downloadItemId <- (Obj.magic (!hashMap#get ((DownloadItemData.get_iD ()))))
         end [@@warning "-7"]
     
@@ -59,21 +59,21 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
     method isValid () : bool =
         try
         begin
-        if ((id == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber (id)))) then begin
+        if ((id == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber ((self#id))))) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        itemInterface <- (((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (id));
-        if (itemInterface == (Obj.magic 0)) then begin
+        (self#set_itemInterface) ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem ((self#id))));
+        if ((self#itemInterface) == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        let downloadable : int ref = ref ((int_of_string ((itemInterface#getDownloads ())))) in ();
+        let downloadable : int ref = ref ((int_of_string (((self#itemInterface)#getDownloads ())))) in ();
         if (!downloadable <> 0) then begin
             let downloadItemsEntity : DownloadItemsEntity.downloadItemsEntity ref = ref ((((DownloadItemsEntityFactory.getInstance ())#getDownloadItemsEntityInstance ()) :> DownloadItemsEntity.downloadItemsEntity)) in ();
-            let vector : BasicArrayList.basicArrayList ref = ref (((!downloadItemsEntity#getForItem (id, downloadItemId)) :> BasicArrayList.basicArrayList)) in ();
+            let vector : BasicArrayList.basicArrayList ref = ref (((!downloadItemsEntity#getForItem ((self#id), downloadItemId)) :> BasicArrayList.basicArrayList)) in ();
             if ((!vector#size ()) <> 1) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
-            downloadableItem <- (Obj.magic (!vector#get (0)))
+            (self#set_downloadableItem) ((Obj.magic (!vector#get (0))))
         end else begin
             raise (Java_return (Obj.repr (false)))
         end;
@@ -97,15 +97,15 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
     method validationInfo () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        if ((id == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber (id)))) then begin
+        if (((self#id) == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber ((self#id))))) then begin
             ignore (!stringBuffer#append ("Id is not valid.<br />"))
         end;
-        if ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (id)) == (Obj.magic 0)) then begin
+        if ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem ((self#id))) == (Obj.magic 0)) then begin
             ignore (!stringBuffer#append ("Item does not exist.<br />"))
         end;
-        let downloadable : int ref = ref ((int_of_string ((itemInterface#getDownloads ())))) in ();
+        let downloadable : int ref = ref ((int_of_string (((self#itemInterface)#getDownloads ())))) in ();
         if (!downloadable <> 0) then begin
-            if (downloadableItem == (Obj.magic 0)) then begin
+            if ((self#downloadableItem) == (Obj.magic 0)) then begin
                 ignore (!stringBuffer#append ("DownloadableItem does not exist for item.<br />"))
             end
         end else begin

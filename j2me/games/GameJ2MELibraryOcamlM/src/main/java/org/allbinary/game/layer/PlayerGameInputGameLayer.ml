@@ -67,7 +67,7 @@ class playerGameInputGameLayer ((playerInputId : int)) =
         (* super(...) is the inherit clause *) ();
         playerGameInput <- (new PlayerGameInput.playerGameInput ((self#getGameKeyEventList ()), (new BasicArrayListD.basicArrayListD ()), playerInputId));
         let canvasStrings : CanvasStrings.canvasStrings ref = ref (((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings)) in ();
-        ignore (logUtil#putF ("Danger Danger Danger: Should Not Be Called Except For Testing Input", self, !canvasStrings#pAINT))
+        ignore ((self#logUtil)#putF ("Danger Danger Danger: Should Not Be Called Except For Testing Input", self, !canvasStrings#pAINT))
       end
   end
 let () = java_register_constructor "PlayerGameInputGameLayer" (fun arguments -> Obj.repr (new playerGameInputGameLayer (Obj.obj arguments)))

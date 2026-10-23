@@ -53,21 +53,21 @@ class insertThemeValidationView ((transformInfoInterface : TransformInfoInterfac
         (try
             let isValid : bool ref = ref (true) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, (self#commonStrings)#iS_VALID))
             end;
             let themeValidation : ThemeValidation.themeValidation ref = ref (((new ThemeValidation.themeValidation ((self#getTransformInfoInterface ()), requestHashMap)) :> ThemeValidation.themeValidation)) in ();
             if ((Obj.repr (!themeValidation#isValid ())) == (Obj.repr false)) then begin
                 isValid := false
             end;
-            validationInterface <- (!themeValidation#getCssStyleValidation ());
-            isValid := (validationInterface#isValid ());
+            (self#set_validationInterface) ((!themeValidation#getCssStyleValidation ()));
+            isValid := ((self#validationInterface)#isValid ());
             if ((Obj.repr !isValid) == (Obj.repr true)) then begin
-                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic validationInterface)))
+                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic (self#validationInterface))))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -103,10 +103,10 @@ class insertThemeValidationView ((transformInfoInterface : TransformInfoInterfac
     method view () : string =
         begin
         (try
-            ((StoreCustomizerComponentUtil.getInstance ())#generate (abeClientInformation, (self#getTransformInfoInterface ())))
+            ((StoreCustomizerComponentUtil.getInstance ())#generate ((self#abeClientInformation), (self#getTransformInfoInterface ())))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -119,11 +119,11 @@ class insertThemeValidationView ((transformInfoInterface : TransformInfoInterfac
         ();
         (* super(...) is the inherit clause *) ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, self, "started"))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#cONSTRUCTOR, self, "started"))
         end;
         requestHashMap <- ((new NameSpaceRequestParams.nameSpaceRequestParams ((self#getPageContext ())))#toHashMap ());
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, self, "begin loading theme"))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#cONSTRUCTOR, self, "begin loading theme"))
         end
       end
   end [@@warning "-20"]

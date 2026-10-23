@@ -70,11 +70,11 @@ class androidTitleProgressBar ((title : string), (backgroundBasicColor : BasicCo
     method start () : unit =
         begin
         (try
-            ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#sTART_METHOD_NAME));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#sTART_METHOD_NAME));
             ignore (super#start ());
             ignore (progressActivity#runOnUiThread (showTitleProgressBarRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#sTART_METHOD_NAME, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#sTART_METHOD_NAME, e))
         end)
         end [@@warning "-7"]
     
@@ -82,11 +82,11 @@ class androidTitleProgressBar ((title : string), (backgroundBasicColor : BasicCo
     method end_ () : unit =
         begin
         (try
-            ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#eND_METHOD_NAME));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#eND_METHOD_NAME));
             ignore (progressActivity#runOnUiThread (dismissTitleProgressBarRunnable));
             ignore (super#end_ ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#eND_METHOD_NAME, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#eND_METHOD_NAME, e))
         end)
         end [@@warning "-7"]
     
@@ -98,7 +98,7 @@ class androidTitleProgressBar ((title : string), (backgroundBasicColor : BasicCo
             portion <- value;
             ignore (progressActivity#runOnUiThread (progressDialogPortionSetProgressRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, aDD_PORTION, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#aDD_PORTION), e))
         end)
         end [@@warning "-7"]
     
@@ -110,7 +110,7 @@ class androidTitleProgressBar ((title : string), (backgroundBasicColor : BasicCo
             portion <- value;
             ignore (progressActivity#runOnUiThread (progressDialogPortionSetProgressRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, aDD_PORTION, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#aDD_PORTION), e))
         end)
         end [@@warning "-7"]
     
@@ -121,7 +121,7 @@ class androidTitleProgressBar ((title : string), (backgroundBasicColor : BasicCo
             ignore (super#setValue (value));
             ignore (progressActivity#runOnUiThread (progressDialogSetProgressRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "setValue", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "setValue", e))
         end)
         end [@@warning "-7"]
     

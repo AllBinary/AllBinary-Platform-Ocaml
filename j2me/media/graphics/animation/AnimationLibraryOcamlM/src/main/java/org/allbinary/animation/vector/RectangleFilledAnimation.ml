@@ -43,7 +43,7 @@ class rectangleFilledAnimation ((width : int), (height : int), (basicColor : Bas
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
+        ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
         ignore ((Obj.magic graphics)#fillRect (x, y, widthP, heightP))
         end [@@warning "-7-20"]
     

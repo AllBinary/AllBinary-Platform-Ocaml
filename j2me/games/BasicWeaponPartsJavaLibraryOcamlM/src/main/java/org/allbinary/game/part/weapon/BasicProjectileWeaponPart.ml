@@ -41,7 +41,7 @@ class basicProjectileWeaponPart (animationInterface, (sourceLayerInterface : All
         let weaponProperties = Obj.repr weaponProperties in
         let scoreableInterface = Obj.repr scoreableInterface in
         begin
-        let weaponLayer : WeaponLayer.weaponLayer ref = ref (((weaponLayerCircularStaticPool#getInstanceWeaponLayer ((self#getOwnerLayerInterface ()), (relativeRelationship#getX ()), (relativeRelationship#getY ()), (relativeRelationship#getZ ()), angle, otherAngle, (Obj.magic weaponProperties), (Obj.magic scoreableInterface))) :> WeaponLayer.weaponLayer)) in ();
+        let weaponLayer : WeaponLayer.weaponLayer ref = ref (((weaponLayerCircularStaticPool#getInstanceWeaponLayer ((self#getOwnerLayerInterface ()), ((self#relativeRelationship)#getX ()), ((self#relativeRelationship)#getY ()), ((self#relativeRelationship)#getZ ()), angle, otherAngle, (Obj.magic weaponProperties), (Obj.magic scoreableInterface))) :> WeaponLayer.weaponLayer)) in ();
         ignore ((Obj.magic allbinaryLayerManager)#append (!weaponLayer))
         end [@@warning "-7-20"]
 

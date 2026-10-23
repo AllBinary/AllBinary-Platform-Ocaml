@@ -40,23 +40,23 @@ class validationView ((transformInfoInterface : TransformInfoInterface.transform
         begin
         (try
             let valid : bool ref = ref (true) in ();
-            if ((Obj.repr (order#isIdValid ())) == (Obj.repr false)) then begin
+            if ((Obj.repr ((self#order)#isIdValid ())) == (Obj.repr false)) then begin
                 raise (Java_return (Obj.repr (false)))
             end else begin
-                orderHistory <- (OrderHistoryFactory.getInstance ((order#getId ())));
-                if ((orderHistory == (Obj.magic 0)) || ((Obj.repr (orderHistory#isValid ())) == (Obj.repr false))) then begin
+                (self#set_orderHistory) ((OrderHistoryFactory.getInstance (((self#order)#getId ()))));
+                if (((self#orderHistory) == (Obj.magic 0)) || ((Obj.repr ((self#orderHistory)#isValid ())) == (Obj.repr false))) then begin
                     raise (Java_return (Obj.repr (false)))
                 end;
                 let orderItems : OrderItemsEntity.orderItemsEntity ref = ref (((new OrderItemsEntity.orderItemsEntity ()) :> OrderItemsEntity.orderItemsEntity)) in ();
-                basketReview <- (!orderItems#getBasketReview ((order#getId ())));
-                if ((basketReview == (Obj.magic 0)) || ((Obj.repr (basketReview#isValid ())) == (Obj.repr false))) then begin
+                (self#set_basketReview) ((!orderItems#getBasketReview (((self#order)#getId ()))));
+                if (((self#basketReview) == (Obj.magic 0)) || ((Obj.repr ((self#basketReview)#isValid ())) == (Obj.repr false))) then begin
                     raise (Java_return (Obj.repr (false)))
                 end
             end;
             !valid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -68,24 +68,24 @@ class validationView ((transformInfoInterface : TransformInfoInterface.transform
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            if ((Obj.repr (order#isIdValid ())) == (Obj.repr false)) then begin
-                ignore (!stringBuffer#append ((order#getIdValidationInfo ())))
+            if ((Obj.repr ((self#order)#isIdValid ())) == (Obj.repr false)) then begin
+                ignore (!stringBuffer#append (((self#order)#getIdValidationInfo ())))
             end else begin
-                orderHistory <- (OrderHistoryFactory.getInstance ((order#getId ())));
-                if ((orderHistory == (Obj.magic 0)) || ((Obj.repr (orderHistory#isValid ())) == (Obj.repr false))) then begin
+                (self#set_orderHistory) ((OrderHistoryFactory.getInstance (((self#order)#getId ()))));
+                if (((self#orderHistory) == (Obj.magic 0)) || ((Obj.repr ((self#orderHistory)#isValid ())) == (Obj.repr false))) then begin
                     ignore (!stringBuffer#append ("Order History data error for: "));
-                    ignore (!stringBuffer#append ((order#getId ())));
+                    ignore (!stringBuffer#append (((self#order)#getId ())));
                     ignore (!stringBuffer#append ("<br />"))
                 end;
                 let orderItems : OrderItemsEntity.orderItemsEntity ref = ref (((new OrderItemsEntity.orderItemsEntity ()) :> OrderItemsEntity.orderItemsEntity)) in ();
-                basketReview <- (!orderItems#getBasketReview ((order#getId ())));
-                if (basketReview == (Obj.magic 0)) then begin
+                (self#set_basketReview) ((!orderItems#getBasketReview (((self#order)#getId ()))));
+                if ((self#basketReview) == (Obj.magic 0)) then begin
                     ignore (!stringBuffer#append ("Order Items data error - does not exist for: "));
-                    ignore (!stringBuffer#append ((order#getId ())));
+                    ignore (!stringBuffer#append (((self#order)#getId ())));
                     ignore (!stringBuffer#append ("<br />"))
-                end else if ((Obj.repr (basketReview#isValid ())) == (Obj.repr false)) then begin
+                end else if ((Obj.repr ((self#basketReview)#isValid ())) == (Obj.repr false)) then begin
                     ignore (!stringBuffer#append ("Order Items data error - not valid for: "));
-                    ignore (!stringBuffer#append ((order#getId ())));
+                    ignore (!stringBuffer#append (((self#order)#getId ())));
                     ignore (!stringBuffer#append ("<br />"))
                 end
             end;

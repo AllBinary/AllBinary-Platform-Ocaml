@@ -69,11 +69,11 @@ class multipartRequestParamForwardTag () =
             ignore ((ParentInventoryTagHelper.getInstance ())#isValid (self, (Obj.magic !parentTag)));
             let hashMap : java_hash_map ref = ref ((((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ()) :> java_hash_map)) in ();
             ignore (!hashMap#put ((AbTagData.get_pARENT ()), (Obj.magic !parentTag)));
-            let multipartRequestParamForwardHelper : Obj.t ref = ref ((Obj.repr (new MultipartRequestParamForwardHelper.multipartRequestParamForwardHelper ((Obj.magic !parentTag), page, command, paramVector, pageContext)))) in ();
+            let multipartRequestParamForwardHelper : Obj.t ref = ref ((Obj.repr (new MultipartRequestParamForwardHelper.multipartRequestParamForwardHelper ((Obj.magic !parentTag), page, command, paramVector, (self#pageContext))))) in ();
             ignore ((Obj.magic !multipartRequestParamForwardHelper)#forward ());
             (Tag.get_sKIP_BODY ())
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             (Tag.get_sKIP_BODY ())
         end)
         end [@@warning "-7"]

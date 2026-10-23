@@ -47,10 +47,10 @@ class openGLESGL11ExtImage (image, (bitmapFactory : PlatformBitmapBaseFactory.pl
     method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "onResize"));
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "onResize"));
             a <- (((DisplayInfoSingleton.getInstance ())#getLastHeight ()) - (self#getHeight ()))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "onResize", e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "onResize", e))
         end)
         end [@@warning "-7-20"]
     
@@ -61,7 +61,7 @@ class openGLESGL11ExtImage (image, (bitmapFactory : PlatformBitmapBaseFactory.pl
         (self#onDisplayChangeEvent ((DisplayInfoSingleton.getInstance ())#displayChangeEvent));
         let gl11 : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic gl)))) in ();
         if (super#initTexture ((Obj.magic !gl11))) then begin
-            ignore (textureFactory#load ((Obj.magic !gl11), (Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), 0, self, 0, true));
+            ignore ((self#textureFactory)#load ((Obj.magic !gl11), (Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), 0, self, 0, true));
             ignore ((Obj.magic !gl11)#glTexParameteriv ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), (Obj.magic (java_call_static "GL11Ext.get_gL_TEXTURE_CROP_RECT_OES" (Obj.repr ()))), rectangle, 0));
             ignore ((Obj.magic !gl11)#glDisable ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ())))));
             ignore ((OpenGLLogUtil.getInstance ())#logError ((Obj.magic !gl11), self))
@@ -73,7 +73,7 @@ class openGLESGL11ExtImage (image, (bitmapFactory : PlatformBitmapBaseFactory.pl
         let gl = Obj.repr gl in
         begin
         ignore ((Obj.magic gl)#glEnable ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ())))));
-        ignore ((Obj.magic gl)#glBindTexture ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), openGLESImageProperties#textureID));
+        ignore ((Obj.magic gl)#glBindTexture ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), (self#openGLESImageProperties)#textureID));
         let gl11Ext : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic gl)))) in ();
         ignore ((Obj.magic !gl11Ext)#glDrawTexfOES ((float_of_int (x)), (float_of_int (((a - y)))), (float_of_int (z)), (java_to_float (Obj.repr ((self#getWidth ())))), (java_to_float (Obj.repr ((self#getHeight ()))))));
         ignore ((Obj.magic gl)#glDisable ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ())))))

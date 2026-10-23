@@ -57,13 +57,13 @@ class workFlowRequestHelper ((hashMap : java_hash_map), pageContext) =
             (try
                 let error : string ref = ref ((((("Failed to remove workflow with " ^ java_string_of (Obj.repr ((WorkFlowData.getInstance ())#nAME))) ^ "= ") ^ (workFlowInterface#getName ())) ^ " from ")) in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                    ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e))
+                    ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e))
                 end;
                 raise (Failure (e))
             with e2 -> begin
                 let error : string ref = ref ("Failed to get data from workflowinterface to set error string") in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                    ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e2))
+                    ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e2))
                 end;
                 !error
             end)
@@ -82,7 +82,7 @@ class workFlowRequestHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to add User") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "add()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "add()", e))
             end;
             !error
         end)
@@ -100,7 +100,7 @@ class workFlowRequestHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to update WorkFlow") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)

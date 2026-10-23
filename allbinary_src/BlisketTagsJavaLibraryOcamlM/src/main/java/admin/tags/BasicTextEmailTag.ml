@@ -59,14 +59,14 @@ class basicTextEmailTag () =
             let propertiesHashMap : java_hash_map ref = ref ((((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ()) :> java_hash_map)) in ();
             ignore (!propertiesHashMap#put ("Subject", subject));
             ignore (!propertiesHashMap#put ("Body", body));
-            let anyType : Obj.t ref = ref ((Obj.repr ((new BasicTextEmailHelperFactory.basicTextEmailHelperFactory ())#getInstance (!propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new BasicTextEmailHelperFactory.basicTextEmailHelperFactory ())#getInstance (!propertiesHashMap, (self#pageContext))))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr !anyType))#getMethod ("send", (Obj.magic 0))))) in ();
             ignore ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0)));
             "Email Sent"
         with e -> begin
             let error : string ref = ref ("Failed to Send Email.") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "send()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "send()", e))
             end;
             !error
         end)
@@ -76,10 +76,10 @@ class basicTextEmailTag () =
     method doStartTag () : int =
         begin
         (try
-            ignore ((pageContext#getOut ())#print ((self#send ())));
+            ignore (((self#pageContext)#getOut ())#print ((self#send ())));
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end [@@warning "-7"]

@@ -21,13 +21,13 @@ let getString ((keyCode : int)) : string =
 let () = java_register_static "AndroidGameKey.getString" (fun arguments -> Obj.repr (getString (Obj.obj arguments)))
 class androidGameKey ((keyCode : int), (name : string)) =
   object (self)
-    inherit Input.input (keyCode, name)
+    inherit Input.input (keyCode, name) as super
     
     
 
     method toString () : string =
         begin
-        ("AndroidGameKey: " ^ (java_string_of (Obj.repr super)))
+        ("AndroidGameKey: " ^ (super#toString ()))
         end [@@warning "-7"]
 
     initializer
@@ -35,7 +35,7 @@ class androidGameKey ((keyCode : int), (name : string)) =
         ();
         (* super(...) is the inherit clause *) ();
         let inputFactory : InputFactory.inputFactory ref = ref (((InputFactory.getInstance ()) :> InputFactory.inputFactory)) in ();
-        !inputFactory#inputIntegerArray.((self#set_getId ())) (self)
+        !inputFactory#inputIntegerArray.((self#getId ())) <- self
       end
   end
 let () = java_register_constructor "AndroidGameKey" (fun arguments -> Obj.repr (new androidGameKey (Obj.obj arguments)))

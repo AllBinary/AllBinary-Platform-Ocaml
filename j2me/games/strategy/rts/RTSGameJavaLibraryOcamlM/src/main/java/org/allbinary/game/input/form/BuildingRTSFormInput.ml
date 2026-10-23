@@ -147,7 +147,7 @@ class buildingRTSFormInput (groupInterface, (isUnitProducer_arg : bool)) =
         try
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore (logUtil#putF (!commonStrings#sTART, self, "buildFromMotionInput"));
+        ignore ((self#logUtil)#putF (!commonStrings#sTART, self, "buildFromMotionInput"));
         if ((Obj.magic layerManager) == (Obj.magic 0)) then begin
             raise (Failure ("RuntimeException"))
         end;
@@ -164,15 +164,15 @@ class buildingRTSFormInput (groupInterface, (isUnitProducer_arg : bool)) =
                 let geographicMapCellType : GeographicMapCellType.geographicMapCellType ref = ref (((!geographicMapInterface#getCellTypeAt (!geographicMapCellPosition)) :> GeographicMapCellType.geographicMapCellType)) in ();
                 let raceTrackGeographicMapCellTypeFactory : RaceTrackGeographicMapCellTypeFactory.raceTrackGeographicMapCellTypeFactory ref = ref (((Obj.magic (!geographicMapInterface#getGeographicMapCellTypeFactory ())) :> RaceTrackGeographicMapCellTypeFactory.raceTrackGeographicMapCellTypeFactory)) in ();
                 if (not (!raceTrackGeographicMapCellTypeFactory#isPath (!geographicMapCellType))) then begin
-                    if ((Obj.repr newUnconstructedRTSLayerInterfaceArray.(itemIndex)) == (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ()))) then begin
-                        newUnconstructedRTSLayerInterfaceArray.(itemIndex) <- (Obj.magic ((self#getInstance ((Obj.magic layerManager), (Obj.magic item), !geographicMapCellPosition))))
+                    if ((Obj.repr (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex)) == (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ()))) then begin
+                        (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex) <- (Obj.magic ((self#getInstance ((Obj.magic layerManager), (Obj.magic item), !geographicMapCellPosition))))
                     end else begin
-                        let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic newUnconstructedRTSLayerInterfaceArray.(itemIndex)) :> RTSLayer.rTSLayer)) in ();
+                        let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex)) :> RTSLayer.rTSLayer)) in ();
                         let cellPoint : GPoint.gPoint ref = ref (((!geographicMapCellPosition#getPoint ()) :> GPoint.gPoint)) in ();
                         ignore (!rtsLayer#setPosition ((!cellPoint#getX ()), (!cellPoint#getY ()), (!cellPoint#getZ ())));
                         ignore (!rtsLayer#geographicMapCellPositionAreaBase#update (!geographicMapInterface))
                     end;
-                    let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic newUnconstructedRTSLayerInterfaceArray.(itemIndex)) :> RTSLayer.rTSLayer)) in ();
+                    let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex)) :> RTSLayer.rTSLayer)) in ();
                     ignore (self#attemptBuild ((Obj.magic rtsPlayerLayerInterface), (Obj.magic layerManager), !rtsLayer, itemIndex))
                 end else begin
                     ignore ((Obj.magic rtsPlayerLayerInterface)#add ((ErrorSound.getInstance ())));
@@ -202,7 +202,7 @@ class buildingRTSFormInput (groupInterface, (isUnitProducer_arg : bool)) =
         let layerInterface = Obj.repr layerInterface in
         try
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Layer: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic layerInterface))))))), self, "attemptBuild"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Layer: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic layerInterface))))))), self, "attemptBuild"));
         let geographicMapCellPositionArea : GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase ref = ref (((Obj.magic layerInterface)#geographicMapCellPositionAreaBase :> GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase)) in ();
         let occupyList : BasicArrayList.basicArrayList ref = ref (((!geographicMapCellPositionArea#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
         if (not (self#isBuildAttemptValid ((Obj.magic rtsPlayerLayerInterface), (Obj.magic layerInterface)))) then begin
@@ -231,10 +231,10 @@ class buildingRTSFormInput (groupInterface, (isUnitProducer_arg : bool)) =
         ignore (!stringBuffer#appendint (!cost));
         ignore (!stringBuffer#append (" with "));
         ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((!capital#getTotalMoney ()))))));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "attemptBuild"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "attemptBuild"));
         if (!cost <= (!capital#getTotalMoney ())) then begin
             ignore ((Obj.magic layerInterface)#construct ((Obj.magic rtsPlayerLayerInterface)));
-            newUnconstructedRTSLayerInterfaceArray.(itemIndex) <- (Obj.magic ((CollidableDestroyableDamageableLayer.getNullInstance ())));
+            (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex) <- (Obj.magic ((CollidableDestroyableDamageableLayer.getNullInstance ())));
             ignore (!capital#removeMoney (!cost));
             (self#add ((Obj.magic rtsPlayerLayerInterface), (Obj.magic layerManager), (Obj.magic layerInterface)));
             raise (Java_return (Obj.repr (true)))
@@ -317,7 +317,7 @@ class buildingRTSFormInput (groupInterface, (isUnitProducer_arg : bool)) =
         ignore (!stringBuffer#appendint (!surroundSize));
         ignore (!stringBuffer#append (" surroundList: "));
         ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString (!surroundList))));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "isSurroundingCellsOffMap"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "isSurroundingCellsOffMap"));
         let isSurroundOffMap : bool ref = ref (false) in ();
         if ((!occupySize = 1) && (!surroundSize <> 8)) then begin
             isSurroundOffMap := true

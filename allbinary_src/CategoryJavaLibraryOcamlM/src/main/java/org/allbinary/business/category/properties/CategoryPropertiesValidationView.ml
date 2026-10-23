@@ -34,7 +34,7 @@ class categoryPropertiesValidationView ((categoryPropertiesInterface : CategoryP
 
     method isValid () : bool =
         begin
-        (categoryPropertiesInterface#isValid ())
+        ((self#categoryPropertiesInterface)#isValid ())
         end [@@warning "-7"]
     
 
@@ -42,7 +42,7 @@ class categoryPropertiesValidationView ((categoryPropertiesInterface : CategoryP
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((categoryPropertiesInterface#validationInfo ())));
+            ignore (!stringBuffer#append (((self#categoryPropertiesInterface)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin

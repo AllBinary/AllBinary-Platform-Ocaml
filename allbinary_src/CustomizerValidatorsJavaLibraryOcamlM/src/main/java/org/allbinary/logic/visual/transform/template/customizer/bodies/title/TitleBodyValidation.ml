@@ -65,7 +65,7 @@ class titleBodyValidation () =
         (try
             let isValid : bool ref = ref (true) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("TitleBodyValidation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("TitleBodyValidation", self, (self#commonStrings)#iS_VALID))
             end;
             if (not ((StringValidationUtil.getInstance ())#isValidNotRequired (body, (BodyData.getInstance ())#mIN, (AbSqlData.get_mAXBLOB ())))) then begin
                 isValid := false
@@ -74,12 +74,12 @@ class titleBodyValidation () =
                 isValid := false
             end;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (("TitleBodyValidation: " ^ java_string_of (Obj.repr (!isValid))), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF (("TitleBodyValidation: " ^ java_string_of (Obj.repr (!isValid))), self, (self#commonStrings)#iS_VALID))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -136,7 +136,7 @@ class titleBodyValidation () =
         ();
         ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
         end;
         let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
         body <- !stringUtil#eMPTY_STRING;

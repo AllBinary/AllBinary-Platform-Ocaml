@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
 
 class colorFillPaintable ((basicColor : BasicColor.basicColor)) =
-  object
+  object (self)
     inherit ColorFillBasePaintable.colorFillBasePaintable (basicColor)
     val mutable displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
     method displayInfoSingleton = displayInfoSingleton
@@ -33,7 +33,7 @@ class colorFillPaintable ((basicColor : BasicColor.basicColor)) =
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#setColor (colorP));
+        ignore ((Obj.magic graphics)#setColor ((self#colorP)));
         ignore ((Obj.magic graphics)#fillRect (0, 0, (displayInfoSingleton#getLastWidth ()), (displayInfoSingleton#getLastHeight ())))
         end [@@warning "-7-20"]
 

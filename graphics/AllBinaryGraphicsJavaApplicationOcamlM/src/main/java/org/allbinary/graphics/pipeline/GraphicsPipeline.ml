@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayListD *)
 
 class graphicsPipeline ((points : BasicArrayList.basicArrayList)) =
-  object
+  object (self)
     inherit BasicGraphicsPipeline.basicGraphicsPipeline (points)
     
     
@@ -31,7 +31,7 @@ class graphicsPipeline ((points : BasicArrayList.basicArrayList)) =
     method rotateTheta ((aTheta : float)) : unit =
         begin
         let newVector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((pointBasicArrayList#size ())) in ();
+        let size : int ref = ref (((self#pointBasicArrayList)#size ())) in ();
         for index = 0 to !size - 1 do
             let secondPoint : GPoint.gPoint ref = ref (((Obj.magic (pointBasicArrayList#get (index))) :> GPoint.gPoint)) in ();
             let secondX : float ref = ref (((((!secondPoint#getX ()) * (Float.cos (aTheta)))) - (((!secondPoint#getY ()) * (Float.sin (aTheta)))))) in ();
@@ -39,7 +39,7 @@ class graphicsPipeline ((points : BasicArrayList.basicArrayList)) =
             let point : GPoint.gPoint ref = ref ((((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#createXY (((int_of_float (!secondX))), ((int_of_float (!secondY))))) :> GPoint.gPoint)) in ();
             ignore (!newVector#add (!point))
         done;
-        pointBasicArrayList <- !newVector
+        (self#set_pointBasicArrayList) (!newVector)
         end [@@warning "-7"]
 
     initializer

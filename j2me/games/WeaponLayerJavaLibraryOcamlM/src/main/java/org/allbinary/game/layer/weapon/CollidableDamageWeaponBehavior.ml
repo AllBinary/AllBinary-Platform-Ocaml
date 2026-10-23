@@ -79,7 +79,7 @@ class collidableDamageWeaponBehavior ((collidable : bool)) =
         if (collisionHelper#isCollidable ((Obj.magic (Obj.magic collidableInterfaceCompositeInterface)))) then begin
             let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic (Obj.magic collidableInterfaceCompositeInterface)) :> AllBinaryLayer.allBinaryLayer)) in ();
             if ((Obj.repr ((Obj.magic ownerLayer)#getGroupInterface ()).(0)) != (Obj.repr (!layerInterface#getGroupInterface ()).(0))) then begin
-                if (layerCollisionUtil#isCollision ((Obj.magic ownerLayer), !layerInterface)) then begin
+                if ((self#layerCollisionUtil)#isCollision ((Obj.magic ownerLayer), !layerInterface)) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end
@@ -93,7 +93,7 @@ class collidableDamageWeaponBehavior ((collidable : bool)) =
         let ownerLayer = Obj.repr ownerLayer in
         let collidableInterfaceCompositeInterface = Obj.repr collidableInterfaceCompositeInterface in
         begin
-        ignore (damageUtil#process ((Obj.magic (Obj.magic ownerLayer)), (Obj.magic (Obj.magic collidableInterfaceCompositeInterface))));
+        ignore ((self#damageUtil)#process ((Obj.magic (Obj.magic ownerLayer)), (Obj.magic (Obj.magic collidableInterfaceCompositeInterface))));
         collided <- true
         end [@@warning "-7-20"]
     

@@ -111,7 +111,7 @@ class allMotionRectangles ((imageComparisonResult : ImageComparisonResult.imageC
         let maxY : int ref = ref ((((Obj.magic motionRectangle)#getRectangle ())#y + ((Obj.magic motionRectangle)#getRectangle ())#height)) in ();
         let horizontalDistance : int ref = ref (((((Obj.magic pixelDelta)#getPoint ())#getX ()) - !maxX)) in ();
         let verticalDistance : int ref = ref (((((Obj.magic pixelDelta)#getPoint ())#getY ()) - !maxY)) in ();
-        if ((!horizontalDistance < mAX_PIXEL_DISTANCE_THRESHOLD) && (!verticalDistance < mAX_PIXEL_DISTANCE_THRESHOLD)) then begin
+        if ((!horizontalDistance < (self#mAX_PIXEL_DISTANCE_THRESHOLD)) && (!verticalDistance < (self#mAX_PIXEL_DISTANCE_THRESHOLD))) then begin
             raise (Java_return (Obj.repr (true)))
         end;
         false

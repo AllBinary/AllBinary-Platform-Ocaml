@@ -39,16 +39,16 @@ class imageMiniMapLayer ((geographicMapInterface : BasicGeographicMap.basicGeogr
 
     method init () : unit =
         begin
-        let aWidth : int ref = ref ((allBinaryTiledLayer#getWidth ())) in ();
-        let aHeight : int ref = ref ((allBinaryTiledLayer#getHeight ())) in ();
-        image <- Obj.repr ((PaintableToImageUtil.getImage (allBinaryTiledLayer, !aWidth, !aHeight)))
+        let aWidth : int ref = ref (((self#allBinaryTiledLayer)#getWidth ())) in ();
+        let aHeight : int ref = ref (((self#allBinaryTiledLayer)#getHeight ())) in ();
+        image <- Obj.repr ((PaintableToImageUtil.getImage ((self#allBinaryTiledLayer), !aWidth, !aHeight)))
         end [@@warning "-7"]
     
 
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#drawImage ((Obj.magic image), x, y, anchor));
+        ignore ((Obj.magic graphics)#drawImage ((Obj.magic image), (self#x), (self#y), anchor));
         ignore (self#paintDots ((Obj.magic graphics)))
         end [@@warning "-7-20"]
 

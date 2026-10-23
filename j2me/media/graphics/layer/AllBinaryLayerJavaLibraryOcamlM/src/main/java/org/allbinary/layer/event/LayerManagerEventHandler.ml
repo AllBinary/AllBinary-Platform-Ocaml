@@ -72,7 +72,7 @@ class layerManagerEventHandler () =
                 let layerManagerEventListener : LayerManagerEventListener.layerManagerEventListener ref = ref (((Obj.magic list#objectArray.(!index)) :> LayerManagerEventListener.layerManagerEventListener)) in ();
                 ignore (!layerManagerEventListener#onCreateLayerManagerEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -88,10 +88,10 @@ class layerManagerEventHandler () =
                 let layerManagerEventListener : LayerManagerEventListener.layerManagerEventListener ref = ref (((Obj.magic list#objectArray.(!index)) :> LayerManagerEventListener.layerManagerEventListener)) in ();
                 ignore (!layerManagerEventListener#onDeleteLayerManagerEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
-        let eventListenerInterfaceList : BasicArrayList.basicArrayList ref = ref ((eventListenerInterfaceList :> BasicArrayList.basicArrayList)) in ();
+        let eventListenerInterfaceList : BasicArrayList.basicArrayList ref = ref (((self#eventListenerInterfaceList) :> BasicArrayList.basicArrayList)) in ();
         let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((Obj.magic 0) :> EventListenerInterface.eventListenerInterface)) in ();
         let layerManagerEventListenerInterface : LayerManagerEventListenerInterface.layerManagerEventListenerInterface ref = ref (((Obj.magic 0) :> LayerManagerEventListenerInterface.layerManagerEventListenerInterface)) in ();
         let index : int ref = ref (0) in ();
@@ -101,7 +101,7 @@ class layerManagerEventHandler () =
                 layerManagerEventListenerInterface := ((Obj.magic !eventListenerInterface));
                 ignore (!layerManagerEventListenerInterface#onDeleteLayerManagerEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end);
             index := !index + 1
         done

@@ -37,7 +37,7 @@ class allBinaryAdjustedSpriteRotationAnimation (sprite, image, (dx_arg : int), (
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (g, (x : int), (y : int)) ->
         let g = Obj.repr g in
         begin
-        ignore (sprite#setPosition ((x + dx), (y + dy)));
+        ignore ((self#sprite)#setPosition ((x + dx), (y + dy)));
         ignore (self#paint ((Obj.magic g)))
         end [@@warning "-7-20"]
 

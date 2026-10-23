@@ -135,8 +135,8 @@ class imageComparisonSearch (bufferedImage, bufferedImage2, (_tolerance_arg : in
         ();
         nonMatchingPixelVector <- (new BasicArrayListD.basicArrayListD ());
         (self#setBufferedImages ((Array.make (2) (Obj.magic 0))));
-        (self#set_getBufferedImages ()).(0) (bufferedImage);
-        (self#set_getBufferedImages ()).(1) (bufferedImage2);
+        (self#getBufferedImages ()).(0) <- bufferedImage;
+        (self#getBufferedImages ()).(1) <- bufferedImage2;
         imageHeight <- (bufferedImage#getHeight ());
         imageWidth <- (bufferedImage#getWidth ());
         if ((Obj.repr (bufferedImage#getHeight ())) != (Obj.repr (bufferedImage2#getHeight ()))) then begin

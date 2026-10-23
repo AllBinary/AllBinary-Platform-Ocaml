@@ -55,10 +55,10 @@ class vectorToImageArrayRotationAnimationFactory ((vectorInfo : VectorInfo.vecto
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         try
         begin
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            raise (Java_return (Obj.repr ((new AdjustedImageArrayRotationAnimation.adjustedImageArrayRotationAnimation ((Obj.magic imageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            raise (Java_return (Obj.repr ((new AdjustedImageArrayRotationAnimation.adjustedImageArrayRotationAnimation ((Obj.magic imageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((AdjustedImageArrayRotationAnimation.createAnimation ((Obj.magic imageArray), (AngleInfo.getInstance (angleIncrement)), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), (animationBehaviorFactory#getOrCreateInstance ()))))))
+            raise (Java_return (Obj.repr ((AdjustedImageArrayRotationAnimation.createAnimation ((Obj.magic imageArray), (AngleInfo.getInstance (angleIncrement)), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

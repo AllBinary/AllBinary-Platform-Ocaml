@@ -44,7 +44,7 @@ class healLayer () =
         if ((Obj.magic healthInterface)#isAlive ()) then begin
             ignore ((Obj.magic healthInterface)#healMax ())
         end else begin
-            ignore (logUtil#putF ("Heal attempt on dead: Does not currently occur", self, "visit"))
+            ignore ((self#logUtil)#putF ("Heal attempt on dead: Does not currently occur", self, "visit"))
         end
         end [@@warning "-7-20"]
 

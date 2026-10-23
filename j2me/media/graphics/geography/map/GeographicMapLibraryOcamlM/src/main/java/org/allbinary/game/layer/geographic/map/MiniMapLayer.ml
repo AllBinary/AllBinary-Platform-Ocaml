@@ -67,7 +67,7 @@ class miniMapLayer ((geographicMapInterface : BasicGeographicMap.basicGeographic
 
     method init () : unit =
         begin
-        ignore (allBinaryTiledLayer#setPosition (x, y, z))
+        ignore (allBinaryTiledLayer#setPosition ((self#x), (self#y), (self#z)))
         end [@@warning "-7"]
     
 
@@ -132,7 +132,7 @@ class miniMapLayer ((geographicMapInterface : BasicGeographicMap.basicGeographic
             basicColor := (Obj.magic (!localBasicColorList#get (!index)));
             ignore ((Obj.magic graphics)#setColor ((!basicColor#intValue ())));
             ignore (animationInterface#setBasicColorP (!basicColor));
-            ignore (animationInterface#paintXY ((Obj.magic graphics), ((!point#getX ()) + x), ((!point#getY ()) + y)))
+            ignore (animationInterface#paintXY ((Obj.magic graphics), ((!point#getX ()) + (self#x)), ((!point#getY ()) + (self#y))))
         done
         end [@@warning "-7-20"]
     

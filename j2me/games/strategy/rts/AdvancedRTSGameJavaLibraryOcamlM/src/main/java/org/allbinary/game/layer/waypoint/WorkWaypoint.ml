@@ -40,12 +40,12 @@ class workWaypoint ((ownerLayer : PathFindingLayerInterface.pathFindingLayerInte
         let unitLayer = Obj.repr unitLayer in
         try
         begin
-        if ((Obj.repr ((Obj.magic unitLayer)#getGroupInterface ()).(0)) != (Obj.repr (ownerLayer#getGroupInterface ()).(0))) then begin
+        if ((Obj.repr ((Obj.magic unitLayer)#getGroupInterface ()).(0)) != (Obj.repr ((self#ownerLayer)#getGroupInterface ()).(0))) then begin
             raise (Java_return (Obj.repr (())))
         end;
         let size : int ref = ref (((self#getConnectedWaypointList ())#size ())) in ();
         if (!size > 0) then begin
-            let occupyList : BasicArrayList.basicArrayList ref = ref ((((ownerLayer#getGeographicMapCellPositionArea ())#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
+            let occupyList : BasicArrayList.basicArrayList ref = ref (((((self#ownerLayer)#getGeographicMapCellPositionArea ())#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
             let outOfResources : bool ref = ref (true) in ();
             let geologicalGeographicMapCellPosition : GeologicalGeographicMapCellPosition.geologicalGeographicMapCellPosition ref = ref (((Obj.magic 0) :> GeologicalGeographicMapCellPosition.geologicalGeographicMapCellPosition)) in ();
             let geologicalResource : GeologicalResource.geologicalResource ref = ref (((Obj.magic 0) :> GeologicalResource.geologicalResource)) in ();
@@ -60,8 +60,8 @@ class workWaypoint ((ownerLayer : PathFindingLayerInterface.pathFindingLayerInte
                     ignore ((Obj.magic unitLayer)#setLoad (!maxResourceLoad))
                 end
             done;
-            let waypointInfoHudPaintable : WaypointInfoHudPaintable.waypointInfoHudPaintable ref = ref (((Obj.magic (ownerLayer#getHudPaintable ())) :> WaypointInfoHudPaintable.waypointInfoHudPaintable)) in ();
-            if ((Obj.repr ownerLayer) == (Obj.repr (!waypointInfoHudPaintable#getRtsLayer ()))) then begin
+            let waypointInfoHudPaintable : WaypointInfoHudPaintable.waypointInfoHudPaintable ref = ref (((Obj.magic ((self#ownerLayer)#getHudPaintable ())) :> WaypointInfoHudPaintable.waypointInfoHudPaintable)) in ();
+            if ((Obj.repr (self#ownerLayer)) == (Obj.repr (!waypointInfoHudPaintable#getRtsLayer ()))) then begin
                 ignore (!waypointInfoHudPaintable#updateSelectionInfo ())
             end;
             if (not !outOfResources) then begin

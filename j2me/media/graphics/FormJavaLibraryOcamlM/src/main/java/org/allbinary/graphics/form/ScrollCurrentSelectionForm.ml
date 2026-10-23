@@ -74,7 +74,7 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
         end else if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#nULL_FORM_TYPE)) then begin
             ()
         end else begin
-            ignore (logUtil#putF (!formTypeFactory#uNK, self, commonStrings#iNIT))
+            ignore ((self#logUtil)#putF (!formTypeFactory#uNK, self, (self#commonStrings)#iNIT))
         end;
         myFontProcessor <- updateMyFontProcessor
         end [@@warning "-7-20"]
@@ -88,8 +88,8 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
 
     method processTempHorizontalForm () : unit =
         begin
-        dx <- ((x - 30) + (((rectangle#getWidth ()) asr 1)));
-        dy <- y
+        dx <- (((self#x) - 30) + ((((self#rectangle)#getWidth ()) asr 1)));
+        dy <- (self#y)
         end [@@warning "-7"]
     
 
@@ -100,10 +100,10 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
         let item : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         for index = 0 to !size - 1 do
             item := Obj.repr ((self#get (index)));
-            totalWidth := (!totalWidth + (((Obj.magic !item)#getMinimumWidth ()) + border))
+            totalWidth := (!totalWidth + (((Obj.magic !item)#getMinimumWidth ()) + (self#border)))
         done;
-        dx <- ((x + (((rectangle#getWidth ()) asr 1))) - ((!totalWidth asr 1)));
-        dy <- (y + (((rectangle#getHeight ()) asr 1)));
+        dx <- (((self#x) + ((((self#rectangle)#getWidth ()) asr 1))) - ((!totalWidth asr 1)));
+        dy <- ((self#y) + ((((self#rectangle)#getHeight ()) asr 1)));
         if moveForSmallScreen then begin
             let maxTitleHeight : int ref = ref (175) in ();
             if (dy < !maxTitleHeight) then begin
@@ -123,11 +123,11 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
             if (maxWidth < ((Obj.magic !item2)#getMinimumWidth ())) then begin
                 maxWidth <- ((Obj.magic !item2)#getMinimumWidth ())
             end;
-            totalHeight := (!totalHeight + (((Obj.magic !item2)#getMinimumHeight ()) + border))
+            totalHeight := (!totalHeight + (((Obj.magic !item2)#getMinimumHeight ()) + (self#border)))
         done;
-        dx <- (((((rectangle#getWidth ()) - maxWidth)) / 2));
+        dx <- ((((((self#rectangle)#getWidth ()) - maxWidth)) / 2));
         if ((self#size ()) > 0) then begin
-            dy <- (y + (((((rectangle#getHeight ()) - !totalHeight)) / 2)));
+            dy <- ((self#y) + ((((((self#rectangle)#getHeight ()) - !totalHeight)) / 2)));
             if moveForSmallScreen then begin
                 let maxTitleHeight : int ref = ref (175) in ();
                 if (dy < !maxTitleHeight) then begin
@@ -135,7 +135,7 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
                 end
             end
         end else begin
-            dy <- y
+            dy <- (self#y)
         end
         end [@@warning "-7"]
     
@@ -156,7 +156,7 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
     method getXVerticalForm : 'any2. int * 'any2 * int * int -> int = fun ((_index : int), item, (_dx_arg : int), (_dy_arg : int)) ->
         let item = Obj.repr item in
         begin
-        ((self#getDiffX ((Obj.magic item))) + halfBorder)
+        ((self#getDiffX ((Obj.magic item))) + (self#halfBorder))
         end [@@warning "-7-20"]
     
 
@@ -195,23 +195,23 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
                 let diffX : int ref = ref ((preItemIndexDx#getDx (index, (Obj.magic !item), dx, dy))) in ();
                 if (index = (self#getSelectedIndex ())) then begin
                     delta := (self#paintItem ((Obj.magic graphics), index, (Obj.magic !item), (!deltaX + !diffX), !deltaY));
-                    ignore (paintable#paint ((Obj.magic graphics), index, (!deltaX + !diffX), !deltaY))
+                    ignore ((self#paintable)#paint ((Obj.magic graphics), index, (!deltaX + !diffX), !deltaY))
                 end else begin
                     delta := (self#paintUnselectedItem ((Obj.magic graphics), index, (Obj.magic !item), (!deltaX + !diffX), !deltaY));
-                    ignore (paintable#paint ((Obj.magic graphics), index, (!deltaX + !diffX), !deltaY))
+                    ignore ((self#paintable)#paint ((Obj.magic graphics), index, (!deltaX + !diffX), !deltaY))
                 end;
-                if ((Obj.repr formType) == (Obj.repr !formTypeFactory#tEMP_HORIZONTAL_FORM)) then begin
+                if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#tEMP_HORIZONTAL_FORM)) then begin
                     ()
-                end else if ((Obj.repr formType) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) then begin
+                end else if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) then begin
                     deltaX := !delta
-                end else if ((Obj.repr formType) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
+                end else if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
                     deltaY := !delta
                 end else begin
                     raise (Failure (!formTypeFactory#uNK))
                 end
             done
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, canvasStrings#pAINT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#pAINT, e))
         end)
         end [@@warning "-7-20"]
 

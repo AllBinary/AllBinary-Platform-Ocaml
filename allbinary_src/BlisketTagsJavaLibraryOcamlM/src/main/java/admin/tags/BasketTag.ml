@@ -63,7 +63,7 @@ class basketTag () =
     method isBasketEmpty () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketHelperFactory.basketHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketHelperFactory.basketHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr !anyType))#getMethod ("isBasketEmpty", (Obj.magic 0))))) in ();
             let emptyBoolean : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
             !emptyBoolean
@@ -76,7 +76,7 @@ class basketTag () =
     method addItemToBasket () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketRequestHelperFactory.basketRequestHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketRequestHelperFactory.basketRequestHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr !anyType))#getMethod ("addItemToBasket", (Obj.magic 0))))) in ();
             let emptyBoolean : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
             !emptyBoolean
@@ -89,7 +89,7 @@ class basketTag () =
     method removeItemFromBasket () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketRequestHelperFactory.basketRequestHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketRequestHelperFactory.basketRequestHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr !anyType))#getMethod ("removeItemFromBasket", (Obj.magic 0))))) in ();
             let emptyBoolean : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
             !emptyBoolean
@@ -102,7 +102,7 @@ class basketTag () =
     method adjustBasket () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketRequestHelperFactory.basketRequestHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new BasketRequestHelperFactory.basketRequestHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr !anyType))#getMethod ("adjustBasket", (Obj.magic 0))))) in ();
             let emptyBoolean : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
             !emptyBoolean
@@ -120,7 +120,7 @@ class basketTag () =
                 ignore (propertiesHashMap#put ((StoreFrontData.getInstance ())#nAME, storeName));
                 if ((String.compare command ((BasketData.get_iNSERT ()))) == 0) then begin
                     if (not (self#addItemToBasket ())) then begin
-                        ignore ((pageContext#getOut ())#println ("Item is not currently being sold.<p/>"))
+                        ignore (((self#pageContext)#getOut ())#println ("Item is not currently being sold.<p/>"))
                     end
                 end else if ((String.compare command ((BasketData.get_dELETE ()))) == 0) then begin
                     ignore (self#removeItemFromBasket ())
@@ -128,7 +128,7 @@ class basketTag () =
                     ignore (self#adjustBasket ())
                 end else if ((String.compare command ((BasketData.get_iSEMPTY ()))) == 0) then begin
                     if (self#isBasketEmpty ()) then begin
-                        raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                        raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
                     end else begin
                         raise (Java_return (Obj.repr (sKIP_BODY)))
                     end
@@ -136,7 +136,7 @@ class basketTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end [@@warning "-7"]

@@ -74,13 +74,13 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         (try
             let success : string ref = ref (((new ShippingAddressesEntity.shippingAddressesEntity (stringUtil#eMPTY_STRING))#drop ())) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGS)) then begin
-                ignore ((Obj.magic logUtil)#putF (!success, self, commonStrings#dROP))
+                ignore ((Obj.magic logUtil)#putF (!success, self, (self#commonStrings)#dROP))
             end;
             !success
         with e -> begin
             let error : string ref = ref ("Failed to drop Admin table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#dROP, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#dROP, e))
             end;
             !error
         end)
@@ -98,7 +98,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to create user table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "create()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "create()", e))
             end;
             !error
         end)
@@ -117,7 +117,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to restore backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "restore()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "restore()", e))
             end;
             !error
         end)
@@ -136,7 +136,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to make backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "backup()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "backup()", e))
             end;
             !error
         end)
@@ -155,7 +155,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to add Shipping streetAddress") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "insert", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "insert", e))
             end;
             !error
         end)
@@ -174,7 +174,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed update of a Users Shipping Address Table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update", e))
             end;
             !error
         end)
@@ -195,7 +195,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed Setting Shipping address to Billing Address") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "setToBillingAddress()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "setToBillingAddress()", e))
             end;
             !error
         end)
@@ -215,7 +215,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to remove Shipping Address") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "remove()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "remove()", e))
             end;
             !error
         end)
@@ -234,7 +234,7 @@ class shippingAddressHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to set Shipping Address") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "set()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "set()", e))
             end;
             !error
         end)

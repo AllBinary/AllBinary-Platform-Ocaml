@@ -52,11 +52,11 @@ class rTSLayerHudPaintable () =
         ignore (super#updateMeasurement ((Obj.magic graphics)));
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
         fontHeight <- ((Obj.magic !font)#getHeight ());
-        costY1 <- ((y + (((((Array.length weaponProperties) + 1)) * fontHeight))));
+        costY1 <- (((self#y) + (((((Array.length weaponProperties) + 1)) * fontHeight))));
         if (not (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ())))) then begin
             costY <- costY1
         end else begin
-            costY <- ((y + (((((Array.length weaponProperties) + 2)) * fontHeight))))
+            costY <- (((self#y) + (((((Array.length weaponProperties) + 2)) * fontHeight))))
         end
         end [@@warning "-7-20"]
     
@@ -66,7 +66,7 @@ class rTSLayerHudPaintable () =
         ignore (self#setName (((self#getRtsLayer ())#getName ())));
         let partInterface : BasicWeaponPart.basicWeaponPart ref = ref (((Obj.magic ((self#getRtsLayer ())#getPartInterfaceArray ()).(0)) :> BasicWeaponPart.basicWeaponPart)) in ();
         weaponProperties <- ((!partInterface#getWeaponProperties ())#toStringArray ());
-        myFontProcessor <- updateMyFontProcessor
+        (self#set_myFontProcessor) ((self#updateMyFontProcessor))
         end [@@warning "-7"]
     
 
@@ -76,7 +76,7 @@ class rTSLayerHudPaintable () =
         ignore (super#paint ((Obj.magic graphics)));
         let size : int ref = ref ((Array.length weaponProperties)) in ();
         for index = 0 to !size - 1 do
-            ignore ((Obj.magic graphics)#drawString (weaponProperties.(index), textX, (y + ((((index + 1)) * fontHeight))), 0))
+            ignore ((Obj.magic graphics)#drawString (weaponProperties.(index), (self#textX), ((self#y) + ((((index + 1)) * fontHeight))), 0))
         done
         end [@@warning "-7-20"]
     

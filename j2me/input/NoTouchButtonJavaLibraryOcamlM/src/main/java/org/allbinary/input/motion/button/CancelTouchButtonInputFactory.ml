@@ -46,10 +46,10 @@ class cancelTouchButtonInputFactory () =
         for index = ((Array.length cancelInputArray) - 1) downto 0 do
             cancelInputArray.(index) <- ((Obj.magic !basicTouchInputFactory)#nONE :> TouchButtonInput.touchButtonInput)
         done;
-        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#uP#set_getId ())) (((Obj.magic !basicTouchInputFactory)#dOWN :> TouchButtonInput.touchButtonInput));
-        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#dOWN#set_getId ())) (((Obj.magic !basicTouchInputFactory)#uP :> TouchButtonInput.touchButtonInput));
-        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#lEFT#set_getId ())) (((Obj.magic !basicTouchInputFactory)#rIGHT :> TouchButtonInput.touchButtonInput));
-        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#rIGHT#set_getId ())) (((Obj.magic !basicTouchInputFactory)#lEFT :> TouchButtonInput.touchButtonInput))
+        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#uP#getId ())) <- ((Obj.magic !basicTouchInputFactory)#dOWN :> TouchButtonInput.touchButtonInput);
+        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#dOWN#getId ())) <- ((Obj.magic !basicTouchInputFactory)#uP :> TouchButtonInput.touchButtonInput);
+        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#lEFT#getId ())) <- ((Obj.magic !basicTouchInputFactory)#rIGHT :> TouchButtonInput.touchButtonInput);
+        cancelInputArray.(((Obj.magic !basicTouchInputFactory)#rIGHT#getId ())) <- ((Obj.magic !basicTouchInputFactory)#lEFT :> TouchButtonInput.touchButtonInput)
       end
   end
 let () = java_register_constructor "CancelTouchButtonInputFactory" (fun arguments -> Obj.repr (new cancelTouchButtonInputFactory (Obj.obj arguments)))

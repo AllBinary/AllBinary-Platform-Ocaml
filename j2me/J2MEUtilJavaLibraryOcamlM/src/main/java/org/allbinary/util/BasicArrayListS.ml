@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import jsinterop.annotations.JsConstructor *)
 
 class basicArrayListS ((size : int)) =
-  object
+  object (self)
     inherit BasicArrayList.basicArrayList ((NullUtil.getInstance ())#nULL_OBJECT_ARRAY)
     
 
@@ -34,7 +34,7 @@ class basicArrayListS ((size : int)) =
         if (size < 0) then begin
             raise (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Init Size Exception: "))#appendint (size))))))
         end;
-        objectArray <- (Array.make (size) (Obj.magic 0))
+        (self#set_objectArray) ((Array.make (size) (Obj.magic 0)))
       end
   end
 let () = java_register_constructor "BasicArrayListS" (fun arguments -> Obj.repr (new basicArrayListS (Obj.obj arguments)))

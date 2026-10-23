@@ -30,8 +30,8 @@ class bottomToTopImageAnimationFactory (image, (animationBehaviorFactory : Anima
 
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         begin
-        let scaledImage : Obj.t ref = ref ((Obj.repr (animationFactoryImageScaleUtil#createImage ((self#getImage ()), animationFactoryInitializationVisitor#width, animationFactoryInitializationVisitor#height, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
-        (Obj.magic ((new BottomToTopImageAnimation.bottomToTopImageAnimation ((Obj.magic !scaledImage), (animationBehaviorFactory#getOrCreateInstance ())))))
+        let scaledImage : Obj.t ref = ref ((Obj.repr ((self#animationFactoryImageScaleUtil)#createImage ((self#getImage ()), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
+        (Obj.magic ((new BottomToTopImageAnimation.bottomToTopImageAnimation ((Obj.magic !scaledImage), ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]
 
     initializer

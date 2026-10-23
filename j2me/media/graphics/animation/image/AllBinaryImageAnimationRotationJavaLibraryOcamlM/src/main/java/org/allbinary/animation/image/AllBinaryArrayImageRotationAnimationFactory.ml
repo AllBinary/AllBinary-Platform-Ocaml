@@ -47,10 +47,10 @@ class allBinaryArrayImageRotationAnimationFactory (image, (width : int), (height
 
     method initDXY ((dx : int), (dy : int)) : unit =
         begin
-        animationFactoryInitializationVisitor#set_dx (dx);
-        animationFactoryInitializationVisitor#set_dy (dy);
-        animationFactoryInitializationVisitor#set_originalDx (dx);
-        animationFactoryInitializationVisitor#set_originalDy (dy)
+        (self#animationFactoryInitializationVisitor)#set_dx (dx);
+        (self#animationFactoryInitializationVisitor)#set_dy (dy);
+        (self#animationFactoryInitializationVisitor)#set_originalDx (dx);
+        (self#animationFactoryInitializationVisitor)#set_originalDy (dy)
         end [@@warning "-7"]
     
 
@@ -61,13 +61,13 @@ class allBinaryArrayImageRotationAnimationFactory (image, (width : int), (height
         let size : int ref = ref ((Array.length (Obj.magic !scaledImageArray))) in ();
         let image : Obj.t ref = ref ((Obj.repr (self#getImage ()))) in ();
         for index = 0 to !size - 1 do
-            (Obj.magic !scaledImageArray).(index) <- (animationFactoryImageScaleUtil#createImage ((Obj.magic !image), ((Obj.magic !image)#getWidth ()), ((Obj.magic !image)#getHeight ()), scaleProperties#scaleWidth, scaleProperties#scaleHeight))
+            (Obj.magic !scaledImageArray).(index) <- ((self#animationFactoryImageScaleUtil)#createImage ((Obj.magic !image), ((Obj.magic !image)#getWidth ()), ((Obj.magic !image)#getHeight ()), (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight))
         done;
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            ignore (animationFactoryImageScaleUtil#processAdjust (self));
-            raise (Java_return (Obj.repr ((new AdjustedImageArrayRotationAnimation.adjustedImageArrayRotationAnimation ((Obj.magic !scaledImageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            raise (Java_return (Obj.repr ((new AdjustedImageArrayRotationAnimation.adjustedImageArrayRotationAnimation ((Obj.magic !scaledImageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((new ImageArrayRotationAnimation.imageArrayRotationAnimation ((Obj.magic !scaledImageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), (animationBehaviorFactory#getOrCreateInstance ()))))))
+            raise (Java_return (Obj.repr ((new ImageArrayRotationAnimation.imageArrayRotationAnimation ((Obj.magic !scaledImageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

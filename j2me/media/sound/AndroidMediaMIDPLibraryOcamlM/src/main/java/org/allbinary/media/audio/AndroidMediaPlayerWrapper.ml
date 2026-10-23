@@ -85,7 +85,7 @@ class androidMediaPlayerWrapper ((resource : string)) =
             ignore ((Obj.magic mediaPlayer)#release ());
             mediaPlayer <- Obj.repr ((NullAndroidCanvas.get_nULL_MEDIA_PLAYER ()))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cLOSE, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cLOSE, e))
         end)
         end [@@warning "-7"]
     
@@ -100,7 +100,7 @@ class androidMediaPlayerWrapper ((resource : string)) =
             ignore ((Obj.magic mediaPlayer)#start ());
             ignore (super#start ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#sTART_METHOD_NAME, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#sTART_METHOD_NAME, e))
         end)
         end [@@warning "-7"]
     
@@ -112,17 +112,17 @@ class androidMediaPlayerWrapper ((resource : string)) =
             ignore ((Obj.magic mediaPlayer)#prepare ());
             ignore (super#stop ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "stop", e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "stop", e))
         end)
         end [@@warning "-7"]
     
 
     method update ((event : string)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (("LineEvent: " ^ event), self, commonStrings#uPDATE));
-        let size : int ref = ref ((listenersList#size ())) in ();
+        ignore ((Obj.magic logUtil)#putF (("LineEvent: " ^ event), self, (self#commonStrings)#uPDATE));
+        let size : int ref = ref (((self#listenersList)#size ())) in ();
         for index = 0 to !size - 1 do
-            let listener : Obj.t ref = ref ((Obj.repr (Obj.magic listenersList#objectArray.(index)))) in ();
+            let listener : Obj.t ref = ref ((Obj.repr (Obj.magic (self#listenersList)#objectArray.(index)))) in ();
             ignore ((Obj.magic !listener)#playerUpdate (self, event, (NullUtil.getInstance ())#nULL_OBJECT))
         done
         end [@@warning "-7"]
@@ -170,7 +170,7 @@ class androidMediaPlayerWrapper ((resource : string)) =
                 ignore ((Obj.magic mediaPlayer)#setLooping (false))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (commonStrings#eXCEPTION_LABEL)) ^ resource), self, commonStrings#cONSTRUCTOR, e));
+            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#commonStrings)#eXCEPTION_LABEL)) ^ resource), self, (self#commonStrings)#cONSTRUCTOR, e));
             raise e
         end)
       end

@@ -110,7 +110,7 @@ let main ((args : string array)) : unit =
             ignore ((Obj.magic !licensingTest)#test ())
         with e -> begin
             let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, "main()", "main()", e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, "main()", "main()", e))
         end)
         end
 let () = java_register_static "LicenseClientAndServerTest.main" (fun arguments -> Obj.repr (main (Obj.obj arguments)))

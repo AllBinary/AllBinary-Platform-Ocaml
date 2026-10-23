@@ -48,14 +48,14 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
             end;
             if ((((WorkFlowEntityFactory.getInstance ())#create2 ())#get (workFlowName, ((self#getTransformInfoInterface ())#getStoreName ()))) == (Obj.magic 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("WorkFlow does not exist.", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("WorkFlow does not exist.", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

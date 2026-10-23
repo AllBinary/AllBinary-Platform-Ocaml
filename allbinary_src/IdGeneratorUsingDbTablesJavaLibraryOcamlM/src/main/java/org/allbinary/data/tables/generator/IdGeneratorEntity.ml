@@ -65,9 +65,9 @@ class idGeneratorEntity () =
         begin
         (try
             ignore (super#insert ((Obj.magic values)));
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, iNSERT))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, iNSERT))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, iNSERT, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, iNSERT, e))
         end)
         end [@@warning "-7-20"]
     
@@ -76,9 +76,9 @@ class idGeneratorEntity () =
         begin
         (try
             ignore (super#deleteWhere (nAME, value));
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, commonStrings#delete))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, (self#commonStrings)#delete))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#delete, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#delete, e))
         end)
         end [@@warning "-7"]
     
@@ -116,7 +116,7 @@ class idGeneratorEntity () =
         vALUE <- "VALUE";
         ();
         (* super(...) is the inherit clause *) ();
-        tableData <- (java_string_of (Obj.repr (((((((((((new StringMaker.stringMaker ())#append (sqlStrings#cREATE_TABLE))#append (tableName))#append (sqlStrings#sTART))#append (nAME))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (vALUE))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append (nAME))#append (sqlStrings#eND))));
+        tableData <- (java_string_of (Obj.repr (((((((((((new StringMaker.stringMaker ())#append ((self#sqlStrings)#cREATE_TABLE))#append (tableName))#append ((self#sqlStrings)#sTART))#append (nAME))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append (vALUE))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append (nAME))#append ((self#sqlStrings)#eND))));
         ignore (super#setTableName (tableName))
       end
   end [@@warning "-20"]

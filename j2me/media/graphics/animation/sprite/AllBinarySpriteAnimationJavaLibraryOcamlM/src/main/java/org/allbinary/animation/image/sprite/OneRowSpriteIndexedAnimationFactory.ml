@@ -37,26 +37,26 @@ class oneRowSpriteIndexedAnimationFactory (image, (sequenceArray : int array), (
 
     method init ((dx : int), (dy : int)) : unit =
         begin
-        animationFactoryInitializationVisitor#set_dx (dx);
-        animationFactoryInitializationVisitor#set_dy (dy)
+        (self#animationFactoryInitializationVisitor)#set_dx (dx);
+        (self#animationFactoryInitializationVisitor)#set_dy (dy)
         end [@@warning "-7"]
     
 
     method initW ((dx : int)) : unit =
         begin
         (self#init (dx, 0));
-        animationFactoryInitializationVisitor#set_dx ((animationFactoryInitializationVisitor#dx + (-((animationFactoryInitializationVisitor#width asr 2)))))
+        (self#animationFactoryInitializationVisitor)#set_dx (((self#animationFactoryInitializationVisitor)#dx + (-(((self#animationFactoryInitializationVisitor)#width asr 2)))))
         end [@@warning "-7"]
     
 
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         try
         begin
-        let sprite : Obj.t ref = ref ((Obj.repr (animationFactorySpriteScaleUtil#createImage ((self#getImage ()), animationFactoryInitializationVisitor#width, animationFactoryInitializationVisitor#height, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            raise (Java_return (Obj.repr ((new AdjustedSpriteIndexedAnimation.adjustedSpriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), (BasicColorUtil.getInstance ())#zERO_ARRAY, animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        let sprite : Obj.t ref = ref ((Obj.repr (animationFactorySpriteScaleUtil#createImage ((self#getImage ()), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            raise (Java_return (Obj.repr ((new AdjustedSpriteIndexedAnimation.adjustedSpriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), (BasicColorUtil.getInstance ())#zERO_ARRAY, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((new SpriteIndexedAnimation.spriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), (BasicColorUtil.getInstance ())#zERO_ARRAY, (animationBehaviorFactory#getOrCreateInstance ()))))))
+            raise (Java_return (Obj.repr ((new SpriteIndexedAnimation.spriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), (BasicColorUtil.getInstance ())#zERO_ARRAY, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

@@ -56,7 +56,7 @@ class paymentGatewayEntity () =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "add"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "add"))
             end;
             let vector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             ignore (!vector#add (((new PaymentGatewayIdGenerator.paymentGatewayIdGenerator ())#getNext ())));
@@ -67,11 +67,11 @@ class paymentGatewayEntity () =
             ignore (!vector#add (!time));
             ignore (super#insert (!vector));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#eND, self, "add"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#eND, self, "add"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "add", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "add", e))
             end
         end)
         end [@@warning "-7-20"]
@@ -93,11 +93,11 @@ class paymentGatewayEntity () =
             let updateHashMap : java_hash_map ref = ref ((((new PaymentGatewayEncryptedMapping.paymentGatewayEncryptedMapping ((Obj.magic paymentGatewayInterface)))#toHashMap ()) :> java_hash_map)) in ();
             ignore (super#updateWhere (!whereKeyValuePairs, !updateHashMap));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "update"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "update"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "update", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "update", e))
             end
         end)
         end [@@warning "-7-20"]
@@ -139,7 +139,7 @@ class paymentGatewayEntity () =
                 ignore (!paymentGatewayHashMap#put ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL9 ()))), ((Obj.magic !superCrypt)#decrypt (!special9))));
                 let paymentGatewayInterface : PaymentGatewayInterface.paymentGatewayInterface ref = ref ((((new PaymentGatewayInterfaceFactory.paymentGatewayInterfaceFactory ())#getInstance (!paymentGatewayHashMap)) :> PaymentGatewayInterface.paymentGatewayInterface)) in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                    ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "getPaymentGatewayInterface()"))
+                    ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "getPaymentGatewayInterface()"))
                 end;
                 raise (Java_return (Obj.repr (!paymentGatewayInterface)))
             end else begin
@@ -170,7 +170,7 @@ class paymentGatewayEntity () =
                     ignore (!paymentGatewayVector#add (!paymentType))
                 done;
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                    ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "findPaymentTypeVectorByStore()"))
+                    ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "findPaymentTypeVectorByStore()"))
                 end;
                 raise (Java_return (Obj.repr (!paymentGatewayVector)))
             end else begin
@@ -178,7 +178,7 @@ class paymentGatewayEntity () =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "findPaymentTypeVectorByStore", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "findPaymentTypeVectorByStore", e))
             end;
             ((Obj.magic 0) :> BasicArrayList.basicArrayList)
         end)
@@ -195,11 +195,11 @@ class paymentGatewayEntity () =
             ignore (!whereHashMap#put ((java_string_of (Obj.repr (PaymentGatewayData.get_nAME ()))), ((Obj.magic paymentType)#getName ())));
             ignore (super#deleteWhere (!whereHashMap));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "remove"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "remove"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "remove", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "remove", e))
             end
         end)
         end [@@warning "-7-20"]
@@ -208,82 +208,82 @@ class paymentGatewayEntity () =
     method createTableStatement () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#cREATE_TABLE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE));
         ignore (!stringBuffer#append (tableName));
-        ignore (!stringBuffer#append (sqlStrings#sTART));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sTART));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_iD ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_AUTO_INCREMENT_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_AUTO_INCREMENT_NOT_NULL));
         ignore (!stringBuffer#append ((EntryData.getInstance ())#eNABLE));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((StoreFrontData.getInstance ())#nAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_nAME ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((PaymentData.get_mETHOD ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_mODE ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_tESTPROTOCOL ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_tESTSERVER ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_tESTPORT ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_tESTPATH ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sERVERPROTOCOL ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sERVER ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sERVERPORT ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sERVERPATH ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((UserData.get_uSERNAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((UserData.get_pASSWORD ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_tIMEOUT ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_pROXYPROTOCOL ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_pROXYSERVER ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_pROXYPORT ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_pROXYPATH ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_pROXYUSERNAME ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_pROXYPASSWORD ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_pROXYTIMEOUT ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL1 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL2 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL3 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL4 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL5 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL6 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL7 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL8 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_sPECIAL9 ())))));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((EntryData.getInstance ())#lASTMODIFIED));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((EntryData.getInstance ())#tIMECREATED));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
-        ignore (!stringBuffer#append (sqlStrings#pRIMARY_KEY));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlStrings)#pRIMARY_KEY));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (PaymentGatewayData.get_iD ())))));
-        ignore (!stringBuffer#append (sqlStrings#eND));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     
@@ -307,7 +307,7 @@ class paymentGatewayEntity () =
         (* super(...) is the inherit clause *) ();
         ignore (self#setTableName (tableName));
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#cONSTRUCTOR, self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

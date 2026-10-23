@@ -61,11 +61,11 @@ class imageArrayBaseRotationAnimation (originalImageArray_arg, (angleInfo : Angl
 
     method setAlpha ((alpha : int)) : unit =
         begin
-        if (alphaP != alpha) then begin
+        if ((self#alphaP) != alpha) then begin
             ignore (super#setAlpha (alpha));
             ignore ((Obj.magic imageModifierUtil)#reset ());
-            let index : int ref = ref ((circularIndexUtil#getIndex ())) in ();
-            ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, alphaP))
+            let index : int ref = ref (((self#circularIndexUtil)#getIndex ())) in ();
+            ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, (self#alphaP)))
         end
         end [@@warning "-7"]
     
@@ -73,8 +73,8 @@ class imageArrayBaseRotationAnimation (originalImageArray_arg, (angleInfo : Angl
     method nextRotation () : unit =
         begin
         ignore (super#nextRotation ());
-        let index : int ref = ref ((circularIndexUtil#getIndex ())) in ();
-        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, alphaP));
+        let index : int ref = ref (((self#circularIndexUtil)#getIndex ())) in ();
+        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, (self#alphaP)));
         currentImage <- Obj.repr ((Obj.magic imageArray).(!index))
         end [@@warning "-7"]
     
@@ -82,8 +82,8 @@ class imageArrayBaseRotationAnimation (originalImageArray_arg, (angleInfo : Angl
     method previousRotation () : unit =
         begin
         ignore (super#previousRotation ());
-        let index : int ref = ref ((circularIndexUtil#getIndex ())) in ();
-        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, alphaP));
+        let index : int ref = ref (((self#circularIndexUtil)#getIndex ())) in ();
+        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, (self#alphaP)));
         currentImage <- Obj.repr ((Obj.magic imageArray).(!index))
         end [@@warning "-7"]
     
@@ -91,8 +91,8 @@ class imageArrayBaseRotationAnimation (originalImageArray_arg, (angleInfo : Angl
     method setFrame ((index2 : int)) : unit =
         begin
         ignore (super#setFrame (index2));
-        let index : int ref = ref ((circularIndexUtil#getIndex ())) in ();
-        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, alphaP));
+        let index : int ref = ref (((self#circularIndexUtil)#getIndex ())) in ();
+        ignore ((Obj.magic imageModifierUtil)#setAlpha ((Obj.magic originalImageArray).(!index), (Obj.magic imageArray).(!index), !index, (self#alphaP)));
         currentImage <- Obj.repr ((Obj.magic imageArray).(!index))
         end [@@warning "-7"]
     
@@ -113,7 +113,7 @@ class imageArrayBaseRotationAnimation (originalImageArray_arg, (angleInfo : Angl
         begin
         imageArray <- Obj.repr (imageArray_arg);
         totalFrames <- (Array.length imageArray_arg);
-        circularIndexUtil <- (CircularIndexUtil.createInstance (totalFrames))
+        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance (totalFrames)))
         end [@@warning "-7"]
     
 
@@ -165,7 +165,7 @@ class imageArrayBaseRotationAnimation (originalImageArray_arg, (angleInfo : Angl
         (* super(...) is the inherit clause *) ();
         originalImageArray <- Obj.repr (originalImageArray_arg);
         (self#setImageArray (((Obj.magic imageModifierUtil)#getImageArray (originalImageArray_arg))));
-        currentImage <- Obj.repr ((Obj.magic imageArray).((circularIndexUtil#getIndex ())))
+        currentImage <- Obj.repr ((Obj.magic imageArray).(((self#circularIndexUtil)#getIndex ())))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "ImageArrayBaseRotationAnimation" (fun arguments -> Obj.repr (new imageArrayBaseRotationAnimation (Obj.obj arguments)))

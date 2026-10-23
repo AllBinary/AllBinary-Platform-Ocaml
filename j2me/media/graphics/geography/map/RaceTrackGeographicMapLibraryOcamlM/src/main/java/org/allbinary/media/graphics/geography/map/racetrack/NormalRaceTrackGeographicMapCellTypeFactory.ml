@@ -18,16 +18,16 @@
 open Allbinary_java [@@warning "-33"]
 
 class normalRaceTrackGeographicMapCellTypeFactory () =
-  object
+  object (self)
     inherit RaceTrackGeographicMapCellTypeFactory.raceTrackGeographicMapCellTypeFactory ()
     
 
     initializer
       begin
         ();
-        eMPTY_CELL_TYPE <- (EmptyRaceRaceTrackGeographicMapCellTypeFactory.getInstance ())#eMPTY_CELL_TYPE;
-        eASY_CELL_TYPE <- eMPTY_CELL_TYPE;
-        fINISH_LINE_ROAD_CELL_TYPE <- dEFAULT_FINISH_LINE_ROAD_CELL_TYPE
+        (self#set_eMPTY_CELL_TYPE) ((EmptyRaceRaceTrackGeographicMapCellTypeFactory.getInstance ())#eMPTY_CELL_TYPE);
+        (self#set_eASY_CELL_TYPE) ((self#eMPTY_CELL_TYPE));
+        (self#set_fINISH_LINE_ROAD_CELL_TYPE) ((self#dEFAULT_FINISH_LINE_ROAD_CELL_TYPE))
       end
   end
 let () = java_register_constructor "NormalRaceTrackGeographicMapCellTypeFactory" (fun arguments -> Obj.repr (new normalRaceTrackGeographicMapCellTypeFactory (Obj.obj arguments)))

@@ -27,7 +27,7 @@ class xAxisMathVector ((magnitudeBasicDecimal : BasicDecimal.basicDecimal), (dir
     method calculate () : unit =
         begin
         let result : int ref = ref ((YAxisMathVectorUtil.calculate (((self#getMagnitude ())#getUnscaled ()), (self#getDirection ())))) in ();
-        resultBasicDecimal <- (new BasicDecimal.basicDecimal (!result))
+        (self#set_resultBasicDecimal) ((new BasicDecimal.basicDecimal (!result)))
         end [@@warning "-7"]
 
     initializer

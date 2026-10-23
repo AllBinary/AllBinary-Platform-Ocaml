@@ -181,7 +181,7 @@ class meteredGameObject (bufferedImage, (minX_arg : int), (maxX_arg : int), (y_a
         (self#setSize ((maxX_arg - minX_arg)));
         for index = 0 to (Array.length bufferedImage) - 1 do
             let nominator : float ref = ref ((GraphicsAnalysisUtil.getNominator (bufferedImage.(index), (self#getMinX ()), (self#getMaxX ()), (self#getY ())))) in ();
-            (self#set_getRatios ()).(index) ((!nominator /. (self#getSize ())))
+            (self#getRatios ()).(index) <- (!nominator /. (self#getSize ()))
         done;
         if (((self#getRatios ()).(((Array.length bufferedImage) - 1))#doubleValue ()) > 0.93) then begin
             (self#setGood (true))

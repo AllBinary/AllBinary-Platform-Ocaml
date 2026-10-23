@@ -54,7 +54,7 @@ class downloadItemsRequestHelper ((hashMap : java_hash_map), _pageContext) =
         with e -> begin
             let error : string ref = ref ((("Failed to insert " ^ java_string_of (Obj.repr ((downloadableItem#getId ())))) ^ " into downloaditems table")) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "inserts()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "inserts()", e))
             end;
             !error
         end)
@@ -73,7 +73,7 @@ class downloadItemsRequestHelper ((hashMap : java_hash_map), _pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to delete") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e))
             end;
             !error
         end)
@@ -93,7 +93,7 @@ class downloadItemsRequestHelper ((hashMap : java_hash_map), _pageContext) =
         with e -> begin
             let error : string ref = ref (("Failed to update: " ^ java_string_of (Obj.repr ((downloadableItem#getId ()))))) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)

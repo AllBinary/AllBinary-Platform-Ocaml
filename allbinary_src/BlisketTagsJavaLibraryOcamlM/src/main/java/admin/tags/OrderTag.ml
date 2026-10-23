@@ -63,7 +63,7 @@ class orderTag () =
     method process () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new OrderHelperFactory.orderHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new OrderHelperFactory.orderHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod (commonStrings#pROCESS, (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -77,7 +77,7 @@ class orderTag () =
     method setPaymentGateway () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new OrderHelperFactory.orderHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new OrderHelperFactory.orderHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("setPaymentGateway", (Obj.magic 0))))) in ();
             let result : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -105,7 +105,7 @@ class orderTag () =
             end;
             (TagSupport.get_sKIP_BODY ())
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

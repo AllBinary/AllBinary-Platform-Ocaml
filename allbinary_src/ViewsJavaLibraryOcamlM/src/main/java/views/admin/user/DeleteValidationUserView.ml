@@ -46,8 +46,8 @@ class deleteValidationUserView ((transformInfoInterface : TransformInfoInterface
         begin
         (try
             if ((Obj.repr ((UserName.getInstance ())#isValid (userName))) == (Obj.repr true)) then begin
-                user <- ((UserEntityFactory.getInstance ())#getUser (userName));
-                if (user == (Obj.magic 0)) then begin
+                (self#set_user) (((UserEntityFactory.getInstance ())#getUser (userName)));
+                if ((self#user) == (Obj.magic 0)) then begin
                     raise (Java_return (Obj.repr (false)))
                 end
             end else begin
@@ -56,7 +56,7 @@ class deleteValidationUserView ((transformInfoInterface : TransformInfoInterface
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -69,8 +69,8 @@ class deleteValidationUserView ((transformInfoInterface : TransformInfoInterface
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             if ((Obj.repr ((UserName.getInstance ())#isValid (userName))) == (Obj.repr true)) then begin
-                user <- ((UserEntityFactory.getInstance ())#getUser (userName));
-                if (user == (Obj.magic 0)) then begin
+                (self#set_user) (((UserEntityFactory.getInstance ())#getUser (userName)));
+                if ((self#user) == (Obj.magic 0)) then begin
                     ignore (!stringBuffer#append ("User does not exist.<br />"))
                 end
             end else begin
@@ -107,7 +107,7 @@ class deleteValidationUserView ((transformInfoInterface : TransformInfoInterface
         let hashMap : java_hash_map ref = ref ((((new RequestParams.requestParams ((Obj.magic !httpServletRequest)))#toHashMap ()) :> java_hash_map)) in ();
         userName <- ((new UserName.userName (!hashMap))#get ());
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (("User Name: " ^ userName), self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF (("User Name: " ^ userName), self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

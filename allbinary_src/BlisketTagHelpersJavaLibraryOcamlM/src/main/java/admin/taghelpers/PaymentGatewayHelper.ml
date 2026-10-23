@@ -62,7 +62,7 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to add") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "add()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "add()", e))
             end;
             ((((!error ^ "<br>") ^ "Exception: ") ^ java_string_of (Obj.repr (e))) ^ "<br>")
         end)
@@ -91,7 +91,7 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to update payment gateway information") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             ((((!error ^ "<br/>") ^ "Exception: ") ^ java_string_of (Obj.repr (e))) ^ "<br/>")
         end)
@@ -119,7 +119,7 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to remove payment gateway from table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "remove()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "remove()", e))
             end;
             ((((!error ^ "<br/>") ^ "Exception: ") ^ java_string_of (Obj.repr (e))) ^ "<br>")
         end)
@@ -131,13 +131,13 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
         (try
             let success : string ref = ref (((PaymentGatewayEntityFactory.getInstance ())#dropTable ())) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGS)) then begin
-                ignore ((Obj.magic logUtil)#putF (!success, self, commonStrings#dROP))
+                ignore ((Obj.magic logUtil)#putF (!success, self, (self#commonStrings)#dROP))
             end;
             !success
         with e -> begin
             let error : string ref = ref ("Failed to drop payment transaction result table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#dROP, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#dROP, e))
             end;
             !error
         end)
@@ -155,7 +155,7 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to create payment transaction result table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "create()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "create()", e))
             end;
             !error
         end)
@@ -174,7 +174,7 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to restore backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "restore()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "restore()", e))
             end;
             !error
         end)
@@ -193,7 +193,7 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to make backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "backup()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "backup()", e))
             end;
             !error
         end)
@@ -212,7 +212,7 @@ class paymentGatewayHelper ((hashMap : java_hash_map), pageContext) =
             portion <- (new Portion.portion (hashMap))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#pAYMENTERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cONSTRUCTOR, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cONSTRUCTOR, e))
             end;
             raise e
         end)

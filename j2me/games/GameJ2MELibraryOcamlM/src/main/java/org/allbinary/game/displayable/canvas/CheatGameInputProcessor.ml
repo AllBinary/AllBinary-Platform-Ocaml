@@ -85,7 +85,7 @@ class cheatGameInputProcessor (gameCanvas_arg) =
             done;
             ignore (!list#clear ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#uPDATE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#uPDATE, e))
         end)
         end [@@warning "-7"]
 

@@ -125,7 +125,7 @@ class basicProfileActionScriptCondition ((label : string)) =
     method addProcessor : 'any1. 'any1 -> unit = fun (profileActionProcessorInterface) ->
         let profileActionProcessorInterface = Obj.repr profileActionProcessorInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "addInput"));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "addInput"));
         ignore ((self#getProfileActionProcessorInterfaceVector ())#add ((Obj.magic profileActionProcessorInterface)));
         ignore (self#add ((Obj.magic profileActionProcessorInterface)))
         end [@@warning "-7-20"]
@@ -134,7 +134,7 @@ class basicProfileActionScriptCondition ((label : string)) =
     method removeProcessor : 'any1. 'any1 -> unit = fun (profileActionProcessorInterface) ->
         let profileActionProcessorInterface = Obj.repr profileActionProcessorInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "removeInput"));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "removeInput"));
         ignore ((self#getProfileActionProcessorInterfaceVector ())#remove ((Obj.magic profileActionProcessorInterface)));
         ignore (self#remove ((Obj.magic profileActionProcessorInterface)))
         end [@@warning "-7-20"]
@@ -143,7 +143,7 @@ class basicProfileActionScriptCondition ((label : string)) =
     method removeCondition : 'any1. 'any1 -> unit = fun (profileActionScriptNodeInterface) ->
         let profileActionScriptNodeInterface = Obj.repr profileActionScriptNodeInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "removeCondition"));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "removeCondition"));
         ignore ((self#getProfileActionConditionInterfaceVector ())#remove ((Obj.magic profileActionScriptNodeInterface)));
         ignore (self#remove ((Obj.magic profileActionScriptNodeInterface)))
         end [@@warning "-7-20"]
@@ -152,7 +152,7 @@ class basicProfileActionScriptCondition ((label : string)) =
     method addCondition : 'any1. 'any1 -> unit = fun (profileActionScriptNodeInterface) ->
         let profileActionScriptNodeInterface = Obj.repr profileActionScriptNodeInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "addCondition"));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "addCondition"));
         ignore ((self#getProfileActionConditionInterfaceVector ())#add ((Obj.magic profileActionScriptNodeInterface)));
         ignore (self#add ((Obj.magic profileActionScriptNodeInterface)))
         end [@@warning "-7-20"]
@@ -266,7 +266,7 @@ class basicProfileActionScriptCondition ((label : string)) =
 
     method process ((frame : int)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ("Start - Processing "))#appendint (((self#getProfileActionProcessorInterfaceVector ())#size ())))#append (" inputs")))), self, commonStrings#pROCESS));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ("Start - Processing "))#appendint (((self#getProfileActionProcessorInterfaceVector ())#size ())))#append (" inputs")))), self, (self#commonStrings)#pROCESS));
         let profileActionProcessorInterfaceVector_arg : BasicArrayList.basicArrayList ref = ref (((self#getProfileActionProcessorInterfaceVector ()) :> BasicArrayList.basicArrayList)) in ();
         let size : int ref = ref ((!profileActionProcessorInterfaceVector_arg#size ())) in ();
         for index = 0 to !size - 1 do

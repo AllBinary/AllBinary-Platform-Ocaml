@@ -35,7 +35,7 @@ class downloadItemsTag () =
         (try
             if (self#isEnabled ()) then begin
                 if ((self#getCommand ()) != (Obj.magic 0)) then begin
-                    if ((((((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#bACKUP)) != 0) && (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#rESTORE)) != 0)) && (((self#getCommand ())#compareTo (commonStrings#cREATE)) != 0)) && (((self#getCommand ())#compareTo (commonStrings#dROP)) != 0)) then begin
+                    if ((((((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#bACKUP)) != 0) && (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#rESTORE)) != 0)) && (((self#getCommand ())#compareTo ((self#commonStrings)#cREATE)) != 0)) && (((self#getCommand ())#compareTo ((self#commonStrings)#dROP)) != 0)) then begin
                         let parentTag : Obj.t ref = ref ((Obj.repr (self#getParent ()))) in ();
                         ignore ((ParentInventoryTagHelper.getInstance ())#isValid (self, (Obj.magic !parentTag)));
                         ignore ((self#getPropertiesHashMap ())#put ((AbTagData.get_pARENT ()), (Obj.magic !parentTag)))
@@ -45,7 +45,7 @@ class downloadItemsTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

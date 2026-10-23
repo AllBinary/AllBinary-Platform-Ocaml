@@ -20,14 +20,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
 class specialDownGameInputInterfaceProcessor ((collidableDestroyableDamageableLayer : SpecialGameInputInterface.specialGameInputInterface)) =
-  object
+  object (self)
     inherit SpecialGameInputInterfaceProcessor.specialGameInputInterfaceProcessor (collidableDestroyableDamageableLayer)
     
     
 
     method processEvent : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_allbinaryLayerManager, _gameKeyEvent) ->
         begin
-        ignore (specialGameInputInterface#down ())
+        ignore ((self#specialGameInputInterface)#down ())
         end [@@warning "-7-20"]
 
     initializer

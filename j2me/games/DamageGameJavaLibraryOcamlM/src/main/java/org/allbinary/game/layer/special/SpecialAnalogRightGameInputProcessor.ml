@@ -20,14 +20,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
 class specialAnalogRightGameInputProcessor ((collidableDestroyableDamageableLayer : CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer)) =
-  object
+  object (self)
     inherit SpecialGameInputProcessor.specialGameInputProcessor (collidableDestroyableDamageableLayer)
     
     
 
     method processAnalog : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_allbinaryLayerManager, _gameKeyEvent, (xAnalogValue : int)) ->
         begin
-        ignore (collidableDestroyableDamageableLayer#rightAnalog (xAnalogValue))
+        ignore ((self#collidableDestroyableDamageableLayer)#rightAnalog (xAnalogValue))
         end [@@warning "-7-20"]
 
     initializer

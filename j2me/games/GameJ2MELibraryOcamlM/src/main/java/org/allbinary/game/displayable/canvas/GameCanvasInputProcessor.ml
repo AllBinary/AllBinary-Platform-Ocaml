@@ -75,13 +75,13 @@ class gameCanvasInputProcessor (allBinaryGameCanvas_arg) =
                 ignore (downGameKeyEventHandler#fireEvent (!gameKeyEvent));
                 ignore ((downGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
             end else begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#aDD_KEY_EVENT))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#gameInputStrings)#nO_KEY))#appendint (keyCode)))), self, (self#gameInputStrings)#aDD_KEY_EVENT))
             end;
             let keyCodeAsInteger : int ref = ref ((smallIntegerSingletonFactory#getAtNoThrow (keyCode))) in ();
             ignore (downKeyEventHandler#fireEventI (!keyCodeAsInteger));
             ignore ((downKeyEventHandler#getInstanceForDevice (deviceId))#fireEventI (!keyCodeAsInteger))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Key Event Error", self, gameInputStrings#aDD_KEY_EVENT, e))
+            ignore ((Obj.magic logUtil)#put ("Key Event Error", self, (self#gameInputStrings)#aDD_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -104,10 +104,10 @@ class gameCanvasInputProcessor (allBinaryGameCanvas_arg) =
                 ignore (upGameKeyEventHandler#fireEvent (!gameKeyEvent));
                 ignore ((upGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
             end else begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#rEMOVE_KEY_EVENT))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#gameInputStrings)#nO_KEY))#appendint (keyCode)))), self, (self#gameInputStrings)#rEMOVE_KEY_EVENT))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Key Event Error", self, gameInputStrings#rEMOVE_KEY_EVENT, e))
+            ignore ((Obj.magic logUtil)#put ("Key Event Error", self, (self#gameInputStrings)#rEMOVE_KEY_EVENT, e))
         end)
         end [@@warning "-7-20"]
 

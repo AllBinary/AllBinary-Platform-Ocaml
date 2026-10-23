@@ -40,12 +40,12 @@ class validationViewHelper ((hashMap : java_hash_map), pageContext) =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPER)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Started", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("Started", self, (self#commonStrings)#iS_VALID))
             end;
             (viewInterface#isValid ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -58,7 +58,7 @@ class validationViewHelper ((hashMap : java_hash_map), pageContext) =
             (viewInterface#validationInfo ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "validationInfo()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "validationInfo()", e))
             end;
             "Unknown Validation Error"
         end)
@@ -71,7 +71,7 @@ class validationViewHelper ((hashMap : java_hash_map), pageContext) =
             (Obj.magic ((viewInterface#toValidationInfoDoc ())))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "toValidationInfoDoc()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "toValidationInfoDoc()", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)
@@ -85,7 +85,7 @@ class validationViewHelper ((hashMap : java_hash_map), pageContext) =
             (Obj.magic ((viewInterface#toValidationInfoNode ((Obj.magic document)))))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "toValidationInfoNode()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "toValidationInfoNode()", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)
@@ -99,7 +99,7 @@ class validationViewHelper ((hashMap : java_hash_map), pageContext) =
         (* super(...) is the inherit clause *) ();
         viewInterface <- (Obj.magic (self#getViewObject ()));
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPER)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

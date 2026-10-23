@@ -104,7 +104,7 @@ class inputToGameKeyMapping () =
         let input = Obj.repr input in
         let mappedToInput = Obj.repr mappedToInput in
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic input)))))#append (" == "))#append (((StringUtil.getInstance ())#toString ((Obj.magic mappedToInput))))))), self, "InputToGameKeyMapping::remove"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic input)))))#append (" == "))#append (((StringUtil.getInstance ())#toString ((Obj.magic mappedToInput))))))), self, "InputToGameKeyMapping::remove"));
         ignore (super#remove ((Obj.magic input), (Obj.magic mappedToInput)));
         (self#set ((Obj.magic input), gameKeyFactory#nONE))
         end [@@warning "-7-20"]
@@ -155,7 +155,7 @@ class inputToGameKeyMapping () =
                 platformToGameKeyMapping.(!key) <- ((Obj.magic gameKey) :> GameKey.gameKey)
             end
         end else begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr (Obj.magic gameKey)))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#appendint (!key)))), self, commonStrings#iNIT, (Failure ("Exception"))))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr (Obj.magic gameKey)))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#appendint (!key)))), self, (self#commonStrings)#iNIT, (Failure ("Exception"))))))
         end
         end [@@warning "-7-20"]
     
@@ -199,7 +199,7 @@ class inputToGameKeyMapping () =
                 (self#initGameKey ((Obj.magic canvas), mappedGameKeys.(!index)))
             done
         with t -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, t))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iNIT, t))
         end)
         end [@@warning "-7-20"]
     
@@ -238,7 +238,7 @@ class inputToGameKeyMapping () =
         platformToGameKeyMapping <- (Array.make ((InputFactory.getInstance ())#mAX) (Obj.magic 0));
         negativePlatformToGameKeyMapping <- (Array.make (0) (Obj.magic 0));
         ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         (self#clear ())
       end
   end

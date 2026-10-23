@@ -63,7 +63,7 @@ class abSqlTable ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnecti
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
                 ignore ((Obj.magic logUtil)#putF ((((tABLE_CREATION_SUCCESS ^ tableName) ^ " with statement: ") ^ data), self, mETHOD_CREATED_TABLE))
             end;
-            (tableName ^ java_string_of (Obj.repr (sqlStrings#cREATE_RETURN)))
+            (tableName ^ java_string_of (Obj.repr ((self#sqlStrings)#cREATE_RETURN)))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
                 ignore ((Obj.magic logUtil)#put (((("Table Creation Failed: " ^ tableName) ^ " with statement: ") ^ data), self, mETHOD_CREATED_TABLE, e))
@@ -75,16 +75,16 @@ class abSqlTable ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnecti
 
     method dropTable () : string =
         begin
-        let sqlStatement : string ref = ref ((java_string_of (Obj.repr (sqlStrings#dROP_TABLE)) ^ tableName)) in ();
+        let sqlStatement : string ref = ref ((java_string_of (Obj.repr ((self#sqlStrings)#dROP_TABLE)) ^ tableName)) in ();
         (try
             ignore (self#executeSQLStatement (!sqlStatement));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (sUCCESS_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_DROP_TABLE))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#sUCCESS_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_DROP_TABLE))
             end;
             (tableName ^ dROPPED_SUCCESS)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_DROP_TABLE, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_DROP_TABLE, e))
             end;
             (("Failed to Drop " ^ tableName) ^ " table.")
         end)

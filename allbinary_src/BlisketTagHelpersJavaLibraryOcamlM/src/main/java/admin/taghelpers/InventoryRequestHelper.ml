@@ -60,7 +60,7 @@ class inventoryRequestHelper ((propertiesHashMap : java_hash_map), _pageContext)
         with e -> begin
             let error : string ref = ref ("Failed to add item to Inventory") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "insert()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "insert()", e))
             end;
             !error
         end)
@@ -87,7 +87,7 @@ class inventoryRequestHelper ((propertiesHashMap : java_hash_map), _pageContext)
         with e -> begin
             let error : string ref = ref ("Failed to remove item with from Inventory") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, tagStrings#dO_START_TAG, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, tagStrings#dO_START_TAG, e))
             end;
             !error
         end)
@@ -107,7 +107,7 @@ class inventoryRequestHelper ((propertiesHashMap : java_hash_map), _pageContext)
         with e -> begin
             let error : string ref = ref ("Failed To Update Item") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)

@@ -58,18 +58,18 @@ class genericBodyValidation () =
         (try
             let isValid : bool ref = ref (true) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iS_VALID))
             end;
             if (not ((StringValidationUtil.getInstance ())#isValidNotRequired (body, (BodyData.getInstance ())#mIN, (AbSqlData.get_mAXBLOB ())))) then begin
                 isValid := false
             end;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (("BodyValidation: " ^ java_string_of (Obj.repr (!isValid))), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF (("BodyValidation: " ^ java_string_of (Obj.repr (!isValid))), self, (self#commonStrings)#iS_VALID))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

@@ -61,9 +61,9 @@ class terrainPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinar
             let angle : Angle.angle ref = ref (((!basicTerrainInfo#getAngle ()) :> Angle.angle)) in ();
             if ((Obj.repr !angle) == (Obj.repr dOWN)) then begin
                 ignore (self#nextDirection ());
-                if (not isFollowLimitedByTerrain) then begin
-                    ignore (logUtil#putF ("Following Limited", self, "onTerrainEvent"));
-                    isFollowLimitedByTerrain <- true
+                if (not (self#isFollowLimitedByTerrain)) then begin
+                    ignore ((self#logUtil)#putF ("Following Limited", self, "onTerrainEvent"));
+                    (self#set_isFollowLimitedByTerrain) (true)
                 end
             end
         done

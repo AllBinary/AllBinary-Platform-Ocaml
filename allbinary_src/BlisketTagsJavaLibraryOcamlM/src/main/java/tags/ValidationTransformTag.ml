@@ -63,7 +63,7 @@ class validationTransformTag () =
             !result
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iS_VALID, e))
             end;
             raise e
         end)
@@ -79,7 +79,7 @@ class validationTransformTag () =
             !result
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "validationInfo()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "validationInfo()", e))
             end;
             raise e
         end)
@@ -92,7 +92,7 @@ class validationTransformTag () =
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
                 let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                let request : Obj.t ref = ref ((Obj.repr (Obj.magic (pageContext#getRequest ())))) in ();
+                let request : Obj.t ref = ref ((Obj.repr (Obj.magic ((self#pageContext)#getRequest ())))) in ();
                 ignore (!stringBuffer#append ("ValidationViewTag Start For: "));
                 ignore (!stringBuffer#append ((self#getName ())));
                 ignore (!stringBuffer#append ("\nView FIle: "));
@@ -135,7 +135,7 @@ class validationTransformTag () =
                 end
             end
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

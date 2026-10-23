@@ -55,21 +55,21 @@ class livesHudWidget (animationInterface_arg, (lifeInterface_arg : Life.life), (
         let displayChangeEvent = Obj.repr displayChangeEvent in
         begin
         ignore (super#onDisplayChangeEvent ((Obj.magic displayChangeEvent)));
-        myFontProcessor <- updateMyFontProcessor
+        (self#set_myFontProcessor) ((self#updateMyFontProcessor))
         end [@@warning "-7-20"]
     
 
     method setX ((x : int)) : unit =
         begin
         ignore (super#setX (x));
-        myFontProcessor <- updateMyFontProcessor
+        (self#set_myFontProcessor) ((self#updateMyFontProcessor))
         end [@@warning "-7"]
     
 
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         let index : int ref = ref ((java_to_int (Obj.repr (((self#getLifeInterface ())#get ()))))) in ();
         while ((index := !index - 1; !index) >= 0) do
             ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), xArray.(!index), (self#getY ())))
@@ -99,8 +99,8 @@ class livesHudWidget (animationInterface_arg, (lifeInterface_arg : Life.life), (
         let size : int ref = ref ((java_to_int (Obj.repr (((self#getLifeInterface ())#getMaxlives ()))))) in ();
         xArray <- (Array.make (!size) 0);
         animationInterface <- Obj.repr (animationInterface_arg);
-        updateMaxWidth <- ((lifeInterface#getMaxlives ()) * 16);
-        updateMaxHeight <- 16
+        (self#set_updateMaxWidth) (((lifeInterface#getMaxlives ()) * 16));
+        (self#set_updateMaxHeight) (16)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "LivesHudWidget" (fun arguments -> Obj.repr (new livesHudWidget (Obj.obj arguments)))

@@ -47,11 +47,11 @@ class storeFrontsEntity () =
         (try
             ignore (super#insert ((Obj.magic values)));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, iNSERT))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, iNSERT))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, iNSERT, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, iNSERT, e))
             end
         end)
         end [@@warning "-7-20"]
@@ -62,11 +62,11 @@ class storeFrontsEntity () =
         (try
             ignore (super#deleteWhere ((StoreFrontData.getInstance ())#nAME, value));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, commonStrings#delete))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, (self#commonStrings)#delete))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#delete, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#delete, e))
             end
         end)
         end [@@warning "-7"]
@@ -104,66 +104,66 @@ class storeFrontsEntity () =
         begin
         let storeFrontData : StoreFrontData.storeFrontData ref = ref (((StoreFrontData.getInstance ()) :> StoreFrontData.storeFrontData)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#cREATE_TABLE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE));
         ignore (!stringBuffer#append (tableName));
-        ignore (!stringBuffer#append (sqlStrings#sTART));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sTART));
         ignore (!stringBuffer#append (!storeFrontData#nAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#sIXTY_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#sIXTY_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#hOMEHOSTNAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#hOMEHOSTNAMEPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#hOSTNAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#hOSTNAMEPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTHOMEHOSTNAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTHOMEHOSTNAMEPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTHOSTNAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTHOSTNAMEPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#iMAGEPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#sTATICPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#cATEGORYPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#iNVENTORYCONTROL));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#cONFIGURATION));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#sUBSTORES));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tAGLOCATION));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#pACKAGELOCATION));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#fTP));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#fTPPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#fTPUSERNAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#fTPPASSWORD));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTFTP));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTFTPPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTFTPUSERNAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!storeFrontData#tESTFTPPASSWORD));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((EntryData.getInstance ())#tIMECREATED));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append (((EntryData.getInstance ())#getInstance ())#lASTMODIFIED));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
-        ignore (!stringBuffer#append (sqlStrings#pRIMARY_KEY));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlStrings)#pRIMARY_KEY));
         ignore (!stringBuffer#append (!storeFrontData#nAME));
-        ignore (!stringBuffer#append (sqlStrings#eND));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

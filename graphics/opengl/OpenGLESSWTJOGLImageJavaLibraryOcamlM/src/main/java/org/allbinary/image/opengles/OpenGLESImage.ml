@@ -41,7 +41,7 @@ let get_tYPE () = tYPE
 let () = java_register_static "OpenGLESImage.get_tYPE" (fun _ -> Obj.repr (get_tYPE ()))
 class openGLESImage (image, (bitmapFactory : PlatformBitmapBaseFactory.platformBitmapBaseFactory), (textureFactory_arg : PlatformTextureBaseFactory.platformTextureBaseFactory)) =
   object (self)
-    inherit Image.image ((image#getName ()), (PostLoadImageProcessor.get_nULL_POST_LOAD_IMAGE_PROCESSOR ()))
+    inherit Image.image ((image#getName ()), (PostLoadImageProcessor.get_nULL_POST_LOAD_IMAGE_PROCESSOR ())) as super
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
@@ -130,7 +130,7 @@ class openGLESImage (image, (bitmapFactory : PlatformBitmapBaseFactory.platformB
     method toString () : string =
         begin
         let graphicsStrings : GraphicsStrings.graphicsStrings ref = ref (((GraphicsStrings.getInstance ()) :> GraphicsStrings.graphicsStrings)) in ();
-        (java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((self#getName ())))#append ((java_string_of (Obj.repr super))))#append (!graphicsStrings#oPACITY))#appendfloat ((java_to_float (Obj.repr (openGLESImageProperties#alphaf)))))))
+        (java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((self#getName ())))#append ((super#toString ())))#append (!graphicsStrings#oPACITY))#appendfloat ((java_to_float (Obj.repr (openGLESImageProperties#alphaf)))))))
         end [@@warning "-7"]
 
     initializer
@@ -147,7 +147,7 @@ class openGLESImage (image, (bitmapFactory : PlatformBitmapBaseFactory.platformB
         openGLBitmap <- Obj.repr ((bitmapFactory#createBitmap (image)));
         textureFactory <- textureFactory_arg;
         ignore ((Obj.magic (java_call_static "OpenGLImageCacheFactory.getInstance" (Obj.repr ())))#init (self));
-        platformImage <- (OpenGLESPostLoadPlatformImage.getInstance ())
+        (self#set_platformImage) ((OpenGLESPostLoadPlatformImage.getInstance ()))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "OpenGLESImage" (fun arguments -> Obj.repr (new openGLESImage (Obj.obj arguments)))

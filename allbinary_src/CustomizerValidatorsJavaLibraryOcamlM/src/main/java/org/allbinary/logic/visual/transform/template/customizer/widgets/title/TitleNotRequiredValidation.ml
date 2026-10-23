@@ -40,7 +40,7 @@ class titleNotRequiredValidation () =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iS_VALID))
             end;
             let valid : bool ref = ref (true) in ();
             if (not ((StringValidationUtil.getInstance ())#isValidNotRequired ((self#getTitle ()), 0, (TitleData.getInstance ())#mAXLEN))) then begin
@@ -52,12 +52,12 @@ class titleNotRequiredValidation () =
                 ignore (!stringBuffer#append ((self#getTitle ())));
                 ignore (!stringBuffer#append ("End: "));
                 ignore (!stringBuffer#appendboolean (!valid));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID))
             end;
             !valid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

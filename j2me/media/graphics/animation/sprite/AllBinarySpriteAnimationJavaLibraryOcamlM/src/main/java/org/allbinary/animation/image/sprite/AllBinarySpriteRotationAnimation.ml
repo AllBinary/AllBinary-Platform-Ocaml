@@ -33,22 +33,22 @@ class allBinarySpriteRotationAnimation (sprite, image, (animationBehavior : Anim
 
     method nextRotation () : unit =
         begin
-        ignore (sprite#nextFrame ());
-        ignore (angleInfo#adjustAngle ((sprite#getFrame ())))
+        ignore ((self#sprite)#nextFrame ());
+        ignore ((self#angleInfo)#adjustAngle (((self#sprite)#getFrame ())))
         end [@@warning "-7"]
     
 
     method previousRotation () : unit =
         begin
-        ignore (sprite#prevFrame ());
-        ignore (angleInfo#adjustAngle ((sprite#getFrame ())))
+        ignore ((self#sprite)#prevFrame ());
+        ignore ((self#angleInfo)#adjustAngle (((self#sprite)#getFrame ())))
         end [@@warning "-7"]
     
 
     method setFrameByDirection : 'any1. 'any1 -> unit = fun (direction) ->
         let direction = Obj.repr direction in
         begin
-        let angle : Angle.angle ref = ref (((directionUtil#getFrameAngle ((Obj.magic direction))) :> Angle.angle)) in ();
+        let angle : Angle.angle ref = ref ((((self#directionUtil)#getFrameAngle ((Obj.magic direction))) :> Angle.angle)) in ();
         (self#adjustFrameToAngle (!angle))
         end [@@warning "-7-20"]
     
@@ -62,8 +62,8 @@ class allBinarySpriteRotationAnimation (sprite, image, (animationBehavior : Anim
 
     method setFrame ((index : int)) : unit =
         begin
-        ignore (sprite#setFrame (index));
-        ignore (angleInfo#adjustAngle ((self#getFrame ())))
+        ignore ((self#sprite)#setFrame (index));
+        ignore ((self#angleInfo)#adjustAngle ((self#getFrame ())))
         end [@@warning "-7"]
     
 
@@ -76,14 +76,14 @@ class allBinarySpriteRotationAnimation (sprite, image, (animationBehavior : Anim
 
     method adjustFrame ((angle : int)) : unit =
         begin
-        (self#setFrame ((frameUtil#getFrameForAngle (angle, (java_to_int (Obj.repr (((angleInfo#getAngleIncrementInfo ())#getAngleIncrement ()))))))))
+        (self#setFrame (((self#frameUtil)#getFrameForAngle (angle, (java_to_int (Obj.repr ((((self#angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ()))))))))
         end [@@warning "-7"]
 
     initializer
       begin
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (angleInfo#adjustAngle ((sprite#getFrame ())))
+        ignore ((self#angleInfo)#adjustAngle (((self#sprite)#getFrame ())))
       end
   end
 let () = java_register_constructor "AllBinarySpriteRotationAnimation" (fun arguments -> Obj.repr (new allBinarySpriteRotationAnimation (Obj.obj arguments)))

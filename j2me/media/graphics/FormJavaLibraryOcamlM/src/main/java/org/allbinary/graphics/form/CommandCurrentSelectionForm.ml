@@ -82,9 +82,9 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
         let width : int ref = ref (((Obj.magic item)#getMinimumWidth ())) in ();
         let height : int ref = ref (((Obj.magic item)#getMinimumHeight ())) in ();
         let adjustedBorder : int ref = ref (3) in ();
-        let offset : int ref = ref ((-((halfBorder + !adjustedBorder)))) in ();
-        let rectWidth : int ref = ref (((!width + border) - !adjustedBorder)) in ();
-        let rectHeight : int ref = ref (((!height + border) - !adjustedBorder)) in ();
+        let offset : int ref = ref ((-(((self#halfBorder) + !adjustedBorder)))) in ();
+        let rectWidth : int ref = ref (((!width + (self#border)) - !adjustedBorder)) in ();
+        let rectHeight : int ref = ref (((!height + (self#border)) - !adjustedBorder)) in ();
         if ((J2MEUtil.isJ2ME ()) || (J2MEUtil.isHTML ())) then begin
             (Obj.magic selectedAnimationArray).(index) <- (new RectangleAdjustedAnimation.rectangleAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !selectedButtonColor))
         end else begin
@@ -119,9 +119,9 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
         let width : int ref = ref (((Obj.magic item)#getMinimumWidth ())) in ();
         let height : int ref = ref (((Obj.magic item)#getMinimumHeight ())) in ();
         let adjustedBorder : int ref = ref (3) in ();
-        let offset : int ref = ref ((-((halfBorder + !adjustedBorder)))) in ();
-        let rectWidth : int ref = ref (((!width + border) - !adjustedBorder)) in ();
-        let rectHeight : int ref = ref (((!height + border) - !adjustedBorder)) in ();
+        let offset : int ref = ref ((-(((self#halfBorder) + !adjustedBorder)))) in ();
+        let rectWidth : int ref = ref (((!width + (self#border)) - !adjustedBorder)) in ();
+        let rectHeight : int ref = ref (((!height + (self#border)) - !adjustedBorder)) in ();
         if ((J2MEUtil.isJ2ME ()) || (J2MEUtil.isHTML ())) then begin
             let rectangleAdjustedAnimation : RectangleAdjustedAnimation.rectangleAdjustedAnimation ref = ref (((Obj.magic (Obj.magic selectedAnimationArray).(index)) :> RectangleAdjustedAnimation.rectangleAdjustedAnimation)) in ();
             ignore (!rectangleAdjustedAnimation#setWidth (!rectWidth));
@@ -203,7 +203,7 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         ignore (super#paint ((Obj.magic graphics)))
         end [@@warning "-7-20"]
     

@@ -27,7 +27,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.w3c.dom.Node *)
 
 class editCssStyleValidation () =
-  object
+  object (self)
     inherit CssStyleValidation.cssStyleValidation () as super
     
     
@@ -65,7 +65,7 @@ class editCssStyleValidation () =
         let styleNode : Obj.t ref = ref ((Obj.repr ((Obj.magic document)#createElement ((StyleData.getInstance ())#nAME)))) in ();
         ignore ((Obj.magic !node)#appendChild ((Obj.magic !styleNode)));
         ignore ((Obj.magic !styleNode)#appendChild (((new ColorsView.colorsView ())#toXmlNode ((Obj.magic document)))));
-        let size : int ref = ref ((cssStyleElementVector#size ())) in ();
+        let size : int ref = ref (((self#cssStyleElementVector)#size ())) in ();
         for i = 0 to !size - 1 do
             let styleDomNodeInterface : DomNodeInterface.domNodeInterface ref = ref (((Obj.magic (cssStyleElementVector#get (i))) :> DomNodeInterface.domNodeInterface)) in ();
             ignore ((Obj.magic !styleNode)#appendChild ((!styleDomNodeInterface#toXmlNode ((Obj.magic document)))))

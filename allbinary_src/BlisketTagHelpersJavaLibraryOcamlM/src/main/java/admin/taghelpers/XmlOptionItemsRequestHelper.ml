@@ -105,7 +105,7 @@ class xmlOptionItemsRequestHelper ((_hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ((("Failed to insert " ^ id) ^ " into items table")) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "inserts()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "inserts()", e))
             end;
             !error
         end)
@@ -124,7 +124,7 @@ class xmlOptionItemsRequestHelper ((_hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to delete") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e))
             end;
             !error
         end)
@@ -144,7 +144,7 @@ class xmlOptionItemsRequestHelper ((_hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref (("Failed to update: " ^ id)) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)

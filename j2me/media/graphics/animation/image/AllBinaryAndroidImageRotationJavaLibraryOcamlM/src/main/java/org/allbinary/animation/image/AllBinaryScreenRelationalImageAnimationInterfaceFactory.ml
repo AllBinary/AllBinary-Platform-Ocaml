@@ -38,7 +38,7 @@ class allBinaryScreenRelationalImageAnimationInterfaceFactory (image, (animation
 
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         begin
-        (Obj.magic ((new ImageAnimation.imageAnimation ((Obj.magic lastImage), (animationBehaviorFactory#getOrCreateInstance ())))))
+        (Obj.magic ((new ImageAnimation.imageAnimation ((Obj.magic lastImage), ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]
 
     initializer

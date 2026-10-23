@@ -41,18 +41,18 @@ class deleteValidationView ((transformInfoInterface : TransformInfoInterface.tra
             raise (Java_return (Obj.repr (false)))
         end;
         let billingAddressesEntity : ShippingAddressesEntity.shippingAddressesEntity ref = ref (((new ShippingAddressesEntity.shippingAddressesEntity (((self#getWeblisketSession ())#getUserName ()))) :> ShippingAddressesEntity.shippingAddressesEntity)) in ();
-        streetAddress <- (!billingAddressesEntity#get ((Obj.obj (java_new "Integer" (Obj.repr (value))))));
-        if (streetAddress == (Obj.magic 0)) then begin
+        (self#set_streetAddress) ((!billingAddressesEntity#get ((Obj.obj (java_new "Integer" (Obj.repr (value)))))));
+        if ((self#streetAddress) == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        (streetAddress#isValid ())
+        ((self#streetAddress)#isValid ())
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
     
 
     method validationInfo () : string =
         begin
-        (streetAddress#validationInfo ())
+        ((self#streetAddress)#validationInfo ())
         end [@@warning "-7"]
     
 

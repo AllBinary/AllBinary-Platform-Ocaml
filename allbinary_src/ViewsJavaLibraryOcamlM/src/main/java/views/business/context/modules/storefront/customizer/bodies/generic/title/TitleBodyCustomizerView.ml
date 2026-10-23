@@ -69,11 +69,11 @@ class titleBodyCustomizerView ((transformInfoInterface : TransformInfoInterface.
         begin
         (try
             let success : string ref = ref ((XmlDocumentHelper.toString ((self#getDoc ())))) in ();
-            let result : string ref = ref (((new StoreTransformer.storeTransformer (abeClientInformation, (self#getTransformInfoInterface ())))#translate (!success))) in ();
+            let result : string ref = ref (((new StoreTransformer.storeTransformer ((self#abeClientInformation), (self#getTransformInfoInterface ())))#translate (!success))) in ();
             (StringEscapeUtils.unescapeHtml3 (!result))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)

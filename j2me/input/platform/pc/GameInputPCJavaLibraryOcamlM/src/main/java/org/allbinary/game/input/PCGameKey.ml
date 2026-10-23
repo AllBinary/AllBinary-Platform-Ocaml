@@ -35,13 +35,13 @@ let getString ((keyCode : int)) : string =
 let () = java_register_static "PCGameKey.getString" (fun arguments -> Obj.repr (getString (Obj.obj arguments)))
 class pCGameKey ((keyCode : int), (name : string)) =
   object (self)
-    inherit Input.input (keyCode, name)
+    inherit Input.input (keyCode, name) as super
     
     
 
     method toString () : string =
         begin
-        ("PCGameKey: " ^ (java_string_of (Obj.repr super)))
+        ("PCGameKey: " ^ (super#toString ()))
         end [@@warning "-7"]
 
     initializer

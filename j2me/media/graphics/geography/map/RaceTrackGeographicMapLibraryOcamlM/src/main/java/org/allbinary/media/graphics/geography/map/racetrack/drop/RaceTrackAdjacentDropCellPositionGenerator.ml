@@ -66,19 +66,19 @@ class raceTrackAdjacentDropCellPositionGenerator () =
     method getFirstNonRoadAdjacentCellPosition ((column : int), (row : int)) : GeographicMapCellPosition.geographicMapCellPosition =
         begin
         let nonRoadGeographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((SimpleGeographicMapCellPositionFactory.get_nULL_GEOGRAPHIC_MAP_CELL_POSITION ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
-        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref (((raceTrackGeographicMap#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
+        let geographicMapCellPositionFactory : BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory ref = ref ((((self#raceTrackGeographicMap)#getGeographicMapCellPositionFactory ()) :> BasicGeographicMapCellPositionFactory.basicGeographicMapCellPositionFactory)) in ();
         surroundingCellPositions.(0) <- ((!geographicMapCellPositionFactory#getAt (column, (row - 1))) :> GeographicMapCellPosition.geographicMapCellPosition);
         surroundingCellPositions.(1) <- ((!geographicMapCellPositionFactory#getAt (column, (row + 1))) :> GeographicMapCellPosition.geographicMapCellPosition);
         surroundingCellPositions.(2) <- ((!geographicMapCellPositionFactory#getAt ((column - 1), row)) :> GeographicMapCellPosition.geographicMapCellPosition);
         surroundingCellPositions.(3) <- ((!geographicMapCellPositionFactory#getAt ((column + 1), row)) :> GeographicMapCellPosition.geographicMapCellPosition);
-        let baseRaceTrackGeographicMap : BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap ref = ref (((Obj.magic raceTrackGeographicMap) :> BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap)) in ();
+        let baseRaceTrackGeographicMap : BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap ref = ref (((Obj.magic (self#raceTrackGeographicMap)) :> BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap)) in ();
         let raceTrackGeographicMapCellTypeFactory : RaceTrackGeographicMapCellTypeFactory.raceTrackGeographicMapCellTypeFactory ref = ref (((Obj.magic (!baseRaceTrackGeographicMap#getGeographicMapCellTypeFactory ())) :> RaceTrackGeographicMapCellTypeFactory.raceTrackGeographicMapCellTypeFactory)) in ();
         let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((Obj.magic 0) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         let raceTrackGeographicMapCellType : RaceTrackGeographicMapCellType.raceTrackGeographicMapCellType ref = ref (((Obj.magic 0) :> RaceTrackGeographicMapCellType.raceTrackGeographicMapCellType)) in ();
         let index : int ref = ref ((Array.length surroundingCellPositions)) in ();
         while ((index := !index - 1; !index) >= 0) do
             geographicMapCellPosition := surroundingCellPositions.(!index);
-            raceTrackGeographicMapCellType := (Obj.magic (raceTrackGeographicMap#getCellTypeAt (!geographicMapCellPosition)));
+            raceTrackGeographicMapCellType := (Obj.magic ((self#raceTrackGeographicMap)#getCellTypeAt (!geographicMapCellPosition)));
             if (not (!raceTrackGeographicMapCellTypeFactory#isPath (!raceTrackGeographicMapCellType))) then begin
                 nonRoadGeographicMapCellPosition := !geographicMapCellPosition;
                 raise Java_break
@@ -101,7 +101,7 @@ class raceTrackAdjacentDropCellPositionGenerator () =
         let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
         try
         begin
-        let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((Obj.magic (list#get (index))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
+        let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((Obj.magic ((self#list)#get (index))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         let randomGeographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((self#getFirstNonRoadAdjacentCellPosition ((!geographicMapCellPosition#getColumn ()), (!geographicMapCellPosition#getRow ()))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         if (!randomGeographicMapCellPosition == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr (())))
@@ -121,7 +121,7 @@ class raceTrackAdjacentDropCellPositionGenerator () =
             let y : int ref = ref ((!point#getY ())) in ();
             let z : int ref = ref ((!point#getZ ())) in ();
             let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((((RaceTrackAdjacentDropLayerFactory.getInstance ())#getRandomInstance ())#getNextInstance ((Obj.magic hashtable), !x, !y, !z)) :> AllBinaryLayer.allBinaryLayer)) in ();
-            let baseRaceTrackGeographicMap : BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap ref = ref (((Obj.magic raceTrackGeographicMap) :> BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap)) in ();
+            let baseRaceTrackGeographicMap : BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap ref = ref (((Obj.magic (self#raceTrackGeographicMap)) :> BaseRaceTrackGeographicMap.baseRaceTrackGeographicMap)) in ();
             let list : BasicArrayList.basicArrayList ref = ref (((layerCoveringCellPositionsUtil#getAll (!baseRaceTrackGeographicMap, !randomGeographicMapCellPosition, !layerInterface, (new BasicArrayListD.basicArrayListD ()))) :> BasicArrayList.basicArrayList)) in ();
             if (!dropCellPositionHistory#anyCellPositionWithDrop (!list)) then begin
                 raise (Java_return (Obj.repr (())))
@@ -129,8 +129,8 @@ class raceTrackAdjacentDropCellPositionGenerator () =
             let geographicMapCellType : GeographicMapCellType.geographicMapCellType ref = ref (((Obj.magic 0) :> GeographicMapCellType.geographicMapCellType)) in ();
             let index2 : int ref = ref ((!list#size ())) in ();
             while ((index2 := !index2 - 1; !index2) >= 0) do
-                geographicMapCellType := (raceTrackGeographicMap#getCellTypeAt ((Obj.magic (!list#get (!index2)))));
-                if (raceTrackGeographicMapCellTypeFactory#isPath (!geographicMapCellType)) then begin
+                geographicMapCellType := ((self#raceTrackGeographicMap)#getCellTypeAt ((Obj.magic (!list#get (!index2)))));
+                if ((self#raceTrackGeographicMapCellTypeFactory)#isPath (!geographicMapCellType)) then begin
                     raise (Java_return (Obj.repr (())))
                 end
             done;

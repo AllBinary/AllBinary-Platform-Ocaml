@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
 class specialAnalogLeftTriggerGameInputProcessor ((collidableDestroyableDamageableLayer : CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer)) =
-  object
+  object (self)
     inherit SpecialGameInputProcessor.specialGameInputProcessor (collidableDestroyableDamageableLayer)
     
     
@@ -30,7 +30,7 @@ class specialAnalogLeftTriggerGameInputProcessor ((collidableDestroyableDamageab
         let allbinaryLayerManager = Obj.repr allbinaryLayerManager in
         let gameKeyEvent = Obj.repr gameKeyEvent in
         begin
-        ignore (collidableDestroyableDamageableLayer#leftTrigger ((Obj.magic allbinaryLayerManager), (Obj.magic gameKeyEvent), yAnalogValue))
+        ignore ((self#collidableDestroyableDamageableLayer)#leftTrigger ((Obj.magic allbinaryLayerManager), (Obj.magic gameKeyEvent), yAnalogValue))
         end [@@warning "-7-20"]
 
     initializer

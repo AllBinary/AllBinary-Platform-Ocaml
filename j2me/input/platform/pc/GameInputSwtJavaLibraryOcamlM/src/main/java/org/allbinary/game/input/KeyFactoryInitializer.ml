@@ -31,7 +31,7 @@ class keyFactoryInitializer () =
 
     method init () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iNIT));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iNIT));
         ignore ((SmallIntegerSingletonFactory.getInstance ())#initWithRange (0x2D0, 6))
         end [@@warning "-7"]
 

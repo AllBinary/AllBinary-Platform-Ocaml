@@ -42,26 +42,26 @@ class abSqlBean ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnectio
     method getField ((key : string), (value : string), (requestedField : string)) : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT));
         ignore (!stringBuffer#append (requestedField));
-        ignore (!stringBuffer#append (sqlStrings#fROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#fROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#wHERE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
         ignore (!stringBuffer#append (key));
-        ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
         ignore (!stringBuffer#append (value));
-        ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
         let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
         (try
-            let field : string ref = ref (stringUtil#eMPTY_STRING) in ();
+            let field : string ref = ref ((self#stringUtil)#eMPTY_STRING) in ();
             let rset : Obj.t ref = ref ((Obj.repr (self#executeSQLStatement (!sqlStatement)))) in ();
             while ((Obj.magic !rset)#next ()) do
                 field := ((Obj.magic !rset)#getString (requestedField));
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
                     ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                    ignore (!stringBuffer#append (sqlStrings#sQL_STATEMENT_LABEL));
+                    ignore (!stringBuffer#append ((self#sqlStrings)#sQL_STATEMENT_LABEL));
                     ignore (!stringBuffer#append (!sqlStatement));
-                    ignore (!stringBuffer#append (sqlStrings#fIELD_VALUE));
+                    ignore (!stringBuffer#append ((self#sqlStrings)#fIELD_VALUE));
                     ignore (!stringBuffer#append (!field));
                     ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, mETHOD_GET_FIELD))
                 end;
@@ -70,9 +70,9 @@ class abSqlBean ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnectio
             (Obj.magic 0)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_GET_FIELD, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_GET_FIELD, e))
             end;
-            (java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement)
+            (java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement)
         end)
         end [@@warning "-7"]
     
@@ -84,23 +84,23 @@ class abSqlBean ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnectio
         try
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT));
         (try
             let keyArray : Obj.t array ref = ref (((columnsAndValues#keySet ())#toArray ())) in ();
             let size : int ref = ref ((Array.length !keyArray)) in ();
-            ignore (!stringBuffer#append (commonSeps#sPACE));
+            ignore (!stringBuffer#append ((self#commonSeps)#sPACE));
             ignore (!stringBuffer#append (key));
             for i = 0 to !size - 1 do
-                ignore (!stringBuffer#append (commonSeps#sPACE));
+                ignore (!stringBuffer#append ((self#commonSeps)#sPACE));
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !keyArray.(i)))))
             done;
-            ignore (!stringBuffer#append (sqlStrings#fROM));
+            ignore (!stringBuffer#append ((self#sqlStrings)#fROM));
             ignore (!stringBuffer#append ((self#getTableName ())));
-            ignore (!stringBuffer#append (sqlStrings#wHERE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
             ignore (!stringBuffer#append (key));
-            ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
             ignore (!stringBuffer#append (value));
-            ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             let rset : Obj.t ref = ref ((Obj.repr (self#executeSQLStatement (!sqlStatement)))) in ();
             let columnName : string ref = ref ("") in ();
@@ -124,9 +124,9 @@ class abSqlBean ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnectio
         with e -> begin
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_IS_SUBSET_OF_ENTRY, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_IS_SUBSET_OF_ENTRY, e))
             end;
-            (java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement)
+            (java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement)
         end)
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

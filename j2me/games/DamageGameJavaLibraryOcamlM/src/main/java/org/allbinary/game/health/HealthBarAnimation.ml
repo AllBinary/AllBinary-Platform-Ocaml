@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayer *)
 
 class healthBarAnimation ((layerInterface : AllBinaryLayer.allBinaryLayer), (location_arg : int)) =
-  object
+  object (self)
     inherit Animation.animation ()
     val mutable basicColorFactory : BasicColorFactory.basicColorFactory = (Obj.magic 0)
     method basicColorFactory = basicColorFactory
@@ -48,17 +48,17 @@ class healthBarAnimation ((layerInterface : AllBinaryLayer.allBinaryLayer), (loc
         x2 <- newX2;
         let quarter : int ref = ref ((((allbinaryLayer#getWidth ()) asr 2))) in ();
         if (x2 > (!quarter * 3)) then begin
-            basicColor <- basicColorFactory#gREEN;
-            colorP <- (basicColor#intValue ())
+            (self#set_basicColor) (basicColorFactory#gREEN);
+            (self#set_colorP) (((self#basicColor)#intValue ()))
         end else if (x2 > (!quarter * 2)) then begin
-            basicColor <- basicColorFactory#yELLOW;
-            colorP <- (basicColor#intValue ())
+            (self#set_basicColor) (basicColorFactory#yELLOW);
+            (self#set_colorP) (((self#basicColor)#intValue ()))
         end else if (x2 > !quarter) then begin
-            basicColor <- basicColorFactory#oRANGE;
-            colorP <- (basicColor#intValue ())
+            (self#set_basicColor) (basicColorFactory#oRANGE);
+            (self#set_colorP) (((self#basicColor)#intValue ()))
         end else begin
-            basicColor <- basicColorFactory#rED;
-            colorP <- (basicColor#intValue ())
+            (self#set_basicColor) (basicColorFactory#rED);
+            (self#set_colorP) (((self#basicColor)#intValue ()))
         end
         end [@@warning "-7"]
     

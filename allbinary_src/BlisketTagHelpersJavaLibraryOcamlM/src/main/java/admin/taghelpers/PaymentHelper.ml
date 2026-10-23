@@ -72,7 +72,7 @@ class paymentHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to add Payment") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "addPayment()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "addPayment()", e))
             end;
             !error
         end)
@@ -92,7 +92,7 @@ class paymentHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to select Payment") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "selectPayment()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "selectPayment()", e))
             end;
             !error
         end)
@@ -116,7 +116,7 @@ class paymentHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to remove Payment") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "removePayment()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "removePayment()", e))
             end;
             !error
         end)
@@ -129,13 +129,13 @@ class paymentHelper ((hashMap : java_hash_map), pageContext) =
             let paymentEntity : PaymentEntity.paymentEntity ref = ref ((((PaymentEntityFactory.getInstance ())#getPaymentEntityInstance ()) :> PaymentEntity.paymentEntity)) in ();
             let success : string ref = ref ((!paymentEntity#dropTable ())) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGS)) then begin
-                ignore ((Obj.magic logUtil)#putF (!success, self, commonStrings#dROP))
+                ignore ((Obj.magic logUtil)#putF (!success, self, (self#commonStrings)#dROP))
             end;
             !success
         with e -> begin
             let error : string ref = ref ("Failed to drop Admin table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#dROP, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#dROP, e))
             end;
             !error
         end)
@@ -154,7 +154,7 @@ class paymentHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to create user table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "create()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "create()", e))
             end;
             !error
         end)
@@ -173,7 +173,7 @@ class paymentHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to restore backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "restore()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "restore()", e))
             end;
             !error
         end)
@@ -192,7 +192,7 @@ class paymentHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to make backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "backup()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "backup()", e))
             end;
             !error
         end)

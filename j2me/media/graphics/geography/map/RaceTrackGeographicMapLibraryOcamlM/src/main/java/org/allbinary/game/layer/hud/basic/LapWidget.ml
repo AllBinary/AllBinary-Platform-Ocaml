@@ -25,7 +25,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.color.BasicColor *)
 
 class lapWidget ((location : int), (direction : int), (basicColor : BasicColor.basicColor)) =
-  object
+  object (self)
     inherit BasicHud.basicHud (location, direction, 2, basicColor) as super
     val mutable lAP_STR : string = ""
     method lAP_STR = lAP_STR
@@ -65,8 +65,8 @@ class lapWidget ((location : int), (direction : int), (basicColor : BasicColor.b
         string <- (StringUtil.getInstance ())#eMPTY_STRING;
         ();
         (* super(...) is the inherit clause *) ();
-        updateMaxHeight <- 15;
-        updateMaxWidth <- 40
+        (self#set_updateMaxHeight) (15);
+        (self#set_updateMaxWidth) (40)
       end
   end
 let () = java_register_constructor "LapWidget" (fun arguments -> Obj.repr (new lapWidget (Obj.obj arguments)))

@@ -91,7 +91,7 @@ class basketRequestHelper ((propertiesHashMap_arg : java_hash_map), pageContext_
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "addItemToBasket()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "addItemToBasket()", e))
             end;
             false
         end)
@@ -112,7 +112,7 @@ class basketRequestHelper ((propertiesHashMap_arg : java_hash_map), pageContext_
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "removeItemFromBasket()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "removeItemFromBasket()", e))
             end;
             false
         end)
@@ -132,7 +132,7 @@ class basketRequestHelper ((propertiesHashMap_arg : java_hash_map), pageContext_
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "adjustBasket()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "adjustBasket()", e))
             end;
             false
         end)

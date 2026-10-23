@@ -82,7 +82,7 @@ class userNameOrderHistoryView ((transformInfoInterface : TransformInfoInterface
             (super#view ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -115,7 +115,7 @@ class userNameOrderHistoryView ((transformInfoInterface : TransformInfoInterface
             (Obj.magic ((Obj.magic !node)))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#xSLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "toXmlNode", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "toXmlNode", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)
@@ -126,7 +126,7 @@ class userNameOrderHistoryView ((transformInfoInterface : TransformInfoInterface
         try
         begin
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF ("Started", self, commonStrings#iS_VALID))
+            ignore ((Obj.magic logUtil)#putF ("Started", self, (self#commonStrings)#iS_VALID))
         end;
         if ((Obj.repr ((UserName.getInstance ())#isValid (userName))) == (Obj.repr true)) then begin
             raise (Java_return (Obj.repr (true)))

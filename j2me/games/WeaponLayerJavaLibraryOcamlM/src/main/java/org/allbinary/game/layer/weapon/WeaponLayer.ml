@@ -98,9 +98,9 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
 
     method initXYZ ((x : int), (y : int), (z : int)) : unit =
         begin
-        x <- x;
-        y <- y;
-        z <- z
+        (self#set_x) (x);
+        (self#set_y) (y);
+        (self#set_z) (z)
         end [@@warning "-7"]
     
 

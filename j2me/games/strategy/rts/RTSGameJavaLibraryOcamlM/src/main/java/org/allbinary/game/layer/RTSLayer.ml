@@ -203,7 +203,7 @@ class rTSLayer (remoteInfo, groupInterface, (rootName_arg : string), (name : str
         let allBinaryGameLayerManager = Obj.repr allBinaryGameLayerManager in
         begin
         ignore (super#setAllBinaryGameLayerManager ((Obj.magic allBinaryGameLayerManager)));
-        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
         let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
         let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref (((!geographicMapInterface#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
         let viewPosition2 : TileLayerPositionIntoViewPosition.tileLayerPositionIntoViewPosition ref = ref (((Obj.magic (self#getViewPosition ())) :> TileLayerPositionIntoViewPosition.tileLayerPositionIntoViewPosition)) in ();
@@ -290,7 +290,7 @@ class rTSLayer (remoteInfo, groupInterface, (rootName_arg : string), (name : str
                 (self#build ())
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "processTick", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "processTick", e))
         end)
         end [@@warning "-7-20"]
     
@@ -767,7 +767,7 @@ class rTSLayer (remoteInfo, groupInterface, (rootName_arg : string), (name : str
         rootName <- rootName_arg;
         healthInterface <- healthInterface_arg;
         rtsFormInput <- Obj.repr (rtsFormInput_arg);
-        ignore (self#setPosition (x, y, z));
+        ignore (self#setPosition (x, y, (self#z)));
         verticleBuildAnimationInterface <- (Obj.magic (verticleBuildAnimationInterfaceFactoryInterface#getInstance (0)));
         buildAnimationInterface <- Obj.repr ((buildAnimationInterfaceFactoryInterface#getInstance (0)));
         baseAnimationInterface <- Obj.repr ((baseAnimationInterfaceFactoryInterface#getInstance (0)));

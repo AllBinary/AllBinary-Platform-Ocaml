@@ -102,7 +102,7 @@ class healthHudWidget (animationInterface_arg, (healthInterface_arg : Health.hea
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         for index = 0 to max - 1 do
             if (timeDelayHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
                 ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), xArray.(index), (self#getY ())))
@@ -135,8 +135,8 @@ class healthHudWidget (animationInterface_arg, (healthInterface_arg : Health.hea
         ignore (healthInterface#addListener (self));
         healthScale <- ((((healthInterface#getMaxHealth ()) / 6)) + 1);
         (self#onHealthChange ());
-        updateMaxWidth <- ((healthInterface_arg#getMaxHealth ()) * 16);
-        updateMaxHeight <- 16;
+        (self#set_updateMaxWidth) (((healthInterface_arg#getMaxHealth ()) * 16));
+        (self#set_updateMaxHeight) (16);
         xArray <- (Array.make (30) 0);
         (self#update ())
       end

@@ -20,14 +20,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
 class scrollMapRightGameInputProcessor (scrollMapPlayerGameInput) =
-  object
+  object (self)
     inherit ScrollMapGameInputProcessor.scrollMapGameInputProcessor (scrollMapPlayerGameInput)
     
     
 
     method processEvent : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_allbinaryLayerManager, _gameKeyEvent) ->
         begin
-        ignore (scrollMapPlayerGameInput#right ())
+        ignore ((self#scrollMapPlayerGameInput)#right ())
         end [@@warning "-7-20"]
 
     initializer

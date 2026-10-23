@@ -46,7 +46,7 @@ class modifyTag (tagHelperFactoryInterface) =
         with e -> begin
             let error : string ref = ref ("Failed to insert") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "insert()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "insert()", e))
             end;
             !error
         end)
@@ -63,7 +63,7 @@ class modifyTag (tagHelperFactoryInterface) =
         with e -> begin
             let error : string ref = ref ("Failed to delete") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e))
             end;
             !error
         end)
@@ -80,7 +80,7 @@ class modifyTag (tagHelperFactoryInterface) =
         with e -> begin
             let error : string ref = ref ("Failed to update") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)
@@ -91,7 +91,7 @@ class modifyTag (tagHelperFactoryInterface) =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                let request : Obj.t ref = ref ((Obj.repr (Obj.magic (pageContext#getRequest ())))) in ();
+                let request : Obj.t ref = ref ((Obj.repr (Obj.magic ((self#pageContext)#getRequest ())))) in ();
                 let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
                 ignore (!stringBuffer#append ("Command: "));
                 ignore (!stringBuffer#append ((self#getCommand ())));
@@ -108,23 +108,23 @@ class modifyTag (tagHelperFactoryInterface) =
                 if (((self#getCommand ())#compareTo (!commonStrings#iNSERT)) == 0) then begin
                     let output : string ref = ref ((self#insert ())) in ();
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                        ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                        ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                     end
                 end else if (((self#getCommand ())#compareTo (!commonStrings#dELETE)) == 0) then begin
                     let output : string ref = ref ((self#delete ())) in ();
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                        ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                        ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                     end
                 end else if (((self#getCommand ())#compareTo (!commonStrings#uPDATE)) == 0) then begin
                     let output : string ref = ref ((self#update ())) in ();
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAGEXTRAOUTPUT)) then begin
-                        ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                        ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                     end
                 end
             end;
-            eVAL_BODY_INCLUDE
+            (self#eVAL_BODY_INCLUDE)
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end [@@warning "-7"]
@@ -135,7 +135,7 @@ class modifyTag (tagHelperFactoryInterface) =
         ();
         (* super(...) is the inherit clause *) ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

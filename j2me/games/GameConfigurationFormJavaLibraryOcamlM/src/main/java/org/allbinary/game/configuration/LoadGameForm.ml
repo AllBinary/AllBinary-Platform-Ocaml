@@ -91,7 +91,7 @@ class loadGameForm (commandListener, (title : string), (backgrounBasicColor : Ba
         let size : int ref = ref (((Obj.magic list)#size ())) in ();
         for index = 0 to !size - 1 do
             let anyType : Obj.t ref = ref ((Obj.repr (Obj.magic list)#objectArray.(index))) in ();
-            ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!aDDING_CHOICE))#append ((java_string_of (Obj.repr !anyType)))))), self, !mETHOD_NAME));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!aDDING_CHOICE))#append ((java_string_of (Obj.repr !anyType)))))), self, !mETHOD_NAME));
             ignore ((Obj.magic !choiceGroup)#append ((java_string_of (Obj.repr !anyType)), (NullImage.get_nULL_IMAGE ())))
         done;
         (Obj.magic ((Obj.magic !choiceGroup)))
@@ -130,7 +130,7 @@ class loadGameForm (commandListener, (title : string), (backgrounBasicColor : Ba
         areChoices <- false;
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         (self#update ());
         (self#initCommands (commandListener))
       end

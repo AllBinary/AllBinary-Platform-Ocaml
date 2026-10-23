@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
 class special1GameInputProcessor ((collidableDestroyableDamageableLayer : CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer)) =
-  object
+  object (self)
     inherit SpecialGameInputProcessor.specialGameInputProcessor (collidableDestroyableDamageableLayer)
     
     
@@ -30,7 +30,7 @@ class special1GameInputProcessor ((collidableDestroyableDamageableLayer : Collid
         let allbinaryLayerManager = Obj.repr allbinaryLayerManager in
         let gameKeyEvent = Obj.repr gameKeyEvent in
         begin
-        ignore (collidableDestroyableDamageableLayer#special1 ((Obj.magic allbinaryLayerManager), (Obj.magic gameKeyEvent)))
+        ignore ((self#collidableDestroyableDamageableLayer)#special1 ((Obj.magic allbinaryLayerManager), (Obj.magic gameKeyEvent)))
         end [@@warning "-7-20"]
 
     initializer

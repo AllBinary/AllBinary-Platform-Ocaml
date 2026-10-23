@@ -63,7 +63,7 @@ class allBinaryTiledLayer ((dataId_arg : int), (width : int), (height : int), (c
         ignore (!stringBuffer#appendint ((self#getRows ())));
         ignore (!stringBuffer#append (" columns: "));
         ignore (!stringBuffer#appendint ((self#getColumns ())));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "setCells"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "setCells"));
         let rows : int ref = ref ((self#getRows ())) in ();
         let columns : int ref = ref ((self#getColumns ())) in ();
         for col = 0 to !columns - 1 do
@@ -109,19 +109,19 @@ class allBinaryTiledLayer ((dataId_arg : int), (width : int), (height : int), (c
 
     method getX2 () : int =
         begin
-        (x + (self#getWidth ()))
+        ((self#x) + (self#getWidth ()))
         end [@@warning "-7"]
     
 
     method getY2 () : int =
         begin
-        (y + (self#getHeight ()))
+        ((self#y) + (self#getHeight ()))
         end [@@warning "-7"]
     
 
     method getZ2 () : int =
         begin
-        (java_to_int (Obj.repr (((z + (self#getDepth ()))))))
+        (java_to_int (Obj.repr ((((self#z) + (self#getDepth ()))))))
         end [@@warning "-7"]
     
 

@@ -51,15 +51,15 @@ class abSqlColumn ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnect
     method getLargestIntegerInColumnWhere ((columnName : string), (key : string), (value : string)) : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT));
         ignore (!stringBuffer#append (columnName));
-        ignore (!stringBuffer#append (sqlStrings#fROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#fROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#wHERE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
         ignore (!stringBuffer#append (key));
-        ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
         ignore (!stringBuffer#append (value));
-        ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
         let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
         (try
             let largest : int ref = ref (0) in ();
@@ -73,7 +73,7 @@ class abSqlColumn ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnect
             let largestAsString : string ref = ref ((java_string_of (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (!largest))))))) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (!stringBuffer#append (sqlStrings#sQL_STATEMENT_LABEL));
+                ignore (!stringBuffer#append ((self#sqlStrings)#sQL_STATEMENT_LABEL));
                 ignore (!stringBuffer#append (!sqlStatement));
                 ignore (!stringBuffer#append (lARGEST_INT_VALUE_IN_COLUMN));
                 ignore (!stringBuffer#append (!largestAsString));
@@ -82,7 +82,7 @@ class abSqlColumn ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnect
             !largestAsString
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_GET_LARGETS_INTEGER_IN_COLUMN, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_GET_LARGETS_INTEGER_IN_COLUMN, e))
             end;
             iNVALID_RESULT
         end)
@@ -93,9 +93,9 @@ class abSqlColumn ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnect
         begin
         let column : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT));
         ignore (!stringBuffer#append (columnName));
-        ignore (!stringBuffer#append (sqlStrings#fROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#fROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
         let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
         (try
@@ -106,16 +106,16 @@ class abSqlColumn ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnect
             done;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (!stringBuffer#append (sqlStrings#sQL_STATEMENT_LABEL));
+                ignore (!stringBuffer#append ((self#sqlStrings)#sQL_STATEMENT_LABEL));
                 ignore (!stringBuffer#append (!sqlStatement));
-                ignore (!stringBuffer#append (sqlStrings#cOLUMN_VALUE));
+                ignore (!stringBuffer#append ((self#sqlStrings)#cOLUMN_VALUE));
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !column))));
                 ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, mETHOD_GET_COLUMN))
             end;
             (!column :> BasicArrayList.basicArrayList)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_GET_COLUMN, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_GET_COLUMN, e))
             end;
             (!column :> BasicArrayList.basicArrayList)
         end)
@@ -125,15 +125,15 @@ class abSqlColumn ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnect
     method getColumnWhere ((columnName : string), (key : string), (value : string)) : BasicArrayList.basicArrayList =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT));
         ignore (!stringBuffer#append (columnName));
-        ignore (!stringBuffer#append (sqlStrings#fROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#fROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#wHERE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
         ignore (!stringBuffer#append (key));
-        ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
         ignore (!stringBuffer#append (value));
-        ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
         let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
         let column : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let rset : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
@@ -146,16 +146,16 @@ class abSqlColumn ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnect
             done;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (!stringBuffer#append (sqlStrings#sQL_STATEMENT_LABEL));
+                ignore (!stringBuffer#append ((self#sqlStrings)#sQL_STATEMENT_LABEL));
                 ignore (!stringBuffer#append (!sqlStatement));
-                ignore (!stringBuffer#append (sqlStrings#cOLUMN_VALUE));
+                ignore (!stringBuffer#append ((self#sqlStrings)#cOLUMN_VALUE));
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !column))));
                 ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, mETHOD_GET_COLUMN_WHERE))
             end;
             (!column :> BasicArrayList.basicArrayList)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_GET_COLUMN_WHERE, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_GET_COLUMN_WHERE, e))
             end;
             (!column :> BasicArrayList.basicArrayList)
         end)

@@ -72,7 +72,7 @@ class openGLESGL11VBOImage (image, (bitmapFactory : PlatformBitmapBaseFactory.pl
         begin
         let gl10 : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic gl)))) in ();
         if (super#initTexture ((Obj.magic !gl10))) then begin
-            ignore (textureFactory#load ((Obj.magic !gl10), (Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), 0, self, 0, true));
+            ignore ((self#textureFactory)#load ((Obj.magic !gl10), (Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), 0, self, 0, true));
             ignore ((Obj.magic !gl10)#glDisable ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ())))));
             ignore ((OpenGLLogUtil.getInstance ())#logError ((Obj.magic !gl10), self))
         end
@@ -102,7 +102,7 @@ class openGLESGL11VBOImage (image, (bitmapFactory : PlatformBitmapBaseFactory.pl
         ignore ((Obj.magic gl)#glVertexPointer (3, (Obj.magic (java_call_static "GL10.get_gL_FLOAT" (Obj.repr ()))), 0, (Obj.magic regionRectangleVertexFloatBuffer)));
         ignore ((Obj.magic gl)#glEnableClientState ((Obj.magic (java_call_static "GL10.get_gL_VERTEX_ARRAY" (Obj.repr ())))));
         ignore ((Obj.magic gl)#glEnable ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ())))));
-        ignore ((Obj.magic gl)#glBindTexture ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), openGLESImageProperties#textureID));
+        ignore ((Obj.magic gl)#glBindTexture ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), (self#openGLESImageProperties)#textureID));
         ignore ((Obj.magic gl)#glEnableClientState ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_COORD_ARRAY" (Obj.repr ())))));
         ignore (glUtil#position ((Obj.magic regionTextureVertexFloatBuffer), 0));
         ignore ((Obj.magic gl)#glTexCoordPointer (2, (Obj.magic (java_call_static "GL10.get_gL_FLOAT" (Obj.repr ()))), 0, (Obj.magic regionTextureVertexFloatBuffer)));
@@ -128,7 +128,7 @@ class openGLESGL11VBOImage (image, (bitmapFactory : PlatformBitmapBaseFactory.pl
         ignore ((Obj.magic gl)#glVertexPointer (3, (Obj.magic (java_call_static "GL10.get_gL_FLOAT" (Obj.repr ()))), 0, (Obj.magic regionRectangleVertexFloatBuffer)));
         ignore ((Obj.magic gl)#glEnableClientState ((Obj.magic (java_call_static "GL10.get_gL_VERTEX_ARRAY" (Obj.repr ())))));
         ignore ((Obj.magic gl)#glEnable ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ())))));
-        ignore ((Obj.magic gl)#glBindTexture ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), openGLESImageProperties#textureID));
+        ignore ((Obj.magic gl)#glBindTexture ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_2D" (Obj.repr ()))), (self#openGLESImageProperties)#textureID));
         ignore ((Obj.magic gl)#glEnableClientState ((Obj.magic (java_call_static "GL10.get_gL_TEXTURE_COORD_ARRAY" (Obj.repr ())))));
         ignore (glUtil#position ((Obj.magic textureVertexFloatBuffer), 0));
         ignore ((Obj.magic gl)#glTexCoordPointer (2, (Obj.magic (java_call_static "GL10.get_gL_FLOAT" (Obj.repr ()))), 0, (Obj.magic textureVertexFloatBuffer)));

@@ -48,7 +48,7 @@ class compoundTransform ((transformInfoInterface : TransformInfoInterface.transf
         ignore (self#setURIResolver ((Obj.magic (new StoreUriResolver.storeUriResolver ((self#getTransformInfoInterface ()), (Obj.magic (self#getURIResolver ())))))));
         let objectConfig : Obj.t ref = ref ((Obj.repr (new CompoundContextTransformInfoObjectConfig.compoundContextTransformInfoObjectConfig (abeClientInformation, (self#getTransformInfoInterface ()), (((self#getTransformInfoInterface ())#getObjectConfigInterface ())#toXmlDoc ()))))) in ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (("\nObjectConfig: \n" ^ (java_string_of (Obj.repr (Obj.magic !objectConfig)))), self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF (("\nObjectConfig: \n" ^ (java_string_of (Obj.repr (Obj.magic !objectConfig)))), self, (self#commonStrings)#cONSTRUCTOR))
         end;
         let templateInputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !objectConfig)#createInputStream ()))) in ();
         ignore (self#setInputStream ((Obj.magic !templateInputStream)))

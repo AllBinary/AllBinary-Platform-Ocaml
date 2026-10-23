@@ -73,7 +73,7 @@ class shippingMethodsView ((transformInfoInterface : TransformInfoInterface.tran
                 ignore ((Obj.magic !shippingMethodNode)#appendChild ((!shippingView#toXmlNode ((Obj.magic document)))));
                 let shippingCost : Money.money ref = ref (((!shipping#getCost (!order)) :> Money.money)) in ();
                 let subTotal : Money.money ref = ref (((!basket#getSubTotal ()) :> Money.money)) in ();
-                let taxRate : float ref = ref ((((TaxFactory.getInstance ())#getInstance (abeClientInformation, storeFrontInterface))#getTaxRate (!streetAddress, storeFrontInterface))) in ();
+                let taxRate : float ref = ref ((((TaxFactory.getInstance ())#getInstance ((self#abeClientInformation), storeFrontInterface))#getTaxRate (!streetAddress, storeFrontInterface))) in ();
                 let tax : Money.money ref = ref (((new Money.money ()) :> Money.money)) in ();
                 let total : Money.money ref = ref (((new Money.money ()) :> Money.money)) in ();
                 ignore (!total#add ((java_string_of (Obj.repr !shippingCost))));
@@ -92,7 +92,7 @@ class shippingMethodsView ((transformInfoInterface : TransformInfoInterface.tran
             (Obj.magic ((Obj.magic !shippingMethodsNode)))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#xSLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "toXmlNode", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "toXmlNode", e))
             end;
             raise e
         end)
@@ -113,7 +113,7 @@ class shippingMethodsView ((transformInfoInterface : TransformInfoInterface.tran
         with e -> begin
             let error : string ref = ref ("Failed to view ShippingMethods") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             !error
         end)
@@ -127,7 +127,7 @@ class shippingMethodsView ((transformInfoInterface : TransformInfoInterface.tran
         ();
         (* super(...) is the inherit clause *) ();
         storeFrontInterface <- (StoreFrontFactory.getInstance (((self#getTransformInfoInterface ())#getStoreName ())));
-        shippingMethods <- (new ShippingMethods.shippingMethods (abeClientInformation, storeFrontInterface))
+        shippingMethods <- (new ShippingMethods.shippingMethods ((self#abeClientInformation), storeFrontInterface))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "ShippingMethodsView" (fun arguments -> Obj.repr (new shippingMethodsView (Obj.obj arguments)))

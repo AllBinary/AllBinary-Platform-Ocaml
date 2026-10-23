@@ -85,7 +85,7 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
         try
         begin
         if ((StringValidationUtil.getInstance ())#isEmpty (value)) then begin
-            raise (Java_return (Obj.repr (stringUtil#eMPTY_STRING)))
+            raise (Java_return (Obj.repr ((self#stringUtil)#eMPTY_STRING)))
         end else begin
             raise (Java_return (Obj.repr (value)))
         end
@@ -96,42 +96,42 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
     method updateWhere ((key : string), (value : string), (updatedKeyValuePairs : java_hash_map)) : unit =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#uPDATE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#uPDATE));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#sET));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sET));
         (try
             let keyArray : Obj.t array ref = ref (((updatedKeyValuePairs#keySet ())#toArray ())) in ();
             let size : int ref = ref ((Array.length !keyArray)) in ();
             for i = 0 to !size - 1 do
                 let columnName : string ref = ref ((java_string_of (Obj.repr !keyArray.(i)))) in ();
-                ignore (!stringBuffer#append (commonSeps#sPACE));
+                ignore (!stringBuffer#append ((self#commonSeps)#sPACE));
                 ignore (!stringBuffer#append (!columnName));
                 ignore (!stringBuffer#append (eQUAL_QUOTE));
                 let columnValue : string ref = ref ((Obj.magic (updatedKeyValuePairs#get (!columnName)))) in ();
                 if (!columnValue = (Obj.magic 0)) then begin
-                    columnValue := stringUtil#eMPTY_STRING
+                    columnValue := (self#stringUtil)#eMPTY_STRING
                 end else begin
-                    columnValue := ((new Replace.replace (sqlStrings#cLOSE_QUOTE, eSCAPE_QUOTES))#all (!columnValue))
+                    columnValue := ((new Replace.replace ((self#sqlStrings)#cLOSE_QUOTE, eSCAPE_QUOTES))#all (!columnValue))
                 end;
                 ignore (!stringBuffer#append ((self#getValue (!columnValue))));
-                ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+                ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
                 if (i < (!size - 1)) then begin
-                    ignore (!stringBuffer#append (commonSeps#cOMMA))
+                    ignore (!stringBuffer#append ((self#commonSeps)#cOMMA))
                 end
             done;
-            ignore (!stringBuffer#append (sqlStrings#wHERE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
             ignore (!stringBuffer#append (key));
-            ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
             ignore (!stringBuffer#append ((self#getValue (value))));
-            ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             ignore (self#executeSQLStatement (!sqlStatement));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (sUCCESS_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_UPDATE_WHERE))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#sUCCESS_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_UPDATE_WHERE))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((fAILED_SQL_STATEMENT + !stringBuffer), self, mETHOD_UPDATE_WHERE, e))
+                ignore ((Obj.magic logUtil)#put (((self#fAILED_SQL_STATEMENT) + !stringBuffer), self, mETHOD_UPDATE_WHERE, e))
             end
         end)
         end [@@warning "-7"]
@@ -143,23 +143,23 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
     method deleteWhere ((key : string), (value : string)) : unit =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#dELETE));
-        ignore (!stringBuffer#append (sqlStrings#fROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#dELETE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#fROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#wHERE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
         ignore (!stringBuffer#append (key));
-        ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
         ignore (!stringBuffer#append (value));
-        ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
         (try
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             ignore (self#executeSQLStatement (!sqlStatement));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (sUCCESS_SQL_STATEMENT)) ^ !sqlStatement), self, mETHOD_DELETE_WHERE))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#sUCCESS_SQL_STATEMENT))) ^ !sqlStatement), self, mETHOD_DELETE_WHERE))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ (java_string_of (Obj.repr !stringBuffer))), self, mETHOD_DELETE_WHERE, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ (java_string_of (Obj.repr !stringBuffer))), self, mETHOD_DELETE_WHERE, e))
             end
         end)
         end [@@warning "-7"]
@@ -172,28 +172,28 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
         let values = Obj.repr values in
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#iNSERT_INTO));
+        ignore (!stringBuffer#append ((self#sqlStrings)#iNSERT_INTO));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#vALUES));
+        ignore (!stringBuffer#append ((self#sqlStrings)#vALUES));
         (try
             for i = 0 to (((Obj.magic values)#size ()) - 1) - 1 do
                 let value : string ref = ref ((self#getValue ((Obj.magic ((Obj.magic values)#get (i)))))) in ();
-                value := ((new Replace.replace (sqlStrings#eSCAPE, sqlStrings#dOUBLE_ESCAPE))#all (!value));
+                value := ((new Replace.replace ((self#sqlStrings)#eSCAPE, (self#sqlStrings)#dOUBLE_ESCAPE))#all (!value));
                 ignore (!stringBuffer#append (!value));
-                ignore (!stringBuffer#append (sqlStrings#sINGLE_QUOTE_COMMA_SEP))
+                ignore (!stringBuffer#append ((self#sqlStrings)#sINGLE_QUOTE_COMMA_SEP))
             done;
             let value : string ref = ref ((self#getValue ((Obj.magic ((Obj.magic values)#get ((((Obj.magic values)#size ()) - 1))))))) in ();
-            value := ((new Replace.replace (sqlStrings#eSCAPE, sqlStrings#dOUBLE_ESCAPE))#all (!value));
+            value := ((new Replace.replace ((self#sqlStrings)#eSCAPE, (self#sqlStrings)#dOUBLE_ESCAPE))#all (!value));
             ignore (!stringBuffer#append (!value));
             ignore (!stringBuffer#append (iNSERT_END));
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             ignore (self#executeSQLStatement (!sqlStatement));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (sUCCESS_SQL_STATEMENT)) ^ !sqlStatement), self, iNSERT))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#sUCCESS_SQL_STATEMENT))) ^ !sqlStatement), self, (self#iNSERT)))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (fAILED_SQL_STATEMENT)) ^ (java_string_of (Obj.repr !stringBuffer))), self, iNSERT, e))
+                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr ((self#fAILED_SQL_STATEMENT))) ^ (java_string_of (Obj.repr !stringBuffer))), self, iNSERT, e))
             end
         end)
         end [@@warning "-7-20"]
@@ -202,9 +202,9 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
     method getRow ((keysAndValues : java_hash_map)) : java_hash_map =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT_ALL_FROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT_ALL_FROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#wHERE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
         (try
             let result : java_hash_map ref = ref (((Obj.magic 0) :> java_hash_map)) in ();
             let set : Obj.t ref = ref ((Obj.repr (keysAndValues#keySet ()))) in ();
@@ -214,21 +214,21 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
                 let key : string ref = ref ((Obj.magic !keyArray.(index))) in ();
                 let value : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((Obj.magic (keysAndValues#get (!key)))))))) in ();
                 ignore (!stringBuffer#append (!key));
-                ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+                ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
                 ignore (!stringBuffer#append ((self#getValue (!value))));
-                ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+                ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
                 if (index < (!size - 1)) then begin
-                    ignore (!stringBuffer#append (sqlStrings#aND))
+                    ignore (!stringBuffer#append ((self#sqlStrings)#aND))
                 end
             done;
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (sqlStrings#sQL_STATEMENT_LABEL)) ^ !sqlStatement), self, mETHOD_GET_ROW))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#sqlStrings)#sQL_STATEMENT_LABEL)) ^ !sqlStatement), self, mETHOD_GET_ROW))
             end;
             let rset : Obj.t ref = ref ((Obj.repr (self#executeSQLStatement (!sqlStatement)))) in ();
             let resultSetMetaData : Obj.t ref = ref ((Obj.repr ((Obj.magic !rset)#getMetaData ()))) in ();
             while ((Obj.magic !rset)#next ()) do
-                result := (stdUtil#createHashMap ());
+                result := ((self#stdUtil)#createHashMap ());
                 let columnCount : int ref = ref (((Obj.magic !resultSetMetaData)#getColumnCount ())) in ();
                 for index = 1 to !columnCount do
                     let columnName : string ref = ref (((Obj.magic !resultSetMetaData)#getColumnName (index))) in ();
@@ -246,7 +246,7 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
             ((Obj.magic 0) :> java_hash_map)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((fAILED_SQL_STATEMENT + !stringBuffer), self, mETHOD_GET_ROW, e))
+                ignore ((Obj.magic logUtil)#put (((self#fAILED_SQL_STATEMENT) + !stringBuffer), self, mETHOD_GET_ROW, e))
             end;
             ((Obj.magic 0) :> java_hash_map)
         end)
@@ -265,18 +265,18 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
     method getAllRows () : BasicArrayList.basicArrayList =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT_ALL_FROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT_ALL_FROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF ((sqlStrings#sQL_STATEMENT_LABEL + !stringBuffer), self, mETHOD_GET_ALL_ROWS))
+                ignore ((Obj.magic logUtil)#putF (((self#sqlStrings)#sQL_STATEMENT_LABEL + !stringBuffer), self, mETHOD_GET_ALL_ROWS))
             end;
             let rows : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             let rset : Obj.t ref = ref ((Obj.repr (self#executeSQLStatement (!sqlStatement)))) in ();
             let resultSetMetaData : Obj.t ref = ref ((Obj.repr ((Obj.magic !rset)#getMetaData ()))) in ();
             while ((Obj.magic !rset)#next ()) do
-                let result : java_hash_map ref = ref (((stdUtil#createHashMap ()) :> java_hash_map)) in ();
+                let result : java_hash_map ref = ref ((((self#stdUtil)#createHashMap ()) :> java_hash_map)) in ();
                 let columnCount : int ref = ref (((Obj.magic !resultSetMetaData)#getColumnCount ())) in ();
                 for index = 1 to !columnCount do
                     let columnName : string ref = ref (((Obj.magic !resultSetMetaData)#getColumnName (index))) in ();
@@ -291,7 +291,7 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
             (!rows :> BasicArrayList.basicArrayList)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((fAILED_SQL_STATEMENT + !stringBuffer), self, mETHOD_GET_ALL_ROWS, e))
+                ignore ((Obj.magic logUtil)#put (((self#fAILED_SQL_STATEMENT) + !stringBuffer), self, mETHOD_GET_ALL_ROWS, e))
             end;
             ((Obj.magic 0) :> BasicArrayList.basicArrayList)
         end)
@@ -301,11 +301,11 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
     method getRowsWhereBetween ((whereKeyValuePairs : java_hash_map), (betweenColumn : string), (smallest : string), (largest : string)) : BasicArrayList.basicArrayList =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT_ALL_FROM));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sELECT_ALL_FROM));
         ignore (!stringBuffer#append ((self#getTableName ())));
         (try
             let rows : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            ignore (!stringBuffer#append (sqlStrings#wHERE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#wHERE));
             let set : Obj.t ref = ref ((Obj.repr (whereKeyValuePairs#keySet ()))) in ();
             let key : string ref = ref ("") in ();
             let value : string ref = ref ("") in ();
@@ -315,23 +315,23 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
                 key := (Obj.magic !keyArray.(index));
                 value := (Obj.magic (whereKeyValuePairs#get (!key)));
                 ignore (!stringBuffer#append (!key));
-                ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
+                ignore (!stringBuffer#append ((self#sqlStrings)#eQUAL_QUOTE));
                 ignore (!stringBuffer#append ((self#getValue (!value))));
-                ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
-                ignore (!stringBuffer#append (sqlStrings#aND))
+                ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
+                ignore (!stringBuffer#append ((self#sqlStrings)#aND))
             done;
             ignore (!stringBuffer#append (betweenColumn));
-            ignore (!stringBuffer#append (sqlStrings#mORE_THAN_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#mORE_THAN_QUOTE));
             ignore (!stringBuffer#append (smallest));
-            ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
-            ignore (!stringBuffer#append (sqlStrings#aND));
+            ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#aND));
             ignore (!stringBuffer#append (betweenColumn));
-            ignore (!stringBuffer#append (sqlStrings#lESS_THAN_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#lESS_THAN_QUOTE));
             ignore (!stringBuffer#append (largest));
-            ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
+            ignore (!stringBuffer#append ((self#sqlStrings)#cLOSE_QUOTE));
             let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (sqlStrings#sQL_STATEMENT_LABEL)) ^ !sqlStatement), self, mETHOD_GET_ROWS_WHERE_BETWEEN))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#sqlStrings)#sQL_STATEMENT_LABEL)) ^ !sqlStatement), self, mETHOD_GET_ROWS_WHERE_BETWEEN))
             end;
             let rset : Obj.t ref = ref ((Obj.repr (self#executeSQLStatement (!sqlStatement)))) in ();
             let resultSetMetaData : Obj.t ref = ref ((Obj.repr ((Obj.magic !rset)#getMetaData ()))) in ();
@@ -341,7 +341,7 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
             let columnName : string ref = ref ("") in ();
             let field : string ref = ref ("") in ();
             while ((Obj.magic !rset)#next ()) do
-                result := (stdUtil#createHashMap ());
+                result := ((self#stdUtil)#createHashMap ());
                 columnNames := (new BasicArrayListD.basicArrayListD ());
                 columnCount := ((Obj.magic !resultSetMetaData)#getColumnCount ());
                 for index = 1 to !columnCount do
@@ -357,7 +357,7 @@ class abSqlRow ((databaseConnectionInfoInterface : DbConnectionInfo.dbConnection
             (!rows :> BasicArrayList.basicArrayList)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ((fAILED_SQL_STATEMENT + !stringBuffer), self, mETHOD_GET_ROWS_WHERE_BETWEEN, e))
+                ignore ((Obj.magic logUtil)#put (((self#fAILED_SQL_STATEMENT) + !stringBuffer), self, mETHOD_GET_ROWS_WHERE_BETWEEN, e))
             end;
             ((Obj.magic 0) :> BasicArrayList.basicArrayList)
         end)

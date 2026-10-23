@@ -67,7 +67,7 @@ class lineAnimation ((basicColor : BasicColor.basicColor)) =
         let graphics = Obj.repr graphics in
         begin
         let currentLine : int array array ref = ref (line) in ();
-        ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
+        ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
         ignore ((Obj.magic graphics)#drawLine (!currentLine.(0).(0), !currentLine.(0).(1), !currentLine.(1).(0), !currentLine.(1).(1)))
         end [@@warning "-7-20"]
     

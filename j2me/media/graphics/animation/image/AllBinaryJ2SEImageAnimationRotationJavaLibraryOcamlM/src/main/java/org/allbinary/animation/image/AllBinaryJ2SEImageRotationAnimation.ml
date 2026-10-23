@@ -118,7 +118,7 @@ class allBinaryJ2SEImageRotationAnimation (originalImage, image, (angleInfo : An
     method setAlpha ((alpha : int)) : unit =
         begin
         let changed : bool ref = ref (false) in ();
-        if (alphaP != alpha) then begin
+        if ((self#alphaP) != alpha) then begin
             changed := true
         end;
         ignore (super#setAlpha (alpha));
@@ -167,10 +167,10 @@ class allBinaryJ2SEImageRotationAnimation (originalImage, image, (angleInfo : An
 
     method updateImage () : unit =
         begin
-        ignore ((Obj.magic imageRotationUtil)#rotateImage ((Obj.magic originalImageArray).(0), (Obj.magic twoImages).(bufferedImageIndex), ((angleInfo#getAngle ()) + 90)));
-        ignore (alphaProcessor#updateAlpha ((Obj.magic imageModifierUtil), (NullImage.get_nULL_IMAGE ()), (Obj.magic twoImages).(bufferedImageIndex), 0, alphaP));
-        ignore (setColorProcessor#updateColor ((Obj.magic imageModifierUtil), (NullImage.get_nULL_IMAGE ()), (Obj.magic twoImages).(bufferedImageIndex), 0, basicColor));
-        ignore (changeColorProcessor#updateColor ((Obj.magic imageModifierUtil), (NullImage.get_nULL_IMAGE ()), (Obj.magic twoImages).(bufferedImageIndex), 0, changeBasicColorP));
+        ignore ((Obj.magic imageRotationUtil)#rotateImage ((Obj.magic originalImageArray).(0), (Obj.magic twoImages).(bufferedImageIndex), (((self#angleInfo)#getAngle ()) + 90)));
+        ignore (alphaProcessor#updateAlpha ((Obj.magic imageModifierUtil), (NullImage.get_nULL_IMAGE ()), (Obj.magic twoImages).(bufferedImageIndex), 0, (self#alphaP)));
+        ignore (setColorProcessor#updateColor ((Obj.magic imageModifierUtil), (NullImage.get_nULL_IMAGE ()), (Obj.magic twoImages).(bufferedImageIndex), 0, (self#basicColor)));
+        ignore (changeColorProcessor#updateColor ((Obj.magic imageModifierUtil), (NullImage.get_nULL_IMAGE ()), (Obj.magic twoImages).(bufferedImageIndex), 0, (self#changeBasicColorP)));
         (self#swap ())
         end [@@warning "-7"]
     
@@ -196,7 +196,7 @@ class allBinaryJ2SEImageRotationAnimation (originalImage, image, (angleInfo : An
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#drawImage ((Obj.magic imageToShow), x, y, anchor))
+        ignore ((Obj.magic graphics)#drawImage ((Obj.magic imageToShow), x, y, (self#anchor)))
         end [@@warning "-7-20"]
     
 

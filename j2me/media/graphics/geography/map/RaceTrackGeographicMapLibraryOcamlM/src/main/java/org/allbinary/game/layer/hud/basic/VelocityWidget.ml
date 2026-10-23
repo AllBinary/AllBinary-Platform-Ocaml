@@ -67,7 +67,7 @@ class velocityWidget ((powerOfTenVelocity_arg : int), (location : int), (directi
         let graphics = Obj.repr graphics in
         begin
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        updateMaxWidth <- (((Obj.magic !font)#getSize ()) * (((5 + ((MathUtil.getInstance ())#getTotalDigits (powerOfTenVelocity))) + 1)));
+        (self#set_updateMaxWidth) ((((Obj.magic !font)#getSize ()) * (((5 + ((MathUtil.getInstance ())#getTotalDigits (powerOfTenVelocity))) + 1))));
         ignore (super#updateMeasurement ((Obj.magic graphics)));
         offset <- ((MyFontProcessor.defaultStringWidth ((Obj.magic !font), (primitiveLongUtil#getMaxDigits ()))) + (MyFontProcessor.defaultStringWidth ((Obj.magic !font), 2)));
         offset2 <- ((offset - (MyFontProcessor.defaultStringWidth ((Obj.magic !font), totalDigits))) - (MyFontProcessor.defaultStringWidth ((Obj.magic !font), 2)))
@@ -100,7 +100,7 @@ class velocityWidget ((powerOfTenVelocity_arg : int), (location : int), (directi
             end else begin
                 totalDigits <- (primitiveLongUtil#getCurrentTotalDigits ())
             end;
-            myFontProcessor <- updateMyFontProcessor
+            (self#set_myFontProcessor) ((self#updateMyFontProcessor))
         end
         end [@@warning "-7"]
     
@@ -135,7 +135,7 @@ class velocityWidget ((powerOfTenVelocity_arg : int), (location : int), (directi
         maxVelocity <- powerOfTenVelocity_arg;
         velocity <- 0;
         primitiveLongUtil <- (PrimitiveLongUtil.createPowerOfTen (powerOfTenVelocity_arg));
-        updateMaxHeight <- 14
+        (self#set_updateMaxHeight) (14)
       end
   end
 let () = java_register_constructor "VelocityWidget" (fun arguments -> Obj.repr (new velocityWidget (Obj.obj arguments)))

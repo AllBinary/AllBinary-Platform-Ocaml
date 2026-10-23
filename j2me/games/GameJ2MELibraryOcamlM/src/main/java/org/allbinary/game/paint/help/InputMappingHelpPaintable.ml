@@ -98,7 +98,7 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
         let updateMyFontProperties_arg : UpdateMyFontProperties.updateMyFontProperties ref = ref (((new UpdateMyFontProperties.updateMyFontProperties ()) :> UpdateMyFontProperties.updateMyFontProperties)) in ();
         !updateMyFontProperties_arg#set_charHeight (((Obj.magic !font)#getHeight ()));
         let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let inputInfo : string array ref = ref (inputInfo) in ();
+        let inputInfo : string array ref = ref ((self#inputInfo)) in ();
         let size : int ref = ref ((Array.length !inputInfo)) in ();
         !updateMyFontProperties_arg#set_actionStringArray ((Array.make (!size) (Obj.magic 0)));
         !updateMyFontProperties_arg#set_keymappingBeginWidthArray ((Array.make (!size) 0));
@@ -116,31 +116,31 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
             keyMappings := (self#get (!list));
             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
             actionString := (java_string_of (Obj.repr ((((!stringMaker#append (!inputInfo.(index)))#append (commonSeps#cOLON))#append (commonSeps#sPACE))#append (commonSeps#sPACE))));
-            !updateMyFontProperties_arg#set_actionStringArray.(index) (!actionString);
+            !updateMyFontProperties_arg#actionStringArray.(index) <- !actionString;
             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-            !updateMyFontProperties_arg#set_keymappingBeginWidthArray.(index) (((((Obj.magic !font)#stringWidth ((java_string_of (Obj.repr ((!stringMaker#append (!updateMyFontProperties_arg#actionStringArray.(index)))#append (!keyMappings)))))) asr 1)));
-            !updateMyFontProperties_arg#set_actionStringDeltaXArray.(index) (((Obj.magic !font)#stringWidth (!actionString)));
+            !updateMyFontProperties_arg#keymappingBeginWidthArray.(index) <- ((((Obj.magic !font)#stringWidth ((java_string_of (Obj.repr ((!stringMaker#append (!updateMyFontProperties_arg#actionStringArray.(index)))#append (!keyMappings)))))) asr 1));
+            !updateMyFontProperties_arg#actionStringDeltaXArray.(index) <- ((Obj.magic !font)#stringWidth (!actionString));
             size2 := (!list#size ());
-            !updateMyFontProperties_arg#set_inputDeltaXArray.(index) ((Array.make (!size2) 0));
-            !updateMyFontProperties_arg#set_sepArray.(index) ((Array.make (!size2) (Obj.magic 0)));
-            !updateMyFontProperties_arg#set_sepWidthArray.(index) ((Array.make (!size2) 0));
+            !updateMyFontProperties_arg#inputDeltaXArray.(index) <- (Array.make (!size2) 0);
+            !updateMyFontProperties_arg#sepArray.(index) <- (Array.make (!size2) (Obj.magic 0));
+            !updateMyFontProperties_arg#sepWidthArray.(index) <- (Array.make (!size2) 0);
             for index2 = 0 to !size2 - 1 do
                 input := Obj.repr ((Obj.magic !list#objectArray.(index2)));
-                !updateMyFontProperties_arg#set_inputDeltaXArray.(index).(index2) (((Obj.magic !font)#stringWidth (((Obj.magic !input)#getName ()))));
-                !updateMyFontProperties_arg#set_sepArray.(index).(index2) (eMPTY_STRING);
+                !updateMyFontProperties_arg#inputDeltaXArray.(index).(index2) <- ((Obj.magic !font)#stringWidth (((Obj.magic !input)#getName ())));
+                !updateMyFontProperties_arg#sepArray.(index).(index2) <- eMPTY_STRING;
                 if ((index2 + 1) < (!list#size ())) then begin
                     if ((!list#size ()) = 2) then begin
-                        !updateMyFontProperties_arg#set_sepArray.(index).(index2) (aND)
+                        !updateMyFontProperties_arg#sepArray.(index).(index2) <- aND
                     end else begin
                         if ((index2 + 2) = (!list#size ())) then begin
-                            !updateMyFontProperties_arg#set_sepArray.(index).(index2) (mORE_THAN_TWO_IN_LIST_AND)
+                            !updateMyFontProperties_arg#sepArray.(index).(index2) <- mORE_THAN_TWO_IN_LIST_AND
                         end else begin
-                            !updateMyFontProperties_arg#set_sepArray.(index).(index2) (sEP)
+                            !updateMyFontProperties_arg#sepArray.(index).(index2) <- sEP
                         end
                     end
                 end;
                 if (!updateMyFontProperties_arg#sepArray.(index).(index2) != eMPTY_STRING) then begin
-                    !updateMyFontProperties_arg#set_sepWidthArray.(index).(index2) (((Obj.magic !font)#stringWidth (!updateMyFontProperties_arg#sepArray.(index).(index2))))
+                    !updateMyFontProperties_arg#sepWidthArray.(index).(index2) <- ((Obj.magic !font)#stringWidth (!updateMyFontProperties_arg#sepArray.(index).(index2)))
                 end
             done
         done;
@@ -171,7 +171,7 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
             let size2 : int ref = ref ((!list#size ())) in ();
             !inputBasicColorArray_arg.(index) <- (Array.make (!size2) (Obj.magic 0));
             for index2 = 0 to !size2 - 1 do
-                !inputBasicColorArray_arg.(index).(index2) <- basicColor
+                !inputBasicColorArray_arg.(index).(index2) <- (self#basicColor)
             done;
             if ((Obj.repr !gameKey) == (Obj.repr (Obj.magic selectedGameKey))) then begin
                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
@@ -184,7 +184,7 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
                     !inputBasicColorArray_arg.(index).(!indexOfSelectedInput) <- selectedBasicColor
                 end
             end else begin
-                !actionBasicColor_arg.(index) <- (basicColor :> BasicColor.basicColor)
+                !actionBasicColor_arg.(index) <- ((self#basicColor) :> BasicColor.basicColor)
             end;
             !keyInfo.(index) <- (!gameInputMapping#getName ());
             !keyMappingArray_arg.(index) <- (!list :> BasicArrayList.basicArrayList)
@@ -193,7 +193,7 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
         actionBasicColor <- !actionBasicColor_arg;
         inputBasicColorArray <- !inputBasicColorArray_arg;
         ignore (super#setInputInfoP (!keyInfo));
-        myFontProcessor <- updateMyFontProcessor
+        (self#set_myFontProcessor) ((self#updateMyFontProcessor))
         end [@@warning "-7-20"]
     
 
@@ -225,11 +225,11 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        let halfWidth : int ref = ref ((displayInfo#getLastHalfWidth ())) in ();
-        ignore ((Obj.magic graphics)#setColor ((basicColor#intValue ())));
-        ignore ((Obj.magic graphics)#drawString (title, (!halfWidth - titleBeginWidth), updateMyFontProperties#charHeight, anchor));
-        let inputInfo : string array ref = ref (inputInfo) in ();
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
+        let halfWidth : int ref = ref (((self#displayInfo)#getLastHalfWidth ())) in ();
+        ignore ((Obj.magic graphics)#setColor (((self#basicColor)#intValue ())));
+        ignore ((Obj.magic graphics)#drawString ((self#title), (!halfWidth - (self#titleBeginWidth)), updateMyFontProperties#charHeight, (self#anchor)));
+        let inputInfo : string array ref = ref ((self#inputInfo)) in ();
         let size : int ref = ref ((Array.length !inputInfo)) in ();
         let y : int ref = ref (0) in ();
         let deltaX : int ref = ref (0) in ();
@@ -247,16 +247,16 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
             beginWidth := updateMyFontProperties#keymappingBeginWidthArray.(index);
             ignore ((Obj.magic graphics)#setColor ((actionBasicColor.(index)#intValue ())));
             actionString := updateMyFontProperties#actionStringArray.(index);
-            ignore ((Obj.magic graphics)#drawString (!actionString, ((!halfWidth - !beginWidth) + !deltaX), !y, anchor));
+            ignore ((Obj.magic graphics)#drawString (!actionString, ((!halfWidth - !beginWidth) + !deltaX), !y, (self#anchor)));
             deltaX := (!deltaX + updateMyFontProperties#actionStringDeltaXArray.(index));
             for index2 = 0 to !size2 - 1 do
                 input := Obj.repr ((Obj.magic !list#objectArray.(index2)));
                 ignore ((Obj.magic graphics)#setColor ((inputBasicColorArray.(index).(index2)#intValue ())));
-                ignore ((Obj.magic graphics)#drawString (((Obj.magic !input)#getName ()), ((!halfWidth - !beginWidth) + !deltaX), !y, anchor));
+                ignore ((Obj.magic graphics)#drawString (((Obj.magic !input)#getName ()), ((!halfWidth - !beginWidth) + !deltaX), !y, (self#anchor)));
                 deltaX := (!deltaX + updateMyFontProperties#inputDeltaXArray.(index).(index2));
                 sep := updateMyFontProperties#sepArray.(index).(index2);
-                ignore ((Obj.magic graphics)#setColor ((basicColor#intValue ())));
-                ignore ((Obj.magic graphics)#drawString (!sep, ((!halfWidth - !beginWidth) + !deltaX), !y, anchor));
+                ignore ((Obj.magic graphics)#setColor (((self#basicColor)#intValue ())));
+                ignore ((Obj.magic graphics)#drawString (!sep, ((!halfWidth - !beginWidth) + !deltaX), !y, (self#anchor)));
                 deltaX := (!deltaX + updateMyFontProperties#sepWidthArray.(index).(index2))
             done
         done

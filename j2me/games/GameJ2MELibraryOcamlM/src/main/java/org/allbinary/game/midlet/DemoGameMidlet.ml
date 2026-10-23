@@ -54,14 +54,14 @@ class demoGameMidlet ((clientInformationFactory : ClientInformationFactory.clien
 
     method createDemoGameCanvasRunnableInterface () : GameCanvasRunnableInterface.gameCanvasRunnableInterface =
         begin
-        ignore (logUtil#putF (commonStrings#nOT_IMPLEMENTED, self, commonStrings#cREATE));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#nOT_IMPLEMENTED, self, (self#commonStrings)#cREATE));
         ((NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ()) :> GameCanvasRunnableInterface.gameCanvasRunnableInterface)
         end [@@warning "-7"]
     
 
     method createGameCanvasRunnable : 'any1. 'any1 -> GameCanvasRunnableInterface.gameCanvasRunnableInterface = fun (_allBinaryGameLayerManager) ->
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7-20"]
     
 
@@ -85,7 +85,7 @@ class demoGameMidlet ((clientInformationFactory : ClientInformationFactory.clien
 
     method setDemo () : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, "setDemo"));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, "setDemo"));
         let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
         ignore (!progressCanvas#start ());
         ignore ((PrimaryThreadPool.getInstance ())#runTask ((Obj.obj (java_new "DemoRunnable" (Obj.repr (self))))))
@@ -95,13 +95,13 @@ class demoGameMidlet ((clientInformationFactory : ClientInformationFactory.clien
     method createGame () : unit =
         begin
         let cREATE_GAME : string ref = ref ("createGame") in ();
-        ignore (logUtil#putF (commonStrings#sTART, self, !cREATE_GAME));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, !cREATE_GAME));
         let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
         ignore (!progressCanvas#start ());
         let hashtable : Obj.t ref = ref ((Obj.repr (self#getStartStateHashtable ()))) in ();
         ignore (self#setStartStateHashtable ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#nULL_TABLE));
         ignore ((PrimaryThreadPool.getInstance ())#runTask ((Obj.obj (java_new "CreateGameRunnable" (Obj.repr (self, (Obj.magic !hashtable)))))));
-        ignore (logUtil#putF (commonStrings#eND, self, !cREATE_GAME))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#eND, self, !cREATE_GAME))
         end [@@warning "-7"]
     
 

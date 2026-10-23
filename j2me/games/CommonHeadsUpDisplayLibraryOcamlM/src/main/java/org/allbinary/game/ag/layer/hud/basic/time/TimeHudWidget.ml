@@ -52,7 +52,7 @@ class timeHudWidget ((location : int), (direction : int), (bufferZone : int), (b
         let graphics = Obj.repr graphics in
         begin
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        updateMaxWidth <- (((Obj.magic !font)#getSize ()) * 5);
+        (self#set_updateMaxWidth) ((((Obj.magic !font)#getSize ()) * 5));
         offset <- (((Obj.magic !font)#stringWidth (tIME_STRING)) + (MyFontProcessor.defaultStringWidth ((Obj.magic !font), 3)));
         ignore (super#updateMeasurement ((Obj.magic graphics)))
         end [@@warning "-7-20"]
@@ -96,7 +96,7 @@ class timeHudWidget ((location : int), (direction : int), (bufferZone : int), (b
         (* super(...) is the inherit clause *) ();
         timer <- Obj.repr (timer_arg);
         (self#set ());
-        updateMaxHeight <- 14
+        (self#set_updateMaxHeight) (14)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "TimeHudWidget" (fun arguments -> Obj.repr (new timeHudWidget (Obj.obj arguments)))

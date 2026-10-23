@@ -37,14 +37,14 @@ class usersValidationView ((transformInfoInterface : TransformInfoInterface.tran
         try
         begin
         (try
-            if ((userVector#size ()) > 0) then begin
+            if (((self#userVector)#size ()) > 0) then begin
                 raise (Java_return (Obj.repr (true)))
             end else begin
                 raise (Java_return (Obj.repr (false)))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -81,7 +81,7 @@ class usersValidationView ((transformInfoInterface : TransformInfoInterface.tran
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         (* super(...) is the inherit clause *) ();
-        userVector <- ((UserEntityFactory.getInstance ())#getCustomers ())
+        (self#set_userVector) (((UserEntityFactory.getInstance ())#getCustomers ()))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "UsersValidationView" (fun arguments -> Obj.repr (new usersValidationView (Obj.obj arguments)))

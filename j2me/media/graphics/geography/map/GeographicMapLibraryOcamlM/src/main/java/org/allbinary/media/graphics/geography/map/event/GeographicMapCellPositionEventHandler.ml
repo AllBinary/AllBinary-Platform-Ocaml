@@ -67,7 +67,7 @@ class geographicMapCellPositionEventHandler () =
                 let miniMapLayer : Obj.t ref = ref ((Obj.repr (Obj.magic (list#get (!index))))) in ();
                 ignore ((Obj.magic !miniMapLayer)#onGeographicMapCellPositionEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -77,14 +77,14 @@ class geographicMapCellPositionEventHandler () =
     method fireRemoveEvent : 'any1. 'any1 -> unit = fun (eventObject) ->
         let eventObject = Obj.repr eventObject in
         begin
-        let list_arg : BasicArrayList.basicArrayList ref = ref ((eventListenerInterfaceList :> BasicArrayList.basicArrayList)) in ();
+        let list_arg : BasicArrayList.basicArrayList ref = ref (((self#eventListenerInterfaceList) :> BasicArrayList.basicArrayList)) in ();
         let index : int ref = ref ((list#size ())) in ();
         while ((index := !index - 1; !index) >= 0) do
             (try
                 let miniMapLayer : Obj.t ref = ref ((Obj.repr (Obj.magic (list#get (!index))))) in ();
                 ignore ((Obj.magic !miniMapLayer)#onRemoveGeographicMapCellPositionEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((Obj.magic 0) :> EventListenerInterface.eventListenerInterface)) in ();
@@ -96,7 +96,7 @@ class geographicMapCellPositionEventHandler () =
                 geographicMapCellPositionEventListenerInterface := ((Obj.magic !eventListenerInterface));
                 ignore (!geographicMapCellPositionEventListenerInterface#onRemoveGeographicMapCellPositionEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done
         end [@@warning "-7-20"]

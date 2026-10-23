@@ -66,7 +66,7 @@ class analogControllerConfigurationEventHandler () =
                 let playerGameInput : AnalogControllerConfigurationEventListenerInterface.analogControllerConfigurationEventListenerInterface ref = ref (((Obj.magic list#objectArray.(!index)) :> AnalogControllerConfigurationEventListenerInterface.analogControllerConfigurationEventListenerInterface)) in ();
                 ignore (!playerGameInput#onAnalogControllerConfigurationEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))

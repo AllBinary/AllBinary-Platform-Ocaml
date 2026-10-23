@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.CircularIndexUtil *)
 
 class allBinaryLayerCircularPool () =
-  object
+  object (self)
     inherit BaseCircularPool.baseCircularPool ()
     
     
@@ -29,10 +29,10 @@ class allBinaryLayerCircularPool () =
     method initAllBinaryLayerCircularPool : 'any1. 'any1 * int -> unit = fun (allbinaryLayerFactoryInterface, (total : int)) ->
         let allbinaryLayerFactoryInterface = Obj.repr allbinaryLayerFactoryInterface in
         begin
-        circularIndexUtil <- (CircularIndexUtil.createInstance (total));
-        oBJECT_ARRAY <- (Array.make (total) (Obj.magic 0));
+        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance (total)));
+        (self#set_oBJECT_ARRAY) ((Array.make (total) (Obj.magic 0)));
         for localIndex = 0 to total - 1 do
-            oBJECT_ARRAY.(localIndex) <- (Obj.magic (((Obj.magic allbinaryLayerFactoryInterface)#getInstance ())))
+            (self#oBJECT_ARRAY).(localIndex) <- (Obj.magic (((Obj.magic allbinaryLayerFactoryInterface)#getInstance ())))
         done
         end [@@warning "-7-20"]
 

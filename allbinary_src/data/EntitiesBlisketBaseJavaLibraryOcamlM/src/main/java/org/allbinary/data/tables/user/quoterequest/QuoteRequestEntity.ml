@@ -48,11 +48,11 @@ class quoteRequestEntity () =
         (try
             ignore (super#insert ((Obj.magic values)));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, iNSERT))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, iNSERT))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, iNSERT, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, iNSERT, e))
             end
         end)
         end [@@warning "-7-20"]
@@ -85,11 +85,11 @@ class quoteRequestEntity () =
         (try
             ignore (super#deleteWhere (key, value));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "deleteWhere"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "deleteWhere"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "deleteWhere", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "deleteWhere", e))
             end
         end)
         end [@@warning "-7"]
@@ -99,27 +99,27 @@ class quoteRequestEntity () =
         begin
         let quoteRequestData : QuoteRequestData.quoteRequestData ref = ref (((QuoteRequestData.getInstance ()) :> QuoteRequestData.quoteRequestData)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (((!stringBuffer#append (sqlStrings#cREATE_TABLE))#append (tableName))#append (sqlStrings#sTART));
-        ignore ((!stringBuffer#append (!quoteRequestData#iD))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (((!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE))#append (tableName))#append ((self#sqlStrings)#sTART));
+        ignore ((!stringBuffer#append (!quoteRequestData#iD))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((UserData.get_uSERNAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!quoteRequestData#pROJECT_INFO));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append (!quoteRequestData#cUSTOMER_COMMENTS));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append (!quoteRequestData#bUDGET));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append (!quoteRequestData#tIMEFRAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append (!quoteRequestData#cOMMENTS));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append ((EntryData.getInstance ())#tIMECREATED));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((EntryData.getInstance ())#lASTMODIFIED));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
-        ignore (!stringBuffer#append (sqlStrings#pRIMARY_KEY));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlStrings)#pRIMARY_KEY));
         ignore (!stringBuffer#append (!quoteRequestData#iD));
-        ignore (!stringBuffer#append (sqlStrings#eND));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

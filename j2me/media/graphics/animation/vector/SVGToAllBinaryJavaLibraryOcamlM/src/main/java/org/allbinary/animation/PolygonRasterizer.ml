@@ -2,6 +2,7 @@
 (* package org.allbinary.animation *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class polygonRasterizer () =
   object
@@ -13,7 +14,7 @@ class polygonRasterizer () =
         for i = 0 to (Array.length pixelBuffer) - 1 do
             pixelBuffer.(i) <- 0xFFFFFFFF
         done;
-        ignore ((getInstance ())#fillPolygon (pathX, pathY, !pointCount, pixelBuffer, width, height, 0xFFFF00FF));
+        ignore ((Obj.magic (java_call_static "PolygonRasterizer.getInstance" (Obj.repr ())))#fillPolygon (pathX, pathY, !pointCount, pixelBuffer, width, height, 0xFFFF00FF));
         pixelBuffer
         end
     
@@ -100,7 +101,7 @@ class polygonRasterizer () =
         let pathY : int array ref = ref ((Array.make (200) 0)) in ();
         let pixelBuffer : int array ref = ref ((Array.make ((!width * !height)) 0)) in ();
         let svgPath : string ref = ref ("M 32.139812,81.554575 14.450128,74.294372 V 50.000034 25.705697 l 17.73231,-7.268329 C 41.935209,14.439788 49.953112,11.168898 50,11.168723 c 0.04689,-1.74e-4 8.064791,3.270238 17.817562,7.267583 l 17.73231,7.267899 V 50 74.295795 l -17.73231,7.2679 c -9.752771,3.997344 -17.789855,7.264116 -17.860188,7.259492 -0.07033,-0.0046 -8.088235,-3.275499 -17.817562,-7.268612 z") in ();
-        ignore ((getInstance ())#getPixelBuffer (!svgPath, !pathX, !pathY, !pixelBuffer, !width, !height))
+        ignore ((Obj.magic (java_call_static "PolygonRasterizer.getInstance" (Obj.repr ())))#getPixelBuffer (!svgPath, !pathX, !pathY, !pixelBuffer, !width, !height))
         end
 
     initializer

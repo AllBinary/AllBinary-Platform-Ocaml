@@ -40,7 +40,7 @@ class adjustedSpriteIndexedAnimation (sprite, image, (basicColorArray : BasicCol
         let graphics = Obj.repr graphics in
         begin
         ignore (self#setFrame (frame));
-        ignore (sprite#setPosition ((x + dx), (y + dy)));
+        ignore ((self#sprite)#setPosition ((x + dx), (y + dy)));
         ignore (super#paint ((Obj.magic graphics)))
         end [@@warning "-7-20"]
     
@@ -48,7 +48,7 @@ class adjustedSpriteIndexedAnimation (sprite, image, (basicColorArray : BasicCol
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (g, (x : int), (y : int)) ->
         let g = Obj.repr g in
         begin
-        ignore (sprite#setPosition ((x + dx), (y + dy)));
+        ignore ((self#sprite)#setPosition ((x + dx), (y + dy)));
         ignore (super#paint ((Obj.magic g)))
         end [@@warning "-7-20"]
     
@@ -56,7 +56,7 @@ class adjustedSpriteIndexedAnimation (sprite, image, (basicColorArray : BasicCol
     method paint : 'any1. 'any1 -> unit = fun (g) ->
         let g = Obj.repr g in
         begin
-        ignore (sprite#setPosition (dx, dy));
+        ignore ((self#sprite)#setPosition (dx, dy));
         ignore (super#paint ((Obj.magic g)))
         end [@@warning "-7-20"]
 

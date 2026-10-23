@@ -63,13 +63,13 @@ class gameInputMappingInstructionsCanvas (commandListener, (allBinaryGameLayerMa
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         ignore (colorFillPaintable#paint ((Obj.magic graphics)));
-        let halfWidth : int ref = ref ((displayInfo#getLastHalfWidth ())) in ();
+        let halfWidth : int ref = ref (((self#displayInfo)#getLastHalfWidth ())) in ();
         let beginWidth : int ref = ref ((((((Obj.magic graphics)#getFont ())#stringWidth (tITLE)) asr 1))) in ();
-        ignore ((Obj.magic graphics)#setColor (foregroundColor));
-        ignore ((Obj.magic graphics)#drawString (tITLE, (!halfWidth - !beginWidth), fontHeight, anchor));
-        ignore (drawStringUtil#drawCenterStrings ((Obj.magic graphics), instructions, (displayInfo#getLastWidth ()), fontHeight, !halfWidth, (3 * fontHeight)));
+        ignore ((Obj.magic graphics)#setColor ((self#foregroundColor)));
+        ignore ((Obj.magic graphics)#drawString (tITLE, (!halfWidth - !beginWidth), (self#fontHeight), anchor));
+        ignore (drawStringUtil#drawCenterStrings ((Obj.magic graphics), instructions, ((self#displayInfo)#getLastWidth ()), (self#fontHeight), !halfWidth, (3 * (self#fontHeight))));
         ignore (super#paint ((Obj.magic graphics)))
         end [@@warning "-7-20"]
 
@@ -82,7 +82,7 @@ class gameInputMappingInstructionsCanvas (commandListener, (allBinaryGameLayerMa
         anchor <- (Anchor.get_tOP_LEFT ());
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         colorFillPaintable <- ((Obj.magic (java_call_static "ColorFillPaintableFactory.getInstance" (Obj.repr ())))#getInstance ((allBinaryGameLayerManager#getBackgroundBasicColor ()), false))
       end
   end

@@ -111,7 +111,7 @@ class orderHistoryHelper ((propertiesHashMap_arg : java_hash_map), pageContext_a
         with e -> begin
             let error : string ref = ref ("Failed to set order status") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "setOrderStatus()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "setOrderStatus()", e))
             end;
             ((((!error ^ "<br/>") ^ "Exception: ") ^ java_string_of (Obj.repr (e))) ^ "<br/>")
         end)

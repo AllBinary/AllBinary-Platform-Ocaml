@@ -60,7 +60,7 @@ class gameKeyCompleteMotionGestureInputEvent ((name : string), (motionGestureInp
             (self#setGameKeyEvent ((gameKeyEventFactory#getInstanceForInput (self, (self#getGameKey ())))))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (logUtil#put (!commonStrings#eXCEPTION, self, !commonStrings#uPDATE, e))
+            ignore ((self#logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#uPDATE, e))
         end)
         end [@@warning "-7"]
     

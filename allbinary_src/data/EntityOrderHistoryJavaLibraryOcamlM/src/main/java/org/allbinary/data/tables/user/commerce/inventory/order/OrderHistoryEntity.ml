@@ -162,7 +162,7 @@ class orderHistoryEntity () =
             ignore (!vector#add (((Obj.magic order)#getStoreCancelComments ())));
             (self#insert (!vector));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, iNSERT))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, iNSERT))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
@@ -190,7 +190,7 @@ class orderHistoryEntity () =
             ignore (super#updateWhere ((OrderData.get_iD ()), orderId, !updateHashMap))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "setStatus", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "setStatus", e))
             end
         end)
         end [@@warning "-7"]
@@ -207,7 +207,7 @@ class orderHistoryEntity () =
             ignore (super#updateWhere ((OrderData.get_iD ()), orderId, !updateHashMap))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "setPaymentMethod", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "setPaymentMethod", e))
             end
         end)
         end [@@warning "-7"]
@@ -276,25 +276,25 @@ class orderHistoryEntity () =
         ignore (!stringBuffer#append (tableName));
         ignore (!stringBuffer#append (" ("));
         ignore (!stringBuffer#append (!entryData#iD));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((OrderData.get_iD ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((UserData.get_uSERNAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((StoreFrontData.getInstance ())#nAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_sHIPPEDDATE ())));
         ignore (!stringBuffer#append (" BIGINT(19) UNSIGNED ,"));
         ignore (!stringBuffer#append ((OrderHistoryData.get_oRDERDATE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_tRANSDATE ())));
         ignore (!stringBuffer#append (" BIGINT(19) UNSIGNED ,"));
         ignore (!stringBuffer#append ((OrderHistoryData.get_cANCELDATE ())));
         ignore (!stringBuffer#append (" BIGINT(19) UNSIGNED ,"));
         ignore (!stringBuffer#append ((OrderHistoryData.get_sTATUS ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((PaymentData.get_mETHOD ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((PaymentData.get_nAME ())));
         ignore (!stringBuffer#append (" VARCHAR(255) ,"));
         ignore (!stringBuffer#append ((PaymentData.get_tYPE ())));
@@ -306,49 +306,49 @@ class orderHistoryEntity () =
         ignore (!stringBuffer#append (!entryData#eNCRYPTION));
         ignore (!stringBuffer#append (" BIGINT(19) UNSIGNED ,"));
         ignore (!stringBuffer#append ((BillingAddressData.get_nAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((BillingAddressData.get_sTREET ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((BillingAddressData.get_cITY ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((BillingAddressData.get_sTATE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((BillingAddressData.get_cODE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((BillingAddressData.get_cOUNTRY ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_nAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_sTREET ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_cITY ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_sTATE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_cODE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_cOUNTRY ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingMethodData.get_nAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_sUBTOTAL ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_sHIPPINGCOST ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_tAX ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_tOTAL ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!entryData#sPECIAL));
         ignore (!stringBuffer#append (" VARCHAR(255) ,"));
         ignore (!stringBuffer#append ((OrderData.get_cUSTOMERCOMMENT ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append ((OrderData.get_cUSTOMERCANCELCOMMENT ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append ((OrderData.get_sTORECOMMENT ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append ((OrderData.get_sTORECANCELCOMMENT ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append ("PRIMARY KEY("));
         ignore (!stringBuffer#append (!entryData#iD));
         ignore (!stringBuffer#append (") )"));

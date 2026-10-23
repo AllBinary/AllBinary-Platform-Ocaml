@@ -36,13 +36,13 @@ let getString ((keyCode : int)) : string =
 let () = java_register_static "J2MEGameKey.getString" (fun arguments -> Obj.repr (getString (Obj.obj arguments)))
 class j2MEGameKey ((key : int), (keyName : string)) =
   object (self)
-    inherit Input.input (key, keyName)
+    inherit Input.input (key, keyName) as super
     
     
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("J2MEGameKey: "))#append ((java_string_of (Obj.repr super))))))
+        (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("J2MEGameKey: "))#append ((super#toString ())))))
         end [@@warning "-7"]
 
     initializer

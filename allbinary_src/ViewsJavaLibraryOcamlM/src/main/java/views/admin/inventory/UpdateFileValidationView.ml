@@ -59,13 +59,13 @@ class updateFileValidationView ((transformInfoInterface : TransformInfoInterface
             let command : string ref = ref ((Obj.magic ((self#getRequestHashMap ())#get ((GLOBALS2.get_aDMINCOMMAND ()))))) in ();
             if ((!command = (Obj.magic 0)) || ((String.compare !command (uPDATEPRODUCT)) != 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("Invalid AdminCommand=" ^ !command), self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF (("Invalid AdminCommand=" ^ !command), self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
-            if ((Obj.repr ((new BasicItemValidation.basicItemValidation (itemInterface))#isValid ())) == (Obj.repr false)) then begin
+            if ((Obj.repr ((new BasicItemValidation.basicItemValidation ((self#itemInterface)))#isValid ())) == (Obj.repr false)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("BasicItem is not valid", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("BasicItem is not valid", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
@@ -73,17 +73,17 @@ class updateFileValidationView ((transformInfoInterface : TransformInfoInterface
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
             ignore (!stringBuffer#append ((!storeFrontInterface#getCurrentHostNamePath ())));
-            ignore (!stringBuffer#append ((itemInterface#getCategory ())));
+            ignore (!stringBuffer#append (((self#itemInterface)#getCategory ())));
             let fullCategory : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
             let categoryFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (!fullCategory)))))) in ();
             if (not ((Obj.magic !categoryFile)#isDirectory ())) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("Category Does Not Exist: " ^ !fullCategory), self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF (("Category Does Not Exist: " ^ !fullCategory), self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
             let inventoryEntity : InventoryEntity.inventoryEntity ref = ref ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ()) :> InventoryEntity.inventoryEntity)) in ();
-            if ((!inventoryEntity#getItem ((itemInterface#getId ()))) == (Obj.magic 0)) then begin
+            if ((!inventoryEntity#getItem (((self#itemInterface)#getId ()))) == (Obj.magic 0)) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
             let anyType : Obj.t ref = ref ((Obj.repr ((self#getRequestHashMap ())#get (basicItemData#iMAGE)))) in ();
@@ -99,7 +99,7 @@ class updateFileValidationView ((transformInfoInterface : TransformInfoInterface
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#put ("Exception in validation", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Exception in validation", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -127,14 +127,14 @@ class updateFileValidationView ((transformInfoInterface : TransformInfoInterface
         if ((!command = (Obj.magic 0)) || ((String.compare !command (uPDATEPRODUCT)) != 0)) then begin
             raise (Java_return (Obj.repr ((CommonSeps.getInstance ())#sPACE)))
         end;
-        ignore (!stringBuffer#append (((new BasicItemValidation.basicItemValidation (itemInterface))#validationInfo ())));
+        ignore (!stringBuffer#append (((new BasicItemValidation.basicItemValidation ((self#itemInterface)))#validationInfo ())));
         let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance (((self#getWeblisketSession ())#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
-        let fullCategory : string ref = ref ((((Obj.magic (URLGLOBALS.getWebappPath ())) + (!storeFrontInterface#getCurrentHostNamePath ())) + (itemInterface#getCategory ()))) in ();
+        let fullCategory : string ref = ref ((((Obj.magic (URLGLOBALS.getWebappPath ())) + (!storeFrontInterface#getCurrentHostNamePath ())) + ((self#itemInterface)#getCategory ()))) in ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
             ignore ((Obj.magic logUtil)#putF (("Category: " ^ !fullCategory), self, "validationInfo()"))
         end;
         (try
-            if ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem ((itemInterface#getId ()))) == (Obj.magic 0)) then begin
+            if ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (((self#itemInterface)#getId ()))) == (Obj.magic 0)) then begin
                 ignore (!stringBuffer#append ("Item does not exist.<br>"))
             end
         with e -> begin

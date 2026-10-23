@@ -97,7 +97,7 @@ class allBinaryGameLayer ((name : string), layerInfo, (viewPosition : ViewPositi
 
     method onViewPositionChangeEvent () : unit =
         begin
-        (self#onChangeEvent (viewPositionEvent))
+        (self#onChangeEvent ((self#viewPositionEvent)))
         end [@@warning "-7"]
     
 
@@ -156,7 +156,7 @@ class allBinaryGameLayer ((name : string), layerInfo, (viewPosition : ViewPositi
         method paint : 'any1. 'any1 -> unit = fun (graphics) ->
             let graphics = Obj.repr graphics in
             begin
-            ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), bLACK))
+            ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#bLACK)))
             end [@@warning "-20"]
     end) else (NullPaintable.getInstance ())) :> Paintable.paintable);
         gameKeyEventList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);

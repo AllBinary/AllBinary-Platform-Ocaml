@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.communication.log.ForcedLogUtil *)
 
 class compoundIndexedAnimationInterfaceFactory ((basicAnimationInterfaceFactoryInterfaceArray : AnimationInterfaceFactoryInterface.animationInterfaceFactoryInterface array), (animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object
+  object (self)
     inherit CompoundAnimationInterfaceFactory.compoundAnimationInterfaceFactory (basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
     
     
@@ -36,7 +36,7 @@ class compoundIndexedAnimationInterfaceFactory ((basicAnimationInterfaceFactoryI
 
     method createAnimation : 'return. _ -> 'return = fun (animationArray) ->
         begin
-        (Obj.magic ((new CompoundIndexedAnimation.compoundIndexedAnimation (animationArray, (animationBehaviorFactory#getOrCreateInstance ())))))
+        (Obj.magic ((new CompoundIndexedAnimation.compoundIndexedAnimation (animationArray, ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]
 
     initializer

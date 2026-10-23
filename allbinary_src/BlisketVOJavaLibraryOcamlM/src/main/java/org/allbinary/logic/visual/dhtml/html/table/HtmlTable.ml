@@ -122,7 +122,7 @@ class htmlTable ((before_arg : string), (cellpadding_arg : string), (cellspacing
         begin
         let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
         let result : string ref = ref (!stringUtil#eMPTY_STRING) in ();
-        let attributeKeys : Obj.t array ref = ref (((otherAttributes#keySet ())#toArray ())) in ();
+        let attributeKeys : Obj.t array ref = ref ((((self#otherAttributes)#keySet ())#toArray ())) in ();
         result := before;
         result := (!result ^ java_string_of (Obj.repr (sTART)));
         result := (!result ^ java_string_of (Obj.repr (" ")));

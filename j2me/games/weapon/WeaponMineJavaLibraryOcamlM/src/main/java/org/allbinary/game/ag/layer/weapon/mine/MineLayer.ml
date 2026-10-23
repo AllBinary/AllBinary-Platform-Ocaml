@@ -51,7 +51,7 @@ class mineLayer ((viewPosition : ViewPositionBase.viewPositionBase)) =
 
     method damage ((_damage : int), (_damageType : int)) : unit =
         begin
-        totalDamage <- ((self#getInitDamage ()) + 1)
+        (self#set_totalDamage) (((self#getInitDamage ()) + 1))
         end [@@warning "-7"]
     
 

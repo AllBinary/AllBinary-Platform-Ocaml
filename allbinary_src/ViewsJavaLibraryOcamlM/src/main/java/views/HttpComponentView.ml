@@ -92,7 +92,7 @@ class httpComponentView ((transformInfoInterface : TransformInfoInterface.transf
             (Obj.magic (((self#getTransformDocumentInterface ())#getDoc ())))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "toXmlDoc()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "toXmlDoc()", e))
             end;
             raise e
         end)
@@ -122,7 +122,7 @@ class httpComponentView ((transformInfoInterface : TransformInfoInterface.transf
             !result
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -138,7 +138,7 @@ class httpComponentView ((transformInfoInterface : TransformInfoInterface.transf
         ();
         (* super(...) is the inherit clause *) ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), self, (self#commonStrings)#cONSTRUCTOR))
         end;
         domNodeInterfaceVector <- (new BasicArrayListD.basicArrayListD ());
         (self#setTransformDocumentInterface ((TransformHttpRequestDocumentFactory.getInstance ((self#getPageContext ()), (self#getWeblisketSession ())))))

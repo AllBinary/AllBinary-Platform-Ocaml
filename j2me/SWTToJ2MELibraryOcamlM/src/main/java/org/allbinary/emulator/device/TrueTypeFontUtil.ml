@@ -63,7 +63,7 @@ class trueTypeFontUtil () =
             if ((Obj.repr (Obj.magic fontImage)) == (Obj.repr (Obj.magic (java_call_static "OpenGLESImage.get_nULL_OPENGL_IMAGE" (Obj.repr ()))))) then begin
                 let canvasStrings : CanvasStrings.canvasStrings ref = ref (((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings)) in ();
                 let openGLCapabilities : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "OpenGLCapabilities.getInstance" (Obj.repr ()))))) in ();
-                if (((Obj.magic !openGLCapabilities)#isTextureSizeValid (1024)) && (scale == 2)) then begin
+                if (((Obj.magic !openGLCapabilities)#isTextureSizeValid (1024)) && ((self#scale) == 2)) then begin
                     let fONT_ATLAS_1024 : string ref = ref ("/font_1024.png") in ();
                     let image : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Image.createImage" (Obj.repr (((Obj.magic (java_call_static "ResourceUtil.getInstance" (Obj.repr ())))#getResourceAsStream (!fONT_ATLAS_1024)))))))) in ();
                     ignore ((Obj.magic !image)#setName (!canvasStrings#fONT_ATLAS));
@@ -106,12 +106,12 @@ class trueTypeFontUtil () =
     method getFontBitmap : 'any3 'return. string * int * 'any3 -> 'return = fun ((_filename : string), (cellSize : int), basicColor) ->
         let basicColor = Obj.repr basicColor in
         begin
-        let cellsPerRow2 : int ref = ref ((cELLS_PER_ROW * 2)) in ();
-        let cellsPerRow3 : int ref = ref ((cELLS_PER_ROW * 3)) in ();
-        let cellsPerRow4 : int ref = ref ((cELLS_PER_ROW * 4)) in ();
-        let cellsPerRow5 : int ref = ref ((cELLS_PER_ROW * 5)) in ();
-        let cellsPerRow6 : int ref = ref ((cELLS_PER_ROW * 6)) in ();
-        let cellsPerRow7 : int ref = ref ((cELLS_PER_ROW * 7)) in ();
+        let cellsPerRow2 : int ref = ref (((self#cELLS_PER_ROW) * 2)) in ();
+        let cellsPerRow3 : int ref = ref (((self#cELLS_PER_ROW) * 3)) in ();
+        let cellsPerRow4 : int ref = ref (((self#cELLS_PER_ROW) * 4)) in ();
+        let cellsPerRow5 : int ref = ref (((self#cELLS_PER_ROW) * 5)) in ();
+        let cellsPerRow6 : int ref = ref (((self#cELLS_PER_ROW) * 6)) in ();
+        let cellsPerRow7 : int ref = ref (((self#cELLS_PER_ROW) * 7)) in ();
         let image : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Image.createImage" (Obj.repr (textureSize, textureSize)))))) in ();
         let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !image)#getGraphics ()))) in ();
         ignore ((Obj.magic !graphics)#setColor (((Obj.magic basicColor)#intValue ())));
@@ -120,16 +120,16 @@ class trueTypeFontUtil () =
         let x : int ref = ref (0) in ();
         let y : int ref = ref (0) in ();
         for index = 0 to size - 1 do
-            characterArray.(0) <- (Obj.magic ((pattern#charAt (index))));
+            (self#characterArray).(0) <- (Obj.magic ((pattern#charAt (index))));
             _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#getMaxX ())));
             if ((((Obj.magic !bounds)#getMaxY ()) - (((Obj.magic !bounds)#getPoint ())#getX ())) > !biggestHeight) then begin
                 biggestHeight := (((Obj.magic !bounds)#getMaxY ()) - (((Obj.magic !bounds)#getPoint ())#getX ()))
             end;
-            x := (((index mod cELLS_PER_ROW)) * cellSize);
+            x := (((index mod (self#cELLS_PER_ROW))) * cellSize);
             x := (!x + ((cellSize asr 1)));
             x := (!x - ((_characterWidth.(index) asr 1)));
             y := (-((cellSize asr 1)));
-            if (index >= cELLS_PER_ROW) then begin
+            if (index >= (self#cELLS_PER_ROW)) then begin
                 y := (!y + cellSize)
             end;
             if (index >= !cellsPerRow2) then begin
@@ -152,7 +152,7 @@ class trueTypeFontUtil () =
             end;
             y := (!y + cellSize);
             y := (!y - ((cellSize asr 2)));
-            ignore ((Obj.magic !graphics)#drawChar (characterArray.(0), !x, !y, 0))
+            ignore ((Obj.magic !graphics)#drawChar ((self#characterArray).(0), !x, !y, 0))
         done;
         (Obj.magic ((Obj.magic !image)))
         end [@@warning "-7-20"]
@@ -162,29 +162,29 @@ class trueTypeFontUtil () =
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         for index = 0 to size - 1 do
-            characterArray.(0) <- (Obj.magic ((pattern#charAt (index))));
-            if (characterArray.(0) == ' ') then begin
+            (self#characterArray).(0) <- (Obj.magic ((pattern#charAt (index))));
+            if ((self#characterArray).(0) == ' ') then begin
                 _characterWidth.(index) <- (Obj.magic (((fontSize / 4))))
             end else begin
-                let shortPatternIndex : int ref = ref ((shortPattern#indexOf (characterArray.(0)))) in ();
+                let shortPatternIndex : int ref = ref (((self#shortPattern)#indexOf ((self#characterArray).(0)))) in ();
                 let w : int ref = ref (((int_of_float (((widthFloatArray.(!shortPatternIndex) /. 75.)))) + 19)) in ();
                 _characterWidth.(index) <- (Obj.magic (!w));
-                if ((characterArray.(0) == '.') || (characterArray.(0) == '1')) then begin
+                if (((self#characterArray).(0) == '.') || ((self#characterArray).(0) == '1')) then begin
                     _characterWidth.(index) <- (_characterWidth.(index) + 4)
                 end;
-                if ((characterArray.(0) >= 'a') && (characterArray.(0) < 'k')) then begin
+                if (((self#characterArray).(0) >= 'a') && ((self#characterArray).(0) < 'k')) then begin
                     _characterWidth.(index) <- (_characterWidth.(index) - 2)
                 end;
-                if ((characterArray.(0) >= 'k') && (characterArray.(0) < 'v')) then begin
+                if (((self#characterArray).(0) >= 'k') && ((self#characterArray).(0) < 'v')) then begin
                     _characterWidth.(index) <- (_characterWidth.(index) - 4)
                 end;
-                if ((characterArray.(0) >= 'v') && (characterArray.(0) < 'z')) then begin
+                if (((self#characterArray).(0) >= 'v') && ((self#characterArray).(0) < 'z')) then begin
                     _characterWidth.(index) <- (_characterWidth.(index) - 8)
                 end;
-                if (characterArray.(0) == 'D') then begin
+                if ((self#characterArray).(0) == 'D') then begin
                     _characterWidth.(index) <- (_characterWidth.(index) - 4)
                 end;
-                if ((characterArray.(0) >= 'A') && (characterArray.(0) <= 'Z')) then begin
+                if (((self#characterArray).(0) >= 'A') && ((self#characterArray).(0) <= 'Z')) then begin
                     _characterWidth.(index) <- (_characterWidth.(index) - 2)
                 end
             end;
@@ -206,7 +206,7 @@ class trueTypeFontUtil () =
         end else begin
             widthFloatArray <- [| 1504.0; 967.0; 527.0; 961.0; 957.0; 1087.0; 920.0; 954.0; 973.0; 961.0; 955.0; 1296.0; 1013.0; 1106.0; 1167.0; 815.0; 815.0; 1216.0; 1110.0; 170.0; 520.0; 1056.0; 815.0; 1448.0; 1142.0; 1345.0; 927.0; 1345.0; 1030.0; 920.0; 1096.0; 1119.0; 1219.0; 1841.0; 1166.0; 1147.0; 1005.0; 879.0; 965.0; 792.0; 964.0; 927.0; 753.0; 1034.0; 916.0; 196.0; 469.0; 877.0; 166.0; 1563.0; 916.0; 1007.0; 965.0; 964.0; 631.0; 777.0; 649.0; 917.0; 1026.0; 1548.0; 993.0; 1028.0; 795.0; 241.0; 798.0; 241.0; 905.0; 1477.0; 393.0; 961.0; 555.0; 1029.0; 1010.0; 1378.0; 952.0; 463.0; 463.0; 926.0; 961.0; 491.0; 930.0; 457.0; 457.0; 644.0; 643.0; 326.0; 186.0; 1219.0; 241.0; 1599.0; 961.0; 302.0; 711.0; 961.0; 961.0; 710.0; 141.0; 1504.0; 1504.0 |]
         end;
-        widthScale <- (if ((scale == 2)) then 1.2 else 1.)
+        widthScale <- (if (((self#scale) == 2)) then 1.2 else 1.)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "TrueTypeFontUtil" (fun arguments -> Obj.repr (new trueTypeFontUtil (Obj.obj arguments)))

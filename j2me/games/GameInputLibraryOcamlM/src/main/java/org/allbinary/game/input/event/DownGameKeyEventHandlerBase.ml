@@ -82,7 +82,7 @@ class downGameKeyEventHandlerBase () =
                 let playerGameInput : PlayerGameInput.playerGameInput ref = ref (((Obj.magic list#objectArray.(!index)) :> PlayerGameInput.playerGameInput)) in ();
                 ignore (!playerGameInput#onDownGameKeyEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -101,7 +101,7 @@ class downGameKeyEventHandlerBase () =
     method toString () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         ignore (!stringBuffer#append (tOTAL_LISTENERS));
         ignore (!stringBuffer#appendint ((list#size ())));
         let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((Obj.magic 0) :> EventListenerInterface.eventListenerInterface)) in ();
@@ -113,7 +113,7 @@ class downGameKeyEventHandlerBase () =
                 ignore (!stringBuffer#append (lISTENER_LABEL));
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !eventListenerInterface))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#tOSTRING, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#tOSTRING, e))
             end);
             index := !index + 1
         done;

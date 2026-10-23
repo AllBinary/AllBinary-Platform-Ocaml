@@ -35,10 +35,10 @@ class downloadItemTag () =
             if ((self#getCommand ()) != (Obj.magic 0)) then begin
                 if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#vIEW)) == 0) then begin
                     raise (Failure (("No Such View Command: " ^ java_string_of (Obj.repr ((self#getCommand ()))))))
-                end else if (((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) then begin
                     ignore (self#setName ("Add Inventory Item Validation View"));
                     ignore (self#setObjectFile ("views.admin.inventory.download.AddFileValidationView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#dELETE)) == 0) then begin
                     ignore (self#setName ("Delete Inventory Item Validation View"));
                     ignore (self#setObjectFile ("views.admin.inventory.download.DeleteFileValidationView"))
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#eDIT)) == 0) then begin
@@ -47,7 +47,7 @@ class downloadItemTag () =
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#nEW)) == 0) then begin
                     ignore (self#setName ("New Inventory Item Validation View"));
                     ignore (self#setObjectFile ("views.admin.inventory.download.NewValidationView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#uPDATE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#uPDATE)) == 0) then begin
                     ignore (self#setName ("Update Inventory Item Validation View"));
                     ignore (self#setObjectFile ("views.admin.inventory.download.UpdateFileValidationView"))
                 end else begin
@@ -57,7 +57,7 @@ class downloadItemTag () =
             end;
             raise (Failure ("Command Null"))
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

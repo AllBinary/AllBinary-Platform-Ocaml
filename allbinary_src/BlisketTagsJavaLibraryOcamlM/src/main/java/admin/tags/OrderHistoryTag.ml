@@ -49,7 +49,7 @@ class orderHistoryTag () =
         try
         begin
         (try
-            let request : Obj.t ref = ref ((Obj.repr (Obj.magic (pageContext#getRequest ())))) in ();
+            let request : Obj.t ref = ref ((Obj.repr (Obj.magic ((self#pageContext)#getRequest ())))) in ();
             let anyType : Obj.t ref = ref ((Obj.repr ((new OrderHistoryRequestHelperFactory.orderHistoryRequestHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
             if (status = (Obj.magic 0)) then begin
                 let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
@@ -87,7 +87,7 @@ class orderHistoryTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

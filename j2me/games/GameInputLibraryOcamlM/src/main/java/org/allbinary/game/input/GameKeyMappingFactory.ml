@@ -40,7 +40,7 @@ class gameKeyMappingFactory () =
     method setGameKey : 'any1. 'any1 -> unit = fun (gameKey) ->
         let gameKey = Obj.repr gameKey in
         begin
-        intKeyToGameKey.(((Obj.magic gameKey)#set_getId ())) (((Obj.magic gameKey) :> GameKey.gameKey))
+        intKeyToGameKey.(((Obj.magic gameKey)#getId ())) <- ((Obj.magic gameKey) :> GameKey.gameKey)
         end [@@warning "-20"]
 
     initializer

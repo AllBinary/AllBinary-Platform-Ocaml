@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.CircularIndexUtil *)
 
 class allBinaryEventCircularPool ((max : int)) =
-  object
+  object (self)
     inherit BaseCircularPool.baseCircularPool ()
     
     
@@ -29,18 +29,18 @@ class allBinaryEventCircularPool ((max : int)) =
     method initAllBinaryEventCircularPool : 'any1. 'any1 -> unit = fun (allBinaryEventObjectFactoryInterface) ->
         let allBinaryEventObjectFactoryInterface = Obj.repr allBinaryEventObjectFactoryInterface in
         begin
-        ignore (circularIndexUtil#setIndex (0));
-        let size : int ref = ref ((circularIndexUtil#getSize ())) in ();
+        ignore ((self#circularIndexUtil)#setIndex (0));
+        let size : int ref = ref (((self#circularIndexUtil)#getSize ())) in ();
         for index = 0 to !size - 1 do
-            oBJECT_ARRAY.(index) <- (Obj.magic (((Obj.magic allBinaryEventObjectFactoryInterface)#getInstance ())))
+            (self#oBJECT_ARRAY).(index) <- (Obj.magic (((Obj.magic allBinaryEventObjectFactoryInterface)#getInstance ())))
         done
         end [@@warning "-7-20"]
 
     initializer
       begin
         ();
-        oBJECT_ARRAY <- (Array.make (max) (Obj.magic 0));
-        circularIndexUtil <- (CircularIndexUtil.createInstance (max))
+        (self#set_oBJECT_ARRAY) ((Array.make (max) (Obj.magic 0)));
+        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance (max)))
       end
   end
 let () = java_register_constructor "AllBinaryEventCircularPool" (fun arguments -> Obj.repr (new allBinaryEventCircularPool (Obj.obj arguments)))

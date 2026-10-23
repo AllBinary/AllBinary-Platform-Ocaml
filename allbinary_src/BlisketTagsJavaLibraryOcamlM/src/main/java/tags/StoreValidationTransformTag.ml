@@ -49,7 +49,7 @@ class storeValidationTransformTag () =
             end;
             (super#doStartTag ())
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end [@@warning "-7"]

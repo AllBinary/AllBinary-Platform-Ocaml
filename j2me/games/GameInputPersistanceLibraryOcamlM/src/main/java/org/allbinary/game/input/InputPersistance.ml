@@ -57,7 +57,7 @@ class inputPersistance ((name : string)) =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (persistanceStrings#cLOSING_RECORDSTORE, self, persistanceStrings#lOAD_ALL))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, self, (self#persistanceStrings)#lOAD_ALL))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
@@ -79,7 +79,7 @@ class inputPersistance ((name : string)) =
             while ((Obj.magic !recordEnum)#hasNextElement ()) do
                 let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (logUtil#putF ((java_string_of (Obj.repr ((!stringBuffer#append (persistanceStrings#lOADING_ID))#appendint (!id)))), self, persistanceStrings#lOAD_ALL));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#lOADING_ID))#appendint (!id)))), self, (self#persistanceStrings)#lOAD_ALL));
                 recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
                 if (!recordAsBytes != (Obj.magic 0)) then begin
                     byteArrayInputStream := Obj.repr ((new ByteArrayInputStream.byteArrayInputStream (!recordAsBytes)));
@@ -98,27 +98,27 @@ class inputPersistance ((name : string)) =
                         if (((Obj.repr (Obj.magic !input)) == (Obj.repr !inputFactory#nO_INPUT)) || ((Obj.magic !gameActionInput) == (Obj.magic 0))) then begin
                             ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
                             if ((Obj.repr (Obj.magic !input)) == (Obj.repr !inputFactory#nO_INPUT)) then begin
-                                ignore (!stringBuffer#append (persistanceStrings#eRROR_LOADING_ID));
+                                ignore (!stringBuffer#append ((self#persistanceStrings)#eRROR_LOADING_ID));
                                 ignore (!stringBuffer#appendlong (!inputId));
-                                ignore (!stringBuffer#append (persistanceStrings#gAME_ACTION_INPUT));
+                                ignore (!stringBuffer#append ((self#persistanceStrings)#gAME_ACTION_INPUT));
                                 ignore (!stringBuffer#appendlong (!gameActionInputId));
-                                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr !stringBuffer)), self, persistanceStrings#lOAD_ALL))))
+                                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr !stringBuffer)), self, (self#persistanceStrings)#lOAD_ALL))))
                             end;
                             if ((Obj.magic !gameActionInput) == (Obj.magic 0)) then begin
                                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                                ignore (!stringBuffer#append (persistanceStrings#eRROR_LOADING));
+                                ignore (!stringBuffer#append ((self#persistanceStrings)#eRROR_LOADING));
                                 ignore (!stringBuffer#appendlong (!gameActionInputId));
-                                ignore (!stringBuffer#append (persistanceStrings#iD));
+                                ignore (!stringBuffer#append ((self#persistanceStrings)#iD));
                                 ignore (!stringBuffer#appendlong (!inputId));
-                                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr !stringBuffer)), self, persistanceStrings#lOAD_ALL))))
+                                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr !stringBuffer)), self, (self#persistanceStrings)#lOAD_ALL))))
                             end
                         end else begin
                             ()
                         end;
                         ignore ((Obj.magic !hashtable)#put ((Obj.magic !input), (Obj.magic !gameActionInput)))
                     done;
-                    ignore (valueList#add ((Obj.magic !hashtable)));
-                    ignore (idList#add ((!smallIntegerSingletonFactory#getAt (!id))))
+                    ignore ((self#valueList)#add ((Obj.magic !hashtable)));
+                    ignore ((self#idList)#add ((!smallIntegerSingletonFactory#getAt (!id))))
                 end else begin
                     ()
                 end
@@ -136,12 +136,12 @@ class inputPersistance ((name : string)) =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (persistanceStrings#cLOSING_RECORDSTORE, self, commonStrings#sAVE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, self, (self#commonStrings)#sAVE))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((!stringBuffer#append (persistanceStrings#sAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, commonStrings#sAVE))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#sAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, (self#commonStrings)#sAVE))));
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))));
             let byteArrayOutputStream : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
             let outputStream : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))))) in ();

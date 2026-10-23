@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayer *)
 
 class sourceCollisionHelper ((layerInterface : AllBinaryLayer.allBinaryLayer)) =
-  object
+  object (self)
     inherit CollisionHelper.collisionHelper (layerInterface)
     
     
@@ -30,7 +30,7 @@ class sourceCollisionHelper ((layerInterface : AllBinaryLayer.allBinaryLayer)) =
         let layerInterface = Obj.repr layerInterface in
         try
         begin
-        if ((Obj.repr sourceLayerInterface) != (Obj.repr (Obj.magic layerInterface))) then begin
+        if ((Obj.repr (self#sourceLayerInterface)) != (Obj.repr (Obj.magic layerInterface))) then begin
             raise (Java_return (Obj.repr (true)))
         end;
         false

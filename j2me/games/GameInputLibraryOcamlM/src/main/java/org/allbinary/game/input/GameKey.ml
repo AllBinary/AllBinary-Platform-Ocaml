@@ -21,13 +21,13 @@ open Allbinary_java [@@warning "-33"]
 
 class gameKey ((key : int), (name : string)) =
   object
-    inherit Input.input (key, name)
+    inherit Input.input (key, name) as super
     
     
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("GameKey "))#append ((java_string_of (Obj.repr super))))))
+        (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("GameKey "))#append ((super#toString ())))))
         end [@@warning "-7"]
 
     initializer

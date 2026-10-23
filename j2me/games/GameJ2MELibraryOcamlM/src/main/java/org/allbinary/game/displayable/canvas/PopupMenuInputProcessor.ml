@@ -96,7 +96,7 @@ class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList
                 raise (Java_return (Obj.repr ((-1))))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, (GameInputStrings.getInstance ())#pROCESS_INPUT, e));
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (GameInputStrings.getInstance ())#pROCESS_INPUT, e));
             (-1)
         end)
         end
@@ -105,12 +105,12 @@ class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList
 
     method processMotionInputs () : int =
         begin
-        let lastIndex : int ref = ref (((motionGestureEventList#size ()) - 1)) in ();
+        let lastIndex : int ref = ref ((((self#motionGestureEventList)#size ()) - 1)) in ();
         if (!lastIndex >= 0) then begin
-            let motionGestureEvent : MotionGestureEvent.motionGestureEvent ref = ref (((Obj.magic motionGestureEventList#objectArray.(!lastIndex)) :> MotionGestureEvent.motionGestureEvent)) in ();
+            let motionGestureEvent : MotionGestureEvent.motionGestureEvent ref = ref (((Obj.magic (self#motionGestureEventList)#objectArray.(!lastIndex)) :> MotionGestureEvent.motionGestureEvent)) in ();
             (self#processMotionInput (!motionGestureEvent))
         end;
-        ignore (motionGestureEventList#clear ());
+        ignore ((self#motionGestureEventList)#clear ());
         !lastIndex
         end [@@warning "-7"]
     
@@ -120,7 +120,7 @@ class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList
         try
         begin
         if ((Obj.magic motionGestureEvent) == (Obj.magic 0)) then begin
-            ignore (logUtil#putF ("Exception: Bug", self, gameInputStrings#pROCESS_MOTION_INPUT));
+            ignore ((self#logUtil)#putF ("Exception: Bug", self, (self#gameInputStrings)#pROCESS_MOTION_INPUT));
             raise (Java_return (Obj.repr (())))
         end;
         let touchMotionGestureFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ()))))) in ();

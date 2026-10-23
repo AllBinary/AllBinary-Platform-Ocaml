@@ -58,15 +58,15 @@ class allBinaryJ2SEImageRotationAnimationFactory (image, (width : int), (height 
         begin
         let imageCopyUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ImageCopyUtil.getInstance" (Obj.repr ()))))) in ();
         let canvasImage : Obj.t ref = ref ((Obj.repr (self#getCanvasImage ()))) in ();
-        let scaledImage : Obj.t ref = ref ((Obj.repr (animationFactoryImageScaleUtil#createImage ((Obj.magic !canvasImage), animationFactoryInitializationVisitor#width, animationFactoryInitializationVisitor#height, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
+        let scaledImage : Obj.t ref = ref ((Obj.repr ((self#animationFactoryImageScaleUtil)#createImage ((Obj.magic !canvasImage), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
         let openGLUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "OpenGLUtil.getInstance" (Obj.repr ()))))) in ();
         scaledImage := Obj.repr (((Obj.magic !openGLUtil)#addImage ((Obj.magic !scaledImage))));
         let copyOfScaledImage : Obj.t ref = ref ((Obj.repr ((Obj.magic !imageCopyUtil)#createImageForRotation ((Obj.magic !scaledImage))))) in ();
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            ignore (animationFactoryImageScaleUtil#processAdjust (self));
-            raise (Java_return (Obj.repr ((new AllBinaryAdjustedJ2SEImageRotationAnimation.allBinaryAdjustedJ2SEImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrementP)), (AngleFactory.getInstance ())#tOTAL_ANGLE, animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            raise (Java_return (Obj.repr ((new AllBinaryAdjustedJ2SEImageRotationAnimation.allBinaryAdjustedJ2SEImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrementP)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((new AllBinaryJ2SEImageRotationAnimation.allBinaryJ2SEImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrementP)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (animationBehaviorFactory#getOrCreateInstance ()))))))
+            raise (Java_return (Obj.repr ((new AllBinaryJ2SEImageRotationAnimation.allBinaryJ2SEImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrementP)), (AngleFactory.getInstance ())#tOTAL_ANGLE, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

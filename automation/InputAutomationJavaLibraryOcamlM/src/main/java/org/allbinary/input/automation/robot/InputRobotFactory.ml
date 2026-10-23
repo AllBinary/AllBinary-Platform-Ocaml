@@ -98,7 +98,7 @@ class inputRobotFactory () =
         let nameArray : Obj.t array ref = ref (((Obj.magic !set)#toArray ())) in ();
         let size : int ref = ref ((Array.length !nameArray)) in ();
         for index = 0 to !size - 1 do
-            let inputRobotInterface : InputRobotInterface.inputRobotInterface ref = ref ((((getInstance ())#get ((Obj.magic !nameArray.(index)))) :> InputRobotInterface.inputRobotInterface)) in ();
+            let inputRobotInterface : InputRobotInterface.inputRobotInterface ref = ref ((((Obj.magic (java_call_static "InputRobotFactory.getInstance" (Obj.repr ())))#get ((Obj.magic !nameArray.(index)))) :> InputRobotInterface.inputRobotInterface)) in ();
             ignore (loadLibrary (!inputRobotInterface))
         done
         end

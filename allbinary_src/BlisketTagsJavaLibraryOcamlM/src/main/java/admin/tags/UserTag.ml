@@ -57,7 +57,7 @@ class userTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

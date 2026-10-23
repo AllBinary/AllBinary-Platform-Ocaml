@@ -96,7 +96,7 @@ class authenticationTag () =
     method changePassword () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationRequestHelperFactory.authenticationRequestHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationRequestHelperFactory.authenticationRequestHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("changePassword", (Obj.magic 0))))) in ();
             let result : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -110,7 +110,7 @@ class authenticationTag () =
     method newPassword () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationRequestHelperFactory.authenticationRequestHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationRequestHelperFactory.authenticationRequestHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("newPassword", (Obj.magic 0))))) in ();
             let result : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -124,7 +124,7 @@ class authenticationTag () =
     method invalidateSession () : int =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("invalidateSession", (Obj.magic 0))))) in ();
             let resultInteger : int ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -138,7 +138,7 @@ class authenticationTag () =
     method isSessionOld () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod ("isSessionOld", (Obj.magic 0))))) in ();
             let resultBoolean : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -152,7 +152,7 @@ class authenticationTag () =
     method isRoleValid () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationRequestHelperFactory.authenticationRequestHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationRequestHelperFactory.authenticationRequestHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let methodParams : string array ref = ref ([| (java_get_class (Obj.repr userName)); (java_get_class (Obj.repr password)); (java_get_class (Obj.repr roles)) |]) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("isRoleValid", !methodParams)))) in ();
@@ -168,7 +168,7 @@ class authenticationTag () =
     method validRole () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("validRole", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -182,7 +182,7 @@ class authenticationTag () =
     method invalidRole () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("invalidRole", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -196,7 +196,7 @@ class authenticationTag () =
     method isAuthenticationSessionValid () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let methodParams : string array ref = ref ([| (java_get_class (Obj.repr roles)) |]) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("isAuthenticationSessionValid", !methodParams)))) in ();
@@ -212,7 +212,7 @@ class authenticationTag () =
     method processIfNewLogin () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let methodParams : string array ref = ref ([| (java_get_class (Obj.repr userName)); (java_get_class (Obj.repr password)) |]) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod ("processIfNewLogin", !methodParams)))) in ();
@@ -228,7 +228,7 @@ class authenticationTag () =
     method processInvalidation () : bool =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new AuthenticationHelperFactory.authenticationHelperFactory ())#getInstance (propertiesHashMap, (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("processInvalidation", (Obj.magic 0))))) in ();
             let resultBoolean : bool ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -245,7 +245,7 @@ class authenticationTag () =
         (try
             let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                let request : Obj.t ref = ref ((Obj.repr (Obj.magic (pageContext#getRequest ())))) in ();
+                let request : Obj.t ref = ref ((Obj.repr (Obj.magic ((self#pageContext)#getRequest ())))) in ();
                 let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
                 ignore (!stringBuffer#append (" Request URI: "));
                 ignore (!stringBuffer#append (((Obj.magic !request)#getRequestURI ())));
@@ -358,7 +358,7 @@ class authenticationTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

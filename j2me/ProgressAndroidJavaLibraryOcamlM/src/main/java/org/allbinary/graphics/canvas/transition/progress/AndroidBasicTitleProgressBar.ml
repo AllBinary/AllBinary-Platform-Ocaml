@@ -101,7 +101,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
                 image <- Obj.repr (((ImageCacheFactory.getInstance ())#getWithKey (rESOURCE)))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iNIT, e))
         end)
         end [@@warning "-7"]
     
@@ -120,7 +120,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
             end;
             (self#updateCurrent ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iNIT, e))
         end)
         end [@@warning "-7-20"]
     
@@ -145,7 +145,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
                 end
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#uPDATE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#uPDATE, e))
         end)
         end [@@warning "-7"]
     
@@ -162,7 +162,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
             (self#loadProgressImages ());
             (self#updateCurrent ())
         with e -> begin
-            ignore (logUtil#putF ((commonStrings#eXCEPTION_LABEL + ((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e))), self, canvasStrings#oN_DISPLAY_CHANGE_EVENT));
+            ignore ((self#logUtil)#putF (((self#commonStrings)#eXCEPTION_LABEL + ((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e))), self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
             animation <- Obj.repr (((NullAnimationFactory.getFactoryInstance ())#getInstance (0)))
         end)
         end [@@warning "-7-20"]
@@ -180,7 +180,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
                 (self#setImages (2, !lastWidth, !lastHeight))
             end
         with e -> begin
-            ignore (logUtil#putF (("IllegalArgumentException " ^ java_string_of (Obj.repr (((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e))))), self, "loadProgressImages"));
+            ignore ((self#logUtil)#putF (("IllegalArgumentException " ^ java_string_of (Obj.repr (((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e))))), self, "loadProgressImages"));
             animation <- Obj.repr (((NullAnimationFactory.getFactoryInstance ())#getInstance (0)))
         end)
         end [@@warning "-7"]
@@ -201,11 +201,11 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
     method start () : unit =
         begin
         (try
-            ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#sTART_METHOD_NAME));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#sTART_METHOD_NAME));
             ignore (super#start ());
             ignore ((Obj.magic midletActivity)#runOnUiThread (showTitleProgressBarRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#sTART_METHOD_NAME, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#sTART_METHOD_NAME, e))
         end)
         end [@@warning "-7"]
     
@@ -213,11 +213,11 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
     method end_ () : unit =
         begin
         (try
-            ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#eND_METHOD_NAME));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#eND_METHOD_NAME));
             ignore ((Obj.magic midletActivity)#runOnUiThread (dismissTitleProgressBarRunnable));
             ignore (super#end_ ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#eND_METHOD_NAME, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#eND_METHOD_NAME, e))
         end)
         end [@@warning "-7"]
     
@@ -231,7 +231,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
                 ignore ((Obj.magic midletActivity)#runOnUiThread (titleProgressDialogPortionSetProgressRunnable))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, aDD_PORTION, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#aDD_PORTION), e))
         end)
         end [@@warning "-7"]
     
@@ -243,7 +243,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
             ignore (super#addPortion (value, text, index));
             ignore ((Obj.magic midletActivity)#runOnUiThread (titleProgressDialogPortionSetProgressRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, aDD_PORTION, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#aDD_PORTION), e))
         end)
         end [@@warning "-7"]
     
@@ -255,7 +255,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
             ignore (super#addNormalPortion (value, text));
             ignore ((Obj.magic midletActivity)#runOnUiThread (titleProgressDialogPortionSetProgressRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, aDD_PORTION, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#aDD_PORTION), e))
         end)
         end [@@warning "-7"]
     
@@ -266,7 +266,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
             ignore (super#setValue (value));
             ignore ((Obj.magic midletActivity)#runOnUiThread (titleProgressDialogSetProgressRunnable))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "setValue", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "setValue", e))
         end)
         end [@@warning "-7"]
     
@@ -297,7 +297,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
 
     method initOpenGL : 'any1. 'any1 -> unit = fun (_graphics) ->
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#iNIT));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iNIT));
         image <- Obj.repr (((GameFeatureImageCacheFactory.getInstance ())#getWithKey (rESOURCE)));
         let preResourceImageUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PreResourceImageUtil.getInstance" (Obj.repr ()))))) in ();
         let size : int ref = ref ((Array.length (Obj.magic iMAGE))) in ();
@@ -313,7 +313,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
     method update : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#uPDATE));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#uPDATE));
         (self#initOpenGL ((Obj.magic graphics)));
         image <- Obj.repr (((GameFeatureImageCacheFactory.getInstance ())#getWithKey (rESOURCE)));
         let preResourceImageUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PreResourceImageUtil.getInstance" (Obj.repr ()))))) in ();
@@ -345,7 +345,7 @@ class androidBasicTitleProgressBar ((title : string), (backgroundBasicColor : Ba
             ignore ((Obj.magic animation)#paintXY ((Obj.magic graphics), 0, 20));
             ignore (super#paint2 ((Obj.magic graphics)))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, canvasStrings#pAINT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#pAINT, e))
         end)
         end [@@warning "-7-20"]
     

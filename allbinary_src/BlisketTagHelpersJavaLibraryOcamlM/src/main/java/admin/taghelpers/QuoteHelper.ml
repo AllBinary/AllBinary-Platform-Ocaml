@@ -136,7 +136,7 @@ class quoteHelper ((hashMap : java_hash_map), pageContext) =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#eMAILLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "email", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "email", e))
             end;
             "Thank You For Your Business.<p>"
         end)
@@ -149,13 +149,13 @@ class quoteHelper ((hashMap : java_hash_map), pageContext) =
         (try
             let success : string ref = ref ((((QuoteRequestEntityFactory.getInstance ())#getQuoteRequestEntityInstance ())#dropTable ())) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGS)) then begin
-                ignore ((Obj.magic logUtil)#putF (!success, self, commonStrings#dROP))
+                ignore ((Obj.magic logUtil)#putF (!success, self, (self#commonStrings)#dROP))
             end;
             !success
         with e -> begin
             let error : string ref = ref ("Failed to drop QuoteRequest table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#dROP, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#dROP, e))
             end;
             !error
         end)
@@ -173,7 +173,7 @@ class quoteHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to create new QuoteRequest table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "create()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "create()", e))
             end;
             !error
         end)
@@ -192,7 +192,7 @@ class quoteHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to restore backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "restore()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "restore()", e))
             end;
             !error
         end)
@@ -211,7 +211,7 @@ class quoteHelper ((hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to make backup") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "backup()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "backup()", e))
             end;
             !error
         end)

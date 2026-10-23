@@ -33,15 +33,15 @@ class waypointPathRunnable () =
     method run () : unit =
         begin
         (try
-            ignore ((pathFindingLayer#getWaypointRunnableLogHelper ())#start (pathFindingLayer));
-            let waypointBehavior : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((pathFindingLayer#getWaypointBehavior ()) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
-            let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((pathFindingLayer#getCurrentGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
+            ignore (((self#pathFindingLayer)#getWaypointRunnableLogHelper ())#start ((self#pathFindingLayer)));
+            let waypointBehavior : WaypointBehaviorBase.waypointBehaviorBase ref = ref ((((self#pathFindingLayer)#getWaypointBehavior ()) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
+            let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref ((((self#pathFindingLayer)#getCurrentGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
             if (!geographicMapCellPosition == (Obj.magic 0)) then begin
                 raise (Failure ("Should never be running here"))
             end;
-            ignore (!waypointBehavior#setWaypointPathsList ((((targetPathFindingLayer#getWaypointBehavior ())#getWaypoint ())#getPathsListRunnable (!geographicMapCellPosition))));
-            ignore ((pathFindingLayer#getWaypointRunnableLogHelper ())#end_ (pathFindingLayer));
-            ignore (Unix.sleepf (Float.of_int ((15 + ((priorityP * 2)))) /. 1000.0))
+            ignore (!waypointBehavior#setWaypointPathsList (((((self#targetPathFindingLayer)#getWaypointBehavior ())#getWaypoint ())#getPathsListRunnable (!geographicMapCellPosition))));
+            ignore (((self#pathFindingLayer)#getWaypointRunnableLogHelper ())#end_ ((self#pathFindingLayer)));
+            ignore (Unix.sleepf (Float.of_int ((15 + (((self#priorityP) * 2)))) /. 1000.0))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#rUN, e));

@@ -45,7 +45,7 @@ class waypointInfoHudPaintable () =
         begin
         ignore (super#updateMeasurement ((Obj.magic graphics)));
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        textLine2Y <- ((y + ((Obj.magic !font)#getHeight ())))
+        textLine2Y <- (((self#y) + ((Obj.magic !font)#getHeight ())))
         end [@@warning "-7-20"]
     
 
@@ -76,7 +76,7 @@ class waypointInfoHudPaintable () =
         begin
         ignore (super#paint ((Obj.magic graphics)));
         ignore (keyvalueDrawString#paint ((Obj.magic graphics), textLine2Y));
-        ignore ((self#getAnimationInterface ())#paintXY ((Obj.magic graphics), imageX, y))
+        ignore ((self#getAnimationInterface ())#paintXY ((Obj.magic graphics), (self#imageX), (self#y)))
         end [@@warning "-7-20"]
 
     initializer
@@ -85,7 +85,7 @@ class waypointInfoHudPaintable () =
         rtsLayerP <- ((NullPathFindingLayer.get_nULL_PATH_FINDING_LAYER ()) :> PathFindingLayerInterface.pathFindingLayerInterface);
         textLine2Y <- 0;
         ();
-        keyvalueDrawString <- (new KeyValueDrawString.keyValueDrawString ("Owner: ", textX))
+        keyvalueDrawString <- (new KeyValueDrawString.keyValueDrawString ("Owner: ", (self#textX)))
       end
   end
 let () = java_register_constructor "WaypointInfoHudPaintable" (fun arguments -> Obj.repr (new waypointInfoHudPaintable (Obj.obj arguments)))

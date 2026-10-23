@@ -46,7 +46,7 @@ class inGameOptionsForm (commandListener, (title : string), (backgrounBasicColor
       begin
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         let gameFeatureFormUtil : GameFeatureFormUtil.gameFeatureFormUtil ref = ref (((GameFeatureFormUtil.getInstance ()) :> GameFeatureFormUtil.gameFeatureFormUtil)) in ();
         ignore (!gameFeatureFormUtil#addChoiceGroup (self, ((InGameFeatureChoiceGroups.getExclusiveInstance ())#get ()), (Obj.magic (java_call_static "Choice.get_eXCLUSIVE" (Obj.repr ())))));
         ignore (!gameFeatureFormUtil#addChoiceGroup (self, ((InGameFeatureChoiceGroups.getMultipleInstance ())#get ()), (Obj.magic (java_call_static "Choice.get_mULTIPLE" (Obj.repr ())))));

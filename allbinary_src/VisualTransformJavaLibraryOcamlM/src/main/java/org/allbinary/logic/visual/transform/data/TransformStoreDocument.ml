@@ -44,7 +44,7 @@ class transformStoreDocument ((searchRequest : SearchRequest.searchRequest)) =
             ignore ((self#getBaseNode ())#appendChild (((searchRequest#getParams ())#getParamsNode ((self#getDoc ())))))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cONSTRUCTOR, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cONSTRUCTOR, e))
             end;
             raise e
         end)

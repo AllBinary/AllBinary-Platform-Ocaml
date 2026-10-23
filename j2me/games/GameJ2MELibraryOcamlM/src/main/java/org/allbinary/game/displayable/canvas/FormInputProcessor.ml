@@ -68,12 +68,12 @@ class formInputProcessor (allBinaryGameCanvas_arg) =
     method keyPressedByDevice ((keyCode : int), (deviceId : int)) : unit =
         begin
         (try
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (inputFactory#kEY_CODE_LABEL))#appendint (keyCode))#append ((CommonSeps.getInstance ())#sPACE))#append (inputFactory#dEVICE_ID_LABEL))#appendint (deviceId)))), self, gameInputStrings#kEY_PRESSED))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (inputFactory#kEY_CODE_LABEL))#appendint (keyCode))#append ((CommonSeps.getInstance ())#sPACE))#append (inputFactory#dEVICE_ID_LABEL))#appendint (deviceId)))), self, (self#gameInputStrings)#kEY_PRESSED))));
             let input : Obj.t ref = ref ((Obj.repr (inputFactory#getInstanceById (keyCode)))) in ();
             let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic allBinaryGameCanvas), (Obj.magic !input))) :> GameKeyEvent.gameKeyEvent)) in ();
             ignore (downKeyEventHandler#fireEventForGameKeyEvent (!gameKeyEvent))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, gameInputStrings#aDD_KEY_EVENT, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, (self#gameInputStrings)#aDD_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -84,7 +84,7 @@ class formInputProcessor (allBinaryGameCanvas_arg) =
         (try
             let input : Obj.t ref = ref ((Obj.repr (inputFactory#getInstanceById (keyCode)))) in ();
             if ((Obj.magic platformKeyFactory)#isEnter ((Obj.magic !input))) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (inputFactory#kEY_CODE_LABEL))#appendint (keyCode))#append ((CommonSeps.getInstance ())#sPACE))#append (inputFactory#dEVICE_ID_LABEL))#appendint (deviceId)))), self, gameInputStrings#kEY_RELEASED))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (inputFactory#kEY_CODE_LABEL))#appendint (keyCode))#append ((CommonSeps.getInstance ())#sPACE))#append (inputFactory#dEVICE_ID_LABEL))#appendint (deviceId)))), self, (self#gameInputStrings)#kEY_RELEASED))));
                 let gameKey : GameKey.gameKey ref = ref (((GameKeyFactory.getInstance ())#kEY_NUM0 :> GameKey.gameKey)) in ();
                 let gameKeyEventSourceInterface : GameKeyEventSourceInterface.gameKeyEventSourceInterface ref = ref (((Obj.magic (Obj.magic canvas)) :> GameKeyEventSourceInterface.gameKeyEventSourceInterface)) in ();
                 let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput (!gameKeyEventSourceInterface, !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
@@ -92,7 +92,7 @@ class formInputProcessor (allBinaryGameCanvas_arg) =
                 ignore ((upGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, gameInputStrings#aDD_KEY_EVENT, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, (self#gameInputStrings)#aDD_KEY_EVENT, e))
         end)
         end [@@warning "-7-20"]
 

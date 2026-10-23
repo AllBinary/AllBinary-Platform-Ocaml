@@ -132,7 +132,7 @@ class openGLImageCache () =
             end;
             ignore (renderer#add ((Obj.magic image)))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iNIT, e))
         end)
         end [@@warning "-7-20"]
 

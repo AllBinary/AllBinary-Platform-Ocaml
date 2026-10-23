@@ -37,7 +37,7 @@ class dismissTitleProgressBarRunnable (midletActivity, (progressCanvas : Progres
     method run () : unit =
         begin
         (try
-            ignore (midletActivity#onDismissProgress (zOOM_OUT_AND_IN))
+            ignore ((self#midletActivity)#onDismissProgress (zOOM_OUT_AND_IN))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#rUN, e))

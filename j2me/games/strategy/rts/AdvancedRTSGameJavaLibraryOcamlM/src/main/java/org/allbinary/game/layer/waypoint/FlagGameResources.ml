@@ -33,7 +33,7 @@ let iCON_BUILD : string = ("_icon" ^ java_string_of (Obj.repr (bUILD)))
 let get_iCON_BUILD () = iCON_BUILD
 let () = java_register_static "FlagGameResources.get_iCON_BUILD" (fun _ -> Obj.repr (get_iCON_BUILD ()))
 class flagGameResources () =
-  object
+  object (self)
     inherit BasicGameResources.basicGameResources () as super
     val mutable nAME : string = ""
     method nAME = nAME
@@ -62,7 +62,7 @@ class flagGameResources () =
         ignore ((BasicGameResources.get_stringBuffer ())#append (dESTROY));
         ignore ((BasicGameResources.get_stringBuffer ())#append (!string));
         ignore ((BasicGameResources.get_stringBuffer ())#append (sizeString));
-        rESOURCE_DESTROY <- (java_string_of (Obj.repr (BasicGameResources.get_stringBuffer ())));
+        (self#set_rESOURCE_DESTROY) ((java_string_of (Obj.repr (BasicGameResources.get_stringBuffer ()))));
         ignore ((BasicGameResources.get_stringBuffer ())#delete (0, ((BasicGameResources.get_stringBuffer ())#length ())));
         ignore ((BasicGameResources.get_stringBuffer ())#append (iCON));
         ignore ((BasicGameResources.get_stringBuffer ())#append (rOOT));

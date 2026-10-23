@@ -40,49 +40,49 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
 
     method setFrame ((index : int)) : unit =
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#setFrame (index))
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#setFrame (index))
         end [@@warning "-7"]
     
 
     method getFrame () : int =
         begin
-        (animationInterfaceArray.((circularIndexUtil#getIndex ()))#getFrame ())
+        (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#getFrame ())
         end [@@warning "-7"]
     
 
     method getAnimationSize () : int =
         begin
-        (animationInterfaceArray.((circularIndexUtil#getIndex ()))#getAnimationSize ())
+        (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#getAnimationSize ())
         end [@@warning "-7"]
     
 
     method getSize () : int =
         begin
-        (animationInterfaceArray.((circularIndexUtil#getIndex ()))#getSize ())
+        (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#getSize ())
         end [@@warning "-7"]
     
 
     method previousFrame () : unit =
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#previousFrame ())
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#previousFrame ())
         end [@@warning "-7"]
     
 
     method nextFrame () : unit =
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#nextFrame ())
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#nextFrame ())
         end [@@warning "-7"]
     
 
     method previousRotation () : unit =
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#previousRotation ())
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#previousRotation ())
         end [@@warning "-7"]
     
 
     method nextRotation () : unit =
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#nextRotation ())
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#nextRotation ())
         end [@@warning "-7"]
     
 
@@ -101,27 +101,27 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#paintXY ((Obj.magic graphics), x, y))
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#paintXY ((Obj.magic graphics), x, y))
         end [@@warning "-7-20"]
     
 
     method paintThreedXYZ : 'any1. 'any1 * int * int * int -> unit = fun (graphics, (x : int), (y : int), (z : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#paintThreedXYZ ((Obj.magic graphics), x, y, z))
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#paintThreedXYZ ((Obj.magic graphics), x, y, z))
         end [@@warning "-7-20"]
     
 
     method getCurrentAnimation () : IndexedAnimation.indexedAnimation =
         begin
-        (animationInterfaceArray.((circularIndexUtil#getIndex ())) :> IndexedAnimation.indexedAnimation)
+        (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ())) :> IndexedAnimation.indexedAnimation)
         end [@@warning "-7"]
     
 
     method nextAnimation () : unit =
         begin
         let frame : int ref = ref ((self#getFrame ())) in ();
-        ignore (circularIndexUtil#next ());
+        ignore ((self#circularIndexUtil)#next ());
         (self#setFrame (!frame))
         end [@@warning "-7"]
     
@@ -129,7 +129,7 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
     method previousAnimation () : unit =
         begin
         let frame : int ref = ref ((self#getFrame ())) in ();
-        ignore (circularIndexUtil#previous ());
+        ignore ((self#circularIndexUtil)#previous ());
         (self#setFrame (!frame))
         end [@@warning "-7"]
     
@@ -137,7 +137,7 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
     method setAnimation ((index : int)) : unit =
         begin
         let frame : int ref = ref ((self#getFrame ())) in ();
-        ignore (circularIndexUtil#setIndex (index));
+        ignore ((self#circularIndexUtil)#setIndex (index));
         (self#setFrame (!frame))
         end [@@warning "-7"]
     
@@ -145,14 +145,14 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
     method setFrameByDirection : 'any1. 'any1 -> unit = fun (direction) ->
         let direction = Obj.repr direction in
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#setFrameByDirection ((Obj.magic direction)))
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#setFrameByDirection ((Obj.magic direction)))
         end [@@warning "-7-20"]
     
 
     method setFrameToAngle : 'any1. 'any1 -> unit = fun (angle) ->
         let angle = Obj.repr angle in
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#setFrameToAngle ((Obj.magic angle)))
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#setFrameToAngle ((Obj.magic angle)))
         end [@@warning "-7-20"]
     
 
@@ -165,13 +165,13 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
 
     method adjustFrame ((angle : int)) : unit =
         begin
-        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#adjustFrame (angle))
+        ignore (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#adjustFrame (angle))
         end [@@warning "-7"]
     
 
     method getAngleInfoP () : AngleInfo.angleInfo =
         begin
-        ((animationInterfaceArray.((circularIndexUtil#getIndex ()))#getAngleInfoP ()) :> AngleInfo.angleInfo)
+        ((animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#getAngleInfoP ()) :> AngleInfo.angleInfo)
         end [@@warning "-7"]
     
 
@@ -202,7 +202,7 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
         ();
         (* super(...) is the inherit clause *) ();
         animationInterfaceArray <- animationInterfaceArray_arg;
-        circularIndexUtil <- (CircularIndexUtil.createInstance ((Array.length animationInterfaceArray)))
+        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance ((Array.length animationInterfaceArray))))
       end
   end
 let () = java_register_constructor "CompoundRotationAnimation" (fun arguments -> Obj.repr (new compoundRotationAnimation (Obj.obj arguments)))

@@ -189,9 +189,9 @@ class pCClipWavPlayer (inputStream) =
         let event = Obj.repr event in
         begin
         if (((Obj.magic event)#getType ())#equals ((LineEvent.get_type_ ())#sTOP)) then begin
-            let size : int ref = ref ((listenersList#size ())) in ();
+            let size : int ref = ref (((self#listenersList)#size ())) in ();
             for _index = 0 to !size - 1 do
-                let listener : Obj.t ref = ref ((Obj.repr (Obj.magic (listenersList#get (!size))))) in ();
+                let listener : Obj.t ref = ref ((Obj.repr (Obj.magic ((self#listenersList)#get (!size))))) in ();
                 ignore ((Obj.magic !listener)#playerUpdate (self, (Obj.magic (java_call_static "PlayerListener.get_eND_OF_MEDIA" (Obj.repr ()))), (Obj.magic 0)))
             done
         end
@@ -209,11 +209,11 @@ class pCClipWavPlayer (inputStream) =
             audioInputStream_arg := Obj.repr ((AudioSystem.getAudioInputStream (inputStream)));
             clip_arg := Obj.repr ((self#create ((Obj.magic !audioInputStream_arg))));
             if ((Obj.magic !clip_arg) == (Obj.magic 0)) then begin
-                ignore ((Obj.magic logUtil)#put ("Clip was null", self, commonStrings#cONSTRUCTOR, (Failure ("Exception"))));
+                ignore ((Obj.magic logUtil)#put ("Clip was null", self, (self#commonStrings)#cONSTRUCTOR, (Failure ("Exception"))));
                 raise (Failure ("RuntimeException"))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cONSTRUCTOR, e))
         end);
         audioInputStream <- Obj.repr ((Obj.magic !audioInputStream_arg));
         clip <- Obj.repr ((Obj.magic !clip_arg))

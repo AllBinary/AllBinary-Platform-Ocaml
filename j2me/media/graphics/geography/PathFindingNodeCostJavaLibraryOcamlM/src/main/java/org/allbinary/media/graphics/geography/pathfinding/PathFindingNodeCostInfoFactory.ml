@@ -45,7 +45,7 @@ class pathFindingNodeCostInfoFactory ((max : int)) =
         if (!pathFindingNodeCostInfo == (Obj.magic 0)) then begin
             pathFindingNodeCostInfo := (new PathFindingNodeCostInfo.pathFindingNodeCostInfo (costFromStart, costToEnd));
             ignore (!pathFindingNodeCostInfo#setCalculatedTotalCost ());
-            pathFindingNodeCostInfoAdjacencyList.(((Obj.magic geographicMapCellPosition)#getId ())).(((Obj.magic goingToGeographicMapCellPosition)#set_getId ())) (!pathFindingNodeCostInfo)
+            pathFindingNodeCostInfoAdjacencyList.(((Obj.magic geographicMapCellPosition)#getId ())).(((Obj.magic goingToGeographicMapCellPosition)#getId ())) <- !pathFindingNodeCostInfo
         end else begin
             ignore (!pathFindingNodeCostInfo#setCostFromStart (costFromStart));
             ignore (!pathFindingNodeCostInfo#setCostToEnd (costToEnd));

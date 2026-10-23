@@ -71,7 +71,7 @@ class imageCache () =
                 ignore (Unix.sleepf (Float.of_int (100) /. 1000.0));
                 image := Obj.repr ((self#createImage (key, (Obj.magic !inputStream))))
             end);
-            ignore (hashtable#put (!resourceId, (Obj.magic !image)))
+            ignore ((self#hashtable)#put (!resourceId, (Obj.magic !image)))
         end;
         (Obj.magic ((Obj.magic !image)))
         end [@@warning "-7"]

@@ -88,7 +88,7 @@ class textAnimation ((text : string), (animationBehavior : AnimationBehavior.ani
     method paintXYNoUpdate : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
+        ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
         let size : int ref = ref ((Array.length textArrayP)) in ();
         for index = 0 to !size - 1 do
             ignore ((Obj.magic graphics)#drawString (textArrayP.(index), x, ((y + offsetY) + ((index * fontHeight))), anchor))

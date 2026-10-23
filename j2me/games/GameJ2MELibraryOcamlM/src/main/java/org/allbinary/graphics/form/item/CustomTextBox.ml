@@ -52,7 +52,7 @@ class customTextBox (cmdListener, (label : string), (text : string), (maxSize : 
 
     method onEventRaw ((keyCode : int), (deviceId : int), (_repeated : bool)) : unit =
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#sTART))#appendint (keyCode)))), self, "onEvent"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#appendint (keyCode)))), self, "onEvent"));
         (self#keyPressedByDevice (keyCode, deviceId))
         end [@@warning "-7"]
     
@@ -78,7 +78,7 @@ class customTextBox (cmdListener, (label : string), (text : string), (maxSize : 
     method keyPressedByDevice ((keyCode : int), (_deviceId : int)) : unit =
         begin
         (try
-            ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), self, gameInputStrings#kEY_PRESSED));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), self, (self#gameInputStrings)#kEY_PRESSED));
             let platformKeyFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PlatformKeyFactory.getInstance" (Obj.repr ()))))) in ();
             let input : Obj.t ref = ref ((Obj.repr (inputFactory#getInstanceById (keyCode)))) in ();
             if ((Obj.magic !platformKeyFactory)#isSubmission ((Obj.magic !input))) then begin
@@ -87,7 +87,7 @@ class customTextBox (cmdListener, (label : string), (text : string), (maxSize : 
                 ignore ((Obj.magic textFieldItem)#keyPressed (keyCode))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#kEY_PRESSED, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#kEY_PRESSED, e))
         end)
         end [@@warning "-7"]
     
@@ -101,9 +101,9 @@ class customTextBox (cmdListener, (label : string), (text : string), (maxSize : 
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#setColor (backgroundColor));
-        ignore ((Obj.magic graphics)#fillRect (0, 0, (displayInfo#getLastWidth ()), (displayInfo#getLastHeight ())));
-        ignore ((Obj.magic graphics)#setColor (foregroundColor));
+        ignore ((Obj.magic graphics)#setColor ((self#backgroundColor)));
+        ignore ((Obj.magic graphics)#fillRect (0, 0, ((self#displayInfo)#getLastWidth ()), ((self#displayInfo)#getLastHeight ())));
+        ignore ((Obj.magic graphics)#setColor ((self#foregroundColor)));
         if (not (J2MEUtil.isJ2ME ())) then begin
             ignore ((Obj.magic graphics)#drawString ((self#getTitle ()), 8, 1, 0))
         end;

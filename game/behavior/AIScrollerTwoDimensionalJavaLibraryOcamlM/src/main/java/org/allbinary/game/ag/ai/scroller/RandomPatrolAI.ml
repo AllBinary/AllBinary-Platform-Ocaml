@@ -35,14 +35,14 @@ class randomPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinary
 
     method updateRandomDistance () : unit =
         begin
-        currentDistance <- ((MyRandomFactory.getInstance ())#getAbsoluteNextInt ((maxDistance#intValue ())))
+        (self#set_currentDistance) (((MyRandomFactory.getInstance ())#getAbsoluteNextInt (((self#maxDistance)#intValue ()))))
         end [@@warning "-7"]
     
 
     method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
         begin
         ignore (super#update ());
-        ignore (super#processKeyAI (keyDirection));
+        ignore (super#processKeyAI ((self#keyDirection)));
         if changedDirection then begin
             ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))));
             (self#updateRandomDistance ());

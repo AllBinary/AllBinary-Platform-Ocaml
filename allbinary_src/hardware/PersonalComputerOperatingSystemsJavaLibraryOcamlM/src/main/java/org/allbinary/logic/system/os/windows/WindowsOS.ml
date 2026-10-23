@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.system.os.GenericOperatingSystem *)
 
 class windowsOS () =
-  object
+  object (self)
     inherit GenericOperatingSystem.genericOperatingSystem ()
     
     
@@ -32,7 +32,7 @@ class windowsOS () =
     initializer
       begin
         ();
-        scalable <- true
+        (self#set_scalable) (true)
       end
   end
 let () = java_register_constructor "WindowsOS" (fun arguments -> Obj.repr (new windowsOS (Obj.obj arguments)))

@@ -37,13 +37,13 @@ class keylessBasicArrayListCache () =
     method get () : BasicArrayList.basicArrayList =
         begin
         (try
-            if (index >= (list#size ())) then begin
+            if ((self#index) >= ((self#list)#size ())) then begin
                 ignore (self#addDefault ())
             end;
-            let list : BasicArrayList.basicArrayList ref = ref (((Obj.magic (self#getAt ((let value = index in index <- index + 1; value)))) :> BasicArrayList.basicArrayList)) in ();
+            let list : BasicArrayList.basicArrayList ref = ref (((Obj.magic (self#getAt ((let value = (self#index) in (self#set_index) ((self#index) + 1); value)))) :> BasicArrayList.basicArrayList)) in ();
             (!list :> BasicArrayList.basicArrayList)
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#gET, e));
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET, e));
             ((basicArrayListUtil#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
         end)
         end [@@warning "-7"]
@@ -53,8 +53,8 @@ class keylessBasicArrayListCache () =
         begin
         ignore (super#clear ());
         let basicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-        for index = ((list#size ()) - 1) downto 0 do
-            basicArrayList := ((Obj.magic list#objectArray.(index)));
+        for index = (((self#list)#size ()) - 1) downto 0 do
+            basicArrayList := ((Obj.magic (self#list)#objectArray.(index)));
             ignore (!basicArrayList#clear ())
         done
         end [@@warning "-7"]
@@ -64,12 +64,12 @@ class keylessBasicArrayListCache () =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ("S: "));
-        ignore (!stringBuffer#appendint ((list#size ())));
+        ignore (!stringBuffer#appendint (((self#list)#size ())));
         let s_LABEL : string ref = ref (" s: ") in ();
         let basicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-        for index = ((list#size ()) - 1) downto 0 do
+        for index = (((self#list)#size ()) - 1) downto 0 do
             ignore (!stringBuffer#append (!s_LABEL));
-            basicArrayList := ((Obj.magic list#objectArray.(index)));
+            basicArrayList := ((Obj.magic (self#list)#objectArray.(index)));
             ignore (!stringBuffer#appendint ((!basicArrayList#size ())))
         done;
         (java_string_of (Obj.repr !stringBuffer))

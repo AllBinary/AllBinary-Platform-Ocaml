@@ -46,7 +46,7 @@ class highScoresHelper2 () =
     method setHighScoresArray (highScoresArrayP) : unit =
         begin
         ignore (super#setHighScoresArray (highScoresArrayP));
-        ignore (circularIndexUtil#setSize ((Array.length highScoresArrayP)));
+        ignore (circularIndexUtil#setSize ((Array.length (self#highScoresArrayP))));
         (self#selectHighScores ())
         end [@@warning "-7"]
     
@@ -54,15 +54,15 @@ class highScoresHelper2 () =
     method selectHighScores () : unit =
         try
         begin
-        if ((Array.length highScoresArrayP) = 0) then begin
+        if ((Array.length (self#highScoresArrayP)) = 0) then begin
             (self#setSelectedHighScores ((NullHighScoresSingletonFactory.getInstance ())));
             raise (Java_return (Obj.repr (())))
         end;
         ignore (circularIndexUtil#next ());
-        let highScores : Obj.t ref = ref ((Obj.repr highScoresArrayP.((circularIndexUtil#getIndex ())))) in ();
+        let highScores : Obj.t ref = ref ((Obj.repr (self#highScoresArrayP).((circularIndexUtil#getIndex ())))) in ();
         let index : int ref = ref (0) in ();
-        while ((((Obj.magic !highScores)#getTotal ()) < 1) && (!index < (Array.length highScoresArrayP))) do
-            highScores := Obj.repr (highScoresArrayP.((circularIndexUtil#next ())));
+        while ((((Obj.magic !highScores)#getTotal ()) < 1) && (!index < (Array.length (self#highScoresArrayP)))) do
+            highScores := Obj.repr ((self#highScoresArrayP).((circularIndexUtil#next ())));
             index := !index + 1
         done;
         (self#setSelectedHighScores ((Obj.magic !highScores)))

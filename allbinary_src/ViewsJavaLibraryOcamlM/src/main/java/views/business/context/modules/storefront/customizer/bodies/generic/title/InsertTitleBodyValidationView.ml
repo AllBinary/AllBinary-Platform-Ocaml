@@ -49,16 +49,16 @@ class insertTitleBodyValidationView ((transformInfoInterface : TransformInfoInte
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, (self#commonStrings)#iS_VALID))
             end;
-            let isValid : bool ref = ref ((titleBody#isValid ())) in ();
+            let isValid : bool ref = ref (((self#titleBody)#isValid ())) in ();
             if ((Obj.repr !isValid) == (Obj.repr true)) then begin
-                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic titleBody)))
+                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic (self#titleBody))))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -69,7 +69,7 @@ class insertTitleBodyValidationView ((transformInfoInterface : TransformInfoInte
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((titleBody#validationInfo ())));
+            ignore (!stringBuffer#append (((self#titleBody)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
@@ -95,10 +95,10 @@ class insertTitleBodyValidationView ((transformInfoInterface : TransformInfoInte
     method view () : string =
         begin
         (try
-            ((StoreCustomizerComponentUtil.getInstance ())#generate (abeClientInformation, (self#getTransformInfoInterface ())))
+            ((StoreCustomizerComponentUtil.getInstance ())#generate ((self#abeClientInformation), (self#getTransformInfoInterface ())))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -110,7 +110,7 @@ class insertTitleBodyValidationView ((transformInfoInterface : TransformInfoInte
         ();
         (* super(...) is the inherit clause *) ();
         let requestHashMap : java_hash_map ref = ref ((((new RequestParams.requestParams ((self#getPageContext ())))#toHashMap ()) :> java_hash_map)) in ();
-        titleBody <- (new TitleBodyValidation.titleBodyValidation (!requestHashMap))
+        (self#set_titleBody) ((new TitleBodyValidation.titleBodyValidation (!requestHashMap)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "InsertTitleBodyValidationView" (fun arguments -> Obj.repr (new insertTitleBodyValidationView (Obj.obj arguments)))

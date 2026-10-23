@@ -147,10 +147,10 @@ class progressCanvas ((_title : string), (backgroundBasicColor_arg : BasicColor.
 
     method start () : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#sTART_METHOD_NAME));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#sTART_METHOD_NAME));
         (self#setBackground (true));
         ignore ((Obj.magic gauge)#setHeight (30));
-        ignore ((Obj.magic gauge)#setLabel (commonStrings#pLEASE_WAIT));
+        ignore ((Obj.magic gauge)#setLabel ((self#commonStrings)#pLEASE_WAIT));
         (self#setText (tEXT));
         (self#setValue (0));
         inGameProcessor <- (Processor.getInstance ());
@@ -161,7 +161,7 @@ class progressCanvas ((_title : string), (backgroundBasicColor_arg : BasicColor.
 
     method startBackground ((background_arg : bool)) : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, sTART_BACKGROUND));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, sTART_BACKGROUND));
         (self#setBackground (background_arg));
         myFontProcessor <- updateMyFontProcessor;
         ignore ((Obj.magic gauge)#setLabel (backgroundLabel));
@@ -189,7 +189,7 @@ class progressCanvas ((_title : string), (backgroundBasicColor_arg : BasicColor.
 
     method end_ () : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#eND_METHOD_NAME));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#eND_METHOD_NAME));
         ignore ((Obj.magic gauge)#setValue ((self#getMaxValue ())));
         (self#endActual ());
         paintable <- (NullPaintable.getInstance ())
@@ -265,7 +265,7 @@ class progressCanvas ((_title : string), (backgroundBasicColor_arg : BasicColor.
         begin
         ignore (myFontProcessor#process ((Obj.magic graphics)));
         ignore ((Obj.magic graphics)#setColor ((backgroundBasicColor#intValue ())));
-        ignore ((Obj.magic graphics)#fillRect (0, 0, (displayInfo#getLastWidth ()), (displayInfo#getLastHeight ())));
+        ignore ((Obj.magic graphics)#fillRect (0, 0, ((self#displayInfo)#getLastWidth ()), ((self#displayInfo)#getLastHeight ())));
         ignore ((Obj.magic gauge)#paintXY ((Obj.magic graphics), 0, 0));
         hasPainted <- true
         end [@@warning "-7-20"]
@@ -313,7 +313,7 @@ class progressCanvas ((_title : string), (backgroundBasicColor_arg : BasicColor.
         gAUGE_PAINTABLE <- ((new ProgressPaintable.progressPaintable (self)) :> Paintable.paintable);
         maxValue <- 100.0;
         ();
-        tEXT <- commonStrings#lOADING;
+        tEXT <- (self#commonStrings)#lOADING;
         updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         allbinaryMidlet <- ((AllBinaryMidlet.getNullInstance ()) :> AllBinaryMidlet.allBinaryMidlet);
@@ -329,7 +329,7 @@ class progressCanvas ((_title : string), (backgroundBasicColor_arg : BasicColor.
 
         method process () : unit =
             begin
-            ignore (pathFindingThreadPool#runAPriorityTask ())
+            ignore ((self#pathFindingThreadPool)#runAPriorityTask ())
             end
     end) :> Processor.processor);
         inGameProcessor <- ((Processor.getInstance ()) :> Processor.processor);

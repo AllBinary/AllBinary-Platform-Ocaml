@@ -36,7 +36,7 @@ class generatorStoreFrontContextView ((transformInfoInterface : TransformInfoInt
     method view ((group : string)) : string =
         try
         begin
-        let result : string ref = ref (((TransformsGeneratorUtil.getInstance ())#generateComponentsFromObjectConfig (abeClientInformation, (self#getTransformInfoInterface ()), group))) in ();
+        let result : string ref = ref (((TransformsGeneratorUtil.getInstance ())#generateComponentsFromObjectConfig ((self#abeClientInformation), (self#getTransformInfoInterface ()), group))) in ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPEXTRAOUTPUT)) then begin
             raise (Java_return (Obj.repr (!result)))
         end else begin
@@ -54,7 +54,7 @@ class generatorStoreFrontContextView ((transformInfoInterface : TransformInfoInt
         ();
         (* super(...) is the inherit clause *) ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

@@ -50,7 +50,7 @@ class deleteFileValidationView ((transformInfoInterface : TransformInfoInterface
         if (!hashMap == (Obj.magic 0)) then begin
             raise (Failure ("No Request Params Found"))
         end;
-        id <- (Obj.magic (!hashMap#get (basicItemData#iD)));
+        (self#set_id) ((Obj.magic (!hashMap#get (basicItemData#iD))));
         downloadItemId <- (Obj.magic (!hashMap#get ((DownloadItemData.get_iD ()))))
         end [@@warning "-7"]
     
@@ -59,16 +59,16 @@ class deleteFileValidationView ((transformInfoInterface : TransformInfoInterface
         try
         begin
         (try
-            if ((id == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber (id)))) then begin
+            if ((id == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber ((self#id))))) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
             let inventoryEntity : InventoryEntity.inventoryEntity ref = ref ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ()) :> InventoryEntity.inventoryEntity)) in ();
-            itemInterface <- (!inventoryEntity#getItem (id));
-            if (itemInterface == (Obj.magic 0)) then begin
+            (self#set_itemInterface) ((!inventoryEntity#getItem ((self#id))));
+            if ((self#itemInterface) == (Obj.magic 0)) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
             let downloadItemsEntity : DownloadItemsEntity.downloadItemsEntity ref = ref ((((DownloadItemsEntityFactory.getInstance ())#getDownloadItemsEntityInstance ()) :> DownloadItemsEntity.downloadItemsEntity)) in ();
-            let vector : BasicArrayList.basicArrayList ref = ref (((!downloadItemsEntity#getForItem (id, downloadItemId)) :> BasicArrayList.basicArrayList)) in ();
+            let vector : BasicArrayList.basicArrayList ref = ref (((!downloadItemsEntity#getForItem ((self#id), downloadItemId)) :> BasicArrayList.basicArrayList)) in ();
             if ((!vector#size ()) <> 1) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
@@ -96,14 +96,14 @@ class deleteFileValidationView ((transformInfoInterface : TransformInfoInterface
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            if ((id == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber (id)))) then begin
+            if (((self#id) == (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber ((self#id))))) then begin
                 ignore (!stringBuffer#append ("Id is not valid.<br />"))
             end;
-            if ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (id)) == (Obj.magic 0)) then begin
+            if ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem ((self#id))) == (Obj.magic 0)) then begin
                 ignore (!stringBuffer#append ("Item does not exist.<br />"))
             end;
             let downloadItemsEntity : DownloadItemsEntity.downloadItemsEntity ref = ref ((((DownloadItemsEntityFactory.getInstance ())#getDownloadItemsEntityInstance ()) :> DownloadItemsEntity.downloadItemsEntity)) in ();
-            let vector : BasicArrayList.basicArrayList ref = ref (((!downloadItemsEntity#getForItem (id, downloadItemId)) :> BasicArrayList.basicArrayList)) in ();
+            let vector : BasicArrayList.basicArrayList ref = ref (((!downloadItemsEntity#getForItem ((self#id), downloadItemId)) :> BasicArrayList.basicArrayList)) in ();
             if ((!vector#size ()) = 0) then begin
                 ignore (!stringBuffer#append ("DownloadItem does not exist.<br />"))
             end;

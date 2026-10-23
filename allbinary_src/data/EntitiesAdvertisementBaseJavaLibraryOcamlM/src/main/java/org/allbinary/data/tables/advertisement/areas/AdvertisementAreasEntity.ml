@@ -49,11 +49,11 @@ class advertisementAreasEntity () =
         (try
             ignore (super#deleteWhere ((EntryData.getInstance ())#iD, value));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, commonStrings#delete))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, (self#commonStrings)#delete))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#delete, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#delete, e))
             end
         end)
         end [@@warning "-7"]
@@ -83,10 +83,10 @@ class advertisementAreasEntity () =
         begin
         let advertisementAreaData : AdvertisementAreaData.advertisementAreaData ref = ref (((AdvertisementAreaData.getInstance ()) :> AdvertisementAreaData.advertisementAreaData)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#cREATE_TABLE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#sTART));
-        ignore (((((((((((((((((!stringBuffer#append (!advertisementAreaData#nAME))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((StoreFrontData.getInstance ())#nAME))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementAreaData#dESCRIPTION))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementAreaData#cONSTRAINTS))#append (sqlTypeStrings#bLOB_NOT_NULL))#append ((AdvertisementCampaignData.getInstance ())#nAME))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((EntryData.getInstance ())#tIMECREATED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#lASTMODIFIED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append (!advertisementAreaData#nAME))#append (sqlStrings#eND));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sTART));
+        ignore (((((((((((((((((!stringBuffer#append (!advertisementAreaData#nAME))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((StoreFrontData.getInstance ())#nAME))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementAreaData#dESCRIPTION))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementAreaData#cONSTRAINTS))#append ((self#sqlTypeStrings)#bLOB_NOT_NULL))#append ((AdvertisementCampaignData.getInstance ())#nAME))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((EntryData.getInstance ())#tIMECREATED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#lASTMODIFIED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append (!advertisementAreaData#nAME))#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

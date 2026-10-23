@@ -84,7 +84,7 @@ class basicPlatormGeographicMapCellTypeFactory (tileTypeToTileIdsMap, (maxTileId
         ();
         ();
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore (logUtil#putF (!commonStrings#sTART, self, !commonStrings#iNIT));
+        ignore ((self#logUtil)#putF (!commonStrings#sTART, self, !commonStrings#iNIT));
         maxTileId <- maxTileId_arg;
         (new GeographicMapCellType.geographicMapCellType (0, 0));
         let bLOCK_CELL_TYPE_arg : BasicPlatormGeographicMapCellType.basicPlatormGeographicMapCellType ref = ref (((BasicPlatormGeographicMapCellType.createType (1)) :> BasicPlatormGeographicMapCellType.basicPlatormGeographicMapCellType)) in ();
@@ -99,7 +99,7 @@ class basicPlatormGeographicMapCellTypeFactory (tileTypeToTileIdsMap, (maxTileId
         let basicPlatormGeographicMapCellType : BasicPlatormGeographicMapCellType.basicPlatormGeographicMapCellType ref = ref (((Obj.magic 0) :> BasicPlatormGeographicMapCellType.basicPlatormGeographicMapCellType)) in ();
         while (enumerationUtil#hasMoreElements (!enumeration)) do
             key := (Obj.magic (enumerationUtil#nextElement (!enumeration)));
-            ignore (logUtil#putF (!key, self, !commonStrings#iNIT));
+            ignore ((self#logUtil)#putF (!key, self, !commonStrings#iNIT));
             idsWithTypeList := (Obj.magic (tileTypeToTileIdsMap#get (!key)));
             basicPlatormGeographicMapCellType := (new BasicPlatormGeographicMapCellType.basicPlatormGeographicMapCellType (!idsWithTypeList));
             if (!key = !pLATFORM) then begin

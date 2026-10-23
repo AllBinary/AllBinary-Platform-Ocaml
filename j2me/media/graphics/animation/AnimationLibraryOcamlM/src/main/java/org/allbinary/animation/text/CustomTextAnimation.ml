@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringUtil *)
 
 class customTextAnimation ((text : string), (fontSize_arg : int), (animationBehavior : AnimationBehavior.animationBehavior)) =
-  object
+  object (self)
     inherit TextAnimation.textAnimation (text, animationBehavior) as super
     val mutable fontDebugFactory : Obj.t = Obj.repr 0
     method fontDebugFactory : 'r. 'r = Obj.magic fontDebugFactory
@@ -50,7 +50,7 @@ class customTextAnimation ((text : string), (fontSize_arg : int), (animationBeha
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         let existingFont : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
         ignore ((Obj.magic fontDebugFactory)#setFont ((Obj.magic font), (Obj.magic graphics)));
         ignore (super#paintXYNoUpdate ((Obj.magic graphics), x, y));
@@ -87,7 +87,7 @@ class customTextAnimation ((text : string), (fontSize_arg : int), (animationBeha
     method getWidth () : int =
         begin
         if hasChanged then begin
-            textWidth <- ((Obj.magic font)#stringWidth (textArrayP.(0)));
+            textWidth <- ((Obj.magic font)#stringWidth ((self#textArrayP).(0)));
             hasChanged <- false
         end;
         textWidth

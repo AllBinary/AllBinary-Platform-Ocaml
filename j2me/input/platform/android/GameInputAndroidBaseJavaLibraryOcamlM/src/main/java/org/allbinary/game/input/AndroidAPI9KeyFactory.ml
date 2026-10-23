@@ -11,28 +11,28 @@ let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "AndroidAPI9KeyFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 class androidAPI9KeyFactory () =
-  object
+  object (self)
     inherit AndroidKeyFactory.androidKeyFactory ()
     
 
     initializer
       begin
         ();
-        kEYCODE_BUTTON_L1 <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_L1 ()), "BUTTON L1"));
-        kEYCODE_BUTTON_R1 <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_R1 ()), "BUTTON R1"));
-        kEYCODE_BUTTON_THUMBR <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_THUMBR ()), "BUTTON THUMBR"));
-        kEYCODE_BUTTON_THUMBL <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_THUMBL ()), "BUTTON THUMBL"));
-        kEYCODE_BUTTON_START <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_START ()), "BUTTON START"));
-        kEYCODE_BUTTON_MODE <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_MODE ()), "BUTTON MODE"));
-        kEYCODE_BUTTON_B <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_B ()), "BUTTON B"));
-        kEYCODE_BUTTON_A <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_A ()), "BUTTON A"));
-        kEYCODE_BUTTON_X <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_X ()), "BUTTON X"));
-        kEYCODE_BUTTON_Y <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_Y ()), "BUTTON Y"));
-        kEYCODE_BUTTON_L2 <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_L2 ()), "BUTTON L2"));
-        kEYCODE_BUTTON_R2 <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_R2 ()), "BUTTON R2"));
-        kEYCODE_BUTTON_SELECT <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_SELECT ()), "BUTTON SELECT"));
-        kEYCODE_BUTTON_C <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_C ()), "BUTTON C"));
-        kEYCODE_BUTTON_Z <- (new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_Z ()), "BUTTON Z"))
+        (self#set_kEYCODE_BUTTON_L1) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_L1 ()), "BUTTON L1")));
+        (self#set_kEYCODE_BUTTON_R1) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_R1 ()), "BUTTON R1")));
+        (self#set_kEYCODE_BUTTON_THUMBR) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_THUMBR ()), "BUTTON THUMBR")));
+        (self#set_kEYCODE_BUTTON_THUMBL) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_THUMBL ()), "BUTTON THUMBL")));
+        (self#set_kEYCODE_BUTTON_START) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_START ()), "BUTTON START")));
+        (self#set_kEYCODE_BUTTON_MODE) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_MODE ()), "BUTTON MODE")));
+        (self#set_kEYCODE_BUTTON_B) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_B ()), "BUTTON B")));
+        (self#set_kEYCODE_BUTTON_A) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_A ()), "BUTTON A")));
+        (self#set_kEYCODE_BUTTON_X) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_X ()), "BUTTON X")));
+        (self#set_kEYCODE_BUTTON_Y) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_Y ()), "BUTTON Y")));
+        (self#set_kEYCODE_BUTTON_L2) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_L2 ()), "BUTTON L2")));
+        (self#set_kEYCODE_BUTTON_R2) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_R2 ()), "BUTTON R2")));
+        (self#set_kEYCODE_BUTTON_SELECT) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_SELECT ()), "BUTTON SELECT")));
+        (self#set_kEYCODE_BUTTON_C) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_C ()), "BUTTON C")));
+        (self#set_kEYCODE_BUTTON_Z) ((new AndroidGameKey.androidGameKey ((KeyEvent.get_kEYCODE_BUTTON_Z ()), "BUTTON Z")))
       end
   end
 let () = java_register_constructor "AndroidAPI9KeyFactory" (fun arguments -> Obj.repr (new androidAPI9KeyFactory (Obj.obj arguments)))

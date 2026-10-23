@@ -51,8 +51,8 @@ class straightMultiProjectileWeaponPart (animationInterface, (sourceLayerInterfa
         let sourceLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
         let reducedWidth : int ref = ref (((((!sourceLayerInterface#getWidth ()) * 8) / 10))) in ();
         let halfWidth : int ref = ref (((!reducedWidth asr 1))) in ();
-        let x : int ref = ref ((relativeRelationship#getX ())) in ();
-        let y : int ref = ref ((relativeRelationship#getY ())) in ();
+        let x : int ref = ref (((self#relativeRelationship)#getX ())) in ();
+        let y : int ref = ref (((self#relativeRelationship)#getY ())) in ();
         let sine : int ref = ref (0) in ();
         let beamX : int ref = ref (0) in ();
         let cosine : int ref = ref (0) in ();

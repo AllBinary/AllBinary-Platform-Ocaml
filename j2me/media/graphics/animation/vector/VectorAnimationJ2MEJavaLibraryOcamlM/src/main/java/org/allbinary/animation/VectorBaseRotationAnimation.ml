@@ -41,25 +41,25 @@ class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPo
 
     method getFrame () : int =
         begin
-        (circularIndexUtil#getIndex ())
+        ((self#circularIndexUtil)#getIndex ())
         end [@@warning "-7"]
     
 
     method setFrame ((index : int)) : unit =
         begin
-        ignore (circularIndexUtil#setIndex (index))
+        ignore ((self#circularIndexUtil)#setIndex (index))
         end [@@warning "-7"]
     
 
     method nextFrame () : unit =
         begin
-        ignore (circularIndexUtil#next ())
+        ignore ((self#circularIndexUtil)#next ())
         end [@@warning "-7"]
     
 
     method previousFrame () : unit =
         begin
-        ignore (circularIndexUtil#previous ())
+        ignore ((self#circularIndexUtil)#previous ())
         end [@@warning "-7"]
     
 
@@ -84,13 +84,13 @@ class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPo
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), basicColor));
+        ignore ((self#basicSetColorUtil)#setBasicColorP ((Obj.magic graphics), (self#basicColor)));
         (try
             let nextPointX : int ref = ref (0) in ();
             let nextPointY : int ref = ref (0) in ();
             let nextPoint : int array ref = ref ((Obj.magic 0)) in ();
             let point : int array ref = ref ((Obj.magic 0)) in ();
-            let currentPointsFrame : int array array ref = ref (currentPoints.((circularIndexUtil#getIndex ()))) in ();
+            let currentPointsFrame : int array array ref = ref (currentPoints.(((self#circularIndexUtil)#getIndex ()))) in ();
             let size : int ref = ref ((Array.length !currentPointsFrame)) in ();
             let index : int ref = ref ((!size - 2)) in ();
             while ((index := !index - 1; !index) >= 0) do
@@ -105,7 +105,7 @@ class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPo
                 end
             done
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "paintVectors", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "paintVectors", e))
         end)
         end [@@warning "-7-20"]
     
@@ -119,7 +119,7 @@ class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPo
     method setPoints ((currentPoints_arg : int array array array)) : unit =
         begin
         currentPoints <- currentPoints_arg;
-        circularIndexUtil <- (CircularIndexUtil.createInstance ((Array.length currentPoints)))
+        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance ((Array.length currentPoints))))
         end [@@warning "-7"]
 
     initializer

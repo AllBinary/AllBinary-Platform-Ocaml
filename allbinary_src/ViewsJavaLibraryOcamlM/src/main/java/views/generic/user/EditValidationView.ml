@@ -41,27 +41,27 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
         (try
             if ((Obj.repr ((UserName.getInstance ())#isValid (((self#getWeblisketSession ())#getUserName ())))) == (Obj.repr false)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("Failed to validate username", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("Failed to validate username", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
-            user <- ((UserEntityFactory.getInstance ())#getUser (((self#getWeblisketSession ())#getUserName ())));
-            if (user == (Obj.magic 0)) then begin
+            (self#set_user) (((UserEntityFactory.getInstance ())#getUser (((self#getWeblisketSession ())#getUserName ()))));
+            if ((self#user) == (Obj.magic 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("User does not exist", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("User does not exist", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
-            if ((Obj.repr (user#isValid ())) == (Obj.repr false)) then begin
+            if ((Obj.repr ((self#user)#isValid ())) == (Obj.repr false)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("User exists but is invalid - Probably manually modified", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("User exists but is invalid - Probably manually modified", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -79,17 +79,17 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
                 end;
                 ignore (!stringBuffer#append ("Session User Name is not valid - Your session data has been logged!"))
             end;
-            if (user == (Obj.magic 0)) then begin
+            if ((self#user) == (Obj.magic 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("User does not exist", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("User does not exist", self, (self#commonStrings)#iS_VALID))
                 end;
                 ignore (!stringBuffer#append ("User profile does not exist - Your session data has been logged!"))
             end;
-            if ((Obj.repr (user#isValid ())) == (Obj.repr false)) then begin
+            if ((Obj.repr ((self#user)#isValid ())) == (Obj.repr false)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("User exists but is invalid - Probably manually modified", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("User exists but is invalid - Probably manually modified", self, (self#commonStrings)#iS_VALID))
                 end;
-                ignore (!stringBuffer#append ((user#validationInfo ())))
+                ignore (!stringBuffer#append (((self#user)#validationInfo ())))
             end;
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin

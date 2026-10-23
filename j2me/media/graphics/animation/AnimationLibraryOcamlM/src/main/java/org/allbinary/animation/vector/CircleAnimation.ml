@@ -47,7 +47,7 @@ class circleAnimation ((width_arg : int), (height_arg : int), (basicColor : Basi
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
+        ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
         ignore ((Obj.magic graphics)#drawArc (x, y, width, height, 0, tOTAL_ANGLE))
         end [@@warning "-7-20"]
 

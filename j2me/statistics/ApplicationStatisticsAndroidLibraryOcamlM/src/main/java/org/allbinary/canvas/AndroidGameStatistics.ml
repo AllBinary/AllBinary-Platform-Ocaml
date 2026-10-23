@@ -71,7 +71,7 @@ class androidGameStatistics () =
         for index = 0 to (Array.length !stringArray) - 1 do
             aNDROID_STRING_ARRAY.(index) <- !stringArray.(index)
         done;
-        let totalTime : int ref = ref (((self#getTimeDelayHelper ())#getElapsed (gameTickTimeDelayHelper#startTime))) in ();
+        let totalTime : int ref = ref (((self#getTimeDelayHelper ())#getElapsed ((self#gameTickTimeDelayHelper)#startTime))) in ();
         totalTime := ((!totalTime / 10000));
         aNDROID_STRING_ARRAY.(10) <- tOTAL_ONDRAWS;
         aNDROID_STRING_ARRAY.(11) <- (string_of_int (totalOnDraws));
@@ -84,7 +84,7 @@ class androidGameStatistics () =
     method toString () : string =
         try
         begin
-        let totalTime : int ref = ref (((self#getTimeDelayHelper ())#getElapsed (gameTickTimeDelayHelper#startTime))) in ();
+        let totalTime : int ref = ref (((self#getTimeDelayHelper ())#getElapsed ((self#gameTickTimeDelayHelper)#startTime))) in ();
         totalTime := ((!totalTime / 1000));
         if (!totalTime > 0) then begin
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
@@ -98,7 +98,7 @@ class androidGameStatistics () =
             end;
             raise (Java_return (Obj.repr ((java_string_of (Obj.repr !stringBuffer)))))
         end else begin
-            raise (Java_return (Obj.repr (nOT)))
+            raise (Java_return (Obj.repr ((self#nOT))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

@@ -39,7 +39,7 @@ class transformInfoRequestHelperFactory () =
             (Obj.repr ((new TransformInfoRequestHelper.transformInfoRequestHelper (hashMap, (Obj.magic pageContext)))))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERFACTORYERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#gET_INSTANCE, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET_INSTANCE, e))
             end;
             (Obj.repr ((Obj.magic 0)))
         end)

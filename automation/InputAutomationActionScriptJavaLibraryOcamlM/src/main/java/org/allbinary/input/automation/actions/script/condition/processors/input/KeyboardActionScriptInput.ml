@@ -215,7 +215,7 @@ class keyboardActionScriptInput () =
     method toString () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         ignore (!stringBuffer#append (" Text: "));
         ignore (!stringBuffer#append ((self#getText ())));
         ignore (!stringBuffer#append (" isPress: "));

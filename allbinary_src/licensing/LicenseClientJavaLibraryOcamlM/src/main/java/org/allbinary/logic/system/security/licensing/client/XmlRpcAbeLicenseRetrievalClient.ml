@@ -54,28 +54,28 @@ class xmlRpcAbeLicenseRetrievalClient ((clientInfo : AbeClientInformationInterfa
             ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((self#getServer ()))))));
             ignore (!stringBuffer#append (SEP));
             ignore (!stringBuffer#append (!server));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((CommonLabels.getInstance ())#sTART_LABEL)) ^ (java_string_of (Obj.repr !stringBuffer))), self, commonStrings#gET));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((CommonLabels.getInstance ())#sTART_LABEL)) ^ (java_string_of (Obj.repr !stringBuffer))), self, (self#commonStrings)#gET));
             let param : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             let xmlRpcClient : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "XmlRpcClient" (Obj.repr (!server)))))) in ();
             ignore (self#setClient ((Obj.magic !xmlRpcClient)));
             ignore ((Obj.magic !xmlRpcClient)#setBasicAuthentication ((Obj.magic 0), (Obj.magic 0)));
             let hashtable : Obj.t ref = ref ((Obj.repr ((self#getClientInfo ())#toHashtable ()))) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (cLIENT_INFO)) ^ (java_string_of (Obj.repr (Obj.magic !hashtable)))), self, commonStrings#gET));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (cLIENT_INFO)) ^ (java_string_of (Obj.repr (Obj.magic !hashtable)))), self, (self#commonStrings)#gET));
             ignore (!param#add ((Obj.magic !hashtable)));
             let result : Obj.t ref = ref ((Obj.repr ((Obj.magic !xmlRpcClient)#execute ((self#getRemoteMethod ()), !param, (Obj.magic cryptInterface))))) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (rESULT)) ^ (java_string_of (Obj.repr !result))), self, commonStrings#gET));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (rESULT)) ^ (java_string_of (Obj.repr !result))), self, (self#commonStrings)#gET));
             let resultHashtable : Obj.t ref = ref ((Obj.repr (Obj.magic !result))) in ();
             if (not (AbeClientLicense.hasRequiredKeys ((Obj.magic !resultHashtable)))) then begin
-                ignore ((Obj.magic logUtil)#putF (iNVALID, self, commonStrings#gET));
+                ignore ((Obj.magic logUtil)#putF (iNVALID, self, (self#commonStrings)#gET));
                 raise (Java_return (Obj.repr ((self#tryAnother (anyType)))))
             end;
             let abeLicenseInterface : AbeLicenseInterface.abeLicenseInterface ref = ref (((new AbeClientLicense.abeClientLicense ((Obj.magic !resultHashtable))) :> AbeLicenseInterface.abeLicenseInterface)) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (commonStrings#eND)) ^ (java_string_of (Obj.repr !stringBuffer))), self, commonStrings#gET));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#commonStrings)#eND)) ^ (java_string_of (Obj.repr !stringBuffer))), self, (self#commonStrings)#gET));
             isOnline <- true;
             (Obj.repr (!abeLicenseInterface))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (eXCEPTION_IN_CLIENT, self, commonStrings#gET, e));
-            ignore ((Obj.magic logUtil)#putF ((tRYING_OTHER_SERVERS + ((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e))), self, commonStrings#gET));
+            ignore ((Obj.magic logUtil)#put (eXCEPTION_IN_CLIENT, self, (self#commonStrings)#gET, e));
+            ignore ((Obj.magic logUtil)#putF ((tRYING_OTHER_SERVERS + ((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e))), self, (self#commonStrings)#gET));
             if (not ((Printexc.to_string e)#startsWith (hOST_NOT_RESOLVED))) then begin
                 raise (Java_return (Obj.repr ((self#tryAnother (anyType)))))
             end else begin

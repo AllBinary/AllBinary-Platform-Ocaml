@@ -108,7 +108,7 @@ class gameInputMotionEventProcessorAPI5 () =
                 done
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#pROCESS, e))
         end)
         end [@@warning "-7-20"]
 

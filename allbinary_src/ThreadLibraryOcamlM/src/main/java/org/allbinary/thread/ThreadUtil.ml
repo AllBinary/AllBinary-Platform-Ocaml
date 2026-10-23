@@ -43,7 +43,7 @@ class threadUtil () =
 
     method join ((thread : java_thread)) : unit =
         begin
-        if ((getInstance ())#isRunning (thread)) then begin
+        if ((Obj.magic (java_call_static "ThreadUtil.getInstance" (Obj.repr ())))#isRunning (thread)) then begin
             ignore ((Obj.magic logUtil)#putF ("Waiting for Thread To Join/End", self, jOIN));
             ignore (thread#join ())
         end

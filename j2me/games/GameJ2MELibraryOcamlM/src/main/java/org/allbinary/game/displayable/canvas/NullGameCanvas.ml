@@ -99,10 +99,10 @@ class nullGameCanvas ((gameLayerManager : AllBinaryGameLayerManager.allBinaryGam
     method run () : unit =
         begin
         (try
-            ignore (logUtil#putF (commonStrings#sTART_RUNNABLE, self, commonStrings#rUN));
-            ignore (logUtil#putF (commonStrings#eND_RUNNABLE, self, commonStrings#rUN))
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, self, (self#commonStrings)#rUN));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, self, (self#commonStrings)#rUN))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#rUN, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#rUN, e))
         end)
         end [@@warning "-7"]
     

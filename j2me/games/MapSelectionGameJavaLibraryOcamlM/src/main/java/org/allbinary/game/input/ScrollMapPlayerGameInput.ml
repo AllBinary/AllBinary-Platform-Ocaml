@@ -98,13 +98,13 @@ class scrollMapPlayerGameInput ((geographicMapInterface_arg : BasicGeographicMap
         let terrainTiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref (((geographicMapInterface#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
         let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
         if (anchor = (Obj.magic (java_call_static "Graphics.get_tOP" (Obj.repr ())))) then begin
-            ignore (logUtil#putF ("Top", self, "scrollY"))
+            ignore ((self#logUtil)#putF ("Top", self, "scrollY"))
         end else if (anchor = (Obj.magic (java_call_static "Graphics.get_bOTTOM" (Obj.repr ())))) then begin
-            ignore (logUtil#putF ("Bottom", self, "scrollY"));
+            ignore ((self#logUtil)#putF ("Bottom", self, "scrollY"));
             let diffY : int ref = ref ((((!terrainTiledLayer#getHeight ()) - (!displayInfo#getLastHeight ())))) in ();
             (self#move (0, !diffY))
         end else if (anchor = (Obj.magic (java_call_static "Graphics.get_vCENTER" (Obj.repr ())))) then begin
-            ignore (logUtil#putF ("Center", self, "scrollY"));
+            ignore ((self#logUtil)#putF ("Center", self, "scrollY"));
             let diffY : int ref = ref (((((!terrainTiledLayer#getHeight ()) - (!displayInfo#getLastHeight ()))) / 2)) in ();
             (self#move (0, !diffY))
         end else begin
@@ -181,7 +181,7 @@ class scrollMapPlayerGameInput ((geographicMapInterface_arg : BasicGeographicMap
                 ignore (self#update ())
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#pROCESS_INPUT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#pROCESS_INPUT, e))
         end)
         end [@@warning "-7-20"]
     

@@ -36,13 +36,13 @@ class paymentGatewayTag () =
     method process () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new PaymentGatewayHelperFactory.paymentGatewayHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new PaymentGatewayHelperFactory.paymentGatewayHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod (commonStrings#pROCESS, (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
             !result
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ("LicensingException", self, commonStrings#pROCESS, e));
+            ignore ((Obj.magic logUtil)#put ("LicensingException", self, (self#commonStrings)#pROCESS, e));
             raise e
         end)
         end [@@warning "-7"]
@@ -56,12 +56,12 @@ class paymentGatewayTag () =
                 if (((((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#aUTHORIZEORDEREVALBODYONERROR)) == 0) || (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#aUTHORIZEORDERANDEVALBODY)) == 0)) || (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#aUTHORIZEFORMEVALBODYONERROR)) == 0)) then begin
                     let output : string ref = ref ((self#process ())) in ();
                     begin
-                        ignore ((pageContext#getOut ())#print ((!output ^ "<br />")))
+                        ignore (((self#pageContext)#getOut ())#print ((!output ^ "<br />")))
                     end;
                     if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#aUTHORIZEORDEREVALBODYONERROR)) == 0) then begin
-                        raise (Java_return (Obj.repr (sKIP_BODY)))
+                        raise (Java_return (Obj.repr ((self#sKIP_BODY))))
                     end else begin
-                        raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                        raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
                     end
                 end else begin
                     raise (Java_return (Obj.repr ((super#doStartTag ()))))
@@ -69,7 +69,7 @@ class paymentGatewayTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

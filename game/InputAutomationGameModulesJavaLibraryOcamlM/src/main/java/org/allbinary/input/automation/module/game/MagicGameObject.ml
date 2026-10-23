@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 
 class magicGameObject (bufferedImage, (minX : int), (maxX : int), (y : int)) =
   object
-    inherit MeteredGameObject.meteredGameObject (bufferedImage, minX, maxX, y)
+    inherit MeteredGameObject.meteredGameObject (bufferedImage, minX, maxX, y) as super
     val mutable mP_LABEL : string = ""
     method mP_LABEL = mP_LABEL
     method set_mP_LABEL value' = mP_LABEL <- value'
@@ -34,7 +34,7 @@ class magicGameObject (bufferedImage, (minX : int), (maxX : int), (y : int)) =
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ((CommonSeps.getInstance ())#nEW_LINE));
         ignore (!stringBuffer#append (mP_LABEL));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
 

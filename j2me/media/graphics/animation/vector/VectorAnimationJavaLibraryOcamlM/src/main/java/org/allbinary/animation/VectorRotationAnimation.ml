@@ -32,7 +32,7 @@ class vectorRotationAnimation ((currentPoints : int array array array), (basicCo
     method setFrameByDirection : 'any1. 'any1 -> unit = fun (direction) ->
         let direction = Obj.repr direction in
         begin
-        let angle : Angle.angle ref = ref (((directionUtil#getFrameAngle ((Obj.magic direction))) :> Angle.angle)) in ();
+        let angle : Angle.angle ref = ref ((((self#directionUtil)#getFrameAngle ((Obj.magic direction))) :> Angle.angle)) in ();
         (self#adjustFrameToAngle (!angle))
         end [@@warning "-7-20"]
     
@@ -47,13 +47,13 @@ class vectorRotationAnimation ((currentPoints : int array array array), (basicCo
     method setFrame ((index : int)) : unit =
         begin
         ignore (super#setFrame (index));
-        ignore (angleInfo#adjustAngle ((self#getFrame ())))
+        ignore ((self#angleInfo)#adjustAngle ((self#getFrame ())))
         end [@@warning "-7"]
     
 
     method adjustFrame ((newAngle : int)) : unit =
         begin
-        (self#setFrame ((frameUtil#getFrameForAngle (newAngle, (java_to_int (Obj.repr (((angleInfo#getAngleIncrementInfo ())#getAngleIncrement ()))))))))
+        (self#setFrame (((self#frameUtil)#getFrameForAngle (newAngle, (java_to_int (Obj.repr ((((self#angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ()))))))))
         end [@@warning "-7"]
     
 
@@ -67,7 +67,7 @@ class vectorRotationAnimation ((currentPoints : int array array array), (basicCo
       begin
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (angleInfo#adjustAngle ((self#getFrame ())))
+        ignore ((self#angleInfo)#adjustAngle ((self#getFrame ())))
       end
   end
 let () = java_register_constructor "VectorRotationAnimation" (fun arguments -> Obj.repr (new vectorRotationAnimation (Obj.obj arguments)))

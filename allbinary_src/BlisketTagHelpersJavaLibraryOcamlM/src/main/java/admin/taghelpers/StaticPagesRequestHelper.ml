@@ -96,7 +96,7 @@ class staticPagesRequestHelper ((propertiesHashMap : java_hash_map), pageContext
             ignore (!adminUserEmailEventHandler#receiveEmailInfo ((UserEmailEventNameData.get_sTOREGENERATINGSTATICPAGES ()), !adminEmailInfo))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#eMAILLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "email", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "email", e))
             end
         end)
         end [@@warning "-7"]
@@ -116,7 +116,7 @@ class staticPagesRequestHelper ((propertiesHashMap : java_hash_map), pageContext
         with e -> begin
             let error : string ref = ref ("Failed to generate staticpages table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "generateStaticPages()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "generateStaticPages()", e))
             end;
             !error
         end)
@@ -138,7 +138,7 @@ class staticPagesRequestHelper ((propertiesHashMap : java_hash_map), pageContext
         with e -> begin
             let error : string ref = ref ("Failed to makePublic") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "makePublic()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "makePublic()", e))
             end;
             !error
         end)

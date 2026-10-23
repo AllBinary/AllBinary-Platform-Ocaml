@@ -40,7 +40,7 @@ class noGyroSensor () =
     initializer
       begin
         ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
       end
   end
 let () = java_register_constructor "NoGyroSensor" (fun arguments -> Obj.repr (new noGyroSensor (Obj.obj arguments)))

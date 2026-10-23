@@ -76,7 +76,7 @@ class customLoaderTag () =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#jSPTAG)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, tagStrings#dO_START_TAG))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, tagStrings#dO_START_TAG))
             end;
             if (command <> (Obj.magic 0)) then begin
                 propertiesHashMap <- ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ());
@@ -86,7 +86,7 @@ class customLoaderTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end [@@warning "-7"]

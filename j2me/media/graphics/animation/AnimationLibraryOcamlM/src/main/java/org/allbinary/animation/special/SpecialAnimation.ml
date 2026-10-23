@@ -22,14 +22,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.animation.IndexedAnimationBehavior *)
 
 class specialAnimation ((animationBehavior : AnimationBehavior.animationBehavior)) =
-  object
+  object (self)
     inherit IndexedAnimation.indexedAnimation (animationBehavior)
     
     
 
     method nextFrame () : unit =
         begin
-        let indexedAnimationBehavior : IndexedAnimationBehavior.indexedAnimationBehavior ref = ref ((((Obj.magic animationBehaviorP)) :> IndexedAnimationBehavior.indexedAnimationBehavior)) in ();
+        let indexedAnimationBehavior : IndexedAnimationBehavior.indexedAnimationBehavior ref = ref ((((Obj.magic (self#animationBehaviorP))) :> IndexedAnimationBehavior.indexedAnimationBehavior)) in ();
         !indexedAnimationBehavior#set_loopIndex (!indexedAnimationBehavior#loopIndex + 1)
         end [@@warning "-7"]
     

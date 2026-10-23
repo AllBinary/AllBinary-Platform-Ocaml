@@ -55,16 +55,16 @@ class insertHeaderValidationView ((transformInfoInterface : TransformInfoInterfa
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("topbarValidation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("topbarValidation", self, (self#commonStrings)#iS_VALID))
             end;
-            let isValid : bool ref = ref ((heading#isValid ())) in ();
+            let isValid : bool ref = ref (((self#heading)#isValid ())) in ();
             if ((Obj.repr !isValid) == (Obj.repr true)) then begin
                 ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic self)))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -75,7 +75,7 @@ class insertHeaderValidationView ((transformInfoInterface : TransformInfoInterfa
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((heading#validationInfo ())));
+            ignore (!stringBuffer#append (((self#heading)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
@@ -107,7 +107,7 @@ class insertHeaderValidationView ((transformInfoInterface : TransformInfoInterfa
         let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance (((self#getWeblisketSession ())#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
         let fullPath : string ref = ref ((java_string_of (Obj.repr (((URLGLOBALS.getWebappPath ()) + (!storeFrontInterface#getCurrentHostNamePath ())))) ^ lOGOPATH)) in ();
         ignore (!multipartRequestHashMap#put ((LogoData.getInstance ())#iMAGEPATH, !fullPath));
-        heading <- (new HeadingValidation.headingValidation (!multipartRequestHashMap))
+        (self#set_heading) ((new HeadingValidation.headingValidation (!multipartRequestHashMap)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "InsertHeaderValidationView" (fun arguments -> Obj.repr (new insertHeaderValidationView (Obj.obj arguments)))

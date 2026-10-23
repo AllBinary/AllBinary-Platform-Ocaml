@@ -33,13 +33,13 @@ class noBuildingSelectedTouchButtonsBuilder () =
     method getList () : BasicArrayList.basicArrayList =
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
             let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             ignore (!list#addAllList (((Obj.obj (java_new "BasicTouchButtonsBuilder" (Obj.repr ())))#getList ())));
             ignore (!list#addAllList (((new BuildingScrollTouchButtonsBuilder.buildingScrollTouchButtonsBuilder ())#getList ())));
             (!list :> BasicArrayList.basicArrayList)
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cONSTRUCTOR, e));
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cONSTRUCTOR, e));
             (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
         end)
         end [@@warning "-7"]

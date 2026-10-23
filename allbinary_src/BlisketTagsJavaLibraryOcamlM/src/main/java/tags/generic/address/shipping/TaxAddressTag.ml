@@ -39,10 +39,10 @@ class taxAddressTag () =
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#nEW)) == 0) then begin
                     ignore (self#setName ("Basic Shipping Address View"));
                     ignore (self#setObjectFile ("views.generic.address.shipping.NewValidationView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) then begin
                     ignore (self#setName ("Basic Shipping Address View"));
                     ignore (self#setObjectFile ("views.generic.address.shipping.AddTaxValidationView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#uPDATE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#uPDATE)) == 0) then begin
                     ignore (self#setName ("Basic Shipping Address View"));
                     ignore (self#setObjectFile ("views.generic.address.shipping.UpdateTaxValidationView"))
                 end else begin
@@ -52,7 +52,7 @@ class taxAddressTag () =
             end;
             raise (Failure ("Command Null"))
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

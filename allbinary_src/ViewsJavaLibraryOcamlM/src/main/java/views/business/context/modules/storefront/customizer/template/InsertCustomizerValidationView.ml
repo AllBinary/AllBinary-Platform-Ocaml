@@ -56,7 +56,7 @@ class insertCustomizerValidationView ((transformInfoInterface : TransformInfoInt
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, (self#commonStrings)#iS_VALID))
             end;
             let isValid : bool ref = ref (true) in ();
             if ((StringValidationUtil.getInstance ())#isEmpty (viewName)) then begin
@@ -70,15 +70,15 @@ class insertCustomizerValidationView ((transformInfoInterface : TransformInfoInt
                     ignore (!stringBuffer#append ("Pointing "));
                     ignore (!stringBuffer#appendint ((!componentVector#size ())));
                     ignore (!stringBuffer#append (" Components"));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID))
                 end;
                 for index = 0 to !size - 1 do
                     let transformInfo : TransformInfo.transformInfo ref = ref (((Obj.magic (!componentVector#get (index))) :> TransformInfo.transformInfo)) in ();
                     let transformInfoName : string ref = ref ((!transformInfo#getName ())) in ();
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                        ignore ((Obj.magic logUtil)#putF (("Setting Template Component with ViewName: " ^ !transformInfoName), self, commonStrings#iS_VALID))
+                        ignore ((Obj.magic logUtil)#putF (("Setting Template Component with ViewName: " ^ !transformInfoName), self, (self#commonStrings)#iS_VALID))
                     end;
-                    let componentInterface : TransformInterface.transformInterface ref = ref ((((TransformFactory.getInstance ())#getInstance (abeClientInformation, !transformInfoName, (self#getTransformInfoInterface ()))) :> TransformInterface.transformInterface)) in ();
+                    let componentInterface : TransformInterface.transformInterface ref = ref ((((TransformFactory.getInstance ())#getInstance ((self#abeClientInformation), !transformInfoName, (self#getTransformInfoInterface ()))) :> TransformInterface.transformInterface)) in ();
                     let templateViewObjectConfig : Obj.t ref = ref ((Obj.repr (new InsertTemplateCustomizerTransformInfoObjectConfig.insertTemplateCustomizerTransformInfoObjectConfig ((!componentInterface#getTransformInfoInterface ()), (((!componentInterface#getTransformInfoInterface ())#getObjectConfigInterface ())#toXmlDoc ()))))) in ();
                     let storeName : string ref = ref (((self#getTransformInfoInterface ())#getStoreName ())) in ();
                     let endIndex : int ref = ref (((java_string_index_of viewName (Obj.repr (!storeName))) + (String.length !storeName))) in ();
@@ -108,7 +108,7 @@ class insertCustomizerValidationView ((transformInfoInterface : TransformInfoInt
                         ignore (!stringBuffer#append (!transformInfoName));
                         ignore (!stringBuffer#append ("\n Now Pointing To View Name: "));
                         ignore (!stringBuffer#append (!newViewName));
-                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID))
+                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID))
                     end;
                     ignore ((Obj.magic !templateViewObjectConfig)#set (!newViewName));
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
@@ -117,7 +117,7 @@ class insertCustomizerValidationView ((transformInfoInterface : TransformInfoInt
                         ignore (!stringBuffer#append (!transformInfoName));
                         ignore (!stringBuffer#append ("\n with ObjectConfig: "));
                         ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic !templateViewObjectConfig)))));
-                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID))
+                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID))
                     end;
                     ignore ((!componentInterface#getTransformInfoInterface ())#setObjectConfigInterface ((Obj.magic !templateViewObjectConfig)));
                     let updatedTransformInfoHashMap : java_hash_map ref = ref ((((!componentInterface#getTransformInfoInterface ())#toHashMap ()) :> java_hash_map)) in ();
@@ -127,7 +127,7 @@ class insertCustomizerValidationView ((transformInfoInterface : TransformInfoInt
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -173,7 +173,7 @@ class insertCustomizerValidationView ((transformInfoInterface : TransformInfoInt
         ();
         (* super(...) is the inherit clause *) ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), self, (self#commonStrings)#cONSTRUCTOR))
         end;
         let requestHashMap : java_hash_map ref = ref ((((new RequestParams.requestParams ((self#getPageContext ())))#toHashMap ()) :> java_hash_map)) in ();
         viewName <- (Obj.magic (!requestHashMap#get ((TransformInfoData.getInstance ())#nAME)))

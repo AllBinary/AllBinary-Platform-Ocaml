@@ -37,23 +37,23 @@ class allBinaryHTMLImageRotationAnimationFactory (image, (width : int), (height 
 
     method init ((dx : int), (dy : int)) : unit =
         begin
-        animationFactoryInitializationVisitor#set_dx (dx);
-        animationFactoryInitializationVisitor#set_dy (dy);
-        animationFactoryInitializationVisitor#set_originalDx (dx);
-        animationFactoryInitializationVisitor#set_originalDy (dy)
+        (self#animationFactoryInitializationVisitor)#set_dx (dx);
+        (self#animationFactoryInitializationVisitor)#set_dy (dy);
+        (self#animationFactoryInitializationVisitor)#set_originalDx (dx);
+        (self#animationFactoryInitializationVisitor)#set_originalDy (dy)
         end [@@warning "-7"]
     
 
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         try
         begin
-        let scaledImage : Obj.t ref = ref ((Obj.repr (animationFactoryImageScaleUtil#createImage ((self#getImage ()), animationFactoryInitializationVisitor#width, animationFactoryInitializationVisitor#height, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
+        let scaledImage : Obj.t ref = ref ((Obj.repr ((self#animationFactoryImageScaleUtil)#createImage ((self#getImage ()), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
         let copyOfScaledImage : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "ImageCopyUtil.getInstance" (Obj.repr ())))#createImage ((Obj.magic !scaledImage))))) in ();
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            ignore (animationFactoryImageScaleUtil#processAdjust (self));
-            raise (Java_return (Obj.repr ((new AllBinaryAdjustedHTMLImageRotationAnimation.allBinaryAdjustedHTMLImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (AngleFactory.getInstance ())#tOTAL_ANGLE, animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            raise (Java_return (Obj.repr ((new AllBinaryAdjustedHTMLImageRotationAnimation.allBinaryAdjustedHTMLImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (AngleFactory.getInstance ())#tOTAL_ANGLE, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((Obj.obj (java_new "AllBinaryHTMLImageRotationAnimation" (Obj.repr ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (animationBehaviorFactory#getOrCreateInstance ()))))))))
+            raise (Java_return (Obj.repr ((Obj.obj (java_new "AllBinaryHTMLImageRotationAnimation" (Obj.repr ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

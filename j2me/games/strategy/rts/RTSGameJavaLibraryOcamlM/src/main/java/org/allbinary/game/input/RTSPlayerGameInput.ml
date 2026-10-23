@@ -105,10 +105,10 @@ class rTSPlayerGameInput ((gameCanvas_arg : AllBinaryGameCanvas.allBinaryGameCan
     method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
         begin
         (try
-            ignore (logUtil#putF (commonStrings#sTART, self, "onDisplayChangeEvent"));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, "onDisplayChangeEvent"));
             ignore ((self#getRTSLayerInfoPaintable ())#update ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "onDisplayChangeEvent", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "onDisplayChangeEvent", e))
         end)
         end [@@warning "-7-20"]
     
@@ -164,7 +164,7 @@ class rTSPlayerGameInput ((gameCanvas_arg : AllBinaryGameCanvas.allBinaryGameCan
                 ignore (self#update ())
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#pROCESS_INPUT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#pROCESS_INPUT, e))
         end)
         end [@@warning "-7-20"]
     
@@ -197,7 +197,7 @@ class rTSPlayerGameInput ((gameCanvas_arg : AllBinaryGameCanvas.allBinaryGameCan
             (self#setSelectedRTSLayer (!foundRTSLayer, !geographicMapCellPosition))
         end else begin
             let commonLabels : CommonLabels.commonLabels ref = ref (((CommonLabels.getInstance ()) :> CommonLabels.commonLabels)) in ();
-            ignore (logUtil#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ("Off Of Map -"))#append (!commonLabels#wIDTH_LABEL))#appendint ((java_to_int (Obj.repr ((!allBinaryTiledLayer#getWidth ()))))))#append (!commonLabels#hEIGHT_LABEL))#appendint ((java_to_int (Obj.repr ((!allBinaryTiledLayer#getHeight ())))))))), self, "select"))
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ("Off Of Map -"))#append (!commonLabels#wIDTH_LABEL))#appendint ((java_to_int (Obj.repr ((!allBinaryTiledLayer#getWidth ()))))))#append (!commonLabels#hEIGHT_LABEL))#appendint ((java_to_int (Obj.repr ((!allBinaryTiledLayer#getHeight ())))))))), self, "select"))
         end
         end [@@warning "-7-20"]
     
@@ -257,7 +257,7 @@ class rTSPlayerGameInput ((gameCanvas_arg : AllBinaryGameCanvas.allBinaryGameCan
     method setSelectedRtsFormInput : 'any1. 'any1 -> unit = fun (selectedRtsFormInput_arg) ->
         let selectedRtsFormInput_arg = Obj.repr selectedRtsFormInput_arg in
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("RTSFormInput: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic selectedRtsFormInput_arg))))))), self, "setSelectedRtsFormInput"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("RTSFormInput: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic selectedRtsFormInput_arg))))))), self, "setSelectedRtsFormInput"));
         selectedRtsFormInput <- (Obj.magic selectedRtsFormInput_arg)
         end [@@warning "-7-20"]
     

@@ -42,7 +42,7 @@ class upgradableWideRTSLayerPaintable (upgradableRTSLayerHudPaintable) =
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#drawString ((self#getCost ()), upgradableRTSLayerHudPaintable#textX, upgradableRTSLayerHudPaintable#costY, 0))
+        ignore ((Obj.magic graphics)#drawString ((self#getCost ()), (self#upgradableRTSLayerHudPaintable)#textX, (self#upgradableRTSLayerHudPaintable)#costY, 0))
         end [@@warning "-7-20"]
     
 

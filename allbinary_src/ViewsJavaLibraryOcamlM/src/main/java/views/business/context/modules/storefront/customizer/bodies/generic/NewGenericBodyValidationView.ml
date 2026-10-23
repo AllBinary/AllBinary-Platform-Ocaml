@@ -46,12 +46,12 @@ class newGenericBodyValidationView ((transformInfoInterface : TransformInfoInter
         begin
         (try
             begin
-                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic body)))
+                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic (self#body))))
             end;
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -62,7 +62,7 @@ class newGenericBodyValidationView ((transformInfoInterface : TransformInfoInter
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((body#validationInfo ())));
+            ignore (!stringBuffer#append (((self#body)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
@@ -95,7 +95,7 @@ class newGenericBodyValidationView ((transformInfoInterface : TransformInfoInter
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         (* super(...) is the inherit clause *) ();
-        body <- (new GenericBodyValidation.genericBodyValidation ())
+        (self#set_body) ((new GenericBodyValidation.genericBodyValidation ()))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "NewGenericBodyValidationView" (fun arguments -> Obj.repr (new newGenericBodyValidationView (Obj.obj arguments)))

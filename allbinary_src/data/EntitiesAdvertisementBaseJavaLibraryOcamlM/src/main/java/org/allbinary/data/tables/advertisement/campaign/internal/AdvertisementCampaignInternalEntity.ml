@@ -51,11 +51,11 @@ class advertisementCampaignInternalEntity () =
         (try
             ignore (super#deleteWhere ((StoreFrontData.getInstance ())#nAME, value));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, commonStrings#delete))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, (self#commonStrings)#delete))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#delete, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#delete, e))
             end
         end)
         end [@@warning "-7"]
@@ -105,10 +105,10 @@ class advertisementCampaignInternalEntity () =
         let entryData : EntryData.entryData ref = ref ((((EntryData.getInstance ())#getInstance ()) :> EntryData.entryData)) in ();
         let advertisementCampaignData : AdvertisementCampaignData.advertisementCampaignData ref = ref (((AdvertisementCampaignData.getInstance ()) :> AdvertisementCampaignData.advertisementCampaignData)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#cREATE_TABLE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE));
         ignore (!stringBuffer#append ((self#getTableName ())));
-        ignore (!stringBuffer#append (sqlStrings#sTART));
-        ignore (((((((((((((((((((((!stringBuffer#append (!entryData#iD))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((StoreFrontData.getInstance ())#nAME))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementCampaignData#nAME))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementCampaignData#dESCRIPTION))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementCampaignData#cONFIG))#append (sqlTypeStrings#bLOB_NOT_NULL))#append ((TimeData.getInstance ())#sTART))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((TimeData.getInstance ())#eND))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (!entryData#tIMECREATED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (!entryData#lASTMODIFIED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append (!entryData#iD))#append (sqlStrings#eND));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sTART));
+        ignore (((((((((((((((((((((!stringBuffer#append (!entryData#iD))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((StoreFrontData.getInstance ())#nAME))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementCampaignData#nAME))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementCampaignData#dESCRIPTION))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append (!advertisementCampaignData#cONFIG))#append ((self#sqlTypeStrings)#bLOB_NOT_NULL))#append ((TimeData.getInstance ())#sTART))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((TimeData.getInstance ())#eND))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (!entryData#tIMECREATED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (!entryData#lASTMODIFIED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append (!entryData#iD))#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

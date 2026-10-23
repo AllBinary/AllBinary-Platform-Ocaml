@@ -30,7 +30,7 @@ class abFilePath ((aPath : string)) =
         (* super(...) is the inherit clause *) ();
         let pathData : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ()))))) in ();
         let abPathUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PathUtil.getInstance" (Obj.repr ()))))) in ();
-        schema <- (self#getSchema (aPath));
+        (self#set_schema) ((self#getSchema (aPath)));
         ignore (self#setName (((Obj.magic !pathData)#getNameFromPath (aPath))));
         ignore (self#setPath (((Obj.magic !abPathUtil)#adjust ((self#getPathFromPath ((java_string_of (Obj.repr ((Obj.magic !abPathUtil)#removeNameFromPath (aPath))))))))))
       end

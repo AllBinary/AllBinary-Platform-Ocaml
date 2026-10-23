@@ -19,14 +19,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.eclipse.swt.widgets.Display *)
 
 class sWTRunnableProcessor () =
-  object
+  object (self)
     inherit SWTProcessor.sWTProcessor ()
     
     
 
     method process : 'any1. 'any1 -> unit = fun (_display) ->
         begin
-        ignore (runnable#run ())
+        ignore ((self#runnable)#run ())
         end [@@warning "-7-20"]
 
     initializer

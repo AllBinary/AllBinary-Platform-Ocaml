@@ -141,7 +141,7 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
                 ignore (!layerInterface#onMovementFound (trackingEvent))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "onMovement", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "onMovement", e))
         end)
         end [@@warning "-7-20"]
     
@@ -150,31 +150,31 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
         let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
         begin
         if ((self#getHealthInterface ())#isDamaged ()) then begin
-            ignore (self#setAnimationInterface (destroyAnimationInterface))
+            ignore (self#setAnimationInterface ((self#destroyAnimationInterface)))
         end;
         if (not ((self#getHealthInterface ())#isAlive ())) then begin
             if (self#isReadyForExplosion ()) then begin
-                let currentFrame : int ref = ref ((destroyAnimationInterface#getFrame ())) in ();
-                let size : int ref = ref (((destroyAnimationInterface#getSize ()) - 1)) in ();
+                let currentFrame : int ref = ref (((self#destroyAnimationInterface)#getFrame ())) in ();
+                let size : int ref = ref ((((self#destroyAnimationInterface)#getSize ()) - 1)) in ();
                 if ((!currentFrame = !size) && (not (timeDelayHelper#isTimeTNT ()))) then begin
                     if (not ((self#getHealthInterface ())#isAlive ())) then begin
                         (self#setDestroyed (true))
                     end
                 end else begin
-                    ignore (destroyAnimationInterface#nextFrame ())
+                    ignore ((self#destroyAnimationInterface)#nextFrame ())
                 end
             end else begin
-                ignore (self#setAnimationInterface (destroyAnimationInterface));
+                ignore (self#setAnimationInterface ((self#destroyAnimationInterface)));
                 ignore ((SecondaryPlayerQueueFactory.getInstance ())#add ((ExplosionBasicSound.getInstance ())));
-                ignore (shakeListener#onSmallShakeEvent ());
-                ignore (vibration#vibrate (duration, 0, 0));
+                ignore ((self#shakeListener)#onSmallShakeEvent ());
+                ignore ((self#vibration)#vibrate ((self#duration), 0, 0));
                 ignore (timeDelayHelper#setStartTimeTNT ());
                 ignore (self#setReadyForExplosion (true))
             end
         end else begin
             ignore (super#processBuiltTick ((Obj.magic allBinaryLayerManager)))
         end;
-        ignore (indexedButShouldBeRotationAnimationInterface#nextFrame ())
+        ignore ((self#indexedButShouldBeRotationAnimationInterface)#nextFrame ())
         end [@@warning "-7-20"]
     
 
@@ -194,7 +194,7 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
     method getDowngradeCost () : int =
         begin
         let downgradeCost : int ref = ref (((RTSLayerUtil.getInstance ())#getCostExponential ((java_to_int (Obj.repr ((((((self#getLevel ()) - 1)) * (self#getBuildingLevelCost ()))))))))) in ();
-        ignore (logUtil#putF (("Cost: " ^ java_string_of (Obj.repr (!downgradeCost))), self, "getDowngradeCost"));
+        ignore ((self#logUtil)#putF (("Cost: " ^ java_string_of (Obj.repr (!downgradeCost))), self, "getDowngradeCost"));
         ((!downgradeCost * 9) / 10)
         end [@@warning "-7"]
     
@@ -262,8 +262,8 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
 
     method generateMoveOutOfBuildAreaPaths () : unit =
         begin
-        let occupyList : BasicArrayList.basicArrayList ref = ref (((geographicMapCellPositionAreaBase#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
-        let surroundList : BasicArrayList.basicArrayList ref = ref (((geographicMapCellPositionAreaBase#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
+        let occupyList : BasicArrayList.basicArrayList ref = ref ((((self#geographicMapCellPositionAreaBase)#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
+        let surroundList : BasicArrayList.basicArrayList ref = ref ((((self#geographicMapCellPositionAreaBase)#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
         let nO_DIRECTION : Direction.direction ref = ref (((DirectionFactory.getInstance ())#nO_DIRECTION :> Direction.direction)) in ();
         let geographicMapDirectionUtil : GeographicMapDirectionUtil.geographicMapDirectionUtil ref = ref (((GeographicMapDirectionUtil.getInstance ()) :> GeographicMapDirectionUtil.geographicMapDirectionUtil)) in ();
         let pathsList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
@@ -296,7 +296,7 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
 
     method getEndGeographicMapCellPositionList () : BasicArrayList.basicArrayList =
         begin
-        ((geographicMapCellPositionAreaBase#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)
+        (((self#geographicMapCellPositionAreaBase)#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)
         end [@@warning "-7"]
     
 
@@ -335,7 +335,7 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
 
     method addVisibility () : unit =
         begin
-        let geographicMapCellPositionArea : GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase ref = ref ((geographicMapCellPositionAreaBase :> GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase)) in ();
+        let geographicMapCellPositionArea : GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase ref = ref (((self#geographicMapCellPositionAreaBase) :> GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase)) in ();
         let occupyList : BasicArrayList.basicArrayList ref = ref (((!geographicMapCellPositionArea#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
         ignore ((VisibleCellPositionsSingleton.getInstance ())#addStationaryCellPositions (!occupyList));
         let surroundList : BasicArrayList.basicArrayList ref = ref (((!geographicMapCellPositionArea#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
@@ -345,9 +345,9 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
 
     method removeVisibility () : unit =
         begin
-        let occupyList : BasicArrayList.basicArrayList ref = ref (((geographicMapCellPositionAreaBase#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
+        let occupyList : BasicArrayList.basicArrayList ref = ref ((((self#geographicMapCellPositionAreaBase)#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
         ignore ((VisibleCellPositionsSingleton.getInstance ())#removeStationaryCellPositions (!occupyList));
-        let surroundList : BasicArrayList.basicArrayList ref = ref (((geographicMapCellPositionAreaBase#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
+        let surroundList : BasicArrayList.basicArrayList ref = ref ((((self#geographicMapCellPositionAreaBase)#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
         ignore ((VisibleCellPositionsSingleton.getInstance ())#removeStationaryCellPositions (!surroundList))
         end [@@warning "-7"]
     
@@ -366,14 +366,14 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
                 if (!damage > 10) then begin
                     ignore ((SecondaryPlayerQueueFactory.getInstance ())#add ((ExplosionBasicSound.getInstance ())));
                     if (!damage < 100) then begin
-                        ignore (shakeListener#onSmallShakeEvent ());
-                        ignore (vibration#vibrate (duration, 0, 0))
+                        ignore ((self#shakeListener)#onSmallShakeEvent ());
+                        ignore ((self#vibration)#vibrate ((self#duration), 0, 0))
                     end else if (!damage < 1000) then begin
-                        ignore (shakeListener#onMediumShakeEvent ());
-                        ignore (vibration#vibrate ((duration * 2), 0, 0))
+                        ignore ((self#shakeListener)#onMediumShakeEvent ());
+                        ignore ((self#vibration)#vibrate (((self#duration) * 2), 0, 0))
                     end else if (!damage < 3000) then begin
-                        ignore (shakeListener#onLargeShakeEvent ());
-                        ignore (vibration#vibrate ((duration * 4), 0, 0))
+                        ignore ((self#shakeListener)#onLargeShakeEvent ());
+                        ignore ((self#vibration)#vibrate (((self#duration) * 4), 0, 0))
                     end
                 end
             end
@@ -384,7 +384,7 @@ class buildingLayer (remoteInfo, buildingPropertiesFactory, (advancedRTSProperti
     method createHudPaintable () : SelectionHudPaintable.selectionHudPaintable =
         begin
         let buildingInfoHudPaintable : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "BuildingInfoHudPaintable.getInstance" (Obj.repr ()))))) in ();
-        ignore ((Obj.magic !buildingInfoHudPaintable)#setBasicColorP ((allBinaryGameLayerManagerP#getForegroundBasicColor ())));
+        ignore ((Obj.magic !buildingInfoHudPaintable)#setBasicColorP (((self#allBinaryGameLayerManagerP)#getForegroundBasicColor ())));
         ignore ((Obj.magic !buildingInfoHudPaintable)#setRtsLayer (self));
         ((Obj.magic !buildingInfoHudPaintable) :> SelectionHudPaintable.selectionHudPaintable)
         end [@@warning "-7"]

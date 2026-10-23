@@ -23,8 +23,8 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.string.CommonSeps *)
 
 class androidOS () =
-  object
-    inherit GenericOperatingSystem.genericOperatingSystem ()
+  object (self)
+    inherit GenericOperatingSystem.genericOperatingSystem () as super
     val mutable stringBuffer : StringMaker.stringMaker = (Obj.magic 0)
     method stringBuffer = stringBuffer
     method set_stringBuffer value' = stringBuffer <- value'
@@ -70,7 +70,7 @@ class androidOS () =
     method toString () : string =
         begin
         let osBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!osBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!osBuffer#append ((super#toString ())));
         ignore (!osBuffer#append ((CommonSeps.getInstance ())#sPACE));
         ignore (!osBuffer#append ("Other System Info: \n"));
         ignore (!osBuffer#append ((java_string_of (Obj.repr stringBuffer))));
@@ -87,7 +87,7 @@ class androidOS () =
         ();
         let sDK_VERSION : int ref = ref (((AndroidInfoFactory.getInstance ())#getVersion ())) in ();
         if (!sDK_VERSION > 10) then begin
-            scalable <- true
+            (self#set_scalable) (true)
         end;
         let properties : AndroidSystemProperties.androidSystemProperties ref = ref (((AndroidSystemProperties.getInstance ()) :> AndroidSystemProperties.androidSystemProperties)) in ();
         let commonStrings : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();

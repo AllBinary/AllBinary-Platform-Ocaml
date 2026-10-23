@@ -78,8 +78,8 @@ class positionWidget ((_position_arg : int), (location : int), (direction : int)
         positionString <- (StringUtil.getInstance ())#eMPTY_STRING;
         ();
         (* super(...) is the inherit clause *) ();
-        updateMaxHeight <- 10;
-        updateMaxWidth <- 40
+        (self#set_updateMaxHeight) (10);
+        (self#set_updateMaxWidth) (40)
       end
   end
 let () = java_register_constructor "PositionWidget" (fun arguments -> Obj.repr (new positionWidget (Obj.obj arguments)))

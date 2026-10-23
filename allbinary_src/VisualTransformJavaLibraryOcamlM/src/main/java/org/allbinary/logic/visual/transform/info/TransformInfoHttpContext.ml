@@ -72,7 +72,7 @@ class transformInfoHttpContext ((propertiesHashMap : java_hash_map), pageContext
         ();
         (* super(...) is the inherit clause *) ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF (("Properties HashMap: " ^ (java_string_of (Obj.repr propertiesHashMap))), self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF (("Properties HashMap: " ^ (java_string_of (Obj.repr propertiesHashMap))), self, (self#commonStrings)#cONSTRUCTOR))
         end;
         ignore (self#setStoreName ((StringUtil.getInstance ())#eMPTY_STRING))
       end

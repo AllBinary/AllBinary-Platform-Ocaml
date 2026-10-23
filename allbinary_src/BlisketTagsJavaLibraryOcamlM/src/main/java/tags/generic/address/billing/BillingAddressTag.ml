@@ -43,10 +43,10 @@ class billingAddressTag () =
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#nEW)) == 0) then begin
                     ignore (self#setName ("Basic Billing Address View"));
                     ignore (self#setObjectFile ("views.generic.address.billing.NewValidationView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) then begin
                     ignore (self#setName ("Basic Billing Address View"));
                     ignore (self#setObjectFile ("views.generic.address.billing.AddValidationView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#dELETE)) == 0) then begin
                     ignore (self#setName ("Basic Billing Address View"));
                     ignore (self#setObjectFile ("views.generic.address.billing.DeleteValidationView"))
                 end else if (((self#getCommand ())#compareTo ((BillingAddressData.get_sELECT ()))) == 0) then begin
@@ -62,7 +62,7 @@ class billingAddressTag () =
             end;
             raise (Failure ("Command Null"))
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

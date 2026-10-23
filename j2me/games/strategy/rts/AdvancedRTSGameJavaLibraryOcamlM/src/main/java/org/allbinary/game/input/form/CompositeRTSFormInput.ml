@@ -83,7 +83,7 @@ class compositeRTSFormInput (groupInterface, (isPrimaryWaypointCreator_arg : boo
         let item = Obj.repr item in
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore (logUtil#putF (((java_string_of (Obj.repr (((CommonLabels.getInstance ())#iNDEX_LABEL + index))) ^ " > ") ^ java_string_of (Obj.repr (itemIndex.(0)))), self, !commonStrings#pROCESS));
+        ignore ((self#logUtil)#putF (((java_string_of (Obj.repr (((CommonLabels.getInstance ())#iNDEX_LABEL + index))) ^ " > ") ^ java_string_of (Obj.repr (itemIndex.(0)))), self, !commonStrings#pROCESS));
         if ((self#isStickyItemSelected ()) && ((Obj.repr (Obj.magic associatedRtsLayer)) == (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ())))) then begin
             if ((self#getSelectedStickyItemIndex ()) <= itemIndex.(0)) then begin
                 ignore (rtsFormInputArray.(0)#processGameSpecific ((Obj.magic associatedRtsLayer), (Obj.magic rtsPlayerLayerInterface), (Obj.magic layerManager), (Obj.magic item), index))
@@ -154,8 +154,8 @@ class compositeRTSFormInput (groupInterface, (isPrimaryWaypointCreator_arg : boo
         itemIndex <- itemIndex_arg;
         isPrimaryWaypointCreator <- isPrimaryWaypointCreator_arg;
         rtsFormInputArray <- (Array.make (2) (Obj.magic 0));
-        rtsFormInputArray.(0) <- ((new WaypointRTSFormInput.waypointRTSFormInput (groupInterfaceArray, isPrimaryWaypointCreator_arg)) :> RTSFormInput.rTSFormInput);
-        rtsFormInputArray.(1) <- ((new UnitRTSFormInput.unitRTSFormInput (groupInterfaceArray)) :> RTSFormInput.rTSFormInput)
+        rtsFormInputArray.(0) <- ((new WaypointRTSFormInput.waypointRTSFormInput ((self#groupInterfaceArray), isPrimaryWaypointCreator_arg)) :> RTSFormInput.rTSFormInput);
+        rtsFormInputArray.(1) <- ((new UnitRTSFormInput.unitRTSFormInput ((self#groupInterfaceArray))) :> RTSFormInput.rTSFormInput)
       end
   end
 let () = java_register_constructor "CompositeRTSFormInput" (fun arguments -> Obj.repr (new compositeRTSFormInput (Obj.obj arguments)))

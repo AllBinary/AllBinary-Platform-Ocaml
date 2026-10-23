@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.visual.dhtml.html.HtmlTag *)
 
 class htmlRow ((before_arg : string), (after_arg : string)) =
-  object
+  object (self)
     inherit HtmlTag.htmlTag ()
     val mutable eND : string = ""
     method eND = eND
@@ -68,7 +68,7 @@ class htmlRow ((before_arg : string), (after_arg : string)) =
         begin
         let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
         let result : string ref = ref (!stringUtil#eMPTY_STRING) in ();
-        let attributeKeys : Obj.t array ref = ref (((otherAttributes#keySet ())#toArray ())) in ();
+        let attributeKeys : Obj.t array ref = ref ((((self#otherAttributes)#keySet ())#toArray ())) in ();
         let attributeSize : int ref = ref ((Array.length !attributeKeys)) in ();
         let cellSize : int ref = ref ((htmlCellsVector#size ())) in ();
         result := before;

@@ -60,7 +60,7 @@ class saveGameForm (commandListener, (title : string), (backgrounBasicColor : Ba
         meUtil <- (Obj.repr (Obj.magic (java_call_static "MEUtil.getInstance" (Obj.repr ()))));
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         let timeString : string ref = ref ((string_of_int (((ABSystemWrapper.getInstance ())#currentTimeMillis ())))) in ();
         ignore ((Obj.magic meUtil)#appendItem (self, (Obj.obj (java_new "TextField" (Obj.repr ("Name: ", !timeString, 30, (Obj.magic (java_call_static "TextField.get_aNY" (Obj.repr ())))))))));
         (self#initCommands (commandListener))

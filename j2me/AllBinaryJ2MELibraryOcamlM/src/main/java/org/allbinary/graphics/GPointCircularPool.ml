@@ -21,17 +21,17 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.CircularIndexUtil *)
 
 class gPointCircularPool ((size : int)) =
-  object
+  object (self)
     inherit BaseCircularPool.baseCircularPool ()
     
 
     initializer
       begin
         ();
-        circularIndexUtil <- (CircularIndexUtil.createInstance (size));
-        oBJECT_ARRAY <- (Array.make (size) (Obj.magic 0));
+        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance (size)));
+        (self#set_oBJECT_ARRAY) ((Array.make (size) (Obj.magic 0)));
         for index = (size - 1) downto 0 do
-            oBJECT_ARRAY.(index) <- (Obj.magic ((CustomGPoint.getInstance3 (0, 0))))
+            (self#oBJECT_ARRAY).(index) <- (Obj.magic ((CustomGPoint.getInstance3 (0, 0))))
         done
       end
   end

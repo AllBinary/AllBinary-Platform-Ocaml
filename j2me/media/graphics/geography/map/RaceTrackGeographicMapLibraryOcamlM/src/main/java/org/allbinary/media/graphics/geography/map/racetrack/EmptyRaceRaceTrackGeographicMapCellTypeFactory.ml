@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.media.graphics.geography.pathfinding.PathFindingNodeCostInfoData *)
 
 class emptyRaceRaceTrackGeographicMapCellTypeFactory () =
-  object
+  object (self)
     inherit RaceTrackGeographicMapCellTypeFactory.raceTrackGeographicMapCellTypeFactory ()
     
 
@@ -28,9 +28,9 @@ class emptyRaceRaceTrackGeographicMapCellTypeFactory () =
       begin
         ();
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        eMPTY_CELL_TYPE <- (new RaceTrackGeographicMapCellType.raceTrackGeographicMapCellType (!commonStrings#eMPTY, 0, (PathFindingNodeCostInfoData.getInstance ())#mAX_NODE_COST, 1));
-        eASY_CELL_TYPE <- (new RaceTrackGeographicMapCellType.raceTrackGeographicMapCellType ("Easy", 19, 1, 0));
-        fINISH_LINE_ROAD_CELL_TYPE <- dEFAULT_FINISH_LINE_ROAD_CELL_TYPE
+        (self#set_eMPTY_CELL_TYPE) ((new RaceTrackGeographicMapCellType.raceTrackGeographicMapCellType (!commonStrings#eMPTY, 0, (PathFindingNodeCostInfoData.getInstance ())#mAX_NODE_COST, 1)));
+        (self#set_eASY_CELL_TYPE) ((new RaceTrackGeographicMapCellType.raceTrackGeographicMapCellType ("Easy", 19, 1, 0)));
+        (self#set_fINISH_LINE_ROAD_CELL_TYPE) ((self#dEFAULT_FINISH_LINE_ROAD_CELL_TYPE))
       end
   end
 let () = java_register_constructor "EmptyRaceRaceTrackGeographicMapCellTypeFactory" (fun arguments -> Obj.repr (new emptyRaceRaceTrackGeographicMapCellTypeFactory (Obj.obj arguments)))

@@ -87,7 +87,7 @@ class advancedRTSGameLayer (remoteInfo, (parentLayer_arg : PathFindingLayerInter
         let geographicMapInterface = Obj.repr geographicMapInterface in
         begin
         ignore (super#updateWaypointBehavior ((Obj.magic geographicMapInterface)));
-        ignore (((self#getWaypointBehavior ())#getWaypoint ())#setAllBinaryGameLayerManager (allBinaryGameLayerManagerP))
+        ignore (((self#getWaypointBehavior ())#getWaypoint ())#setAllBinaryGameLayerManager ((self#allBinaryGameLayerManagerP)))
         end [@@warning "-7-20"]
     
 
@@ -152,19 +152,19 @@ class advancedRTSGameLayer (remoteInfo, (parentLayer_arg : PathFindingLayerInter
 
     method getWaypointLogHelper () : WaypointLogHelper.waypointLogHelper =
         begin
-        (waypointLogHelperP :> WaypointLogHelper.waypointLogHelper)
+        ((self#waypointLogHelperP) :> WaypointLogHelper.waypointLogHelper)
         end [@@warning "-7"]
     
 
     method getWaypoint2LogHelper () : Waypoint2LogHelper.waypoint2LogHelper =
         begin
-        (waypoint2LogHelperP :> Waypoint2LogHelper.waypoint2LogHelper)
+        ((self#waypoint2LogHelperP) :> Waypoint2LogHelper.waypoint2LogHelper)
         end [@@warning "-7"]
     
 
     method getWaypointRunnableLogHelper () : WaypointRunnableLogHelper.waypointRunnableLogHelper =
         begin
-        (waypointRunnableLogHelperP :> WaypointRunnableLogHelper.waypointRunnableLogHelper)
+        ((self#waypointRunnableLogHelperP) :> WaypointRunnableLogHelper.waypointRunnableLogHelper)
         end [@@warning "-7"]
     
 
@@ -203,60 +203,60 @@ class advancedRTSGameLayer (remoteInfo, (parentLayer_arg : PathFindingLayerInter
         let angle : int ref = ref (((FrameUtil.getInstance ())#adjustAngleToFrameAngle (((!angleInfo#getAngle ()) + 90)))) in ();
         let gameKeyEventFactory : GameKeyEventFactory.gameKeyEventFactory ref = ref (((GameKeyEventFactory.getInstance ()) :> GameKeyEventFactory.gameKeyEventFactory)) in ();
         if ((Obj.repr !buildingDirection) == (Obj.repr (DirectionFactory.getInstance ())#uP)) then begin
-            ignore (rtsLayer2LogHelper#buildingAbove (self));
+            ignore ((self#rtsLayer2LogHelper)#buildingAbove (self));
             if ((!angle > 180) && (!angle < 360)) then begin
-                ignore (rtsLayer2LogHelper#buildingChaseLeft (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseLeft (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))))));
                 if (!angle <= 190) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end else begin
-                ignore (rtsLayer2LogHelper#buildingChaseRight (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseRight (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))))));
                 if (!angle >= 170) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end
         end else if ((Obj.repr !buildingDirection) == (Obj.repr (DirectionFactory.getInstance ())#dOWN)) then begin
-            ignore (rtsLayer2LogHelper#buildingDown (self));
+            ignore ((self#rtsLayer2LogHelper)#buildingDown (self));
             if ((!angle > 180) && (!angle < 360)) then begin
-                ignore (rtsLayer2LogHelper#buildingChaseLeft (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseLeft (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))))));
                 if (!angle > 315) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end else begin
-                ignore (rtsLayer2LogHelper#buildingChaseRight (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseRight (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))))));
                 if (!angle < 45) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end
         end else if ((Obj.repr !buildingDirection) == (Obj.repr (DirectionFactory.getInstance ())#lEFT)) then begin
-            ignore (rtsLayer2LogHelper#buildingLeft ());
+            ignore ((self#rtsLayer2LogHelper)#buildingLeft ());
             if ((!angle > 90) && (!angle < 270)) then begin
-                ignore (rtsLayer2LogHelper#buildingChaseDown (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseDown (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))))));
                 if (!angle < 135) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end else begin
-                ignore (rtsLayer2LogHelper#buildingChaseUp (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseUp (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))))));
                 if (!angle > 45) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end
         end else if ((Obj.repr !buildingDirection) == (Obj.repr (DirectionFactory.getInstance ())#rIGHT)) then begin
-            ignore (rtsLayer2LogHelper#buildingRight ());
+            ignore ((self#rtsLayer2LogHelper)#buildingRight ());
             if ((!angle > 90) && (!angle < 270)) then begin
-                ignore (rtsLayer2LogHelper#buildingChaseDown (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseDown (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))))));
                 if (!angle > 225) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             end else begin
-                ignore (rtsLayer2LogHelper#buildingChaseUp (self, !angle));
+                ignore ((self#rtsLayer2LogHelper)#buildingChaseUp (self, !angle));
                 ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))))));
                 if ((!angle < 315) && (!angle > 180)) then begin
                     raise (Java_return (Obj.repr (true)))
@@ -272,25 +272,25 @@ class advancedRTSGameLayer (remoteInfo, (parentLayer_arg : PathFindingLayerInter
 
     method getSurroundingGeographicMapCellPositionList () : BasicArrayList.basicArrayList =
         begin
-        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
         let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
-        ignore (geographicMapCellPositionAreaBase#update (!geographicMapInterface));
-        ((geographicMapCellPositionAreaBase#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)
+        ignore ((self#geographicMapCellPositionAreaBase)#update (!geographicMapInterface));
+        (((self#geographicMapCellPositionAreaBase)#getSurroundingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)
         end [@@warning "-7"]
     
 
     method setSelected ((selected : bool)) : unit =
         begin
         ignore (super#setSelected (selected));
-        if debug then begin
+        if (self#debug) then begin
             if selected then begin
-                waypointLogHelperP <- (WaypointSelectedLogHelper.getInstance ());
-                waypoint2LogHelperP <- (Waypoint2SelectedLogHelper.getInstance ());
-                waypointRunnableLogHelperP <- (WaypointRunnableSelectedLogHelper.getInstance ())
+                (self#set_waypointLogHelperP) ((WaypointSelectedLogHelper.getInstance ()));
+                (self#set_waypoint2LogHelperP) ((Waypoint2SelectedLogHelper.getInstance ()));
+                (self#set_waypointRunnableLogHelperP) ((WaypointRunnableSelectedLogHelper.getInstance ()))
             end else begin
-                waypointLogHelperP <- (WaypointLogHelper.getInstance ());
-                waypoint2LogHelperP <- (Waypoint2LogHelper.getInstance ());
-                waypointRunnableLogHelperP <- (WaypointRunnableLogHelper.getInstance ())
+                (self#set_waypointLogHelperP) ((WaypointLogHelper.getInstance ()));
+                (self#set_waypoint2LogHelperP) ((Waypoint2LogHelper.getInstance ()));
+                (self#set_waypointRunnableLogHelperP) ((WaypointRunnableLogHelper.getInstance ()))
             end
         end
         end [@@warning "-7"]
@@ -307,7 +307,7 @@ class advancedRTSGameLayer (remoteInfo, (parentLayer_arg : PathFindingLayerInter
                 ignore (!waypoint#reset ())
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "onDestroyed", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "onDestroyed", e))
         end)
         end [@@warning "-7-20"]
 

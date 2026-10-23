@@ -46,7 +46,7 @@ class addValidationView ((transformInfoInterface : TransformInfoInterface.transf
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -57,7 +57,7 @@ class addValidationView ((transformInfoInterface : TransformInfoInterface.transf
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            if ((((WorkFlowEntityFactory.getInstance ())#create2 ())#get ((workFlowInterface#getName ()), ((self#getTransformInfoInterface ())#getStoreName ()))) != (Obj.magic 0)) then begin
+            if ((((WorkFlowEntityFactory.getInstance ())#create2 ())#get (((self#workFlowInterface)#getName ()), ((self#getTransformInfoInterface ())#getStoreName ()))) != (Obj.magic 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
                     ignore ((Obj.magic logUtil)#putF ("Workflow already exist", self, "validationInfo()"))
                 end;
@@ -90,7 +90,7 @@ class addValidationView ((transformInfoInterface : TransformInfoInterface.transf
         abeClientInformation <- ((Obj.magic (java_call_static "ServiceClientInformationInterfaceFactory.getInstance" (Obj.repr ()))) :> AbeClientInformationInterface.abeClientInformationInterface);
         ();
         (* super(...) is the inherit clause *) ();
-        workFlowInterface <- ((NewWorkFlowFactory.getInstance ())#getInstance (abeClientInformation, (self#getPropertiesHashMap ()), (self#getPageContext ())))
+        (self#set_workFlowInterface) (((NewWorkFlowFactory.getInstance ())#getInstance (abeClientInformation, (self#getPropertiesHashMap ()), (self#getPageContext ()))))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "AddValidationView" (fun arguments -> Obj.repr (new addValidationView (Obj.obj arguments)))

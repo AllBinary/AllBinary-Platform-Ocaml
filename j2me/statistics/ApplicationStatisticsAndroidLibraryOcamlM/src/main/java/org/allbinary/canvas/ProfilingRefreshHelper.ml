@@ -67,7 +67,7 @@ class profilingRefreshHelper () =
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr super))))#append (" Worst: "))#appendint (worstFrameProcessingTime))#append (" Best: "))#appendint (bestFrameProcessingTime))))
+        (java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((super#toString ())))#append (" Worst: "))#appendint (worstFrameProcessingTime))#append (" Best: "))#appendint (bestFrameProcessingTime))))
         end [@@warning "-7"]
 
     initializer

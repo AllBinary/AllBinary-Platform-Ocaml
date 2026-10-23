@@ -48,7 +48,7 @@ class categoryTag () =
     method viewCategory () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new CategoryRequestHelperFactory.categoryRequestHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new CategoryRequestHelperFactory.categoryRequestHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod ("viewCategory", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -62,7 +62,7 @@ class categoryTag () =
     method viewCategories () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new CategoryRequestHelperFactory.categoryRequestHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new CategoryRequestHelperFactory.categoryRequestHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod ("viewCategories", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -97,7 +97,7 @@ class categoryTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

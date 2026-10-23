@@ -51,14 +51,14 @@ class directionUtil () =
         ();
         let angleFactory : AngleFactory.angleFactory ref = ref (((AngleFactory.getInstance ()) :> AngleFactory.angleFactory)) in ();
         let directionFactory : DirectionFactory.directionFactory ref = ref (((DirectionFactory.getInstance ()) :> DirectionFactory.directionFactory)) in ();
-        directionArray.((!directionFactory#lEFT#set_getValue ())) ((!angleFactory#lEFT :> Angle.angle));
-        directionArray.((!directionFactory#rIGHT#set_getValue ())) ((!angleFactory#rIGHT :> Angle.angle));
-        directionArray.((!directionFactory#uP#set_getValue ())) ((!angleFactory#uP :> Angle.angle));
-        directionArray.((!directionFactory#dOWN#set_getValue ())) ((!angleFactory#dOWN :> Angle.angle));
-        directionArray2.((!directionFactory#lEFT#set_getValue ())) ((!angleFactory#lEFT :> Angle.angle));
-        directionArray2.((!directionFactory#rIGHT#set_getValue ())) ((!angleFactory#rIGHT :> Angle.angle));
-        directionArray2.((!directionFactory#uP#set_getValue ())) ((!angleFactory#uP :> Angle.angle));
-        directionArray2.((!directionFactory#dOWN#set_getValue ())) ((!angleFactory#dOWN :> Angle.angle))
+        directionArray.((!directionFactory#lEFT#getValue ())) <- (!angleFactory#lEFT :> Angle.angle);
+        directionArray.((!directionFactory#rIGHT#getValue ())) <- (!angleFactory#rIGHT :> Angle.angle);
+        directionArray.((!directionFactory#uP#getValue ())) <- (!angleFactory#uP :> Angle.angle);
+        directionArray.((!directionFactory#dOWN#getValue ())) <- (!angleFactory#dOWN :> Angle.angle);
+        directionArray2.((!directionFactory#lEFT#getValue ())) <- (!angleFactory#lEFT :> Angle.angle);
+        directionArray2.((!directionFactory#rIGHT#getValue ())) <- (!angleFactory#rIGHT :> Angle.angle);
+        directionArray2.((!directionFactory#uP#getValue ())) <- (!angleFactory#uP :> Angle.angle);
+        directionArray2.((!directionFactory#dOWN#getValue ())) <- (!angleFactory#dOWN :> Angle.angle)
       end
   end
 let () = java_register_constructor "DirectionUtil" (fun arguments -> Obj.repr (new directionUtil (Obj.obj arguments)))

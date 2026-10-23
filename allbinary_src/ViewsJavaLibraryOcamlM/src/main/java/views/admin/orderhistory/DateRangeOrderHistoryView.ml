@@ -156,7 +156,7 @@ class dateRangeOrderHistoryView ((transformInfoInterface : TransformInfoInterfac
             (super#view ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -241,7 +241,7 @@ class dateRangeOrderHistoryView ((transformInfoInterface : TransformInfoInterfac
             (Obj.magic ((Obj.magic !node)))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#xSLLOGGINGERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "toXmlNode", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "toXmlNode", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)
@@ -300,12 +300,12 @@ class dateRangeOrderHistoryView ((transformInfoInterface : TransformInfoInterfac
                 ignore (!stringBuffer#append (",toDate="));
                 ignore (!stringBuffer#append (toDate));
                 ignore (!stringBuffer#append (")"));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#put ("Exception in validation", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Exception in validation", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

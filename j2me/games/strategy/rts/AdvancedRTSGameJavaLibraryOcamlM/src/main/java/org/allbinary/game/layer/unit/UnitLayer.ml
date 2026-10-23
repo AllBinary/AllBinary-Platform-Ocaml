@@ -261,8 +261,8 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))) in ();
         ignore ((Obj.magic !hashtable)#put (groupCommonFactory#iD, (self#getGroupInterface ())));
         ignore ((Obj.magic !hashtable)#put ((Obj.magic (java_call_static "Layer.get_iD" (Obj.repr ()))), self));
-        ignore ((Obj.magic !hashtable)#put ((AllBinaryGameLayerManager.get_iD ()), allBinaryGameLayerManagerP));
-        ignore (self#setWaypointBehavior ((Obj.obj (java_new "UnitWaypointBehavior2" (Obj.repr (self, (Obj.magic (waypointLayerInterfaceFactoryInterface#getNextInstance ((Obj.magic !hashtable), x, y, z)))))))));
+        ignore ((Obj.magic !hashtable)#put ((AllBinaryGameLayerManager.get_iD ()), (self#allBinaryGameLayerManagerP)));
+        ignore (self#setWaypointBehavior ((Obj.obj (java_new "UnitWaypointBehavior2" (Obj.repr (self, (Obj.magic (waypointLayerInterfaceFactoryInterface#getNextInstance ((Obj.magic !hashtable), (self#x), (self#y), (self#z))))))))));
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
         let waypoint : WaypointBase.waypointBase ref = ref (((if (J2MEUtil.isHTML ()) then (Obj.obj (java_new "MultipassNoCacheWaypoint" (Obj.repr (self, (AttackSound.getInstance ()))))) else (Obj.obj (java_new "NoCacheWaypoint" (Obj.repr (self, (AttackSound.getInstance ())))))) :> WaypointBase.waypointBase)) in ();
         ignore ((self#getWaypointBehavior ())#setWaypoint (!waypoint));
@@ -291,7 +291,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
             ignore (sensorGeographicMapCellPositionList#clear ());
             ignore (sensorGeographicMapCellPositionList#add (!currentGeographicMapCellPosition));
             let sensorRange : int ref = ref ((weaponRange * sENSOR_RANGE_MULTIPLIER)) in ();
-            let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+            let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
             let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
             let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref (((!geographicMapInterface#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
             let totalCells : int ref = ref ((((!sensorRange / (!tiledLayer#getCellHeight ()))) / 2)) in ();
@@ -350,15 +350,15 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         begin
         ignore (super#setSelected (selected));
         if selected then begin
-            if debug then begin
+            if (self#debug) then begin
                 rtsLogHelper <- (RTSLayerSelectedLogHelper.getInstance ())
             end;
-            rtsLayer2LogHelper <- (RTSLayer2SelectedLogHelper.getInstance ())
+            (self#set_rtsLayer2LogHelper) ((RTSLayer2SelectedLogHelper.getInstance ()))
         end else begin
-            if debug then begin
+            if (self#debug) then begin
                 rtsLogHelper <- (RTSLayerLogHelper.getInstance ())
             end;
-            rtsLayer2LogHelper <- (RTSLayer2LogHelper.getInstance ())
+            (self#set_rtsLayer2LogHelper) ((RTSLayer2LogHelper.getInstance ()))
         end
         end [@@warning "-7"]
     
@@ -405,7 +405,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
                 ignore (!layerInterface#onMovementFound ((self#getTrackingEvent ())))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "onMovement", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "onMovement", e))
         end)
         end [@@warning "-7-20"]
     
@@ -425,11 +425,11 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         let basicWeaponPart : BasicWeaponPart.basicWeaponPart ref = ref (((Obj.magic (self#getPartInterfaceArray ()).(0)) :> BasicWeaponPart.basicWeaponPart)) in ();
         let weaponProperties : WeaponProperties.weaponProperties ref = ref (((!basicWeaponPart#getWeaponProperties ()) :> WeaponProperties.weaponProperties)) in ();
         weaponRange <- (!weaponProperties#getRange ());
-        initRangeAnimation <- (AdjustedCircleAnimation.createW (weaponRange, weaponRange, (self#getWidth ()), basicColorFactory#gREEN));
+        (self#set_initRangeAnimation) ((AdjustedCircleAnimation.createW (weaponRange, weaponRange, (self#getWidth ()), basicColorFactory#gREEN)));
         let sensorRange : int ref = ref ((weaponRange * sENSOR_RANGE_MULTIPLIER)) in ();
-        initSensorRangeAnimation <- (AdjustedCircleAnimation.createW (!sensorRange, !sensorRange, (self#getWidth ()), basicColorFactory#rED));
+        (self#set_initSensorRangeAnimation) ((AdjustedCircleAnimation.createW (!sensorRange, !sensorRange, (self#getWidth ()), basicColorFactory#rED)));
         ignore ((self#getUnitWaypointBehavior ())#initRange (weaponRange));
-        fireTimeHelper#set_delay (((java_to_int (Obj.repr ((!weaponProperties#getReloadTime ()))))))
+        (self#fireTimeHelper)#set_delay (((java_to_int (Obj.repr ((!weaponProperties#getReloadTime ()))))))
         end [@@warning "-7"]
     
 
@@ -438,20 +438,20 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         begin
         if (not ((self#getHealthInterface ())#isAlive ())) then begin
             if (self#isReadyForExplosion ()) then begin
-                let currentFrame : int ref = ref ((destroyAnimationInterface#getFrame ())) in ();
-                let size : int ref = ref (((destroyAnimationInterface#getSize ()) - 1)) in ();
+                let currentFrame : int ref = ref (((self#destroyAnimationInterface)#getFrame ())) in ();
+                let size : int ref = ref ((((self#destroyAnimationInterface)#getSize ()) - 1)) in ();
                 if (!currentFrame = !size) then begin
                     if (not ((self#getHealthInterface ())#isAlive ())) then begin
                         (self#setDestroyed (true))
                     end
                 end else begin
-                    ignore (destroyAnimationInterface#nextFrame ())
+                    ignore ((self#destroyAnimationInterface)#nextFrame ())
                 end
             end else begin
-                ignore (self#setAnimationInterface (destroyAnimationInterface));
+                ignore (self#setAnimationInterface ((self#destroyAnimationInterface)));
                 ignore ((SecondaryPlayerQueueFactory.getInstance ())#add ((ExplosionBasicSound.getInstance ())));
-                ignore (shakeListener#onSmallShakeEvent ());
-                ignore (vibration#vibrate (duration, 0, 0));
+                ignore ((self#shakeListener)#onSmallShakeEvent ());
+                ignore ((self#vibration)#vibrate ((self#duration), 0, 0));
                 ignore (self#setReadyForExplosion (true))
             end
         end else begin
@@ -466,15 +466,15 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         let geographicMapCellPosition = Obj.repr geographicMapCellPosition in
         begin
         let point : GPoint.gPoint ref = ref ((((Obj.magic geographicMapCellPosition)#getMidPoint ()) :> GPoint.gPoint)) in ();
-        ignore (self#setPosition (((!point#getX ()) - (self#getHalfWidth ())), ((!point#getY ()) - (self#getHalfHeight ())), z))
+        ignore (self#setPosition (((!point#getX ()) - (self#getHalfWidth ())), ((!point#getY ()) - (self#getHalfHeight ())), (self#z)))
         end [@@warning "-7-20"]
     
 
     method getCurrentGeographicMapCellPosition () : GeographicMapCellPosition.geographicMapCellPosition =
         begin
-        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
         let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
-        let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!geographicMapInterface#getCellPositionAtXY ((x + (self#getHalfWidth ())), (y + (self#getHalfHeight ())))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
+        let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!geographicMapInterface#getCellPositionAtXY (((self#x) + (self#getHalfWidth ())), ((self#y) + (self#getHalfHeight ())))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         let raceTrackGeographicMap : RaceTrackGeographicMap.raceTrackGeographicMap ref = ref (((Obj.magic !geographicMapInterface) :> RaceTrackGeographicMap.raceTrackGeographicMap)) in ();
         if (not (!raceTrackGeographicMap#isValid (!geographicMapCellPosition))) then begin
             raise (Failure (("Position is not really on the map: " ^ java_string_of (Obj.repr (!geographicMapCellPosition)))))
@@ -486,7 +486,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
     method fire : 'any1 'any2. 'any1 * 'any2 -> unit = fun (layerManager, _gameKeyEvent) ->
         let layerManager = Obj.repr layerManager in
         begin
-        if (fireTimeHelper#isTimeTNT ()) then begin
+        if ((self#fireTimeHelper)#isTimeTNT ()) then begin
             (self#fireAll ((Obj.magic layerManager)))
         end else begin
             ignore (self#reload ())
@@ -530,12 +530,12 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
 
     method initInputProcessors () : unit =
         begin
-        inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))) <- (Obj.magic ((new SpecialRightGameInputProcessor.specialRightGameInputProcessor (self))));
-        inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))) <- (Obj.magic ((new SpecialLeftGameInputProcessor.specialLeftGameInputProcessor (self))));
-        inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ())))) <- (Obj.magic ((new SpecialFireGameInputProcessor.specialFireGameInputProcessor (self))));
-        inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_kEY_POUND" (Obj.repr ())))) <- (Obj.magic (inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ()))))));
-        inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_dOWN" (Obj.repr ())))) <- (Obj.magic ((new SpecialDownGameInputProcessor.specialDownGameInputProcessor (self))));
-        inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))) <- (Obj.magic ((new SpecialUpGameInputProcessor.specialUpGameInputProcessor (self))));
+        (self#inputProcessorArray).((Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))) <- (Obj.magic ((new SpecialRightGameInputProcessor.specialRightGameInputProcessor (self))));
+        (self#inputProcessorArray).((Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))) <- (Obj.magic ((new SpecialLeftGameInputProcessor.specialLeftGameInputProcessor (self))));
+        (self#inputProcessorArray).((Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ())))) <- (Obj.magic ((new SpecialFireGameInputProcessor.specialFireGameInputProcessor (self))));
+        (self#inputProcessorArray).((Obj.magic (java_call_static "Canvas.get_kEY_POUND" (Obj.repr ())))) <- (Obj.magic ((self#inputProcessorArray).((Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ()))))));
+        (self#inputProcessorArray).((Obj.magic (java_call_static "Canvas.get_dOWN" (Obj.repr ())))) <- (Obj.magic ((new SpecialDownGameInputProcessor.specialDownGameInputProcessor (self))));
+        (self#inputProcessorArray).((Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))) <- (Obj.magic ((new SpecialUpGameInputProcessor.specialUpGameInputProcessor (self))));
         ignore (super#initInputProcessors ())
         end [@@warning "-7"]
     
@@ -548,7 +548,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         for index = 0 to !size - 1 do
             let anyType : Obj.t ref = ref ((Obj.repr (!list#get (index)))) in ();
             let key : int ref = ref ((GameKeyEventUtil.getKey (!anyType))) in ();
-            ignore (inputProcessorArray.(!key)#processEvent ((Obj.magic layerManager), (GameKeyEvent.get_nONE ())))
+            ignore ((self#inputProcessorArray).(!key)#processEvent ((Obj.magic layerManager), (GameKeyEvent.get_nONE ())))
         done;
         ignore (!list#clear ());
         (self#groundFriction ());
@@ -567,8 +567,8 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         let layerManager = Obj.repr layerManager in
         begin
         let angleInfo : AngleInfo.angleInfo ref = ref (((rotationAnimationInterfaceP#getAngleInfoP ()) :> AngleInfo.angleInfo)) in ();
-        let angle : int ref = ref ((java_to_int (Obj.repr ((((!angleInfo#getAngle ()) + slightAngle)))))) in ();
-        ignore (hashtable#put (((SmallIntegerSingletonFactory.getInstance ())#getAt (1)), ((SmallIntegerSingletonFactory.getInstance ())#getAt ((java_to_int (Obj.repr ((((AngleFactory.getInstance ())#getAt (!angle))#getValue ()))))))));
+        let angle : int ref = ref ((java_to_int (Obj.repr ((((!angleInfo#getAngle ()) + (self#slightAngle))))))) in ();
+        ignore ((self#hashtable)#put (((SmallIntegerSingletonFactory.getInstance ())#getAt (1)), ((SmallIntegerSingletonFactory.getInstance ())#getAt ((java_to_int (Obj.repr ((((AngleFactory.getInstance ())#getAt (!angle))#getValue ()))))))));
         let salvoInterface : SalvoInterface.salvoInterface ref = ref (((Obj.magic (self#getPartInterfaceArray ()).(0)) :> SalvoInterface.salvoInterface)) in ();
         ignore (!salvoInterface#process ((Obj.magic layerManager), !angle, 90))
         end [@@warning "-7-20"]
@@ -598,7 +598,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
 
     method trackTo ((reason : string)) : unit =
         begin
-        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic waypointBehaviorBase) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
+        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic (self#waypointBehaviorBase)) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
         let nextUnvisitedPathGeographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!waypointBehaviorBase#getNextUnvisitedPathGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         let point : GPoint.gPoint ref = ref (((!nextUnvisitedPathGeographicMapCellPosition#getMidPoint ()) :> GPoint.gPoint)) in ();
         let dx : int ref = ref (((((self#getXP ()) + (self#getHalfWidth ()))) - (!point#getX ()))) in ();
@@ -619,7 +619,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         let targetAngle = ref targetAngle in
         try
         begin
-        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic waypointBehaviorBase) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
+        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic (self#waypointBehaviorBase)) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
         let nextUnvisitedPathGeographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!waypointBehaviorBase#getNextUnvisitedPathGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         let evading : bool ref = ref (false) in ();
         if ((Obj.repr ((self#getUnitWaypointBehavior ())#getSensorAction ())) == (Obj.repr (SensorActionFactory.getInstance ())#eVADE)) then begin
@@ -689,7 +689,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
 
     method handleDeltalX ((dx : int), (_dy : int)) : unit =
         begin
-        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic waypointBehaviorBase) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
+        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic (self#waypointBehaviorBase)) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
         let nextUnvisitedPathGeographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!waypointBehaviorBase#getNextUnvisitedPathGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         if (dx > 0) then begin
             movementAngle <- angleFactory#lEFT;
@@ -704,7 +704,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
 
     method handleDeltalY ((_dx : int), (dy : int)) : unit =
         begin
-        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic waypointBehaviorBase) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
+        let waypointBehaviorBase : WaypointBehaviorBase.waypointBehaviorBase ref = ref (((Obj.magic (self#waypointBehaviorBase)) :> WaypointBehaviorBase.waypointBehaviorBase)) in ();
         let nextUnvisitedPathGeographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!waypointBehaviorBase#getNextUnvisitedPathGeographicMapCellPosition ()) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         if (dy > 0) then begin
             movementAngle <- angleFactory#uP;
@@ -739,14 +739,14 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         begin
         let gameKeyEventFactory : GameKeyEventFactory.gameKeyEventFactory ref = ref (((GameKeyEventFactory.getInstance ()) :> GameKeyEventFactory.gameKeyEventFactory)) in ();
         if ((self#getUnitWaypointBehavior ())#needToMove ()) then begin
-            ignore (rtsLayer2LogHelper#steeringUp (self));
-            if (showMoreCaptionStates && (not (captionAnimationHelper#isShowing ()))) then begin
+            ignore ((self#rtsLayer2LogHelper)#steeringUp (self));
+            if ((self#showMoreCaptionStates) && (not (captionAnimationHelper#isShowing ()))) then begin
                 ignore (captionAnimationHelper#update (mOVE, basicColorFactory#gREEN))
             end;
             ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))))))
         end else begin
             ignore (captionAnimationHelper#update ((CommonPhoneStrings.getInstance ())#fIRE, basicColorFactory#rED));
-            ignore (rtsLayer2LogHelper#steeringFireOrStop (self));
+            ignore ((self#rtsLayer2LogHelper)#steeringFireOrStop (self));
             (self#allStop ());
             ignore ((self#getGameKeyEventList ())#add ((!gameKeyEventFactory#getInstanceForKey (self, (Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ())))))));
             ignore ((TrackingEventHandler.getInstance ())#fireEvent ((self#getTrackingEvent ())))
@@ -763,18 +763,18 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
             ignore ((self#getUnitWaypointBehavior ())#move ());
             if ((!velocityXScaled <> 0) || (!velocityYScaled <> 0)) then begin
                 ignore ((self#getUnitWaypointBehavior ())#setMoving (true));
-                let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+                let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
                 let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
                 ignore (layerPartialCellPositionsUtil#getAllDXY (!geographicMapInterface, self, !velocityXScaled, !velocityYScaled, (getPartialpositionlist ())));
                 let cellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((Obj.magic ((DropCellPositionHistory.getInstance ())#getCellPositionWithDrop ((getPartialpositionlist ())))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
                 if ((Obj.repr !cellPosition) == (Obj.repr cellPositionFactory#nONE)) then begin
                     let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref (((!geographicMapInterface#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
                     let tiledLayerUtil : TiledLayerUtil.tiledLayerUtil ref = ref (((TiledLayerUtil.getInstance ()) :> TiledLayerUtil.tiledLayerUtil)) in ();
-                    let x : int ref = ref ((x + !velocityXScaled)) in ();
-                    let y : int ref = ref ((y + !velocityYScaled)) in ();
+                    let x : int ref = ref (((self#x) + !velocityXScaled)) in ();
+                    let y : int ref = ref (((self#y) + !velocityYScaled)) in ();
                     x := (!tiledLayerUtil#keepOnMapX (!tiledLayer, !x, (self#getWidth ())));
                     y := (!tiledLayerUtil#keepOnMapY (!tiledLayer, !y, (self#getHeight ())));
-                    ignore (self#setPosition (!x, !y, z))
+                    ignore (self#setPosition (!x, !y, (self#z)))
                 end else begin
                     let allbinaryLayer : AllBinaryLayer.allBinaryLayer ref = ref ((((DropCellPositionHistory.getInstance ())#getLayerInterface (!cellPosition)) :> AllBinaryLayer.allBinaryLayer)) in ();
                     ignore ((self#getUnitWaypointBehavior ())#setMovingFromStopped (false));
@@ -790,7 +790,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
                 ignore ((SecondaryPlayerQueueFactory.getInstance ())#add ((Obj.magic moveSoundInterface)))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "move", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "move", e))
         end)
         end [@@warning "-7"]
     
@@ -812,8 +812,8 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
             let viewX : int ref = ref ((!viewPosition#getX ())) in ();
             let viewY : int ref = ref ((!viewPosition#getY ())) in ();
             ignore (decalAnimation#paintXY ((Obj.magic graphics), !viewX, !viewY));
-            ignore (rangeAnimation#paintXY ((Obj.magic graphics), !viewX, !viewY));
-            ignore (sensorRangeAnimation#paintXY ((Obj.magic graphics), !viewX, !viewY));
+            ignore ((self#rangeAnimation)#paintXY ((Obj.magic graphics), !viewX, !viewY));
+            ignore ((self#sensorRangeAnimation)#paintXY ((Obj.magic graphics), !viewX, !viewY));
             ignore (damageFloatersPaintableInterface#paint ((Obj.magic graphics)));
             ignore (healthBar#paint ((Obj.magic graphics)));
             ignore (captionAnimationHelper#paintXY ((Obj.magic graphics), !viewX, !viewY));
@@ -855,7 +855,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
 
     method setDestroyed ((destroyed : bool)) : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, "setDestroyed"));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, "setDestroyed"));
         ignore (super#setDestroyed (destroyed));
         if (self#isDestroyed ()) then begin
             ignore ((WaypointEventHandlerFactory.getInstance ((self#getGroupInterface ()).(0)))#removeListener ((self#getUnitWaypointBehavior ())));
@@ -866,14 +866,14 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
                 if (!damage > 10) then begin
                     ignore ((SecondaryPlayerQueueFactory.getInstance ())#add ((ExplosionBasicSound.getInstance ())));
                     if (!damage < 100) then begin
-                        ignore (shakeListener#onSmallShakeEvent ());
-                        ignore (vibration#vibrate (duration, 0, 0))
+                        ignore ((self#shakeListener)#onSmallShakeEvent ());
+                        ignore ((self#vibration)#vibrate ((self#duration), 0, 0))
                     end else if (!damage < 1000) then begin
-                        ignore (shakeListener#onMediumShakeEvent ());
-                        ignore (vibration#vibrate ((duration * 2), 0, 0))
+                        ignore ((self#shakeListener)#onMediumShakeEvent ());
+                        ignore ((self#vibration)#vibrate (((self#duration) * 2), 0, 0))
                     end else if (!damage < 3000) then begin
-                        ignore (shakeListener#onLargeShakeEvent ());
-                        ignore (vibration#vibrate ((duration * 4), 0, 0))
+                        ignore ((self#shakeListener)#onLargeShakeEvent ());
+                        ignore ((self#vibration)#vibrate (((self#duration) * 4), 0, 0))
                     end
                 end
             end
@@ -924,7 +924,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
     method createHudPaintable () : SelectionHudPaintable.selectionHudPaintable =
         begin
         let rtsLayerHudPaintable : RTSLayerHudPaintable.rTSLayerHudPaintable ref = ref (((RTSLayerHudPaintable.getInstance ()) :> RTSLayerHudPaintable.rTSLayerHudPaintable)) in ();
-        ignore (!rtsLayerHudPaintable#setBasicColorP ((allBinaryGameLayerManagerP#getForegroundBasicColor ())));
+        ignore (!rtsLayerHudPaintable#setBasicColorP (((self#allBinaryGameLayerManagerP)#getForegroundBasicColor ())));
         ignore (!rtsLayerHudPaintable#setRtsLayer (self));
         (!rtsLayerHudPaintable :> SelectionHudPaintable.selectionHudPaintable)
         end [@@warning "-7"]
@@ -1026,7 +1026,7 @@ class unitLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFindin
         initResourceAnimation <- (Obj.magic (resourceAnimationInterfaceFactoryInterface#getInstance (0)));
         ignore (initResourceAnimation#setFrameByDirection (direction));
         ignore (decalAnimation#setFrameByDirection (direction));
-        rotationAnimationInterfaceP <- (Obj.magic indexedButShouldBeRotationAnimationInterface);
+        rotationAnimationInterfaceP <- (Obj.magic (self#indexedButShouldBeRotationAnimationInterface));
         ignore (rotationAnimationInterfaceP#setFrameByDirection (direction));
         ignore (self#setMaxLevel (12));
         vehicleProperties <- vehicleProperties_arg;

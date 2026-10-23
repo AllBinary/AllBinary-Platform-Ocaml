@@ -49,7 +49,7 @@ class storeCategoryFactory ((transformInfoInterface_arg : TransformInfoInterface
             ((Obj.magic (Obj.obj (java_new "Category" (Obj.repr (!categoryPropertiesFactoryInterface))))) :> CategoryInterface.categoryInterface)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#eNTITYFACTORYERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "getInstance(String, int)", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "getInstance(String, int)", e))
             end;
             ((Obj.magic 0) :> CategoryInterface.categoryInterface)
         end)
@@ -69,7 +69,7 @@ class storeCategoryFactory ((transformInfoInterface_arg : TransformInfoInterface
             ((Obj.magic (Obj.obj (java_new "Category" (Obj.repr (!categoryPropertiesFactoryInterface, !level))))) :> CategoryInterface.categoryInterface)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#eNTITYFACTORYERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "getInstance(String, int)", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "getInstance(String, int)", e))
             end;
             ((Obj.magic 0) :> CategoryInterface.categoryInterface)
         end)
@@ -81,7 +81,7 @@ class storeCategoryFactory ((transformInfoInterface_arg : TransformInfoInterface
         ();
         ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#cATEGORY)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "StoreCategoryFactory(TransformInfoInterface transformInfoInterface)"))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "StoreCategoryFactory(TransformInfoInterface transformInfoInterface)"))
         end;
         transformInfoInterface <- transformInfoInterface_arg
       end

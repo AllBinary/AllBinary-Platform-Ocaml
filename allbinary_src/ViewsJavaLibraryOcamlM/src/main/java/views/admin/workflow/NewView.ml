@@ -47,7 +47,7 @@ class newView ((transformInfoInterface : TransformInfoInterface.transformInfoInt
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -87,7 +87,7 @@ class newView ((transformInfoInterface : TransformInfoInterface.transformInfoInt
         ();
         (* super(...) is the inherit clause *) ();
         let httpTransformInfoInterface : TransformInfoHttpInterface.transformInfoHttpInterface ref = ref (((Obj.magic (self#getTransformInfoInterface ())) :> TransformInfoHttpInterface.transformInfoHttpInterface)) in ();
-        workFlowInterface <- ((NewWorkFlowFactory.getInstance ())#getInstance (abeClientInformation, (Obj.magic ((!httpTransformInfoInterface#getPropertiesHashMap ())#get ((DynamicObjectData.get_nAME ()))))))
+        (self#set_workFlowInterface) (((NewWorkFlowFactory.getInstance ())#getInstance (abeClientInformation, (Obj.magic ((!httpTransformInfoInterface#getPropertiesHashMap ())#get ((DynamicObjectData.get_nAME ())))))))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "NewView" (fun arguments -> Obj.repr (new newView (Obj.obj arguments)))

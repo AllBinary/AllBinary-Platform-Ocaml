@@ -38,12 +38,12 @@ class editHeaderValidationView ((transformInfoInterface : TransformInfoInterface
     method isValid () : bool =
         begin
         (try
-            heading <- (new HeadingValidation.headingValidation (((CustomizerUtil.getInstance ())#getViewDataForComponentsInObjectConfig ((self#getTransformInfoInterface ())))));
-            let isValid : bool ref = ref ((heading#isValid ())) in ();
+            (self#set_heading) ((new HeadingValidation.headingValidation (((CustomizerUtil.getInstance ())#getViewDataForComponentsInObjectConfig ((self#getTransformInfoInterface ()))))));
+            let isValid : bool ref = ref (((self#heading)#isValid ())) in ();
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -54,7 +54,7 @@ class editHeaderValidationView ((transformInfoInterface : TransformInfoInterface
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((heading#validationInfo ())));
+            ignore (!stringBuffer#append (((self#heading)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin

@@ -77,14 +77,14 @@ class trueTypeFontUtil () =
         try
         begin
         if ((Obj.repr (Obj.magic fontImage)) == (Obj.repr (Obj.magic (java_call_static "OpenGLESImage.get_nULL_OPENGL_IMAGE" (Obj.repr ()))))) then begin
-            let cellsPerRow2 : int ref = ref ((cELLS_PER_ROW * 2)) in ();
-            let cellsPerRow3 : int ref = ref ((cELLS_PER_ROW * 3)) in ();
-            let cellsPerRow4 : int ref = ref ((cELLS_PER_ROW * 4)) in ();
-            let cellsPerRow5 : int ref = ref ((cELLS_PER_ROW * 5)) in ();
-            let cellsPerRow6 : int ref = ref ((cELLS_PER_ROW * 6)) in ();
-            let cellsPerRow7 : int ref = ref ((cELLS_PER_ROW * 7)) in ();
+            let cellsPerRow2 : int ref = ref (((self#cELLS_PER_ROW) * 2)) in ();
+            let cellsPerRow3 : int ref = ref (((self#cELLS_PER_ROW) * 3)) in ();
+            let cellsPerRow4 : int ref = ref (((self#cELLS_PER_ROW) * 4)) in ();
+            let cellsPerRow5 : int ref = ref (((self#cELLS_PER_ROW) * 5)) in ();
+            let cellsPerRow6 : int ref = ref (((self#cELLS_PER_ROW) * 6)) in ();
+            let cellsPerRow7 : int ref = ref (((self#cELLS_PER_ROW) * 7)) in ();
             let typeface : Obj.t ref = ref ((Obj.repr (Typeface.get_dEFAULT ()))) in ();
-            let textureSize : int ref = ref ((self#getAsTextureSize ((cELLS_PER_ROW * cellSize)))) in ();
+            let textureSize : int ref = ref ((self#getAsTextureSize (((self#cELLS_PER_ROW) * cellSize)))) in ();
             let bitmap : Obj.t ref = ref ((Obj.repr (Bitmap.createBitmap (!textureSize, !textureSize, (Bitmap.get_config ())#aRGB_8888)))) in ();
             let canvas : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "Canvas" (Obj.repr ((Obj.magic !bitmap))))))) in ();
             let paint : Obj.t ref = ref ((Obj.repr (new Paint.paint ()))) in ();
@@ -96,18 +96,18 @@ class trueTypeFontUtil () =
             let bounds : Obj.t ref = ref ((Obj.repr (new Rect.rect ()))) in ();
             let x : int ref = ref (0) in ();
             let y : int ref = ref (0) in ();
-            for index = 0 to size - 1 do
-                characterArray.(0) <- (Obj.magic ((pattern#charAt (index))));
-                ignore ((Obj.magic !paint)#getTextBounds (characterArray, 0, 1, (Obj.magic !bounds)));
-                _characterWidth.(index) <- (Obj.magic ((Obj.magic !bounds)#right));
+            for index = 0 to (self#size) - 1 do
+                (self#characterArray).(0) <- (Obj.magic (((self#pattern)#charAt (index))));
+                ignore ((Obj.magic !paint)#getTextBounds ((self#characterArray), 0, 1, (Obj.magic !bounds)));
+                (self#_characterWidth).(index) <- (Obj.magic ((Obj.magic !bounds)#right));
                 if (((Obj.magic !bounds)#bottom - (Obj.magic !bounds)#top) > !biggestHeight) then begin
                     biggestHeight := ((Obj.magic !bounds)#bottom - (Obj.magic !bounds)#top)
                 end;
-                x := (((index mod cELLS_PER_ROW)) * cellSize);
+                x := (((index mod (self#cELLS_PER_ROW))) * cellSize);
                 x := (!x + ((cellSize asr 1)));
-                x := (!x - ((_characterWidth.(index) asr 1)));
+                x := (!x - (((self#_characterWidth).(index) asr 1)));
                 y := 0;
-                if (index >= cELLS_PER_ROW) then begin
+                if (index >= (self#cELLS_PER_ROW)) then begin
                     y := (!y + cellSize)
                 end;
                 if (index >= !cellsPerRow2) then begin
@@ -130,7 +130,7 @@ class trueTypeFontUtil () =
                 end;
                 y := (!y + cellSize);
                 y := (!y - ((cellSize asr 2)));
-                ignore ((Obj.magic !canvas)#drawText (characterArray, 0, 1, ((float_of_int (!x)) -. 3.), ((float_of_int (!y)) -. 6.), (Obj.magic !paint)))
+                ignore ((Obj.magic !canvas)#drawText ((self#characterArray), 0, 1, ((float_of_int (!x)) -. 3.), ((float_of_int (!y)) -. 6.), (Obj.magic !paint)))
             done;
             ignore ((Obj.magic !canvas)#save ());
             let image : Obj.t ref = ref ((Obj.repr (AndroidImmutableImage.create ((Obj.magic !bitmap))))) in ();
@@ -151,49 +151,49 @@ class trueTypeFontUtil () =
         ignore ((Obj.magic !paint)#setTextSize ((float_of_int (fontSize))));
         ignore ((Obj.magic !paint)#setARGB (255, 255, 255, 255));
         let bounds : Obj.t ref = ref ((Obj.repr (new Rect.rect ()))) in ();
-        for index = 0 to size - 1 do
-            characterArray.(0) <- (Obj.magic ((pattern#charAt (index))));
-            ignore ((Obj.magic !paint)#getTextBounds (characterArray, 0, 1, (Obj.magic !bounds)));
-            if (index < lastCapIndex) then begin
-                if (characterArray.(0) == '1') then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right + 3)))
-                end else if (((((((characterArray.(0) == 'J') || (characterArray.(0) == 'V')) || (characterArray.(0) == '2')) || (characterArray.(0) == '9')) || (characterArray.(0) == 'I')) || (characterArray.(0) == 'N')) || (characterArray.(0) == 'U')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right + 1)))
-                end else if ((((characterArray.(0) == '4') || (characterArray.(0) == 'C')) || (characterArray.(0) == 'E')) || (characterArray.(0) == 'O')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 2)))
-                end else if ((((((characterArray.(0) == 'B') || (characterArray.(0) == 'D')) || (characterArray.(0) == 'G')) || (characterArray.(0) == 'H')) || (characterArray.(0) == 'T')) || (characterArray.(0) == 'W')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 3)))
-                end else if (((characterArray.(0) == 'A') || (characterArray.(0) == 'Q')) || (characterArray.(0) == 'R')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 5)))
-                end else if (characterArray.(0) == 'M') then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 6)))
-                end else if (characterArray.(0) == 'm') then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 8)))
+        for index = 0 to (self#size) - 1 do
+            (self#characterArray).(0) <- (Obj.magic (((self#pattern)#charAt (index))));
+            ignore ((Obj.magic !paint)#getTextBounds ((self#characterArray), 0, 1, (Obj.magic !bounds)));
+            if (index < (self#lastCapIndex)) then begin
+                if ((self#characterArray).(0) == '1') then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right + 3)))
+                end else if ((((((((self#characterArray).(0) == 'J') || ((self#characterArray).(0) == 'V')) || ((self#characterArray).(0) == '2')) || ((self#characterArray).(0) == '9')) || ((self#characterArray).(0) == 'I')) || ((self#characterArray).(0) == 'N')) || ((self#characterArray).(0) == 'U')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right + 1)))
+                end else if (((((self#characterArray).(0) == '4') || ((self#characterArray).(0) == 'C')) || ((self#characterArray).(0) == 'E')) || ((self#characterArray).(0) == 'O')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 2)))
+                end else if (((((((self#characterArray).(0) == 'B') || ((self#characterArray).(0) == 'D')) || ((self#characterArray).(0) == 'G')) || ((self#characterArray).(0) == 'H')) || ((self#characterArray).(0) == 'T')) || ((self#characterArray).(0) == 'W')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 3)))
+                end else if ((((self#characterArray).(0) == 'A') || ((self#characterArray).(0) == 'Q')) || ((self#characterArray).(0) == 'R')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 5)))
+                end else if ((self#characterArray).(0) == 'M') then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 6)))
+                end else if ((self#characterArray).(0) == 'm') then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 8)))
                 end else begin
-                    _characterWidth.(index) <- (Obj.magic ((Obj.magic !bounds)#right))
+                    (self#_characterWidth).(index) <- (Obj.magic ((Obj.magic !bounds)#right))
                 end
             end else begin
-                if (characterArray.(0) == ' ') then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right + 10)))
-                end else if ((((((characterArray.(0) == 'l') || (characterArray.(0) == 'i')) || (characterArray.(0) == 'j')) || (characterArray.(0) == '.')) || (characterArray.(0) == '!')) || (characterArray.(0) == '|')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right + 6)))
-                end else if ((((characterArray.(0) == 'f') || (characterArray.(0) == 't')) || (characterArray.(0) == 'u')) || (characterArray.(0) == 'v')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right + 1)))
-                end else if (characterArray.(0) == 'r') then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right + 2)))
-                end else if ((((characterArray.(0) == 'a') || (characterArray.(0) == 'b')) || (characterArray.(0) == 'g')) || (characterArray.(0) == 'u')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 1)))
-                end else if ((characterArray.(0) == 'o') || (characterArray.(0) == 'e')) then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 2)))
-                end else if (characterArray.(0) == 'm') then begin
-                    _characterWidth.(index) <- (Obj.magic (((Obj.magic !bounds)#right - 7)))
+                if ((self#characterArray).(0) == ' ') then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right + 10)))
+                end else if (((((((self#characterArray).(0) == 'l') || ((self#characterArray).(0) == 'i')) || ((self#characterArray).(0) == 'j')) || ((self#characterArray).(0) == '.')) || ((self#characterArray).(0) == '!')) || ((self#characterArray).(0) == '|')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right + 6)))
+                end else if (((((self#characterArray).(0) == 'f') || ((self#characterArray).(0) == 't')) || ((self#characterArray).(0) == 'u')) || ((self#characterArray).(0) == 'v')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right + 1)))
+                end else if ((self#characterArray).(0) == 'r') then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right + 2)))
+                end else if (((((self#characterArray).(0) == 'a') || ((self#characterArray).(0) == 'b')) || ((self#characterArray).(0) == 'g')) || ((self#characterArray).(0) == 'u')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 1)))
+                end else if (((self#characterArray).(0) == 'o') || ((self#characterArray).(0) == 'e')) then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 2)))
+                end else if ((self#characterArray).(0) == 'm') then begin
+                    (self#_characterWidth).(index) <- (Obj.magic (((Obj.magic !bounds)#right - 7)))
                 end else begin
-                    _characterWidth.(index) <- (Obj.magic ((Obj.magic !bounds)#right))
+                    (self#_characterWidth).(index) <- (Obj.magic ((Obj.magic !bounds)#right))
                 end
             end
         done;
-        _characterWidth.(0) <- (Obj.magic ((((fontSize asr 1)) - 2)));
-        _characterWidth
+        (self#_characterWidth).(0) <- (Obj.magic ((((fontSize asr 1)) - 2)));
+        (self#_characterWidth)
         end [@@warning "-7"]
 
     initializer

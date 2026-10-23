@@ -122,7 +122,7 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
         if permanent then begin
             if (lastString <> string_arg) then begin
                 lastString <- string_arg;
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (pERMANENT_GAME_NOTIFICATION))#append (string_arg)))), self, commonStrings#aDD))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (pERMANENT_GAME_NOTIFICATION))#append (string_arg)))), self, (self#commonStrings)#aDD))
             end;
             ignore (permanentGameNotification#add (string_arg, seconds, (Obj.magic basicColor)));
             ignore (circularIndexUtil#setSize ((permanentGameNotification#getSize ())))
@@ -137,9 +137,9 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
         if (timeDelayHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
             let gameAdState : Obj.t ref = ref ((Obj.repr ((GameAdStateFactory.getInstance ())#getCurrentInstance ()))) in ();
             if ((Obj.magic !gameAdState)#isShowingAtLocation ((self#getLocation ()))) then begin
-                offsetY <- (-54)
+                (self#set_offsetY) ((-54))
             end else begin
-                offsetY <- 0
+                (self#set_offsetY) (0)
             end;
             if ((gameNotification#getSize ()) > 0) then begin
                 (self#setAndRemove ())
@@ -205,7 +205,7 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         ignore (super#paintString ((Obj.magic graphics), string))
         end [@@warning "-7-20"]
 

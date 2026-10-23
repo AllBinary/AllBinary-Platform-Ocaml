@@ -40,7 +40,7 @@ class adminConfigurationRequestHelper ((_hashMap : java_hash_map), pageContext) 
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGS)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "insert()"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "insert()"))
             end;
             let success : string ref = ref ("Successfully inserted AdminConfiguration") in ();
             let adminConfigurationInterface : AdminConfigurationInterface.adminConfigurationInterface ref = ref (((Obj.magic (new AdminConfiguration.adminConfiguration ((Obj.magic request)))) :> AdminConfigurationInterface.adminConfigurationInterface)) in ();
@@ -52,7 +52,7 @@ class adminConfigurationRequestHelper ((_hashMap : java_hash_map), pageContext) 
         with e -> begin
             let error : string ref = ref ("Failed to created AdminConfiguration") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "insert()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "insert()", e))
             end;
             !error
         end)
@@ -70,7 +70,7 @@ class adminConfigurationRequestHelper ((_hashMap : java_hash_map), pageContext) 
         with e -> begin
             let error : string ref = ref ("Failed to delete") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e))
             end;
             !error
         end)
@@ -89,7 +89,7 @@ class adminConfigurationRequestHelper ((_hashMap : java_hash_map), pageContext) 
         with e -> begin
             let error : string ref = ref ("Failed to update") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)
@@ -101,7 +101,7 @@ class adminConfigurationRequestHelper ((_hashMap : java_hash_map), pageContext) 
         ();
         ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGS)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#cONSTRUCTOR, self, (self#commonStrings)#cONSTRUCTOR))
         end;
         request <- Obj.repr ((Obj.magic (pageContext#getRequest ())))
       end

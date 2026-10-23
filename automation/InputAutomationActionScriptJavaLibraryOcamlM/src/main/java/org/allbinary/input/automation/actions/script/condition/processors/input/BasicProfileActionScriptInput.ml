@@ -36,7 +36,7 @@ open Allbinary_java [@@warning "-33"]
 
 class basicProfileActionScriptInput ((label : string)) =
   object (self)
-    inherit BasicProfileActionScriptProcessor.basicProfileActionScriptProcessor (label)
+    inherit BasicProfileActionScriptProcessor.basicProfileActionScriptProcessor (label) as super
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
@@ -96,7 +96,7 @@ class basicProfileActionScriptInput ((label : string)) =
     method toString () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         ignore (!stringBuffer#append (" Input Type: "));
         if ((self#getInputRobotInterface ()) != (Obj.magic 0)) then begin
             ignore (!stringBuffer#append (((self#getInputRobotInterface ())#getName ())))
@@ -115,7 +115,7 @@ class basicProfileActionScriptInput ((label : string)) =
         time <- 0;
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (commonStrings#sTART)) ^ label), self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#commonStrings)#sTART)) ^ label), self, (self#commonStrings)#cONSTRUCTOR));
         let inputRobotFactory : InputRobotFactory.inputRobotFactory ref = ref (((InputRobotFactory.getInstance ()) :> InputRobotFactory.inputRobotFactory)) in ();
         let hashtable : Obj.t ref = ref ((Obj.repr (Obj.magic (!inputRobotFactory#get ())))) in ();
         let set : Obj.t ref = ref ((Obj.repr ((Obj.magic !hashtable)#keySet ()))) in ();

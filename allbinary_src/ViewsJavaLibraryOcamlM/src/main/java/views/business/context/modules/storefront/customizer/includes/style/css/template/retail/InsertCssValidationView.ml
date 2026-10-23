@@ -51,15 +51,15 @@ class insertCssValidationView ((transformInfoInterface : TransformInfoInterface.
         (try
             let isValid : bool ref = ref (true) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("Started Validation", self, (self#commonStrings)#iS_VALID))
             end;
             if ((Obj.repr !isValid) == (Obj.repr true)) then begin
-                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic styleValidationInterface)))
+                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic (self#styleValidationInterface))))
             end;
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -95,10 +95,10 @@ class insertCssValidationView ((transformInfoInterface : TransformInfoInterface.
     method view () : string =
         begin
         (try
-            ((StoreCustomizerComponentUtil.getInstance ())#generate (abeClientInformation, (self#getTransformInfoInterface ())))
+            ((StoreCustomizerComponentUtil.getInstance ())#generate ((self#abeClientInformation), (self#getTransformInfoInterface ())))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -110,7 +110,7 @@ class insertCssValidationView ((transformInfoInterface : TransformInfoInterface.
         ();
         (* super(...) is the inherit clause *) ();
         let requestHashMap : java_hash_map ref = ref ((((new NameSpaceRequestParams.nameSpaceRequestParams ((self#getPageContext ())))#toHashMap ()) :> java_hash_map)) in ();
-        styleValidationInterface <- (new CssStyleValidation.cssStyleValidation (!requestHashMap))
+        (self#set_styleValidationInterface) ((new CssStyleValidation.cssStyleValidation (!requestHashMap)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "InsertCssValidationView" (fun arguments -> Obj.repr (new insertCssValidationView (Obj.obj arguments)))

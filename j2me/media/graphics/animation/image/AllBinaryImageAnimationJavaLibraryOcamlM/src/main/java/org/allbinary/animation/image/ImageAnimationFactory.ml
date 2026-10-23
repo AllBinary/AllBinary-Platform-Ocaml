@@ -32,14 +32,14 @@ class imageAnimationFactory (image, (width : int), (height : int), (dx : int), (
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         try
         begin
-        let scaledImage : Obj.t ref = ref ((Obj.repr (animationFactoryImageScaleUtil#createImage ((self#getImage ()), animationFactoryInitializationVisitor#width, animationFactoryInitializationVisitor#height, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
+        let scaledImage : Obj.t ref = ref ((Obj.repr ((self#animationFactoryImageScaleUtil)#createImage ((self#getImage ()), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
         let openGLUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "OpenGLUtil.getInstance" (Obj.repr ()))))) in ();
         scaledImage := Obj.repr (((Obj.magic !openGLUtil)#addImage ((Obj.magic !scaledImage))));
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            ignore (animationFactoryImageScaleUtil#processAdjust (self));
-            raise (Java_return (Obj.repr ((new AdjustedImageAnimation.adjustedImageAnimation ((Obj.magic !scaledImage), animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            raise (Java_return (Obj.repr ((new AdjustedImageAnimation.adjustedImageAnimation ((Obj.magic !scaledImage), (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((new ImageAnimation.imageAnimation ((Obj.magic !scaledImage), (animationBehaviorFactory#getOrCreateInstance ()))))))
+            raise (Java_return (Obj.repr ((new ImageAnimation.imageAnimation ((Obj.magic !scaledImage), ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

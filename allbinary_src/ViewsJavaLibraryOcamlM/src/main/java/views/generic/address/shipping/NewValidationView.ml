@@ -24,14 +24,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.w3c.dom.Node *)
 
 class newValidationView ((transformInfoInterface : TransformInfoInterface.transformInfoInterface)) =
-  object
+  object (self)
     inherit ShippingAddressView.shippingAddressView (transformInfoInterface)
     
     
 
     method isValid () : bool =
         begin
-        streetAddress <- (new StreetAddress.streetAddress ());
+        (self#set_streetAddress) ((new StreetAddress.streetAddress ()));
         true
         end [@@warning "-7"]
     

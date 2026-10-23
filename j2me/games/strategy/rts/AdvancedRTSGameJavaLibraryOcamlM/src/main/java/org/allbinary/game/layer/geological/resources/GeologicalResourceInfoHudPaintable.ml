@@ -51,7 +51,7 @@ class geologicalResourceInfoHudPaintable () =
     method updateSelectionInfo () : unit =
         begin
         ignore (super#updateSelectionInfo ());
-        let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic rtsLayerP) :> RTSLayer.rTSLayer)) in ();
+        let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (self#rtsLayerP)) :> RTSLayer.rTSLayer)) in ();
         let list : BasicArrayList.basicArrayList ref = ref (((!rtsLayer#geographicMapCellPositionAreaBase#getOccupyingGeographicMapCellPositionList ()) :> BasicArrayList.basicArrayList)) in ();
         let total : int ref = ref (0) in ();
         let index : int ref = ref ((!list#size ())) in ();
@@ -67,7 +67,7 @@ class geologicalResourceInfoHudPaintable () =
         let graphics = Obj.repr graphics in
         begin
         ignore (super#paint ((Obj.magic graphics)));
-        ignore (keyvalueDrawString#paint ((Obj.magic graphics), ((y + fontHeight))))
+        ignore (keyvalueDrawString#paint ((Obj.magic graphics), (((self#y) + fontHeight))))
         end [@@warning "-7-20"]
 
     initializer
@@ -75,7 +75,7 @@ class geologicalResourceInfoHudPaintable () =
         ();
         fontHeight <- 0;
         ();
-        keyvalueDrawString <- (new KeyValueDrawCharArray.keyValueDrawCharArray (rESOURCES, textX))
+        keyvalueDrawString <- (new KeyValueDrawCharArray.keyValueDrawCharArray (rESOURCES, (self#textX)))
       end
   end
 let () = java_register_constructor "GeologicalResourceInfoHudPaintable" (fun arguments -> Obj.repr (new geologicalResourceInfoHudPaintable (Obj.obj arguments)))

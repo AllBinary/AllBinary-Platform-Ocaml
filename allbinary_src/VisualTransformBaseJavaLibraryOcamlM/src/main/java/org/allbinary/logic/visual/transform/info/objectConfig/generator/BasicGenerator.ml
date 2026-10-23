@@ -31,7 +31,7 @@ class basicGenerator () =
     method process ((input : string)) : string =
         begin
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-            ignore ((Obj.magic logUtil)#putF ("Processing", self, commonStrings#pROCESS))
+            ignore ((Obj.magic logUtil)#putF ("Processing", self, (self#commonStrings)#pROCESS))
         end;
         input
         end [@@warning "-7"]

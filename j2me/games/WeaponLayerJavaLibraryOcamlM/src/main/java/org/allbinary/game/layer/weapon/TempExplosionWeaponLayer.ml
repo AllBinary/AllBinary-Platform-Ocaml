@@ -30,7 +30,7 @@ class tempExplosionWeaponLayer ((name : string), (movement : Movement.movement),
         begin
         if (timeDelayHelper#isTime ((GameTickTimeDelayHelperFactory.getInstance ())#startTime)) then begin
             ignore ((self#getCollidableInferface ())#collide (self, self));
-            totalDamage <- ((self#getInitDamage ()) + 1)
+            (self#set_totalDamage) (((self#getInitDamage ()) + 1))
         end;
         ignore (super#processTick ((Obj.magic allBinaryLayerManager)))
         end [@@warning "-7-20"]

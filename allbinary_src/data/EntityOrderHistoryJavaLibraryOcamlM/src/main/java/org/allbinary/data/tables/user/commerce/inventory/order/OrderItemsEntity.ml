@@ -144,7 +144,7 @@ class orderItemsEntity () =
             ignore (super#updateWhere (!whereHashMap, !updateHashMap))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "setStatus", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "setStatus", e))
             end
         end)
         end [@@warning "-7"]
@@ -165,7 +165,7 @@ class orderItemsEntity () =
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "isEverythingShipped", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "isEverythingShipped", e))
             end;
             false
         end)
@@ -205,7 +205,7 @@ class orderItemsEntity () =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "getBasketReview", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "getBasketReview", e))
             end;
             ((Obj.magic 0) :> BasketReview.basketReview)
         end)
@@ -221,87 +221,87 @@ class orderItemsEntity () =
         ignore (!stringBuffer#append (tableName));
         ignore (!stringBuffer#append (" ("));
         ignore (!stringBuffer#append (!entryData#iD));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((OrderData.get_iD ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingMethodData.get_gROUP ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((UserData.get_uSERNAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((StoreFrontData.getInstance ())#nAME));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#iD));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#nUMBER));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#nEWORUSED));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#sUMMARY));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#dISTRIBUTOR));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#iDUSEDBYDISTRIBUTOR));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#pRODUCEDBY));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#pRODUCTIONDATE));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#sTARTPRODUCTIONDATE));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#dESCRIPTION));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#kEYWORDS));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#cATEGORY));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#tYPE));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#sMALLIMAGE));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#mEDIUMIMAGE));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#lARGEIMAGE));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#wEIGHT));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#pRICE));
         ignore (!stringBuffer#append (" VARCHAR(20) NOT NULL,"));
         ignore (!stringBuffer#append (basicItemData#cOMMENT));
-        ignore (!stringBuffer#append (sqlTypeStrings#bLOB_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#bLOB_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#cUSTOMS));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append (basicItemData#dOWNLOADS));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingMethodData.get_cOST ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_tAX ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_nAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_sTREET ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_cITY ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_sTATE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_cODE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingAddressData.get_cOUNTRY ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((ShippingMethodData.get_nAME ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append (!entryData#sPECIAL));
         ignore (!stringBuffer#append (" VARCHAR(255) ,"));
         ignore (!stringBuffer#append ((OrderHistoryData.get_sTATUS ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_cANCELINFO ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_cANCELTYPE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_sHIPPEDDATE ())));
         ignore (!stringBuffer#append (" BIGINT(19) UNSIGNED ,"));
         ignore (!stringBuffer#append ((OrderHistoryData.get_oRDERDATE ())));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL));
         ignore (!stringBuffer#append ((OrderHistoryData.get_tRANSDATE ())));
         ignore (!stringBuffer#append (" BIGINT(19) UNSIGNED ,"));
         ignore (!stringBuffer#append ((OrderHistoryData.get_cANCELDATE ())));

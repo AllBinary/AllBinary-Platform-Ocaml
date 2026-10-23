@@ -178,7 +178,7 @@ class titleAnimation ((animationInterfaceArray_arg : IndexedAnimation.indexedAni
             deltaX_arg := (dxArray.(index) + !x);
             deltaY_arg := (dyArray.(index) + y);
             if ((Obj.repr basicColorArray.(index)) != (Obj.repr cLEAR_COLOR)) then begin
-                ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), basicColorArray.(index)))
+                ignore ((self#basicSetColorUtil)#setBasicColorP ((Obj.magic graphics), basicColorArray.(index)))
             end;
             ignore (animationInterfaceArray.(index)#paintXY ((Obj.magic graphics), !deltaX_arg, !deltaY_arg))
         done

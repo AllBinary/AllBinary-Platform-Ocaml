@@ -49,7 +49,7 @@ class raceTrackGeographicMap ((raceTrackInfo : RaceTrackInfo.raceTrackInfo), (ra
             ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic geographicMapCellPosition)#getColumn ()))))));
             ignore (!stringBuffer#append (" not in: "));
             ignore (!stringBuffer#appendint ((Array.length !customMapArray.(0))));
-            ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID));
             if (((Obj.magic geographicMapCellPosition)#getColumn ()) == (Array.length !customMapArray.(0))) then begin
                 raise (Java_return (Obj.repr (true)))
             end else begin
@@ -61,7 +61,7 @@ class raceTrackGeographicMap ((raceTrackInfo : RaceTrackInfo.raceTrackInfo), (ra
             ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic geographicMapCellPosition)#getRow ()))))));
             ignore (!stringBuffer#append (" not in: "));
             ignore (!stringBuffer#appendint ((Array.length !customMapArray)));
-            ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iS_VALID));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, (self#commonStrings)#iS_VALID));
             if (((Obj.magic geographicMapCellPosition)#getRow ()) == (Array.length !customMapArray)) then begin
                 raise (Java_return (Obj.repr (true)))
             end else begin

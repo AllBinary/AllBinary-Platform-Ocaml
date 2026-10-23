@@ -67,7 +67,7 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
     method setAlpha ((alpha : int)) : unit =
         begin
         let changed : bool ref = ref (false) in ();
-        if (alphaP != alpha) then begin
+        if ((self#alphaP) != alpha) then begin
             changed := true
         end;
         ignore (super#setAlpha (alpha));
@@ -154,7 +154,7 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
                 end
             done
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "paintVectors", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "paintVectors", e))
         end)
         end [@@warning "-7-20"]
     
@@ -162,7 +162,7 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), basicColor));
+        ignore ((self#basicSetColorUtil)#setBasicColorP ((Obj.magic graphics), (self#basicColor)));
         (self#paintVectors ((Obj.magic graphics), x, y))
         end [@@warning "-7-20"]
     

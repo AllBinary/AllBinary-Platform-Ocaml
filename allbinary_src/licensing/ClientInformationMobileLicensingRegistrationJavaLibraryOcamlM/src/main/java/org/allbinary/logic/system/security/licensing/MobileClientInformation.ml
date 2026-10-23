@@ -54,9 +54,9 @@ class mobileClientInformation ((name : string), (version : string), (specialName
         end;
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         if (self#isHardSale ()) then begin
-            ignore (logUtil#putF ("Use Hard Coded Selling", self, !commonStrings#cONSTRUCTOR))
+            ignore ((self#logUtil)#putF ("Use Hard Coded Selling", self, !commonStrings#cONSTRUCTOR))
         end else begin
-            ignore (logUtil#putF ("Don't Use Hard Coded Selling", self, !commonStrings#cONSTRUCTOR))
+            ignore ((self#logUtil)#putF ("Don't Use Hard Coded Selling", self, !commonStrings#cONSTRUCTOR))
         end
       end
   end

@@ -101,7 +101,7 @@ class gameDifficultyOptions (commandListener, (title : string), (list_arg : Basi
         let anyType : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         for index = 0 to !size - 1 do
             anyType := (Obj.magic list_arg)#objectArray.(index);
-            ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!nAME))#append ((java_string_of (Obj.repr !anyType)))))), self, !mETHOD_NAME));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!nAME))#append ((java_string_of (Obj.repr !anyType)))))), self, !mETHOD_NAME));
             ignore ((Obj.magic !choiceGroup)#append ((java_string_of (Obj.repr !anyType)), (NullImage.get_nULL_IMAGE ())))
         done;
         (Obj.magic ((Obj.magic !choiceGroup)))
@@ -135,7 +135,7 @@ class gameDifficultyOptions (commandListener, (title : string), (list_arg : Basi
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         list <- list_arg;
         (self#update ());
         (self#initCommands (commandListener));

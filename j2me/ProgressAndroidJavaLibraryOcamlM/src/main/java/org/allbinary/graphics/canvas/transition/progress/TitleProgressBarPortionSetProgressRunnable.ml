@@ -33,8 +33,8 @@ class titleProgressBarPortionSetProgressRunnable (midletActivity, (progressCanva
     method run () : unit =
         begin
         (try
-            let progressCanvas : Obj.t ref = ref ((Obj.repr (Obj.magic progressCanvas))) in ();
-            ignore (midletActivity#onSetProgress ((java_to_int (Obj.repr ((((progressCanvas#getValue ()) + ((progressCanvas#getMaxValue ()) / ((Obj.magic !progressCanvas)#getPortion ()))))))), (progressCanvas#getText ())))
+            let progressCanvas : Obj.t ref = ref ((Obj.repr (Obj.magic (self#progressCanvas)))) in ();
+            ignore ((self#midletActivity)#onSetProgress ((java_to_int (Obj.repr (((((self#progressCanvas)#getValue ()) + (((self#progressCanvas)#getMaxValue ()) / ((Obj.magic !progressCanvas)#getPortion ()))))))), ((self#progressCanvas)#getText ())))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#rUN, e))

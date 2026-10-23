@@ -55,8 +55,8 @@ class deleteFileValidationView ((transformInfoInterface : TransformInfoInterface
             if ((id = (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber (id)))) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
-            itemInterface <- (((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (id));
-            if (itemInterface == (Obj.magic 0)) then begin
+            (self#set_itemInterface) ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (id)));
+            if ((self#itemInterface) == (Obj.magic 0)) then begin
                 false
             end;
             true

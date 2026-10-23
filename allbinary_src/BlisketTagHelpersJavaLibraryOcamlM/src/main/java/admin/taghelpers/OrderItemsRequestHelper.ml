@@ -71,7 +71,7 @@ class orderItemsRequestHelper ((_hashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to view order table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "setOrderStatus(newStatus)", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "setOrderStatus(newStatus)", e))
             end;
             !error
         end)

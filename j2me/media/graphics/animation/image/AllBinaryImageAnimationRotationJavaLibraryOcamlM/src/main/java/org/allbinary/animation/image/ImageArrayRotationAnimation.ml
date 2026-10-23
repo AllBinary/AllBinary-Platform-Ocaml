@@ -32,8 +32,8 @@ class imageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.angleInfo)
 
     method init : 'any2. _ * 'any2 * int -> unit = fun (_imageArray, _angleInfo, (totalAngle : int)) ->
         begin
-        expectedTotalFrames <- (totalAngle / ((angleInfo#getAngleIncrementInfo ())#getAngleIncrement ()));
-        ignore (angleInfo#adjustAngle (0));
+        expectedTotalFrames <- (totalAngle / (((self#angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ()));
+        ignore ((self#angleInfo)#adjustAngle (0));
         if (expectedTotalFrames <> (self#getSize ())) then begin
             raise (Failure ("Wrong Number of Frames"))
         end
@@ -43,7 +43,7 @@ class imageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.angleInfo)
     method setImageArray (imageArray) : unit =
         begin
         ignore (super#setImageArray (imageArray));
-        ignore (angleInfo#adjustAngle (0))
+        ignore ((self#angleInfo)#adjustAngle (0))
         end [@@warning "-7"]
 
     initializer

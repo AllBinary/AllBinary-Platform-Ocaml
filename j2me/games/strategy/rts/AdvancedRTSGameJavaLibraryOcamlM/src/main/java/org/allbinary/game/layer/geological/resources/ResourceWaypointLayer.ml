@@ -34,7 +34,7 @@ class resourceWaypointLayer (remoteInfo, (parentLayer : PathFindingLayerInterfac
     method createHudPaintable () : SelectionHudPaintable.selectionHudPaintable =
         begin
         let rtsLayerHudPaintable : GeologicalResourceInfoHudPaintable.geologicalResourceInfoHudPaintable ref = ref (((GeologicalResourceInfoHudPaintableSingleton.getInstance ()) :> GeologicalResourceInfoHudPaintable.geologicalResourceInfoHudPaintable)) in ();
-        ignore (!rtsLayerHudPaintable#setBasicColorP ((allBinaryGameLayerManagerP#getForegroundBasicColor ())));
+        ignore (!rtsLayerHudPaintable#setBasicColorP (((self#allBinaryGameLayerManagerP)#getForegroundBasicColor ())));
         ignore (!rtsLayerHudPaintable#setRtsLayer (self));
         (!rtsLayerHudPaintable :> SelectionHudPaintable.selectionHudPaintable)
         end [@@warning "-7"]

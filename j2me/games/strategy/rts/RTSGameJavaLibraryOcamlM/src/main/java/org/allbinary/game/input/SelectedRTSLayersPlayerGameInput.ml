@@ -196,7 +196,7 @@ class selectedRTSLayersPlayerGameInput ((_towerInfoPaintable : RTSLayerInfoPaint
                 ignore (self#update ())
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#pROCESS_INPUT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#pROCESS_INPUT, e))
         end)
         end [@@warning "-7-20"]
     
@@ -231,7 +231,7 @@ class selectedRTSLayersPlayerGameInput ((_towerInfoPaintable : RTSLayerInfoPaint
         if ((Obj.magic selectedLayer) != (Obj.magic 0)) then begin
             ignore (!stringBuffer#append (((Obj.magic selectedLayer)#getName ())))
         end;
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "setSelectedRTSLayer"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "setSelectedRTSLayer"));
         paintSelectedRTSLayersList <- ((BasicArrayListUtil.getInstance ())#getImmutableInstance ());
         ignore (selectRTSLayerVisitorInterface#visit ((Obj.magic selectedLayer)));
         (self#deselectAll ());
@@ -240,7 +240,7 @@ class selectedRTSLayersPlayerGameInput ((_towerInfoPaintable : RTSLayerInfoPaint
             let tempList : BasicArrayList.basicArrayList ref = ref (((self#getPreSelectedRTSLayersList ()) :> BasicArrayList.basicArrayList)) in ();
             preSelectedRTSLayersList <- selectedRTSLayersList;
             selectedRTSLayersList <- !tempList;
-            ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Preselected: "))#append ((java_string_of (Obj.repr preSelectedRTSLayersList)))))), self, "setSelectedRTSLayer"))
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Preselected: "))#append ((java_string_of (Obj.repr preSelectedRTSLayersList)))))), self, "setSelectedRTSLayer"))
         end;
         if ((Obj.repr (Obj.magic selectedLayer)) != (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ()))) then begin
             ignore (selectedRTSLayersList#add ((Obj.magic selectedLayer)))
@@ -266,7 +266,7 @@ class selectedRTSLayersPlayerGameInput ((_towerInfoPaintable : RTSLayerInfoPaint
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ("Select all Preselected: "));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr preSelectedRTSLayersList))));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "selectAllPreselected"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "selectAllPreselected"));
         for index = ((preSelectedRTSLayersList#size ()) - 1) downto 0 do
             let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (preSelectedRTSLayersList#get (index))) :> RTSLayer.rTSLayer)) in ();
             ignore (!rtsLayer#select ())
@@ -279,7 +279,7 @@ class selectedRTSLayersPlayerGameInput ((_towerInfoPaintable : RTSLayerInfoPaint
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ("Deselect all Preselected: "));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr preSelectedRTSLayersList))));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "deselectAllPreselected"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "deselectAllPreselected"));
         for index = ((preSelectedRTSLayersList#size ()) - 1) downto 0 do
             let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (preSelectedRTSLayersList#get (index))) :> RTSLayer.rTSLayer)) in ();
             ignore (!rtsLayer#deselect ())

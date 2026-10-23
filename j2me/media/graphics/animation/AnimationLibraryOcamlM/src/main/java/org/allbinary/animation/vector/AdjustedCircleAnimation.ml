@@ -44,10 +44,10 @@ class adjustedCircleAnimation ((width : int), (height : int), (basicColor : Basi
         begin
         if (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ()))) then begin
             let widthPortion : int ref = ref (((((((innerWidth / 3)) * 10)) / 7))) in ();
-            xAdjustment <- (-((((width asr 1)) - !widthPortion)));
+            xAdjustment <- (-(((((self#width) asr 1)) - !widthPortion)));
             yAdjustment <- xAdjustment
         end else begin
-            xAdjustment <- (-((((width asr 1)) - innerWidth)));
+            xAdjustment <- (-(((((self#width) asr 1)) - innerWidth)));
             yAdjustment <- xAdjustment
         end
         end [@@warning "-7"]
@@ -56,8 +56,8 @@ class adjustedCircleAnimation ((width : int), (height : int), (basicColor : Basi
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
-        ignore ((Obj.magic graphics)#drawArc ((x + xAdjustment), (y + yAdjustment), width, height, 0, tOTAL_ANGLE))
+        ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
+        ignore ((Obj.magic graphics)#drawArc ((x + xAdjustment), (y + yAdjustment), (self#width), (self#height), 0, (self#tOTAL_ANGLE)))
         end [@@warning "-7-20"]
 
     initializer

@@ -40,7 +40,7 @@ class newUserView ((transformInfoInterface : TransformInfoInterface.transformInf
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -78,7 +78,7 @@ class newUserView ((transformInfoInterface : TransformInfoInterface.transformInf
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         (* super(...) is the inherit clause *) ();
-        user <- (NewUserFactory.getInstance ())
+        (self#set_user) ((NewUserFactory.getInstance ()))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "NewUserView" (fun arguments -> Obj.repr (new newUserView (Obj.obj arguments)))

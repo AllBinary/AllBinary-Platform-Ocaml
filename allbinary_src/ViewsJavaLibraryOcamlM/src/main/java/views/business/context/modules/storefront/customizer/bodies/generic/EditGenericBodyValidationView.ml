@@ -39,12 +39,12 @@ class editGenericBodyValidationView ((transformInfoInterface : TransformInfoInte
         begin
         (try
             let document : Obj.t ref = ref ((Obj.repr ((CustomizerUtil.getInstance ())#getViewDataForComponentsInObjectConfig ((self#getTransformInfoInterface ()))))) in ();
-            body <- (new GenericBodyValidation.genericBodyValidation ((Obj.magic !document)));
-            let isValid : bool ref = ref ((body#isValid ())) in ();
+            (self#set_body) ((new GenericBodyValidation.genericBodyValidation ((Obj.magic !document))));
+            let isValid : bool ref = ref (((self#body)#isValid ())) in ();
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -55,7 +55,7 @@ class editGenericBodyValidationView ((transformInfoInterface : TransformInfoInte
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((body#validationInfo ())));
+            ignore (!stringBuffer#append (((self#body)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin

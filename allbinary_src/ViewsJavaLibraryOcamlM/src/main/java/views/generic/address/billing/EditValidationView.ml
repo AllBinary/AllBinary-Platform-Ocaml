@@ -40,18 +40,18 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
             raise (Java_return (Obj.repr (false)))
         end;
         let billingAddressesEntity : BillingAddressesEntity.billingAddressesEntity ref = ref (((new BillingAddressesEntity.billingAddressesEntity (((self#getWeblisketSession ())#getUserName ()))) :> BillingAddressesEntity.billingAddressesEntity)) in ();
-        streetAddress <- (!billingAddressesEntity#get ((Obj.obj (java_new "Integer" (Obj.repr (value))))));
-        if (streetAddress == (Obj.magic 0)) then begin
+        (self#set_streetAddress) ((!billingAddressesEntity#get ((Obj.obj (java_new "Integer" (Obj.repr (value)))))));
+        if ((self#streetAddress) == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        (streetAddress#isValid ())
+        ((self#streetAddress)#isValid ())
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
     
 
     method validationInfo () : string =
         begin
-        (streetAddress#validationInfo ())
+        ((self#streetAddress)#validationInfo ())
         end [@@warning "-7"]
     
 

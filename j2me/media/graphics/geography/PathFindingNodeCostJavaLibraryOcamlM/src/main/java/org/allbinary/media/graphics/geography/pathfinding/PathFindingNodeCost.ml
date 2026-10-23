@@ -64,8 +64,8 @@ class pathFindingNodeCost ((parent : Obj.t), (geographicMapCellPosition : Geogra
         ignore (!stringBuffer#append ((CommonLabels.getInstance ())#cOLON_SEP));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (self#getPathFindingNodeCostInfo ())))));
         ignore (!stringBuffer#append (" Path: "));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr geographicMapCellPosition))));
-        let pathFindingNode : PathFindingNode.pathFindingNode ref = ref (((Obj.magic parent) :> PathFindingNode.pathFindingNode)) in ();
+        ignore (!stringBuffer#append ((java_string_of (Obj.repr (self#geographicMapCellPosition)))));
+        let pathFindingNode : PathFindingNode.pathFindingNode ref = ref (((Obj.magic (self#parent)) :> PathFindingNode.pathFindingNode)) in ();
         while (!pathFindingNode != (Obj.magic 0)) do
             ignore (!stringBuffer#append ((java_string_of (Obj.repr !pathFindingNode#geographicMapCellPosition))));
             ignore (!stringBuffer#append (commonSeps#sPACE));
@@ -81,7 +81,7 @@ class pathFindingNodeCost ((parent : Obj.t), (geographicMapCellPosition : Geogra
         ();
         (* super(...) is the inherit clause *) ();
         pathFindingNodeCostInfoP <- pathFindingNodeCostInfo;
-        if (geographicMapCellPosition == (Obj.magic 0)) then begin
+        if ((self#geographicMapCellPosition) == (Obj.magic 0)) then begin
             raise (Failure ("No GeographicMapCellPosition"))
         end;
         if ((self#getPathFindingNodeCostInfo ()) == (Obj.magic 0)) then begin

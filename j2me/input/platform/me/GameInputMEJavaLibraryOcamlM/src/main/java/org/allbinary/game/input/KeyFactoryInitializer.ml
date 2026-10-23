@@ -30,7 +30,7 @@ class keyFactoryInitializer () =
 
     method init () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iNIT))
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iNIT))
         end [@@warning "-7"]
 
     initializer

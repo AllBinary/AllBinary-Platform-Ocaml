@@ -85,7 +85,7 @@ class inventoryHelper ((propertiesHashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to View Summary") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "viewSummary()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "viewSummary()", e))
             end;
             ((((!error ^ "<br>") ^ "Exception: ") ^ java_string_of (Obj.repr (e))) ^ "<br>")
         end)
@@ -110,7 +110,7 @@ class inventoryHelper ((propertiesHashMap : java_hash_map), pageContext) =
         with e -> begin
             let error : string ref = ref ("Failed to search Inventory by keyword") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "searchSingleDynamicPage()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "searchSingleDynamicPage()", e))
             end;
             ((((!error ^ "<br>") ^ "Exception: ") ^ java_string_of (Obj.repr (e))) ^ "<br>")
         end)

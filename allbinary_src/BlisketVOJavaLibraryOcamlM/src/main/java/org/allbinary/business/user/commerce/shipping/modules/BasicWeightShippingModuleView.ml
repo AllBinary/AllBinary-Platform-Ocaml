@@ -68,7 +68,7 @@ class basicWeightShippingModuleView () =
             (Obj.magic ((Obj.magic !shippingMethodNode)))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "toXmlNode", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "toXmlNode", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)
@@ -82,7 +82,7 @@ class basicWeightShippingModuleView () =
             (Obj.magic ((Obj.magic !document)))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "toXmlDoc", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "toXmlDoc", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)
@@ -95,7 +95,7 @@ class basicWeightShippingModuleView () =
             commonStrings#nOT_IMPLEMENTED
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view", e))
             end;
             (Obj.magic 0)
         end)

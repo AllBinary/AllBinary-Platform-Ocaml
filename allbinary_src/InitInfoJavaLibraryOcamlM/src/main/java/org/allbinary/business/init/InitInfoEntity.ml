@@ -82,7 +82,7 @@ class initInfoEntity () =
             end
         with e -> begin
             if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, nAME, mETHOD_GET, e))))
+                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((self#commonStrings)#eXCEPTION, nAME, mETHOD_GET, e))))
             end;
             false
         end)
@@ -107,7 +107,7 @@ class initInfoEntity () =
             end
         with e -> begin
             if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, nAME, mETHOD_IS, e))))
+                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((self#commonStrings)#eXCEPTION, nAME, mETHOD_IS, e))))
             end;
             false
         end)
@@ -132,7 +132,7 @@ class initInfoEntity () =
             ignore (self#insert (!values))
         with e -> begin
             if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, nAME, mETHOD_ADD, e))))
+                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((self#commonStrings)#eXCEPTION, nAME, mETHOD_ADD, e))))
             end
         end)
         end [@@warning "-7"]
@@ -168,20 +168,20 @@ class initInfoEntity () =
         ();
         (* super(...) is the inherit clause *) ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#cREATE_TABLE));
+        ignore (!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE));
         ignore (!stringBuffer#append (tableName));
-        ignore (!stringBuffer#append (sqlStrings#sTART));
+        ignore (!stringBuffer#append ((self#sqlStrings)#sTART));
         ignore (!stringBuffer#append (nOTHING));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((InitInfo.getInstance ())#tESTING));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((InitInfo.getInstance ())#tESTHTMLPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
         ignore (!stringBuffer#append ((InitInfo.getInstance ())#mAINPATH));
-        ignore (!stringBuffer#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
-        ignore (!stringBuffer#append (sqlStrings#pRIMARY_KEY));
+        ignore (!stringBuffer#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore (!stringBuffer#append ((self#sqlStrings)#pRIMARY_KEY));
         ignore (!stringBuffer#append (nOTHING));
-        ignore (!stringBuffer#append (sqlStrings#eND));
+        ignore (!stringBuffer#append ((self#sqlStrings)#eND));
         tableData <- (java_string_of (Obj.repr !stringBuffer));
         ignore (self#setTable (tableName))
       end

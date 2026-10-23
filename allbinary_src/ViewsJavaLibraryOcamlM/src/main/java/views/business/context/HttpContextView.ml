@@ -42,7 +42,7 @@ class httpContextView ((transformInfoInterface : TransformInfoInterface.transfor
         (try
             ignore (self#toXmlDoc ());
             let success : string ref = ref ((XmlDocumentHelper.toString ((self#getDoc ())))) in ();
-            let result : string ref = ref (((new ContextTransformer.contextTransformer (abeClientInformation, (self#getTransformInfoInterface ())))#translate (!success))) in ();
+            let result : string ref = ref (((new ContextTransformer.contextTransformer ((self#abeClientInformation), (self#getTransformInfoInterface ())))#translate (!success))) in ();
             !result
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin

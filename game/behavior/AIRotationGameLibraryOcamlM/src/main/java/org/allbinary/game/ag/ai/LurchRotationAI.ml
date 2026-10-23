@@ -43,12 +43,12 @@ class lurchRotationAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (g
 
     method update () : unit =
         begin
-        if (currentRelativeAngle == 0) then begin
+        if ((self#currentRelativeAngle) == 0) then begin
             let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
             let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
             let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
             ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((!angleIncrementInfo#rIGHT_FRAME#intValue ())))
-        end else if (currentRelativeAngle == 180) then begin
+        end else if ((self#currentRelativeAngle) == 180) then begin
             let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
             let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
             let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();

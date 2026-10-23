@@ -38,12 +38,12 @@ class paymentTag () =
             if ((self#getCommand ()) != (Obj.magic 0)) then begin
                 if (((((self#getCommand ())#compareTo ((PaymentData.get_vIEW ()))) == 0) || (((self#getCommand ())#compareTo ((PaymentData.get_cHANGE ()))) == 0)) || (((self#getCommand ())#compareTo ((PaymentData.get_aDDNEW ()))) == 0)) then begin
                     ()
-                end else if (((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) then begin
                     ()
-                end else if (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0) then begin
-                    raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#dELETE)) == 0) then begin
+                    raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
                 end else if (((self#getCommand ())#compareTo ((PaymentData.get_sELECT ()))) == 0) then begin
-                    raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                    raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
                 end else begin
                     raise (Failure (("No Such View Command: " ^ java_string_of (Obj.repr ((self#getCommand ()))))))
                 end;
@@ -51,7 +51,7 @@ class paymentTag () =
             end;
             raise (Failure ("Command Null"))
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

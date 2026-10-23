@@ -139,17 +139,17 @@ class waypointRTSFormInput (groupInterface, (isPrimaryWaypointCreator_arg : bool
         let geographicMapCellPosition = Obj.repr geographicMapCellPosition in
         begin
         let itemIndex : int ref = ref ((self#getSelectedStickyItemIndex ())) in ();
-        if ((Obj.repr newUnconstructedRTSLayerInterfaceArray.(!itemIndex)) == (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ()))) then begin
-            newUnconstructedRTSLayerInterfaceArray.(!itemIndex) <- (Obj.magic ((self#getInstance ((Obj.magic layerManager), (self#getSelectedStickyItem ()), (Obj.magic geographicMapCellPosition)))))
+        if ((Obj.repr (self#newUnconstructedRTSLayerInterfaceArray).(!itemIndex)) == (Obj.repr (CollidableDestroyableDamageableLayer.getNullInstance ()))) then begin
+            (self#newUnconstructedRTSLayerInterfaceArray).(!itemIndex) <- (Obj.magic ((self#getInstance ((Obj.magic layerManager), (self#getSelectedStickyItem ()), (Obj.magic geographicMapCellPosition)))))
         end else begin
             let cellPoint : GPoint.gPoint ref = ref ((((Obj.magic geographicMapCellPosition)#getPoint ()) :> GPoint.gPoint)) in ();
-            let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic newUnconstructedRTSLayerInterfaceArray.(!itemIndex)) :> RTSLayer.rTSLayer)) in ();
+            let rtsLayer : RTSLayer.rTSLayer ref = ref (((Obj.magic (self#newUnconstructedRTSLayerInterfaceArray).(!itemIndex)) :> RTSLayer.rTSLayer)) in ();
             ignore (!rtsLayer#setPosition ((!cellPoint#getX ()), (!cellPoint#getY ()), (!rtsLayer#getZP ())));
             let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic !rtsLayer#allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
             let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
             ignore (!rtsLayer#geographicMapCellPositionAreaBase#update (!geographicMapInterface))
         end;
-        ignore (self#attemptBuild ((Obj.magic rtsPlayerLayerInterface), (Obj.magic layerManager), (Obj.magic newUnconstructedRTSLayerInterfaceArray.(!itemIndex)), !itemIndex))
+        ignore (self#attemptBuild ((Obj.magic rtsPlayerLayerInterface), (Obj.magic layerManager), (Obj.magic (self#newUnconstructedRTSLayerInterfaceArray).(!itemIndex)), !itemIndex))
         end [@@warning "-7-20"]
     
 
@@ -157,7 +157,7 @@ class waypointRTSFormInput (groupInterface, (isPrimaryWaypointCreator_arg : bool
         let associatedRtsLayer = Obj.repr associatedRtsLayer in
         let item = Obj.repr item in
         begin
-        ignore (logUtil#putF (("Set Sticking Item: " ^ java_string_of (Obj.repr ((Obj.magic item)))), self, "processSticky"));
+        ignore ((self#logUtil)#putF (("Set Sticking Item: " ^ java_string_of (Obj.repr ((Obj.magic item)))), self, "processSticky"));
         ignore (self#setSelectedStickyItem ((Obj.magic item)));
         ignore (self#setSelectedStickyItemIndex (index));
         ignore (self#setStickyItemSelected (true));
@@ -172,9 +172,9 @@ class waypointRTSFormInput (groupInterface, (isPrimaryWaypointCreator_arg : bool
         let layerInterface = Obj.repr layerInterface in
         try
         begin
-        ignore (logUtil#putF (("Layer: " ^ java_string_of (Obj.repr ((Obj.magic layerInterface)))), self, "attemptBuild"));
+        ignore ((self#logUtil)#putF (("Layer: " ^ java_string_of (Obj.repr ((Obj.magic layerInterface)))), self, "attemptBuild"));
         if ((Obj.magic layerInterface) == (Obj.magic 0)) then begin
-            ignore (logUtil#put ("Layer was null", self, "attemptBuild", (Failure ("Exception"))));
+            ignore ((self#logUtil)#put ("Layer was null", self, "attemptBuild", (Failure ("Exception"))));
             raise (Java_return (Obj.repr (false)))
         end;
         let geographicMapCellPositionArea : GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase ref = ref (((Obj.magic layerInterface)#geographicMapCellPositionAreaBase :> GeographicMapCellPositionAreaBase.geographicMapCellPositionAreaBase)) in ();
@@ -210,10 +210,10 @@ class waypointRTSFormInput (groupInterface, (isPrimaryWaypointCreator_arg : bool
         ignore (!stringBuffer#appendint (!cost));
         ignore (!stringBuffer#append (" with "));
         ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((!capital#getTotalMoney ()))))));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, "attemptBuild"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "attemptBuild"));
         if (!cost <= (!capital#getTotalMoney ())) then begin
             ignore ((Obj.magic layerInterface)#construct ((Obj.magic rtsPlayerLayerInterface)));
-            newUnconstructedRTSLayerInterfaceArray.(itemIndex) <- (Obj.magic ((CollidableDestroyableDamageableLayer.getNullInstance ())));
+            (self#newUnconstructedRTSLayerInterfaceArray).(itemIndex) <- (Obj.magic ((CollidableDestroyableDamageableLayer.getNullInstance ())));
             ignore (!capital#removeMoney (!cost));
             ignore ((WaypointCellPositionHistory.getInstance ())#addList (!list, (Obj.magic layerInterface)));
             let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((!geographicMapInterface#getCellPositionAtXY (((Obj.magic layerInterface)#getXP ()), ((Obj.magic layerInterface)#getYP ()))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();

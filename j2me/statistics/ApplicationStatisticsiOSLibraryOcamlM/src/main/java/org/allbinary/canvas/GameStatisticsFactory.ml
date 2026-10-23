@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 
 class gameStatisticsFactory () =
   object
-    inherit BaseGameStatistics.baseGameStatistics ()
+    inherit BaseGameStatistics.baseGameStatistics () as super
     val mutable stringBuffer : StringMaker.stringMaker = (Obj.magic 0)
     method stringBuffer = stringBuffer
     method set_stringBuffer value' = stringBuffer <- value'
@@ -39,7 +39,7 @@ class gameStatisticsFactory () =
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr super))))#append ((java_string_of (Obj.repr stringBuffer))))))
+        (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((super#toString ())))#append ((java_string_of (Obj.repr stringBuffer))))))
         end [@@warning "-7"]
 
     initializer

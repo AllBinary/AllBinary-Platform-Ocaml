@@ -23,9 +23,9 @@ let getInfo () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ("Memory: Free: "));
-        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr (((Runtime.getRuntime ())#freeMemory ()))))));
+        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr ((let stats = Gc.stat () in max 0 ((stats.Gc.heap_words - stats.Gc.live_words) * (Sys.word_size / 8))))))));
         ignore (!stringBuffer#append (" Total: "));
-        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr (((Runtime.getRuntime ())#totalMemory ()))))));
+        ignore (!stringBuffer#appendlong ((java_to_int (Obj.repr (((Gc.quick_stat ()).Gc.heap_words * (Sys.word_size / 8)))))));
         (java_string_of (Obj.repr !stringBuffer))
         end
 

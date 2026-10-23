@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 
 class hitPointGameObject (bufferedImage, (minX : int), (maxX : int), (y : int)) =
   object (self)
-    inherit MeteredGameObject.meteredGameObject (bufferedImage, minX, maxX, y)
+    inherit MeteredGameObject.meteredGameObject (bufferedImage, minX, maxX, y) as super
     val mutable damaged : bool = false
     method damaged = damaged
     method set_damaged value' = damaged <- value'
@@ -82,7 +82,7 @@ class hitPointGameObject (bufferedImage, (minX : int), (maxX : int), (y : int)) 
         let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append (hP_LABEL));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         ignore (!stringBuffer#append (!commonSeps#nEW_LINE));
         ignore (!stringBuffer#append (iS_DAMAGED_LABEL));
         ignore (!stringBuffer#appendboolean ((self#isDamaged ())));

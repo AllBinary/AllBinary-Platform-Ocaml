@@ -42,7 +42,7 @@ open Allbinary_java [@@warning "-33"]
 
 class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (playerInputId : int), (gameCanvas : MyCanvas.myCanvas), (form_arg : ScrollSelectionForm.scrollSelectionForm)) =
   object (self)
-    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, playerInputId, gameCanvas)
+    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, playerInputId, gameCanvas) as super
     val mutable mOTION_GESTURE_SOURCE_ID : int = 0
     method mOTION_GESTURE_SOURCE_ID = mOTION_GESTURE_SOURCE_ID
     method set_mOTION_GESTURE_SOURCE_ID value' = mOTION_GESTURE_SOURCE_ID <- value'
@@ -97,7 +97,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
         begin
         let commandCurrentSelectionForm : CommandCurrentSelectionForm.commandCurrentSelectionForm ref = ref (((Obj.magic form) :> CommandCurrentSelectionForm.commandCurrentSelectionForm)) in ();
         let command : Obj.t ref = ref ((Obj.repr (!commandCurrentSelectionForm#getSelectedCommand ()))) in ();
-        ignore (logUtil#putF ((java_string_of (Obj.repr (Obj.magic !command))), self, pROCESS_COMMAND));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (Obj.magic !command))), self, pROCESS_COMMAND));
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
         let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
         if (((SWTUtil.get_isSWT ()) && (!features#isFeature (!openGLFeatureFactory#oPENGL))) && ((Obj.repr (Obj.magic !command)) != (Obj.repr (GameCommandsFactory.getInstance ())#eXIT_COMMAND))) then begin
@@ -139,7 +139,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
                 raise (Java_return (Obj.repr ((-1))))
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, gameInputStrings#pROCESS_INPUT, e));
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#pROCESS_INPUT, e));
             (-1)
         end)
         end
@@ -148,12 +148,12 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
 
     method processMotionInputs () : int =
         begin
-        let lastIndex : int ref = ref (((motionGestureEventList#size ()) - 1)) in ();
+        let lastIndex : int ref = ref ((((self#motionGestureEventList)#size ()) - 1)) in ();
         if (!lastIndex >= 0) then begin
-            let motionGestureEvent : MotionGestureEvent.motionGestureEvent ref = ref (((Obj.magic motionGestureEventList#objectArray.(!lastIndex)) :> MotionGestureEvent.motionGestureEvent)) in ();
+            let motionGestureEvent : MotionGestureEvent.motionGestureEvent ref = ref (((Obj.magic (self#motionGestureEventList)#objectArray.(!lastIndex)) :> MotionGestureEvent.motionGestureEvent)) in ();
             (self#processMotionInput (!motionGestureEvent))
         end;
-        ignore (motionGestureEventList#clear ());
+        ignore ((self#motionGestureEventList)#clear ());
         !lastIndex
         end [@@warning "-7"]
     
@@ -182,7 +182,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
             end;
             if hasPressed then begin
                 if (not (doubleClickTimeHelper#isTimeTNT ())) then begin
-                    ignore (logUtil#putF ("Double Press", self, gameInputStrings#pROCESS_MOTION_INPUT));
+                    ignore ((self#logUtil)#putF ("Double Press", self, (self#gameInputStrings)#pROCESS_MOTION_INPUT));
                     ignore (self#processCommand ())
                 end;
                 doubleClickTimeHelper#set_delay (dOUBLE_CLICK_DELAY);
@@ -198,7 +198,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr super))))#append (nAME_LABEL))#append ((java_string_of (Obj.repr form))))))
+        (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((super#toString ())))#append (nAME_LABEL))#append ((java_string_of (Obj.repr form))))))
         end [@@warning "-7"]
 
     initializer

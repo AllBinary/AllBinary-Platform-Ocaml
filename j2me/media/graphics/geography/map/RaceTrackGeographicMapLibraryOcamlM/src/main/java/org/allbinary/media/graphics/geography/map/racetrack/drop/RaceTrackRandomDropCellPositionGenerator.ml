@@ -30,7 +30,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.media.graphics.geography.map.GeographicMapCellPosition *)
 
 class raceTrackRandomDropCellPositionGenerator () =
-  object
+  object (self)
     inherit RaceTrackDropCellPositionGenerator.raceTrackDropCellPositionGenerator () as super
     val mutable myRandomFactory : MyRandomFactory.myRandomFactory = (Obj.magic 0)
     method myRandomFactory = myRandomFactory
@@ -70,7 +70,7 @@ class raceTrackRandomDropCellPositionGenerator () =
     method drop : 'any1. 'any1 * int -> unit = fun (allBinaryLayerManager, (index : int)) ->
         let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
         begin
-        let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((Obj.magic (list#get (index))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
+        let geographicMapCellPosition : GeographicMapCellPosition.geographicMapCellPosition ref = ref (((Obj.magic ((self#list)#get (index))) :> GeographicMapCellPosition.geographicMapCellPosition)) in ();
         let point : GPoint.gPoint ref = ref (((!geographicMapCellPosition#getPoint ()) :> GPoint.gPoint)) in ();
         let randomCell : int ref = ref ((myRandomFactory#getAbsoluteNextInt (totalCells))) in ();
         let row : int ref = ref (rowArray.(!randomCell)) in ();
@@ -78,7 +78,7 @@ class raceTrackRandomDropCellPositionGenerator () =
         let x : int ref = ref (((!point#getX ()) + ((!row * cellWidth)))) in ();
         let y : int ref = ref (((!point#getY ()) + ((!column * cellHeight)))) in ();
         let pickedUpLayerInterfaceFactory : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface ref = ref ((((DropLayerFactory.getInstance ())#getRandomInstance ()) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)) in ();
-        let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref (((raceTrackGeographicMap#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
+        let tiledLayer : AllBinaryTiledLayer.allBinaryTiledLayer ref = ref ((((self#raceTrackGeographicMap)#getAllBinaryTiledLayer ()) :> AllBinaryTiledLayer.allBinaryTiledLayer)) in ();
         let pickupLayer : RaceTrackPickupLayer.raceTrackPickupLayer ref = ref (((Obj.magic ((PickupLayerCircularStaticPool.getInstance ())#getInstanceXYZ (!pickedUpLayerInterfaceFactory, !x, !y, ((!tiledLayer#getZP ()) + 3)))) :> RaceTrackPickupLayer.raceTrackPickupLayer)) in ();
         ignore (!pickupLayer#setTiledLayer (!tiledLayer));
         ignore ((Obj.magic allBinaryLayerManager)#append (!pickupLayer))

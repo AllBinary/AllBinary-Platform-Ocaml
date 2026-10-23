@@ -41,8 +41,8 @@ class colorCompositeSpriteIndexedAnimationFactory (image, (basicColorArray_arg :
 
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         begin
-        let sprite : Obj.t ref = ref ((Obj.repr (animationFactorySpriteScaleUtil#createImage ((self#getImage ()), animationFactoryInitializationVisitor#width, animationFactoryInitializationVisitor#height, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
-        (Obj.magic ((new SpriteIndexedAnimation.spriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), basicColorArray, (animationBehaviorFactory#getOrCreateInstance ())))))
+        let sprite : Obj.t ref = ref ((Obj.repr (animationFactorySpriteScaleUtil#createImage ((self#getImage ()), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
+        (Obj.magic ((new SpriteIndexedAnimation.spriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), basicColorArray, ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]
     
 

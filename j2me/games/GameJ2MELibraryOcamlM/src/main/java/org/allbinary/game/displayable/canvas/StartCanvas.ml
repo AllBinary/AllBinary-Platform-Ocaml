@@ -234,7 +234,7 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
             end;
             ignore (overlayPaintable#init ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, canvasStrings#oN_DISPLAY_CHANGE_EVENT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
         end)
         end [@@warning "-7-20"]
     
@@ -305,7 +305,7 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
 
     method itemStateChanged : 'any1. 'any1 -> unit = fun (_item) ->
         begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, self))
         end [@@warning "-7-20"]
     
 
@@ -382,10 +382,10 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
                 let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput (self, !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
                 ignore ((DownGameKeyEventHandler.getInstance ())#fireEvent (!gameKeyEvent))
             end else begin
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#aDD_KEY_EVENT))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#aDD_KEY_EVENT))
             end
         with e -> begin
-            ignore (logUtil#put ("Key Event Error", self, gameInputStrings#aDD_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#aDD_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -398,10 +398,10 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
                 let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput (self, !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
                 ignore ((UpGameKeyEventHandler.getInstance ())#fireEvent (!gameKeyEvent))
             end else begin
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#rEMOVE_KEY_EVENT))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#rEMOVE_KEY_EVENT))
             end
         with e -> begin
-            ignore (logUtil#put ("Key Event Error", self, gameInputStrings#rEMOVE_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#rEMOVE_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -434,28 +434,28 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
 
     method isGameOver () : bool =
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#nOT_IMPLEMENTED))#append (" since not a game")))), self, "isGameOver"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#nOT_IMPLEMENTED))#append (" since not a game")))), self, "isGameOver"));
         false
         end [@@warning "-7"]
     
 
     method setLoadStateHashtable : 'any1. 'any1 -> unit = fun (_hashtable) ->
         begin
-        ignore (logUtil#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", self, "setLoadStateHashtable"))
+        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", self, "setLoadStateHashtable"))
         end [@@warning "-7-20"]
     
 
     method getLoadStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore (logUtil#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", self, "getLoadStateHashtable"));
-        (Obj.magic (stdUtil#nULL_TABLE))
+        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", self, "getLoadStateHashtable"));
+        (Obj.magic ((self#stdUtil)#nULL_TABLE))
         end [@@warning "-7"]
     
 
     method getCurrentStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore (logUtil#putF ("Trying to save the AI lol", self, "getCurrentStateHashtable"));
-        (Obj.magic (stdUtil#nULL_TABLE))
+        ignore ((self#logUtil)#putF ("Trying to save the AI lol", self, "getCurrentStateHashtable"));
+        (Obj.magic ((self#stdUtil)#nULL_TABLE))
         end [@@warning "-7"]
     
 
@@ -487,7 +487,7 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
 
     method processGameOver () : unit =
         begin
-        ignore (logUtil#putF ("Not Implemented since not a game", self, "setGameOver"))
+        ignore ((self#logUtil)#putF ("Not Implemented since not a game", self, "setGameOver"))
         end [@@warning "-7"]
     
 
@@ -533,19 +533,19 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
 
     method getNextRandom () : int =
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
     method createGameLayerManager ((_randomValue : int)) : AllBinaryGameLayerManager.allBinaryGameLayerManager =
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
     method createRunnable ((_randomLevel : int)) : GameCanvasRunnableInterface.gameCanvasRunnableInterface =
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
@@ -598,7 +598,7 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
 
     method run () : unit =
         begin
-        ignore (logUtil#putF (commonStrings#sTART_RUNNABLE, self, commonStrings#rUN));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, self, (self#commonStrings)#rUN));
         (try
             let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
             ignore (!progressCanvas#addNormalPortion (50, "Demo Thread"));
@@ -620,16 +620,16 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
                 ()
             end else begin
                 while (self#isRunning ()) do
-                    ignore (loopTimeHelper#setStartTimeTNT ());
+                    ignore ((self#loopTimeHelper)#setStartTimeTNT ());
                     (self#processGame ());
                     ignore (self#processLoopSleep ())
                 done;
                 (self#end_ ())
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#rUN, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#rUN, e))
         end);
-        ignore (logUtil#putF (commonStrings#eND_RUNNABLE, self, commonStrings#rUN))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, self, (self#commonStrings)#rUN))
         end [@@warning "-7"]
     
 
@@ -643,7 +643,7 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
                 (self#end_ ())
             end
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, sET_RUNNING, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#sET_RUNNING), e))
         end)
         end [@@warning "-7"]
     
@@ -656,7 +656,7 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
         if (features#isFeature ((MainFeatureFactory.getInstance ())#lOAD_ONDEMAND)) then begin
             ignore (!progressCanvas#start ())
         end;
-        ignore (logUtil#putF ("Demo End", self, commonStrings#rUN));
+        ignore ((self#logUtil)#putF ("Demo End", self, (self#commonStrings)#rUN));
         (self#close ());
         ignore ((DisplayChangeEventHandler.getInstance ())#removeListener (self))
         end [@@warning "-7"]
@@ -688,7 +688,7 @@ class startCanvas ((abeClientInformation : AbeClientInformationInterface.abeClie
 
     method isHighScoreSubmitted () : bool =
         begin
-        ignore (logUtil#putF ("Wow the AI got a high score!", self, "isHighScoreSubmitted"));
+        ignore ((self#logUtil)#putF ("Wow the AI got a high score!", self, "isHighScoreSubmitted"));
         false
         end [@@warning "-7"]
     

@@ -58,7 +58,7 @@ class genericInputAutomationWorker ((inputAutomationActionInterface : InputAutom
 
     method processDataWorkerResults () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, pROCESS_DATA_WORKER_RESULTS));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, pROCESS_DATA_WORKER_RESULTS));
         ignore (self#waitForDataWorkers ());
         let cacheInterface : Obj.t ref = ref ((Obj.repr (Obj.magic (CapturedBufferedImagesCacheSingleton.getInstance ())))) in ();
         let keyArray : Obj.t array ref = ref ((((Obj.magic !cacheInterface)#keySet ())#toArray ())) in ();
@@ -90,7 +90,7 @@ class genericInputAutomationWorker ((inputAutomationActionInterface : InputAutom
 
     method process () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#pROCESS));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#pROCESS));
         ignore (self#startDataWorkers ());
         (self#processDataWorkerResults ())
         end [@@warning "-7"]
@@ -129,7 +129,7 @@ class genericInputAutomationWorker ((inputAutomationActionInterface : InputAutom
         genericProfile <- ((Obj.magic 0) :> GenericProfile.genericProfile);
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         ignore (self#setCaptureWorker ((GenericProfileCaptureWorkerFactory.getInstance (genericProfile_arg))));
         ignore (self#setInputAutomationActionInterface (inputAutomationActionInterface));
         ignore (self#setImageComparisonWorker ((new ImageComparisonWorker.imageComparisonWorker (imageComparatorConstraintsInterface))));
@@ -139,7 +139,7 @@ class genericInputAutomationWorker ((inputAutomationActionInterface : InputAutom
         let size : int ref = ref ((!vector#size ())) in ();
         for index = 0 to !size - 1 do
             let genericProfileDataWorkerType : GenericProfileDataWorkerType.genericProfileDataWorkerType ref = ref (((Obj.magic (!vector#get (index))) :> GenericProfileDataWorkerType.genericProfileDataWorkerType)) in ();
-            ignore ((Obj.magic logUtil)#putF (("Adding Listener: " ^ java_string_of (Obj.repr (!genericProfileDataWorkerType))), self, commonStrings#cONSTRUCTOR));
+            ignore ((Obj.magic logUtil)#putF (("Adding Listener: " ^ java_string_of (Obj.repr (!genericProfileDataWorkerType))), self, (self#commonStrings)#cONSTRUCTOR));
             if ((Obj.repr !genericProfileDataWorkerType) == (Obj.repr (GenericProfileDataWorkerType.get_cOMPARISON ()))) then begin
                 ignore ((self#getCaptureWorker ())#addListenerInterface ((self#getImageComparisonWorker ())))
             end else if ((Obj.repr !genericProfileDataWorkerType) == (Obj.repr (GenericProfileDataWorkerType.get_mOTION ()))) then begin

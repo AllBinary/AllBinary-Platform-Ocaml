@@ -78,11 +78,11 @@ class userEntity () =
         (try
             ignore (super#insert ((Obj.magic values)));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, iNSERT))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, iNSERT))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, iNSERT, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, iNSERT, e))
             end
         end)
         end [@@warning "-7-20"]
@@ -175,11 +175,11 @@ class userEntity () =
         (try
             ignore (super#deleteWhere (key, value));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "deleteWhere"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "deleteWhere"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "deleteWhere", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "deleteWhere", e))
             end
         end)
         end [@@warning "-7"]
@@ -192,7 +192,7 @@ class userEntity () =
             let isUserNameAndPasswordCorrect : int ref = ref (0) in ();
             let result : string ref = ref ((super#getField ((UserData.get_uSERNAME ()), userName, (UserData.get_pASSWORD ())))) in ();
             let encryption : string ref = ref ((super#getField ((UserData.get_uSERNAME ()), userName, (EntryData.getInstance ())#eNCRYPTION))) in ();
-            if ((!encryption <> (Obj.magic 0)) && ((String.compare !encryption (stringUtil#eMPTY_STRING)) != 0)) then begin
+            if ((!encryption <> (Obj.magic 0)) && ((String.compare !encryption ((self#stringUtil)#eMPTY_STRING)) != 0)) then begin
                 isUserNameAndPasswordCorrect := (String.compare !result (((Obj.obj (java_new "SuperCrypt" (Obj.repr (((Obj.obj (java_new "Integer" (Obj.repr (!encryption))))#intValue ())))))#encrypt (password))))
             end else begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
@@ -228,7 +228,7 @@ class userEntity () =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "login", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "login", e))
             end;
             "Error"
         end)
@@ -252,7 +252,7 @@ class userEntity () =
         begin
         let entryData : EntryData.entryData ref = ref (((EntryData.getInstance ()) :> EntryData.entryData)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((((((((((((((((((((((((((((((((((((((((((((((((((((((((!stringBuffer#append (sqlStrings#cREATE_TABLE))#append (tableName))#append (sqlStrings#sTART))#append ((UserData.get_uSERNAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_pREFIXNAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_fIRSTNAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_lASTNAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_mIDDLENAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_sUFFIXNAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_cOMPANY ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_pOSITIONATCOMPANY ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_mAINEMAIL ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_sECONDARYEMAIL ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_hOMEPHONE ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_cELLPHONE ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_wORKPHONE ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_oTHERCONTACT ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_eLECTRONICDEVICE ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_fAX ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((java_string_of (Obj.repr (UserRoleData.get_nAME ())))))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_cONFIGURATION ())))#append (sqlTypeStrings#bLOB_NOT_NULL))#append ((UserData.get_pERMISSIONS ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append (!entryData#eNCRYPTION))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((UserData.get_sECRET ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append ((UserData.get_pASSWORD ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (!entryData#eNABLE))#append (sqlTypeStrings#mAX_CHAR_COLUMN))#append (!entryData#tIMECREATED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (!entryData#lASTMODIFIED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append ((UserData.get_uSERNAME ())))#append (sqlStrings#eND));
+        ignore ((((((((((((((((((((((((((((((((((((((((((((((((((((((((!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE))#append (tableName))#append ((self#sqlStrings)#sTART))#append ((UserData.get_uSERNAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_pREFIXNAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_fIRSTNAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_lASTNAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_mIDDLENAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_sUFFIXNAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_cOMPANY ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_pOSITIONATCOMPANY ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_mAINEMAIL ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_sECONDARYEMAIL ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_hOMEPHONE ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_cELLPHONE ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_wORKPHONE ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_oTHERCONTACT ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_eLECTRONICDEVICE ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_fAX ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((java_string_of (Obj.repr (UserRoleData.get_nAME ())))))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_cONFIGURATION ())))#append ((self#sqlTypeStrings)#bLOB_NOT_NULL))#append ((UserData.get_pERMISSIONS ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append (!entryData#eNCRYPTION))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((UserData.get_sECRET ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append ((UserData.get_pASSWORD ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append (!entryData#eNABLE))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN))#append (!entryData#tIMECREATED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (!entryData#lASTMODIFIED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append ((UserData.get_uSERNAME ())))#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

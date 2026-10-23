@@ -38,7 +38,7 @@ class inputAutomationGenericModuleServiceFactory () =
             !inputAutomationModuleInterfaceArray.(0) <- ((new GenericModuleFactory.genericModuleFactory ()) :> InputAutomationModuleFactoryInterface.inputAutomationModuleFactoryInterface);
             ignore (self#setInputAutomationModuleInterfaceArray (!inputAutomationModuleInterfaceArray))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cONSTRUCTOR, e))
         end)
       end
   end [@@warning "-20"]

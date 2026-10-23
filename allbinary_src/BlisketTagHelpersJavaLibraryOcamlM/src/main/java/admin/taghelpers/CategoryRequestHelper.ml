@@ -168,7 +168,7 @@ class categoryRequestHelper ((hashMap_arg : java_hash_map), pageContext_arg) =
         with e -> begin
             let error : string ref = ref ("Failed to add item to Category") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "insert()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "insert()", e))
             end;
             !error
         end)
@@ -191,13 +191,13 @@ class categoryRequestHelper ((hashMap_arg : java_hash_map), pageContext_arg) =
             (try
                 let error : string ref = ref (("Failed to remove category: " ^ java_string_of (Obj.repr ((childCategoryInterface#getPath ()))))) in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                    ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e))
+                    ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e))
                 end;
                 !error
             with e2 -> begin
                 let error : string ref = ref ("Failed to remove category and show the path of the failed category") in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                    ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "delete()", e2))
+                    ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "delete()", e2))
                 end;
                 !error
             end)
@@ -217,7 +217,7 @@ class categoryRequestHelper ((hashMap_arg : java_hash_map), pageContext_arg) =
         with e -> begin
             let error : string ref = ref ("Failed to get Category") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "viewCategory()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "viewCategory()", e))
             end;
             !error
         end)
@@ -235,7 +235,7 @@ class categoryRequestHelper ((hashMap_arg : java_hash_map), pageContext_arg) =
         with e -> begin
             let error : string ref = ref ("Failed to view Categories table") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "viewCategories()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "viewCategories()", e))
             end;
             !error
         end)
@@ -253,7 +253,7 @@ class categoryRequestHelper ((hashMap_arg : java_hash_map), pageContext_arg) =
         with e -> begin
             let error : string ref = ref ("Failed to add Item") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "update()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "update()", e))
             end;
             !error
         end)
@@ -277,7 +277,7 @@ class categoryRequestHelper ((hashMap_arg : java_hash_map), pageContext_arg) =
             (self#getXmlData ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "CategoryRequestHelper()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "CategoryRequestHelper()", e))
             end
         end)
       end

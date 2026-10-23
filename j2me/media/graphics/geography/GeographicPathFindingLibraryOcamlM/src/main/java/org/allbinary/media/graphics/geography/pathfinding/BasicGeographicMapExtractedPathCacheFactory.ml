@@ -8,7 +8,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayListS *)
 
 class basicGeographicMapExtractedPathCacheFactory () =
-  object
+  object (self)
     inherit BaseBasicArrayListCache.baseBasicArrayListCache ()
     val mutable maxConcurrentPaths : int = 0
     method maxConcurrentPaths = maxConcurrentPaths
@@ -23,7 +23,7 @@ class basicGeographicMapExtractedPathCacheFactory () =
         begin
         if (maxConcurrentPaths_arg <> maxConcurrentPaths) then begin
             for _index = maxConcurrentPaths_arg downto maxConcurrentPaths do
-                ignore (list#add ((new BasicArrayListS.basicArrayListS (maxPaths_arg))))
+                ignore ((self#list)#add ((new BasicArrayListS.basicArrayListS (maxPaths_arg))))
             done;
             maxConcurrentPaths <- maxConcurrentPaths_arg
         end;
@@ -34,8 +34,8 @@ class basicGeographicMapExtractedPathCacheFactory () =
     method getPath () : BasicArrayList.basicArrayList =
         try
         begin
-        if ((list#size ()) > 0) then begin
-            raise (Java_return (Obj.repr ((Obj.magic (list#removeAt (0))))))
+        if (((self#list)#size ()) > 0) then begin
+            raise (Java_return (Obj.repr ((Obj.magic ((self#list)#removeAt (0))))))
         end else begin
             raise (Java_return (Obj.repr ((new BasicArrayListS.basicArrayListS (maxPaths)))))
         end
@@ -47,7 +47,7 @@ class basicGeographicMapExtractedPathCacheFactory () =
         let list = Obj.repr list in
         begin
         ignore ((Obj.magic list)#clear ());
-        ignore (list#add ((Obj.magic list)))
+        ignore ((self#list)#add ((Obj.magic list)))
         end [@@warning "-7-20"]
 
     initializer

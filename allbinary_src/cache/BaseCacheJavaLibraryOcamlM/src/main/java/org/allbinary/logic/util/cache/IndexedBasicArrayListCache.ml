@@ -41,7 +41,7 @@ class indexedBasicArrayListCache () =
     method init ((size_arg : int)) : unit =
         begin
         if (size < size_arg) then begin
-            ignore (list#ensureCapacity (size_arg));
+            ignore ((self#list)#ensureCapacity (size_arg));
             for _index_arg = (size_arg - 1) downto size do
                 (self#addDefault ())
             done;
@@ -52,7 +52,7 @@ class indexedBasicArrayListCache () =
 
     method getAt ((index_arg : int)) : Obj.t =
         begin
-        (Obj.repr (list#objectArray.(index_arg)))
+        (Obj.repr ((self#list)#objectArray.(index_arg)))
         end [@@warning "-7"]
     
 
@@ -65,14 +65,14 @@ class indexedBasicArrayListCache () =
     method addObject : 'any1. 'any1 -> unit = fun (anyType) ->
         let anyType = Obj.repr anyType in
         begin
-        ignore (list#add (anyType))
+        ignore ((self#list)#add (anyType))
         end [@@warning "-7"]
     
 
     method add : 'any1. 'any1 -> unit = fun (cacheableInterface) ->
         let cacheableInterface = Obj.repr cacheableInterface in
         begin
-        ignore (list#add ((Obj.magic cacheableInterface)))
+        ignore ((self#list)#add ((Obj.magic cacheableInterface)))
         end [@@warning "-7-20"]
     
 

@@ -51,11 +51,11 @@ class staticPagesEntity () =
         (try
             ignore (super#insert ((Obj.magic values)));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, iNSERT))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, iNSERT))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, iNSERT, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, iNSERT, e))
             end
         end)
         end [@@warning "-7-20"]
@@ -93,7 +93,7 @@ class staticPagesEntity () =
     method createTableStatement () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((((((((((((((!stringBuffer#append (sqlStrings#cREATE_TABLE))#append (tABLENAME))#append (sqlStrings#sTART))#append ((StoreFrontData.getInstance ())#nAME))#append (sqlTypeStrings#sIXTY_CHAR_COLUMN_NOT_NULL))#append (basicItemData#kEYWORDS))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((SearchData.get_pAGE ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append ((StoreFrontData.getInstance ())#nAME))#append ((CommonSeps.getInstance ())#cOMMA_SEP))#append (basicItemData#kEYWORDS))#append (sqlStrings#eND));
+        ignore ((((((((((((((!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE))#append (tABLENAME))#append ((self#sqlStrings)#sTART))#append ((StoreFrontData.getInstance ())#nAME))#append ((self#sqlTypeStrings)#sIXTY_CHAR_COLUMN_NOT_NULL))#append (basicItemData#kEYWORDS))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((SearchData.get_pAGE ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append ((StoreFrontData.getInstance ())#nAME))#append ((CommonSeps.getInstance ())#cOMMA_SEP))#append (basicItemData#kEYWORDS))#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

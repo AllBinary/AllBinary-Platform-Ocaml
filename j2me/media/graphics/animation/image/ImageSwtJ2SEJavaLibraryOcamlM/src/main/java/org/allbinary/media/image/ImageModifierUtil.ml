@@ -79,9 +79,9 @@ class imageModifierUtil () =
                     gx := ((((Obj.magic !imageData)#data.((!index3 + 1)) land 0xFF)) lsl 8);
                     bx := (((Obj.magic !imageData)#data.((!index3 + 2)) land 0xFF));
                     if (((!rx <> 0) || (!gx <> 0)) || (!bx <> 0)) then begin
-                        ignore ((Obj.magic !imageData)#set_data.(!index3) (!r));
-                        ignore ((Obj.magic !imageData)#set_data.((!index3 + 1)) (!g));
-                        ignore ((Obj.magic !imageData)#set_data.((!index3 + 2)) (!b))
+                        (Obj.magic !imageData)#data.(!index3) <- !r;
+                        (Obj.magic !imageData)#data.((!index3 + 1)) <- !g;
+                        (Obj.magic !imageData)#data.((!index3 + 2)) <- !b
                     end
                 done
             done
@@ -130,9 +130,9 @@ class imageModifierUtil () =
                 rx := (int_of_float ((!rx *. !r)));
                 gx := (int_of_float ((!gx *. !g)));
                 bx := (int_of_float ((!bx *. !b)));
-                ignore ((Obj.magic !imageData)#set_data.(index) (!rx));
-                ignore ((Obj.magic !imageData)#set_data.((index + 1)) (!gx));
-                ignore ((Obj.magic !imageData)#set_data.((index + 2)) (!bx));
+                (Obj.magic !imageData)#data.(index) <- !rx;
+                (Obj.magic !imageData)#data.((index + 1)) <- !gx;
+                (Obj.magic !imageData)#data.((index + 2)) <- !bx;
                 index <- (index + 4)
             done
         end

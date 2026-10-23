@@ -20,14 +20,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
 class selectedRTSLayersPlayerDowngradeGameInputProcessor (selectedRTSLayersPlayerGameInput) =
-  object
+  object (self)
     inherit SelectedRTSLayersPlayerGameInputProcessor.selectedRTSLayersPlayerGameInputProcessor (selectedRTSLayersPlayerGameInput)
     
     
 
     method processEvent : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_allbinaryLayerManager, _gameKeyEvent) ->
         begin
-        ignore (selectedRTSLayersPlayerGameInput#downgrade ())
+        ignore ((self#selectedRTSLayersPlayerGameInput)#downgrade ())
         end [@@warning "-7-20"]
 
     initializer

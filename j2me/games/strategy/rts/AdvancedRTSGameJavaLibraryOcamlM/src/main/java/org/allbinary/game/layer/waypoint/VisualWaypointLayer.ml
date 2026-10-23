@@ -32,7 +32,7 @@ class visualWaypointLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.
     method createHudPaintable () : SelectionHudPaintable.selectionHudPaintable =
         begin
         let rtsLayerHudPaintable : WaypointInfoHudPaintable.waypointInfoHudPaintable ref = ref (((WaypointInfoHudPaintableSingleton.getInstance ()) :> WaypointInfoHudPaintable.waypointInfoHudPaintable)) in ();
-        ignore (!rtsLayerHudPaintable#setBasicColorP ((allBinaryGameLayerManagerP#getForegroundBasicColor ())));
+        ignore (!rtsLayerHudPaintable#setBasicColorP (((self#allBinaryGameLayerManagerP)#getForegroundBasicColor ())));
         ignore (!rtsLayerHudPaintable#setRtsLayer (self));
         (!rtsLayerHudPaintable :> SelectionHudPaintable.selectionHudPaintable)
         end [@@warning "-7"]

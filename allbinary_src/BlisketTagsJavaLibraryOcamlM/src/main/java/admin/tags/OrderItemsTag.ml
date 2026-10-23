@@ -48,7 +48,7 @@ class orderItemsTag () =
         try
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new OrderItemsRequestHelperFactory.orderItemsRequestHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new OrderItemsRequestHelperFactory.orderItemsRequestHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             if (status = (Obj.magic 0)) then begin
                 let helperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
                 let method_ : Obj.t ref = ref ((Obj.repr (!helperClass#getMethod ("setOrderStatus", (Obj.magic 0))))) in ();
@@ -77,7 +77,7 @@ class orderItemsTag () =
                 if ((self#getCommand ()) != (Obj.magic 0)) then begin
                     ignore ((self#getPropertiesHashMap ())#put ((OrderHistoryData.get_sTATUS ()), status));
                     if (((self#getCommand ())#compareTo ((OrderHistoryData.get_sETSTATUS ()))) == 0) then begin
-                        ignore ((pageContext#getOut ())#print ((self#setOrderStatus ())))
+                        ignore (((self#pageContext)#getOut ())#print ((self#setOrderStatus ())))
                     end else begin
                         raise (Java_return (Obj.repr ((super#doStartTag ()))))
                     end
@@ -85,7 +85,7 @@ class orderItemsTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

@@ -90,10 +90,10 @@ class technologyRTSInterfaceImageItem ((label : string), img, (layout : int), (a
         if ((Obj.repr (Obj.magic !image)) != (Obj.repr (NullImage.get_nULL_IMAGE ()))) then begin
             imageHeight := ((Obj.magic !image)#getHeight ())
         end;
-        adjustedCostLabelY <- (((-yOffset) + !imageHeight) - ((3 * !fontHeight)));
-        adjustedCostY <- (((-yOffset) + !imageHeight) - ((2 * !fontHeight)));
+        adjustedCostLabelY <- (((-(self#yOffset)) + !imageHeight) - ((3 * !fontHeight)));
+        adjustedCostY <- (((-(self#yOffset)) + !imageHeight) - ((2 * !fontHeight)));
         adjustedCostX <- (2 + (((String.length dOLLAR) * ((!fontHeight - 1)))));
-        adjustedLevelY <- (((-yOffset) + !imageHeight) - !fontHeight);
+        adjustedLevelY <- (((-(self#yOffset)) + !imageHeight) - !fontHeight);
         adjustedLevelX <- (2 + (((String.length lEVEL) * ((!fontHeight - 1)))));
         myFontProcessor <- (MyFontProcessor.getInstance ())
         end [@@warning "-7-20"]

@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.color.BasicColor *)
 
 class overScanColorFillPaintable ((basicColor : BasicColor.basicColor)) =
-  object
+  object (self)
     inherit ColorFillPaintable.colorFillPaintable (basicColor)
     
     
@@ -29,8 +29,8 @@ class overScanColorFillPaintable ((basicColor : BasicColor.basicColor)) =
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#setColor (colorP));
-        ignore ((Obj.magic graphics)#fillRect ((-((Obj.magic graphics)#getClipX ())), (-((Obj.magic graphics)#getClipY ())), ((displayInfoSingleton#getLastWidth ()) + ((((Obj.magic graphics)#getClipX ()) * 2))), ((displayInfoSingleton#getLastHeight ()) + ((((Obj.magic graphics)#getClipY ()) * 2)))))
+        ignore ((Obj.magic graphics)#setColor ((self#colorP)));
+        ignore ((Obj.magic graphics)#fillRect ((-((Obj.magic graphics)#getClipX ())), (-((Obj.magic graphics)#getClipY ())), (((self#displayInfoSingleton)#getLastWidth ()) + ((((Obj.magic graphics)#getClipX ()) * 2))), (((self#displayInfoSingleton)#getLastHeight ()) + ((((Obj.magic graphics)#getClipY ()) * 2)))))
         end [@@warning "-7-20"]
 
     initializer

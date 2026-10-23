@@ -33,7 +33,7 @@ class preGameScrollSelectionTouchButtonsBuilder () =
     method getList () : BasicArrayList.basicArrayList =
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#gET_LIST));
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#gET_LIST));
             let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             let touchButtonLocationHelper : TouchButtonLocationHelper.touchButtonLocationHelper ref = ref (((new TouchButtonLocationHelper.touchButtonLocationHelper ()) :> TouchButtonLocationHelper.touchButtonLocationHelper)) in ();
             let commonButtons : CommonButtons.commonButtons ref = ref (((CommonButtons.getInstance ()) :> CommonButtons.commonButtons)) in ();
@@ -46,7 +46,7 @@ class preGameScrollSelectionTouchButtonsBuilder () =
             ignore (!list#add ((Obj.magic !sTART)));
             (!list :> BasicArrayList.basicArrayList)
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#gET_LIST, e));
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET_LIST, e));
             (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
         end)
         end [@@warning "-7"]

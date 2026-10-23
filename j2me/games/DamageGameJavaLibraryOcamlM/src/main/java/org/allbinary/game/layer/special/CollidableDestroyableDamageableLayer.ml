@@ -117,19 +117,19 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
 
     method damage ((_damage : int), (_damageType : int)) : unit =
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
     method getDamage ((_damageType : int)) : int =
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
     method isDestroyed () : bool =
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
@@ -358,7 +358,7 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
         ignore ((Obj.magic stringBuffer)#append (rEADYFOREXPLOSION));
         ignore ((Obj.magic stringBuffer)#appendboolean (readyForExplosion));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
-        ignore ((Obj.magic stringBuffer)#append (commonStrings#iNIT));
+        ignore ((Obj.magic stringBuffer)#append ((self#commonStrings)#iNIT));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#sPACE));
         ignore ((Obj.magic stringBuffer)#append (!positionStrings#x_LABEL));
         ignore ((Obj.magic stringBuffer)#appendint (initX));

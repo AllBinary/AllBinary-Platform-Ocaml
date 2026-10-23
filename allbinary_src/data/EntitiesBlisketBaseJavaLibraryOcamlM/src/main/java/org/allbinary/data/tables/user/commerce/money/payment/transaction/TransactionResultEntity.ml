@@ -53,11 +53,11 @@ class transactionResultEntity () =
             ignore (!whereHashMap#put ((UserData.get_uSERNAME ()), userName));
             ignore (super#deleteWhere (!whereHashMap));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "remove"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "remove"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "remove", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "remove", e))
             end
         end)
         end [@@warning "-7"]
@@ -77,11 +77,11 @@ class transactionResultEntity () =
             ignore (!values#add (!time));
             ignore (super#insert (!values));
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "add"))
+                ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "add"))
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "add", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "add", e))
             end
         end)
         end [@@warning "-7-20"]
@@ -98,7 +98,7 @@ class transactionResultEntity () =
             if (!resultHashMap != (Obj.magic 0)) then begin
                 let transactionResult : TransactionResult.transactionResult ref = ref (((new TransactionResult.transactionResult (!resultHashMap)) :> TransactionResult.transactionResult)) in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                    ignore ((Obj.magic logUtil)#putF (commonStrings#sUCCESS, self, "getTransactionResultInterface"))
+                    ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sUCCESS, self, "getTransactionResultInterface"))
                 end;
                 raise (Java_return (Obj.repr ((Obj.magic !transactionResult))))
             end else begin
@@ -106,7 +106,7 @@ class transactionResultEntity () =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "getTransactionResultInterface", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "getTransactionResultInterface", e))
             end;
             ((Obj.magic 0) :> TransactionResultInterface.transactionResultInterface)
         end)
@@ -118,16 +118,16 @@ class transactionResultEntity () =
         begin
         let paymentTransactionKeysFactory : PaymentTransactionKeysFactory.paymentTransactionKeysFactory ref = ref (((PaymentTransactionKeysFactory.getInstance ()) :> PaymentTransactionKeysFactory.paymentTransactionKeysFactory)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (((((((!stringBuffer#append (sqlStrings#cREATE_TABLE))#append (tableName))#append (sqlStrings#sTART))#append ((OrderData.get_iD ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_uSERNAME ())))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
-        ignore ((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rESULT))))#append (sqlTypeStrings#mAX_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#pNREF))))#append (sqlTypeStrings#tWELVE_CHAR_COLUMN_NOT_NULL));
-        ignore ((((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rESPMSG))))#append (sqlTypeStrings#bLOB_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#aUTHCODE))))#append (sqlTypeStrings#sIX_CHAR_COLUMN_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#aVSADDR))))#append (sqlTypeStrings#oNE_CHAR_COLUMN_NOT_NULL));
-        ignore ((((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#aVSZIP))))#append (sqlTypeStrings#oNE_CHAR_COLUMN_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#oRIGRESULT))))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#sTATUS))))#append (sqlTypeStrings#mAX_CHAR_COLUMN_NOT_NULL));
-        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#fRAUDCODE))))#append (sqlTypeStrings#tWO_INT_NOT_NULL));
-        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#fRAUDMSG))))#append (sqlTypeStrings#mAX_INT_NOT_NULL));
-        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eRRCODE))))#append (sqlTypeStrings#mAX_INT_NOT_NULL));
-        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#sCORE))))#append (sqlTypeStrings#tHREE_INT_NOT_NULL));
-        ignore (((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rEASON1))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rEASON2))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rEASON3))));
-        ignore ((((((((((((((((((((((!stringBuffer#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION1))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION2))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION3))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION4))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION5))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION6))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION7))))#append (sqlTypeStrings#fOUR_INT_NOT_NULL))#append ((EntryData.getInstance ())#lASTMODIFIED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#tIMECREATED))#append (sqlTypeStrings#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append (sqlStrings#pRIMARY_KEY))#append ((OrderData.get_iD ())))#append (sqlStrings#eND));
+        ignore (((((((!stringBuffer#append ((self#sqlStrings)#cREATE_TABLE))#append (tableName))#append ((self#sqlStrings)#sTART))#append ((OrderData.get_iD ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((UserData.get_uSERNAME ())))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore ((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rESULT))))#append ((self#sqlTypeStrings)#mAX_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#pNREF))))#append ((self#sqlTypeStrings)#tWELVE_CHAR_COLUMN_NOT_NULL));
+        ignore ((((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rESPMSG))))#append ((self#sqlTypeStrings)#bLOB_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#aUTHCODE))))#append ((self#sqlTypeStrings)#sIX_CHAR_COLUMN_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#aVSADDR))))#append ((self#sqlTypeStrings)#oNE_CHAR_COLUMN_NOT_NULL));
+        ignore ((((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#aVSZIP))))#append ((self#sqlTypeStrings)#oNE_CHAR_COLUMN_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#oRIGRESULT))))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#sTATUS))))#append ((self#sqlTypeStrings)#mAX_CHAR_COLUMN_NOT_NULL));
+        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#fRAUDCODE))))#append ((self#sqlTypeStrings)#tWO_INT_NOT_NULL));
+        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#fRAUDMSG))))#append ((self#sqlTypeStrings)#mAX_INT_NOT_NULL));
+        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eRRCODE))))#append ((self#sqlTypeStrings)#mAX_INT_NOT_NULL));
+        ignore ((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#sCORE))))#append ((self#sqlTypeStrings)#tHREE_INT_NOT_NULL));
+        ignore (((((!stringBuffer#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rEASON1))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rEASON2))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#rEASON3))));
+        ignore ((((((((((((((((((((((!stringBuffer#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION1))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION2))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION3))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION4))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION5))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION6))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((java_string_of (Obj.repr !paymentTransactionKeysFactory#eXCEPTION7))))#append ((self#sqlTypeStrings)#fOUR_INT_NOT_NULL))#append ((EntryData.getInstance ())#lASTMODIFIED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((EntryData.getInstance ())#tIMECREATED))#append ((self#sqlTypeStrings)#mAX_BIG_INT_UNSIGNED_NOT_NULL))#append ((self#sqlStrings)#pRIMARY_KEY))#append ((OrderData.get_iD ())))#append ((self#sqlStrings)#eND));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     

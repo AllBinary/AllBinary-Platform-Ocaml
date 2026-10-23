@@ -71,7 +71,7 @@ class categoryLoader ((categoryFactoryInterface : CategoryFactoryInterface.categ
                 with e2 -> begin
                     ignore ((Obj.magic logUtil)#put ("Could Not Log Category", self, "getDoc", e))
                 end);
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, "getDoc", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, "getDoc", e))
             end;
             (Obj.magic ((Obj.magic 0)))
         end)
@@ -88,7 +88,7 @@ class categoryLoader ((categoryFactoryInterface : CategoryFactoryInterface.categ
             ((self#addProperties ((Obj.magic categoryInterface), ((Obj.magic !categoryNode)#getChildNodes ()))) :> CategoryInterface.categoryInterface)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#gET, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#gET, e))
             end;
             ((Obj.magic 0) :> CategoryInterface.categoryInterface)
         end)
@@ -106,7 +106,7 @@ class categoryLoader ((categoryFactoryInterface : CategoryFactoryInterface.categ
             ((self#getAll ((Obj.magic !document))) :> CategoryInterface.categoryInterface)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#gET, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#gET, e))
             end;
             ((Obj.magic 0) :> CategoryInterface.categoryInterface)
         end)
@@ -136,7 +136,7 @@ class categoryLoader ((categoryFactoryInterface : CategoryFactoryInterface.categ
             ((Obj.magic loadedCategoryInterface) :> CategoryInterface.categoryInterface)
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#fAILURE, self, commonStrings#gET, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#fAILURE, self, (self#commonStrings)#gET, e))
             end;
             ((Obj.magic 0) :> CategoryInterface.categoryInterface)
         end)
@@ -148,7 +148,7 @@ class categoryLoader ((categoryFactoryInterface : CategoryFactoryInterface.categ
         ();
         (* super(...) is the inherit clause *) ();
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#cATEGORY)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "CategoryLoader(CategoryFactoryInterface categoryFactoryInterface)"))
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, "CategoryLoader(CategoryFactoryInterface categoryFactoryInterface)"))
         end
       end
   end [@@warning "-20"]

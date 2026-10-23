@@ -37,7 +37,7 @@ class simultaneousCompoundRotationAnimationInterfaceFactory ((basicAnimationInte
 
     method createAnimation : 'return. _ -> 'return = fun (animationInterfaceArray) ->
         begin
-        (Obj.magic ((new SimultaneousCompoundRotationAnimation.simultaneousCompoundRotationAnimation ((Obj.magic animationInterfaceArray), (animationBehaviorFactory#getOrCreateInstance ())))))
+        (Obj.magic ((new SimultaneousCompoundRotationAnimation.simultaneousCompoundRotationAnimation ((Obj.magic animationInterfaceArray), ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]
 
     initializer

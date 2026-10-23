@@ -46,7 +46,7 @@ class shippingAddressTag () =
     method set () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new ShippingAddressHelperFactory.shippingAddressHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new ShippingAddressHelperFactory.shippingAddressHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("set", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -60,7 +60,7 @@ class shippingAddressTag () =
     method setToBillingAddress () : string =
         begin
         (try
-            let anyType : Obj.t ref = ref ((Obj.repr ((new ShippingAddressHelperFactory.shippingAddressHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), pageContext)))) in ();
+            let anyType : Obj.t ref = ref ((Obj.repr ((new ShippingAddressHelperFactory.shippingAddressHelperFactory ())#getInstance ((self#getPropertiesHashMap ()), (self#pageContext))))) in ();
             let addressHelperClass : string ref = ref ((java_get_class (Obj.repr !anyType))) in ();
             let method_ : Obj.t ref = ref ((Obj.repr (!addressHelperClass#getMethod ("setToBillingAddress", (Obj.magic 0))))) in ();
             let result : string ref = ref ((Obj.magic ((Obj.magic !method_)#invoke (!anyType, (Obj.magic 0))))) in ();
@@ -79,7 +79,7 @@ class shippingAddressTag () =
                 if ((self#getCommand ()) != (Obj.magic 0)) then begin
                     if (((self#getCommand ())#compareTo ((ShippingAddressData.get_sELECT ()))) == 0) then begin
                         ignore (self#set ());
-                        raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                        raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
                     end else if (((self#getCommand ())#compareTo ((ShippingAddressData.get_sETTOBILLINGADDRESS ()))) == 0) then begin
                         ignore (self#setToBillingAddress ())
                     end else begin
@@ -89,7 +89,7 @@ class shippingAddressTag () =
             end;
             sKIP_BODY
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

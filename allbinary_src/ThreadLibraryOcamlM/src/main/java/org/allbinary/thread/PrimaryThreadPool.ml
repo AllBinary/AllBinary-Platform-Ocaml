@@ -28,20 +28,20 @@ class primaryThreadPool ((poolName : string), (numThreads : int), (priority : in
 
     method runTask ((task : java_runnable)) : unit =
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), self, threadPoolStrings#aDD_TASK));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), self, (self#threadPoolStrings)#aDD_TASK));
         ignore (super#runTask (task))
         end [@@warning "-7"]
     
 
     method startTask ((task : java_runnable)) : unit =
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (threadPoolStrings#sTART_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), self, commonStrings#rUN))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#sTART_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), self, (self#commonStrings)#rUN))
         end [@@warning "-7"]
     
 
     method completedTask ((task : java_runnable)) : unit =
         begin
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (threadPoolStrings#cOMPLETE_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), self, commonStrings#rUN))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#cOMPLETE_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), self, (self#commonStrings)#rUN))
         end [@@warning "-7"]
 
     initializer

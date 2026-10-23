@@ -52,7 +52,7 @@ class fillAnimation ((pixelBuffer_arg : int array), (_width_arg : int), (_height
     method setAlpha ((alpha : int)) : unit =
         begin
         let changed : bool ref = ref (false) in ();
-        if (alphaP != alpha) then begin
+        if ((self#alphaP) != alpha) then begin
             changed := true
         end;
         ignore (super#setAlpha (alpha));

@@ -68,36 +68,36 @@ class addFileValidationView ((transformInfoInterface : TransformInfoInterface.tr
             let command : string ref = ref ((Obj.magic ((self#getRequestHashMap ())#get ((GLOBALS2.get_aDMINCOMMAND ()))))) in ();
             if (((StringValidationUtil.getInstance ())#isEmpty (!command)) || ((((String.compare !command (aDDPRODUCT)) != 0) && ((String.compare !command (aDDANOTHERDOWNLOADABLE)) != 0)))) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("Invalid AdminCommand=" ^ !command), self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF (("Invalid AdminCommand=" ^ !command), self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
             (try
                 let inventoryEntity : InventoryEntity.inventoryEntity ref = ref ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ()) :> InventoryEntity.inventoryEntity)) in ();
-                itemInterface <- (!inventoryEntity#getItem (id))
+                (self#set_itemInterface) ((!inventoryEntity#getItem ((self#id))))
             with e -> begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#put ("Existing Item With MoneyException", self, commonStrings#iS_VALID, e))
+                    ignore ((Obj.magic logUtil)#put ("Existing Item With MoneyException", self, (self#commonStrings)#iS_VALID, e))
                 end
             end);
-            if (itemInterface == (Obj.magic 0)) then begin
+            if ((self#itemInterface) == (Obj.magic 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("Item Does Not Exist", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("Item Does Not Exist", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
-            if ((Obj.repr ((new BasicItemValidation.basicItemValidation (itemInterface))#isValid ())) == (Obj.repr false)) then begin
+            if ((Obj.repr ((new BasicItemValidation.basicItemValidation ((self#itemInterface)))#isValid ())) == (Obj.repr false)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("BasicItem is not valid", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("BasicItem is not valid", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
             let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance (((self#getWeblisketSession ())#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
-            let fullCategory : string ref = ref ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((URLGLOBALS.getWebappPath ())))#append ((!storeFrontInterface#getCurrentHostNamePath ())))#append ((itemInterface#getCategory ())))))) in ();
+            let fullCategory : string ref = ref ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((URLGLOBALS.getWebappPath ())))#append ((!storeFrontInterface#getCurrentHostNamePath ())))#append (((self#itemInterface)#getCategory ())))))) in ();
             let categoryFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (!fullCategory)))))) in ();
             if (not ((Obj.magic !categoryFile)#isDirectory ())) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("Category Does Not Exist: " ^ !fullCategory), self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF (("Category Does Not Exist: " ^ !fullCategory), self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
@@ -146,7 +146,7 @@ class addFileValidationView ((transformInfoInterface : TransformInfoInterface.tr
                 ignore ((self#getRequestHashMap ())#remove ((DownloadItemData.get_eXTRA_FILES ())))
             end;
             let hashMap : java_hash_map ref = ref (((self#getRequestHashMap ()) :> java_hash_map)) in ();
-            ignore (!hashMap#put (basicItemData#iD, (itemInterface#getId ())));
+            ignore (!hashMap#put (basicItemData#iD, ((self#itemInterface)#getId ())));
             let licenseObject : Obj.t ref = ref ((Obj.repr (!hashMap#get ((DownloadItemData.get_lICENSE_FILE ()))))) in ();
             if (!licenseObject != (Obj.magic 0)) then begin
                 ignore (!hashMap#put ((DownloadItemData.get_lICENSE_FILE ()), (((Obj.magic !licenseObject))#getName ())))
@@ -159,18 +159,18 @@ class addFileValidationView ((transformInfoInterface : TransformInfoInterface.tr
             end else begin
                 ignore (!hashMap#put ((DownloadItemData.get_fILE ()), (StringUtil.getInstance ())#eMPTY_STRING))
             end;
-            downloadableItem <- (new DownloadableItem.downloadableItem (!hashMap));
-            let downloadableItemValidation : DownloadableItemValidation.downloadableItemValidation ref = ref (((new DownloadableItemValidation.downloadableItemValidation (downloadableItem)) :> DownloadableItemValidation.downloadableItemValidation)) in ();
+            (self#set_downloadableItem) ((new DownloadableItem.downloadableItem (!hashMap)));
+            let downloadableItemValidation : DownloadableItemValidation.downloadableItemValidation ref = ref (((new DownloadableItemValidation.downloadableItemValidation ((self#downloadableItem))) :> DownloadableItemValidation.downloadableItemValidation)) in ();
             if ((Obj.repr (!downloadableItemValidation#isValid ())) == (Obj.repr false)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("DownloadableItem is not valid", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("DownloadableItem is not valid", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Exception in validation", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Exception in validation", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -199,27 +199,27 @@ class addFileValidationView ((transformInfoInterface : TransformInfoInterface.tr
             if (((StringValidationUtil.getInstance ())#isEmpty (!command)) || ((((String.compare !command (aDDPRODUCT)) != 0) && ((String.compare !command (aDDANOTHERDOWNLOADABLE)) != 0)))) then begin
                 raise (Java_return (Obj.repr ((StringUtil.getInstance ())#eMPTY_STRING)))
             end;
-            if (itemInterface == (Obj.magic 0)) then begin
+            if ((self#itemInterface) == (Obj.magic 0)) then begin
                 let iTEM_NOT_FOUND : string ref = ref ("Item Does Not Exist") in ();
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
                     ignore ((Obj.magic logUtil)#putF (!iTEM_NOT_FOUND, self, "validationInfo()"))
                 end;
                 raise (Java_return (Obj.repr (!iTEM_NOT_FOUND)))
             end;
-            let basicItemValidation : BasicItemValidation.basicItemValidation ref = ref (((new BasicItemValidation.basicItemValidation (itemInterface)) :> BasicItemValidation.basicItemValidation)) in ();
+            let basicItemValidation : BasicItemValidation.basicItemValidation ref = ref (((new BasicItemValidation.basicItemValidation ((self#itemInterface))) :> BasicItemValidation.basicItemValidation)) in ();
             if ((Obj.repr (!basicItemValidation#isValid ())) == (Obj.repr false)) then begin
                 ignore (!stringBuffer#append ((!basicItemValidation#validationInfo ())));
                 ignore (!stringBuffer#append ("<br/>"))
             end;
             let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance (((self#getWeblisketSession ())#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
-            let fullCategory : string ref = ref ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((URLGLOBALS.getWebappPath ())))#append ((!storeFrontInterface#getCurrentHostNamePath ())))#append ((itemInterface#getCategory ())))))) in ();
+            let fullCategory : string ref = ref ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((URLGLOBALS.getWebappPath ())))#append ((!storeFrontInterface#getCurrentHostNamePath ())))#append (((self#itemInterface)#getCategory ())))))) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
                 ignore ((Obj.magic logUtil)#putF (("Category: " ^ !fullCategory), self, "validationInfo()"))
             end;
             let categoryFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (!fullCategory)))))) in ();
             if (not ((Obj.magic !categoryFile)#isDirectory ())) then begin
                 ignore (!stringBuffer#append ("Category "));
-                ignore (!stringBuffer#append ((itemInterface#getCategory ())));
+                ignore (!stringBuffer#append (((self#itemInterface)#getCategory ())));
                 ignore (!stringBuffer#append (" does not exist."));
                 ignore (!stringBuffer#append ("<br />"))
             end;
@@ -251,12 +251,12 @@ class addFileValidationView ((transformInfoInterface : TransformInfoInterface.tr
             end else begin
                 ()
             end;
-            if (downloadableItem != (Obj.magic 0)) then begin
-                let downloadableItemValidation : DownloadableItemValidation.downloadableItemValidation ref = ref (((new DownloadableItemValidation.downloadableItemValidation (downloadableItem)) :> DownloadableItemValidation.downloadableItemValidation)) in ();
+            if ((self#downloadableItem) != (Obj.magic 0)) then begin
+                let downloadableItemValidation : DownloadableItemValidation.downloadableItemValidation ref = ref (((new DownloadableItemValidation.downloadableItemValidation ((self#downloadableItem))) :> DownloadableItemValidation.downloadableItemValidation)) in ();
                 if ((Obj.repr (!downloadableItemValidation#isValid ())) == (Obj.repr false)) then begin
                     let log : string ref = ref ((!downloadableItemValidation#validationInfo ())) in ();
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                        ignore ((Obj.magic logUtil)#putF (!log, self, commonStrings#iS_VALID))
+                        ignore ((Obj.magic logUtil)#putF (!log, self, (self#commonStrings)#iS_VALID))
                     end;
                     ignore (!stringBuffer#append (!log));
                     ignore (!stringBuffer#append ("<br/>"))

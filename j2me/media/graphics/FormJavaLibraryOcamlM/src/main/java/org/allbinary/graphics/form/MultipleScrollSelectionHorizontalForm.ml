@@ -46,7 +46,7 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
         let graphics = Obj.repr graphics in
         begin
         ignore ((Obj.magic graphics)#setColor (backgroundColor));
-        ignore ((Obj.magic graphics)#fillRect (x, y, (rectangle#getWidth ()), (rectangle#getHeight ())))
+        ignore ((Obj.magic graphics)#fillRect ((self#x), (self#y), ((self#rectangle)#getWidth ()), ((self#rectangle)#getHeight ())))
         end [@@warning "-7-20"]
     
 
@@ -82,8 +82,8 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
         let item = Obj.repr item in
         let dx = ref dx in
         begin
-        let dx2 : int ref = ref (((self#paintItem ((Obj.magic graphics), index, (Obj.magic item), !dx, dy)) + border)) in ();
-        ignore (paintable#paint ((Obj.magic graphics), index, !dx, dy));
+        let dx2 : int ref = ref (((self#paintItem ((Obj.magic graphics), index, (Obj.magic item), !dx, dy)) + (self#border))) in ();
+        ignore ((self#paintable)#paint ((Obj.magic graphics), index, !dx, dy));
         dx := !dx2;
         !dx
         end [@@warning "-7-20"]
@@ -94,7 +94,7 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
         let item = Obj.repr item in
         begin
         ignore (self#paintItem ((Obj.magic graphics), index, (Obj.magic item), dx, dy));
-        ignore (paintable#paint ((Obj.magic graphics), index, dx, dy));
+        ignore ((self#paintable)#paint ((Obj.magic graphics), index, dx, dy));
         dx
         end [@@warning "-7-20"]
     
@@ -112,25 +112,25 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
             ignore (myFontProcessor#process ((Obj.magic graphics)));
             let start : int ref = ref ((self#getStartIndex ())) in ();
             let size : int ref = ref ((self#size ())) in ();
-            let dx : int ref = ref (x) in ();
-            let dy : int ref = ref (y) in ();
+            let dx : int ref = ref ((self#x)) in ();
+            let dy : int ref = ref ((self#y)) in ();
             ignore (rectPaintable#paint ((Obj.magic graphics)));
-            ignore ((Obj.magic graphics)#drawString ((self#getTitle ()), x, (y - fontHeight), 0));
+            ignore ((Obj.magic graphics)#drawString ((self#getTitle ()), (self#x), ((self#y) - fontHeight), 0));
             let item : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
             for index = !start to !size - 1 do
                 item := Obj.repr ((self#get (index)));
-                if (!dx >= (rectangle#getMaxX ())) then begin
+                if (!dx >= ((self#rectangle)#getMaxX ())) then begin
                     if logged then begin
                         ()
                     end else begin
                         logged <- true;
-                        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("painting beyond maxx: "))#appendint ((java_to_int (Obj.repr ((rectangle#getMaxX ())))))))), self, canvasStrings#pAINT))))
+                        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("painting beyond maxx: "))#appendint ((java_to_int (Obj.repr (((self#rectangle)#getMaxX ())))))))), self, (self#canvasStrings)#pAINT))))
                     end
                 end;
                 dx := (multipleScrollSelectionHorizontalFormTypeItemIndexPaintable#paint ((Obj.magic graphics), index, (Obj.magic !item), !dx, !dy))
             done
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (commonStrings#eXCEPTION, self, canvasStrings#pAINT))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#pAINT))))
         end)
         end [@@warning "-7-20"]
 

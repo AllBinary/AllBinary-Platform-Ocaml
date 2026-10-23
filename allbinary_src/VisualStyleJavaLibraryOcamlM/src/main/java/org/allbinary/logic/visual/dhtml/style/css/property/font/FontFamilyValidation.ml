@@ -38,15 +38,15 @@ class fontFamilyValidation () =
         (try
             let valid : bool ref = ref (true) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("FontFamilyValidation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("FontFamilyValidation", self, (self#commonStrings)#iS_VALID))
             end;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (("CssValidation: " ^ java_string_of (Obj.repr (!valid))), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF (("CssValidation: " ^ java_string_of (Obj.repr (!valid))), self, (self#commonStrings)#iS_VALID))
             end;
             !valid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate data", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate data", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

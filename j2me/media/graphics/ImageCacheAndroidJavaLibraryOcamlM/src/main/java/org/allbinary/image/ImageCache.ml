@@ -62,7 +62,7 @@ class imageCache () =
                 raise (Java_return (Obj.repr (index)))
             end
         done;
-        ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("unable to find key: "))#append (((StringUtil.getInstance ())#toString (key)))))), self, commonStrings#rUN));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("unable to find key: "))#append (((StringUtil.getInstance ())#toString (key)))))), self, commonStrings#rUN));
         raise (Failure ("RuntimeException"))
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
@@ -73,19 +73,19 @@ class imageCache () =
         let foundIndex : int ref = ref ((self#getIndexWH (width, height))) in ();
         let image : Obj.t ref = ref ((Obj.repr (self#getFromAvailable (!foundIndex, width, height)))) in ();
         if ((Obj.repr (Obj.magic !image)) == (Obj.repr (NullImage.get_nULL_IMAGE ()))) then begin
-            volume <- (volume + (width * height));
-            if (volume > 32000) then begin
+            (self#set_volume) (((self#volume) + (width * height)));
+            if ((self#volume) > 32000) then begin
                 ignore ((Obj.magic tsUtil)#gc ());
-                volume <- 0
+                (self#set_volume) (0)
             end;
             image := Obj.repr ((self#createImage (caller, width, height)));
             if (!foundIndex = (-1)) then begin
-                foundIndex := nextIndex;
-                widths.(nextIndex) <- (Obj.magic (width));
-                heights.(nextIndex) <- (Obj.magic (height));
-                nextIndex <- nextIndex + 1
+                foundIndex := (self#nextIndex);
+                (self#widths).((self#nextIndex)) <- (Obj.magic (width));
+                (self#heights).((self#nextIndex)) <- (Obj.magic (height));
+                (self#set_nextIndex) ((self#nextIndex) + 1)
             end;
-            ignore (listOfList.(!foundIndex)#add ((Obj.magic !image)))
+            ignore ((self#listOfList).(!foundIndex)#add ((Obj.magic !image)))
         end;
         (Obj.magic ((Obj.magic !image)))
         end [@@warning "-7"]
@@ -100,19 +100,19 @@ class imageCache () =
         if ((Obj.repr (Obj.magic !image)) == (Obj.repr (NullImage.get_nULL_IMAGE ()))) then begin
             let inputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !resourceUtil)#getResourceAsStream ((Obj.magic key))))) in ();
             (try
-                ignore (logUtil#putF ((Memory.getInfo ()), self, commonStrings#gET));
+                ignore ((self#logUtil)#putF ((Memory.getInfo ()), self, commonStrings#gET));
                 image := Obj.repr ((self#createImageFromInputStream (key, (Obj.magic !inputStream))))
             with e -> begin
-                ignore (logUtil#put ("Exception: Trying Again After GC", self, commonStrings#gET, e));
-                ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("InputStream: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic !inputStream))))))), self, commonStrings#gET));
+                ignore ((self#logUtil)#put ("Exception: Trying Again After GC", self, commonStrings#gET, e));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("InputStream: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic !inputStream))))))), self, commonStrings#gET));
                 ignore ((Obj.magic tsUtil)#gc ());
                 ignore ((Obj.magic tsUtil)#gc ());
-                ignore (logUtil#putF ((Memory.getInfo ()), self, commonStrings#gET));
+                ignore ((self#logUtil)#putF ((Memory.getInfo ()), self, commonStrings#gET));
                 ignore (Unix.sleepf (Float.of_int (100) /. 1000.0));
                 image := Obj.repr ((self#createImageFromInputStream (key, (Obj.magic !inputStream))))
             end);
             ignore ((Obj.magic !inputStream)#close ());
-            ignore (hashtable#put (!resourceId, (Obj.magic !image)))
+            ignore ((self#hashtable)#put (!resourceId, (Obj.magic !image)))
         end;
         (Obj.magic ((Obj.magic !image)))
         end [@@warning "-7"]

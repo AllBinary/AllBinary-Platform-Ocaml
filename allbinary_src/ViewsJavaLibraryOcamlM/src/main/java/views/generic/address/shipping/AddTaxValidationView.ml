@@ -46,13 +46,13 @@ class addTaxValidationView ((transformInfoInterface : TransformInfoInterface.tra
         try
         begin
         (try
-            streetAddress <- (new StreetAddress.streetAddress ((self#getRequest ())));
+            (self#set_streetAddress) ((new StreetAddress.streetAddress ((self#getRequest ()))));
             let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance (((self#getTransformInfoInterface ())#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
-            let taxInterface : TaxModuleInterface.taxModuleInterface ref = ref ((((TaxFactory.getInstance ())#getInstance (abeClientInformation, !storeFrontInterface)) :> TaxModuleInterface.taxModuleInterface)) in ();
+            let taxInterface : TaxModuleInterface.taxModuleInterface ref = ref ((((TaxFactory.getInstance ())#getInstance ((self#abeClientInformation), !storeFrontInterface)) :> TaxModuleInterface.taxModuleInterface)) in ();
             if (!taxInterface == (Obj.magic 0)) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
-            if ((Obj.repr (!taxInterface#isValid (streetAddress, !storeFrontInterface))) == (Obj.repr false)) then begin
+            if ((Obj.repr (!taxInterface#isValid ((self#streetAddress), !storeFrontInterface))) == (Obj.repr false)) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
             let billingAddressesEntity : ShippingAddressesEntity.shippingAddressesEntity ref = ref (((new ShippingAddressesEntity.shippingAddressesEntity (((self#getWeblisketSession ())#getUserName ()))) :> ShippingAddressesEntity.shippingAddressesEntity)) in ();
@@ -70,7 +70,7 @@ class addTaxValidationView ((transformInfoInterface : TransformInfoInterface.tra
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -83,11 +83,11 @@ class addTaxValidationView ((transformInfoInterface : TransformInfoInterface.tra
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance (((self#getTransformInfoInterface ())#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
-            let taxInterface : TaxModuleInterface.taxModuleInterface ref = ref ((((TaxFactory.getInstance ())#getInstance (abeClientInformation, !storeFrontInterface)) :> TaxModuleInterface.taxModuleInterface)) in ();
+            let taxInterface : TaxModuleInterface.taxModuleInterface ref = ref ((((TaxFactory.getInstance ())#getInstance ((self#abeClientInformation), !storeFrontInterface)) :> TaxModuleInterface.taxModuleInterface)) in ();
             if (!taxInterface == (Obj.magic 0)) then begin
                 ignore (!stringBuffer#append ("Unable to Load Tax Component<br/>"))
             end else begin
-                if ((Obj.repr (!taxInterface#isValid (streetAddress, !storeFrontInterface))) == (Obj.repr false)) then begin
+                if ((Obj.repr (!taxInterface#isValid ((self#streetAddress), !storeFrontInterface))) == (Obj.repr false)) then begin
                     ignore (!stringBuffer#append ("Unable to validate address with Tax Component<br/>"))
                 end
             end;

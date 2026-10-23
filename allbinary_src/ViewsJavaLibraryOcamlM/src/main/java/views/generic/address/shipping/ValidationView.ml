@@ -34,18 +34,18 @@ class validationView ((transformInfoInterface : TransformInfoInterface.transform
         try
         begin
         let billingAddressesEntity : ShippingAddressesEntity.shippingAddressesEntity ref = ref (((new ShippingAddressesEntity.shippingAddressesEntity (((self#getWeblisketSession ())#getUserName ()))) :> ShippingAddressesEntity.shippingAddressesEntity)) in ();
-        streetAddressList <- (!billingAddressesEntity#get ());
-        if (streetAddressList == (Obj.magic 0)) then begin
+        (self#set_streetAddressList) ((!billingAddressesEntity#get ()));
+        if ((self#streetAddressList) == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        let size : int ref = ref ((streetAddressList#size ())) in ();
+        let size : int ref = ref (((self#streetAddressList)#size ())) in ();
         for index = 0 to !size - 1 do
             let streetAddress : StreetAddress.streetAddress ref = ref (((Obj.magic (streetAddressList#get (index))) :> StreetAddress.streetAddress)) in ();
             if ((Obj.repr (!streetAddress#isValid ())) == (Obj.repr false)) then begin
                 ignore (streetAddressList#remove (!streetAddress))
             end
         done;
-        if ((streetAddressList#size ()) < 1) then begin
+        if (((self#streetAddressList)#size ()) < 1) then begin
             raise (Java_return (Obj.repr (false)))
         end;
         true

@@ -105,12 +105,12 @@ class numberStringHud ((prependString_arg : string), (max_arg : int), (location 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         let charArray : char array ref = ref (pREPEND_STRING) in ();
         let len : int ref = ref ((Array.length pREPEND_STRING)) in ();
         let charArray2 : char array ref = ref (valueString) in ();
         let len2 : int ref = ref (valueTotalDigits) in ();
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#getBasicColorP ())));
+        ignore ((self#basicSetColorUtil)#setBasicColorP ((Obj.magic graphics), (self#getBasicColorP ())));
         ignore ((Obj.magic graphics)#drawChars (!charArray, 0, !len, x, y, 0));
         ignore ((Obj.magic graphics)#drawChars (!charArray2, 0, !len2, (x - offset), y, 0))
         end [@@warning "-7-20"]

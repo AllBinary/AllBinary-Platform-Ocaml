@@ -41,7 +41,7 @@ class xmlValidationTransformTag () =
             !result
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iS_VALID, e))
             end;
             raise e
         end)
@@ -55,13 +55,13 @@ class xmlValidationTransformTag () =
             ignore (self#setHelper ());
             if (self#isValid ()) then begin
                 ignore (super#doStartTag ());
-                raise (Java_return (Obj.repr (eVAL_BODY_INCLUDE)))
+                raise (Java_return (Obj.repr ((self#eVAL_BODY_INCLUDE))))
             end else begin
                 ignore (super#doStartTag ());
-                raise (Java_return (Obj.repr (sKIP_BODY)))
+                raise (Java_return (Obj.repr ((self#sKIP_BODY))))
             end
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

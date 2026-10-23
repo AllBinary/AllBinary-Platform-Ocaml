@@ -20,14 +20,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
 class rTSPlayerLeftGameInputProcessor (rtsPlayerGameInput) =
-  object
+  object (self)
     inherit RTSPlayerGameInputProcessor.rTSPlayerGameInputProcessor (rtsPlayerGameInput)
     
     
 
     method processEvent : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_allbinaryLayerManager, _gameKeyEvent) ->
         begin
-        ignore (rtsPlayerGameInput#left ())
+        ignore ((self#rtsPlayerGameInput)#left ())
         end [@@warning "-7-20"]
 
     initializer

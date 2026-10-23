@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class gameInputProcessorComposite ((name_arg : string), (gameInputProcessorInterface_arg : GameInputProcessorInterface.gameInputProcessorInterface)) =
   object (self)
-    inherit PlayerGameInput.playerGameInput ((new BasicArrayListD.basicArrayListD ()), (new BasicArrayListD.basicArrayListD ()), (-1))
+    inherit PlayerGameInput.playerGameInput ((new BasicArrayListD.basicArrayListD ()), (new BasicArrayListD.basicArrayListD ()), (-1)) as super
     val mutable name : string = ""
     method name = name
     method set_name value' = name <- value'
@@ -43,14 +43,14 @@ class gameInputProcessorComposite ((name_arg : string), (gameInputProcessorInter
             let list : BasicArrayList.basicArrayList ref = ref (((self#getGameKeyEventList ()) :> BasicArrayList.basicArrayList)) in ();
             ignore (gameInputProcessorInterface#onInput (!list))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, commonStrings#uPDATE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#uPDATE, e))
         end)
         end [@@warning "-7"]
     
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr super))))#append (nAME_LABEL))#append (name))))
+        (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((super#toString ())))#append (nAME_LABEL))#append (name))))
         end [@@warning "-7"]
 
     initializer

@@ -91,7 +91,7 @@ class allBinaryHTMLImageRotationAnimation (originalImage_arg, image, (angleInfo 
     method setAlpha ((alpha : int)) : unit =
         begin
         let changed : bool ref = ref (false) in ();
-        if (alphaP != alpha) then begin
+        if ((self#alphaP) != alpha) then begin
             changed := true
         end;
         ignore (super#setAlpha (alpha));
@@ -120,8 +120,8 @@ class allBinaryHTMLImageRotationAnimation (originalImage_arg, image, (angleInfo 
         begin
         let canvasSurface : Obj.t ref = ref ((Obj.repr (Obj.magic canvasSurfaceArray).(bufferedImageIndex))) in ();
         ignore ((Obj.magic !canvasSurface)#save ());
-        ignore ((Obj.magic imageRotationUtil)#rotateImageCanvasSurfaceClear ((Obj.magic originalImage), (Obj.magic twoImages).(bufferedImageIndex), (Obj.magic !canvasSurface), ((angleInfo#getAngle ()) + 90)));
-        ignore (alphaProcessor#setAlpha ((Obj.magic imageModifierUtil), (Obj.magic originalImage), (Obj.magic twoImages).(bufferedImageIndex), alphaP));
+        ignore ((Obj.magic imageRotationUtil)#rotateImageCanvasSurfaceClear ((Obj.magic originalImage), (Obj.magic twoImages).(bufferedImageIndex), (Obj.magic !canvasSurface), (((self#angleInfo)#getAngle ()) + 90)));
+        ignore (alphaProcessor#setAlpha ((Obj.magic imageModifierUtil), (Obj.magic originalImage), (Obj.magic twoImages).(bufferedImageIndex), (self#alphaP)));
         ignore ((Obj.magic imageRotationUtil)#drawImage ((Obj.magic originalImage), (Obj.magic imageToShow), (Obj.magic !canvasSurface)));
         ignore ((Obj.magic !canvasSurface)#restore ());
         (self#swap ())
@@ -149,7 +149,7 @@ class allBinaryHTMLImageRotationAnimation (originalImage_arg, image, (angleInfo 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic graphics)#drawImage ((Obj.magic imageToShow), x, y, anchor))
+        ignore ((Obj.magic graphics)#drawImage ((Obj.magic imageToShow), x, y, (self#anchor)))
         end [@@warning "-7-20"]
 
     initializer

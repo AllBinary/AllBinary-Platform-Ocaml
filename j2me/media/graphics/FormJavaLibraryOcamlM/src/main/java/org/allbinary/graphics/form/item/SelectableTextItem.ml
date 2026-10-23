@@ -35,7 +35,7 @@ class selectableTextItem ((label : string), (layout : int), (altText : string), 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
+        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         let stringComponent : Obj.t ref = ref ((Obj.repr (self#getLabelStringComponent ()))) in ();
         if ((Obj.magic !stringComponent) != (Obj.magic 0)) then begin
             ignore ((Obj.magic graphics)#setColor ((((Obj.magic !stringComponent)#getForegroundBasicColor ())#intValue ())))

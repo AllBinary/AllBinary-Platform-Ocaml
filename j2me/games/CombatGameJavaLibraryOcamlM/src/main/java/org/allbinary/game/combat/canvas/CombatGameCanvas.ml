@@ -80,7 +80,7 @@ class combatGameCanvas (cmdListener, (gameLayerManager : AllBinaryGameLayerManag
         ignore (super#processPlayingGame ());
         let index : int ref = ref ((Array.length !basicLayerProcessor)) in ();
         while ((index := !index - 1; !index) >= 0) do
-            ignore (!basicLayerProcessor.(!index)#process (gameLayerManager))
+            ignore (!basicLayerProcessor.(!index)#process ((self#gameLayerManager)))
         done
         end [@@warning "-7"]
     
@@ -101,7 +101,7 @@ class combatGameCanvas (cmdListener, (gameLayerManager : AllBinaryGameLayerManag
 
     method cleanupManager () : unit =
         begin
-        ignore (gameLayerManager#cleanup ())
+        ignore ((self#gameLayerManager)#cleanup ())
         end [@@warning "-7"]
 
     initializer

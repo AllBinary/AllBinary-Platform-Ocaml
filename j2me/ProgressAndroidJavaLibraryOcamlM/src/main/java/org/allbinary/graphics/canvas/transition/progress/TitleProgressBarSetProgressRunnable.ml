@@ -33,7 +33,7 @@ class titleProgressBarSetProgressRunnable (midletActivity, (progressCanvas : Pro
     method run () : unit =
         begin
         (try
-            ignore (midletActivity#onSetProgress ((java_to_int (Obj.repr ((progressCanvas#getValue ())))), (progressCanvas#getText ())))
+            ignore ((self#midletActivity)#onSetProgress ((java_to_int (Obj.repr (((self#progressCanvas)#getValue ())))), ((self#progressCanvas)#getText ())))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#rUN, e))

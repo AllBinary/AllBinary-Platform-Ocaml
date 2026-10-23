@@ -39,9 +39,9 @@ class updateTaxValidationView ((transformInfoInterface : TransformInfoInterface.
     method isValid () : bool =
         try
         begin
-        streetAddress <- (new StreetAddress.streetAddress ((self#getRequest ())));
+        (self#set_streetAddress) ((new StreetAddress.streetAddress ((self#getRequest ()))));
         let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance (((self#getTransformInfoInterface ())#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
-        if ((Obj.repr (((TaxFactory.getInstance ())#getInstance (abeClientInformation, !storeFrontInterface))#isValid (streetAddress, !storeFrontInterface))) == (Obj.repr false)) then begin
+        if ((Obj.repr (((TaxFactory.getInstance ())#getInstance ((self#abeClientInformation), !storeFrontInterface))#isValid ((self#streetAddress), !storeFrontInterface))) == (Obj.repr false)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
         let billingAddressesEntity : ShippingAddressesEntity.shippingAddressesEntity ref = ref (((new ShippingAddressesEntity.shippingAddressesEntity (((self#getWeblisketSession ())#getUserName ()))) :> ShippingAddressesEntity.shippingAddressesEntity)) in ();

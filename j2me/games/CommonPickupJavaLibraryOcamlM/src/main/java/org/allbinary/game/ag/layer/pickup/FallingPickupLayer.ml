@@ -38,7 +38,7 @@ class fallingPickupLayer (remoteInfo) =
 
     method processTick : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
         begin
-        ignore (self#setPosition (x, (y + 1), z))
+        ignore (self#setPosition ((self#x), ((self#y) + 1), (self#z)))
         end [@@warning "-7-20"]
     
 

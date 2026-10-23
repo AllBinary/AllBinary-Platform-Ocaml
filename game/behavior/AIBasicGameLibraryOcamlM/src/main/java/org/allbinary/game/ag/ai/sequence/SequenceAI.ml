@@ -32,7 +32,7 @@ let get_sEQUENCE_AI () = sEQUENCE_AI
 let () = java_register_static "SequenceAI.get_sEQUENCE_AI" (fun _ -> Obj.repr (get_sEQUENCE_AI ()))
 class sequenceAI ((artificialIntelligenceInterfaceArray : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
   object (self)
-    inherit ArrayAI.arrayAI (artificialIntelligenceInterfaceArray, ownerLayerInterface, gameInput)
+    inherit ArrayAI.arrayAI (artificialIntelligenceInterfaceArray, ownerLayerInterface, gameInput) as super
     val mutable index : int = 0
     method index = index
     method set_index value' = index <- value'
@@ -84,7 +84,7 @@ class sequenceAI ((artificialIntelligenceInterfaceArray : ArtificialIntelligence
     method toString () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         ignore (!stringBuffer#append (" Selected AI: "));
         ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString ((self#getSelectedArtificialIntelligenceInterface ())))));
         (java_string_of (Obj.repr !stringBuffer))

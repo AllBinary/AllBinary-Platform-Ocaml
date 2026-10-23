@@ -48,7 +48,7 @@ class imageArraySpecialAnimation (imageArray, (animationBehavior : AnimationBeha
 
     method setLastFrame () : unit =
         begin
-        ignore (circularIndexUtil#setIndex (((circularIndexUtil#getSize ()) - 1)))
+        ignore ((self#circularIndexUtil)#setIndex ((((self#circularIndexUtil)#getSize ()) - 1)))
         end [@@warning "-7"]
     
 
@@ -89,7 +89,7 @@ class imageArraySpecialAnimation (imageArray, (animationBehavior : AnimationBeha
         let x = ref x in
         let y = ref y in
         begin
-        x := (((DisplayInfoSingleton.getInstance ())#getLastHalfWidth ()) - ((((self#getImage ((circularIndexUtil#getIndex ())))#getWidth ()) asr 1)));
+        x := (((DisplayInfoSingleton.getInstance ())#getLastHalfWidth ()) - ((((self#getImage (((self#circularIndexUtil)#getIndex ())))#getWidth ()) asr 1)));
         y := 5;
         ignore (super#paintXY ((Obj.magic graphics), !x, !y))
         end [@@warning "-7-20"]

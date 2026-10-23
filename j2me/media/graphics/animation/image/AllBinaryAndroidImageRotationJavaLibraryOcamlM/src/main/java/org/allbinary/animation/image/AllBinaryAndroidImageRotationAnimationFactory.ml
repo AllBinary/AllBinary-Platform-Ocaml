@@ -41,10 +41,10 @@ class allBinaryAndroidImageRotationAnimationFactory (image, (width : int), (heig
 
     method init ((dx : int), (dy : int)) : unit =
         begin
-        animationFactoryInitializationVisitor#set_dx (dx);
-        animationFactoryInitializationVisitor#set_dy (dy);
-        animationFactoryInitializationVisitor#set_originalDx (dx);
-        animationFactoryInitializationVisitor#set_originalDy (dy)
+        (self#animationFactoryInitializationVisitor)#set_dx (dx);
+        (self#animationFactoryInitializationVisitor)#set_dy (dy);
+        (self#animationFactoryInitializationVisitor)#set_originalDx (dx);
+        (self#animationFactoryInitializationVisitor)#set_originalDy (dy)
         end [@@warning "-7"]
     
     
@@ -66,13 +66,13 @@ class allBinaryAndroidImageRotationAnimationFactory (image, (width : int), (heig
         try
         begin
         let canvasImage : Obj.t ref = ref ((Obj.repr (self#getCanvasImage ()))) in ();
-        let scaledImage : Obj.t ref = ref ((Obj.repr (animationFactoryImageScaleUtil#createImage ((Obj.magic !canvasImage), animationFactoryInitializationVisitor#width, animationFactoryInitializationVisitor#height, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
+        let scaledImage : Obj.t ref = ref ((Obj.repr ((self#animationFactoryImageScaleUtil)#createImage ((Obj.magic !canvasImage), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
         let copyOfScaledImage : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "ImageCopyUtil.getInstance" (Obj.repr ())))#createImage ((Obj.magic !scaledImage))))) in ();
-        if ((animationFactoryInitializationVisitor#dx != 0) || (animationFactoryInitializationVisitor#dy != 0)) then begin
-            ignore (animationFactoryImageScaleUtil#processAdjust (self));
-            raise (Java_return (Obj.repr ((new AllBinaryAdjustedAndroidImageRotationAnimation.allBinaryAdjustedAndroidImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, animationFactoryInitializationVisitor#dx, animationFactoryInitializationVisitor#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
+        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            raise (Java_return (Obj.repr ((new AllBinaryAdjustedAndroidImageRotationAnimation.allBinaryAdjustedAndroidImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
         end else begin
-            raise (Java_return (Obj.repr ((new AllBinaryFlickerAndroidImageRotationAnimation.allBinaryFlickerAndroidImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (animationBehaviorFactory#getOrCreateInstance ()))))))
+            raise (Java_return (Obj.repr ((new AllBinaryFlickerAndroidImageRotationAnimation.allBinaryFlickerAndroidImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]

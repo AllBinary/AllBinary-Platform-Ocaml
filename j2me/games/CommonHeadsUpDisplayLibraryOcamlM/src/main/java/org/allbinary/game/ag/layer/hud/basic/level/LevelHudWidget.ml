@@ -56,7 +56,7 @@ class levelHudWidget ((maxlevel_arg : int), (location : int), (direction : int))
         let graphics = Obj.repr graphics in
         begin
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        updateMaxWidth <- (((Obj.magic !font)#getSize ()) * 4);
+        (self#set_updateMaxWidth) ((((Obj.magic !font)#getSize ()) * 4));
         offset <- (((Obj.magic !font)#charsWidth (levelString, 0, (Array.length levelString))) + ((Obj.magic !font)#getSize ()));
         ignore (super#updateMeasurement ((Obj.magic graphics)))
         end [@@warning "-7-20"]
@@ -134,7 +134,7 @@ class levelHudWidget ((maxlevel_arg : int), (location : int), (direction : int))
         maxlevel <- maxlevel_arg;
         level <- maxlevel_arg;
         (self#update ());
-        updateMaxHeight <- 14
+        (self#set_updateMaxHeight) (14)
       end
   end
 let () = java_register_constructor "LevelHudWidget" (fun arguments -> Obj.repr (new levelHudWidget (Obj.obj arguments)))

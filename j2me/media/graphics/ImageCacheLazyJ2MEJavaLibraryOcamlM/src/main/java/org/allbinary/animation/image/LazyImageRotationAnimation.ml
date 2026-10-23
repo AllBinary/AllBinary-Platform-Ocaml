@@ -40,7 +40,7 @@ let get_sET_REAL_ANIMATION () = sET_REAL_ANIMATION
 let () = java_register_static "LazyImageRotationAnimation.get_sET_REAL_ANIMATION" (fun _ -> Obj.repr (get_sET_REAL_ANIMATION ()))
 class lazyImageRotationAnimation ((layoutIndex_arg : int), (instanceId_arg : int), (scaleProperties_arg : ScaleProperties.scaleProperties), (animationInterfaceFactoryInterface_arg : BaseImageAnimationFactory.baseImageAnimationFactory), (animationBehavior : AnimationBehavior.animationBehavior)) =
   object (self)
-    inherit RotationAnimation.rotationAnimation ((AngleInfo.getInstance ((AngleFactory.getInstance ())#qUARTER_TOTAL_ANGLE)), (CircularIndexUtil.createInstance (4)), animationBehavior)
+    inherit RotationAnimation.rotationAnimation ((AngleInfo.getInstance ((AngleFactory.getInstance ())#qUARTER_TOTAL_ANGLE)), (CircularIndexUtil.createInstance (4)), animationBehavior) as super
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
@@ -73,7 +73,7 @@ class lazyImageRotationAnimation ((layoutIndex_arg : int), (instanceId_arg : int
             animation <- (Obj.magic (animationInterfaceFactoryInterface#getInstance (instanceId)));
             ignore (animation#setState (!animation_arg))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, sET_REAL_ANIMATION, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, sET_REAL_ANIMATION, e))
         end)
         end [@@warning "-7"]
     
@@ -284,7 +284,7 @@ class lazyImageRotationAnimation ((layoutIndex_arg : int), (instanceId_arg : int
         (try
             ignore (animation#paintXY ((Obj.magic graphics), x, y))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#pROCESS, e))
         end)
         end [@@warning "-7-20"]
     
@@ -295,7 +295,7 @@ class lazyImageRotationAnimation ((layoutIndex_arg : int), (instanceId_arg : int
         (try
             ignore (animation#paintThreedXYZ ((Obj.magic graphics), x, y, z))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#pROCESS, e))
         end)
         end [@@warning "-7-20"]
     
@@ -304,7 +304,7 @@ class lazyImageRotationAnimation ((layoutIndex_arg : int), (instanceId_arg : int
         begin
         let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
         let image : Obj.t ref = ref ((Obj.repr (animationInterfaceFactoryInterface#getImage ()))) in ();
-        (java_string_of (Obj.repr ((((((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr super))))#append (!commonSeps#sPACE))#append (((Obj.magic !image)#getName ())))#append (!commonSeps#sPACE))#appendint ((java_to_int (Obj.repr (((Obj.magic !image)#getWidth ()))))))#append (!commonSeps#sPACE))#appendint ((java_to_int (Obj.repr (((Obj.magic !image)#getHeight ()))))))))
+        (java_string_of (Obj.repr ((((((((new StringMaker.stringMaker ())#append ((super#toString ())))#append (!commonSeps#sPACE))#append (((Obj.magic !image)#getName ())))#append (!commonSeps#sPACE))#appendint ((java_to_int (Obj.repr (((Obj.magic !image)#getWidth ()))))))#append (!commonSeps#sPACE))#appendint ((java_to_int (Obj.repr (((Obj.magic !image)#getHeight ()))))))))
         end [@@warning "-7"]
 
     initializer

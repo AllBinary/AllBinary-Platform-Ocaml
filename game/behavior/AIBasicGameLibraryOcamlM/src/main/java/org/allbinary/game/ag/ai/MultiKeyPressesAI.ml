@@ -46,20 +46,20 @@ class multiKeyPressesAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBin
     method update () : unit =
         begin
         let gameInput : GameInput.gameInput ref = ref (((self#getGameInput ()) :> GameInput.gameInput)) in ();
-        let keys : int array ref = ref (keys) in ();
+        let keys : int array ref = ref ((self#keys)) in ();
         let size : int ref = ref ((Array.length !keys)) in ();
         if (self#isOn ()) then begin
             for index = 0 to !size - 1 do
                 let key : int ref = ref ((!keys.(index)#intValue ())) in ();
                 if (!key <> (-1)) then begin
-                    ignore (!gameInput#add ((gameKeyEventFactory#getInstanceForKey (self, !key))))
+                    ignore (!gameInput#add (((self#gameKeyEventFactory)#getInstanceForKey (self, !key))))
                 end
             done
         end else begin
             for index = 0 to !size - 1 do
                 let key : int ref = ref ((!keys.(index)#intValue ())) in ();
                 if (!key <> (-1)) then begin
-                    ignore (!gameInput#addForRemoval ((gameKeyEventFactory#getInstanceForKey (self, !key))))
+                    ignore (!gameInput#addForRemoval (((self#gameKeyEventFactory)#getInstanceForKey (self, !key))))
                 end
             done
         end

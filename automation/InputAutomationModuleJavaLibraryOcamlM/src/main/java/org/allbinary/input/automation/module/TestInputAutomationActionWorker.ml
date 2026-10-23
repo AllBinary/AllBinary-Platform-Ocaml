@@ -45,7 +45,7 @@ class testInputAutomationActionWorker ((sleep_arg : int), (inputAutomationAction
 
     method process () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#pROCESS));
+        ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#pROCESS));
         let hashtable : Obj.t ref = ref ((Obj.repr ((InputRobotFactory.getInstance ())#get ()))) in ();
         let set : Obj.t ref = ref ((Obj.repr ((Obj.magic !hashtable)#keySet ()))) in ();
         let inputTypeNameArray : Obj.t array ref = ref (((Obj.magic !set)#toArray ())) in ();
@@ -65,7 +65,7 @@ class testInputAutomationActionWorker ((sleep_arg : int), (inputAutomationAction
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((Obj.magic logUtil)#putF ("BasicTestAttackWorder", self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF ("BasicTestAttackWorder", self, (self#commonStrings)#cONSTRUCTOR));
         sleep <- sleep_arg
       end
   end [@@warning "-20"]

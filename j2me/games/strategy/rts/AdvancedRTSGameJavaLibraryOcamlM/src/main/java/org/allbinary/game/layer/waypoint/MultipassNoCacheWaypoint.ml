@@ -83,15 +83,15 @@ class multipassNoCacheWaypoint ((ownerLayer_arg : PathFindingLayerInterface.path
                 raise (Failure (("Start should not be End: " ^ java_string_of (Obj.repr (!endGeographicMapCellPosition)))))
             end
         end;
-        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+        let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
         let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
         let raceTrackGeographicMap : RaceTrackGeographicMap.raceTrackGeographicMap ref = ref (((Obj.magic !geographicMapInterface) :> RaceTrackGeographicMap.raceTrackGeographicMap)) in ();
         let raceTrackGeographicMapCellTypeFactory : GeographicMapCellTypeFactory.geographicMapCellTypeFactory ref = ref (((!raceTrackGeographicMap#getGeographicMapCellTypeFactory ()) :> GeographicMapCellTypeFactory.geographicMapCellTypeFactory)) in ();
         let customMapGenerator : Obj.t ref = ref ((Obj.repr (Obj.magic (!raceTrackGeographicMap#getCustomMapGenerator ())))) in ();
         ignore ((Obj.magic !customMapGenerator)#copyMapIntoCustomMap ());
         let customMapArray : int array array ref = ref (((Obj.magic !customMapGenerator)#getCustomMapArray ())) in ();
-        !customMapArray.((!startGeographicMapCellPosition#getRow ())).((!startGeographicMapCellPosition#set_getColumn ())) ((!raceTrackGeographicMapCellTypeFactory#getStartType ()));
-        !customMapArray.((!endGeographicMapCellPosition#getRow ())).((!endGeographicMapCellPosition#set_getColumn ())) ((!raceTrackGeographicMapCellTypeFactory#getEndType ()));
+        !customMapArray.((!startGeographicMapCellPosition#getRow ())).((!startGeographicMapCellPosition#getColumn ())) <- (!raceTrackGeographicMapCellTypeFactory#getStartType ());
+        !customMapArray.((!endGeographicMapCellPosition#getRow ())).((!endGeographicMapCellPosition#getColumn ())) <- (!raceTrackGeographicMapCellTypeFactory#getEndType ());
         let pathFindingInfo : PathFindingInfo.pathFindingInfo ref = ref ((((Obj.magic (java_call_static "PathFindingInfoFactory.getInstance" (Obj.repr ())))#getInstancePathFindingInfo (!raceTrackGeographicMap, !customMapArray)) :> PathFindingInfo.pathFindingInfo)) in ();
         (!pathFindingInfo :> PathFindingInfo.pathFindingInfo)
         end
@@ -108,7 +108,7 @@ class multipassNoCacheWaypoint ((ownerLayer_arg : PathFindingLayerInterface.path
                 ignore ((Obj.magic logUtil)#putF (("pathFindingInfo: " ^ java_string_of (Obj.repr ((Obj.magic pathFindingInfo)))), self, "getPathsList"));
                 raise (Java_return (Obj.repr (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()))))
             end;
-            let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic allBinaryGameLayerManagerP) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
+            let geographicMapCompositeInterface : GeographicMapCompositeInterface.geographicMapCompositeInterface ref = ref (((Obj.magic (self#allBinaryGameLayerManagerP)) :> GeographicMapCompositeInterface.geographicMapCompositeInterface)) in ();
             let geographicMapInterface : BasicGeographicMap.basicGeographicMap ref = ref (((!geographicMapCompositeInterface#getGeographicMapInterface ()).(0) :> BasicGeographicMap.basicGeographicMap)) in ();
             let list : BasicArrayList.basicArrayList ref = ref ((((Obj.magic (java_call_static "PathGenerator.getInstance" (Obj.repr ())))#createN (!geographicMapInterface, (Obj.magic pathFindingInfo), 2, (Obj.magic multipassState))) :> BasicArrayList.basicArrayList)) in ();
             if ((!list != (Obj.magic 0)) && ((Obj.repr !list) != (Obj.repr ((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))) then begin

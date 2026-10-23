@@ -47,7 +47,7 @@ class collidableCompositeLayer ((name : string), layerInfo, (viewPosition : View
 
     method getArtificialIntelligenceInterface () : ArtificialIntelligenceInterface.artificialIntelligenceInterface =
         begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, self));
+        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, self));
         ((ArtificialIntelligence.getInstance ()) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
         end [@@warning "-7"]
     

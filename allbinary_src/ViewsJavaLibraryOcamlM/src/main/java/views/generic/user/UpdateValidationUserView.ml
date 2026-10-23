@@ -46,7 +46,7 @@ class updateValidationUserView ((transformInfoInterface : TransformInfoInterface
         (try
             if (((UserEntityFactory.getInstance ())#getUser ((user#getUserName ()))) == (Obj.magic 0)) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("User does not exist", self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF ("User does not exist", self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
@@ -56,7 +56,7 @@ class updateValidationUserView ((transformInfoInterface : TransformInfoInterface
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

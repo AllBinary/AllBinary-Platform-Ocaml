@@ -79,7 +79,7 @@ class terrainEventHandler () =
                 let terrainEventListener : TerrainEventListener.terrainEventListener ref = ref (((Obj.magic (list#get (!index))) :> TerrainEventListener.terrainEventListener)) in ();
                 ignore (!terrainEventListener#onTerrainEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore (logUtil#put (commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))

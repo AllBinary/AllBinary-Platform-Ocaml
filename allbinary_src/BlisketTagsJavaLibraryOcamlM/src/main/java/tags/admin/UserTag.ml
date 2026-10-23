@@ -47,7 +47,7 @@ class userTag () =
                 if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#nEW)) == 0) then begin
                     ignore (self#setName ("New User View"));
                     ignore (self#setObjectFile ("views.admin.user.NewUserView"))
-                end else if ((((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#iNSERT_INTO)) == 0)) then begin
+                end else if ((((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#iNSERT_INTO)) == 0)) then begin
                     ignore (self#setName ("Add Validation User View"));
                     ignore (self#setObjectFile ("views.admin.user.AddValidationUserView"))
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#vIEW)) == 0) then begin
@@ -56,19 +56,19 @@ class userTag () =
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#eDIT)) == 0) then begin
                     ignore (self#setName ("Validation User View"));
                     ignore (self#setObjectFile ("views.admin.user.EditValidationUserView"))
-                end else if ((((self#getCommand ())#compareTo (commonStrings#uPDATE)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#uPDATE)) == 0)) then begin
+                end else if ((((self#getCommand ())#compareTo ((self#commonStrings)#uPDATE)) == 0) || (((self#getCommand ())#compareTo ((SqlStrings.getInstance ())#uPDATE)) == 0)) then begin
                     ignore (self#setName ("Update Validation User View"));
                     ignore (self#setObjectFile ("views.admin.user.UpdateValidationUserView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#dELETE)) == 0) then begin
                     ignore (self#setName ("Delete Validation User View"));
                     ignore (self#setObjectFile ("views.admin.user.DeleteValidationUserView"))
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#bACKUP)) == 0) then begin
                     raise (Failure ("View not implemented"))
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#rESTORE)) == 0) then begin
                     raise (Failure ("View not implemented"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#dROP)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#dROP)) == 0) then begin
                     raise (Failure ("View not implemented"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#cREATE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#cREATE)) == 0) then begin
                     raise (Failure ("View not implemented"))
                 end else begin
                     raise (Failure (("No Such View Command: " ^ java_string_of (Obj.repr ((self#getCommand ()))))))
@@ -77,7 +77,7 @@ class userTag () =
             end;
             raise (Failure ("Command Null"))
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

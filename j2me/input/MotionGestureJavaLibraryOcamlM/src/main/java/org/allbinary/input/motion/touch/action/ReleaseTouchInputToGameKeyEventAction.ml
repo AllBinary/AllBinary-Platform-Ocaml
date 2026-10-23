@@ -54,7 +54,7 @@ class releaseTouchInputToGameKeyEventAction () =
             ignore (self#setGameKeyEvent (((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, nONE))))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (logUtil#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
+            ignore ((self#logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
         end)
       end
   end

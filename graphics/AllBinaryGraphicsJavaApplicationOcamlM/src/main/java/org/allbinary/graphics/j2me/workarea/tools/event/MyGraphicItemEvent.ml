@@ -33,7 +33,7 @@ class myGraphicItemEvent ((source : Obj.t)) =
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr super))
+        (super#toString ())
         end [@@warning "-7"]
     
 

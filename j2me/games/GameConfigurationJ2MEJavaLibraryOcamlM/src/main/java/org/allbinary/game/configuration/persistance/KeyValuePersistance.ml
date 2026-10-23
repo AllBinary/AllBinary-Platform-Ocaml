@@ -55,7 +55,7 @@ class keyValuePersistance ((recordId : string)) =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (persistanceStrings#cLOSING_RECORDSTORE, self, persistanceStrings#lOAD_ALL))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, self, (self#persistanceStrings)#lOAD_ALL))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
@@ -72,7 +72,7 @@ class keyValuePersistance ((recordId : string)) =
             while ((Obj.magic !recordEnum)#hasNextElement ()) do
                 let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (logUtil#putF ((java_string_of (Obj.repr ((!stringBuffer#append (persistanceStrings#lOADING_ID))#appendint (!id)))), self, persistanceStrings#lOAD_ALL));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#lOADING_ID))#appendint (!id)))), self, (self#persistanceStrings)#lOAD_ALL));
                 recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
                 if (!recordAsBytes != (Obj.magic 0)) then begin
                     byteArrayInputStream := Obj.repr ((new ByteArrayInputStream.byteArrayInputStream (!recordAsBytes)));
@@ -84,8 +84,8 @@ class keyValuePersistance ((recordId : string)) =
                         value := ((Obj.magic !inputStream)#readUTF ());
                         ignore ((Obj.magic !hashtable)#put (!name, !value))
                     done;
-                    ignore (valueList#add ((Obj.magic !hashtable)));
-                    ignore (idList#add ((!smallIntegerSingletonFactory#getAt (!id))))
+                    ignore ((self#valueList)#add ((Obj.magic !hashtable)));
+                    ignore ((self#idList)#add ((!smallIntegerSingletonFactory#getAt (!id))))
                 end
             done
         with e -> begin
@@ -101,11 +101,11 @@ class keyValuePersistance ((recordId : string)) =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (persistanceStrings#cLOSING_RECORDSTORE, self, commonStrings#sAVE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, self, (self#commonStrings)#sAVE))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
-            ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (persistanceStrings#sAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, commonStrings#sAVE));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#persistanceStrings)#sAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, (self#commonStrings)#sAVE));
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))));
             let byteArrayOutputStream : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
             let outputStream : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))))) in ();
@@ -132,7 +132,7 @@ class keyValuePersistance ((recordId : string)) =
 
     method get : 'return. int -> 'return = fun ((index : int)) ->
         begin
-        let hashtable : Obj.t ref = ref ((Obj.repr (Obj.magic valueList#objectArray.(index)))) in ();
+        let hashtable : Obj.t ref = ref ((Obj.repr (Obj.magic (self#valueList)#objectArray.(index)))) in ();
         (Obj.magic ((Obj.magic !hashtable)))
         end [@@warning "-7"]
 

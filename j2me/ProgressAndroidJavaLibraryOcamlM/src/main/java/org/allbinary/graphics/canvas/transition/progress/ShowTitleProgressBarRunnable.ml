@@ -37,7 +37,7 @@ class showTitleProgressBarRunnable (midletActivity, (progressCanvas : ProgressCa
     method run () : unit =
         begin
         (try
-            ignore (midletActivity#onShowProgress (false, fADE_IN_HALF))
+            ignore ((self#midletActivity)#onShowProgress (false, fADE_IN_HALF))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#rUN, e))

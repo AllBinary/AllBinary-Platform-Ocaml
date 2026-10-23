@@ -83,7 +83,7 @@ class authenticationHelper ((hashMap : java_hash_map), httpServletRequest) =
             (Obj.obj (java_new "Integer" (Obj.repr ((TagSupport.get_eVAL_BODY_INCLUDE ())))))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#aUTHENTICATIONERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "invalidateSession()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "invalidateSession()", e))
             end;
             (Obj.magic 0)
         end)
@@ -157,7 +157,7 @@ class authenticationHelper ((hashMap : java_hash_map), httpServletRequest) =
         with e -> begin
             let error : string ref = ref ("Failed to set valid role") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#aUTHENTICATIONERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "validRole()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "validRole()", e))
             end;
             !error
         end)
@@ -175,7 +175,7 @@ class authenticationHelper ((hashMap : java_hash_map), httpServletRequest) =
         with e -> begin
             let error : string ref = ref ("Failed to set role invalid") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#aUTHENTICATIONERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "invalidRole()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "invalidRole()", e))
             end;
             !error
         end)
@@ -229,7 +229,7 @@ class authenticationHelper ((hashMap : java_hash_map), httpServletRequest) =
             false
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#aUTHENTICATIONERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "isAuthenticatedSessionValid()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "isAuthenticatedSessionValid()", e))
             end;
             false
         end)
@@ -272,7 +272,7 @@ class authenticationHelper ((hashMap : java_hash_map), httpServletRequest) =
             false
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#aUTHENTICATIONERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "processIfNewLogin()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "processIfNewLogin()", e))
             end;
             false
         end)
@@ -294,7 +294,7 @@ class authenticationHelper ((hashMap : java_hash_map), httpServletRequest) =
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#aUTHENTICATIONERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "processInvalidation()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "processInvalidation()", e))
             end;
             false
         end)
@@ -355,7 +355,7 @@ class authenticationHelper ((hashMap : java_hash_map), httpServletRequest) =
         weblisketSession <- (new WeblisketSession.weblisketSession (hashMap, httpServletRequest));
         (self#getFormData ());
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#aUTHENTICATION)) then begin
-            ignore ((Obj.magic logUtil)#putF ((self#outputSessionInfo ()), self, commonStrings#cONSTRUCTOR))
+            ignore ((Obj.magic logUtil)#putF ((self#outputSessionInfo ()), self, (self#commonStrings)#cONSTRUCTOR))
         end
       end
   end [@@warning "-20"]

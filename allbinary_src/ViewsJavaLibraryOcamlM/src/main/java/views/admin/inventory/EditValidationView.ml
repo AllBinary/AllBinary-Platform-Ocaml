@@ -57,14 +57,14 @@ class editValidationView ((transformInfoInterface : TransformInfoInterface.trans
         if ((id = (Obj.magic 0)) || (not ((StringValidationUtil.getInstance ())#isNumber (id)))) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        itemInterface <- (((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (id));
-        if (itemInterface == (Obj.magic 0)) then begin
+        (self#set_itemInterface) ((((InventoryEntityFactory.getInstance ())#getInventoryEntityInstance ())#getItem (id)));
+        if ((self#itemInterface) == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        let downloadable : int ref = ref ((int_of_string ((itemInterface#getDownloads ())))) in ();
+        let downloadable : int ref = ref ((int_of_string (((self#itemInterface)#getDownloads ())))) in ();
         if (!downloadable <> 0) then begin
             let downloadItemsEntity : DownloadItemsEntity.downloadItemsEntity ref = ref ((((DownloadItemsEntityFactory.getInstance ())#getDownloadItemsEntityInstance ()) :> DownloadItemsEntity.downloadItemsEntity)) in ();
-            downloadableItemVector <- (!downloadItemsEntity#getForItem ((itemInterface#getId ())))
+            (self#set_downloadableItemVector) ((!downloadItemsEntity#getForItem (((self#itemInterface)#getId ()))))
         end;
         true
         end

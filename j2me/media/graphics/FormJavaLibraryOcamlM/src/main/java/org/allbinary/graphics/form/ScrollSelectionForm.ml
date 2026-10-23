@@ -205,7 +205,7 @@ class scrollSelectionForm ((title : string), items, (formPaintableFactory : Item
         ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
         ignore (!stringBuffer#append (!commonLabels#tOTAL_LABEL));
         ignore (!stringBuffer#appendint (!size));
-        ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, gET_SELECTED_INDEX));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, gET_SELECTED_INDEX));
         let item : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         let width : int ref = ref (0) in ();
         let height : int ref = ref (0) in ();
@@ -222,20 +222,20 @@ class scrollSelectionForm ((title : string), items, (formPaintableFactory : Item
                 ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
                 ignore (!stringBuffer#append (!commonLabels#iNDEX_LABEL));
                 ignore (!stringBuffer#appendint (index));
-                ignore (logUtil#putF ((java_string_of (Obj.repr !stringBuffer)), self, gET_SELECTED_INDEX));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, gET_SELECTED_INDEX));
                 raise (Java_return (Obj.repr (index)))
             end;
-            if ((Obj.repr formType) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) then begin
+            if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) then begin
                 dx := ((!dx + !width) + border);
-                if (!dx > (rectangle#getMaxX ())) then begin
+                if (!dx > ((self#rectangle)#getMaxX ())) then begin
                     raise Java_break
                 end
-            end else if ((Obj.repr formType) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
+            end else if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
                 dy := ((!dy + !height) + border);
-                if (!dy > (rectangle#getMaxY ())) then begin
+                if (!dy > ((self#rectangle)#getMaxY ())) then begin
                     raise Java_break
                 end
-            end else if ((Obj.repr formType) == (Obj.repr !formTypeFactory#nULL_FORM_TYPE)) then begin
+            end else if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#nULL_FORM_TYPE)) then begin
                 ()
             end else begin
                 raise (Failure (!formTypeFactory#uNK))
@@ -254,19 +254,19 @@ class scrollSelectionForm ((title : string), items, (formPaintableFactory : Item
             raise (Java_return (Obj.repr ((-1))))
         end;
         let index : int ref = ref ((self#getSelectedIndex ())) in ();
-        if (((Obj.repr formType) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) || ((Obj.repr formType) == (Obj.repr !formTypeFactory#tEMP_HORIZONTAL_FORM))) then begin
+        if (((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) || ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#tEMP_HORIZONTAL_FORM))) then begin
             if (gameKeyCode = (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))) then begin
                 index := !index + 1
             end else if (gameKeyCode = (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))) then begin
                 index := !index - 1
             end
-        end else if ((Obj.repr formType) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
+        end else if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
             if (gameKeyCode = (Obj.magic (java_call_static "Canvas.get_dOWN" (Obj.repr ())))) then begin
                 index := !index + 1
             end else if (gameKeyCode = (Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))) then begin
                 index := !index - 1
             end
-        end else if ((Obj.repr formType) == (Obj.repr !formTypeFactory#nULL_FORM_TYPE)) then begin
+        end else if ((Obj.repr (self#formType)) == (Obj.repr !formTypeFactory#nULL_FORM_TYPE)) then begin
             ()
         end else begin
             raise (Failure (!formTypeFactory#uNK))
@@ -288,8 +288,8 @@ class scrollSelectionForm ((title : string), items, (formPaintableFactory : Item
         let point = Obj.repr point in
         try
         begin
-        if ((Obj.magic rectangleCollisionUtil)#isInside (x, (y - halfBorder), ((rectangle#getMaxX ()) + border), ((rectangle#getMaxY ()) + border), ((Obj.magic point)#getX ()), ((Obj.magic point)#getY ()))) then begin
-            ignore (logUtil#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString ((Obj.magic point)))))#append (iNSIDE_FORM)))), self, iS_IN_FORM));
+        if ((Obj.magic rectangleCollisionUtil)#isInside ((self#x), ((self#y) - halfBorder), (((self#rectangle)#getMaxX ()) + border), (((self#rectangle)#getMaxY ()) + border), ((Obj.magic point)#getX ()), ((Obj.magic point)#getY ()))) then begin
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString ((Obj.magic point)))))#append (iNSIDE_FORM)))), self, iS_IN_FORM));
             raise (Java_return (Obj.repr (true)))
         end;
         false
@@ -329,13 +329,13 @@ class scrollSelectionForm ((title : string), items, (formPaintableFactory : Item
 
     method getDx () : int =
         begin
-        x
+        (self#x)
         end [@@warning "-7"]
     
 
     method getDy () : int =
         begin
-        y
+        (self#y)
         end [@@warning "-7"]
     
 

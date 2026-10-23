@@ -49,7 +49,7 @@ class waypointLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFi
     method construct : 'any1. 'any1 -> unit = fun (rtsPlayerLayerInterface) ->
         let rtsPlayerLayerInterface = Obj.repr rtsPlayerLayerInterface in
         begin
-        percentCompleteP <- 100;
+        (self#set_percentCompleteP) (100);
         ignore (self#initVisibility ((Obj.magic rtsPlayerLayerInterface)))
         end [@@warning "-7-20"]
     
@@ -66,9 +66,9 @@ class waypointLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFi
     method processTick : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
         begin
         (try
-            ignore (indexedButShouldBeRotationAnimationInterface#nextFrame ())
+            ignore ((self#indexedButShouldBeRotationAnimationInterface)#nextFrame ())
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "processTick", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "processTick", e))
         end)
         end [@@warning "-7-20"]
     
@@ -111,7 +111,7 @@ class waypointLayer (remoteInfo, (parentLayer : PathFindingLayerInterface.pathFi
         (* super(...) is the inherit clause *) ();
         ignore (self#setCollidableInferface ((new CollidableWaypointBehavior.collidableWaypointBehavior (true))));
         ignore ((self#getWaypointBehavior ())#setWaypoint ((new Waypoint.waypoint (self, (AttackSound.getInstance ())))));
-        ignore (self#setAnimationInterface (indexedButShouldBeRotationAnimationInterface))
+        ignore (self#setAnimationInterface ((self#indexedButShouldBeRotationAnimationInterface)))
       end
   end
 let () = java_register_constructor "WaypointLayer" (fun arguments -> Obj.repr (new waypointLayer (Obj.obj arguments)))

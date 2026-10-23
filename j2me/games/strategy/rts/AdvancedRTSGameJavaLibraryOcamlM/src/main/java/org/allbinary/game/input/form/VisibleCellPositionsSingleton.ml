@@ -96,7 +96,7 @@ class visibleCellPositionsSingleton () =
         begin
         for index = (((Obj.magic list)#size ()) - 1) downto 0 do
             let cellPosition : CellPosition.cellPosition ref = ref (((Obj.magic ((Obj.magic list)#get (index))) :> CellPosition.cellPosition)) in ();
-            stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#set_getColumn ())) (stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) + 1)
+            stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) <- stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) + 1
         done
         end [@@warning "-20"]
     
@@ -106,7 +106,7 @@ class visibleCellPositionsSingleton () =
         begin
         for index = (((Obj.magic list)#size ()) - 1) downto 0 do
             let cellPosition : CellPosition.cellPosition ref = ref (((Obj.magic ((Obj.magic list)#get (index))) :> CellPosition.cellPosition)) in ();
-            stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#set_getColumn ())) (stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) - 1)
+            stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) <- stationaryVisibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) - 1
         done
         end [@@warning "-20"]
     
@@ -147,7 +147,7 @@ class visibleCellPositionsSingleton () =
         begin
         for index = (((Obj.magic list)#size ()) - 1) downto 0 do
             let cellPosition : CellPosition.cellPosition ref = ref (((Obj.magic ((Obj.magic list)#get (index))) :> CellPosition.cellPosition)) in ();
-            visibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#set_getColumn ())) (visibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) + 1)
+            visibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) <- visibleCellPositions.((!cellPosition#getRow ())).((!cellPosition#getColumn ())) + 1
         done
         end [@@warning "-20"]
     

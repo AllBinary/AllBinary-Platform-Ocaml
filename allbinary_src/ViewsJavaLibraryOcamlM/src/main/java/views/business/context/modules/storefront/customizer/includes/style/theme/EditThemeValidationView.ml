@@ -51,20 +51,20 @@ class editThemeValidationView ((transformInfoInterface : TransformInfoInterface.
             let categoryLoaderInterface : CategoryLoaderInterface.categoryLoaderInterface ref = ref (((CategoryLoaderFactory.getInstance (!categoryFactoryInterface)) :> CategoryLoaderInterface.categoryLoaderInterface)) in ();
             let rootStoreThemeCategoryInterface : StoreThemeCategoryInterface.storeThemeCategoryInterface ref = ref (((Obj.magic (!categoryFactoryInterface#getRootInstance ())) :> StoreThemeCategoryInterface.storeThemeCategoryInterface)) in ();
             let storeThemeCategoryInterface : StoreThemeCategoryInterface.storeThemeCategoryInterface ref = ref (((Obj.magic (!categoryLoaderInterface#getAll ((Obj.magic !rootStoreThemeCategoryInterface)))) :> StoreThemeCategoryInterface.storeThemeCategoryInterface)) in ();
-            validationInterface <- (new StoreThemeCategoryPathValidationView.storeThemeCategoryPathValidationView ((Obj.magic !storeThemeCategoryInterface)));
-            isValid := (validationInterface#isValid ());
-            let domNodeInterface : DomNodeInterface.domNodeInterface ref = ref (((Obj.magic validationInterface) :> DomNodeInterface.domNodeInterface)) in ();
+            (self#set_validationInterface) ((new StoreThemeCategoryPathValidationView.storeThemeCategoryPathValidationView ((Obj.magic !storeThemeCategoryInterface))));
+            isValid := ((self#validationInterface)#isValid ());
+            let domNodeInterface : DomNodeInterface.domNodeInterface ref = ref (((Obj.magic (self#validationInterface)) :> DomNodeInterface.domNodeInterface)) in ();
             let document : Obj.t ref = ref ((Obj.repr (DomDocumentHelper.create ()))) in ();
             ignore ((Obj.magic !document)#appendChild ((!domNodeInterface#toXmlNode ((Obj.magic !document)))));
             let documentString : string ref = ref ((XmlDocumentHelper.toString ((Obj.magic !document)))) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#putF (("Setting Data: " ^ !documentString), self, commonStrings#cONSTRUCTOR))
+                ignore ((Obj.magic logUtil)#putF (("Setting Data: " ^ !documentString), self, (self#commonStrings)#cONSTRUCTOR))
             end;
             ignore ((self#getTransformInfoInterface ())#setData (!documentString));
             !isValid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -75,7 +75,7 @@ class editThemeValidationView ((transformInfoInterface : TransformInfoInterface.
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((validationInterface#validationInfo ())));
+            ignore (!stringBuffer#append (((self#validationInterface)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin

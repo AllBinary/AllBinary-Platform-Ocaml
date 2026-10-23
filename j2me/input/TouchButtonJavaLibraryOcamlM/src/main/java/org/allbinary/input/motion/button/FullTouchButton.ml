@@ -34,15 +34,15 @@ class fullTouchButton ((touchButtonInput : TouchButtonInput.touchButtonInput), a
         begin
         (try
             let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
-            let x : int ref = ref (((rawRectangle#getWidth ()) * (cellPositionP#getColumn ()))) in ();
-            let y : int ref = ref (((rawRectangle#getHeight ()) * (cellPositionP#getRow ()))) in ();
-            rectangleP <- (Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (!x, !y)), ((rawRectangle#getWidth ()) + ((2 * xBorder))), ((rawRectangle#getHeight ()) + ((2 * yBorder)))))));
-            let point : GPoint.gPoint ref = ref (((rectangleP#getPoint ()) :> GPoint.gPoint)) in ();
-            animationX <- ((!point#getX ()) + xBorder);
-            animationY <- ((!point#getY ()) + yBorder);
-            hintAnimationY <- ((animationY - (rectangleP#getHeight ())) asr 1)
+            let x : int ref = ref ((((self#rawRectangle)#getWidth ()) * ((self#cellPositionP)#getColumn ()))) in ();
+            let y : int ref = ref ((((self#rawRectangle)#getHeight ()) * ((self#cellPositionP)#getRow ()))) in ();
+            (self#set_rectangleP) ((Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (!x, !y)), (((self#rawRectangle)#getWidth ()) + ((2 * (self#xBorder)))), (((self#rawRectangle)#getHeight ()) + ((2 * (self#yBorder)))))))));
+            let point : GPoint.gPoint ref = ref ((((self#rectangleP)#getPoint ()) :> GPoint.gPoint)) in ();
+            (self#set_animationX) (((!point#getX ()) + (self#xBorder)));
+            (self#set_animationY) (((!point#getY ()) + (self#yBorder)));
+            (self#set_hintAnimationY) ((((self#animationY) - ((self#rectangleP)#getHeight ())) asr 1))
         with e -> begin
-            ignore (logUtil#put (commonStrings#eXCEPTION, self, "updateRectangle", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "updateRectangle", e))
         end)
         end [@@warning "-7"]
 

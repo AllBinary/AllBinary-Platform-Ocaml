@@ -32,8 +32,8 @@ class cachingGeographicMapCellPositionFactory ((geographicMapInterface : BasicGe
         let cellPositionKey : string ref = ref ((CellPosition.toStringColRow (i_column, i_row))) in ();
         let cellPositionCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic !hashtable)#get (!cellPositionKey)))) in ();
         if (!cellPositionCanBeNull == (Obj.magic 0)) then begin
-            cellPositionCanBeNull := (geographicMapCellPositionFactoryInterface#getInstance (geographicMapInterface, i_column, i_row, (self#getColumns ()), (self#getRows ()), width, height));
-            geographicMapCellPositionArray.(i_row).(i_column) <- (Obj.magic !cellPositionCanBeNull);
+            cellPositionCanBeNull := ((self#geographicMapCellPositionFactoryInterface)#getInstance ((self#geographicMapInterface), i_column, i_row, (self#getColumns ()), (self#getRows ()), width, height));
+            (self#geographicMapCellPositionArray).(i_row).(i_column) <- (Obj.magic !cellPositionCanBeNull);
             ignore ((Obj.magic !hashtable)#put (!cellPositionKey, !cellPositionCanBeNull))
         end;
         ((Obj.magic !cellPositionCanBeNull) :> GeographicMapCellPosition.geographicMapCellPosition)

@@ -46,7 +46,7 @@ class taxValidationView ((transformInfoInterface : TransformInfoInterface.transf
         for index = 0 to !size - 1 do
             let aStreetAddress : StreetAddress.streetAddress ref = ref (((Obj.magic (!streetAddressList#get (index))) :> StreetAddress.streetAddress)) in ();
             if (((!aStreetAddress#getName ())#compareTo ((ShippingAddressData.get_tAX ()))) == 0) then begin
-                streetAddress <- !aStreetAddress;
+                (self#set_streetAddress) (!aStreetAddress);
                 raise (Java_return (Obj.repr (true)))
             end
         done;

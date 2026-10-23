@@ -38,7 +38,7 @@ class updateValidationStoreFrontView ((transformInfoInterface : TransformInfoInt
         begin
         (try
             let valid : bool ref = ref (true) in ();
-            if ((Obj.repr (newStoreFrontInterface#isValid ())) == (Obj.repr false)) then begin
+            if ((Obj.repr ((self#newStoreFrontInterface)#isValid ())) == (Obj.repr false)) then begin
                 valid := false
             end;
             if ((StoreFrontFactory.getInstance ((newStoreFrontInterface#getName ()))) == (Obj.magic 0)) then begin
@@ -47,7 +47,7 @@ class updateValidationStoreFrontView ((transformInfoInterface : TransformInfoInt
             !valid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -58,10 +58,10 @@ class updateValidationStoreFrontView ((transformInfoInterface : TransformInfoInt
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            if ((Obj.repr (newStoreFrontInterface#isValid ())) == (Obj.repr false)) then begin
-                ignore (!stringBuffer#append ((newStoreFrontInterface#validationInfo ())))
+            if ((Obj.repr ((self#newStoreFrontInterface)#isValid ())) == (Obj.repr false)) then begin
+                ignore (!stringBuffer#append (((self#newStoreFrontInterface)#validationInfo ())))
             end;
-            if ((StoreFrontFactory.getInstance ((newStoreFrontInterface#getName ()))) == (Obj.magic 0)) then begin
+            if ((StoreFrontFactory.getInstance (((self#newStoreFrontInterface)#getName ()))) == (Obj.magic 0)) then begin
                 ignore (!stringBuffer#append ("Store does not exist<br>"))
             end;
             (java_string_of (Obj.repr !stringBuffer))

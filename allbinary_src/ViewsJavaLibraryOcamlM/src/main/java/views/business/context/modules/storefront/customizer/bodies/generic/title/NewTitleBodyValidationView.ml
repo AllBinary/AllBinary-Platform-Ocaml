@@ -46,15 +46,15 @@ class newTitleBodyValidationView ((transformInfoInterface : TransformInfoInterfa
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (("View Name: " ^ ((self#getTransformInfoInterface ())#getName ())), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF (("View Name: " ^ ((self#getTransformInfoInterface ())#getName ())), self, (self#commonStrings)#iS_VALID))
             end;
             begin
-                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic titleBody)))
+                ignore ((CustomizerUtil.getInstance ())#insert ((self#getTransformInfoInterface ()), (Obj.magic (self#titleBody))))
             end;
             true
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
@@ -65,7 +65,7 @@ class newTitleBodyValidationView ((transformInfoInterface : TransformInfoInterfa
         begin
         (try
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ((titleBody#validationInfo ())));
+            ignore (!stringBuffer#append (((self#titleBody)#validationInfo ())));
             (java_string_of (Obj.repr !stringBuffer))
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
@@ -101,7 +101,7 @@ class newTitleBodyValidationView ((transformInfoInterface : TransformInfoInterfa
         if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
             ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), self, "NewTitleBodyValidationView()"))
         end;
-        titleBody <- (new TitleBodyValidation.titleBodyValidation ())
+        (self#set_titleBody) ((new TitleBodyValidation.titleBodyValidation ()))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "NewTitleBodyValidationView" (fun arguments -> Obj.repr (new newTitleBodyValidationView (Obj.obj arguments)))

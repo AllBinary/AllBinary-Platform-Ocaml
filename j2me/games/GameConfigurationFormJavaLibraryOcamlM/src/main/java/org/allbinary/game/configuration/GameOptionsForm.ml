@@ -103,7 +103,7 @@ class gameOptionsForm (commandListener, (title : string), (backgrounBasicColor :
         for index = 0 to !size - 1 do
             gameConfiguration := (Obj.magic !list#objectArray.(index));
             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-            ignore (logUtil#putF ((java_string_of (Obj.repr ((!stringMaker#append (!nAME))#append ((java_string_of (Obj.repr !gameConfiguration)))))), self, !mETHOD_NAME));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (!nAME))#append ((java_string_of (Obj.repr !gameConfiguration)))))), self, !mETHOD_NAME));
             gauge := (new GameConfigurationGauge.gameConfigurationGauge (!gameConfiguration));
             ignore (!gauge#setDefaultCommand ((Obj.magic !gAUGE_CHANGE)));
             ignore (!gauge#setItemCommandListener ((Obj.obj (java_new "GameFeatureItemCommandListener" (Obj.repr (self))))));
@@ -158,7 +158,7 @@ class gameOptionsForm (commandListener, (title : string), (backgrounBasicColor :
         meUtil <- (Obj.repr (Obj.magic (java_call_static "MEUtil.getInstance" (Obj.repr ()))));
         ();
         (* super(...) is the inherit clause *) ();
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
         (self#addConfiguration ());
         let gameFeatureFormUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "GameFeatureFormUtil.getInstance" (Obj.repr ()))))) in ();
         ignore ((Obj.magic !gameFeatureFormUtil)#addChoiceGroup (self, ((GameFeatureChoiceGroups.getExclusiveInstance ())#get ()), (Obj.magic (java_call_static "Choice.get_eXCLUSIVE" (Obj.repr ())))));

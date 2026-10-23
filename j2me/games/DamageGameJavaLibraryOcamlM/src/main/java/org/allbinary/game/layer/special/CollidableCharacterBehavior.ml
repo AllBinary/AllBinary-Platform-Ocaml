@@ -47,7 +47,7 @@ class collidableCharacterBehavior ((collidable : bool)) =
 
     method collideInterface : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_ownerLayer, _collidableInterfaceCompositeInterface) ->
         begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, self))
         end [@@warning "-7-20"]
 
     initializer

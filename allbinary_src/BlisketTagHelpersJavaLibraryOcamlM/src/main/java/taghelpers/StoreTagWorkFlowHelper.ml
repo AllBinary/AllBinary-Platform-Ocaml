@@ -45,13 +45,13 @@ class storeTagWorkFlowHelper ((hashMap : java_hash_map), pageContext) =
         begin
         (try
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPER)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Process", self, commonStrings#pROCESS))
+                ignore ((Obj.magic logUtil)#putF ("Process", self, (self#commonStrings)#pROCESS))
             end;
             (storeWorkFlowInterface#process ())
         with e -> begin
             let error : string ref = ref ("Failed to process workflow: ") in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)

@@ -56,23 +56,23 @@ class pacePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLa
         let direction : Direction.direction ref = ref (((self#setFiringDirectionForTargetIfInRange ()) :> Direction.direction)) in ();
         let directionFactory : DirectionFactory.directionFactory ref = ref (((DirectionFactory.getInstance ()) :> DirectionFactory.directionFactory)) in ();
         if ((Obj.repr !direction) == (Obj.repr !directionFactory#lEFT)) then begin
-            if (((Obj.repr lastKeyDirection) != (Obj.repr keyDirection)) || (not isFollowLimitedByTerrain)) then begin
+            if (((Obj.repr (self#lastKeyDirection)) != (Obj.repr keyDirection)) || (not isFollowLimitedByTerrain)) then begin
                 ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))))
             end;
             keyDirection <- (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())));
-            lastKeyDirection <- keyDirection;
+            (self#set_lastKeyDirection) (keyDirection);
             xTotalDistance <- 0;
             ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))))
         end else if ((Obj.repr !direction) == (Obj.repr !directionFactory#rIGHT)) then begin
-            if (((Obj.repr lastKeyDirection) != (Obj.repr keyDirection)) || (not isFollowLimitedByTerrain)) then begin
+            if (((Obj.repr (self#lastKeyDirection)) != (Obj.repr keyDirection)) || (not isFollowLimitedByTerrain)) then begin
                 ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))))
             end;
             keyDirection <- (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())));
-            lastKeyDirection <- keyDirection;
+            (self#set_lastKeyDirection) (keyDirection);
             xTotalDistance <- 0;
             ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))))
         end else begin
-            ignore (super#processKeyAI (keyDirection))
+            ignore (super#processKeyAI ((self#keyDirection)))
         end
         end [@@warning "-7-20"]
     

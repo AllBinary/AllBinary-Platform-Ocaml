@@ -64,7 +64,7 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
             (Obj.magic highScoresArray).(0) <- (Obj.magic (java_call_static "RecordStoreHighScores.getInstance" (Obj.repr (abeClientInformation, (Obj.magic gameInfo), tOP, pERSONAL_HIGH_SCORES, sCORES, (new ScoreComparator.scoreComparator (true))))));
             ignore ((Obj.magic highScoresResultsListener)#setHighScoresArray ((Obj.magic highScoresArray)))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, fETCH, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, fETCH, e))
         end)
         end [@@warning "-7-20"]
     

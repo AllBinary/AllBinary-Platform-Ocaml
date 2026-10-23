@@ -81,9 +81,9 @@ class upgradableRTSLayerHudPaintable () =
         begin
         ignore (super#update ());
         let commonButtons : CommonButtons.commonButtons ref = ref (((CommonButtons.getInstance ()) :> CommonButtons.commonButtons)) in ();
-        costY <- ((y + !commonButtons#sTANDARD_BUTTON_SIZE));
-        costY1 <- (((y + !commonButtons#sTANDARD_BUTTON_SIZE) - charHeight));
-        percentCompleteX2 <- ((imageX + !commonButtons#sTANDARD_BUTTON_SIZE) - charWidth);
+        costY <- (((self#y) + !commonButtons#sTANDARD_BUTTON_SIZE));
+        costY1 <- ((((self#y) + !commonButtons#sTANDARD_BUTTON_SIZE) - charHeight));
+        percentCompleteX2 <- (((self#imageX) + !commonButtons#sTANDARD_BUTTON_SIZE) - charWidth);
         let displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
         if ((!displayInfoSingleton#getLastWidth ()) > 320) then begin
             rtsLayerCompositePaintableLateInit <- Obj.repr ((Obj.obj (java_new "UpgradableWideRTSLayerPaintable" (Obj.repr (self)))))
@@ -123,9 +123,9 @@ class upgradableRTSLayerHudPaintable () =
         begin
         ignore (super#paint ((Obj.magic graphics)));
         ignore ((Obj.magic rtsLayerCompositePaintableLateInit)#paint ((Obj.magic graphics)));
-        ignore ((Obj.magic graphics)#drawChars (percentCompleteArray, 0, currentTotalDigits, (imageX + percentCompleteX), costY, 0));
+        ignore ((Obj.magic graphics)#drawChars (percentCompleteArray, 0, currentTotalDigits, ((self#imageX) + percentCompleteX), costY, 0));
         ignore ((Obj.magic graphics)#drawString (pERCENT, percentCompleteX2, costY, 0));
-        ignore ((self#getAnimationInterface ())#paintXY ((Obj.magic graphics), imageX, y))
+        ignore ((self#getAnimationInterface ())#paintXY ((Obj.magic graphics), (self#imageX), (self#y)))
         end [@@warning "-7-20"]
     
 

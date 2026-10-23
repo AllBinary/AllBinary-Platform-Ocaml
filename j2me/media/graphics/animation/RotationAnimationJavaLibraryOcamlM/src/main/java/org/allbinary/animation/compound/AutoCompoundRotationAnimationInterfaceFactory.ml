@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.animation.RotationAnimation *)
 
 class autoCompoundRotationAnimationInterfaceFactory ((basicAnimationInterfaceFactoryInterfaceArray : AnimationInterfaceFactoryInterface.animationInterfaceFactoryInterface array), (animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object
+  object (self)
     inherit CompoundAnimationInterfaceFactory.compoundAnimationInterfaceFactory (basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
     
     
@@ -36,7 +36,7 @@ class autoCompoundRotationAnimationInterfaceFactory ((basicAnimationInterfaceFac
 
     method createAnimation : 'return. _ -> 'return = fun (animationInterfaceArray) ->
         begin
-        (Obj.magic ((new AutoCompoundRotationAnimation.autoCompoundRotationAnimation ((Obj.magic animationInterfaceArray), (animationBehaviorFactory#getOrCreateInstance ())))))
+        (Obj.magic ((new AutoCompoundRotationAnimation.autoCompoundRotationAnimation ((Obj.magic animationInterfaceArray), ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]
 
     initializer

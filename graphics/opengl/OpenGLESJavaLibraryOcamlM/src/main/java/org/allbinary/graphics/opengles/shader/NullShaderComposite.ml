@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.opengles.OpenGLProcessor *)
 
 class nullShaderComposite ((requiresOpenGLVersion : string), (shaderArray : Shader.shader array), compositeShaderUpdater, (shaderInitializer : ShaderInitializer.shaderInitializer), (modelViewProjection : ModelViewProjection.modelViewProjection), (colorOpenGLProcessor : OpenGLProcessor.openGLProcessor), (vertexOpenGLProcessor : OpenGLProcessor.openGLProcessor), (disableProgramShaderOpenGLProcessor : OpenGLProcessor.openGLProcessor)) =
-  object
+  object (self)
     inherit ShaderComposite.shaderComposite (requiresOpenGLVersion, shaderArray, compositeShaderUpdater, shaderInitializer, modelViewProjection, colorOpenGLProcessor, vertexOpenGLProcessor, disableProgramShaderOpenGLProcessor)
     
 
@@ -31,7 +31,7 @@ class nullShaderComposite ((requiresOpenGLVersion : string), (shaderArray : Shad
       begin
         ();
         (* super(...) is the inherit clause *) ();
-        useProgramShaderOpenGLProcessor <- (NullOpenGLProcessorFactory.getInstance ())
+        (self#set_useProgramShaderOpenGLProcessor) ((NullOpenGLProcessorFactory.getInstance ()))
       end
   end
 let () = java_register_constructor "NullShaderComposite" (fun arguments -> Obj.repr (new nullShaderComposite (Obj.obj arguments)))

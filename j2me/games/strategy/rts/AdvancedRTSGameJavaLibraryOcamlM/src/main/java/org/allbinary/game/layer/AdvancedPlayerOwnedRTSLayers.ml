@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class advancedPlayerOwnedRTSLayers () =
   object (self)
-    inherit PlayerOwnedRTSLayers.playerOwnedRTSLayers ()
+    inherit PlayerOwnedRTSLayers.playerOwnedRTSLayers () as super
     val mutable unitsList : BasicArrayList.basicArrayList = (Obj.magic 0)
     method unitsList = unitsList
     method set_unitsList value' = unitsList <- value'
@@ -54,7 +54,7 @@ class advancedPlayerOwnedRTSLayers () =
         let rtsLayer = Obj.repr rtsLayer in
         begin
         ignore (unitsList#add ((Obj.magic rtsLayer)));
-        ignore (rtsLayerList#add ((Obj.magic rtsLayer)))
+        ignore ((self#rtsLayerList)#add ((Obj.magic rtsLayer)))
         end [@@warning "-7-20"]
     
 
@@ -62,7 +62,7 @@ class advancedPlayerOwnedRTSLayers () =
         let rtsLayer = Obj.repr rtsLayer in
         begin
         ignore (waypointsList#add ((Obj.magic rtsLayer)));
-        ignore (rtsLayerList#add ((Obj.magic rtsLayer)))
+        ignore ((self#rtsLayerList)#add ((Obj.magic rtsLayer)))
         end [@@warning "-7-20"]
     
 
@@ -71,7 +71,7 @@ class advancedPlayerOwnedRTSLayers () =
         begin
         ignore (baseList#add ((Obj.magic rtsLayer)));
         ignore (buildingList#add ((Obj.magic rtsLayer)));
-        ignore (rtsLayerList#add ((Obj.magic rtsLayer)))
+        ignore ((self#rtsLayerList)#add ((Obj.magic rtsLayer)))
         end [@@warning "-7-20"]
     
 
@@ -80,7 +80,7 @@ class advancedPlayerOwnedRTSLayers () =
         begin
         ignore (garrisonList#add ((Obj.magic rtsLayer)));
         ignore (buildingList#add ((Obj.magic rtsLayer)));
-        ignore (rtsLayerList#add ((Obj.magic rtsLayer)))
+        ignore ((self#rtsLayerList)#add ((Obj.magic rtsLayer)))
         end [@@warning "-7-20"]
     
 
@@ -89,7 +89,7 @@ class advancedPlayerOwnedRTSLayers () =
         begin
         ignore (houseList#add ((Obj.magic rtsLayer)));
         ignore (buildingList#add ((Obj.magic rtsLayer)));
-        ignore (rtsLayerList#add ((Obj.magic rtsLayer)))
+        ignore ((self#rtsLayerList)#add ((Obj.magic rtsLayer)))
         end [@@warning "-7-20"]
     
 
@@ -98,7 +98,7 @@ class advancedPlayerOwnedRTSLayers () =
         begin
         ignore (labList#add ((Obj.magic rtsLayer)));
         ignore (buildingList#add ((Obj.magic rtsLayer)));
-        ignore (rtsLayerList#add ((Obj.magic rtsLayer)))
+        ignore ((self#rtsLayerList)#add ((Obj.magic rtsLayer)))
         end [@@warning "-7-20"]
     
 
@@ -107,7 +107,7 @@ class advancedPlayerOwnedRTSLayers () =
         begin
         ignore (factoryList#add ((Obj.magic rtsLayer)));
         ignore (buildingList#add ((Obj.magic rtsLayer)));
-        ignore (rtsLayerList#add ((Obj.magic rtsLayer)))
+        ignore ((self#rtsLayerList)#add ((Obj.magic rtsLayer)))
         end [@@warning "-7-20"]
     
 
@@ -115,7 +115,7 @@ class advancedPlayerOwnedRTSLayers () =
         let gameLayer = Obj.repr gameLayer in
         begin
         ignore (unitsList#remove ((Obj.magic gameLayer)));
-        ignore (rtsLayerList#remove ((Obj.magic gameLayer)))
+        ignore ((self#rtsLayerList)#remove ((Obj.magic gameLayer)))
         end [@@warning "-7-20"]
     
 
@@ -123,7 +123,7 @@ class advancedPlayerOwnedRTSLayers () =
         let gameLayer = Obj.repr gameLayer in
         begin
         ignore (waypointsList#remove ((Obj.magic gameLayer)));
-        ignore (rtsLayerList#remove ((Obj.magic gameLayer)))
+        ignore ((self#rtsLayerList)#remove ((Obj.magic gameLayer)))
         end [@@warning "-7-20"]
     
 
@@ -180,15 +180,15 @@ class advancedPlayerOwnedRTSLayers () =
         begin
         ignore (buildingList#add ((Obj.magic layerInterface)));
         if ((self#getBaseList ())#remove ((Obj.magic layerInterface))) then begin
-            ignore (rtsLayerList#remove ((Obj.magic layerInterface)))
+            ignore ((self#rtsLayerList)#remove ((Obj.magic layerInterface)))
         end else if ((self#getFactoryList ())#remove ((Obj.magic layerInterface))) then begin
-            ignore (rtsLayerList#remove ((Obj.magic layerInterface)))
+            ignore ((self#rtsLayerList)#remove ((Obj.magic layerInterface)))
         end else if ((self#getGarrisonList ())#remove ((Obj.magic layerInterface))) then begin
-            ignore (rtsLayerList#remove ((Obj.magic layerInterface)))
+            ignore ((self#rtsLayerList)#remove ((Obj.magic layerInterface)))
         end else if ((self#getLabList ())#remove ((Obj.magic layerInterface))) then begin
-            ignore (rtsLayerList#remove ((Obj.magic layerInterface)))
+            ignore ((self#rtsLayerList)#remove ((Obj.magic layerInterface)))
         end else if ((self#getHouseList ())#remove ((Obj.magic layerInterface))) then begin
-            ignore (rtsLayerList#remove ((Obj.magic layerInterface)))
+            ignore ((self#rtsLayerList)#remove ((Obj.magic layerInterface)))
         end
         end [@@warning "-7-20"]
     
@@ -196,7 +196,7 @@ class advancedPlayerOwnedRTSLayers () =
     method toString () : string =
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         ignore (!stringBuffer#append (" Bases: "));
         ignore (!stringBuffer#appendint (((self#getBaseList ())#size ())));
         ignore (!stringBuffer#append (" Factory: "));

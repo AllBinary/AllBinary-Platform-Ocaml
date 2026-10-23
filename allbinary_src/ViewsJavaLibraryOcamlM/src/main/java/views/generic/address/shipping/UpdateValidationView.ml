@@ -32,18 +32,18 @@ class updateValidationView ((transformInfoInterface : TransformInfoInterface.tra
     method isValid () : bool =
         try
         begin
-        streetAddress <- (new StreetAddress.streetAddress ((self#getRequest ())));
-        if ((Obj.repr (streetAddress#isValid ())) == (Obj.repr false)) then begin
+        (self#set_streetAddress) ((new StreetAddress.streetAddress ((self#getRequest ()))));
+        if ((Obj.repr ((self#streetAddress)#isValid ())) == (Obj.repr false)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        (streetAddress#isValid ())
+        ((self#streetAddress)#isValid ())
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
     
 
     method validationInfo () : string =
         begin
-        (streetAddress#validationInfo ())
+        ((self#streetAddress)#validationInfo ())
         end [@@warning "-7"]
     
 

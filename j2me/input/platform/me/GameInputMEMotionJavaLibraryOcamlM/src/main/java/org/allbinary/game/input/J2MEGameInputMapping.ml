@@ -30,7 +30,7 @@ class j2MEGameInputMapping () =
     method init : 'any1. 'any1 -> unit = fun (abeClientInformation) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
-        ignore (logUtil#putF (commonStrings#sTART, self, commonStrings#iNIT));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#iNIT));
         ignore ((J2MEKeyFactory.getInstance ())#init ());
         ignore (super#init ((Obj.magic abeClientInformation)));
         if (((self#getTotalMapped ()) == 0) || (self#isDefaultNew ())) then begin

@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.math.Orientation *)
 
 class allBinaryOrientationSensor () =
-  object
+  object (self)
     inherit AllBinarySensor.allBinarySensor ()
     val mutable listener : CompleteMotionGestureInputEventListenerInterface.completeMotionGestureInputEventListenerInterface = (Obj.magic 0)
     method listener = listener
@@ -40,7 +40,7 @@ class allBinaryOrientationSensor () =
 
     method getOrientation : 'return. unit -> 'return = fun () ->
         begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
+        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
 
     initializer

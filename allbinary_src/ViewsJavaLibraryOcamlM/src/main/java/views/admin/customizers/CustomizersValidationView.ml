@@ -36,14 +36,14 @@ class customizersValidationView ((transformInfoInterface : TransformInfoInterfac
         try
         begin
         (try
-            if ((customizersVector#size ()) > 0) then begin
+            if (((self#customizersVector)#size ()) > 0) then begin
                 raise (Java_return (Obj.repr (true)))
             end else begin
                 false
             end
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)

@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.Rectangle *)
 
 class topULayerBounds (rectangle) =
-  object
+  object (self)
     inherit LayerBounds.layerBounds (rectangle)
     
     
@@ -28,13 +28,13 @@ class topULayerBounds (rectangle) =
     method visit : 'any1. 'any1 -> unit = fun (boundsVisitorInterface) ->
         let boundsVisitorInterface = Obj.repr boundsVisitorInterface in
         begin
-        if (((Obj.magic boundsVisitorInterface)#getX ()) > (rectangle#getMaxX ())) then begin
+        if (((Obj.magic boundsVisitorInterface)#getX ()) > ((self#rectangle)#getMaxX ())) then begin
             ignore ((Obj.magic boundsVisitorInterface)#maxX ())
         end;
-        if (((Obj.magic boundsVisitorInterface)#getX ()) < ((rectangle#getPoint ())#getX ())) then begin
+        if (((Obj.magic boundsVisitorInterface)#getX ()) < (((self#rectangle)#getPoint ())#getX ())) then begin
             ignore ((Obj.magic boundsVisitorInterface)#minX ())
         end;
-        if (((Obj.magic boundsVisitorInterface)#getY ()) < ((rectangle#getPoint ())#getY ())) then begin
+        if (((Obj.magic boundsVisitorInterface)#getY ()) < (((self#rectangle)#getPoint ())#getY ())) then begin
             ignore ((Obj.magic boundsVisitorInterface)#minY ())
         end
         end [@@warning "-7-20"]

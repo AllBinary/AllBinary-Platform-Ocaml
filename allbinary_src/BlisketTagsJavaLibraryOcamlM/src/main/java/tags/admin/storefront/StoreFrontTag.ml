@@ -33,7 +33,7 @@ class storeFrontTag () =
         begin
         (try
             if ((self#getCommand ()) != (Obj.magic 0)) then begin
-                if (((self#getCommand ())#compareTo (commonStrings#iNSERT)) == 0) then begin
+                if (((self#getCommand ())#compareTo ((self#commonStrings)#iNSERT)) == 0) then begin
                     ignore (self#setName ("Add Validation StoreFront View"));
                     ignore (self#setObjectFile ("views.admin.storefront.AddValidationStoreFrontView"))
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#vIEW)) == 0) then begin
@@ -41,19 +41,19 @@ class storeFrontTag () =
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#eDIT)) == 0) then begin
                     ignore (self#setName ("Edit Validation StoreFront View"));
                     ignore (self#setObjectFile ("views.admin.storefront.EditValidationStoreFrontView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#uPDATE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#uPDATE)) == 0) then begin
                     ignore (self#setName ("Update Validation StoreFront View"));
                     ignore (self#setObjectFile ("views.admin.storefront.UpdateValidationStoreFrontView"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#dELETE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#dELETE)) == 0) then begin
                     ignore (self#setName ("Delete Validation StoreFront View"));
                     ignore (self#setObjectFile ("views.admin.storefront.DeleteValidationStoreFrontView"))
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#bACKUP)) == 0) then begin
                     raise (Failure ("View not implemented"))
                 end else if (((self#getCommand ())#compareTo ((org.get_allbinary ())#globals#gLOBALS2#rESTORE)) == 0) then begin
                     raise (Failure ("View not implemented"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#dROP)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#dROP)) == 0) then begin
                     raise (Failure ("View not implemented"))
-                end else if (((self#getCommand ())#compareTo (commonStrings#cREATE)) == 0) then begin
+                end else if (((self#getCommand ())#compareTo ((self#commonStrings)#cREATE)) == 0) then begin
                     raise (Failure ("View not implemented"))
                 end else begin
                     raise (Failure (("No Such View Command: " ^ java_string_of (Obj.repr ((self#getCommand ()))))))
@@ -62,7 +62,7 @@ class storeFrontTag () =
             end;
             raise (Failure ("Command Null"))
         with e -> begin
-            ignore (AbResponseHandler.sendJspTagLicensingRedirect (pageContext, e));
+            ignore (AbResponseHandler.sendJspTagLicensingRedirect ((self#pageContext), e));
             sKIP_BODY
         end)
         end

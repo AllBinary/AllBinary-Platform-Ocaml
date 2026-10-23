@@ -43,7 +43,7 @@ class rootStoreThemeCategoryProperties ((transformInfoInterface : TransformInfoI
 
     method initPath () : unit =
         begin
-        let transformInfoHttpStoreInterface : TransformInfoHttpStoreInterface.transformInfoHttpStoreInterface ref = ref (((Obj.magic transformInfoInterface) :> TransformInfoHttpStoreInterface.transformInfoHttpStoreInterface)) in ();
+        let transformInfoHttpStoreInterface : TransformInfoHttpStoreInterface.transformInfoHttpStoreInterface ref = ref (((Obj.magic (self#transformInfoInterface)) :> TransformInfoHttpStoreInterface.transformInfoHttpStoreInterface)) in ();
         let storeFrontInterface : StoreFrontInterface.storeFrontInterface ref = ref (((StoreFrontFactory.getInstance ((!transformInfoHttpStoreInterface#getStoreName ()))) :> StoreFrontInterface.storeFrontInterface)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR));
@@ -53,7 +53,7 @@ class rootStoreThemeCategoryProperties ((transformInfoInterface : TransformInfoI
         ignore (!stringBuffer#append ((FREEBLISKET_PATH_GLOBALS.getInstance ())#tHEMEPATH));
         let abPath : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr !stringBuffer)), (StringUtil.getInstance ())#eMPTY_STRING)) :> AbPath.abPath)) in ();
         let httpServletRequest : Obj.t ref = ref ((Obj.repr (Obj.magic ((!transformInfoHttpStoreInterface#getPageContext ())#getRequest ())))) in ();
-        webAppAbPath <- (new AbPath.abPath ((java_string_of (Obj.repr (((Obj.magic !httpServletRequest)#getContextPath ()))) ^ (java_string_of (Obj.repr !abPath))), (StringUtil.getInstance ())#eMPTY_STRING));
+        (self#set_webAppAbPath) ((new AbPath.abPath ((java_string_of (Obj.repr (((Obj.magic !httpServletRequest)#getContextPath ()))) ^ (java_string_of (Obj.repr !abPath))), (StringUtil.getInstance ())#eMPTY_STRING)));
         ignore (self#setRootFilePath ((new AbPath.abPath ((java_string_of (Obj.repr ((URLGLOBALS.getMainPath ()))) ^ (java_string_of (Obj.repr !abPath))), (StringUtil.getInstance ())#eMPTY_STRING))))
         end [@@warning "-7"]
 

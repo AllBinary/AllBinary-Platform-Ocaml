@@ -45,11 +45,11 @@ class rootContextView ((transformInfoInterface : TransformInfoInterface.transfor
                 ignore ((Obj.magic logUtil)#putF (("View Name: " ^ ((self#getTransformInfoInterface ())#getName ())), self, "view()"))
             end;
             let viewName : string ref = ref ((self#getName ())) in ();
-            let componentInterface : TransformInterface.transformInterface ref = ref ((((TransformFactory.getInstance ())#getInstance (abeClientInformation, !viewName, (self#getTransformInfoInterface ()))) :> TransformInterface.transformInterface)) in ();
+            let componentInterface : TransformInterface.transformInterface ref = ref ((((TransformFactory.getInstance ())#getInstance ((self#abeClientInformation), !viewName, (self#getTransformInfoInterface ()))) :> TransformInterface.transformInterface)) in ();
             (!componentInterface#view ())
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "view()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "view()", e))
             end;
             raise e
         end)
@@ -78,7 +78,7 @@ class rootContextView ((transformInfoInterface : TransformInfoInterface.transfor
             !viewName
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEWERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "getName()", e))
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, "getName()", e))
             end;
             raise e
         end)

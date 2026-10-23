@@ -60,7 +60,7 @@ class multiSelectPaintable () =
         ignore (super#updateMeasurement ((Obj.magic graphics)));
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
         totalWidth <- ((Obj.magic !font)#stringWidth (tOTAL));
-        textLine2Y <- ((y + ((Obj.magic !font)#getHeight ())))
+        textLine2Y <- (((self#y) + ((Obj.magic !font)#getHeight ())))
         end [@@warning "-7-20"]
     
 
@@ -99,11 +99,11 @@ class multiSelectPaintable () =
         let graphics = Obj.repr graphics in
         begin
         ignore ((Obj.magic graphics)#setColor (backgroundColor));
-        ignore ((Obj.magic graphics)#drawRect ((self#getX ()), y, (self#getWidth ()), (self#getHeight ())));
+        ignore ((Obj.magic graphics)#drawRect ((self#getX ()), (self#y), (self#getWidth ()), (self#getHeight ())));
         ignore ((Obj.magic graphics)#setColor ((self#getColor ())));
-        ignore ((Obj.magic graphics)#drawString (tOTAL, textX, y, 0));
-        ignore ((Obj.magic graphics)#drawChars (totalCharArray, 0, ((self#getPrimitiveLongUtil ())#getCurrentTotalDigits ()), (textX + totalWidth), y, 0));
-        ignore ((Obj.magic graphics)#drawString (rootNamesString, textX, textLine2Y, 0))
+        ignore ((Obj.magic graphics)#drawString (tOTAL, (self#textX), (self#y), 0));
+        ignore ((Obj.magic graphics)#drawChars (totalCharArray, 0, ((self#getPrimitiveLongUtil ())#getCurrentTotalDigits ()), ((self#textX) + totalWidth), (self#y), 0));
+        ignore ((Obj.magic graphics)#drawString (rootNamesString, (self#textX), textLine2Y, 0))
         end [@@warning "-7-20"]
 
     initializer

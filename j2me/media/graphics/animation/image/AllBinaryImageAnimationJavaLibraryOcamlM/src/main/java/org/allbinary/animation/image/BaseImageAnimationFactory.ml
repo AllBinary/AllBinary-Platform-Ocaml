@@ -100,7 +100,7 @@ class baseImageAnimationFactory (image_arg, (sequenceArray_arg : int array), (wi
         let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
         let commonLabels : CommonLabels.commonLabels ref = ref (((CommonLabels.getInstance ()) :> CommonLabels.commonLabels)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr super))));
+        ignore (!stringBuffer#append ((super#toString ())));
         ignore (!stringBuffer#append (!commonLabels#hEIGHT_LABEL));
         ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic image)#getHeight ()))))));
         ignore (!stringBuffer#append (!commonSeps#sPACE));

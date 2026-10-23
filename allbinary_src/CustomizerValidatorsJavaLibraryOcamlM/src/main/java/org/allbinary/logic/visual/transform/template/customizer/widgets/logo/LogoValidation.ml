@@ -82,17 +82,17 @@ class logoValidation () =
             let valid : bool ref = ref (true) in ();
             let fileData : FileData.fileData ref = ref (((FileData.getInstance ()) :> FileData.fileData)) in ();
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF ("LogoValidation", self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF ("LogoValidation", self, (self#commonStrings)#iS_VALID))
             end;
             if (not ((StringValidationUtil.getInstance ())#isValidRequired ((java_string_of (Obj.repr logoAbPath)), 0, 512))) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("logoPath is invalid: " ^ (java_string_of (Obj.repr logoAbPath))), self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF (("logoPath is invalid: " ^ (java_string_of (Obj.repr logoAbPath))), self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
             if (not ((StringValidationUtil.getInstance ())#isValidRequired (logoFile, !fileData#mINLEN, !fileData#mAXLEN))) then begin
                 if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("logoFile is invalid: " ^ logoFile), self, commonStrings#iS_VALID))
+                    ignore ((Obj.magic logUtil)#putF (("logoFile is invalid: " ^ logoFile), self, (self#commonStrings)#iS_VALID))
                 end;
                 raise (Java_return (Obj.repr (false)))
             end;
@@ -102,18 +102,18 @@ class logoValidation () =
                 end;
                 if ((((Obj.magic logoFileItem)#getSize ()) > !fileData#mAXIMAGEFILESIZE) || (((Obj.magic logoFileItem)#getSize ()) < !fileData#mINIMAGEFILESIZE)) then begin
                     if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                        ignore ((Obj.magic logUtil)#putF (((("Image File Is Not The Right Size. " ^ java_string_of (Obj.repr (!fileData#mINIMAGEFILESIZE))) ^ "< > ") ^ java_string_of (Obj.repr (!fileData#mAXIMAGEFILESIZE))), self, commonStrings#iS_VALID))
+                        ignore ((Obj.magic logUtil)#putF (((("Image File Is Not The Right Size. " ^ java_string_of (Obj.repr (!fileData#mINIMAGEFILESIZE))) ^ "< > ") ^ java_string_of (Obj.repr (!fileData#mAXIMAGEFILESIZE))), self, (self#commonStrings)#iS_VALID))
                     end;
                     raise (Java_return (Obj.repr (false)))
                 end
             end;
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
-                ignore ((Obj.magic logUtil)#putF (("Logo Validation: " ^ java_string_of (Obj.repr (!valid))), self, commonStrings#iS_VALID))
+                ignore ((Obj.magic logUtil)#putF (("Logo Validation: " ^ java_string_of (Obj.repr (!valid))), self, (self#commonStrings)#iS_VALID))
             end;
             !valid
         with e -> begin
             if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLTAGSERROR)) then begin
-                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, commonStrings#iS_VALID, e))
+                ignore ((Obj.magic logUtil)#put ("Failed to validate form", self, (self#commonStrings)#iS_VALID, e))
             end;
             false
         end)
