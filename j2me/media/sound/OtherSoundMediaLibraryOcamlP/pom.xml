@@ -41,7 +41,7 @@
         <module>../../sound/NotDeviceSpecificMIDP2JavaLibraryOcamlM</module>
 <!--        <module>../../sound/J2SEMediaMIDPMinimalJavaLibraryOcamlM</module>-->
 <!--        <module>../../sound/MediaMIDP2ForHTMLJavaLibraryOcamlM</module>-->
-        <module>../../sound/AndroidMediaMIDPLibraryOcamlM</module>
+        <!--<module>../../sound/AndroidMediaMIDPLibraryOcamlM</module>-->
         
         <module>../../../games/Resources/sounds/release/GameSoundsWavResourcesJavaLibraryOcamlM</module>
         <module>../../../games/Resources/sounds/release/GameSoundsOggResourcesJavaLibraryOcamlM</module>

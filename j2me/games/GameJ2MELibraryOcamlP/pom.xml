@@ -31,7 +31,7 @@
         NoGyroSensorLibrary
 
         -->
-        <module>../../android/AndroidUtilJavaLibraryOcamlM</module>
+        <!--<module>../../android/AndroidUtilJavaLibraryOcamlM</module>-->
 
         <module>../../../allbinary_src/security/SimpleCryptLibraryOcamlM</module>
         <!--
@@ -40,7 +40,7 @@
         -->
         <module>../../../allbinary_src/TokenizerJavaLibraryOcamlM</module>
         <module>../../../allbinary_src/security/BasicSecurityJavaLibraryOcamlM</module>
-        <module>../../../replace_these_stub_projects/security/YourCryptFileJavaLibraryOcamlM</module>
+        <!--<module>../../../replace_these_stub_projects/security/YourCryptFileJavaLibraryOcamlM</module>-->
         <module>../../../replace_these_stub_projects/security/YourSecurityJavaLibraryOcamlM</module>
         <module>../../../replace_these_stub_projects/communication/YourXmlRpcJavaLibraryOcamlM</module>
         <module>../../../replace_these_stub_projects/allbinary_src/J2MEOnlyJavaLibraryOcamlM</module>
@@ -50,8 +50,8 @@
         <module>../../DebugJavaLibraryOcamlM</module>             
         <module>../../ResourceLibraryOcamlM</module>
         <module>../../ResourceJ2MEJavaLibraryOcamlM</module>
-        <module>../../AndroidResourceLibraryOcamlM</module>
-        <module>../../../allbinary_src/hardware/AndroidSystemJavaLibraryOcamlM</module>
+        <!--<module>../../AndroidResourceLibraryOcamlM</module>-->
+        <!--<module>../../../allbinary_src/hardware/AndroidSystemJavaLibraryOcamlM</module>-->
 
         <module>../../../game/behavior/ArtificialIntelligenceLibraryOcamlM</module>
 

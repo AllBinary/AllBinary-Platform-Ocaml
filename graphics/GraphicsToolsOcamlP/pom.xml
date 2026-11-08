@@ -33,14 +33,14 @@
         -->
         
         
-        <module>../AllBinaryGraphicsUserInterfaceJavaLibraryOcamlM</module>
+        <!--<module>../AllBinaryGraphicsUserInterfaceJavaLibraryOcamlM</module>-->
         
         <module>../../allbinary_src/logging/LogConfigTypeThickClientJavaLibraryOcamlM</module>
-        <module>../../allbinary_src/logging/GUILoggingOcamlM</module>
+        <!--<module>../../allbinary_src/logging/GUILoggingOcamlM</module>-->
                 
-        <module>../AllBinaryGraphicsJavaApplicationOcamlM</module>
+        <!--<module>../AllBinaryGraphicsJavaApplicationOcamlM</module>-->
         
-        <module>../ImageToolJavaApplicationOcamlM</module>
+        <!--<module>../ImageToolJavaApplicationOcamlM</module>-->
     </modules>
 
 </project>

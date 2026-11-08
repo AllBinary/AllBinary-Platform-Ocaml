@@ -38,16 +38,16 @@
 <!--        <module>../j2me/games/platform/j2se/AllBinaryOnJ2SEBasePlatformJavaLibraryOcamlM</module>-->
         <module>../j2me/games/platform/j2se/AllBinaryOnJ2SEPlatformJavaLibraryOcamlM</module>
         
-        <module>../j2me/FullScreenJavaLibraryOcamlM</module>
+        <!--<module>../j2me/FullScreenJavaLibraryOcamlM</module>-->
 
-        <module>../j2me/SWTToJ2MELibraryOcamlM</module>
+        <!--<module>../j2me/SWTToJ2MELibraryOcamlM</module>-->
         
         <module>../j2me/media/graphics/ImageCacheOpenGLESJavaLibraryOcamlM</module>
         <module>../graphics/opengl/Min3dForNullJavaLibraryOcamlM</module>
         <module>../graphics/opengl/OpenGLESFileConfigurationJavaLibraryOcamlM</module>
         <module>../graphics/opengl/OpenGLESJavaLibraryOcamlM</module>
         <module>../j2me/media/graphics/animation/vector/SVGToAllBinaryJavaLibraryOcamlM</module>
-        <module>../j2me/media/graphics/animation/image/ImageSwtJ2SEJavaLibraryOcamlM</module>
+        <!--<module>../j2me/media/graphics/animation/image/ImageSwtJ2SEJavaLibraryOcamlM</module>-->
 
         <module>../j2me/media/graphics/layer/AllBinaryTiledLayerJavaLibraryOcamlM</module>        
         <module>../j2me/media/graphics/geography/map/GeographicMapLibraryOcamlM</module>

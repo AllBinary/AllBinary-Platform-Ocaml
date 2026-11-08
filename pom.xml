@@ -32,6 +32,10 @@
 
         <!--
         -->
+        <module>../working_thirdpartyocaml/embedded/j2me/microemulator/2_0_4/microemu-cldcOcaml</module>
+        <module>../working_thirdpartyocaml/embedded/j2me/microemulator/2_0_4/microemu-midpOcaml</module>
+        <module>../working_thirdpartyocaml/embedded/j2me/microemulator/2_0_4/microemu-extensions/microemu-jsr-135Ocaml</module>
+        
         <module>./j2me/AllBinaryBaseLibraryPOOcamlM</module>
         <module>./j2me/AllBinaryJ2MELibraryP</module>
         <module>./AllBinaryPersistenceLibraryP</module>
@@ -45,9 +49,9 @@
         <module>./j2me/media/graphics/animation/image/AllBinaryHTMLImageAnimationRotationJavaLibraryOcamlM</module>
         <module>./j2me/media/graphics/animation/image/AllBinaryHTML2ImageAnimationRotationJavaLibraryOcamlM</module>
         -->
-        <module>./j2me/media/graphics/animation/image/AllBinaryJ2SEImageAnimationRotationJavaLibraryOcamlM</module>
-        <module>./j2me/games/Resources/sounds/release/GameSoundsJ2SEOggResourcesJavaLibraryOcamlM</module>
-        <module>./graphics/opengl/AllBinaryJOGLResourcesJavaLibraryOcamlM</module>
+        <!--<module>./j2me/media/graphics/animation/image/AllBinaryJ2SEImageAnimationRotationJavaLibraryOcamlM</module>-->
+        <!--<module>./j2me/games/Resources/sounds/release/GameSoundsJ2SEOggResourcesJavaLibraryOcamlM</module>-->
+        <!--<module>./graphics/opengl/AllBinaryJOGLResourcesJavaLibraryOcamlM</module>-->
 
     </modules>
 

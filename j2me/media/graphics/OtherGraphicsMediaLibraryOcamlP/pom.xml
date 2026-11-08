@@ -61,7 +61,7 @@
         <!--
         <module>../../graphics/animation/image/ImageHTMLJavaLibraryOcamlM</module>
         -->
-        <module>../../graphics/animation/image/ImageJ2SEJavaLibraryOcamlM</module>
+        <!--<module>../../graphics/animation/image/ImageJ2SEJavaLibraryOcamlM</module>-->
         <!--
         <module>../../graphics/animation/image/ImageAndroidJavaLibraryOcamlM</module>
         -->

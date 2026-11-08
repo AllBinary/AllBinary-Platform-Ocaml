@@ -42,18 +42,18 @@
         
         <!-- Several Move to PostPlatforms -->
         
-        <module>../../media/sound/MusicJ2MEJavaLibraryOcamlM</module>
-        <module>../../media/sound/NullMusicAndroidJavaLibraryOcamlM</module>
-        <module>../../media/sound/MusicAndroidJavaLibraryOcamlM</module>
+        <!--<module>../../media/sound/MusicJ2MEJavaLibraryOcamlM</module>-->
+        <!--<module>../../media/sound/NullMusicAndroidJavaLibraryOcamlM</module>-->
+        <!--<module>../../media/sound/MusicAndroidJavaLibraryOcamlM</module>-->
 
         <!--
         <module>../../media/graphics/ImageCacheAndroidJavaLibraryOcamlM</module>
         -->
                 
         <!-- ../../../../working/allbinary_src/logic/data/file/FileAndroidJavaLibraryM -->
-        <module>../../../allbinary_src/logic/data/file/FileAndroidJavaLibraryOcamlM</module>
+        <!--<module>../../../allbinary_src/logic/data/file/FileAndroidJavaLibraryOcamlM</module>-->
         
-        <module>../../input/platform/android/MotionInputAndroidResourcesJavaLibraryOcamlM</module>
+        <!--<module>../../input/platform/android/MotionInputAndroidResourcesJavaLibraryOcamlM</module>-->
                 
     </modules>
 
