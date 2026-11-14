@@ -16,14 +16,15 @@
 (* package org.allbinary.view *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class viewPositionFactory () =
   object
     
 
-    method getInstance () : ViewPositionBase.viewPositionBase =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((ViewPosition.getInstanceD ()) :> ViewPositionBase.viewPositionBase)
+        (Obj.magic ((ViewPosition.getInstanceD ())))
         end
 
     initializer

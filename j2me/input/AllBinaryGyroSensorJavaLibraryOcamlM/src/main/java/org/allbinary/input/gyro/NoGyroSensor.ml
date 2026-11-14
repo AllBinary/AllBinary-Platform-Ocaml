@@ -28,7 +28,7 @@ class noGyroSensor () =
 
     method getOrientation : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic (java_call_static "Orientation.get_nONE" (Obj.repr ())))))
+        (Obj.magic ((Orientation.get_nONE ())))
         end [@@warning "-7"]
     
 
@@ -40,7 +40,7 @@ class noGyroSensor () =
     initializer
       begin
         ();
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR))
       end
   end
 let () = java_register_constructor "NoGyroSensor" (fun arguments -> Obj.repr (new noGyroSensor (Obj.obj arguments)))

@@ -31,6 +31,7 @@ let context : Obj.t ref = ref ((Obj.repr (Obj.magic 0)))
 let get_context () = Obj.magic !context
 let set_context value' = context := Obj.repr value'
 let () = java_register_static "AllBinaryPreloaderActivator.get_context" (fun _ -> Obj.repr (get_context ()))
+let () = java_register_static "AllBinaryPreloaderActivator.set_context" (fun value' -> set_context (Obj.obj value'); Obj.repr ())
 let cRYPT_REGISTRY_NAME : string = "bundle.abcs.logic.system.loader.CryptService"
 let get_cRYPT_REGISTRY_NAME () = cRYPT_REGISTRY_NAME
 let () = java_register_static "AllBinaryPreloaderActivator.get_cRYPT_REGISTRY_NAME" (fun _ -> Obj.repr (get_cRYPT_REGISTRY_NAME ()))
@@ -56,11 +57,11 @@ class allBinaryPreloaderActivator () =
         let context_arg = Obj.repr context_arg in
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "start"));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "start"));
             context := Obj.repr ((Obj.magic context_arg));
             (self#registerAsService ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "start", e));
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "start", e));
             raise e
         end)
         end [@@warning "-20"]
@@ -80,7 +81,7 @@ class allBinaryPreloaderActivator () =
 
     method stop : 'any1. 'any1 -> unit = fun (_context_arg) ->
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "stop"))
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "stop"))
         end [@@warning "-20"]
 
     initializer

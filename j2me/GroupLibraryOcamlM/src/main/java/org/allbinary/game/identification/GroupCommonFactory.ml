@@ -24,6 +24,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "GroupCommonFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GroupCommonFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class groupCommonFactory () =
   object
     val mutable iD : int = (Obj.magic 0)
@@ -54,12 +55,12 @@ class groupCommonFactory () =
   end
 let () = java_register_constructor "GroupCommonFactory" (fun arguments -> Obj.repr (new groupCommonFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new groupCommonFactory ())
+            instance := (Obj.repr ((new groupCommonFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "GroupCommonFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

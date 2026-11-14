@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class circleFilledAnimation ((width_arg : int), (height_arg : int), (basicColor : BasicColor.basicColor)) =
   object (self)
-    inherit Animation.animation ()
+    inherit Animation.animation () as super
     val mutable width : int = 0
     method width = width
     method set_width value' = width <- value'
@@ -46,6 +46,19 @@ class circleFilledAnimation ((width_arg : int), (height_arg : int), (basicColor 
         ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
         ignore ((Obj.magic graphics)#fillRect (x, y, width, height))
         end [@@warning "-7-20"]
+    
+
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getBasicColorP ())))
+        end [@@warning "-7"]
+    
+
+    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor) ->
+        let basicColor = Obj.repr basicColor in
+        begin
+        ignore (super#setBasicColorP ((Obj.magic basicColor)))
+        end [@@warning "-7-20"]
 
     initializer
       begin
@@ -55,7 +68,7 @@ class circleFilledAnimation ((width_arg : int), (height_arg : int), (basicColor 
         (* super(...) is the inherit clause *) ();
         width <- width_arg;
         height <- height_arg;
-        ignore (self#setBasicColorP (basicColor))
+        (self#setBasicColorP (basicColor))
       end
   end
 let () = java_register_constructor "CircleFilledAnimation" (fun arguments -> Obj.repr (new circleFilledAnimation (Obj.obj arguments)))

@@ -31,5 +31,6 @@ class aBHashtable () =
       end
   end
 (* Java overloaded constructors: an OCaml class has one constructor *)
+let () = java_register_constructor "ABHashtable" (fun arguments -> Obj.repr (new aBHashtable (Obj.obj arguments)))
 
 

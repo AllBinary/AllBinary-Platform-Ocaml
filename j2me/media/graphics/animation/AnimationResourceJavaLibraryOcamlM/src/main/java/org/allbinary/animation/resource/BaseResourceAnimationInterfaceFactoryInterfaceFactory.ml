@@ -64,7 +64,7 @@ class baseResourceAnimationInterfaceFactoryInterfaceFactory ((name_arg : string)
     method init ((_level : int)) : unit =
         begin
         let commonStrings_arg : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Available List of Animations: "))#append ((java_string_of (Obj.repr (Obj.magic hashtable))))))), self, !commonStrings_arg#iNIT));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Available List of Animations: "))#append ((java_string_of (Obj.repr (Obj.magic hashtable))))))), (Obj.magic self), !commonStrings_arg#iNIT));
         (self#setInitialized (true))
         end
     
@@ -85,14 +85,14 @@ class baseResourceAnimationInterfaceFactoryInterfaceFactory ((name_arg : string)
         end [@@warning "-20"]
     
 
-    method getBasicAnimationInterfaceFactoryInstance ((resource : string)) : BasicAnimationInterfaceFactoryInterface.basicAnimationInterfaceFactoryInterface =
+    method getBasicAnimationInterfaceFactoryInstance : 'return. string -> 'return = fun ((resource : string)) ->
         try
         begin
         let basicAnimationInterfaceFactoryInterfaceCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic hashtable)#get (resource)))) in ();
         if (!basicAnimationInterfaceFactoryInterfaceCanBeNull == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr ((NullAnimationFactory.get_nULL_NOT_FOR_USE_ANIMATION_FACTORY ()))))
         end;
-        ((Obj.magic !basicAnimationInterfaceFactoryInterfaceCanBeNull) :> BasicAnimationInterfaceFactoryInterface.basicAnimationInterfaceFactoryInterface)
+        (Obj.magic ((Obj.magic !basicAnimationInterfaceFactoryInterfaceCanBeNull)))
         end
         with Java_return value -> Obj.obj value
     
@@ -121,8 +121,8 @@ class baseResourceAnimationInterfaceFactoryInterfaceFactory ((name_arg : string)
         begin
         let valueCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic rectangleArrayOfArraysHashtable)#get (resource)))) in ();
         if (!valueCanBeNull != (Obj.magic 0)) then begin
-            let rectangleArrayOfArrays : Obj.t ref = ref ((Obj.repr (Obj.magic !valueCanBeNull))) in ();
-            raise (Java_return (Obj.repr ((Obj.magic !rectangleArrayOfArrays))))
+            let rectangleArrayOfArrays : Rectangle.rectangle array array ref = ref ((Obj.magic !valueCanBeNull)) in ();
+            raise (Java_return (Obj.repr (!rectangleArrayOfArrays)))
         end else begin
             raise (Java_return (Obj.repr ((RectangleFactory.get_aRRAY_OF_ARRAYS ()))))
         end
@@ -130,7 +130,7 @@ class baseResourceAnimationInterfaceFactoryInterfaceFactory ((name_arg : string)
         with Java_return value -> Obj.obj value
     
 
-    method addRectangleArrayOfArrays ((resource : string), rectangleArrayOfArrays) : unit =
+    method addRectangleArrayOfArrays ((resource : string), (rectangleArrayOfArrays : Rectangle.rectangle array array)) : unit =
         begin
         ignore ((Obj.magic rectangleArrayOfArraysHashtable)#put (resource, rectangleArrayOfArrays))
         end

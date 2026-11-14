@@ -29,9 +29,9 @@ class destroyEventFactory ((combatGameCanvas_arg : AllBinaryGameCanvas.allBinary
     
     
 
-    method getInstance () : AllBinaryEventObject.allBinaryEventObject =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new DestroyedEvent.destroyedEvent (combatGameCanvas)) :> AllBinaryEventObject.allBinaryEventObject)
+        (Obj.magic ((new DestroyedEvent.destroyedEvent (combatGameCanvas))))
         end
 
     initializer

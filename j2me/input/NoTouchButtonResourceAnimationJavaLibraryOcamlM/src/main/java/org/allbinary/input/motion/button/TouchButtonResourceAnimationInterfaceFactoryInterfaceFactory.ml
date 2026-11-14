@@ -80,9 +80,9 @@ class touchButtonResourceAnimationInterfaceFactoryInterfaceFactory ((name : stri
   end
 let () = java_register_constructor "TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory" (fun arguments -> Obj.repr (new touchButtonResourceAnimationInterfaceFactoryInterfaceFactory (Obj.obj arguments)))
 
-let createFactory () =
+let createFactory : 'return. unit -> 'return = fun () ->
         begin
-        (new touchButtonResourceAnimationInterfaceFactoryInterfaceFactory ("TouchButton Animations"))
+        (Obj.magic ((new touchButtonResourceAnimationInterfaceFactoryInterfaceFactory ("TouchButton Animations"))))
         end
 let () = java_register_static "TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory.createFactory" (fun arguments -> Obj.repr (createFactory (Obj.obj arguments)))
 

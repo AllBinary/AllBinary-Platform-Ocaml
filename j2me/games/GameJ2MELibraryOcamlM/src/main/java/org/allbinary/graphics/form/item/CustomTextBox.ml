@@ -52,7 +52,7 @@ class customTextBox (cmdListener, (label : string), (text : string), (maxSize : 
 
     method onEventRaw ((keyCode : int), (deviceId : int), (_repeated : bool)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#appendint (keyCode)))), self, "onEvent"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#appendint (keyCode)))), (Obj.magic self), "onEvent"));
         (self#keyPressedByDevice (keyCode, deviceId))
         end [@@warning "-7"]
     
@@ -78,16 +78,16 @@ class customTextBox (cmdListener, (label : string), (text : string), (maxSize : 
     method keyPressedByDevice ((keyCode : int), (_deviceId : int)) : unit =
         begin
         (try
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), self, (self#gameInputStrings)#kEY_PRESSED));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), (Obj.magic self), (self#gameInputStrings)#kEY_PRESSED));
             let platformKeyFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PlatformKeyFactory.getInstance" (Obj.repr ()))))) in ();
-            let input : Obj.t ref = ref ((Obj.repr (inputFactory#getInstanceById (keyCode)))) in ();
-            if ((Obj.magic !platformKeyFactory)#isSubmission ((Obj.magic !input))) then begin
+            let input : Input.input ref = ref (((inputFactory#getInstanceById (keyCode)) :> Input.input)) in ();
+            if ((Obj.magic !platformKeyFactory)#isSubmission (!input)) then begin
                 (self#submit ())
             end else begin
                 ignore ((Obj.magic textFieldItem)#keyPressed (keyCode))
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#kEY_PRESSED, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#gameInputStrings)#kEY_PRESSED, e))
         end)
         end [@@warning "-7"]
     
@@ -131,7 +131,7 @@ class customTextBox (cmdListener, (label : string), (text : string), (maxSize : 
         ();
         (* super(...) is the inherit clause *) ();
         let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
-        let textFieldItem_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "ABTextFieldItem" (Obj.repr (self, (new TextItemVisitor.textItemVisitor ()), !stringUtil#eMPTY_STRING, !stringUtil#eMPTY_STRING, maxSize, 0, !stringUtil#eMPTY_STRING, font, backgroundBasicColor, foregroundBasicColor)))))) in ();
+        let textFieldItem_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "ABTextFieldItem" (Obj.repr ((Obj.magic self), ((new TextItemVisitor.textItemVisitor ()) : TextItemVisitor.textItemVisitor :> Visitor.visitor), !stringUtil#eMPTY_STRING, !stringUtil#eMPTY_STRING, maxSize, 0, !stringUtil#eMPTY_STRING, font, backgroundBasicColor, foregroundBasicColor)))))) in ();
         ignore ((Obj.magic !textFieldItem_arg)#setString (text));
         textFieldItem <- Obj.repr ((Obj.magic !textFieldItem_arg));
         ignore (self#setTitle (label))

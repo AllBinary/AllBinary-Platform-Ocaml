@@ -35,7 +35,7 @@ class openGLImageSpecificFactory () =
         let imageFactory_arg = Obj.repr imageFactory_arg in
         begin
         imageFactory <- Obj.repr ((Obj.magic imageFactory_arg));
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Selected Image Factory: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic imageFactory))))))), self, "setImageFactory"))))
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Selected Image Factory: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic imageFactory))))))), (Obj.magic self), "setImageFactory"))))
         end [@@warning "-20"]
     
 
@@ -57,9 +57,9 @@ let instance = (new openGLImageSpecificFactory ())
 let get_instance () = instance
 let () = java_register_static "OpenGLImageSpecificFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "OpenGLImageSpecificFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

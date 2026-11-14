@@ -49,7 +49,7 @@ class virtualKeyboardEventHandler () =
             ignore (Unix.sleepf (Float.of_int (120) /. 1000.0));
             ignore (self#fireEvent (sHOW_EVENT))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "open", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "open", e))
         end)
         end [@@warning "-7"]
     
@@ -60,14 +60,14 @@ class virtualKeyboardEventHandler () =
             ignore (Unix.sleepf (Float.of_int (120) /. 1000.0));
             ignore (self#fireEvent (hIDE_EVENT))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#cLOSE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#cLOSE, e))
         end)
         end [@@warning "-7"]
 
     initializer
       begin
-        sHOW_EVENT <- ((new VirtualKeyboardEvent.virtualKeyboardEvent ((BooleanFactory.getInstance ())#tRUE)) :> VirtualKeyboardEvent.virtualKeyboardEvent);
-        hIDE_EVENT <- ((new VirtualKeyboardEvent.virtualKeyboardEvent ((BooleanFactory.getInstance ())#fALSE)) :> VirtualKeyboardEvent.virtualKeyboardEvent);
+        sHOW_EVENT <- ((new VirtualKeyboardEvent.virtualKeyboardEvent ((Obj.repr ((BooleanFactory.getInstance ())#tRUE)))) :> VirtualKeyboardEvent.virtualKeyboardEvent);
+        hIDE_EVENT <- ((new VirtualKeyboardEvent.virtualKeyboardEvent ((Obj.repr ((BooleanFactory.getInstance ())#fALSE)))) :> VirtualKeyboardEvent.virtualKeyboardEvent);
         ();
         ()
       end
@@ -78,9 +78,9 @@ let gameKeyEventHandler = (new virtualKeyboardEventHandler ())
 let get_gameKeyEventHandler () = gameKeyEventHandler
 let () = java_register_static "VirtualKeyboardEventHandler.get_gameKeyEventHandler" (fun _ -> Obj.repr (get_gameKeyEventHandler ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        gameKeyEventHandler
+        (Obj.magic (gameKeyEventHandler))
         end
 let () = java_register_static "VirtualKeyboardEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

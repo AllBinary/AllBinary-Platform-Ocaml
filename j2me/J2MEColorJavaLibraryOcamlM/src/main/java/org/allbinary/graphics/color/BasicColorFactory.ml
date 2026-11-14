@@ -113,28 +113,28 @@ class basicColorFactory () =
     method set_bORDER_COLOR value' = bORDER_COLOR <- value'
     
 
-    method createInstance ((value : int)) : BasicColor.basicColor =
+    method createInstance : 'return. int -> 'return = fun ((value : int)) ->
         begin
-        ((new BasicColor.basicColor ((BasicColorUtil.getInstance ())#aLPHA, value, (StringUtil.getInstance ())#eMPTY_STRING)) :> BasicColor.basicColor)
+        (Obj.magic ((new BasicColor.basicColor ((BasicColorUtil.getInstance ())#aLPHA, value, (StringUtil.getInstance ())#eMPTY_STRING))))
         end
     
 
-    method createInstanceA ((alphaValue : int), (value : int)) : BasicColor.basicColor =
+    method createInstanceA : 'return. int * int -> 'return = fun ((alphaValue : int), (value : int)) ->
         begin
-        ((new BasicColor.basicColor (alphaValue, value, (StringUtil.getInstance ())#eMPTY_STRING)) :> BasicColor.basicColor)
+        (Obj.magic ((new BasicColor.basicColor (alphaValue, value, (StringUtil.getInstance ())#eMPTY_STRING))))
         end
     
 
-    method createInstanceAN ((alphaValue : int), (value : int), (name : string)) : BasicColor.basicColor =
+    method createInstanceAN : 'return. int * int * string -> 'return = fun ((alphaValue : int), (value : int), (name : string)) ->
         begin
-        ((new BasicColor.basicColor (alphaValue, value, name)) :> BasicColor.basicColor)
+        (Obj.magic ((new BasicColor.basicColor (alphaValue, value, name))))
         end
     
 
-    method createInstanceARGB ((alphaValue : int), (r : int), (g : int), (b : int), (_name : string)) : BasicColor.basicColor =
+    method createInstanceARGB : 'return. int * int * int * int * string -> 'return = fun ((alphaValue : int), (r : int), (g : int), (b : int), (_name : string)) ->
         begin
         let aLPHA_MASK : int ref = ref (0xFF000000) in ();
-        ((new BasicColor.basicColor (alphaValue, (((((((alphaValue lsl 24)) land !aLPHA_MASK)) + ((((r lsl 16)) land 0x00FF0000))) + ((((g lsl 8)) land 0x0000FF00))) + ((b land 0x000000FF))), (StringUtil.getInstance ())#eMPTY_STRING)) :> BasicColor.basicColor)
+        (Obj.magic ((new BasicColor.basicColor (alphaValue, (((((((alphaValue lsl 24)) land !aLPHA_MASK)) + ((((r lsl 16)) land 0x00FF0000))) + ((((g lsl 8)) land 0x0000FF00))) + ((b land 0x000000FF))), (StringUtil.getInstance ())#eMPTY_STRING))))
         end
 
     initializer
@@ -177,9 +177,9 @@ let instance = (new basicColorFactory ())
 let get_instance () = instance
 let () = java_register_static "BasicColorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "BasicColorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

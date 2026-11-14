@@ -52,9 +52,9 @@ class textAnimation ((text : string), (animationBehavior : AnimationBehavior.ani
     val mutable offsetY : int = 0
     method offsetY = offsetY
     method set_offsetY value' = offsetY <- value'
-    val mutable textChangeListener : Obj.t = Obj.repr 0
-    method textChangeListener : 'r. 'r = Obj.magic textChangeListener
-    method set_textChangeListener : 'v. 'v -> unit = fun value' -> textChangeListener <- Obj.repr value'
+    val mutable textChangeListener : TextChangeListener.textChangeListener = (Obj.magic 0)
+    method textChangeListener = textChangeListener
+    method set_textChangeListener value' = textChangeListener <- value'
     
     
 
@@ -63,10 +63,10 @@ class textAnimation ((text : string), (animationBehavior : AnimationBehavior.ani
         begin
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
         fontHeight <- ((Obj.magic !font)#getHeight ());
-        let adjustedFontHeight : int ref = ref ((int_of_float ((-.(((float_of_int (fontHeight)) *. 2.00)))))) in ();
+        let adjustedFontHeight : int ref = ref ((int_of_float ((-. (((float_of_int (fontHeight)) *. 2.00)))))) in ();
         offsetY <- (if ((Obj.magic (java_call_static "SWTJOGLProcessor.getInstance" (Obj.repr ())))#isJOGL ()) then !adjustedFontHeight else 0);
-        ignore ((Obj.magic textChangeListener)#onMeasure ());
-        textChangeListener <- Obj.repr ((Obj.magic (java_call_static "TextChangeListener.getInstance" (Obj.repr ()))));
+        ignore (textChangeListener#onMeasure ());
+        textChangeListener <- (TextChangeListener.getInstance ());
         myFontProcessor <- (MyFontProcessor.getInstance ())
         end [@@warning "-7-20"]
     
@@ -100,14 +100,14 @@ class textAnimation ((text : string), (animationBehavior : AnimationBehavior.ani
         let textChangeListener_arg = Obj.repr textChangeListener_arg in
         begin
         (self#setText (text));
-        textChangeListener <- Obj.repr ((Obj.magic textChangeListener_arg))
+        textChangeListener <- (Obj.magic textChangeListener_arg)
         end [@@warning "-7-20"]
     
 
     method setText ((text : string)) : unit =
         begin
         let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        if ((text <> (Obj.magic 0)) && ((String.length text) > 0)) then begin
+        if ((String.length text) > 0) then begin
             let index : int ref = ref (0) in ();
             let startIndex : int ref = ref (0) in ();
             let endIndex : int ref = ref (0) in ();
@@ -152,18 +152,18 @@ class textAnimation ((text : string), (animationBehavior : AnimationBehavior.ani
 
     initializer
       begin
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         textArrayP <- (StringUtil.getInstance ())#oNE_EMPTY_STRING_ARRAY;
         anchor <- (Anchor.get_tOP_LEFT ());
         fontHeight <- 0;
         offsetY <- 0;
-        textChangeListener <- (Obj.repr (Obj.magic (java_call_static "TextChangeListener.getInstance" (Obj.repr ()))));
+        textChangeListener <- ((TextChangeListener.getInstance ()) :> TextChangeListener.textChangeListener);
         ();
         (* super(...) is the inherit clause *) ();
         (self#setText (text))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "TextAnimation" (fun arguments -> Obj.repr (new textAnimation (Obj.obj arguments)))
 
 

@@ -57,14 +57,14 @@ class collidableDestroyableDamageableBehavior ((collidable : bool)) =
 
     method isCollisionInterface : 'any1 'any2. 'any1 * 'any2 -> bool = fun (_ownerLayer, _collidableInterfaceCompositeInterface) ->
         begin
-        ignore (ForcedLogUtil.log ("No Longer Used", self));
+        ignore (ForcedLogUtil.log ("No Longer Used", (Obj.magic self)));
         false
         end [@@warning "-7-20"]
     
 
     method collideInterface : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_ownerLayer, _collidableInterfaceCompositeInterface) ->
         begin
-        ignore (ForcedLogUtil.log ("No Longer Used", self))
+        ignore (ForcedLogUtil.log ("No Longer Used", (Obj.magic self)))
         end [@@warning "-7-20"]
 
     initializer

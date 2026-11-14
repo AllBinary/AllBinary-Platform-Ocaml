@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.animation.Animation *)
 (* import org.allbinary.layer.AllBinaryLayer *)
 
-class pickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerType.pickedUpLayerType), (iconLayer_arg : IconLayer.iconLayer), animationInterface_arg) =
+class pickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerType.pickedUpLayerType), (iconLayer_arg : IconLayer.iconLayer), (animationInterface_arg : Animation.animation)) =
   object
     inherit PickedUpLayerInterfaceFactoryBase.pickedUpLayerInterfaceFactoryBase ()
     val mutable pickedUpLayerType : PickedUpLayerType.pickedUpLayerType = (Obj.magic 0)
@@ -29,27 +29,27 @@ class pickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerType.picke
     val mutable iconLayer : IconLayer.iconLayer = (Obj.magic 0)
     method iconLayer = iconLayer
     method set_iconLayer value' = iconLayer <- value'
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
     
     
 
-    method getIconLayer () : AllBinaryLayer.allBinaryLayer =
+    method getIconLayer : 'return. unit -> 'return = fun () ->
         begin
-        (iconLayer :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic (iconLayer))
         end [@@warning "-7"]
     
 
     method getAnimationInterface : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic animationInterface)))
+        (Obj.magic (animationInterface))
         end [@@warning "-7"]
     
 
-    method getPickedUpLayerType () : PickedUpLayerType.pickedUpLayerType =
+    method getPickedUpLayerType : 'return. unit -> 'return = fun () ->
         begin
-        (pickedUpLayerType :> PickedUpLayerType.pickedUpLayerType)
+        (Obj.magic (pickedUpLayerType))
         end [@@warning "-7"]
 
     initializer
@@ -59,10 +59,10 @@ class pickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerType.picke
         ();
         ();
         pickedUpLayerType <- pickeUpLayerType;
-        animationInterface <- Obj.repr (animationInterface_arg);
+        animationInterface <- animationInterface_arg;
         iconLayer <- iconLayer_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "PickedUpLayerInterfaceFactory" (fun arguments -> Obj.repr (new pickedUpLayerInterfaceFactory (Obj.obj arguments)))
 
 

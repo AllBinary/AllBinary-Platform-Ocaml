@@ -113,10 +113,10 @@ class gPoint ((x_arg : int), (y_arg : int), (z_arg : int)) =
   end
 let () = java_register_constructor "GPoint" (fun arguments -> Obj.repr (new gPoint (Obj.obj arguments)))
 
-let getInstance : 'any1. 'any1 -> _ = fun (point) ->
+let getInstance : 'any1 'return. 'any1 -> 'return = fun (point) ->
         let point = Obj.repr point in
         begin
-        (new gPoint (((Obj.magic point)#getX ()), ((Obj.magic point)#getY ()), ((Obj.magic point)#getZ ())))
+        (Obj.magic ((new gPoint (((Obj.magic point)#getX ()), ((Obj.magic point)#getY ()), ((Obj.magic point)#getZ ())))))
         end [@@warning "-20"]
 let () = java_register_static "GPoint.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

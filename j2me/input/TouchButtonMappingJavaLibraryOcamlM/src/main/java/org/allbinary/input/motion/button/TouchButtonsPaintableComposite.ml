@@ -74,7 +74,7 @@ class touchButtonsPaintableComposite ((inputMappingInterface_arg : InputMappingI
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -83,29 +83,29 @@ class touchButtonsPaintableComposite ((inputMappingInterface_arg : InputMappingI
         try
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "onCompleteMotionGestureInputEvent"));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "onCompleteMotionGestureInputEvent"));
             let touchMotionGestureFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ()))))) in ();
             let gameKeyCompleteMotionGestureInputEvent : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic completeMotionGestureInputEvent)))) in ();
             let gameKey : GameKey.gameKey ref = ref ((((Obj.magic !gameKeyCompleteMotionGestureInputEvent)#getGameKey ()) :> GameKey.gameKey)) in ();
             let motionGestureInput : MotionGestureInput.motionGestureInput ref = ref ((((Obj.magic completeMotionGestureInputEvent)#getMotionGestureInput ()) :> MotionGestureInput.motionGestureInput)) in ();
             if ((Obj.repr !motionGestureInput) == (Obj.repr (Obj.magic !touchMotionGestureFactory)#rELEASED)) then begin
-                ignore ((Obj.magic logUtil)#putF (rELEASE, self, mETHOD_NAME));
+                ignore ((Obj.magic logUtil)#putF (rELEASE, (Obj.magic self), mETHOD_NAME));
                 released <- true;
                 raise (Java_return (Obj.repr (())))
             end;
             if (((Obj.repr !motionGestureInput) == (Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#nO_MOTION)) && (not (timeHelper#isTimeTNT ()))) then begin
-                ignore ((Obj.magic logUtil)#putF (fAST_REPEAT, self, mETHOD_NAME));
+                ignore ((Obj.magic logUtil)#putF (fAST_REPEAT, (Obj.magic self), mETHOD_NAME));
                 raise (Java_return (Obj.repr (())))
             end;
             if (not released) then begin
-                ignore ((Obj.magic logUtil)#putF (iGNORE, self, mETHOD_NAME));
+                ignore ((Obj.magic logUtil)#putF (iGNORE, (Obj.magic self), mETHOD_NAME));
                 raise (Java_return (Obj.repr (())))
             end;
             released <- false;
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ("GameKey: "))#append (((StringUtil.getInstance ())#toString (!gameKey))))#append (" MotionGestureInput: "))#append (((StringUtil.getInstance ())#toString (!motionGestureInput)))))), self, mETHOD_NAME));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ("GameKey: "))#append (((StringUtil.getInstance ())#toString (!gameKey))))#append (" MotionGestureInput: "))#append (((StringUtil.getInstance ())#toString (!motionGestureInput)))))), (Obj.magic self), mETHOD_NAME));
             ignore (inputMappingInterface#processInputMapping (!gameKey, !motionGestureInput))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, mETHOD_NAME, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), mETHOD_NAME, e))
         end)
         end
         with Java_return value -> Obj.obj value [@@warning "-7-20"]
@@ -113,7 +113,7 @@ class touchButtonsPaintableComposite ((inputMappingInterface_arg : InputMappingI
 
     method process () : unit =
         begin
-        ignore ((CompleteMotionGestureInputEventHandler.getInstance ())#removeListener (self))
+        ignore ((CompleteMotionGestureInputEventHandler.getInstance ())#removeListener ((Obj.magic self)))
         end [@@warning "-7"]
 
     initializer
@@ -130,7 +130,7 @@ class touchButtonsPaintableComposite ((inputMappingInterface_arg : InputMappingI
         iGNORE <- "Ignoring: Until Released";
         ();
         inputMappingInterface <- inputMappingInterface_arg;
-        ignore ((CompleteMotionGestureInputEventHandler.getInstance ())#addListenerInterface (self));
+        ignore ((CompleteMotionGestureInputEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)));
         touchButtonsPaintable <- (new TouchButtonsMappingPaintable.touchButtonsMappingPaintable (basicColor))
       end
   end [@@warning "-20"]

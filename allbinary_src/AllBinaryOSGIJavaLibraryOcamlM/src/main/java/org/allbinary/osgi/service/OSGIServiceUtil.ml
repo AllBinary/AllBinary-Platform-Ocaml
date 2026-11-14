@@ -33,15 +33,16 @@ class oSGIServiceUtil () =
     
     
 
-    method getServicesObjectVector : 'any1. 'any1 * _ -> BasicArrayList.basicArrayList = fun (bundleContext, serviceReferences) ->
+    method getServicesObjectVector : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (bundleContext, serviceReferences) ->
         let bundleContext = Obj.repr bundleContext in
+        let serviceReferences = Obj.repr serviceReferences in
         begin
         let vector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        if (serviceReferences != (Obj.magic 0)) then begin
-            let size : int ref = ref ((Array.length serviceReferences)) in ();
-            ignore ((Obj.magic logUtil)#putF (("Service References: " ^ java_string_of (Obj.repr (!size))), self, "getServicesObjectVector"));
+        if ((Obj.magic serviceReferences) != (Obj.magic 0)) then begin
+            let size : int ref = ref ((Array.length (Obj.magic serviceReferences))) in ();
+            ignore ((Obj.magic logUtil)#putF (("Service References: " ^ java_string_of (Obj.repr (!size))), (Obj.magic self), "getServicesObjectVector"));
             for index = 0 to !size - 1 do
-                let serviceReference : Obj.t ref = ref ((Obj.repr serviceReferences.(index))) in ();
+                let serviceReference : Obj.t ref = ref ((Obj.repr (Obj.magic serviceReferences).(index))) in ();
                 if ((Obj.magic !serviceReference) != (Obj.magic 0)) then begin
                     let osgiServiceInterface : OSGIServiceInterface.oSGIServiceInterface ref = ref (((Obj.magic ((Obj.magic bundleContext)#getService ((Obj.magic !serviceReference)))) :> OSGIServiceInterface.oSGIServiceInterface)) in ();
                     if (!osgiServiceInterface == (Obj.magic 0)) then begin
@@ -51,7 +52,7 @@ class oSGIServiceUtil () =
                 end
             done
         end;
-        (!vector :> BasicArrayList.basicArrayList)
+        (Obj.magic (!vector))
         end [@@warning "-20"]
 
     initializer
@@ -67,9 +68,9 @@ let instance = (new oSGIServiceUtil ())
 let get_instance () = instance
 let () = java_register_static "OSGIServiceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "OSGIServiceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

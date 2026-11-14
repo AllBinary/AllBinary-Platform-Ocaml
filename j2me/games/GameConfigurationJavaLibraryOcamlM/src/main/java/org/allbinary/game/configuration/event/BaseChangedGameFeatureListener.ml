@@ -34,9 +34,9 @@ class baseChangedGameFeatureListener () =
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable gameFeatureUtil : GameFeatureUtil.gameFeatureUtil = (Obj.magic 0)
-    method gameFeatureUtil = gameFeatureUtil
-    method set_gameFeatureUtil value' = gameFeatureUtil <- value'
+    val mutable gameFeatureUtil : Obj.t = Obj.repr 0
+    method gameFeatureUtil : 'r. 'r = Obj.magic gameFeatureUtil
+    method set_gameFeatureUtil : 'v. 'v -> unit = fun value' -> gameFeatureUtil <- Obj.repr value'
     val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
     method list = list
     method set_list value' = list <- value'
@@ -47,14 +47,14 @@ class baseChangedGameFeatureListener () =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, (Obj.magic self)))
         end [@@warning "-20"]
     
 
     method onGameFeatureChange : 'any1. 'any1 -> unit = fun (gameFeatureEvent) ->
         let gameFeatureEvent = Obj.repr gameFeatureEvent in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameFeatureUtil#gAME_FEATURE_CHANGED))#append (((Obj.magic gameFeatureEvent)#getWhatChanged ()))))), self, gameFeatureUtil#oN_GAME_FEATURE_CHANGE));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((Obj.magic gameFeatureUtil)#gAME_FEATURE_CHANGED))#append (((Obj.magic gameFeatureEvent)#getWhatChanged ()))))), (Obj.magic self), (Obj.magic gameFeatureUtil)#oN_GAME_FEATURE_CHANGE));
         ignore (list#add (((Obj.magic gameFeatureEvent)#getGameOption ())));
         (self#setChanged (true))
         end [@@warning "-20"]
@@ -94,7 +94,7 @@ class baseChangedGameFeatureListener () =
         ignore (!stringBuffer#appendboolean (((Obj.magic (java_call_static "Features.getInstance" (Obj.repr ())))#isFeature ((Obj.magic gameFeature)))));
         ignore (!stringBuffer#append (" isChanged: "));
         ignore (!stringBuffer#appendboolean (!isChanged));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "isChanged"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "isChanged"));
         !isChanged
         end [@@warning "-20"]
     
@@ -107,7 +107,7 @@ class baseChangedGameFeatureListener () =
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        gameFeatureUtil <- ((GameFeatureUtil.getInstance ()) :> GameFeatureUtil.gameFeatureUtil);
+        gameFeatureUtil <- (Obj.repr (Obj.magic (java_call_static "GameFeatureUtil.getInstance" (Obj.repr ()))));
         list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         changed <- true;
         ()

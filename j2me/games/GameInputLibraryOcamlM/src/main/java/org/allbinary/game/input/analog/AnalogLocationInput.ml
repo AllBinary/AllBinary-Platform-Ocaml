@@ -31,9 +31,9 @@ class analogLocationInput ((playerId_arg : int)) =
         end
     
 
-    method getCustomGPoint () : CustomGPoint.customGPoint =
+    method getCustomGPoint : 'return. unit -> 'return = fun () ->
         begin
-        (customGPoint :> CustomGPoint.customGPoint)
+        (Obj.magic (customGPoint))
         end
     
 
@@ -86,7 +86,7 @@ class analogLocationInput ((playerId_arg : int)) =
   end
 let () = java_register_constructor "AnalogLocationInput" (fun arguments -> Obj.repr (new analogLocationInput (Obj.obj arguments)))
 
-let nULL_ANALOG_LOCATION_INPUT = (new analogLocationInput ((-1)))
+let nULL_ANALOG_LOCATION_INPUT = (new analogLocationInput ((- 1)))
 let get_nULL_ANALOG_LOCATION_INPUT () = nULL_ANALOG_LOCATION_INPUT
 let () = java_register_static "AnalogLocationInput.get_nULL_ANALOG_LOCATION_INPUT" (fun _ -> Obj.repr (get_nULL_ANALOG_LOCATION_INPUT ()))
 

@@ -78,9 +78,9 @@ class abeClientLicense (hashtable_arg) =
         end
     
 
-    method getServers () : BasicArrayList.basicArrayList =
+    method getServers : 'return. unit -> 'return = fun () ->
         begin
-        (servers :> BasicArrayList.basicArrayList)
+        (Obj.magic (servers))
         end
     
 
@@ -133,9 +133,9 @@ class abeClientLicense (hashtable_arg) =
         end
     
 
-    method getLicenseType () : LicenseType.licenseType =
+    method getLicenseType : 'return. unit -> 'return = fun () ->
         begin
-        (licenseType :> LicenseType.licenseType)
+        (Obj.magic (licenseType))
         end
 
     initializer
@@ -156,7 +156,7 @@ class abeClientLicense (hashtable_arg) =
         end;
         id <- (Obj.magic (hashtable_arg#get (!abeClientInformationData#lICENSEID)));
         let vector : BasicArrayList.basicArrayList ref = ref (((Obj.magic (hashtable_arg#get (!abeClientInformationData#lICENSESERVERS))) :> BasicArrayList.basicArrayList)) in ();
-        servers <- (new BasicArrayListD.basicArrayListD ());
+        servers <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         let size : int ref = ref ((!vector#size ())) in ();
         for index = 0 to !size - 1 do
             ignore (servers#add ((!vector#get (index))))

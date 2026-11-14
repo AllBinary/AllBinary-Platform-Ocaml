@@ -30,11 +30,12 @@ class highScoresHelper () =
     method set_lastIndex value' = lastIndex <- value'
     
 
-    method setHighScoresArray (highScoresArrayP) : unit =
+    method setHighScoresArray : 'any1. 'any1 -> unit = fun (highScoresArrayP) ->
+        let highScoresArrayP = Obj.repr highScoresArrayP in
         begin
-        ignore (super#setHighScoresArray (highScoresArrayP));
+        ignore (super#setHighScoresArray ((Obj.magic highScoresArrayP)));
         ignore (circularIndexUtil#setSize ((Array.length (self#highScoresArrayP))))
-        end [@@warning "-7"]
+        end [@@warning "-7-20"]
     
 
     method getNextHighScores : 'return. unit -> 'return = fun () ->
@@ -72,7 +73,7 @@ class highScoresHelper () =
     initializer
       begin
         circularIndexUtil <- ((CircularIndexUtil.createInstanceAt (0, 0)) :> CircularIndexUtil.circularIndexUtil);
-        lastIndex <- (-1);
+        lastIndex <- (- 1);
         ()
       end
   end

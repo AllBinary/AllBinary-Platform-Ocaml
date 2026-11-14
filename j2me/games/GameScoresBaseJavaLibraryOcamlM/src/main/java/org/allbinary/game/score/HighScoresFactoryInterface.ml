@@ -22,7 +22,7 @@ class virtual highScoresFactoryInterface =
   object
     method virtual fetchHighScores : 'any1 'any2 . 'any1 * 'any2 -> unit
     method virtual fetchHighScoresPreload : 'any1 'any2 . 'any1 * 'any2 * bool -> unit
-    method virtual createHighScoresHelper : unit -> HighScoresHelperBaseInterface.highScoresHelperBaseInterface
+    method virtual createHighScoresHelper : 'return . unit -> 'return
   end
 
 

@@ -31,7 +31,7 @@ class featureResourceInitializationUtil () =
     method init ((level : int)) : unit =
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, self, !commonStrings#iNIT));
+        ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, (Obj.magic self), !commonStrings#iNIT));
         let featuredResourceFactory : FeaturedResourceFactory.featuredResourceFactory ref = ref (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ()) :> FeaturedResourceFactory.featuredResourceFactory)) in ();
         ignore (!featuredResourceFactory#init (level));
         ignore ((FeaturedResourceRelativeRelationshipFactory.getInstance ())#init (level))
@@ -49,9 +49,9 @@ let instance = (new featureResourceInitializationUtil ())
 let get_instance () = instance
 let () = java_register_static "FeatureResourceInitializationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "FeatureResourceInitializationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

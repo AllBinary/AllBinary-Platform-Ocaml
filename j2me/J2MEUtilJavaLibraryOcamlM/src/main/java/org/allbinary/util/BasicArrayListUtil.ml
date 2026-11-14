@@ -62,7 +62,7 @@ class basicArrayListUtil () =
         let secondSwapIndex : int ref = ref (0) in ();
         for index = 0 to !size do
             secondSwapIndex := (!lastMinusOneIndex - index);
-            temp := ((Obj.magic list)#removeAt (index));
+            temp := (Obj.repr (((Obj.magic list)#removeAt (index))));
             ignore ((Obj.magic list)#addAt (index, ((Obj.magic list)#removeAt (!secondSwapIndex))));
             ignore ((Obj.magic list)#addAt ((!secondSwapIndex + 1), !temp))
         done
@@ -86,9 +86,9 @@ class basicArrayListUtil () =
         end [@@warning "-20"]
     
 
-    method getImmutableInstance () : BasicArrayList.basicArrayList =
+    method getImmutableInstance : 'return. unit -> 'return = fun () ->
         begin
-        (immutableInstance :> BasicArrayList.basicArrayList)
+        (Obj.magic (immutableInstance))
         end
 
     initializer
@@ -105,9 +105,9 @@ let instance = (new basicArrayListUtil ())
 let get_instance () = instance
 let () = java_register_static "BasicArrayListUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let rec getInstance () =
+let rec getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 
 and main ((_args : string array)) : unit =

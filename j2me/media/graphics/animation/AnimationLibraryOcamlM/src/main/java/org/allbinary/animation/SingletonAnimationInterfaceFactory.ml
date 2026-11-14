@@ -19,23 +19,23 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import org.allbinary.media.ScaleProperties *)
 
-class singletonAnimationInterfaceFactory (animationInterface_arg) =
+class singletonAnimationInterfaceFactory ((animationInterface_arg : Animation.animation)) =
   object
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
     
     
 
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         begin
-        (Obj.magic ((Obj.magic animationInterface)))
+        (Obj.magic (animationInterface))
         end
     
 
     method getInstanceAnimation : 'any1 'return. 'any1 -> 'return = fun (_animationInterface_arg) ->
         begin
-        (Obj.magic ((Obj.magic animationInterface)))
+        (Obj.magic (animationInterface))
         end [@@warning "-20"]
     
 
@@ -48,9 +48,9 @@ class singletonAnimationInterfaceFactory (animationInterface_arg) =
       begin
         ();
         ();
-        animationInterface <- Obj.repr (animationInterface_arg)
+        animationInterface <- animationInterface_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "SingletonAnimationInterfaceFactory" (fun arguments -> Obj.repr (new singletonAnimationInterfaceFactory (Obj.obj arguments)))
 
 

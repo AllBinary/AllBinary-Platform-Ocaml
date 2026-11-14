@@ -43,7 +43,7 @@ class rawKeyEventHandler () =
 
     method removeAllListeners () : unit =
         begin
-        eventListenerInterfaceList <- (new BasicArrayListD.basicArrayListD ())
+        eventListenerInterfaceList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
         end
     
 
@@ -101,7 +101,7 @@ class rawKeyEventHandler () =
                 (self#process (keyCode, deviceId, repeated, !eventListenerInterface))
             with e -> begin
                 let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end);
             index := !index + 1
         done
@@ -115,9 +115,9 @@ class rawKeyEventHandler () =
         end [@@warning "-20"]
     
 
-    method getEventListenerInterfaceListP () : BasicArrayList.basicArrayList =
+    method getEventListenerInterfaceListP : 'return. unit -> 'return = fun () ->
         begin
-        (eventListenerInterfaceList :> BasicArrayList.basicArrayList)
+        (Obj.magic (eventListenerInterfaceList))
         end
     
 
@@ -135,7 +135,7 @@ class rawKeyEventHandler () =
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !eventListenerInterface))))
             with e -> begin
                 let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#tOSTRING, e))
+                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#tOSTRING, e))
             end);
             index := !index + 1
         done;
@@ -147,7 +147,7 @@ class rawKeyEventHandler () =
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         ();
-        eventListenerInterfaceList <- (new BasicArrayListD.basicArrayListD ())
+        eventListenerInterfaceList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "RawKeyEventHandler" (fun arguments -> Obj.repr (new rawKeyEventHandler (Obj.obj arguments)))
@@ -156,9 +156,9 @@ let instance = (new rawKeyEventHandler ())
 let get_instance () = instance
 let () = java_register_static "RawKeyEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "RawKeyEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

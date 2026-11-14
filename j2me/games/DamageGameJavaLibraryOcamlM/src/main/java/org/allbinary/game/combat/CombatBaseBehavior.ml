@@ -34,15 +34,15 @@ class combatBaseBehavior ((damageableBaseBehavior_arg : DamageableBaseBehavior.d
     
     
 
-    method getDamageableBaseBehavior () : DamageableBaseBehavior.damageableBaseBehavior =
+    method getDamageableBaseBehavior : 'return. unit -> 'return = fun () ->
         begin
-        (damageableBaseBehavior :> DamageableBaseBehavior.damageableBaseBehavior)
+        (Obj.magic (damageableBaseBehavior))
         end
     
 
-    method getDestroyableBaseBehavior () : DestroyableBaseBehavior.destroyableBaseBehavior =
+    method getDestroyableBaseBehavior : 'return. unit -> 'return = fun () ->
         begin
-        (destroyableBaseBehavior :> DestroyableBaseBehavior.destroyableBaseBehavior)
+        (Obj.magic (destroyableBaseBehavior))
         end
     
 

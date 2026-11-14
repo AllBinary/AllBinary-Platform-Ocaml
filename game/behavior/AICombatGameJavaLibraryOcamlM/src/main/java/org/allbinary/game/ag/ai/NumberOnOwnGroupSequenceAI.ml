@@ -40,7 +40,7 @@ class numberOnOwnGroupSequenceAI ((numberOnSameTeam_arg : int array), (artificia
         let index : int ref = ref ((self#getIndex ())) in ();
         if ((Array.length numberOnSameTeam) > !index) then begin
             let size : int ref = ref (((GroupLayerManagerListener.getInstance ())#getGroupSizeFromInterface (!layerInterface))) in ();
-            if ((numberOnSameTeam.(!index)#intValue ()) > !size) then begin
+            if ((java_int_value (Obj.repr numberOnSameTeam.(!index))) > !size) then begin
                 ignore (self#next ())
             end
         end;

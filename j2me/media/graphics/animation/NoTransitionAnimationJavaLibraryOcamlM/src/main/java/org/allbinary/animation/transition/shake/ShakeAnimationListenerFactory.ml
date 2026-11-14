@@ -16,11 +16,12 @@
 (* package org.allbinary.animation.transition.shake *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 
-let getInstance () : ShakeAnimationListener.shakeAnimationListener =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new NoShakeAnimationListener.noShakeAnimationListener ()) :> ShakeAnimationListener.shakeAnimationListener)
+        (Obj.magic ((new NoShakeAnimationListener.noShakeAnimationListener ())))
         end
 
 let () = java_register_static "ShakeAnimationListenerFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

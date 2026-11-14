@@ -21,6 +21,7 @@ let cONTACTADMIN : string ref = ref ("Please contact the administrator.")
 let get_cONTACTADMIN () = !cONTACTADMIN
 let set_cONTACTADMIN value' = cONTACTADMIN := value'
 let () = java_register_static "MESSAGES.get_cONTACTADMIN" (fun _ -> Obj.repr (get_cONTACTADMIN ()))
+let () = java_register_static "MESSAGES.set_cONTACTADMIN" (fun value' -> set_cONTACTADMIN (Obj.obj value'); Obj.repr ())
 class mESSAGES () =
   object
     

@@ -100,9 +100,9 @@ class collidableBaseBehavior ((collidable_arg : bool)) =
         end [@@warning "-20"]
     
 
-    method getCollisionTypeWith : 'any1. 'any1 -> CollisionType.collisionType = fun (_layerInterface) ->
+    method getCollisionTypeWith : 'any1 'return. 'any1 -> 'return = fun (_layerInterface) ->
         begin
-        ((CollisionTypeFactory.getInstance ())#nONE :> CollisionType.collisionType)
+        (Obj.magic ((CollisionTypeFactory.getInstance ())#nONE))
         end [@@warning "-20"]
 
     initializer

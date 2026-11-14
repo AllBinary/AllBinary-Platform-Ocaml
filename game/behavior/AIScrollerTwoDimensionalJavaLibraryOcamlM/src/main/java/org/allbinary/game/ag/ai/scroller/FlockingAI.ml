@@ -49,7 +49,7 @@ class flockingAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLaye
         let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic 0) :> AllBinaryLayer.allBinaryLayer)) in ();
         for index = 0 to !size - 1 do
             allBinaryLayer := (Obj.magic (!list#get (index)));
-            if ((Obj.repr (!allBinaryLayer#getType ())) != (Obj.repr (WeaponLayer.getStaticType ()))) then begin
+            if ((!allBinaryLayer#getType ()) <> (WeaponLayer.getStaticType ())) then begin
                 let distance : int ref = ref ((self#getXYDistance (!allBinaryLayer))) in ();
                 if (!distance > !maxDistance) then begin
                     maxDistance := !distance;

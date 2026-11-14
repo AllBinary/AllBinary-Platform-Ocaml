@@ -50,7 +50,7 @@ class partnerIdentifierFileUtil () =
             !partnerString
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#gET, e));
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET, e));
             (StringUtil.getInstance ())#nULL_STRING
         end)
         end
@@ -68,9 +68,9 @@ let instance = (new partnerIdentifierFileUtil ())
 let get_instance () = instance
 let () = java_register_static "PartnerIdentifierFileUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PartnerIdentifierFileUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

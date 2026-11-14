@@ -44,7 +44,7 @@ class thrustAIVisitor () =
             ignore (!basicAI#processKeyAI ((Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#vISIT, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#vISIT, e))
         end);
         (Obj.repr (tRUE))
         end [@@warning "-7"]

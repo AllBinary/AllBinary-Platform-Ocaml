@@ -20,6 +20,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.logic.string.StringUtil *)
 
+let tHREAD_POOL_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_tHREAD_POOL : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !tHREAD_POOL_cell with Lazy.Undefined -> java_null)
+let set_tHREAD_POOL value' = tHREAD_POOL_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "PrimaryThreadPool.get_tHREAD_POOL" (fun _ -> Obj.repr (get_tHREAD_POOL ()))
+let () = java_register_static "PrimaryThreadPool.set_tHREAD_POOL" (fun value' -> set_tHREAD_POOL value'; Obj.repr ())
 class primaryThreadPool ((poolName : string), (numThreads : int), (priority : int)) =
   object (self)
     inherit ThreadPool.threadPool (poolName, numThreads, priority) as super
@@ -28,20 +33,20 @@ class primaryThreadPool ((poolName : string), (numThreads : int), (priority : in
 
     method runTask ((task : java_runnable)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), self, (self#threadPoolStrings)#aDD_TASK));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), (Obj.magic self), (self#threadPoolStrings)#aDD_TASK));
         ignore (super#runTask (task))
         end [@@warning "-7"]
     
 
     method startTask ((task : java_runnable)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#sTART_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), self, (self#commonStrings)#rUN))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#sTART_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), (Obj.magic self), (self#commonStrings)#rUN))
         end [@@warning "-7"]
     
 
     method completedTask ((task : java_runnable)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#cOMPLETE_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), self, (self#commonStrings)#rUN))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#cOMPLETE_TASK))#append (((StringUtil.getInstance ())#toString (task)))))), (Obj.magic self), (self#commonStrings)#rUN))
         end [@@warning "-7"]
 
     initializer
@@ -52,14 +57,12 @@ class primaryThreadPool ((poolName : string), (numThreads : int), (priority : in
   end
 let () = java_register_constructor "PrimaryThreadPool" (fun arguments -> Obj.repr (new primaryThreadPool (Obj.obj arguments)))
 
-let tHREAD_POOL : Obj.t = (Obj.repr (Obj.obj (java_new "ThreadPool" (Obj.repr ("Primary", 1, (Obj.magic (java_call_static "ThreadPool.get_nORMAL_PRIORITY" (Obj.repr ()))))))))
-let get_tHREAD_POOL () = Obj.magic tHREAD_POOL
-let () = java_register_static "PrimaryThreadPool.get_tHREAD_POOL" (fun _ -> Obj.repr (get_tHREAD_POOL ()))
-
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic tHREAD_POOL)))
+        (Obj.magic ((Obj.magic (get_tHREAD_POOL ()))))
         end
 let () = java_register_static "PrimaryThreadPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = tHREAD_POOL_cell := lazy (Obj.repr ((Obj.obj (java_new "ThreadPool" (Obj.repr ("Primary", 1, (Obj.magic (java_call_static "ThreadPool.get_nORMAL_PRIORITY" (Obj.repr ())))))))))
 
 

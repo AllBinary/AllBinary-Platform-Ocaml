@@ -28,7 +28,7 @@ open Allbinary_java [@@warning "-33"]
 
 class basicMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (playerInputId : int), gameCanvas) =
   object
-    inherit PlayerGameInput.playerGameInput (gameKeyEventList, (new BasicArrayListD.basicArrayListD ()), playerInputId)
+    inherit PlayerGameInput.playerGameInput (gameKeyEventList, ((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), playerInputId)
     val mutable motionGestureEventList : BasicArrayList.basicArrayList = (Obj.magic 0)
     method motionGestureEventList = motionGestureEventList
     method set_motionGestureEventList value' = motionGestureEventList <- value'
@@ -58,15 +58,15 @@ class basicMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList
         end [@@warning "-7-20"]
     
 
-    method getCanvas () : MyCanvas.myCanvas =
+    method getCanvas : 'return. unit -> 'return = fun () ->
         begin
-        ((Obj.magic (Obj.magic canvas)) :> MyCanvas.myCanvas)
+        (Obj.magic ((Obj.magic (Obj.magic canvas))))
         end [@@warning "-7"]
     
 
     method processInputList () : int =
         begin
-        (-1)
+        (- 1)
         end [@@warning "-7"]
 
     initializer

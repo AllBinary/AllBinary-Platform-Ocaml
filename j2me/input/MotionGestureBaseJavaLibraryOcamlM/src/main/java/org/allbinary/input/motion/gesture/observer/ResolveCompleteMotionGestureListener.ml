@@ -43,7 +43,7 @@ class resolveCompleteMotionGestureListener () =
         let size : int ref = ref ((!commandActionsList#size ())) in ();
         for index = (!size - 1) downto 0 do
             let association : MotionGestureToMotionGestureActionAssociation.motionGestureToMotionGestureActionAssociation ref = ref (((Obj.magic !commandActionsList#objectArray.(index)) :> MotionGestureToMotionGestureActionAssociation.motionGestureToMotionGestureActionAssociation)) in ();
-            if ((!association#isMotionGestureArrayEquals ((Obj.magic list))) == true) then begin
+            if ((!association#isMotionGestureArrayEquals ((Obj.magic list))) = true) then begin
                 let completeMotionGestureInputEvent : Obj.t ref = ref ((Obj.repr (Obj.magic (!association#getCommandAction ())))) in ();
                 ignore ((CompleteMotionGestureInputEventHandler.getInstance ())#fireEvent ((Obj.magic !completeMotionGestureInputEvent)));
                 raise Java_break
@@ -56,7 +56,7 @@ class resolveCompleteMotionGestureListener () =
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ("MotionGesture to CompleteMotionGesture Reciever", self, !commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF ("MotionGesture to CompleteMotionGesture Reciever", (Obj.magic self), !commonStrings#cONSTRUCTOR));
         ignore ((CompleteMotionGestureInputEventHandler.getInstance ())#addListener ((new GameKeyFromMotionGestureEventListener.gameKeyFromMotionGestureEventListener ())))
       end
   end [@@warning "-20"]

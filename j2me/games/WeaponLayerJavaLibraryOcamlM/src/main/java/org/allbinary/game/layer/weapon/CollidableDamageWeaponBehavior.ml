@@ -98,9 +98,9 @@ class collidableDamageWeaponBehavior ((collidable : bool)) =
         end [@@warning "-7-20"]
     
 
-    method getCollisionTypeWith : 'any1. 'any1 -> CollisionType.collisionType = fun (_layerInterface) ->
+    method getCollisionTypeWith : 'any1 'return. 'any1 -> 'return = fun (_layerInterface) ->
         begin
-        ((CollisionTypeFactory.getInstance ())#cOLLISION :> CollisionType.collisionType)
+        (Obj.magic ((CollisionTypeFactory.getInstance ())#cOLLISION))
         end [@@warning "-7-20"]
     
 

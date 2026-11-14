@@ -74,18 +74,18 @@ class healthIncludingLifeBar ((layerInterface : AllBinaryLayer.allBinaryLayer), 
         animationInterface <- animationInterface_arg;
         life <- life_arg;
         healthInterface <- healthInterface_arg;
-        ignore (healthInterface#addListener (self));
+        ignore (healthInterface#addListener ((Obj.magic self)));
         (self#onHealthChange ())
       end
   end
 let () = java_register_constructor "HealthIncludingLifeBar" (fun arguments -> Obj.repr (new healthIncludingLifeBar (Obj.obj arguments)))
 
-let createHealthIncludingLifeBar : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 * int * int -> _ = fun (layerInterface, life_arg, healthInterface_arg, (location : int), (direction : int)) ->
+let createHealthIncludingLifeBar : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 * int * int -> 'return = fun (layerInterface, life_arg, healthInterface_arg, (location : int), (direction : int)) ->
         let layerInterface = Obj.repr layerInterface in
         let life_arg = Obj.repr life_arg in
         let healthInterface_arg = Obj.repr healthInterface_arg in
         begin
-        (new healthIncludingLifeBar ((Obj.magic layerInterface), (Obj.magic life_arg), (Obj.magic healthInterface_arg), (new HealthBarTwodAnimation.healthBarTwodAnimation ((Obj.magic layerInterface), location)), direction))
+        (Obj.magic ((new healthIncludingLifeBar ((Obj.magic layerInterface), (Obj.magic life_arg), (Obj.magic healthInterface_arg), ((new HealthBarTwodAnimation.healthBarTwodAnimation ((Obj.magic layerInterface), location)) : HealthBarTwodAnimation.healthBarTwodAnimation :> HealthBarAnimation.healthBarAnimation), direction))))
         end [@@warning "-20"]
 let () = java_register_static "HealthIncludingLifeBar.createHealthIncludingLifeBar" (fun arguments -> Obj.repr (createHealthIncludingLifeBar (Obj.obj arguments)))
 

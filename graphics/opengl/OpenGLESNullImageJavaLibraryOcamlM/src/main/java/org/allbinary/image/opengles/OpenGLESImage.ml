@@ -28,6 +28,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.BasicArrayListD *)
 
+let nULL_OPENGL_IMAGE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_nULL_OPENGL_IMAGE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !nULL_OPENGL_IMAGE_cell with Lazy.Undefined -> java_null)
+let set_nULL_OPENGL_IMAGE value' = nULL_OPENGL_IMAGE_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "OpenGLESImage.get_nULL_OPENGL_IMAGE" (fun _ -> Obj.repr (get_nULL_OPENGL_IMAGE ()))
+let () = java_register_static "OpenGLESImage.set_nULL_OPENGL_IMAGE" (fun value' -> set_nULL_OPENGL_IMAGE value'; Obj.repr ())
 let texture2dList : BasicArrayList.basicArrayList = ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
 let get_texture2dList () = texture2dList
 let () = java_register_static "OpenGLESImage.get_texture2dList" (fun _ -> Obj.repr (get_texture2dList ()))
@@ -52,9 +57,9 @@ class openGLESImage (image, (bitmapFactory : PlatformBitmapBaseFactory.platformB
     val mutable imageProcessor : OpenGLESImageProcessor.openGLESImageProcessor = (Obj.magic 0)
     method imageProcessor = imageProcessor
     method set_imageProcessor value' = imageProcessor <- value'
-    val mutable openGLESImageTranslate : OpenGLESImageTranslate.openGLESImageTranslate = (Obj.magic 0)
-    method openGLESImageTranslate = openGLESImageTranslate
-    method set_openGLESImageTranslate value' = openGLESImageTranslate <- value'
+    val mutable openGLESImageTranslate : Obj.t = Obj.repr 0
+    method openGLESImageTranslate : 'r. 'r = Obj.magic openGLESImageTranslate
+    method set_openGLESImageTranslate : 'v. 'v -> unit = fun value' -> openGLESImageTranslate <- Obj.repr value'
     
     
 
@@ -94,7 +99,7 @@ class openGLESImage (image, (bitmapFactory : PlatformBitmapBaseFactory.platformB
         ();
         openGLESImageProperties <- ((new OpenGLESImageProperties.openGLESImageProperties ()) :> OpenGLESImageProperties.openGLESImageProperties);
         imageProcessor <- ((OpenGLESImageProcessor.getInstance ()) :> OpenGLESImageProcessor.openGLESImageProcessor);
-        openGLESImageTranslate <- ((OpenGLESImageTranslate.getInstance ()) :> OpenGLESImageTranslate.openGLESImageTranslate);
+        openGLESImageTranslate <- (Obj.repr (Obj.magic (java_call_static "OpenGLESImageTranslate.getInstance" (Obj.repr ()))));
         ();
         openGLBitmap <- Obj.repr ((bitmapFactory#createBitmap (image)));
         textureFactory <- textureFactory_arg
@@ -102,8 +107,6 @@ class openGLESImage (image, (bitmapFactory : PlatformBitmapBaseFactory.platformB
   end [@@warning "-20"]
 let () = java_register_constructor "OpenGLESImage" (fun arguments -> Obj.repr (new openGLESImage (Obj.obj arguments)))
 
-let nULL_OPENGL_IMAGE = (new openGLESImage ((NullImage.get_nULL_IMAGE ()), (PlatformBitmapBaseFactory.get_nULL_PLATFORM_BITMAP_BASE_FACTORY ()), (PlatformTextureBaseFactory.get_nULL_PLATFORM_TEXTURE_BASE_FACTORY ())))
-let get_nULL_OPENGL_IMAGE () = nULL_OPENGL_IMAGE
-let () = java_register_static "OpenGLESImage.get_nULL_OPENGL_IMAGE" (fun _ -> Obj.repr (get_nULL_OPENGL_IMAGE ()))
+let () = nULL_OPENGL_IMAGE_cell := lazy (Obj.repr ((new openGLESImage ((NullImage.get_nULL_IMAGE ()), (PlatformBitmapBaseFactory.get_nULL_PLATFORM_BITMAP_BASE_FACTORY ()), (PlatformTextureBaseFactory.get_nULL_PLATFORM_TEXTURE_BASE_FACTORY ())))))
 
 

@@ -72,16 +72,28 @@ class myCanvas ((name_arg : string), (childNameList_arg : BasicArrayList.basicAr
     
     
 
+    method getWidth () : int =
+        begin
+        (super#getWidth ())
+        end [@@warning "-7"]
+    
+
+    method getHeight () : int =
+        begin
+        (super#getHeight ())
+        end [@@warning "-7"]
+    
+
     method setFullScreenMode ((mode : bool)) : unit =
         begin
         ignore (super#setFullScreenMode (mode));
-        ignore (displayInfo#update (self, canvasStrings#sET_FULL_SCREEN_MODE))
+        ignore (displayInfo#update ((Obj.magic self), canvasStrings#sET_FULL_SCREEN_MODE))
         end [@@warning "-7"]
     
 
     method sizeChanged ((_w : int), (_h : int)) : unit =
         begin
-        ignore (displayInfo#update (self, canvasStrings#sIZE_CHANGED))
+        ignore (displayInfo#update ((Obj.magic self), canvasStrings#sIZE_CHANGED))
         end [@@warning "-7"]
     
 
@@ -153,7 +165,7 @@ class myCanvas ((name_arg : string), (childNameList_arg : BasicArrayList.basicAr
 
     method pause () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, canvasStrings#pAUSE));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), canvasStrings#pAUSE));
         (self#removePauseCommand ());
         (self#addCommand ((MyCommandsFactory.getInstance ())#rESUME_COMMAND));
         (self#setPaused (true))
@@ -162,7 +174,7 @@ class myCanvas ((name_arg : string), (childNameList_arg : BasicArrayList.basicAr
 
     method unPause () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, canvasStrings#uN_PAUSE));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), canvasStrings#uN_PAUSE));
         (self#removeCommand ((MyCommandsFactory.getInstance ())#rESUME_COMMAND));
         (self#addCommand ((MyCommandsFactory.getInstance ())#pAUSE_COMMAND));
         (self#setPaused (false))
@@ -196,7 +208,7 @@ class myCanvas ((name_arg : string), (childNameList_arg : BasicArrayList.basicAr
 
     method destroy () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ("Destroyed MyCanvas", self, "destroy"))
+        ignore ((Obj.magic logUtil)#putF ("Destroyed MyCanvas", (Obj.magic self), "destroy"))
         end [@@warning "-7"]
     
 
@@ -261,8 +273,8 @@ class myCanvas ((name_arg : string), (childNameList_arg : BasicArrayList.basicAr
         paused <- false;
         touchME <- (Obj.repr (Obj.obj (java_new "TouchJ2ME" (Obj.repr ()))));
         ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, self, commonStrings#cONSTRUCTOR));
-        ignore (displayInfo#update (self, canvasStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, (Obj.magic self), commonStrings#cONSTRUCTOR));
+        ignore (displayInfo#update ((Obj.magic self), canvasStrings#cONSTRUCTOR));
         name <- name_arg;
         childNameList <- childNameList_arg;
         commandStack <- Obj.repr (((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createStack ()))

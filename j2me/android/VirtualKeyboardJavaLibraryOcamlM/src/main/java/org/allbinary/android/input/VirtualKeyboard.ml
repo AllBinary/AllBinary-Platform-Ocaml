@@ -16,6 +16,7 @@
 (* package org.allbinary.android.input *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.input.event.VirtualKeyboardEvent *)
 (* import org.allbinary.logic.communication.log.ForcedLogUtil *)
 (* import org.allbinary.logic.util.event.AllBinaryEventObject *)
@@ -27,7 +28,7 @@ class virtualKeyboard () =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 

@@ -31,7 +31,7 @@ class motionInputMappingEventListener () =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 

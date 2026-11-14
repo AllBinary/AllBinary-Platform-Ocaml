@@ -54,10 +54,11 @@ let nULL_SPECIAL_ANIMATION_FACTORY = ref ((new nullSpecialAnimationFactory ()))
 let get_nULL_SPECIAL_ANIMATION_FACTORY () = !nULL_SPECIAL_ANIMATION_FACTORY
 let set_nULL_SPECIAL_ANIMATION_FACTORY value' = nULL_SPECIAL_ANIMATION_FACTORY := value'
 let () = java_register_static "NullSpecialAnimationFactory.get_nULL_SPECIAL_ANIMATION_FACTORY" (fun _ -> Obj.repr (get_nULL_SPECIAL_ANIMATION_FACTORY ()))
+let () = java_register_static "NullSpecialAnimationFactory.set_nULL_SPECIAL_ANIMATION_FACTORY" (fun value' -> set_nULL_SPECIAL_ANIMATION_FACTORY (Obj.obj value'); Obj.repr ())
 
-let getFactoryInstance () =
+let getFactoryInstance : 'return. unit -> 'return = fun () ->
         begin
-        !nULL_SPECIAL_ANIMATION_FACTORY
+        (Obj.magic (!nULL_SPECIAL_ANIMATION_FACTORY))
         end
 let () = java_register_static "NullSpecialAnimationFactory.getFactoryInstance" (fun arguments -> Obj.repr (getFactoryInstance (Obj.obj arguments)))
 

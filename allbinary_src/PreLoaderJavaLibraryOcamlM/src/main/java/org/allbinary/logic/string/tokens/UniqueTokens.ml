@@ -33,11 +33,11 @@ class uniqueTokens () =
     
     
 
-    method getWhithoutDashesAndSkipNumberOnlyTokens : 'any1 'return. 'any1 -> 'return = fun (stringVector) ->
+    method getWhithoutDashesAndSkipNumberOnlyTokens : 'any1. 'any1 -> java_hash_set = fun (stringVector) ->
         let stringVector = Obj.repr stringVector in
         begin
         (try
-            let hashSet : Obj.t ref = ref ((Obj.repr (new HashSet.hashSet ()))) in ();
+            let hashSet : java_hash_set ref = ref (((new java_hash_set ()) :> java_hash_set)) in ();
             let index : int ref = ref (0) in ();
             let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
             while (!index < ((Obj.magic stringVector)#size ())) do
@@ -47,24 +47,24 @@ class uniqueTokens () =
                 for forIndex = 0 to (!keywordVector#size ()) - 1 do
                     let cleanString : string ref = ref ((Obj.magic (!keywordVector#get (forIndex)))) in ();
                     cleanString := (String.trim !cleanString);
-                    if ((java_string_index_of !cleanString (Obj.repr ('-'))) != (-1)) then begin
+                    if ((java_string_index_of !cleanString (Obj.repr ('-'))) != (- 1)) then begin
                         cleanString := ((new Replace.replace ("-", !commonSeps#sPACE))#all (!cleanString))
                     end;
-                    ignore ((Obj.magic !hashSet)#add (!cleanString));
-                    if ((java_string_index_of !cleanString (Obj.repr (' '))) != (-1)) then begin
+                    ignore (!hashSet#add (!cleanString));
+                    if ((java_string_index_of !cleanString (Obj.repr (' '))) != (- 1)) then begin
                         let spaceTokenizer : Tokenizer.tokenizer ref = ref (((new Tokenizer.tokenizer (!commonSeps#sPACE)) :> Tokenizer.tokenizer)) in ();
                         let subKeywordVector : BasicArrayList.basicArrayList ref = ref (((!spaceTokenizer#getTokensFromString (!cleanString, (new BasicArrayListD.basicArrayListD ()))) :> BasicArrayList.basicArrayList)) in ();
                         for spaceIndex = 0 to (!subKeywordVector#size ()) - 1 do
                             let subCleanString : string ref = ref ((Obj.magic (!subKeywordVector#get (spaceIndex)))) in ();
                             if ((not (self#isSpecialCharacter (!subCleanString))) && (not (self#numberOnly (!subCleanString)))) then begin
-                                ignore ((Obj.magic !hashSet)#add (!subCleanString))
+                                ignore (!hashSet#add (!subCleanString))
                             end
                         done
                     end
                 done;
                 index := !index + 1
             done;
-            (Obj.magic ((Obj.magic !hashSet)))
+            (!hashSet :> java_hash_set)
         with e -> begin
             raise e
         end)
@@ -83,14 +83,16 @@ class uniqueTokens () =
     
 
     method isSpecialCharacter ((subCleaningString : string)) : bool =
+        try
         begin
         for index = 0 to (specialCharacters#size ()) - 1 do
             if ((String.compare subCleaningString ((Obj.magic (specialCharacters#get (index))))) == 0) then begin
-                true
+                raise (Java_return (Obj.repr (true)))
             end
         done;
         false
         end
+        with Java_return value -> Obj.obj value
 
     initializer
       begin

@@ -16,14 +16,15 @@
 (* package org.allbinary.animation *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class animationBehaviorFactory () =
   object
     
 
-    method getOrCreateInstance () : AnimationBehavior.animationBehavior =
+    method getOrCreateInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((AnimationBehavior.getInstance ()) :> AnimationBehavior.animationBehavior)
+        (Obj.magic ((AnimationBehavior.getInstance ())))
         end
 
     initializer
@@ -37,9 +38,9 @@ let instance = (new animationBehaviorFactory ())
 let get_instance () = instance
 let () = java_register_static "AnimationBehaviorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AnimationBehaviorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

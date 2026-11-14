@@ -35,9 +35,9 @@ class testingInputSingleton () =
     val mutable inputProcessorArray : GameInputProcessor.gameInputProcessor array = (Obj.magic 0)
     method inputProcessorArray = inputProcessorArray
     method set_inputProcessorArray value' = inputProcessorArray <- value'
-    val mutable paintable : PaintableInterface.paintableInterface = (Obj.magic 0)
-    method paintable = paintable
-    method set_paintable value' = paintable <- value'
+    val mutable testInputPaintable : PaintableInterface.paintableInterface = (Obj.magic 0)
+    method testInputPaintable = testInputPaintable
+    method set_testInputPaintable value' = testInputPaintable <- value'
     
     
 
@@ -51,7 +51,7 @@ class testingInputSingleton () =
         let aTestInputInterface = Obj.repr aTestInputInterface in
         begin
         let testInputInterface : TestInputInterface.testInputInterface ref = ref (((Obj.magic aTestInputInterface) :> TestInputInterface.testInputInterface)) in ();
-        paintable <- !testInputInterface;
+        testInputPaintable <- (!testInputInterface :> PaintableInterface.paintableInterface);
         inputProcessorArray.((Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))) <- ((object (self)
             inherit GameInputProcessor.gameInputProcessor () as super
             
@@ -136,7 +136,7 @@ class testingInputSingleton () =
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore (paintable#paint ((Obj.magic graphics)))
+        ignore (testInputPaintable#paint ((Obj.magic graphics)))
         end [@@warning "-7-20"]
     
 
@@ -148,7 +148,7 @@ class testingInputSingleton () =
     initializer
       begin
         inputProcessorArray <- (Array.make ((InputFactory.getInstance ())#mAX) (Obj.magic 0));
-        paintable <- ((NullPaintable.getInstance ()) :> PaintableInterface.paintableInterface);
+        testInputPaintable <- ((NullPaintable.getInstance ()) :> PaintableInterface.paintableInterface);
         ();
         (* super(...) is the inherit clause *) ();
         ignore (GameInputProcessorUtil.init (inputProcessorArray))
@@ -160,9 +160,9 @@ let instance = (new testingInputSingleton ())
 let get_instance () = instance
 let () = java_register_static "TestingInputSingleton.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TestingInputSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

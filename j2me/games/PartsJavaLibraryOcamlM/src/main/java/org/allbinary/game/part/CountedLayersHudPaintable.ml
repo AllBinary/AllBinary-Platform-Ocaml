@@ -31,6 +31,7 @@ let xXStringWidth : int ref = ref (0)
 let get_xXStringWidth () = !xXStringWidth
 let set_xXStringWidth value' = xXStringWidth := value'
 let () = java_register_static "CountedLayersHudPaintable.get_xXStringWidth" (fun _ -> Obj.repr (get_xXStringWidth ()))
+let () = java_register_static "CountedLayersHudPaintable.set_xXStringWidth" (fun value' -> set_xXStringWidth (Obj.obj value'); Obj.repr ())
 class countedLayersHudPaintable ((partInterfaceArray_arg : PartInterface.partInterface array), (dropSize_arg : int), (startIndex_arg : int), (countedTotalStringColor_arg : int), (countedPartsBorder_arg : int)) =
   object (self)
     val mutable displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
@@ -124,7 +125,7 @@ class countedLayersHudPaintable ((partInterfaceArray_arg : PartInterface.partInt
         ();
         ();
         ();
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         height <- 0;
         ();
         partInterfaceArray <- partInterfaceArray_arg;

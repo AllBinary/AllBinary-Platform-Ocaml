@@ -47,7 +47,7 @@ class fullScreenUtil () =
         begin
         let mainFeatureFactory : MainFeatureFactory.mainFeatureFactory ref = ref (((MainFeatureFactory.getInstance ()) :> MainFeatureFactory.mainFeatureFactory)) in ();
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-        if ((!features#isFeature (!mainFeatureFactory#fULL_SCREEN)) != isFullScreen) then begin
+        if ((!features#isFeature (!mainFeatureFactory#fULL_SCREEN)) <> isFullScreen) then begin
             raise (Java_return (Obj.repr (true)))
         end;
         false
@@ -71,9 +71,9 @@ let instance = (new fullScreenUtil ())
 let get_instance () = instance
 let () = java_register_static "FullScreenUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "FullScreenUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

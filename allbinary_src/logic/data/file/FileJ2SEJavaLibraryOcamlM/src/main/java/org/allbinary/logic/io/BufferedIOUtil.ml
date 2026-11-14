@@ -31,17 +31,14 @@ let copy : 'any1 'any2. 'any1 * 'any2 -> unit = fun (backupFile, backupFileBak) 
         let backupFileBak = Obj.repr backupFileBak in
         begin
         let line : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
-        let tmpOut : Obj.t ref = ref ((Obj.repr (new BufferedWriter.bufferedWriter ((new FileWriter.fileWriter ((AbFileNativeUtil.get ((Obj.magic backupFileBak))))))))) in ();
-        let tmpIn : Obj.t ref = ref ((Obj.repr (new BufferedReader.bufferedReader ((new FileReader.fileReader ((AbFileNativeUtil.get ((Obj.magic backupFile))))))))) in ();
-        while true do
-            line := ((Obj.magic !tmpIn)#readLine ());
-            if (!line = (Obj.magic 0)) then begin
-                raise Java_break
-            end;
-            ignore ((Obj.magic !tmpOut)#write (!line, 0, (String.length !line)));
-            ignore ((Obj.magic !tmpOut)#newLine ())
+        let tmpOut : java_buffered_writer ref = ref (((new java_buffered_writer (Obj.repr ((new java_file_writer (Obj.repr ((AbFileNativeUtil.get ((Obj.magic backupFileBak))))))))) :> java_buffered_writer)) in ();
+        let tmpIn : java_buffered_reader ref = ref (((new java_buffered_reader (Obj.repr ((new java_file_reader (Obj.repr ((AbFileNativeUtil.get ((Obj.magic backupFile))))))))) :> java_buffered_reader)) in ();
+        while (!tmpIn#ready ()) do
+            line := (!tmpIn#readLine ());
+            ignore (!tmpOut#write (!line, 0, (String.length !line)));
+            ignore (!tmpOut#newLine ())
         done;
-        ignore ((Obj.magic !tmpOut)#flush ())
+        ignore (!tmpOut#flush ())
         end [@@warning "-20"]
 
 let () = java_register_static "BufferedIOUtil.copy" (fun arguments -> Obj.repr (copy (Obj.obj arguments)))

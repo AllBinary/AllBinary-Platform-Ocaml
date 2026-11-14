@@ -80,9 +80,9 @@ class ownershipPaintable () =
         end [@@warning "-7-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end [@@warning "-7"]
     
 
@@ -100,7 +100,7 @@ class ownershipPaintable () =
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         displayInfo <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         cOPYRIGHT <- "AllBinary Copyright (c) 2011";
         basicColor <- ((BasicColorFactory.getInstance ())#wHITE :> BasicColor.basicColor);
         color <- (basicColor#intValue ());
@@ -113,9 +113,9 @@ class ownershipPaintable () =
   end [@@warning "-20"]
 let () = java_register_constructor "OwnershipPaintable" (fun arguments -> Obj.repr (new ownershipPaintable (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (new ownershipPaintable ())
+        (Obj.magic ((new ownershipPaintable ())))
         end
 let () = java_register_static "OwnershipPaintable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -121,7 +121,7 @@ class basicTouchButtonCellPositionFactory () =
         ();
         ();
         ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#cONSTRUCTOR));
         let touchButtonLocationHelper : TouchButtonLocationHelper.touchButtonLocationHelper ref = ref (((new TouchButtonLocationHelper.touchButtonLocationHelper ()) :> TouchButtonLocationHelper.touchButtonLocationHelper)) in ();
         let cellPositionFactory : CellPositionFactory.cellPositionFactory ref = ref (((CellPositionFactory.getInstance ()) :> CellPositionFactory.cellPositionFactory)) in ();
         ignore (!cellPositionFactory#init ((!touchButtonLocationHelper#getTotalColumns ()), (!touchButtonLocationHelper#getTotalRows ())));

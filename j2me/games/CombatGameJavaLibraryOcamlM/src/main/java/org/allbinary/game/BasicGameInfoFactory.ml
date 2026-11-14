@@ -2,6 +2,7 @@
 (* package org.allbinary.game *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class basicGameInfoFactory () =
   object
@@ -57,9 +58,9 @@ let sINGLETON = (new basicGameInfoFactory ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "BasicGameInfoFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "BasicGameInfoFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

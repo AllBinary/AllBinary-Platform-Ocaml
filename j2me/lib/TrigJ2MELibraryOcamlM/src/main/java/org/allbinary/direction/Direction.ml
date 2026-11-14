@@ -19,14 +19,15 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import org.allbinary.logic.string.StringMaker *)
 
-let directionArray = ref ((Array.make (13) (Obj.magic 0)))
-let get_directionArray () = !directionArray
-let set_directionArray value' = directionArray := value'
+let directionArray : Obj.t ref = ref ((Obj.repr (Array.make (13) (Obj.magic 0))))
+let get_directionArray () = Obj.magic !directionArray
+let set_directionArray value' = directionArray := Obj.repr value'
 let () = java_register_static "Direction.get_directionArray" (fun _ -> Obj.repr (get_directionArray ()))
+let () = java_register_static "Direction.set_directionArray" (fun value' -> set_directionArray (Obj.obj value'); Obj.repr ())
 
-let getInstance ((direction : int)) =
+let getInstance : 'return. int -> 'return = fun ((direction : int)) ->
         begin
-        !directionArray.(direction)
+        (Obj.magic ((Obj.magic !directionArray).(direction)))
         end
 
 let () = java_register_static "Direction.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
@@ -94,7 +95,7 @@ class direction ((name_arg : string), (otherName_arg : string), (value_arg : int
         otherName <- otherName_arg;
         value <- value_arg;
         frameFactor <- frameFactor_arg;
-        !directionArray.(value_arg) <- self
+        (Obj.magic !directionArray).(value_arg) <- (Obj.magic self)
       end
   end
 let () = java_register_constructor "Direction" (fun arguments -> Obj.repr (new direction (Obj.obj arguments)))

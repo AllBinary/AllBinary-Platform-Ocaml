@@ -23,6 +23,7 @@ let iMAGE_CACHE : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Image
 let get_iMAGE_CACHE () = Obj.magic !iMAGE_CACHE
 let set_iMAGE_CACHE value' = iMAGE_CACHE := Obj.repr value'
 let () = java_register_static "OpenGLImageCacheFactory.get_iMAGE_CACHE" (fun _ -> Obj.repr (get_iMAGE_CACHE ()))
+let () = java_register_static "OpenGLImageCacheFactory.set_iMAGE_CACHE" (fun value' -> set_iMAGE_CACHE (Obj.obj value'); Obj.repr ())
 
 let getInstance : 'return. unit -> 'return = fun () ->
         begin

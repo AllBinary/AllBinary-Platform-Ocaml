@@ -63,14 +63,12 @@ class keyValueDrawString ((label : string), (x : int)) =
 
     method update ((value_arg : string)) : unit =
         begin
-        if (value_arg <> (Obj.magic 0)) then begin
-            value <- value_arg
-        end
+        value <- value_arg
         end
 
     initializer
       begin
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         ();
         ();
         valueX <- 0;

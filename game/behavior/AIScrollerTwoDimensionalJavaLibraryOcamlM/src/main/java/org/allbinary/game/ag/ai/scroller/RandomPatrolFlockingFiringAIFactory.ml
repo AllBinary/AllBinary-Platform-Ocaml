@@ -28,7 +28,7 @@ class randomPatrolFlockingFiringAIFactory () =
   object
     
 
-    method getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (hashtable, ownerLayerInterface, gameInput) ->
+    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (hashtable, ownerLayerInterface, gameInput) ->
         let hashtable = Obj.repr hashtable in
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
@@ -36,7 +36,7 @@ class randomPatrolFlockingFiringAIFactory () =
         let artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface array ref = ref ((Array.make (2) (Obj.magic 0))) in ();
         !artificialIntelligenceInterface.(0) <- ((new RandomPatrolAI.randomPatrolAI ((Obj.magic hashtable), (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface);
         !artificialIntelligenceInterface.(1) <- ((new TimedFireAI.timedFireAI (1800, (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface);
-        ((new ArrayAI.arrayAI (!artificialIntelligenceInterface, (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((new ArrayAI.arrayAI (!artificialIntelligenceInterface, (Obj.magic ownerLayerInterface), (Obj.magic gameInput)))))
         end [@@warning "-20"]
 
     initializer

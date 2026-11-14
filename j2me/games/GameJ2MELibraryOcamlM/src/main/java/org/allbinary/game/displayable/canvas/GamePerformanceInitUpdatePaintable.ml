@@ -82,14 +82,14 @@ class gamePerformanceInitUpdatePaintable () =
         let size3 : int ref = ref (0) in ();
         let size : int ref = ref (((Array.length baseRefreshHelperCharArray) - 2)) in ();
         let index : int ref = ref (!size) in ();
-        while (index >= 0) do
-            charArray := baseRefreshHelperCharArray.(index);
-            charArray2 := baseRefreshHelperCharArray.((index + 1));
+        while (!index >= 0) do
+            charArray := baseRefreshHelperCharArray.(!index);
+            charArray2 := baseRefreshHelperCharArray.((!index + 1));
             size2 := (Array.length !charArray);
             size3 := (Array.length !charArray2);
-            ignore ((Obj.magic graphics)#drawChars (!charArray, 0, !size2, 0, yArray.(index), 0));
-            ignore ((Obj.magic graphics)#drawChars (!charArray2, 0, !size3, (!size2 * defaultStringWidth), yArray.((index + 1)), 0));
-            index <- (index - 2)
+            ignore ((Obj.magic graphics)#drawChars (!charArray, 0, !size2, 0, yArray.(!index), 0));
+            ignore ((Obj.magic graphics)#drawChars (!charArray2, 0, !size3, (!size2 * defaultStringWidth), yArray.((!index + 1)), 0));
+            index := (!index - 2)
         done
         end [@@warning "-7-20"]
 
@@ -97,10 +97,10 @@ class gamePerformanceInitUpdatePaintable () =
       begin
         halfHeight <- ((DisplayInfoSingleton.getInstance ())#getLastHalfHeight ());
         yArray <- [| (halfHeight + 30); (halfHeight + 30); ((halfHeight + 30) + 15); ((halfHeight + 30) + 15); ((halfHeight + 30) + 30); ((halfHeight + 30) + 30); ((halfHeight + 30) + 45); ((halfHeight + 30) + 45) |];
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         baseRefreshHelperCharArray <- (Array.make_matrix (0) (0) '\000');
         defaultStringWidth <- 0;
-        rED <- ((BasicColorFactory.getInstance ())#rED#intValue ());
+        rED <- (java_int_value (Obj.repr (BasicColorFactory.getInstance ())#rED));
         ()
       end
   end

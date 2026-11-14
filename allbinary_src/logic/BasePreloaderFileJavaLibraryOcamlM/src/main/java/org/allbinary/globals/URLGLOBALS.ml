@@ -22,6 +22,7 @@ let urlGlobalsInterface : UrlGlobalsInterface.urlGlobalsInterface ref = ref (((A
 let get_urlGlobalsInterface () = !urlGlobalsInterface
 let set_urlGlobalsInterface value' = urlGlobalsInterface := value'
 let () = java_register_static "URLGLOBALS.get_urlGlobalsInterface" (fun _ -> Obj.repr (get_urlGlobalsInterface ()))
+let () = java_register_static "URLGLOBALS.set_urlGlobalsInterface" (fun value' -> set_urlGlobalsInterface (Obj.obj value'); Obj.repr ())
 
 let init : 'any1. 'any1 -> unit = fun (urlGlobalsInterface_arg) ->
         let urlGlobalsInterface_arg = Obj.repr urlGlobalsInterface_arg in

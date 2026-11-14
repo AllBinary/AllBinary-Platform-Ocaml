@@ -91,7 +91,7 @@ class directionalAnalogLocationInputProcessor ((inputProcessorArray_arg : GameIn
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put ("Unable to process analog input", self, !commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put ("Unable to process analog input", (Obj.magic self), !commonStrings#pROCESS, e))
         end)
         end [@@warning "-7-20"]
     
@@ -115,15 +115,15 @@ class directionalAnalogLocationInputProcessor ((inputProcessorArray_arg : GameIn
         ();
         inputProcessorArray <- inputProcessorArray_arg;
         (try
-            leftGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, gameKeyFactory#lEFT));
-            rightGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, gameKeyFactory#rIGHT));
-            upGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, gameKeyFactory#uP));
-            downGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, gameKeyFactory#dOWN));
-            leftTriggerGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, gameKeyFactory#kEY_NUM0));
-            rightTriggerGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, gameKeyFactory#kEY_NUM5))
+            leftGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput ((Obj.magic self), gameKeyFactory#lEFT));
+            rightGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput ((Obj.magic self), gameKeyFactory#rIGHT));
+            upGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput ((Obj.magic self), gameKeyFactory#uP));
+            downGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput ((Obj.magic self), gameKeyFactory#dOWN));
+            leftTriggerGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput ((Obj.magic self), gameKeyFactory#kEY_NUM0));
+            rightTriggerGameKeyEvent <- ((GameKeyEventFactory.getInstance ())#getInstanceForInput ((Obj.magic self), gameKeyFactory#kEY_NUM5))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
         end)
       end
   end [@@warning "-20"]

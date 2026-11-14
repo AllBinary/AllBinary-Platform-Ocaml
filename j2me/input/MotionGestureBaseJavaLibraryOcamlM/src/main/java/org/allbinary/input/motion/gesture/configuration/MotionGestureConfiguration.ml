@@ -68,9 +68,9 @@ class motionGestureConfiguration () =
         end
     
 
-    method getAssociateCommandActionsList () : BasicArrayList.basicArrayList =
+    method getAssociateCommandActionsList : 'return. unit -> 'return = fun () ->
         begin
-        (activeCommands :> BasicArrayList.basicArrayList)
+        (Obj.magic (activeCommands))
         end
     
 
@@ -134,9 +134,9 @@ class motionGestureConfiguration () =
         end
     
 
-    method getColor () : BasicColor.basicColor =
+    method getColor : 'return. unit -> 'return = fun () ->
         begin
-        (color :> BasicColor.basicColor)
+        (Obj.magic (color))
         end
     
 

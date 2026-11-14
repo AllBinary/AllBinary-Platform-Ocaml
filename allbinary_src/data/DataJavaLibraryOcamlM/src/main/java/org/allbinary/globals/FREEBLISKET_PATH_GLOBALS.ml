@@ -67,8 +67,8 @@ class fREEBLISKET_PATH_GLOBALS () =
         tEMPLATEPATH <- ("template" ^ java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR)));
         sTYLEPATH <- ((tEMPLATEPATH ^ "style") ^ java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR)));
         tHEMEPATH <- ((sTYLEPATH ^ "theme") ^ java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR)));
-        dBINITPATH <- ((java_string_of (Obj.repr ((pATH_GLOBALS#getInstance ())#iNIT_PATH)) ^ "db") ^ java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR)));
-        lINEDATAPATH <- ((java_string_of (Obj.repr ((pATH_GLOBALS#getInstance ())#iNIT_PATH)) ^ "lineData") ^ java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR)));
+        dBINITPATH <- ((java_string_of (Obj.repr ((PATH_GLOBALS.getInstance ())#iNIT_PATH)) ^ "db") ^ java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR)));
+        lINEDATAPATH <- ((java_string_of (Obj.repr ((PATH_GLOBALS.getInstance ())#iNIT_PATH)) ^ "lineData") ^ java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR)));
         ();
         ();
         ();
@@ -80,7 +80,7 @@ class fREEBLISKET_PATH_GLOBALS () =
         ignore (!stringBuffer#append ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR));
         iNSTALLPATH <- (java_string_of (Obj.repr !stringBuffer));
         ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-        ignore (!stringBuffer#append ((pATH_GLOBALS#getInstance ())#iNIT_PATH));
+        ignore (!stringBuffer#append ((PATH_GLOBALS.getInstance ())#iNIT_PATH));
         ignore (!stringBuffer#append ("views"));
         ignore (!stringBuffer#append ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR));
         xSLPATH <- (java_string_of (Obj.repr !stringBuffer));
@@ -108,9 +108,9 @@ let instance = (new fREEBLISKET_PATH_GLOBALS ())
 let get_instance () = instance
 let () = java_register_static "FREEBLISKET_PATH_GLOBALS.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "FREEBLISKET_PATH_GLOBALS.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -24,10 +24,12 @@ let logConfigInfoList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) 
 let get_logConfigInfoList () = !logConfigInfoList
 let set_logConfigInfoList value' = logConfigInfoList := value'
 let () = java_register_static "LoggingInitInfo.get_logConfigInfoList" (fun _ -> Obj.repr (get_logConfigInfoList ()))
+let () = java_register_static "LoggingInitInfo.set_logConfigInfoList" (fun value' -> set_logConfigInfoList (Obj.obj value'); Obj.repr ())
 let hasRead : bool ref = ref (false)
 let get_hasRead () = !hasRead
 let set_hasRead value' = hasRead := value'
 let () = java_register_static "LoggingInitInfo.get_hasRead" (fun _ -> Obj.repr (get_hasRead ()))
+let () = java_register_static "LoggingInitInfo.set_hasRead" (fun value' -> set_hasRead (Obj.obj value'); Obj.repr ())
 
 let write () : unit =
         begin
@@ -111,13 +113,13 @@ let rec updateIfNeeded () : unit =
         end
         end
 
-and get () : BasicArrayList.basicArrayList =
+and get : 'return. unit -> 'return = fun () ->
         begin
         ignore (updateIfNeeded ());
-        (!logConfigInfoList :> BasicArrayList.basicArrayList)
+        (Obj.magic (!logConfigInfoList))
         end
 
-and getTypeList () : BasicArrayList.basicArrayList =
+and getTypeList : 'return. unit -> 'return = fun () ->
         begin
         ignore (updateIfNeeded ());
         let allLogTypeVector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
@@ -129,7 +131,7 @@ and getTypeList () : BasicArrayList.basicArrayList =
                 ignore (!allLogTypeVector#addAllList (!logTypeVector))
             end
         done;
-        (!allLogTypeVector :> BasicArrayList.basicArrayList)
+        (Obj.magic (!allLogTypeVector))
         end
 let () = java_register_static "LoggingInitInfo.updateIfNeeded" (fun arguments -> Obj.repr (updateIfNeeded (Obj.obj arguments)))
 let () = java_register_static "LoggingInitInfo.get" (fun arguments -> Obj.repr (get (Obj.obj arguments)))

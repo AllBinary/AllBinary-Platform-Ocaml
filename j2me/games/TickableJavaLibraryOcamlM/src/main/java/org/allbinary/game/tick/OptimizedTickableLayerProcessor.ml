@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class optimizedTickableLayerProcessor () =
   object
-    inherit LayerProcessor.layerProcessor ((new OptimizedTickableLayerManager.optimizedTickableLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new OptimizedTickableLayerManager.optimizedTickableLayerManager ()) : OptimizedTickableLayerManager.optimizedTickableLayerManager :> LayerManager.layerManager))
     
     
 

@@ -33,7 +33,7 @@ let createDestroyed : 'return. unit -> 'return = fun () ->
         end
 
 let () = java_register_static "SimpleWeaponLayer.createDestroyed" (fun arguments -> Obj.repr (createDestroyed (Obj.obj arguments)))
-class simpleWeaponLayer ((name : string), remoteInfo, (multiPlayerType : int), (movement : Movement.movement), animationInterface, destroyedAnimationInterface, rectangle, (viewPosition : ViewPositionBase.viewPositionBase)) =
+class simpleWeaponLayer ((name : string), remoteInfo, (multiPlayerType : int), (movement : Movement.movement), (animationInterface : Animation.animation), (destroyedAnimationInterface : Animation.animation), (rectangle : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
   object (self)
     inherit WeaponLayer.weaponLayer (name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
     

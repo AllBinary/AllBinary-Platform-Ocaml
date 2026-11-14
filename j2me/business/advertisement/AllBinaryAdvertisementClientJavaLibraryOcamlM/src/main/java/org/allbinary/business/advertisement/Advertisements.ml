@@ -107,10 +107,10 @@ class advertisements () =
         end
     
 
-    method getBanner ((index : int)) : AdvertisementProcessorInterface.advertisementProcessorInterface =
+    method getBanner : 'return. int -> 'return = fun ((index : int)) ->
         begin
         let advertisementProcessorInterface : AdvertisementProcessorInterface.advertisementProcessorInterface ref = ref (((Obj.magic bannerList#objectArray.(index)) :> AdvertisementProcessorInterface.advertisementProcessorInterface)) in ();
-        (!advertisementProcessorInterface :> AdvertisementProcessorInterface.advertisementProcessorInterface)
+        (Obj.magic (!advertisementProcessorInterface))
         end
     
 

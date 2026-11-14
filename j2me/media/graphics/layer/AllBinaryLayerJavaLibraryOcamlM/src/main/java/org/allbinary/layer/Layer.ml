@@ -128,7 +128,7 @@ class layer ((width_arg : int), (height_arg : int)) =
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         let canvasStrings : CanvasStrings.canvasStrings ref = ref (((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF (!commonStrings#nOT_IMPLEMENTED, self, !canvasStrings#pAINT))
+        ignore ((Obj.magic logUtil)#putF (!commonStrings#nOT_IMPLEMENTED, (Obj.magic self), !canvasStrings#pAINT))
         end [@@warning "-20"]
     
 

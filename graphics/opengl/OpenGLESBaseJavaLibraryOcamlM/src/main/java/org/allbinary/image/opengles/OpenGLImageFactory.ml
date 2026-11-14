@@ -40,5 +40,6 @@ let nULL_OPENGL_IMAGE_FACTORY = ref ((new openGLImageFactory ()))
 let get_nULL_OPENGL_IMAGE_FACTORY () = !nULL_OPENGL_IMAGE_FACTORY
 let set_nULL_OPENGL_IMAGE_FACTORY value' = nULL_OPENGL_IMAGE_FACTORY := value'
 let () = java_register_static "OpenGLImageFactory.get_nULL_OPENGL_IMAGE_FACTORY" (fun _ -> Obj.repr (get_nULL_OPENGL_IMAGE_FACTORY ()))
+let () = java_register_static "OpenGLImageFactory.set_nULL_OPENGL_IMAGE_FACTORY" (fun value' -> set_nULL_OPENGL_IMAGE_FACTORY (Obj.obj value'); Obj.repr ())
 
 

@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import org.allbinary.graphics.Rectangle *)
 
-class rectangleLayerBounds (rectangle) =
+class rectangleLayerBounds ((rectangle : Rectangle.rectangle)) =
   object (self)
     inherit LayerBounds.layerBounds (rectangle)
     

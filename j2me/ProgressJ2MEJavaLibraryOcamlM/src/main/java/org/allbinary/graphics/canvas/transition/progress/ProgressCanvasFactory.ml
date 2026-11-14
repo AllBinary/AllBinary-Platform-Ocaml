@@ -27,18 +27,19 @@ let pROGRESS_FORM_SCREEN : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#
 let get_pROGRESS_FORM_SCREEN () = !pROGRESS_FORM_SCREEN
 let set_pROGRESS_FORM_SCREEN value' = pROGRESS_FORM_SCREEN := value'
 let () = java_register_static "ProgressCanvasFactory.get_pROGRESS_FORM_SCREEN" (fun _ -> Obj.repr (get_pROGRESS_FORM_SCREEN ()))
+let () = java_register_static "ProgressCanvasFactory.set_pROGRESS_FORM_SCREEN" (fun value' -> set_pROGRESS_FORM_SCREEN (Obj.obj value'); Obj.repr ())
 
-let getInstance () : ProgressCanvas.progressCanvas =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !pROGRESS_FORM_SCREEN) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            pROGRESS_FORM_SCREEN := (new ProgressCanvas.progressCanvas ((StringUtil.getInstance ())#eMPTY_STRING, (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))
+            pROGRESS_FORM_SCREEN := (Obj.repr ((new ProgressCanvas.progressCanvas ((StringUtil.getInstance ())#eMPTY_STRING, (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))))
         end;
-        ((Obj.magic !pROGRESS_FORM_SCREEN) :> ProgressCanvas.progressCanvas)
+        (Obj.magic ((Obj.magic !pROGRESS_FORM_SCREEN)))
         end
 
-and getLazyInstance () : PaintableInterface.paintableInterface =
+and getLazyInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((NullPaintable.getInstance ()) :> PaintableInterface.paintableInterface)
+        (Obj.magic ((NullPaintable.getInstance ())))
         end
 
 let () = java_register_static "ProgressCanvasFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

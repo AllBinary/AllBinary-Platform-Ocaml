@@ -32,17 +32,17 @@ class operatingSystemFactory () =
     
     
 
-    method getOperatingSystemInstance () : GenericOperatingSystem.genericOperatingSystem =
+    method getOperatingSystemInstance : 'return. unit -> 'return = fun () ->
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         (try
             let osString : string ref = ref ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("OperatingSystem Info: "))#append ((java_string_of (Obj.repr genericOperatingSystem))))))) in ();
             (print_endline (java_string_of (Obj.repr (!osString))));
-            ignore ((Obj.magic logUtil)#putF (!osString, self, !commonStrings#gET_INSTANCE))
+            ignore ((Obj.magic logUtil)#putF (!osString, (Obj.magic self), !commonStrings#gET_INSTANCE))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#gET_INSTANCE, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))
         end);
-        (genericOperatingSystem :> GenericOperatingSystem.genericOperatingSystem)
+        (Obj.magic (genericOperatingSystem))
         end
 
     initializer
@@ -59,9 +59,9 @@ let instance = (new operatingSystemFactory ())
 let get_instance () = instance
 let () = java_register_static "OperatingSystemFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "OperatingSystemFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

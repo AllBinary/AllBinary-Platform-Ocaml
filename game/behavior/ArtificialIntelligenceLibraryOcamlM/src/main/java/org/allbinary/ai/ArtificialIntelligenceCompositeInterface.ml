@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual artificialIntelligenceCompositeInterface =
   object
-    method virtual getArtificialIntelligenceInterface : unit -> ArtificialIntelligenceInterface.artificialIntelligenceInterface
+    method virtual getArtificialIntelligenceInterface : 'return . unit -> 'return
   end
 
 

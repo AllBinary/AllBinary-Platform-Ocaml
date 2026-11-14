@@ -30,6 +30,7 @@ let cONTROL_TYPE : string ref = ref ("ToneControl")
 let get_cONTROL_TYPE () = !cONTROL_TYPE
 let set_cONTROL_TYPE value' = cONTROL_TYPE := value'
 let () = java_register_static "BasicPlayer.get_cONTROL_TYPE" (fun _ -> Obj.repr (get_cONTROL_TYPE ()))
+let () = java_register_static "BasicPlayer.set_cONTROL_TYPE" (fun value' -> set_cONTROL_TYPE (Obj.obj value'); Obj.repr ())
 class basicPlayer () =
   object (self)
     val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)

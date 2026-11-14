@@ -16,6 +16,7 @@
 (* package org.allbinary.view *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
 
 class centerStaticViewPositionFactory () =
@@ -23,10 +24,10 @@ class centerStaticViewPositionFactory () =
     
     
 
-    method getInstance ((z : int)) : ViewPositionBase.viewPositionBase =
+    method getInstance : 'return. int -> 'return = fun ((z : int)) ->
         begin
         let displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        ((new StaticViewPosition.staticViewPosition ((((!displayInfoSingleton#getLastWidth ()) asr 1)), (((!displayInfoSingleton#getLastHeight ()) asr 1)), z)) :> ViewPositionBase.viewPositionBase)
+        (Obj.magic ((new StaticViewPosition.staticViewPosition ((((!displayInfoSingleton#getLastWidth ()) asr 1)), (((!displayInfoSingleton#getLastHeight ()) asr 1)), z))))
         end
 
     initializer

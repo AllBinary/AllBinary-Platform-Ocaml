@@ -16,13 +16,14 @@
 (* package org.allbinary.game.input.event *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.NullUtil *)
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.logic.util.event.AllBinaryEventObject *)
 
 class gameKeyEvent ((anyType : Obj.t), (sourceId_arg : int), (originalKey_arg : int), (gameActionKey_arg : int), (key_arg : int), (repeated_arg : bool)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable sourceId : int = 0
     method sourceId = sourceId
     method set_sourceId value' = sourceId <- value'
@@ -122,14 +123,14 @@ class gameKeyEvent ((anyType : Obj.t), (sourceId_arg : int), (originalKey_arg : 
   end
 let () = java_register_constructor "GameKeyEvent" (fun arguments -> Obj.repr (new gameKeyEvent (Obj.obj arguments)))
 
-let nONE = (new gameKeyEvent ((NullUtil.getInstance ())#nULL_OBJECT, (-1), (-1), (-1), (-1), false))
+let nONE = (new gameKeyEvent ((Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT)), (- 1), (- 1), (- 1), (- 1), false))
 let get_nONE () = nONE
 let () = java_register_static "GameKeyEvent.get_nONE" (fun _ -> Obj.repr (get_nONE ()))
 
-let createEvent : 'any1. 'any1 * int * int -> _ = fun (anyType, (sourceId_arg : int), (key_arg : int)) ->
+let createEvent : 'any1 'return. 'any1 * int * int -> 'return = fun (anyType, (sourceId_arg : int), (key_arg : int)) ->
         let anyType = Obj.repr anyType in
         begin
-        (new gameKeyEvent (anyType, sourceId_arg, 0, 0, key_arg, false))
+        (Obj.magic ((new gameKeyEvent ((Obj.repr (anyType)), sourceId_arg, 0, 0, key_arg, false))))
         end
 let () = java_register_static "GameKeyEvent.createEvent" (fun arguments -> Obj.repr (createEvent (Obj.obj arguments)))
 

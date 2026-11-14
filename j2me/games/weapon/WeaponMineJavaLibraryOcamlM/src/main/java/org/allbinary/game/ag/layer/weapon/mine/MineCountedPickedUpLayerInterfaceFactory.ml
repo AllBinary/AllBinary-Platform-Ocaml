@@ -33,10 +33,11 @@ let pickedUpLayerInterfaceFactoryInterface : PickedUpLayerInterfaceFactoryInterf
 let get_pickedUpLayerInterfaceFactoryInterface () = !pickedUpLayerInterfaceFactoryInterface
 let set_pickedUpLayerInterfaceFactoryInterface value' = pickedUpLayerInterfaceFactoryInterface := value'
 let () = java_register_static "MineCountedPickedUpLayerInterfaceFactory.get_pickedUpLayerInterfaceFactoryInterface" (fun _ -> Obj.repr (get_pickedUpLayerInterfaceFactoryInterface ()))
+let () = java_register_static "MineCountedPickedUpLayerInterfaceFactory.set_pickedUpLayerInterfaceFactoryInterface" (fun value' -> set_pickedUpLayerInterfaceFactoryInterface (Obj.obj value'); Obj.repr ())
 
-let getInstance () : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!pickedUpLayerInterfaceFactoryInterface :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
+        (Obj.magic (!pickedUpLayerInterfaceFactoryInterface))
         end
 
 let () = java_register_static "MineCountedPickedUpLayerInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
@@ -61,19 +62,19 @@ class mineCountedPickedUpLayerInterfaceFactory () =
         end [@@warning "-7"]
     
 
-    method getNextInstance : 'any1. 'any1 * int * int * int -> AllBinaryLayer.allBinaryLayer = fun (hashtable, (x : int), (y : int), (z : int)) ->
+    method getNextInstance : 'any1 'return. 'any1 * int * int * int -> 'return = fun (hashtable, (x : int), (y : int), (z : int)) ->
         let hashtable = Obj.repr hashtable in
         begin
         let sourceLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (smallIntegerSingletonFactory#getAt (0)))))) :> AllBinaryLayer.allBinaryLayer)) in ();
         let angle : int ref = ref ((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (smallIntegerSingletonFactory#getAt (1))))))) in ();
         let scoreableInterface : ScoreableInterface.scoreableInterface ref = ref (((Obj.magic !sourceLayerInterface) :> ScoreableInterface.scoreableInterface)) in ();
-        ((weaponLayerCircularStaticPool#getInstanceWeaponLayer (!sourceLayerInterface, x, y, z, (java_to_int (Obj.repr (!angle))), 0, weaponProperties, !scoreableInterface)) :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic ((weaponLayerCircularStaticPool#getInstanceWeaponLayer (!sourceLayerInterface, x, y, z, (java_to_int (Obj.repr (!angle))), 0, weaponProperties, !scoreableInterface))))
         end [@@warning "-7-20"]
 
     initializer
       begin
-        weaponLayerCircularStaticPool <- ((MineLayerCircularStaticPool.getInstance ()) :> WeaponLayerCircularPool.weaponLayerCircularPool);
-        weaponProperties <- ((new WeaponProperties.weaponProperties ((-1), (-1), 0, 8000, 10)) :> WeaponProperties.weaponProperties);
+        weaponLayerCircularStaticPool <- ((Obj.magic (java_call_static "MineLayerCircularStaticPool.getInstance" (Obj.repr ()))) :> WeaponLayerCircularPool.weaponLayerCircularPool);
+        weaponProperties <- ((new WeaponProperties.weaponProperties ((- 1), (- 1), 0, 8000, 10)) :> WeaponProperties.weaponProperties);
         smallIntegerSingletonFactory <- ((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory);
         ();
         (* super(...) is the inherit clause *) ()

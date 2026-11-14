@@ -59,26 +59,28 @@ class localPlayerInputIdFactory () =
         let index : int ref = ref (0) in ();
         if (deviceId < mAX_FAST_DEVICEID) then begin
             let playerInputId : int ref = ref (deviceIdToplayerId.(deviceId)) in ();
-            if (!playerInputId <> (-1)) then begin
+            if (!playerInputId <> (- 1)) then begin
                 raise (Java_return (Obj.repr (!playerInputId)))
             end
         end else begin
-            for index = (totalDevicesMapped - 1) downto 0 do
+            index := (totalDevicesMapped - 1);
+            while (!index >= 0) do
                 if (playerIdToDeviceId.(!index) = deviceId) then begin
                     raise (Java_return (Obj.repr (!index)))
-                end
+                end;
+                index := !index - 1
             done
         end;
         index := totalDevicesMapped;
         if (deviceId < mAX_FAST_DEVICEID) then begin
             deviceIdToplayerId.(deviceId) <- !index
         end else begin
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ("Added DeviceId: "))#appendint (deviceId))#append (" beyond fast Id list")))), self, "getPlayerForDevice"))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ("Added DeviceId: "))#appendint (deviceId))#append (" beyond fast Id list")))), (Obj.magic self), "getPlayerForDevice"))
         end;
         playerIdToDeviceId.(!index) <- deviceId;
         ignore ((AnalogLocationInputFactory.getInstance ())#addPlayer (totalDevicesMapped));
         totalDevicesMapped <- totalDevicesMapped + 1;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((((new StringMaker.stringMaker ())#append ("Added DeviceId: "))#appendint (deviceId))#append (" at: "))#appendint (!index))#append (" Total: "))#appendint (totalDevicesMapped)))), self, "getPlayerForDevice"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((((new StringMaker.stringMaker ())#append ("Added DeviceId: "))#appendint (deviceId))#append (" at: "))#appendint (!index))#append (" Total: "))#appendint (totalDevicesMapped)))), (Obj.magic self), "getPlayerForDevice"));
         !index
         end
         with Java_return value -> Obj.obj value
@@ -104,14 +106,14 @@ class localPlayerInputIdFactory () =
 
     method setPlayerInPlay ((playerInputId : int)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Setting PlayerInPlay with playerInputId: "))#appendint (playerInputId)))), self, "setPlayerInPlay"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Setting PlayerInPlay with playerInputId: "))#appendint (playerInputId)))), (Obj.magic self), "setPlayerInPlay"));
         playersInPlay.(playerInputId) <- true
         end
     
 
     method setPlayerOutOfPlay ((playerInputId : int)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Setting PlayerOutOfPlay with playerInputId: "))#appendint (playerInputId)))), self, "setPlayerOutOfPlay"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Setting PlayerOutOfPlay with playerInputId: "))#appendint (playerInputId)))), (Obj.magic self), "setPlayerOutOfPlay"));
         playersInPlay.(playerInputId) <- false
         end
     
@@ -132,7 +134,7 @@ class localPlayerInputIdFactory () =
         totalDevicesMapped <- 0;
         ();
         for index = ((Array.length deviceIdToplayerId) - 1) downto 0 do
-            deviceIdToplayerId.(index) <- (-1)
+            deviceIdToplayerId.(index) <- (- 1)
         done
       end
   end [@@warning "-20"]
@@ -142,9 +144,9 @@ let instance = (new localPlayerInputIdFactory ())
 let get_instance () = instance
 let () = java_register_static "LocalPlayerInputIdFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LocalPlayerInputIdFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

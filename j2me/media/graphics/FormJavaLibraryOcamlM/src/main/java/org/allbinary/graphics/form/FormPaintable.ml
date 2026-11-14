@@ -36,9 +36,9 @@ class formPaintable ((form_arg : PaintableForm.paintableForm)) =
         end [@@warning "-7-20"]
     
 
-    method getForm () : PaintableForm.paintableForm =
+    method getForm : 'return. unit -> 'return = fun () ->
         begin
-        (form :> PaintableForm.paintableForm)
+        (Obj.magic (form))
         end [@@warning "-7"]
 
     initializer

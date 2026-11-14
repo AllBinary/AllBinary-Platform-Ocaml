@@ -38,9 +38,9 @@ class gameInputMapping ((name_arg : string), (gameKey_arg : GameKey.gameKey)) =
         end [@@warning "-20"]
     
 
-    method getGameKey () : GameKey.gameKey =
+    method getGameKey : 'return. unit -> 'return = fun () ->
         begin
-        (gameKey :> GameKey.gameKey)
+        (Obj.magic (gameKey))
         end
     
 

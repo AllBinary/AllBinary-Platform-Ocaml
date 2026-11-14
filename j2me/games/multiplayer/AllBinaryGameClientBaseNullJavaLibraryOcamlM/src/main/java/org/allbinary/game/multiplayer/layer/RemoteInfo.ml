@@ -25,7 +25,7 @@ class remoteInfo ((_username : string), (_actorSessionId : int), (_playerInputId
   end
 let () = java_register_constructor "RemoteInfo" (fun arguments -> Obj.repr (new remoteInfo (Obj.obj arguments)))
 
-let rEMOTE_INFO = (new remoteInfo ((StringUtil.getInstance ())#eMPTY_STRING, (-1), (-1), nEW_PLAYER_ID))
+let rEMOTE_INFO = (new remoteInfo ((StringUtil.getInstance ())#eMPTY_STRING, (- 1), (- 1), nEW_PLAYER_ID))
 let get_rEMOTE_INFO () = rEMOTE_INFO
 let () = java_register_static "RemoteInfo.get_rEMOTE_INFO" (fun _ -> Obj.repr (get_rEMOTE_INFO ()))
 

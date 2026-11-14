@@ -49,7 +49,7 @@ class cellPositionFactory () =
         ignore (!stringBuffer#appendint (columns_arg));
         ignore (!stringBuffer#append (" rows: "));
         ignore (!stringBuffer#appendint (rows_arg));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !commonStrings#iNIT));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT));
         cellPositionArray <- (Array.make_matrix (columns_arg) (rows_arg) (Obj.magic 0));
         columns <- columns_arg;
         rows <- rows_arg;
@@ -61,26 +61,26 @@ class cellPositionFactory () =
         end
     
 
-    method getInstanceColRow ((i_column : int), (i_row : int)) : CellPosition.cellPosition =
+    method getInstanceColRow : 'return. int * int -> 'return = fun ((i_column : int), (i_row : int)) ->
         begin
         (try
-            (cellPositionArray.(i_column).(i_row) :> CellPosition.cellPosition)
+            (Obj.magic (cellPositionArray.(i_column).(i_row)))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (((((((((new StringMaker.stringMaker ())#append ("columns: "))#appendint ((self#getColumns ())))#append (" rows: "))#appendint ((self#getRows ())))#append (" col: "))#appendint (i_column))#append (" row: "))#appendint (i_row)))), self, !commonStrings#gET_INSTANCE, e));
-            (nONE :> CellPosition.cellPosition)
+            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (((((((((new StringMaker.stringMaker ())#append ("columns: "))#appendint ((self#getColumns ())))#append (" rows: "))#appendint ((self#getRows ())))#append (" col: "))#appendint (i_column))#append (" row: "))#appendint (i_row)))), (Obj.magic self), !commonStrings#gET_INSTANCE, e));
+            (Obj.magic (nONE))
         end)
         end
     
 
-    method createInstance ((i_column : int), (i_row : int)) : CellPosition.cellPosition =
+    method createInstance : 'return. int * int -> 'return = fun ((i_column : int), (i_row : int)) ->
         begin
         let cellPositionCanBeNull : CellPosition.cellPosition ref = ref ((cellPositionArray.(i_column).(i_row) :> CellPosition.cellPosition)) in ();
         if (!cellPositionCanBeNull == (Obj.magic 0)) then begin
             cellPositionCanBeNull := (new CellPosition.cellPosition (i_column, i_row, columns, rows));
             cellPositionArray.(i_column).(i_row) <- !cellPositionCanBeNull
         end;
-        (!cellPositionCanBeNull :> CellPosition.cellPosition)
+        (Obj.magic (!cellPositionCanBeNull))
         end
     
 
@@ -98,7 +98,7 @@ class cellPositionFactory () =
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        nONE <- ((new CellPosition.cellPosition ((-1), (-1), (-1), (-1))) :> CellPosition.cellPosition);
+        nONE <- ((new CellPosition.cellPosition ((- 1), (- 1), (- 1), (- 1))) :> CellPosition.cellPosition);
         cellPositionArray <- (Array.make_matrix (0) (0) (Obj.magic 0));
         columns <- 0;
         rows <- 0;
@@ -112,10 +112,11 @@ let sINGLETON = ref ((new cellPositionFactory ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "CellPositionFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "CellPositionFactory.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "CellPositionFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

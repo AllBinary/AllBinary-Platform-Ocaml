@@ -21,6 +21,11 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.microedition.lcdui.Image *)
 (* import org.allbinary.animation.Animation *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "AnimationFrameToImageUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "AnimationFrameToImageUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class animationFrameToImageUtil () =
   object
     
@@ -28,13 +33,13 @@ class animationFrameToImageUtil () =
     method getInstanceTranslate : 'any3 'return. int * int * 'any3 -> 'return = fun ((width : int), (height : int), animationInterface) ->
         let animationInterface = Obj.repr animationInterface in
         begin
-        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr instance)), ((((width * 3)) asr 1)), ((((height * 3)) asr 1)))))) in ();
+        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr (Obj.magic (get_instance ())))), ((((width * 3)) asr 1)), ((((height * 3)) asr 1)))))) in ();
         let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !image)#getGraphics ()))) in ();
         let tranlateX : int ref = ref (((width asr 2))) in ();
         let tranlateY : int ref = ref (((height asr 2))) in ();
         ignore ((Obj.magic !graphics)#translate (!tranlateX, !tranlateY));
         ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic !graphics), 0, 0));
-        ignore ((Obj.magic !graphics)#translate ((-!tranlateX), (-!tranlateY)));
+        ignore ((Obj.magic !graphics)#translate ((- !tranlateX), (- !tranlateY)));
         (Obj.magic ((Obj.magic !image)))
         end [@@warning "-20"]
     
@@ -42,7 +47,7 @@ class animationFrameToImageUtil () =
     method getInstanceWH : 'any3 'return. int * int * 'any3 -> 'return = fun ((width : int), (height : int), animationInterface) ->
         let animationInterface = Obj.repr animationInterface in
         begin
-        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr instance)), width, height)))) in ();
+        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr (Obj.magic (get_instance ())))), width, height)))) in ();
         let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !image)#getGraphics ()))) in ();
         ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic !graphics), 0, 0));
         (Obj.magic ((Obj.magic !image)))
@@ -55,14 +60,12 @@ class animationFrameToImageUtil () =
   end
 let () = java_register_constructor "AnimationFrameToImageUtil" (fun arguments -> Obj.repr (new animationFrameToImageUtil (Obj.obj arguments)))
 
-let instance = (new animationFrameToImageUtil ())
-let get_instance () = instance
-let () = java_register_static "AnimationFrameToImageUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "AnimationFrameToImageUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new animationFrameToImageUtil ())))
 
 

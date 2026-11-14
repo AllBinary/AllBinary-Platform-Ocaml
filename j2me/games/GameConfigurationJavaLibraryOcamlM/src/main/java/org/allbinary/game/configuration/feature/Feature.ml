@@ -25,10 +25,11 @@ let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUti
 let get_hashtable () = Obj.magic !hashtable
 let set_hashtable value' = hashtable := Obj.repr value'
 let () = java_register_static "Feature.get_hashtable" (fun _ -> Obj.repr (get_hashtable ()))
+let () = java_register_static "Feature.set_hashtable" (fun value' -> set_hashtable (Obj.obj value'); Obj.repr ())
 
-let getInstance ((name_arg : string)) =
+let getInstance : 'return. string -> 'return = fun ((name_arg : string)) ->
         begin
-        (Obj.magic ((Obj.magic !hashtable)#get (name_arg)))
+        (Obj.magic ((Obj.magic ((Obj.magic !hashtable)#get (name_arg)))))
         end
 
 and add : 'any2. string * 'any2 -> unit = fun ((name_arg : string), gameFeature) ->
@@ -63,8 +64,8 @@ class feature ((name_arg : string)) =
         ();
         ();
         name <- name_arg;
-        ignore (add (name_arg, self));
-        ignore ((ChangedGameFeatureListener.getInstance ())#add (self))
+        ignore (add (name_arg, (Obj.magic self)));
+        ignore ((Obj.magic (java_call_static "ChangedGameFeatureListener.getInstance" (Obj.repr ())))#add ((Obj.magic self)))
       end
   end
 let () = java_register_constructor "Feature" (fun arguments -> Obj.repr (new feature (Obj.obj arguments)))

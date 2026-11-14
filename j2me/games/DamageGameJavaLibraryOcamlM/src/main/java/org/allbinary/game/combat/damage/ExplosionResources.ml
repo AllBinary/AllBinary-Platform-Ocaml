@@ -16,6 +16,7 @@
 (* package org.allbinary.game.combat.damage *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class explosionResources () =
   object
@@ -49,9 +50,9 @@ let instance = (new explosionResources ())
 let get_instance () = instance
 let () = java_register_static "ExplosionResources.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ExplosionResources.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

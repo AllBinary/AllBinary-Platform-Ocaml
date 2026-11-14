@@ -32,7 +32,7 @@ class leftToRightImageAnimationFactory (image, (sequenceArray : int array), (dx 
         begin
         let scaledImage : Obj.t ref = ref ((Obj.repr ((self#animationFactoryImageScaleUtil)#createImage ((self#getImage ()), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
         if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
-            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust ((Obj.magic self)));
             raise (Java_return (Obj.repr ((new AdjustedLeftToRightImageAnimation.adjustedLeftToRightImageAnimation ((Obj.magic !scaledImage), (self#getSequenceArray ()), (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
             raise (Java_return (Obj.repr ((new LeftToRightImageAnimation.leftToRightImageAnimation ((Obj.magic !scaledImage), (self#getSequenceArray ()), ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))

@@ -21,8 +21,8 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual pickedUpLayerInterfaceFactoryInterface =
   object
-    method virtual getPickedUpLayerType : unit -> PickedUpLayerType.pickedUpLayerType
-    method virtual getIconLayer : unit -> AllBinaryLayer.allBinaryLayer
+    method virtual getPickedUpLayerType : 'return . unit -> 'return
+    method virtual getIconLayer : 'return . unit -> 'return
     method virtual getAnimationInterface : 'return . unit -> 'return
   end
 

@@ -31,13 +31,13 @@ class randomRotationFactory () =
     method set_angleFactory value' = angleFactory <- value'
     
 
-    method getInstanceList : 'any1. 'any1 * int -> BasicArrayList.basicArrayList = fun (vector, (howMuch : int)) ->
+    method getInstanceList : 'any1 'return. 'any1 * int -> 'return = fun (vector, (howMuch : int)) ->
         let vector = Obj.repr vector in
         begin
         let graphicsPipe : BasicGraphicsPipeline.basicGraphicsPipeline ref = ref (((new BasicGraphicsPipeline.basicGraphicsPipeline ((Obj.magic vector))) :> BasicGraphicsPipeline.basicGraphicsPipeline)) in ();
         ignore (!graphicsPipe#createMatrix ());
         ignore (!graphicsPipe#rotateToAngle ((angleFactory#getAt ((self#getNextRandomAngle (howMuch))))));
-        ((!graphicsPipe#getMatrix ()) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((!graphicsPipe#getMatrix ())))
         end [@@warning "-20"]
     
 
@@ -59,9 +59,9 @@ let instance = (new randomRotationFactory ())
 let get_instance () = instance
 let () = java_register_static "RandomRotationFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "RandomRotationFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

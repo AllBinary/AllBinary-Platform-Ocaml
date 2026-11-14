@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual dropLayerInterface =
   object
     inherit LayerInterface.layerInterface
-    method virtual getDroppedLayer : unit -> PickedUpLayerInterface.pickedUpLayerInterface
+    method virtual getDroppedLayer : 'return . unit -> 'return
   end
 
 

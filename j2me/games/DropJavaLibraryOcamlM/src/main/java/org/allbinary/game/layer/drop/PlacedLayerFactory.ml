@@ -31,9 +31,9 @@ class placedLayerFactory () =
         end
     
 
-    method getRandomInstance () : AllBinaryLayerFactoryInterface.allBinaryLayerFactoryInterface =
+    method getRandomInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((Obj.magic (basicArrayListUtil#getRandom (list))) :> AllBinaryLayerFactoryInterface.allBinaryLayerFactoryInterface)
+        (Obj.magic ((Obj.magic (basicArrayListUtil#getRandom (list)))))
         end
     
 
@@ -57,9 +57,9 @@ let instance = (new placedLayerFactory ())
 let get_instance () = instance
 let () = java_register_static "PlacedLayerFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PlacedLayerFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

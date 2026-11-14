@@ -38,11 +38,11 @@ class compoundAnimationInterfaceFactory ((basicAnimationInterfaceFactoryInterfac
     method getInstance : 'return. int -> 'return = fun ((instanceId : int)) ->
         begin
         let size : int ref = ref ((Array.length basicAnimationInterfaceFactoryInterfaceArrayP)) in ();
-        let animationInterfaceArray : Obj.t ref = ref ((Obj.repr (self#createArray (!size)))) in ();
+        let animationInterfaceArray : Animation.animation array ref = ref ((self#createArray (!size))) in ();
         for index = 0 to !size - 1 do
-            (Obj.magic !animationInterfaceArray).(index) <- (basicAnimationInterfaceFactoryInterfaceArrayP.(index)#getInstance (instanceId))
+            !animationInterfaceArray.(index) <- ((basicAnimationInterfaceFactoryInterfaceArrayP.(index)#getInstance (instanceId)) :> Animation.animation)
         done;
-        (Obj.magic ((self#createAnimation ((Obj.magic !animationInterfaceArray)))))
+        (Obj.magic ((self#createAnimation (!animationInterfaceArray))))
         end
     
 
@@ -52,15 +52,15 @@ class compoundAnimationInterfaceFactory ((basicAnimationInterfaceFactoryInterfac
         end
     
 
-    method createAnimation : 'return. _ -> 'return = fun (_animationInterfaceArray) ->
+    method createAnimation : 'return. Animation.animation array -> 'return = fun ((_animationInterfaceArray : Animation.animation array)) ->
         begin
         (Obj.magic (((NullAnimationFactory.getFactoryInstance ())#getInstance (0))))
         end
     
 
-    method getBasicAnimationInterfaceFactoryInterfaceArray () : AnimationInterfaceFactoryInterface.animationInterfaceFactoryInterface array =
+    method getBasicAnimationInterfaceFactoryInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        basicAnimationInterfaceFactoryInterfaceArrayP
+        (Obj.magic (basicAnimationInterfaceFactoryInterfaceArrayP))
         end
     
 

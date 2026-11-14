@@ -54,20 +54,22 @@ let gameFeatureChoiceGroupsExclusive = ref ((new gameFeatureChoiceGroups ()))
 let get_gameFeatureChoiceGroupsExclusive () = !gameFeatureChoiceGroupsExclusive
 let set_gameFeatureChoiceGroupsExclusive value' = gameFeatureChoiceGroupsExclusive := value'
 let () = java_register_static "GameFeatureChoiceGroups.get_gameFeatureChoiceGroupsExclusive" (fun _ -> Obj.repr (get_gameFeatureChoiceGroupsExclusive ()))
+let () = java_register_static "GameFeatureChoiceGroups.set_gameFeatureChoiceGroupsExclusive" (fun value' -> set_gameFeatureChoiceGroupsExclusive (Obj.obj value'); Obj.repr ())
 
 let gameFeatureChoiceGroupsMultiple = ref ((new gameFeatureChoiceGroups ()))
 let get_gameFeatureChoiceGroupsMultiple () = !gameFeatureChoiceGroupsMultiple
 let set_gameFeatureChoiceGroupsMultiple value' = gameFeatureChoiceGroupsMultiple := value'
 let () = java_register_static "GameFeatureChoiceGroups.get_gameFeatureChoiceGroupsMultiple" (fun _ -> Obj.repr (get_gameFeatureChoiceGroupsMultiple ()))
+let () = java_register_static "GameFeatureChoiceGroups.set_gameFeatureChoiceGroupsMultiple" (fun value' -> set_gameFeatureChoiceGroupsMultiple (Obj.obj value'); Obj.repr ())
 
-let getExclusiveInstance () =
+let getExclusiveInstance : 'return. unit -> 'return = fun () ->
         begin
-        !gameFeatureChoiceGroupsExclusive
+        (Obj.magic (!gameFeatureChoiceGroupsExclusive))
         end
 
-and getMultipleInstance () =
+and getMultipleInstance : 'return. unit -> 'return = fun () ->
         begin
-        !gameFeatureChoiceGroupsMultiple
+        (Obj.magic (!gameFeatureChoiceGroupsMultiple))
         end
 let () = java_register_static "GameFeatureChoiceGroups.getExclusiveInstance" (fun arguments -> Obj.repr (getExclusiveInstance (Obj.obj arguments)))
 let () = java_register_static "GameFeatureChoiceGroups.getMultipleInstance" (fun arguments -> Obj.repr (getMultipleInstance (Obj.obj arguments)))

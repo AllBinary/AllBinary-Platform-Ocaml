@@ -36,9 +36,9 @@ class makeCountedPartsSingletonArrayFactory () =
     method set_list value' = list <- value'
     
 
-    method getUpdated ((partInterfaceArray : PartInterface.partInterface array)) : PartInterface.partInterface array =
+    method getUpdated : 'return. PartInterface.partInterface array -> 'return = fun ((partInterfaceArray : PartInterface.partInterface array)) ->
         begin
-        list <- (new BasicArrayListD.basicArrayListD ());
+        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         for index = 0 to (Array.length partInterfaceArray) - 1 do
             ignore (list#add (partInterfaceArray.(index)))
         done;
@@ -55,13 +55,13 @@ class makeCountedPartsSingletonArrayFactory () =
         ignore (!stringBuffer#append (" Counted: "));
         ignore (!stringBuffer#appendint ((!countedBasicArrayList#size ())));
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !commonStrings#gET_INSTANCE));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#gET_INSTANCE));
         let newPartInterfaceArray : PartInterface.partInterface array ref = ref ((Array.make ((list#size ())) (Obj.magic 0))) in ();
         let newSize : int ref = ref ((Array.length !newPartInterfaceArray)) in ();
         for index = 0 to !newSize - 1 do
             !newPartInterfaceArray.(index) <- ((Obj.magic (list#get (index))) :> PartInterface.partInterface)
         done;
-        !newPartInterfaceArray
+        (Obj.magic (!newPartInterfaceArray))
         end
 
     initializer
@@ -77,9 +77,9 @@ let instance = (new makeCountedPartsSingletonArrayFactory ())
 let get_instance () = instance
 let () = java_register_static "MakeCountedPartsSingletonArrayFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MakeCountedPartsSingletonArrayFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

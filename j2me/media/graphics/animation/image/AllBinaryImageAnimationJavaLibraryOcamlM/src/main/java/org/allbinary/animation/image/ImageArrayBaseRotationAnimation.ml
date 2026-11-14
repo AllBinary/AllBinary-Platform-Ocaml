@@ -109,12 +109,13 @@ class imageArrayBaseRotationAnimation (originalImageArray_arg, (angleInfo : Angl
         end [@@warning "-7"]
     
 
-    method setImageArray (imageArray_arg) : unit =
+    method setImageArray : 'any1. 'any1 -> unit = fun (imageArray_arg) ->
+        let imageArray_arg = Obj.repr imageArray_arg in
         begin
-        imageArray <- Obj.repr (imageArray_arg);
-        totalFrames <- (Array.length imageArray_arg);
+        imageArray <- Obj.repr ((Obj.magic imageArray_arg));
+        totalFrames <- (Array.length (Obj.magic imageArray_arg));
         (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance (totalFrames)))
-        end [@@warning "-7"]
+        end [@@warning "-7-20"]
     
 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->

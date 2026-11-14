@@ -21,6 +21,7 @@ let index : int ref = ref (0)
 let get_index () = !index
 let set_index value' = index := value'
 let () = java_register_static "AllMotionRecognizer.get_index" (fun _ -> Obj.repr (get_index ()))
+let () = java_register_static "AllMotionRecognizer.set_index" (fun value' -> set_index (Obj.obj value'); Obj.repr ())
 class allMotionRecognizer () =
   object
     val mutable id : int = 0

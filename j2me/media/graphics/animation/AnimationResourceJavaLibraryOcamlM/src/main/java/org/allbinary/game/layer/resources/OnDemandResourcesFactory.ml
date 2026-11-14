@@ -16,6 +16,7 @@
 (* package org.allbinary.game.layer.resources *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class onDemandResourcesFactory () =
   object
@@ -27,9 +28,9 @@ class onDemandResourcesFactory () =
         end
     
 
-    method remove ((_layerId : int)) : OnDemandResources.onDemandResources =
+    method remove : 'return. int -> 'return = fun ((_layerId : int)) ->
         begin
-        ((OnDemandResources.get_nULL_ON_DEMAND_RESOURCES ()) :> OnDemandResources.onDemandResources)
+        (Obj.magic ((OnDemandResources.get_nULL_ON_DEMAND_RESOURCES ())))
         end
 
     initializer

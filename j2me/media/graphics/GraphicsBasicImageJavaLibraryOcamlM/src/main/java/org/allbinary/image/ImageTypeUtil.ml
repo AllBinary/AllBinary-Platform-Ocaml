@@ -70,10 +70,11 @@ let sINGLETON = ref ((new imageTypeUtil ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "ImageTypeUtil.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "ImageTypeUtil.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "ImageTypeUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

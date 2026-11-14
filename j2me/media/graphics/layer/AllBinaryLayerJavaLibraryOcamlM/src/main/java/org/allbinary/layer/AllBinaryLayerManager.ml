@@ -44,10 +44,11 @@ class allBinaryLayerManager () =
         end [@@warning "-7"]
     
 
-    method setLayerProcessorArray (layerProcessorArray) : unit =
+    method setLayerProcessorArray : 'any1. 'any1 -> unit = fun (layerProcessorArray) ->
+        let layerProcessorArray = Obj.repr layerProcessorArray in
         begin
-        basicLayerProcessorArray <- Obj.repr (layerProcessorArray)
-        end [@@warning "-7"]
+        basicLayerProcessorArray <- Obj.repr ((Obj.magic layerProcessorArray))
+        end [@@warning "-7-20"]
     
 
     method log () : unit =
@@ -116,7 +117,7 @@ class allBinaryLayerManager () =
         let size : int ref = ref ((Array.length (Obj.magic basicLayerProcessorArray))) in ();
         for index = 0 to !size - 1 do
             layerProcessorInterface := Obj.repr ((Obj.magic basicLayerProcessorArray).(index));
-            ignore ((Obj.magic !layerProcessorInterface)#process (self))
+            ignore ((Obj.magic !layerProcessorInterface)#process ((Obj.magic self)))
         done
         end [@@warning "-7"]
     
@@ -135,8 +136,8 @@ class allBinaryLayerManager () =
     initializer
       begin
         layerManagerEventHandler <- ((LayerManagerEventHandler.getInstance ()) :> LayerManagerEventHandler.layerManagerEventHandler);
-        createLayerManagerEvent <- ((new LayerManagerEvent.layerManagerEvent (self, layerManagerEventHandler#cREATE)) :> LayerManagerEvent.layerManagerEvent);
-        deleteLayerManagerEvent <- ((new LayerManagerEvent.layerManagerEvent (self, layerManagerEventHandler#dELETE)) :> LayerManagerEvent.layerManagerEvent);
+        createLayerManagerEvent <- ((new LayerManagerEvent.layerManagerEvent ((Obj.magic self), layerManagerEventHandler#cREATE)) :> LayerManagerEvent.layerManagerEvent);
+        deleteLayerManagerEvent <- ((new LayerManagerEvent.layerManagerEvent ((Obj.magic self), layerManagerEventHandler#dELETE)) :> LayerManagerEvent.layerManagerEvent);
         basicLayerProcessorArray <- (Obj.repr (Array.make (0) (Obj.magic 0)));
         ();
         (* super(...) is the inherit clause *) ()

@@ -55,7 +55,7 @@ class analogControllerConfigurationFactory () =
         sCALE_FACTOR <- (ScaleFactorFactory.getInstance ())#dEFAULT_SCALE_FACTOR;
         sCALE_VALUE <- (ScaleFactorFactory.getInstance ())#dEFAULT_SCALE_VALUE;
         available <- false;
-        analogControllerConfigurationEvent <- ((new AnalogControllerConfigurationEvent.analogControllerConfigurationEvent (self)) :> AnalogControllerConfigurationEvent.analogControllerConfigurationEvent);
+        analogControllerConfigurationEvent <- ((new AnalogControllerConfigurationEvent.analogControllerConfigurationEvent ((Obj.magic self))) :> AnalogControllerConfigurationEvent.analogControllerConfigurationEvent);
         ();
         ()
       end
@@ -66,9 +66,9 @@ let instance = (new analogControllerConfigurationFactory ())
 let get_instance () = instance
 let () = java_register_static "AnalogControllerConfigurationFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AnalogControllerConfigurationFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

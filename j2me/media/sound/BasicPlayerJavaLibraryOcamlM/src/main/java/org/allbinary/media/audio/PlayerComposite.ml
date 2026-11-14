@@ -96,7 +96,7 @@ class playerComposite (player_arg, (repeatTime : int)) =
         (try
             ignore ((Obj.magic player)#prefetch ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "prefetch", e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "prefetch", e))
         end)
         end
     
@@ -106,7 +106,7 @@ class playerComposite (player_arg, (repeatTime : int)) =
         (try
             ignore ((Obj.magic player)#realize ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "realize", e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "realize", e))
         end)
         end
     
@@ -128,8 +128,8 @@ class playerComposite (player_arg, (repeatTime : int)) =
         (try
             ((Obj.magic player)#setMediaTime (now))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "setMediaTime", e));
-            (-1)
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "setMediaTime", e));
+            (- 1)
         end)
         end
     
@@ -141,7 +141,7 @@ class playerComposite (player_arg, (repeatTime : int)) =
                 ignore ((Obj.magic player)#start ())
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#sTART_METHOD_NAME, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#sTART_METHOD_NAME, e))
         end)
         end
     
@@ -151,7 +151,7 @@ class playerComposite (player_arg, (repeatTime : int)) =
         (try
             ignore ((Obj.magic player)#stop ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "stop", e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "stop", e))
         end)
         end
     

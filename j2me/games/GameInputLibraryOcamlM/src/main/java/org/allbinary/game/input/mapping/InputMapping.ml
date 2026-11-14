@@ -80,7 +80,7 @@ class inputMapping () =
         ignore (!stringBuffer#append ((!stringUtil#toString ((Obj.magic input)))));
         ignore (!stringBuffer#append (" == "));
         ignore (!stringBuffer#append ((!stringUtil#toString ((Obj.magic mappedToInput)))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "InputMapping::remove"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "InputMapping::remove"));
         let list : BasicArrayList.basicArrayList ref = ref (((self#getMappedInput ((Obj.magic input))) :> BasicArrayList.basicArrayList)) in ();
         if (!list#contains ((Obj.magic mappedToInput))) then begin
             ignore (!list#remove ((Obj.magic mappedToInput)));
@@ -90,14 +90,14 @@ class inputMapping () =
             ignore (!stringBuffer#append ((!stringUtil#toString ((Obj.magic input)))));
             ignore (!stringBuffer#append (" == "));
             ignore (!stringBuffer#append ((!stringUtil#toString ((Obj.magic mappedToInput)))));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "InputMapping::remove"))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "InputMapping::remove"))
         end else begin
             ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
             ignore (!stringBuffer#append ("Not Deleted: "));
             ignore (!stringBuffer#append ((!stringUtil#toString ((Obj.magic input)))));
             ignore (!stringBuffer#append (" == "));
             ignore (!stringBuffer#append ((!stringUtil#toString ((Obj.magic mappedToInput)))));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "InputMapping::remove"))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "InputMapping::remove"))
         end
         end [@@warning "-20"]
     
@@ -127,7 +127,7 @@ class inputMapping () =
         end [@@warning "-20"]
     
 
-    method getMappedInput : 'any1. 'any1 -> BasicArrayList.basicArrayList = fun (id) ->
+    method getMappedInput : 'any1 'return. 'any1 -> 'return = fun (id) ->
         let id = Obj.repr id in
         try
         begin
@@ -137,7 +137,7 @@ class inputMapping () =
             ignore ((Obj.magic hashtable)#put ((Obj.magic id), !list));
             raise (Java_return (Obj.repr (!list)))
         end;
-        ((Obj.magic !mappingInputCanBeNullList) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((Obj.magic !mappingInputCanBeNullList)))
         end
         with Java_return value -> Obj.obj value [@@warning "-20"]
     

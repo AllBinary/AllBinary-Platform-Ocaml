@@ -16,14 +16,15 @@
 (* package org.allbinary.thirdparty.store *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : NoThirdPartyStore.noThirdPartyStore = ((new NoThirdPartyStore.noThirdPartyStore ()) :> NoThirdPartyStore.noThirdPartyStore)
 let get_instance () = instance
 let () = java_register_static "ThirdPartyStoreFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : ThirdPartyStore.thirdPartyStore =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> ThirdPartyStore.thirdPartyStore)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "ThirdPartyStoreFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

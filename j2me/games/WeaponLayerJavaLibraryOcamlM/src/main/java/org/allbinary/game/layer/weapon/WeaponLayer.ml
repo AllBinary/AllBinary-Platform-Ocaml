@@ -46,18 +46,18 @@ let getStaticType () : int =
         end
 
 let () = java_register_static "WeaponLayer.getStaticType" (fun arguments -> Obj.repr (getStaticType (Obj.obj arguments)))
-class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (movement_arg : Movement.movement), animationInterface_arg, destroyedAnimationInterface_arg, rectangle, (viewPosition : ViewPositionBase.viewPositionBase)) =
+class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (movement_arg : Movement.movement), (animationInterface_arg : Animation.animation), (destroyedAnimationInterface_arg : Animation.animation), (rectangle : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
   object (self)
     inherit MultiPlayerGameLayer.multiPlayerGameLayer (remoteInfo, (BasicGroupFactory.getInstance ())#nONE_ARRAY, name, rectangle, viewPosition) as super
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
-    val mutable initAnimationInterface : Obj.t = Obj.repr 0
-    method initAnimationInterface : 'r. 'r = Obj.magic initAnimationInterface
-    method set_initAnimationInterface : 'v. 'v -> unit = fun value' -> initAnimationInterface <- Obj.repr value'
-    val mutable destroyedAnimationInterface : Obj.t = Obj.repr 0
-    method destroyedAnimationInterface : 'r. 'r = Obj.magic destroyedAnimationInterface
-    method set_destroyedAnimationInterface : 'v. 'v -> unit = fun value' -> destroyedAnimationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
+    val mutable initAnimationInterface : Animation.animation = (Obj.magic 0)
+    method initAnimationInterface = initAnimationInterface
+    method set_initAnimationInterface value' = initAnimationInterface <- value'
+    val mutable destroyedAnimationInterface : Animation.animation = (Obj.magic 0)
+    method destroyedAnimationInterface = destroyedAnimationInterface
+    method set_destroyedAnimationInterface value' = destroyedAnimationInterface <- value'
     val mutable sourceLayerInterface : AllBinaryLayer.allBinaryLayer = (Obj.magic 0)
     method sourceLayerInterface = sourceLayerInterface
     method set_sourceLayerInterface value' = sourceLayerInterface <- value'
@@ -150,7 +150,7 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
             end else begin
                 let collidableWeaponBehavior_arg : CollidableWeaponBehavior.collidableWeaponBehavior ref = ref (((Obj.magic (self#getCollidableInferface ())) :> CollidableWeaponBehavior.collidableWeaponBehavior)) in ();
                 if (!collidableWeaponBehavior_arg#isCollided ()) then begin
-                    (self#setAnimationInterface ((Obj.magic destroyedAnimationInterface)));
+                    (self#setAnimationInterface (destroyedAnimationInterface));
                     ignore ((self#getMovement ())#stop ());
                     ignore (self#setReadyForExplosion (true))
                 end else begin
@@ -158,7 +158,7 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
                 end
             end
         end;
-        ignore (movement#process (self));
+        ignore (movement#process ((Obj.magic self)));
         totalDamage <- (totalDamage + (weaponProperties#getDissipation ()))
         end [@@warning "-7-20"]
     
@@ -211,7 +211,7 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
         destroyed <- destroyed_arg;
         if (self#isDestroyed ()) then begin
             scoreableInterface <- (NoScoreable.getInstance ());
-            ignore ((DestroyedLayerProcessor.getInstance ())#add (self))
+            ignore ((DestroyedLayerProcessor.getInstance ())#add ((Obj.magic self)))
         end
         end [@@warning "-7"]
     
@@ -225,38 +225,38 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
     method setAnimationInterface : 'any1. 'any1 -> unit = fun (animationInterface_arg) ->
         let animationInterface_arg = Obj.repr animationInterface_arg in
         begin
-        animationInterface <- Obj.repr ((Obj.magic animationInterface_arg))
+        animationInterface <- (Obj.magic animationInterface_arg)
         end [@@warning "-7-20"]
     
 
     method getAnimationInterface : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic animationInterface)))
+        (Obj.magic (animationInterface))
         end [@@warning "-7"]
     
 
     method getInitAnimationInterfaceP : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic initAnimationInterface)))
+        (Obj.magic (initAnimationInterface))
         end [@@warning "-7"]
     
 
     method setInitAnimationInterfaceP : 'any1. 'any1 -> unit = fun (initAnimationInterface_arg) ->
         let initAnimationInterface_arg = Obj.repr initAnimationInterface_arg in
         begin
-        initAnimationInterface <- Obj.repr ((Obj.magic initAnimationInterface_arg))
+        initAnimationInterface <- (Obj.magic initAnimationInterface_arg)
         end [@@warning "-7-20"]
     
 
     method getDestroyedAnimationInterface : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic destroyedAnimationInterface)))
+        (Obj.magic (destroyedAnimationInterface))
         end [@@warning "-7"]
     
 
-    method getOwnerLayerInterface () : AllBinaryLayer.allBinaryLayer =
+    method getOwnerLayerInterface : 'return. unit -> 'return = fun () ->
         begin
-        (sourceLayerInterface :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic (sourceLayerInterface))
         end [@@warning "-7"]
     
 
@@ -271,7 +271,7 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
         let graphics = Obj.repr graphics in
         begin
         let viewPosition : ViewPositionBase.viewPositionBase ref = ref (((self#getViewPosition ()) :> ViewPositionBase.viewPositionBase)) in ();
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), ((!viewPosition#getX ()) - (self#getHalfWidth ())), ((!viewPosition#getY ()) - (self#getHalfHeight ()))))
+        ignore (animationInterface#paintXY ((Obj.magic graphics), ((!viewPosition#getX ()) - (self#getHalfWidth ())), ((!viewPosition#getY ()) - (self#getHalfHeight ()))))
         end [@@warning "-7-20"]
     
 
@@ -279,13 +279,13 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
         let graphics = Obj.repr graphics in
         begin
         let viewPosition : ViewPositionBase.viewPositionBase ref = ref (((self#getViewPosition ()) :> ViewPositionBase.viewPositionBase)) in ();
-        ignore ((Obj.magic animationInterface)#paintThreedXYZ ((Obj.magic graphics), ((!viewPosition#getX ()) - (self#getHalfWidth ())), ((!viewPosition#getY ()) - (self#getHalfHeight ())), ((!viewPosition#getZ ()) - (self#getHalfDepth ()))))
+        ignore (animationInterface#paintThreedXYZ ((Obj.magic graphics), ((!viewPosition#getX ()) - (self#getHalfWidth ())), ((!viewPosition#getY ()) - (self#getHalfHeight ())), ((!viewPosition#getZ ()) - (self#getHalfDepth ()))))
         end [@@warning "-7-20"]
     
 
-    method getMovement () : Movement.movement =
+    method getMovement : 'return. unit -> 'return = fun () ->
         begin
-        (movement :> Movement.movement)
+        (Obj.magic (movement))
         end [@@warning "-7"]
     
 
@@ -315,9 +315,9 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
         end [@@warning "-7-20"]
     
 
-    method getWeaponPropertiesP () : WeaponProperties.weaponProperties =
+    method getWeaponPropertiesP : 'return. unit -> 'return = fun () ->
         begin
-        (weaponProperties :> WeaponProperties.weaponProperties)
+        (Obj.magic (weaponProperties))
         end [@@warning "-7"]
     
 
@@ -330,12 +330,12 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
     method set : 'any1. 'any1 -> unit = fun (gl) ->
         let gl = Obj.repr gl in
         begin
-        ignore ((Obj.magic initAnimationInterface)#set ((Obj.magic gl)))
+        ignore (initAnimationInterface#set ((Obj.magic gl)))
         end [@@warning "-7-20"]
 
     initializer
       begin
-        animationInterface <- (Obj.repr ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)));
+        animationInterface <- (((NullAnimationFactory.getFactoryInstance ())#getInstance (0)) :> Animation.animation);
         ();
         ();
         sourceLayerInterface <- ((AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()) :> AllBinaryLayer.allBinaryLayer);
@@ -349,13 +349,13 @@ class weaponLayer ((name : string), remoteInfo, (multiPlayerType_arg : int), (mo
         collidableWeaponBehavior <- ((CollidableWeaponBehavior.getNullInstance ()) :> CollidableWeaponBehavior.collidableWeaponBehavior);
         ();
         (* super(...) is the inherit clause *) ();
-        initAnimationInterface <- Obj.repr (animationInterface_arg);
+        initAnimationInterface <- animationInterface_arg;
         (self#setAnimationInterface (animationInterface_arg));
-        destroyedAnimationInterface <- Obj.repr (destroyedAnimationInterface_arg);
+        destroyedAnimationInterface <- destroyedAnimationInterface_arg;
         movement <- movement_arg;
         multiPlayerType <- multiPlayerType_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "WeaponLayer" (fun arguments -> Obj.repr (new weaponLayer (Obj.obj arguments)))
 
 

@@ -28,14 +28,14 @@ class imageArrayRotationAnimationPool ((cacheableInterfaceFactoryInterface : Cac
     
     
 
-    method remove : 'any1. 'any1 -> CacheableInterface.cacheableInterface = fun (key) ->
+    method remove : 'any1 'return. 'any1 -> 'return = fun (key) ->
         let key = Obj.repr key in
         begin
         let cacheableInterface : CacheableInterface.cacheableInterface ref = ref (((super#remove (key)) :> CacheableInterface.cacheableInterface)) in ();
         let allBinaryImageRotationAnimationInfo : ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo ref = ref (((Obj.magic key) :> ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo)) in ();
         let imageArrayRotationAnimationCacheable : ImageArrayRotationAnimationCacheable.imageArrayRotationAnimationCacheable ref = ref ((((Obj.magic !cacheableInterface)) :> ImageArrayRotationAnimationCacheable.imageArrayRotationAnimationCacheable)) in ();
         ignore (!imageArrayRotationAnimationCacheable#setImageArray ((!allBinaryImageRotationAnimationInfo#getImageArray ())));
-        (!cacheableInterface :> CacheableInterface.cacheableInterface)
+        (Obj.magic (!cacheableInterface))
         end [@@warning "-7"]
 
     initializer
@@ -46,14 +46,15 @@ class imageArrayRotationAnimationPool ((cacheableInterfaceFactoryInterface : Cac
   end
 let () = java_register_constructor "ImageArrayRotationAnimationPool" (fun arguments -> Obj.repr (new imageArrayRotationAnimationPool (Obj.obj arguments)))
 
-let iMAGE_ROTATION_ANIMATION_POOL : PoolInterface.poolInterface ref = ref (((new imageArrayRotationAnimationPool ((new ImageArrayRotationAnimationCacheableInterfaceFactory.imageArrayRotationAnimationCacheableInterfaceFactory ()))) :> PoolInterface.poolInterface))
+let iMAGE_ROTATION_ANIMATION_POOL : PoolInterface.poolInterface ref = ref (((new imageArrayRotationAnimationPool (((new ImageArrayRotationAnimationCacheableInterfaceFactory.imageArrayRotationAnimationCacheableInterfaceFactory ()) : ImageArrayRotationAnimationCacheableInterfaceFactory.imageArrayRotationAnimationCacheableInterfaceFactory :> CacheableInterfaceFactoryInterface.cacheableInterfaceFactoryInterface))) :> PoolInterface.poolInterface))
 let get_iMAGE_ROTATION_ANIMATION_POOL () = !iMAGE_ROTATION_ANIMATION_POOL
 let set_iMAGE_ROTATION_ANIMATION_POOL value' = iMAGE_ROTATION_ANIMATION_POOL := value'
 let () = java_register_static "ImageArrayRotationAnimationPool.get_iMAGE_ROTATION_ANIMATION_POOL" (fun _ -> Obj.repr (get_iMAGE_ROTATION_ANIMATION_POOL ()))
+let () = java_register_static "ImageArrayRotationAnimationPool.set_iMAGE_ROTATION_ANIMATION_POOL" (fun value' -> set_iMAGE_ROTATION_ANIMATION_POOL (Obj.obj value'); Obj.repr ())
 
-let getInstance () : PoolInterface.poolInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!iMAGE_ROTATION_ANIMATION_POOL :> PoolInterface.poolInterface)
+        (Obj.magic (!iMAGE_ROTATION_ANIMATION_POOL))
         end
 let () = java_register_static "ImageArrayRotationAnimationPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

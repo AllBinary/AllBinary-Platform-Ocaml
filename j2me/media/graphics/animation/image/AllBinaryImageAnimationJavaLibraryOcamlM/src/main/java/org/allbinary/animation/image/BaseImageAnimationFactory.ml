@@ -30,10 +30,10 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.string.CommonSeps *)
 
 class baseImageAnimationFactory (image_arg, (sequenceArray_arg : int array), (width : int), (height : int), (dx : int), (dy : int), (animationBehaviorFactory_arg : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object
-    val mutable animationFactoryImageScaleUtil : AnimationFactoryImageScaleUtil.animationFactoryImageScaleUtil = (Obj.magic 0)
-    method animationFactoryImageScaleUtil = animationFactoryImageScaleUtil
-    method set_animationFactoryImageScaleUtil value' = animationFactoryImageScaleUtil <- value'
+  object (self)
+    val mutable animationFactoryImageScaleUtil : Obj.t = Obj.repr 0
+    method animationFactoryImageScaleUtil : 'r. 'r = Obj.magic animationFactoryImageScaleUtil
+    method set_animationFactoryImageScaleUtil : 'v. 'v -> unit = fun value' -> animationFactoryImageScaleUtil <- Obj.repr value'
     val mutable image : Obj.t = Obj.repr 0
     method image : 'r. 'r = Obj.magic image
     method set_image : 'v. 'v -> unit = fun value' -> image <- Obj.repr value'
@@ -83,15 +83,15 @@ class baseImageAnimationFactory (image_arg, (sequenceArray_arg : int array), (wi
         end [@@warning "-20"]
     
 
-    method getAnimationFactoryInitializationVisitorP () : AnimationFactoryInitializationVisitor.animationFactoryInitializationVisitor =
+    method getAnimationFactoryInitializationVisitorP : 'return. unit -> 'return = fun () ->
         begin
-        (animationFactoryInitializationVisitor :> AnimationFactoryInitializationVisitor.animationFactoryInitializationVisitor)
+        (Obj.magic (animationFactoryInitializationVisitor))
         end
     
 
-    method getScalePropertiesP () : ScaleProperties.scaleProperties =
+    method getScalePropertiesP : 'return. unit -> 'return = fun () ->
         begin
-        (scaleProperties :> ScaleProperties.scaleProperties)
+        (Obj.magic (scaleProperties))
         end
     
 
@@ -100,9 +100,9 @@ class baseImageAnimationFactory (image_arg, (sequenceArray_arg : int array), (wi
         let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
         let commonLabels : CommonLabels.commonLabels ref = ref (((CommonLabels.getInstance ()) :> CommonLabels.commonLabels)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((super#toString ())));
+        ignore (!stringBuffer#append (("Object@" ^ string_of_int (Oo.id self))));
         ignore (!stringBuffer#append (!commonLabels#hEIGHT_LABEL));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic image)#getHeight ()))))));
+        ignore (!stringBuffer#appendint (((Obj.magic image)#getHeight ())));
         ignore (!stringBuffer#append (!commonSeps#sPACE));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr animationFactoryInitializationVisitor))));
         (java_string_of (Obj.repr !stringBuffer))
@@ -110,7 +110,7 @@ class baseImageAnimationFactory (image_arg, (sequenceArray_arg : int array), (wi
 
     initializer
       begin
-        animationFactoryImageScaleUtil <- ((AnimationFactoryImageScaleUtil.getInstance ()) :> AnimationFactoryImageScaleUtil.animationFactoryImageScaleUtil);
+        animationFactoryImageScaleUtil <- (Obj.repr (Obj.magic (java_call_static "AnimationFactoryImageScaleUtil.getInstance" (Obj.repr ()))));
         ();
         ();
         ();
@@ -129,11 +129,11 @@ class baseImageAnimationFactory (image_arg, (sequenceArray_arg : int array), (wi
   end [@@warning "-20"]
 let () = java_register_constructor "BaseImageAnimationFactory" (fun arguments -> Obj.repr (new baseImageAnimationFactory (Obj.obj arguments)))
 
-let createFactoryBase : 'any1 'any5. 'any1 * int array * int * int * 'any5 -> _ = fun (image_arg, (sequenceArray_arg : int array), (width : int), (height : int), animationBehaviorFactory_arg) ->
+let createFactoryBase : 'any1 'any5 'return. 'any1 * int array * int * int * 'any5 -> 'return = fun (image_arg, (sequenceArray_arg : int array), (width : int), (height : int), animationBehaviorFactory_arg) ->
         let image_arg = Obj.repr image_arg in
         let animationBehaviorFactory_arg = Obj.repr animationBehaviorFactory_arg in
         begin
-        (new baseImageAnimationFactory ((Obj.magic image_arg), sequenceArray_arg, width, height, 0, 0, (Obj.magic animationBehaviorFactory_arg)))
+        (Obj.magic ((new baseImageAnimationFactory ((Obj.magic image_arg), sequenceArray_arg, width, height, 0, 0, (Obj.magic animationBehaviorFactory_arg)))))
         end [@@warning "-20"]
 let () = java_register_static "BaseImageAnimationFactory.createFactoryBase" (fun arguments -> Obj.repr (createFactoryBase (Obj.obj arguments)))
 

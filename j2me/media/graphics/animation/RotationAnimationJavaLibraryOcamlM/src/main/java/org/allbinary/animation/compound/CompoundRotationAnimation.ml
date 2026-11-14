@@ -112,9 +112,9 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
         end [@@warning "-7-20"]
     
 
-    method getCurrentAnimation () : IndexedAnimation.indexedAnimation =
+    method getCurrentAnimation : 'return. unit -> 'return = fun () ->
         begin
-        (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ())) :> IndexedAnimation.indexedAnimation)
+        (Obj.magic (animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))))
         end [@@warning "-7"]
     
 
@@ -169,15 +169,15 @@ class compoundRotationAnimation ((animationInterfaceArray_arg : RotationAnimatio
         end [@@warning "-7"]
     
 
-    method getAngleInfoP () : AngleInfo.angleInfo =
+    method getAngleInfoP : 'return. unit -> 'return = fun () ->
         begin
-        ((animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#getAngleInfoP ()) :> AngleInfo.angleInfo)
+        (Obj.magic ((animationInterfaceArray.(((self#circularIndexUtil)#getIndex ()))#getAngleInfoP ())))
         end [@@warning "-7"]
     
 
-    method getAnimationInterfaceArray () : RotationAnimation.rotationAnimation array =
+    method getAnimationInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        animationInterfaceArray
+        (Obj.magic (animationInterfaceArray))
         end [@@warning "-7"]
     
 

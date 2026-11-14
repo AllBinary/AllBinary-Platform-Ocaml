@@ -20,15 +20,15 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.microedition.lcdui.Graphics *)
 (* import org.allbinary.animation.Animation *)
 
-class captionAnimation (animationInterface_arg, overlayAnimationInterface_arg, (captionDx_arg : int), (captionDy_arg : int), (dx_arg : int), (dy_arg : int)) =
+class captionAnimation ((animationInterface_arg : Animation.animation), (overlayAnimationInterface_arg : Animation.animation), (captionDx_arg : int), (captionDy_arg : int), (dx_arg : int), (dy_arg : int)) =
   object
     inherit Animation.animation ()
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
-    val mutable overlayAnimationInterface : Obj.t = Obj.repr 0
-    method overlayAnimationInterface : 'r. 'r = Obj.magic overlayAnimationInterface
-    method set_overlayAnimationInterface : 'v. 'v -> unit = fun value' -> overlayAnimationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
+    val mutable overlayAnimationInterface : Animation.animation = (Obj.magic 0)
+    method overlayAnimationInterface = overlayAnimationInterface
+    method set_overlayAnimationInterface value' = overlayAnimationInterface <- value'
     val mutable captionDx : int = 0
     method captionDx = captionDx
     method set_captionDx value' = captionDx <- value'
@@ -53,16 +53,16 @@ class captionAnimation (animationInterface_arg, overlayAnimationInterface_arg, (
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), (x + captionDx), (y + captionDy)));
-        ignore ((Obj.magic overlayAnimationInterface)#paintXY ((Obj.magic graphics), ((x + captionDx) + dx), ((y + captionDy) + dy)))
+        ignore (animationInterface#paintXY ((Obj.magic graphics), (x + captionDx), (y + captionDy)));
+        ignore (overlayAnimationInterface#paintXY ((Obj.magic graphics), ((x + captionDx) + dx), ((y + captionDy) + dy)))
         end [@@warning "-7-20"]
     
 
     method paintThreedXYZ : 'any1. 'any1 * int * int * int -> unit = fun (graphics, (x : int), (y : int), (z : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintThreedXYZ ((Obj.magic graphics), (x + captionDx), (y + captionDy), z));
-        ignore ((Obj.magic overlayAnimationInterface)#paintThreedXYZ ((Obj.magic graphics), ((x + captionDx) + dx), ((y + captionDy) + dy), z))
+        ignore (animationInterface#paintThreedXYZ ((Obj.magic graphics), (x + captionDx), (y + captionDy), z));
+        ignore (overlayAnimationInterface#paintThreedXYZ ((Obj.magic graphics), ((x + captionDx) + dx), ((y + captionDy) + dy), z))
         end [@@warning "-7-20"]
 
     initializer
@@ -74,14 +74,14 @@ class captionAnimation (animationInterface_arg, overlayAnimationInterface_arg, (
         ();
         ();
         ();
-        animationInterface <- Obj.repr (animationInterface_arg);
-        overlayAnimationInterface <- Obj.repr (overlayAnimationInterface_arg);
+        animationInterface <- animationInterface_arg;
+        overlayAnimationInterface <- overlayAnimationInterface_arg;
         captionDx <- captionDx_arg;
         captionDy <- captionDy_arg;
         dx <- dx_arg;
         dy <- dy_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "CaptionAnimation" (fun arguments -> Obj.repr (new captionAnimation (Obj.obj arguments)))
 
 

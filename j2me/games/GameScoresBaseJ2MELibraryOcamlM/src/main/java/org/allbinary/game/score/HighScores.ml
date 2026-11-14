@@ -50,9 +50,9 @@ class highScores ((name_arg : string), (heading_arg : string), (columnTwoHeading
         end [@@warning "-20"]
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (orderedHighScoresList :> BasicArrayList.basicArrayList)
+        (Obj.magic (orderedHighScoresList))
         end
     
 

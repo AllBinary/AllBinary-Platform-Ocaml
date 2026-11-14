@@ -48,12 +48,12 @@ class licenseServerInitFileUtil () =
             let filePath : string ref = ref ((Obj.magic (java_call_static "LicenseInitInfoUtil.getInstance" (Obj.repr ())))#iNITFILENAME) in ();
             ignore ((Obj.magic (java_call_static "LicenseInitInfoUtil.getInstance" (Obj.repr ())))#setFilePath ((StringUtil.getInstance ())#eMPTY_STRING));
             if ((Obj.magic (java_call_static "FileFactory.getInstance" (Obj.repr ())))#isFile (!filePath)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Using Existing License File", self, commonStrings#iNIT))
+                ignore ((Obj.magic logUtil)#putF ("Using Existing License File", (Obj.magic self), commonStrings#iNIT))
             end else begin
                 (self#write ())
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#iNIT, e))
         end)
         end
     
@@ -67,23 +67,23 @@ class licenseServerInitFileUtil () =
             let resourceUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ResourceUtil.getInstance" (Obj.repr ()))))) in ();
             let filePath : string ref = ref ((Obj.magic (java_call_static "LicenseInitInfoUtil.getInstance" (Obj.repr ())))#iNITFILENAME) in ();
             let inputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !resourceUtil)#getResourceAsStream (!filePath)))) in ();
-            ignore ((Obj.magic logUtil)#putF ("Writing Default License File", self, commonStrings#iNIT));
+            ignore ((Obj.magic logUtil)#putF ("Writing Default License File", (Obj.magic self), commonStrings#iNIT));
             let fileStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
             fileOutputStream := Obj.repr (((Obj.magic !fileStreamFactory)#getFileOutputStreamInstance ((StringUtil.getInstance ())#eMPTY_STRING, !filePath)));
             let b : int ref = ref (0) in ();
             let index : int ref = ref (0) in ();
             while true do
                 b := ((Obj.magic !inputStream)#read ());
-                if (!b = (-1)) then begin
+                if (!b = (- 1)) then begin
                     raise Java_break
                 end;
                 ignore ((Obj.magic !fileOutputStream)#write (!b));
                 index := !index + 1
             done;
-            ignore ((Obj.magic logUtil)#putF (("Wrote Bytes: " ^ java_string_of (Obj.repr (!index))), self, commonStrings#iNIT));
+            ignore ((Obj.magic logUtil)#putF (("Wrote Bytes: " ^ java_string_of (Obj.repr (!index))), (Obj.magic self), commonStrings#iNIT));
             ignore ((Obj.magic !fileOutputStream)#flush ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#iNIT, e))
         end))
         end
 

@@ -35,7 +35,7 @@ class simultaneousCompoundRotationAnimationInterfaceFactory ((basicAnimationInte
         end [@@warning "-7"]
     
 
-    method createAnimation : 'return. _ -> 'return = fun (animationInterfaceArray) ->
+    method createAnimation : 'return. Animation.animation array -> 'return = fun ((animationInterfaceArray : Animation.animation array)) ->
         begin
         (Obj.magic ((new SimultaneousCompoundRotationAnimation.simultaneousCompoundRotationAnimation ((Obj.magic animationInterfaceArray), ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]
@@ -45,7 +45,7 @@ class simultaneousCompoundRotationAnimationInterfaceFactory ((basicAnimationInte
         ();
         (* super(...) is the inherit clause *) ();
         if ((Obj.repr animationBehaviorFactory) == (Obj.repr (AnimationBehaviorFactory.getInstance ()))) then begin
-            ignore (ForcedLogUtil.log ("Using default AnimationBehaviorFactory with IndexedAnimationFactory", self))
+            ignore (ForcedLogUtil.log ("Using default AnimationBehaviorFactory with IndexedAnimationFactory", (Obj.magic self)))
         end
       end
   end

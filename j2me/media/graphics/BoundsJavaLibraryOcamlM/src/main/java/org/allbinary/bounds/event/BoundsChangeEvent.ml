@@ -20,9 +20,9 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.Rectangle *)
 (* import org.allbinary.logic.util.event.AllBinaryEventObject *)
 
-class boundsChangeEvent (rectangle) =
+class boundsChangeEvent ((rectangle : Rectangle.rectangle)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (rectangle)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (rectangle)))
     
     
 

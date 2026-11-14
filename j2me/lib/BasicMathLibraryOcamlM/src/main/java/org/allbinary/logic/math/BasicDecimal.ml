@@ -197,10 +197,10 @@ let zERO_BIGDECIMAL = (new basicDecimal (0))
 let get_zERO_BIGDECIMAL () = zERO_BIGDECIMAL
 let () = java_register_static "BasicDecimal.get_zERO_BIGDECIMAL" (fun _ -> Obj.repr (get_zERO_BIGDECIMAL ()))
 
-let createBigDecimal : 'any1. 'any1 -> _ = fun (bigDecimal) ->
+let createBigDecimal : 'any1 'return. 'any1 -> 'return = fun (bigDecimal) ->
         let bigDecimal = Obj.repr bigDecimal in
         begin
-        (new basicDecimal (((Obj.magic bigDecimal)#getUnscaled ())))
+        (Obj.magic ((new basicDecimal (((Obj.magic bigDecimal)#getUnscaled ())))))
         end [@@warning "-20"]
 let () = java_register_static "BasicDecimal.createBigDecimal" (fun arguments -> Obj.repr (createBigDecimal (Obj.obj arguments)))
 

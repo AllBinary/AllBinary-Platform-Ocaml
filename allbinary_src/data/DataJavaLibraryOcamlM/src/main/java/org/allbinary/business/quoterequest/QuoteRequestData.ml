@@ -16,6 +16,7 @@
 (* package org.allbinary.business.quoterequest *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class quoteRequestData () =
   object
@@ -57,9 +58,9 @@ let instance = (new quoteRequestData ())
 let get_instance () = instance
 let () = java_register_static "QuoteRequestData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "QuoteRequestData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

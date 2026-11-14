@@ -2,6 +2,7 @@
 (* package org.allbinary.graphics.font *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import javax.microedition.lcdui.Font *)
 (* import org.allbinary.logic.string.StringMaker *)
 
@@ -41,9 +42,9 @@ let instanceBase = (new fontDebugBase ())
 let get_instanceBase () = instanceBase
 let () = java_register_static "FontDebugBase.get_instanceBase" (fun _ -> Obj.repr (get_instanceBase ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceBase
+        (Obj.magic (instanceBase))
         end
 let () = java_register_static "FontDebugBase.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

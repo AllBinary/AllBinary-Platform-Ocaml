@@ -113,7 +113,7 @@ class nullGameCanvasRunnable () =
 
     method getType () : int =
         begin
-        (-1)
+        (- 1)
         end
     
 
@@ -123,9 +123,9 @@ class nullGameCanvasRunnable () =
         end [@@warning "-20"]
     
 
-    method getGameState () : GameState.gameState =
+    method getGameState : 'return. unit -> 'return = fun () ->
         begin
-        (gameStateFactory#nO_GAME_STATE :> GameState.gameState)
+        (Obj.magic (gameStateFactory#nO_GAME_STATE))
         end
     
 

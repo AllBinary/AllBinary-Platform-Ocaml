@@ -33,6 +33,7 @@ let nULL_ALLBINARY_LAYER_MANAGER : Obj.t ref = ref ((Obj.repr (NullUtil.getInsta
 let get_nULL_ALLBINARY_LAYER_MANAGER () = !nULL_ALLBINARY_LAYER_MANAGER
 let set_nULL_ALLBINARY_LAYER_MANAGER value' = nULL_ALLBINARY_LAYER_MANAGER := value'
 let () = java_register_static "AllBinaryGameLayerManager.get_nULL_ALLBINARY_LAYER_MANAGER" (fun _ -> Obj.repr (get_nULL_ALLBINARY_LAYER_MANAGER ()))
+let () = java_register_static "AllBinaryGameLayerManager.set_nULL_ALLBINARY_LAYER_MANAGER" (fun value' -> set_nULL_ALLBINARY_LAYER_MANAGER (Obj.obj value'); Obj.repr ())
 let iD : int = ((SmallIntegerSingletonFactory.getInstance ())#getAt (22))
 let get_iD () = iD
 let () = java_register_static "AllBinaryGameLayerManager.get_iD" (fun _ -> Obj.repr (get_iD ()))
@@ -54,9 +55,9 @@ class allBinaryGameLayerManager ((backgroundBasicColor_arg : BasicColor.basicCol
     
     
 
-    method getLayerManager () : AllBinaryLayerManager.allBinaryLayerManager =
+    method getLayerManager : 'return. unit -> 'return = fun () ->
         begin
-        (self :> AllBinaryLayerManager.allBinaryLayerManager)
+        (Obj.magic ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -66,9 +67,9 @@ class allBinaryGameLayerManager ((backgroundBasicColor_arg : BasicColor.basicCol
         end [@@warning "-7"]
     
 
-    method getBackgroundBasicColor () : BasicColor.basicColor =
+    method getBackgroundBasicColor : 'return. unit -> 'return = fun () ->
         begin
-        (backgroundBasicColor :> BasicColor.basicColor)
+        (Obj.magic (backgroundBasicColor))
         end [@@warning "-7"]
     
 
@@ -80,9 +81,9 @@ class allBinaryGameLayerManager ((backgroundBasicColor_arg : BasicColor.basicCol
         end [@@warning "-7-20"]
     
 
-    method getForegroundBasicColor () : BasicColor.basicColor =
+    method getForegroundBasicColor : 'return. unit -> 'return = fun () ->
         begin
-        (foregroundBasicColor :> BasicColor.basicColor)
+        (Obj.magic (foregroundBasicColor))
         end [@@warning "-7"]
     
 
@@ -94,9 +95,9 @@ class allBinaryGameLayerManager ((backgroundBasicColor_arg : BasicColor.basicCol
         end [@@warning "-7-20"]
     
 
-    method getGameInfo () : GameInfo.gameInfo =
+    method getGameInfo : 'return. unit -> 'return = fun () ->
         begin
-        (gameInfo :> GameInfo.gameInfo)
+        (Obj.magic (gameInfo))
         end [@@warning "-7"]
     
 
@@ -126,9 +127,9 @@ class allBinaryGameLayerManager ((backgroundBasicColor_arg : BasicColor.basicCol
         end [@@warning "-7-20"]
     
 
-    method getPlayerGameInputCompositeInterface () : PlayerGameInputCompositeInterface.playerGameInputCompositeInterface =
+    method getPlayerGameInputCompositeInterface : 'return. unit -> 'return = fun () ->
         begin
-        (playerGameInputCompositeInterface :> PlayerGameInputCompositeInterface.playerGameInputCompositeInterface)
+        (Obj.magic (playerGameInputCompositeInterface))
         end [@@warning "-7"]
 
     initializer
@@ -148,12 +149,12 @@ class allBinaryGameLayerManager ((backgroundBasicColor_arg : BasicColor.basicCol
   end
 let () = java_register_constructor "AllBinaryGameLayerManager" (fun arguments -> Obj.repr (new allBinaryGameLayerManager (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_ALLBINARY_LAYER_MANAGER) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_ALLBINARY_LAYER_MANAGER := (new allBinaryGameLayerManager ((BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE, (GameInfo.get_nONE ())))
+            nULL_ALLBINARY_LAYER_MANAGER := (Obj.repr ((new allBinaryGameLayerManager ((BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE, (GameInfo.get_nONE ())))))
         end;
-        (Obj.magic !nULL_ALLBINARY_LAYER_MANAGER)
+        (Obj.magic ((Obj.magic !nULL_ALLBINARY_LAYER_MANAGER)))
         end
 let () = java_register_static "AllBinaryGameLayerManager.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

@@ -42,13 +42,14 @@ class imageModifierUtil () =
         end [@@warning "-20"]
     
 
-    method getImageArray : 'return. _ -> 'return = fun (originalImageArray) ->
+    method getImageArray : 'any1 'return. 'any1 -> 'return = fun (originalImageArray) ->
+        let originalImageArray = Obj.repr originalImageArray in
         begin
-        (Obj.magic (originalImageArray))
-        end
+        (Obj.magic ((Obj.magic originalImageArray)))
+        end [@@warning "-20"]
     
 
-    method handleImage : 'any3. _ * int * 'any3 -> unit = fun (_imageArray, (_index : int), _image) ->
+    method handleImage : 'any1 'any3. 'any1 * int * 'any3 -> unit = fun (_imageArray, (_index : int), _image) ->
         begin
         ()
         end [@@warning "-20"]
@@ -70,9 +71,9 @@ let instance = (new imageModifierUtil ())
 let get_instance () = instance
 let () = java_register_static "ImageModifierUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstanceOrCreate () =
+let getInstanceOrCreate : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ImageModifierUtil.getInstanceOrCreate" (fun arguments -> Obj.repr (getInstanceOrCreate (Obj.obj arguments)))
 

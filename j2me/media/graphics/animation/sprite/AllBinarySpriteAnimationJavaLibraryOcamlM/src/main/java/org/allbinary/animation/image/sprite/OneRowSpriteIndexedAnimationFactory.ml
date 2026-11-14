@@ -45,7 +45,7 @@ class oneRowSpriteIndexedAnimationFactory (image, (sequenceArray : int array), (
     method initW ((dx : int)) : unit =
         begin
         (self#init (dx, 0));
-        (self#animationFactoryInitializationVisitor)#set_dx (((self#animationFactoryInitializationVisitor)#dx + (-(((self#animationFactoryInitializationVisitor)#width asr 2)))))
+        (self#animationFactoryInitializationVisitor)#set_dx (((self#animationFactoryInitializationVisitor)#dx + (- (((self#animationFactoryInitializationVisitor)#width asr 2)))))
         end [@@warning "-7"]
     
 
@@ -70,36 +70,36 @@ class oneRowSpriteIndexedAnimationFactory (image, (sequenceArray : int array), (
   end
 let () = java_register_constructor "OneRowSpriteIndexedAnimationFactory" (fun arguments -> Obj.repr (new oneRowSpriteIndexedAnimationFactory (Obj.obj arguments)))
 
-let createFactoryDX : 'any1 'any3. 'any1 * int * 'any3 -> _ = fun (image, (dx : int), animationBehaviorFactory) ->
+let createFactoryDX : 'any1 'any3 'return. 'any1 * int * 'any3 -> 'return = fun (image, (dx : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
         let oneRowSpriteIndexedAnimationFactory : Obj.t ref = ref ((Obj.repr (new oneRowSpriteIndexedAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((Obj.magic image)#getHeight ()), ((Obj.magic image)#getHeight ()), 0, 0, (Obj.magic animationBehaviorFactory))))) in ();
         ignore ((Obj.magic !oneRowSpriteIndexedAnimationFactory)#initW (dx));
-        (Obj.magic !oneRowSpriteIndexedAnimationFactory)
+        (Obj.magic ((Obj.magic !oneRowSpriteIndexedAnimationFactory)))
         end [@@warning "-20"]
 
-and createFactoryDXY : 'any1 'any4. 'any1 * int * int * 'any4 -> _ = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
+and createFactoryDXY : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
         let oneRowSpriteIndexedAnimationFactory : Obj.t ref = ref ((Obj.repr (new oneRowSpriteIndexedAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((Obj.magic image)#getHeight ()), ((Obj.magic image)#getHeight ()), 0, 0, (Obj.magic animationBehaviorFactory))))) in ();
         ignore ((Obj.magic !oneRowSpriteIndexedAnimationFactory)#init (dx, dy));
-        (Obj.magic !oneRowSpriteIndexedAnimationFactory)
+        (Obj.magic ((Obj.magic !oneRowSpriteIndexedAnimationFactory)))
         end [@@warning "-20"]
 
-and createFactoryWH : 'any1 'any4. 'any1 * int * int * 'any4 -> _ = fun (image, (width : int), (height : int), animationBehaviorFactory) ->
+and createFactoryWH : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (width : int), (height : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
-        (new oneRowSpriteIndexedAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, (Obj.magic animationBehaviorFactory)))
+        (Obj.magic ((new oneRowSpriteIndexedAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, (Obj.magic animationBehaviorFactory)))))
         end [@@warning "-20"]
 
-and createFactory : 'any1 'any2. 'any1 * 'any2 -> _ = fun (image, animationBehaviorFactory) ->
+and createFactory : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (image, animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
-        (new oneRowSpriteIndexedAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((Obj.magic image)#getHeight ()), ((Obj.magic image)#getHeight ()), 0, 0, (Obj.magic animationBehaviorFactory)))
+        (Obj.magic ((new oneRowSpriteIndexedAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((Obj.magic image)#getHeight ()), ((Obj.magic image)#getHeight ()), 0, 0, (Obj.magic animationBehaviorFactory)))))
         end [@@warning "-20"]
 let () = java_register_static "OneRowSpriteIndexedAnimationFactory.createFactoryDX" (fun arguments -> Obj.repr (createFactoryDX (Obj.obj arguments)))
 let () = java_register_static "OneRowSpriteIndexedAnimationFactory.createFactoryDXY" (fun arguments -> Obj.repr (createFactoryDXY (Obj.obj arguments)))

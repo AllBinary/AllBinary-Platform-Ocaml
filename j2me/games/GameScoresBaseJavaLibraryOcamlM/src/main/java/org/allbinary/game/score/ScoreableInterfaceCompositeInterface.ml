@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual scoreableInterfaceCompositeInterface =
   object
-    method virtual getScoreableInterface : unit -> Scoreable.scoreable
+    method virtual getScoreableInterface : 'return . unit -> 'return
   end
 
 

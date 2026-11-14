@@ -25,7 +25,7 @@ class virtual compoundAnimationInterface =
     method virtual nextAnimation : unit -> unit
     method virtual previousAnimation : unit -> unit
     method virtual setAnimation : int -> unit
-    method virtual getCurrentAnimation : unit -> IndexedAnimation.indexedAnimation
+    method virtual getCurrentAnimation : 'return . unit -> 'return
   end
 
 

@@ -47,9 +47,9 @@ let gameKeyEventHandler = (new demoGameMidletEventHandler ())
 let get_gameKeyEventHandler () = gameKeyEventHandler
 let () = java_register_static "DemoGameMidletEventHandler.get_gameKeyEventHandler" (fun _ -> Obj.repr (get_gameKeyEventHandler ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        gameKeyEventHandler
+        (Obj.magic (gameKeyEventHandler))
         end
 let () = java_register_static "DemoGameMidletEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

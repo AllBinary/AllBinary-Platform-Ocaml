@@ -57,4 +57,8 @@ class allBinaryOrientationSensor () =
   end
 let () = java_register_constructor "AllBinaryOrientationSensor" (fun arguments -> Obj.repr (new allBinaryOrientationSensor (Obj.obj arguments)))
 
+let nULL_ALLBINARY_ORIENTATION_SENSOR = (new allBinaryOrientationSensor ())
+let get_nULL_ALLBINARY_ORIENTATION_SENSOR () = nULL_ALLBINARY_ORIENTATION_SENSOR
+let () = java_register_static "AllBinaryOrientationSensor.get_nULL_ALLBINARY_ORIENTATION_SENSOR" (fun _ -> Obj.repr (get_nULL_ALLBINARY_ORIENTATION_SENSOR ()))
+
 

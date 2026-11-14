@@ -48,7 +48,7 @@ class commonGameInitialization ((resourceInitializationArray : ResourceInitializ
             let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
             ignore ((SmallIntegerSingletonFactory.getInstance ())#init ());
             ignore (!progressCanvas#addNormalPortion (50, "Integers"));
-            ignore ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#init ());
+            ignore ((PointFactory.getInstance ())#init ());
             ignore (!progressCanvas#addNormalPortion (50, "Points"));
             ignore (AngleFactory.getInstance ());
             ignore (!progressCanvas#addNormalPortion (50, "Angles"));

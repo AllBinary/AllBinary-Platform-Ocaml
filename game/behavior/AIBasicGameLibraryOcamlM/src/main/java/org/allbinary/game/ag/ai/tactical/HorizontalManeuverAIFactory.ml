@@ -27,11 +27,11 @@ class horizontalManeuverAIFactory () =
   object
     
 
-    method getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (_hashtable, ownerLayerInterface, gameInput) ->
+    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (_hashtable, ownerLayerInterface, gameInput) ->
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
         begin
-        ((new HorizontalManeuverAI.horizontalManeuverAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((new HorizontalManeuverAI.horizontalManeuverAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput)))))
         end [@@warning "-20"]
 
     initializer

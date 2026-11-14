@@ -62,7 +62,7 @@ class resourceLoadingLevelFactory () =
         lOAD_GAME <- ((new ResourceLoadingLevel.resourceLoadingLevel ("Load Game", (2147483647 - 2))) :> ResourceLoadingLevel.resourceLoadingLevel);
         lEVEL <- ((new ResourceLoadingLevel.resourceLoadingLevel ("Level", (2147483647 - 99))) :> ResourceLoadingLevel.resourceLoadingLevel);
         mAX_LEVEL <- ((new ResourceLoadingLevel.resourceLoadingLevel ("Max Level", (2147483647 - 100))) :> ResourceLoadingLevel.resourceLoadingLevel);
-        lOAD_ALL <- ((new ResourceLoadingLevel.resourceLoadingLevel ("Load All", (-1))) :> ResourceLoadingLevel.resourceLoadingLevel);
+        lOAD_ALL <- ((new ResourceLoadingLevel.resourceLoadingLevel ("Load All", (- 1))) :> ResourceLoadingLevel.resourceLoadingLevel);
         rESOURCE_LOADING_LEVEL_ARRAY <- [| lOAD_ALL; mAX_LEVEL; lEVEL; lOAD_GAME; lOAD_TOUCH; lOAD_EARLY |];
         ()
       end
@@ -73,9 +73,9 @@ let instance = (new resourceLoadingLevelFactory ())
 let get_instance () = instance
 let () = java_register_static "ResourceLoadingLevelFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ResourceLoadingLevelFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

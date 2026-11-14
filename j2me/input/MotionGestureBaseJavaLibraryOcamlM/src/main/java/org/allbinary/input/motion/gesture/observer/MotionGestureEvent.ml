@@ -35,7 +35,7 @@ let get_hASHCODE () = hASHCODE
 let () = java_register_static "MotionGestureEvent.get_hASHCODE" (fun _ -> Obj.repr (get_hASHCODE ()))
 class motionGestureEvent ((source : Obj.t), (id_arg : int), (motionGesture_arg : MotionGestureInput.motionGestureInput)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (source)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (source)))
     val mutable motionGesture : MotionGestureInput.motionGestureInput = (Obj.magic 0)
     method motionGesture = motionGesture
     method set_motionGesture value' = motionGesture <- value'
@@ -54,9 +54,9 @@ class motionGestureEvent ((source : Obj.t), (id_arg : int), (motionGesture_arg :
     
     
 
-    method getMotionGesture () : MotionGestureInput.motionGestureInput =
+    method getMotionGesture : 'return. unit -> 'return = fun () ->
         begin
-        (motionGesture :> MotionGestureInput.motionGestureInput)
+        (Obj.magic (motionGesture))
         end [@@warning "-7"]
     
 
@@ -67,9 +67,9 @@ class motionGestureEvent ((source : Obj.t), (id_arg : int), (motionGesture_arg :
         end [@@warning "-7-20"]
     
 
-    method getPreviousPoint () : GPoint.gPoint =
+    method getPreviousPoint : 'return. unit -> 'return = fun () ->
         begin
-        (previousPoint :> GPoint.gPoint)
+        (Obj.magic (previousPoint))
         end [@@warning "-7"]
     
 
@@ -80,9 +80,9 @@ class motionGestureEvent ((source : Obj.t), (id_arg : int), (motionGesture_arg :
         end [@@warning "-7-20"]
     
 
-    method getCurrentPoint () : GPoint.gPoint =
+    method getCurrentPoint : 'return. unit -> 'return = fun () ->
         begin
-        (currentPoint :> GPoint.gPoint)
+        (Obj.magic (currentPoint))
         end [@@warning "-7"]
     
 
@@ -103,7 +103,7 @@ class motionGestureEvent ((source : Obj.t), (id_arg : int), (motionGesture_arg :
         ignore (!stringBuffer#append (pREVIOUS));
         ignore (!stringBuffer#append ((!stringUtil#toString (previousPoint))));
         ignore (!stringBuffer#append (hASHCODE));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))));
         (java_string_of (Obj.repr !stringBuffer))
         end [@@warning "-7"]
     
@@ -117,8 +117,8 @@ class motionGestureEvent ((source : Obj.t), (id_arg : int), (motionGesture_arg :
       begin
         motionGesture <- ((Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#nO_MOTION :> MotionGestureInput.motionGestureInput);
         ();
-        previousPoint <- ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO :> GPoint.gPoint);
-        currentPoint <- ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO :> GPoint.gPoint);
+        previousPoint <- ((PointFactory.getInstance ())#zERO_ZERO :> GPoint.gPoint);
+        currentPoint <- ((PointFactory.getInstance ())#zERO_ZERO :> GPoint.gPoint);
         commonLabels <- ((CommonLabels.getInstance ()) :> CommonLabels.commonLabels);
         ();
         (* super(...) is the inherit clause *) ();

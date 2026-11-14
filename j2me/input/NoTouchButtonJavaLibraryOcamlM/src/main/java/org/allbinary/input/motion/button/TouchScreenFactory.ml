@@ -50,9 +50,9 @@ class touchScreenFactory () =
         end
     
 
-    method getTouchScreenType () : TouchScreenType.touchScreenType =
+    method getTouchScreenType : 'return. unit -> 'return = fun () ->
         begin
-        (touchScreenType :> TouchScreenType.touchScreenType)
+        (Obj.magic (touchScreenType))
         end
 
     initializer
@@ -70,9 +70,9 @@ let sINGLETON = (new touchScreenFactory ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "TouchScreenFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "TouchScreenFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

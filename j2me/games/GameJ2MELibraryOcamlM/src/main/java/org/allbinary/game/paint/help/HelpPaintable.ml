@@ -103,7 +103,7 @@ class helpPaintable ((title_arg : string), (_backgroundBasicColor : BasicColor.b
     initializer
       begin
         displayInfo <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         anchor <- (Anchor.get_tOP_LEFT ());
         ();

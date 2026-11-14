@@ -22,7 +22,7 @@ class noCacheableFactory () =
     
     
 
-    method getInstance : 'any1. 'any1 -> CacheableInterface.cacheableInterface = fun (_key) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (_key) ->
         begin
         raise (Failure ("This Factory Does Not"))
         end

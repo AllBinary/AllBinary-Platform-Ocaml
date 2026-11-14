@@ -33,12 +33,12 @@ class trackingEventCircularStaticPool () =
         end
     
 
-    method getNextInstance : 'any1. 'any1 -> TrackingEvent.trackingEvent = fun (layerInterface) ->
+    method getNextInstance : 'any1 'return. 'any1 -> 'return = fun (layerInterface) ->
         let layerInterface = Obj.repr layerInterface in
         begin
         let trackingEvent : TrackingEvent.trackingEvent ref = ref (((Obj.magic (eVENT_POOL#getNextInstance ())) :> TrackingEvent.trackingEvent)) in ();
         ignore (!trackingEvent#setLayerInterfaceForCircularStaticPool ((Obj.magic layerInterface)));
-        (!trackingEvent :> TrackingEvent.trackingEvent)
+        (Obj.magic (!trackingEvent))
         end [@@warning "-20"]
 
     initializer
@@ -53,10 +53,11 @@ let instance = ref ((new trackingEventCircularStaticPool ()))
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "TrackingEventCircularStaticPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "TrackingEventCircularStaticPool.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !instance
+        (Obj.magic (!instance))
         end
 let () = java_register_static "TrackingEventCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

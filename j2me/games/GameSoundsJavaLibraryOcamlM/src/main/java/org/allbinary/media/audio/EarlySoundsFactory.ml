@@ -25,11 +25,11 @@ class earlySoundsFactory () =
 
     method getSoundInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        let soundInterfaceArray : Obj.t ref = ref ((Obj.repr (Array.make (2) (Obj.magic 0)))) in ();
+        let soundInterfaceArray : Sound.sound array ref = ref ((Array.make (2) (Obj.magic 0))) in ();
         let index : int ref = ref (0) in ();
-        (Obj.magic !soundInterfaceArray).((let value = !index in index := !index + 1; value)) <- (SelectSound.getInstance ());
-        (Obj.magic !soundInterfaceArray).((let value = !index in index := !index + 1; value)) <- (ErrorSound.getInstance ());
-        (Obj.magic ((Obj.magic !soundInterfaceArray)))
+        !soundInterfaceArray.((let value = !index in index := !index + 1; value)) <- ((SelectSound.getInstance ()) :> Sound.sound);
+        !soundInterfaceArray.((let value = !index in index := !index + 1; value)) <- ((ErrorSound.getInstance ()) :> Sound.sound);
+        (Obj.magic (!soundInterfaceArray))
         end [@@warning "-7"]
 
     initializer
@@ -43,9 +43,9 @@ let instance = (new earlySoundsFactory ())
 let get_instance () = instance
 let () = java_register_static "EarlySoundsFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "EarlySoundsFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

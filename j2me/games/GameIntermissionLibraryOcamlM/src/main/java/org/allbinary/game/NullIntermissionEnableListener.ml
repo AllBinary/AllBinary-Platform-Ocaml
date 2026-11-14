@@ -16,6 +16,7 @@
 (* package org.allbinary.game *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class nullIntermissionEnableListener () =
   object
@@ -39,9 +40,9 @@ let sINGLETON : IntermissionEnableListenerInterface.intermissionEnableListenerIn
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "NullIntermissionEnableListener.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () : IntermissionEnableListenerInterface.intermissionEnableListenerInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (sINGLETON :> IntermissionEnableListenerInterface.intermissionEnableListenerInterface)
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "NullIntermissionEnableListener.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

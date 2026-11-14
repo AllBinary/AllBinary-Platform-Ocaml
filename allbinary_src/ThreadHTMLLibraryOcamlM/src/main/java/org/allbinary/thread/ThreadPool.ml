@@ -93,7 +93,7 @@ class threadPool ((_poolName : string), (_numThreads_arg : int), (_priority : in
         begin
         if (not isAlive) then begin
             isAlive <- true;
-            taskQueue <- (new BasicArrayListD.basicArrayListD ())
+            taskQueue <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
         end
         end
     
@@ -111,7 +111,7 @@ class threadPool ((_poolName : string), (_numThreads_arg : int), (_priority : in
             for index = 0 to !size - 1 do
                 runnable := (Obj.magic (taskQueue#get (index)));
                 if ((!runnable#getPriority ()) > ((Obj.magic task)#getPriority ())) then begin
-                    lowerPriorityRunnable := !runnable;
+                    lowerPriorityRunnable := (!runnable :> PriorityRunnable.priorityRunnable);
                     raise Java_break
                 end
             done;

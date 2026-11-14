@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual layerInterfaceFactoryInterface =
   object
-    method virtual getNextInstance : 'any1 . 'any1 * int * int * int -> AllBinaryLayer.allBinaryLayer
+    method virtual getNextInstance : 'any1 'return . 'any1 * int * int * int -> 'return
   end
 
 

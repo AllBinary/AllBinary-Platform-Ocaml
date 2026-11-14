@@ -94,12 +94,12 @@ class basicUserRole ((aRole : string), (aDisplayValue : string), (a_int_RoleId :
         displayValue <- aDisplayValue;
         sessionTimeout <- aSessionTimeout;
         sessionInactivityTimeout <- aSessionInactivityTimeout;
-        ignore ((BasicUserRoles.getInstance ())#roleVector#add (self))
+        ignore ((Obj.magic (java_call_static "BasicUserRoles.getInstance" (Obj.repr ())))#roleVector#add ((Obj.magic self)))
       end
   end
 (* Java overloaded constructors: an OCaml class has one constructor *)
 let () = java_register_constructor "BasicUserRole" (fun arguments -> Obj.repr (new basicUserRole (Obj.obj arguments)))
-let new_basicUserRole_4 ((aRole : string), (a_int_RoleId : int), (aSessionTimeout : int), (aSessionInactivityTimeout : int)) = new basicUserRole (aRole, aRole, a_int_RoleId, aSessionTimeout, aSessionInactivityTimeout)
+let rec new_basicUserRole_4 ((aRole : string), (a_int_RoleId : int), (aSessionTimeout : int), (aSessionInactivityTimeout : int)) = new basicUserRole (aRole, aRole, a_int_RoleId, aSessionTimeout, aSessionInactivityTimeout)
 let () = java_register_constructor "BasicUserRole:4" (fun arguments -> Obj.repr (new_basicUserRole_4 (Obj.obj arguments)))
 
 

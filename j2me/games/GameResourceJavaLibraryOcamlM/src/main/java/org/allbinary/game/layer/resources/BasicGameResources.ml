@@ -43,7 +43,7 @@ class basicGameResources () =
     method init ((rOOT : string), (sIZE : string array)) : unit =
         begin
         (try
-            let scale : int ref = ref ((((GameConfigurationCentral.getInstance ())#sCALE#getValue ())#intValue ())) in ();
+            let scale : int ref = ref ((java_int_value (Obj.repr ((GameConfigurationCentral.getInstance ())#sCALE#getValue ())))) in ();
             if ((!scale > 1) && ((!scale - 1) < (Array.length sIZE))) then begin
                 (self#append (rOOT, sIZE.((!scale - 1))))
             end else begin
@@ -51,7 +51,7 @@ class basicGameResources () =
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#iNIT, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iNIT, e))
         end)
         end
     

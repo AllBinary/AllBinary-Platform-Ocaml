@@ -31,17 +31,18 @@ class highScoresHelperBase () =
     method set_highScoresArrayP : 'v. 'v -> unit = fun value' -> highScoresArrayP <- Obj.repr value'
     
 
-    method setHighScoresArray (highScoresArrayP_arg) : unit =
+    method setHighScoresArray : 'any1. 'any1 -> unit = fun (highScoresArrayP_arg) ->
+        let highScoresArrayP_arg = Obj.repr highScoresArrayP_arg in
         begin
-        if (highScoresArrayP_arg != (Obj.magic 0)) then begin
+        if ((Obj.magic highScoresArrayP_arg) != (Obj.magic 0)) then begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!commonStrings#sTART))#appendint ((Array.length highScoresArrayP_arg))))), self, "setHighScoresArray"))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!commonStrings#sTART))#appendint ((Array.length (Obj.magic highScoresArrayP_arg)))))), (Obj.magic self), "setHighScoresArray"))
         end else begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, self, "setHighScoresArray"))
+            ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, (Obj.magic self), "setHighScoresArray"))
         end;
-        highScoresArrayP <- Obj.repr (highScoresArrayP_arg)
-        end
+        highScoresArrayP <- Obj.repr ((Obj.magic highScoresArrayP_arg))
+        end [@@warning "-20"]
     
 
     method getNextHighScores : 'return. unit -> 'return = fun () ->
@@ -82,7 +83,7 @@ class highScoresHelperBase () =
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        highScoresArrayP <- (Obj.repr (LastFetchHighScoresFactory.getInstance ())#highScoresArray);
+        highScoresArrayP <- (Obj.repr (Obj.magic (java_call_static "LastFetchHighScoresFactory.getInstance" (Obj.repr ())))#highScoresArray);
         ()
       end
   end [@@warning "-20"]

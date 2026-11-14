@@ -41,11 +41,11 @@ class abeLicenseClient () =
     
     
 
-    method get : 'any1. 'any1 -> AbeLicenseInterface.abeLicenseInterface = fun (abeClientInformation) ->
+    method get : 'any1 'return. 'any1 -> 'return = fun (abeClientInformation) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#gET));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#gET));
             let xmlRpcAbeLicenseClient : XmlRpcAbeClient.xmlRpcAbeClient ref = ref (((new XmlRpcAbeLicenseRetrievalClient.xmlRpcAbeLicenseRetrievalClient ((Obj.magic abeClientInformation))) :> XmlRpcAbeClient.xmlRpcAbeClient)) in ();
             let abeLicenseInterface : AbeLicenseInterface.abeLicenseInterface ref = ref (((Obj.magic (!xmlRpcAbeLicenseClient#get ((Obj.magic 0)))) :> AbeLicenseInterface.abeLicenseInterface)) in ();
             let licenseId : string ref = ref ((!abeLicenseInterface#getLicenseId ())) in ();
@@ -66,8 +66,8 @@ class abeLicenseClient () =
                 ignore ((Obj.magic (java_call_static "LicenseInitInfoUtil.getInstance" (Obj.repr ())))#write ((Obj.magic !initInfo)));
                 ignore ((Obj.magic abeClientInformation)#init ())
             end;
-            ignore ((Obj.magic logUtil)#putF (commonStrings#eND, self, commonStrings#gET));
-            (!abeLicenseInterface :> AbeLicenseInterface.abeLicenseInterface)
+            ignore ((Obj.magic logUtil)#putF (commonStrings#eND, (Obj.magic self), commonStrings#gET));
+            (Obj.magic (!abeLicenseInterface))
         with e -> begin
             raise e
         end)

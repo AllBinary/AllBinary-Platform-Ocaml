@@ -43,9 +43,9 @@ class hudGraphicsPosition ((point_arg : GPoint.gPoint), (anchor_arg : int)) =
         end
     
 
-    method getPoint () : GPoint.gPoint =
+    method getPoint : 'return. unit -> 'return = fun () ->
         begin
-        (point :> GPoint.gPoint)
+        (Obj.magic (point))
         end
     
 
@@ -58,7 +58,7 @@ class hudGraphicsPosition ((point_arg : GPoint.gPoint), (anchor_arg : int)) =
     initializer
       begin
         anchor <- 0;
-        point <- ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO :> GPoint.gPoint);
+        point <- ((PointFactory.getInstance ())#zERO_ZERO :> GPoint.gPoint);
         ();
         (self#setAnchor (anchor_arg));
         (self#setPoint (point_arg))
@@ -66,7 +66,7 @@ class hudGraphicsPosition ((point_arg : GPoint.gPoint), (anchor_arg : int)) =
   end
 let () = java_register_constructor "HudGraphicsPosition" (fun arguments -> Obj.repr (new hudGraphicsPosition (Obj.obj arguments)))
 
-let nULL_HUD_GRAPHICS_POSITION = (new hudGraphicsPosition ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, 9))
+let nULL_HUD_GRAPHICS_POSITION = (new hudGraphicsPosition ((PointFactory.getInstance ())#zERO_ZERO, 9))
 let get_nULL_HUD_GRAPHICS_POSITION () = nULL_HUD_GRAPHICS_POSITION
 let () = java_register_static "HudGraphicsPosition.get_nULL_HUD_GRAPHICS_POSITION" (fun _ -> Obj.repr (get_nULL_HUD_GRAPHICS_POSITION ()))
 

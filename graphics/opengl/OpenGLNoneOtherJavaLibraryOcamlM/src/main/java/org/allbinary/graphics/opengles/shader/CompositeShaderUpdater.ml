@@ -32,10 +32,7 @@ class compositeShaderUpdater ((_uniformBlockArray : string array), (_uniformArra
     
     
 
-    method onSurfaceCreated : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_gl, _eglConfig, (_programHandle : int)) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+    (* Java overload onSurfaceCreated(GL10, EGLConfig, INT) is not converted: OCaml has one method per name *)
     
 
     method onSurfaceDestroyed : 'any1. 'any1 -> unit = fun (_gl) ->
@@ -56,9 +53,9 @@ let instanceC = (new compositeShaderUpdater (((StringUtil.getInstance ())#getArr
 let get_instanceC () = instanceC
 let () = java_register_static "CompositeShaderUpdater.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceC
+        (Obj.magic (instanceC))
         end
 let () = java_register_static "CompositeShaderUpdater.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

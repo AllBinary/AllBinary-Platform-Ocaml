@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.transform.info.objectConfig *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.io.file.CommonDataFileStrings *)
 
 class transformInfoObjectConfigData () =
@@ -50,9 +51,9 @@ let instance = (new transformInfoObjectConfigData ())
 let get_instance () = instance
 let () = java_register_static "TransformInfoObjectConfigData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TransformInfoObjectConfigData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

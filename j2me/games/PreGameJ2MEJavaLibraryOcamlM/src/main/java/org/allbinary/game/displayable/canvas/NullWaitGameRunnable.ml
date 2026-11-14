@@ -16,6 +16,7 @@
 (* package org.allbinary.game.displayable.canvas *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class nullWaitGameRunnable () =
   object
@@ -32,9 +33,9 @@ let instance : GameRunnable.gameRunnable = ((new nullWaitGameRunnable ()) :> Gam
 let get_instance () = instance
 let () = java_register_static "NullWaitGameRunnable.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : GameRunnable.gameRunnable =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> GameRunnable.gameRunnable)
+        (Obj.magic (instance))
         end
 let () = java_register_static "NullWaitGameRunnable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

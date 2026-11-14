@@ -40,17 +40,17 @@ class progressMidlet ((clientInformationFactory : ClientInformationFactory.clien
 
     method exitProgress ((isProgress : bool)) : unit =
         begin
-        let processor : Processor.processor ref = ref ((((MidletExitProcessorFactory.getInstance ())#getExitInstance (self)) :> Processor.processor)) in ();
+        let processor : Processor.processor ref = ref ((((MidletExitProcessorFactory.getInstance ())#getExitInstance ((Obj.magic self))) :> Processor.processor)) in ();
         (try
             let primaryThreadPool : Obj.t ref = ref ((Obj.repr (PrimaryThreadPool.getInstance ()))) in ();
-            let runnable : java_runnable ref = ref (((new ExitRunnable.exitRunnable (self, !processor, isProgress)) :> java_runnable)) in ();
+            let runnable : java_runnable ref = ref (((new ExitRunnable.exitRunnable ((Obj.magic self), !processor, isProgress)) :> java_runnable)) in ();
             ignore ((Obj.magic !primaryThreadPool)#runTask (!runnable))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "exit", e));
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "exit", e));
             (try
                 ignore (!processor#process ())
             with e2 -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "exit", e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "exit", e))
             end)
         end)
         end [@@warning "-7"]

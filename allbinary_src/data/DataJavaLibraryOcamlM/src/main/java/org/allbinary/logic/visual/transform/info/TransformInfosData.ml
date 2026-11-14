@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.transform.info *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class transformInfosData () =
   object
@@ -53,9 +54,9 @@ let instance = (new transformInfosData ())
 let get_instance () = instance
 let () = java_register_static "TransformInfosData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TransformInfosData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

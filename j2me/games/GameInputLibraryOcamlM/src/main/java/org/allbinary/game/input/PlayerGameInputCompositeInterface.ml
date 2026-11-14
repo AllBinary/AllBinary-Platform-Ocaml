@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual playerGameInputCompositeInterface =
   object
     inherit GameInputInterface.gameInputInterface
-    method virtual getPlayerGameInput : unit -> PlayerGameInput.playerGameInput
+    method virtual getPlayerGameInput : 'return . unit -> 'return
   end
 
 

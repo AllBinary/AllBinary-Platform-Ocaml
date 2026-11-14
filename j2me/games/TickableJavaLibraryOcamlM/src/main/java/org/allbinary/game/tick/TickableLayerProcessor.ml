@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class tickableLayerProcessor () =
   object
-    inherit LayerProcessor.layerProcessor ((new TickableLayerManager.tickableLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new TickableLayerManager.tickableLayerManager ()) : TickableLayerManager.tickableLayerManager :> LayerManager.layerManager))
     
     
 

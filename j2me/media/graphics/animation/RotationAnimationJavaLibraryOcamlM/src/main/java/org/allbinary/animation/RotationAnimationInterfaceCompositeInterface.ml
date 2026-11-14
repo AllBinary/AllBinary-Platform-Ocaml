@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual rotationAnimationInterfaceCompositeInterface =
   object
     inherit IndexedAnimationInterfaceCompositeInterface.indexedAnimationInterfaceCompositeInterface
-    method virtual getRotationAnimationInterface : unit -> RotationAnimation.rotationAnimation
+    method virtual getRotationAnimationInterface : 'return . unit -> 'return
     method virtual setFrame : int -> unit
   end
 

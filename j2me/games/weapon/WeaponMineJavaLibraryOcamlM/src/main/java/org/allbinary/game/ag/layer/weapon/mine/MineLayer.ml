@@ -34,7 +34,7 @@ let get_nAME () = nAME
 let () = java_register_static "MineLayer.get_nAME" (fun _ -> Obj.repr (get_nAME ()))
 class mineLayer ((viewPosition : ViewPositionBase.viewPositionBase)) =
   object (self)
-    inherit SimpleWeaponLayer.simpleWeaponLayer (nAME, (Obj.magic (java_call_static "RemoteInfo.get_rEMOTE_INFO" (Obj.repr ()))), (-1), ((NoMovementFactory.getInstance ())#getMovmentInstance ()), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((MineWeaponResources.getInstance ())#rESOURCE))#getInstance (0)), (SimpleWeaponLayer.createDestroyed ()), (Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, 10, 10)))), viewPosition) as super
+    inherit SimpleWeaponLayer.simpleWeaponLayer (nAME, (Obj.magic (java_call_static "RemoteInfo.get_rEMOTE_INFO" (Obj.repr ()))), (- 1), ((NoMovementFactory.getInstance ())#getMovmentInstance ()), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((MineWeaponResources.getInstance ())#rESOURCE))#getInstance (0)), (SimpleWeaponLayer.createDestroyed ()), (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, 10, 10)), viewPosition) as super
     val mutable viewPositionEventHandler : ViewPositionEventHandler.viewPositionEventHandler = (Obj.magic 0)
     method viewPositionEventHandler = viewPositionEventHandler
     method set_viewPositionEventHandler value' = viewPositionEventHandler <- value'
@@ -44,7 +44,7 @@ class mineLayer ((viewPosition : ViewPositionBase.viewPositionBase)) =
     method initXYZ ((x : int), (y : int), (z : int)) : unit =
         begin
         ignore (self#setPosition ((x + 5), (y + 5), z));
-        ignore (viewPositionEventHandler#addListener ((Obj.magic self)));
+        ignore (viewPositionEventHandler#addListener ((Obj.magic (Obj.magic self))));
         ignore ((SecondaryPlayerQueueFactory.getInstance ())#add ((DropWeaponSound.getInstance ())))
         end [@@warning "-7"]
     
@@ -66,7 +66,7 @@ class mineLayer ((viewPosition : ViewPositionBase.viewPositionBase)) =
         begin
         ignore (super#setDestroyed (destroyed));
         if (self#isDestroyed ()) then begin
-            ignore (viewPositionEventHandler#removeListener (self))
+            ignore (viewPositionEventHandler#removeListener ((Obj.magic self)))
         end
         end [@@warning "-7"]
 

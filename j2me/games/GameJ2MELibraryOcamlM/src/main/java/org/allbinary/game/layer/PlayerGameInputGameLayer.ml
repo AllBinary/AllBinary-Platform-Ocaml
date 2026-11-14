@@ -30,16 +30,16 @@ open Allbinary_java [@@warning "-33"]
 
 class playerGameInputGameLayer ((playerInputId : int)) =
   object (self)
-    inherit AllBinaryGameLayer.allBinaryGameLayer ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, 0, 0)))), (new StaticViewPosition.staticViewPosition (0, 0, 0)))
+    inherit AllBinaryGameLayer.allBinaryGameLayer ((StringUtil.getInstance ())#eMPTY_STRING, (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, 0, 0)), ((new StaticViewPosition.staticViewPosition (0, 0, 0)) : StaticViewPosition.staticViewPosition :> ViewPositionBase.viewPositionBase))
     val mutable playerGameInput : PlayerGameInput.playerGameInput = (Obj.magic 0)
     method playerGameInput = playerGameInput
     method set_playerGameInput value' = playerGameInput <- value'
     
     
 
-    method getPlayerGameInput () : PlayerGameInput.playerGameInput =
+    method getPlayerGameInput : 'return. unit -> 'return = fun () ->
         begin
-        (playerGameInput :> PlayerGameInput.playerGameInput)
+        (Obj.magic (playerGameInput))
         end [@@warning "-7"]
     
 
@@ -65,9 +65,9 @@ class playerGameInputGameLayer ((playerInputId : int)) =
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        playerGameInput <- (new PlayerGameInput.playerGameInput ((self#getGameKeyEventList ()), (new BasicArrayListD.basicArrayListD ()), playerInputId));
+        playerGameInput <- (new PlayerGameInput.playerGameInput ((self#getGameKeyEventList ()), ((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), playerInputId));
         let canvasStrings : CanvasStrings.canvasStrings ref = ref (((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings)) in ();
-        ignore ((self#logUtil)#putF ("Danger Danger Danger: Should Not Be Called Except For Testing Input", self, !canvasStrings#pAINT))
+        ignore ((self#logUtil)#putF ("Danger Danger Danger: Should Not Be Called Except For Testing Input", (Obj.magic self), !canvasStrings#pAINT))
       end
   end
 let () = java_register_constructor "PlayerGameInputGameLayer" (fun arguments -> Obj.repr (new playerGameInputGameLayer (Obj.obj arguments)))

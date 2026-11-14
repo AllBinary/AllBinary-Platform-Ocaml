@@ -29,7 +29,7 @@ open Allbinary_java [@@warning "-33"]
 
 class customTextBoxIndexedAnimation ((customTextBox_arg : CustomTextBox.customTextBox)) =
   object (self)
-    inherit IndexedAnimation.indexedAnimation ((AnimationBehavior.getInstance ()))
+    inherit IndexedAnimation.indexedAnimation ((AnimationBehavior.getInstance ())) as super
     val mutable customTextBox : CustomTextBox.customTextBox = (Obj.magic 0)
     method customTextBox = customTextBox
     method set_customTextBox value' = customTextBox <- value'
@@ -39,9 +39,9 @@ class customTextBoxIndexedAnimation ((customTextBox_arg : CustomTextBox.customTe
     val mutable hasChanged : bool = false
     method hasChanged = hasChanged
     method set_hasChanged value' = hasChanged <- value'
-    val mutable textChangeListener : Obj.t = Obj.repr 0
-    method textChangeListener : 'r. 'r = Obj.magic textChangeListener
-    method set_textChangeListener : 'v. 'v -> unit = fun value' -> textChangeListener <- Obj.repr value'
+    val mutable textChangeListener : TextChangeListener.textChangeListener = (Obj.magic 0)
+    method textChangeListener = textChangeListener
+    method set_textChangeListener value' = textChangeListener <- value'
     
     
 
@@ -63,7 +63,7 @@ class customTextBoxIndexedAnimation ((customTextBox_arg : CustomTextBox.customTe
         let textChangeListener_arg = Obj.repr textChangeListener_arg in
         begin
         (self#setText (text));
-        textChangeListener <- Obj.repr ((Obj.magic textChangeListener_arg))
+        textChangeListener <- (Obj.magic textChangeListener_arg)
         end [@@warning "-7-20"]
     
 
@@ -71,8 +71,8 @@ class customTextBoxIndexedAnimation ((customTextBox_arg : CustomTextBox.customTe
         let graphics = Obj.repr graphics in
         begin
         let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        ignore ((Obj.magic textChangeListener)#onMeasure ());
-        textChangeListener <- Obj.repr ((Obj.magic (java_call_static "TextChangeListener.getInstance" (Obj.repr ()))))
+        ignore (textChangeListener#onMeasure ());
+        textChangeListener <- (TextChangeListener.getInstance ())
         end [@@warning "-7-20"]
     
 
@@ -115,18 +115,24 @@ class customTextBoxIndexedAnimation ((customTextBox_arg : CustomTextBox.customTe
         begin
         ()
         end [@@warning "-7-20"]
+    
+
+    method getWidth () : int =
+        begin
+        (super#getWidth ())
+        end [@@warning "-7"]
 
     initializer
       begin
         ();
         lastText <- (StringUtil.getInstance ())#iNIT_STRING;
         hasChanged <- true;
-        textChangeListener <- (Obj.repr (Obj.magic (java_call_static "TextChangeListener.getInstance" (Obj.repr ()))));
+        textChangeListener <- ((TextChangeListener.getInstance ()) :> TextChangeListener.textChangeListener);
         ();
         (* super(...) is the inherit clause *) ();
         customTextBox <- customTextBox_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "CustomTextBoxIndexedAnimation" (fun arguments -> Obj.repr (new customTextBoxIndexedAnimation (Obj.obj arguments)))
 
 

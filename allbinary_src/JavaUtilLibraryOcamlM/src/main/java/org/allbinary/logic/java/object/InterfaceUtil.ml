@@ -52,15 +52,17 @@ and getClass ((interfaceName : string), (interfaces : string array)) : string =
 
 and isImplemented : 'any2. string * 'any2 -> bool = fun ((clazz : string), anyType) ->
         let anyType = Obj.repr anyType in
+        try
         begin
         let classes : string array ref = ref (((java_get_class (Obj.repr anyType))#getInterfaces ())) in ();
         for index = 0 to (Array.length !classes) - 1 do
             if ((clazz#compareTo ((!classes.(index)#getName ()))) == 0) then begin
-                true
+                raise (Java_return (Obj.repr (true)))
             end
         done;
         false
         end
+        with Java_return value -> Obj.obj value
 
 (* Java overload isImplemented(String, Any) is not converted: OCaml has one method per name *)
 

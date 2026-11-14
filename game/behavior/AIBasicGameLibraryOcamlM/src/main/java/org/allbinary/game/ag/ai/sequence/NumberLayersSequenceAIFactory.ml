@@ -25,11 +25,11 @@ class numberLayersSequenceAIFactory () =
   object
     
 
-    method getInstance : 'any3 'any4. int * ArtificialIntelligenceInterface.artificialIntelligenceInterface array * 'any3 * 'any4 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun ((numberOfEnemiesLeft : int), (artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), ownerLayerInterface, gameInput) ->
+    method getInstance : 'any3 'any4 'return. int * ArtificialIntelligenceInterface.artificialIntelligenceInterface array * 'any3 * 'any4 -> 'return = fun ((numberOfEnemiesLeft : int), (artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), ownerLayerInterface, gameInput) ->
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
         begin
-        ((new NumberLayersSequenceAI.numberLayersSequenceAI (numberOfEnemiesLeft, artificialIntelligenceInterface, (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((new NumberLayersSequenceAI.numberLayersSequenceAI (numberOfEnemiesLeft, artificialIntelligenceInterface, (Obj.magic ownerLayerInterface), (Obj.magic gameInput)))))
         end [@@warning "-20"]
 
     initializer

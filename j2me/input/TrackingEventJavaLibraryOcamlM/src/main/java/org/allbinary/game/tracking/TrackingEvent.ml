@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class trackingEvent ((allBinaryLayerInterface : Obj.t)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (allBinaryLayerInterface)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (allBinaryLayerInterface)))
     val mutable layerInterface : AllBinaryLayer.allBinaryLayer = (Obj.magic 0)
     method layerInterface = layerInterface
     method set_layerInterface value' = layerInterface <- value'
@@ -37,9 +37,9 @@ class trackingEvent ((allBinaryLayerInterface : Obj.t)) =
         end [@@warning "-7"]
     
 
-    method getLayerInterface () : AllBinaryLayer.allBinaryLayer =
+    method getLayerInterface : 'return. unit -> 'return = fun () ->
         begin
-        (layerInterface :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic (layerInterface))
         end [@@warning "-7"]
     
 
@@ -71,7 +71,7 @@ class trackingEvent ((allBinaryLayerInterface : Obj.t)) =
         layerInterface <- ((AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()) :> AllBinaryLayer.allBinaryLayer);
         ();
         (* super(...) is the inherit clause *) ();
-        if ((Obj.repr allBinaryLayerInterface) != (Obj.repr (TrackingEventHandler.getInstance ()))) then begin
+        if ((Obj.repr allBinaryLayerInterface) != (Obj.repr (Obj.magic (java_call_static "TrackingEventHandler.getInstance" (Obj.repr ()))))) then begin
             (self#setLayerInterface ((Obj.magic allBinaryLayerInterface)))
         end
       end

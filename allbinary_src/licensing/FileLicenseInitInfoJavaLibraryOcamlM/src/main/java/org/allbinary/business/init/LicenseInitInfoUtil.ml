@@ -64,7 +64,7 @@ class licenseInitInfoUtil () =
         let initData = Obj.repr initData in
         begin
         if (filePath = stringUtil#eMPTY_STRING) then begin
-            filePath <- ((URLGLOBALS.getMainPath ()) + (PATH_GLOBALS.getInstance ())#iNIT_PATH)
+            filePath <- (java_string_of (Obj.repr ((URLGLOBALS.getMainPath ()))) ^ java_string_of (Obj.repr ((PATH_GLOBALS.getInstance ())#iNIT_PATH)))
         end;
         (try
             let tsUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))))) in ();
@@ -79,7 +79,7 @@ class licenseInitInfoUtil () =
                 ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!licenseServerCrypted))))
             done
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (("Command Failed: " ^ iNITFILENAME), self, "write", e));
+            ignore ((Obj.magic logUtil)#put (("Command Failed: " ^ iNITFILENAME), (Obj.magic self), "write", e));
             ignore ((Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ())))#delete (filePath, iNITFILENAME));
             raise e
         end)
@@ -97,10 +97,10 @@ class licenseInitInfoUtil () =
         begin
         let mETHOD_NAME : string ref = ref ("readAgain") in ();
         if (filePath = stringUtil#eMPTY_STRING) then begin
-            filePath <- ((URLGLOBALS.getMainPath ()) + (PATH_GLOBALS.getInstance ())#iNIT_PATH)
+            filePath <- (java_string_of (Obj.repr ((URLGLOBALS.getMainPath ()))) ^ java_string_of (Obj.repr ((PATH_GLOBALS.getInstance ())#iNIT_PATH)))
         end;
         (try
-            ignore ((Obj.magic logUtil)#putF (("LicenseInitInfo File: " ^ iNITFILENAME), self, !mETHOD_NAME));
+            ignore ((Obj.magic logUtil)#putF (("LicenseInitInfo File: " ^ iNITFILENAME), (Obj.magic self), !mETHOD_NAME));
             let fileStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
             let iFile : Obj.t ref = ref ((Obj.repr ((Obj.magic !fileStreamFactory)#getFileInputStreamInstance (filePath, iNITFILENAME)))) in ();
             if ((Obj.magic !iFile) != (Obj.magic 0)) then begin
@@ -116,7 +116,7 @@ class licenseInitInfoUtil () =
                     decodedByteArray := (DatabaseEncoder.decode ((!iData#readUTF ())));
                     licenseServerDecoded := (Obj.obj (java_new "String" (Obj.repr (!decodedByteArray))));
                     ignore ((Obj.magic !initInfo)#setServer (((new WeakCrypt.weakCrypt (3))#decrypt (!licenseServerDecoded)), index));
-                    ignore ((Obj.magic logUtil)#putF ((!nEXT_FILE ^ java_string_of (Obj.repr (((Obj.magic !initInfo)#getServer (index))))), self, !mETHOD_NAME))
+                    ignore ((Obj.magic logUtil)#putF ((!nEXT_FILE ^ java_string_of (Obj.repr (((Obj.magic !initInfo)#getServer (index))))), (Obj.magic self), !mETHOD_NAME))
                 done;
                 raise (Java_return (Obj.repr ((Obj.magic !initInfo))))
             end else begin
@@ -124,9 +124,9 @@ class licenseInitInfoUtil () =
             end
         with e -> begin
             (try
-                ignore ((Obj.magic logUtil)#put (("Command Failed: " ^ iNITFILENAME), self, !mETHOD_NAME, e))
+                ignore ((Obj.magic logUtil)#put (("Command Failed: " ^ iNITFILENAME), (Obj.magic self), !mETHOD_NAME, e))
             with e2 -> begin
-                ignore ((Obj.magic logUtil)#put (("LicenseInitInfo Read Retry: " ^ iNITFILENAME), self, "readAgain()", e2))
+                ignore ((Obj.magic logUtil)#put (("LicenseInitInfo Read Retry: " ^ iNITFILENAME), (Obj.magic self), "readAgain()", e2))
             end);
             raise (Failure (("LicenseInitInfo Read Error: " ^ iNITFILENAME)))
         end)
@@ -156,9 +156,9 @@ let instance = (new licenseInitInfoUtil ())
 let get_instance () = instance
 let () = java_register_static "LicenseInitInfoUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LicenseInitInfoUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

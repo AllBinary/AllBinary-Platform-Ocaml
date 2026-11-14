@@ -30,6 +30,7 @@ let hashtable : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "StdUtil
 let get_hashtable () = Obj.magic !hashtable
 let set_hashtable value' = hashtable := Obj.repr value'
 let () = java_register_static "TerrainEventHandler.get_hashtable" (fun _ -> Obj.repr (get_hashtable ()))
+let () = java_register_static "TerrainEventHandler.set_hashtable" (fun value' -> set_hashtable (Obj.obj value'); Obj.repr ())
 
 let init () : unit =
         begin
@@ -79,7 +80,7 @@ class terrainEventHandler () =
                 let terrainEventListener : TerrainEventListener.terrainEventListener ref = ref (((Obj.magic (list#get (!index))) :> TerrainEventListener.terrainEventListener)) in ();
                 ignore (!terrainEventListener#onTerrainEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -103,15 +104,15 @@ class terrainEventHandler () =
   end
 let () = java_register_constructor "TerrainEventHandler" (fun arguments -> Obj.repr (new terrainEventHandler (Obj.obj arguments)))
 
-let getInstance : 'any1. 'any1 -> _ = fun (anyType) ->
+let getInstance : 'any1 'return. 'any1 -> 'return = fun (anyType) ->
         let anyType = Obj.repr anyType in
         begin
         let eventHandlerCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic !hashtable)#get (anyType)))) in ();
         if (!eventHandlerCanBeNull == (Obj.magic 0)) then begin
-            eventHandlerCanBeNull := (new terrainEventHandler ());
+            eventHandlerCanBeNull := (Obj.repr ((new terrainEventHandler ())));
             ignore ((Obj.magic !hashtable)#put (anyType, !eventHandlerCanBeNull))
         end;
-        (Obj.magic !eventHandlerCanBeNull)
+        (Obj.magic ((Obj.magic !eventHandlerCanBeNull)))
         end
 let () = java_register_static "TerrainEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

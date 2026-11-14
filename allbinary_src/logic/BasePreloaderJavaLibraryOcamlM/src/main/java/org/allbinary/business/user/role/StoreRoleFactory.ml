@@ -34,21 +34,21 @@ class storeRoleFactory () =
     
     
 
-    method getRoles () : BasicArrayList.basicArrayList =
+    method getRoles : 'return. unit -> 'return = fun () ->
         begin
-        (roles :> BasicArrayList.basicArrayList)
+        (Obj.magic (roles))
         end
     
 
-    method getSubscriberRoles () : BasicArrayList.basicArrayList =
+    method getSubscriberRoles : 'return. unit -> 'return = fun () ->
         begin
-        (subscriberRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (subscriberRoles))
         end
     
 
-    method getWholesaleRoles () : BasicArrayList.basicArrayList =
+    method getWholesaleRoles : 'return. unit -> 'return = fun () ->
         begin
-        (wholesaleRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (wholesaleRoles))
         end
 
     initializer
@@ -71,9 +71,9 @@ let instance = (new storeRoleFactory ())
 let get_instance () = instance
 let () = java_register_static "StoreRoleFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "StoreRoleFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

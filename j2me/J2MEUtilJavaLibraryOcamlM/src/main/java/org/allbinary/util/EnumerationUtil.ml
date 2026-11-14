@@ -16,6 +16,7 @@
 (* package org.allbinary.util *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import jsinterop.annotations.JsType *)
 (* import java.util.Enumeration *)
 (* import jsinterop.annotations.JsMethod *)
@@ -36,13 +37,13 @@ class enumerationUtil () =
         end
     
 
-    method getAsArray ((enumeration : java_enumeration)) : Obj.t array =
+    method getAsArray : 'return. java_enumeration -> 'return = fun ((enumeration : java_enumeration)) ->
         begin
         let basicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         while (self#hasMoreElements (enumeration)) do
             ignore (!basicArrayList#add ((self#nextElement (enumeration))))
         done;
-        (!basicArrayList#toArray ())
+        (Obj.magic ((!basicArrayList#toArray ())))
         end
 
     initializer
@@ -56,9 +57,9 @@ let instance = (new enumerationUtil ())
 let get_instance () = instance
 let () = java_register_static "EnumerationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "EnumerationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

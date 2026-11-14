@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual healthInterfaceCompositeInterface =
   object
-    method virtual getHealthInterface : unit -> Health.health
+    method virtual getHealthInterface : 'return . unit -> 'return
   end
 
 

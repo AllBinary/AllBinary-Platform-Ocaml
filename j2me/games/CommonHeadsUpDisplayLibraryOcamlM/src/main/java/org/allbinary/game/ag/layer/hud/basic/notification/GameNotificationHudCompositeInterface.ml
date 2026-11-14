@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual gameNotificationHudCompositeInterface =
   object
-    method virtual getGameNotificationHud : unit -> GameNotificationHud.gameNotificationHud
+    method virtual getGameNotificationHud : 'return . unit -> 'return
   end
 
 

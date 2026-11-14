@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.PointFactory *)
 (* import org.allbinary.graphics.Rectangle *)
 
-class fullTouchButton ((touchButtonInput : TouchButtonInput.touchButtonInput), animationInterface, hintAnimationInterface, rawRectangle, (cellPosition : CellPosition.cellPosition), (xBorder : int), (yBorder : int)) =
+class fullTouchButton ((touchButtonInput : TouchButtonInput.touchButtonInput), (animationInterface : Animation.animation), (hintAnimationInterface : Animation.animation), (rawRectangle : Rectangle.rectangle), (cellPosition : CellPosition.cellPosition), (xBorder : int), (yBorder : int)) =
   object (self)
     inherit TouchButton.touchButton (touchButtonInput, animationInterface, hintAnimationInterface, rawRectangle, cellPosition, xBorder, yBorder)
     
@@ -33,16 +33,16 @@ class fullTouchButton ((touchButtonInput : TouchButtonInput.touchButtonInput), a
     method updateRectangle () : unit =
         begin
         (try
-            let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+            let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
             let x : int ref = ref ((((self#rawRectangle)#getWidth ()) * ((self#cellPositionP)#getColumn ()))) in ();
             let y : int ref = ref ((((self#rawRectangle)#getHeight ()) * ((self#cellPositionP)#getRow ()))) in ();
-            (self#set_rectangleP) ((Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (!x, !y)), (((self#rawRectangle)#getWidth ()) + ((2 * (self#xBorder)))), (((self#rawRectangle)#getHeight ()) + ((2 * (self#yBorder)))))))));
+            (self#set_rectangleP) ((new Rectangle.rectangle ((!pointFactory#createXY (!x, !y)), (((self#rawRectangle)#getWidth ()) + ((2 * (self#xBorder)))), (((self#rawRectangle)#getHeight ()) + ((2 * (self#yBorder)))))));
             let point : GPoint.gPoint ref = ref ((((self#rectangleP)#getPoint ()) :> GPoint.gPoint)) in ();
             (self#set_animationX) (((!point#getX ()) + (self#xBorder)));
             (self#set_animationY) (((!point#getY ()) + (self#yBorder)));
             (self#set_hintAnimationY) ((((self#animationY) - ((self#rectangleP)#getHeight ())) asr 1))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "updateRectangle", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "updateRectangle", e))
         end)
         end [@@warning "-7"]
 
@@ -54,13 +54,13 @@ class fullTouchButton ((touchButtonInput : TouchButtonInput.touchButtonInput), a
   end
 let () = java_register_constructor "FullTouchButton" (fun arguments -> Obj.repr (new fullTouchButton (Obj.obj arguments)))
 
-let createButton : 'any1 'any2 'any3 'any4. 'any1 * 'any2 * 'any3 * 'any4 * int * int -> _ = fun (touchButtonInput, touchButtonResource, rawRectangle, cellPosition, (xBorder : int), (yBorder : int)) ->
+let createButton : 'any1 'any2 'any3 'any4 'return. 'any1 * 'any2 * 'any3 * 'any4 * int * int -> 'return = fun (touchButtonInput, touchButtonResource, rawRectangle, cellPosition, (xBorder : int), (yBorder : int)) ->
         let touchButtonInput = Obj.repr touchButtonInput in
         let touchButtonResource = Obj.repr touchButtonResource in
         let rawRectangle = Obj.repr rawRectangle in
         let cellPosition = Obj.repr cellPosition in
         begin
-        (new fullTouchButton ((Obj.magic touchButtonInput), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#rESOURCE))#getInstance (0)), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#hINT))#getInstance (0)), (Obj.magic rawRectangle), (Obj.magic cellPosition), xBorder, yBorder))
+        (Obj.magic ((new fullTouchButton ((Obj.magic touchButtonInput), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#rESOURCE))#getInstance (0)), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#hINT))#getInstance (0)), (Obj.magic rawRectangle), (Obj.magic cellPosition), xBorder, yBorder))))
         end [@@warning "-20"]
 let () = java_register_static "FullTouchButton.createButton" (fun arguments -> Obj.repr (createButton (Obj.obj arguments)))
 

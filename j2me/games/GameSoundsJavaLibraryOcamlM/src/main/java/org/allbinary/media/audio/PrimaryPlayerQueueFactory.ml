@@ -16,14 +16,15 @@
 (* package org.allbinary.media.audio *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let sINGLETON : PlayerQueue.playerQueue = ((new PlayerQueue.playerQueue (4)) :> PlayerQueue.playerQueue)
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "PrimaryPlayerQueueFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () : PlayerQueue.playerQueue =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (sINGLETON :> PlayerQueue.playerQueue)
+        (Obj.magic (sINGLETON))
         end
 
 let () = java_register_static "PrimaryPlayerQueueFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

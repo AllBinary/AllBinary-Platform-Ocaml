@@ -49,7 +49,7 @@ class basicEventHandler () =
 
     method removeAllListeners () : unit =
         begin
-        eventListenerInterfaceList <- (new BasicArrayListD.basicArrayListD ())
+        eventListenerInterfaceList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
         end
     
 
@@ -119,7 +119,7 @@ class basicEventHandler () =
                 eventListenerInterface := (Obj.magic (eventListenerInterfaceList#get (!index)));
                 (self#process ((Obj.magic eventObject), !eventListenerInterface))
             with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, eventStrings#fIRE_EVENT, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), eventStrings#fIRE_EVENT, e))
             end);
             index := !index + 1
         done
@@ -134,9 +134,9 @@ class basicEventHandler () =
         end [@@warning "-20"]
     
 
-    method getEventListenerInterfaceListP () : BasicArrayList.basicArrayList =
+    method getEventListenerInterfaceListP : 'return. unit -> 'return = fun () ->
         begin
-        (eventListenerInterfaceList :> BasicArrayList.basicArrayList)
+        (Obj.magic (eventListenerInterfaceList))
         end
     
 
@@ -153,7 +153,7 @@ class basicEventHandler () =
                 ignore (!stringBuffer#append (eventStrings#lISTENER_LABEL));
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !eventListenerInterface))))
             with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#tOSTRING, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#tOSTRING, e))
             end);
             index := !index + 1
         done;
@@ -167,7 +167,7 @@ class basicEventHandler () =
         eventStrings <- ((EventStrings.getInstance ()) :> EventStrings.eventStrings);
         ();
         ();
-        eventListenerInterfaceList <- (new BasicArrayListD.basicArrayListD ())
+        eventListenerInterfaceList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "BasicEventHandler" (fun arguments -> Obj.repr (new basicEventHandler (Obj.obj arguments)))

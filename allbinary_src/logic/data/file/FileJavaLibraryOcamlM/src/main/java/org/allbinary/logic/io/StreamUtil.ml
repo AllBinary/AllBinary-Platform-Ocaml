@@ -39,7 +39,7 @@ class streamUtil () =
         let len : int ref = ref (0) in ();
         while true do
             len := ((Obj.magic inputStream)#read (buffer, 0, (Array.length buffer)));
-            if (!len <> (-1)) then begin
+            if (!len <> (- 1)) then begin
                 ()
             end else begin
                 raise Java_break
@@ -75,7 +75,7 @@ class streamUtil () =
             true
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#cLOSE, e));
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cLOSE, e));
             false
         end)
         end [@@warning "-20"]
@@ -93,9 +93,9 @@ let instance = (new streamUtil ())
 let get_instance () = instance
 let () = java_register_static "StreamUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "StreamUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

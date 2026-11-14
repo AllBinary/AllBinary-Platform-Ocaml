@@ -16,6 +16,7 @@
 (* package org.allbinary.input.motion.gesture *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.input.Input *)
 (* import org.allbinary.game.input.InputFactory *)
 
@@ -29,7 +30,7 @@ class motionGestureInput ((id : int), (name : string)) =
         ();
         (* super(...) is the inherit clause *) ();
         let inputFactory : InputFactory.inputFactory ref = ref (((InputFactory.getInstance ()) :> InputFactory.inputFactory)) in ();
-        ignore (!inputFactory#add ((self#getId ()), self))
+        ignore (!inputFactory#add ((self#getId ()), (Obj.magic self)))
       end
   end
 let () = java_register_constructor "MotionGestureInput" (fun arguments -> Obj.repr (new motionGestureInput (Obj.obj arguments)))

@@ -36,7 +36,7 @@ class imageAnimationFactory (image, (width : int), (height : int), (dx : int), (
         let openGLUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "OpenGLUtil.getInstance" (Obj.repr ()))))) in ();
         scaledImage := Obj.repr (((Obj.magic !openGLUtil)#addImage ((Obj.magic !scaledImage))));
         if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
-            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust ((Obj.magic self)));
             raise (Java_return (Obj.repr ((new AdjustedImageAnimation.adjustedImageAnimation ((Obj.magic !scaledImage), (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
             raise (Java_return (Obj.repr ((new ImageAnimation.imageAnimation ((Obj.magic !scaledImage), ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
@@ -52,10 +52,10 @@ class imageAnimationFactory (image, (width : int), (height : int), (dx : int), (
   end
 let () = java_register_constructor "ImageAnimationFactory" (fun arguments -> Obj.repr (new imageAnimationFactory (Obj.obj arguments)))
 
-let createFactory : 'any1. 'any1 -> _ = fun (image) ->
+let createFactory : 'any1 'return. 'any1 -> 'return = fun (image) ->
         let image = Obj.repr image in
         begin
-        (new imageAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), 0, 0, (AnimationBehaviorFactory.getInstance ())))
+        (Obj.magic ((new imageAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), 0, 0, (AnimationBehaviorFactory.getInstance ())))))
         end [@@warning "-20"]
 let () = java_register_static "ImageAnimationFactory.createFactory" (fun arguments -> Obj.repr (createFactory (Obj.obj arguments)))
 

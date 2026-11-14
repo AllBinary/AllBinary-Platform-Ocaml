@@ -26,9 +26,9 @@ class collidableAlwaysPickupNeverCollideBehaviorFactory () =
     method set_instance value' = instance <- value'
     
 
-    method createBehavior () : CollidableBaseBehavior.collidableBaseBehavior =
+    method createBehavior : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> CollidableBaseBehavior.collidableBaseBehavior)
+        (Obj.magic (instance))
         end [@@warning "-7"]
 
     initializer
@@ -43,9 +43,9 @@ let instanceC = (new collidableAlwaysPickupNeverCollideBehaviorFactory ())
 let get_instanceC () = instanceC
 let () = java_register_static "CollidableAlwaysPickupNeverCollideBehaviorFactory.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceC
+        (Obj.magic (instanceC))
         end
 let () = java_register_static "CollidableAlwaysPickupNeverCollideBehaviorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

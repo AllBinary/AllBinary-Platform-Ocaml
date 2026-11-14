@@ -79,9 +79,9 @@ class viewPosition ((x : int), (y : int), (z : int)) =
   end
 let () = java_register_constructor "ViewPosition" (fun arguments -> Obj.repr (new viewPosition (Obj.obj arguments)))
 
-let getInstanceD () =
+let getInstanceD : 'return. unit -> 'return = fun () ->
         begin
-        (new viewPosition (0, 0, 0))
+        (Obj.magic ((new viewPosition (0, 0, 0))))
         end
 let () = java_register_static "ViewPosition.getInstanceD" (fun arguments -> Obj.repr (getInstanceD (Obj.obj arguments)))
 

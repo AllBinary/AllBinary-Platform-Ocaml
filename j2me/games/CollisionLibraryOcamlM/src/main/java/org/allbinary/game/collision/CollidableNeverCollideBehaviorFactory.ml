@@ -18,35 +18,38 @@
 open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 
+let instanceC_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instanceC : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instanceC_cell with Lazy.Undefined -> java_null)
+let set_instanceC value' = instanceC_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "CollidableNeverCollideBehaviorFactory.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
+let () = java_register_static "CollidableNeverCollideBehaviorFactory.set_instanceC" (fun value' -> set_instanceC value'; Obj.repr ())
 class collidableNeverCollideBehaviorFactory () =
   object
     inherit CollidableBaseBehaviorFactory.collidableBaseBehaviorFactory ()
-    val mutable instance : CollidableNeverCollideBehavior.collidableNeverCollideBehavior = (Obj.magic 0)
-    method instance = instance
-    method set_instance value' = instance <- value'
+    val mutable instance : Obj.t = Obj.repr 0
+    method instance : 'r. 'r = Obj.magic instance
+    method set_instance : 'v. 'v -> unit = fun value' -> instance <- Obj.repr value'
     
 
     method createBehavior : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic (instance))
+        (Obj.magic ((Obj.magic instance)))
         end [@@warning "-7"]
 
     initializer
       begin
-        instance <- ((new CollidableNeverCollideBehavior.collidableNeverCollideBehavior (false)) :> CollidableNeverCollideBehavior.collidableNeverCollideBehavior);
+        instance <- (Obj.repr (Obj.obj (java_new "CollidableNeverCollideBehavior" (Obj.repr (false)))));
         ()
       end
-  end
+  end [@@warning "-20"]
 let () = java_register_constructor "CollidableNeverCollideBehaviorFactory" (fun arguments -> Obj.repr (new collidableNeverCollideBehaviorFactory (Obj.obj arguments)))
 
-let instanceC = (new collidableNeverCollideBehaviorFactory ())
-let get_instanceC () = instanceC
-let () = java_register_static "CollidableNeverCollideBehaviorFactory.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceC
+        (Obj.magic ((Obj.magic (get_instanceC ()))))
         end
 let () = java_register_static "CollidableNeverCollideBehaviorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instanceC_cell := lazy (Obj.repr ((new collidableNeverCollideBehaviorFactory ())))
 
 

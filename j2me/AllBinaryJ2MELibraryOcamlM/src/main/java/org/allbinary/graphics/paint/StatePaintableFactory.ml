@@ -16,14 +16,15 @@
 (* package org.allbinary.graphics.paint *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : StatePaintable.statePaintable = ((new StatePaintable.statePaintable ()) :> StatePaintable.statePaintable)
 let get_instance () = instance
 let () = java_register_static "StatePaintableFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : StatePaintable.statePaintable =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> StatePaintable.statePaintable)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "StatePaintableFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

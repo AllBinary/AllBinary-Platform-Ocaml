@@ -26,6 +26,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "UpOrientationInputToGameKeyEventAction.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "UpOrientationInputToGameKeyEventAction.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class upOrientationInputToGameKeyEventAction () =
   object
     inherit GameKeyCompleteMotionGestureInputEvent.gameKeyCompleteMotionGestureInputEvent ("Up Action", (OrientationMotionGestureFactory.getInstance ())#uP, (((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#getInputMapping ()))
@@ -42,7 +43,7 @@ let () = java_register_constructor "UpOrientationInputToGameKeyEventAction" (fun
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new upOrientationInputToGameKeyEventAction ())
+            instance := (Obj.repr ((new upOrientationInputToGameKeyEventAction ())))
         end;
         (Obj.magic ((Obj.magic !instance)))
         end

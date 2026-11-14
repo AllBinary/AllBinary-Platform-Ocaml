@@ -76,9 +76,9 @@ class licenseInitInfo () =
         end
     
 
-    method getServerList () : BasicArrayList.basicArrayList =
+    method getServerList : 'return. unit -> 'return = fun () ->
         begin
-        (serverList :> BasicArrayList.basicArrayList)
+        (Obj.magic (serverList))
         end
     
 

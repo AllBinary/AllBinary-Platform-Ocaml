@@ -21,18 +21,18 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.crypto.SecretKey *)
 (* import org.allbinary.logic.java.byteutil.ByteUtil *)
 
-class secretComposite (secretKey_arg, cipher_arg, (key_arg : int array)) =
+class secretComposite ((secretKey_arg : java_secret_key), (cipher_arg : java_cipher), (key_arg : int array)) =
   object (self)
     inherit BaseSecretComposite.baseSecretComposite ()
     val mutable byteUtil : ByteUtil.byteUtil = (Obj.magic 0)
     method byteUtil = byteUtil
     method set_byteUtil value' = byteUtil <- value'
-    val mutable cipher : Obj.t = Obj.repr 0
-    method cipher : 'r. 'r = Obj.magic cipher
-    method set_cipher : 'v. 'v -> unit = fun value' -> cipher <- Obj.repr value'
-    val mutable secretKey : Obj.t = Obj.repr 0
-    method secretKey : 'r. 'r = Obj.magic secretKey
-    method set_secretKey : 'v. 'v -> unit = fun value' -> secretKey <- Obj.repr value'
+    val mutable cipher : java_cipher = (Obj.magic 0)
+    method cipher = cipher
+    method set_cipher value' = cipher <- value'
+    val mutable secretKey : java_secret_key = (Obj.magic 0)
+    method secretKey = secretKey
+    method set_secretKey value' = secretKey <- value'
     val mutable key : int array = (Obj.magic 0)
     method key = key
     method set_key value' = key <- value'
@@ -43,15 +43,15 @@ class secretComposite (secretKey_arg, cipher_arg, (key_arg : int array)) =
         let array = ref array in
         begin
         array := (self#mutilate (!array));
-        ignore ((Obj.magic cipher)#init ((Cipher.get_eNCRYPT_MODE ()), (Obj.magic secretKey)));
-        ((Obj.magic cipher)#doFinal (!array))
+        ignore (cipher#init (java_cipher_ENCRYPT_MODE, secretKey));
+        (cipher#doFinal (!array))
         end [@@warning "-7"]
     
 
     method decrypt ((array : int array)) : int array =
         begin
-        ignore ((Obj.magic cipher)#init ((Cipher.get_dECRYPT_MODE ()), (Obj.magic secretKey)));
-        (self#mutilate (((Obj.magic cipher)#doFinal (array))))
+        ignore (cipher#init (java_cipher_DECRYPT_MODE, secretKey));
+        (self#mutilate ((cipher#doFinal (array))))
         end [@@warning "-7"]
     
 
@@ -74,11 +74,11 @@ class secretComposite (secretKey_arg, cipher_arg, (key_arg : int array)) =
         ();
         ();
         ();
-        secretKey <- Obj.repr (secretKey_arg);
-        cipher <- Obj.repr (cipher_arg);
+        secretKey <- secretKey_arg;
+        cipher <- cipher_arg;
         key <- key_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "SecretComposite" (fun arguments -> Obj.repr (new secretComposite (Obj.obj arguments)))
 
 

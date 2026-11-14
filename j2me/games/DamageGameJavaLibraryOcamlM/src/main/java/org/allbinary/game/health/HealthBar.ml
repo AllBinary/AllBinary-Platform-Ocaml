@@ -64,7 +64,7 @@ class healthBar ((layerInterface : AllBinaryLayer.allBinaryLayer), (healthInterf
         allbinaryLayer <- layerInterface;
         animationInterface <- animationInterface_arg;
         healthInterface <- healthInterface_arg;
-        ignore (healthInterface#addListener (self));
+        ignore (healthInterface#addListener ((Obj.magic self)));
         (self#onHealthChange ())
       end
   end

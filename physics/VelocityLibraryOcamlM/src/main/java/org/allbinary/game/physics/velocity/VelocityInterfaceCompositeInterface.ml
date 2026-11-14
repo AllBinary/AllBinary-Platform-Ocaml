@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual velocityInterfaceCompositeInterface =
   object
-    method virtual getVelocityProperties : unit -> BasicVelocityProperties.basicVelocityProperties
+    method virtual getVelocityProperties : 'return . unit -> 'return
   end
 
 

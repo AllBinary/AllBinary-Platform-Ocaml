@@ -21,6 +21,11 @@ open Allbinary_java [@@warning "-33"]
 let nULL_IMAGE_ARRAY : Obj.t = (Obj.repr (Array.make (0) (Obj.magic 0)))
 let get_nULL_IMAGE_ARRAY () = Obj.magic nULL_IMAGE_ARRAY
 let () = java_register_static "NullImage.get_nULL_IMAGE_ARRAY" (fun _ -> Obj.repr (get_nULL_IMAGE_ARRAY ()))
+let nULL_IMAGE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_nULL_IMAGE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !nULL_IMAGE_cell with Lazy.Undefined -> java_null)
+let set_nULL_IMAGE value' = nULL_IMAGE_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "NullImage.get_nULL_IMAGE" (fun _ -> Obj.repr (get_nULL_IMAGE ()))
+let () = java_register_static "NullImage.set_nULL_IMAGE" (fun value' -> set_nULL_IMAGE value'; Obj.repr ())
 class nullImage () =
   object
 
@@ -31,8 +36,6 @@ class nullImage () =
   end
 let () = java_register_constructor "NullImage" (fun arguments -> Obj.repr (new nullImage (Obj.obj arguments)))
 
-let nULL_IMAGE : Obj.t = (Obj.repr (Obj.obj (java_new "Image" (Obj.repr ()))))
-let get_nULL_IMAGE () = Obj.magic nULL_IMAGE
-let () = java_register_static "NullImage.get_nULL_IMAGE" (fun _ -> Obj.repr (get_nULL_IMAGE ()))
+let () = nULL_IMAGE_cell := lazy (Obj.repr ((Obj.obj (java_new "Image" (Obj.repr ())))))
 
 

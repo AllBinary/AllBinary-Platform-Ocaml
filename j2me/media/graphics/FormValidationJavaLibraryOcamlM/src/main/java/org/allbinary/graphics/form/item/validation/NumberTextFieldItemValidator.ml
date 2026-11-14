@@ -49,9 +49,9 @@ class numberTextFieldItemValidator (textFieldItem_arg, (maxChars_arg : int), (mi
         end [@@warning "-7"]
     
 
-    method toNumberVector ((_value : int)) : BasicArrayList.basicArrayList =
+    method toNumberVector : 'return. int -> 'return = fun ((_value : int)) ->
         begin
-        ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((new BasicArrayListD.basicArrayListD ())))
         end [@@warning "-7"]
     
 
@@ -77,7 +77,7 @@ class numberTextFieldItemValidator (textFieldItem_arg, (maxChars_arg : int), (mi
         end [@@warning "-7"]
     
 
-    method toList () : BasicArrayList.basicArrayList =
+    method toList : 'return. unit -> 'return = fun () ->
         begin
         let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let string : string ref = ref (((Obj.magic textFieldItem)#getString ())) in ();
@@ -109,7 +109,7 @@ class numberTextFieldItemValidator (textFieldItem_arg, (maxChars_arg : int), (mi
                 ignore (!list#add ((java_string_of (Obj.repr ((!stringMaker#append (!name))#append (" is to long"))))))
             end
         end;
-        (!list :> BasicArrayList.basicArrayList)
+        (Obj.magic (!list))
         end [@@warning "-7"]
 
     initializer

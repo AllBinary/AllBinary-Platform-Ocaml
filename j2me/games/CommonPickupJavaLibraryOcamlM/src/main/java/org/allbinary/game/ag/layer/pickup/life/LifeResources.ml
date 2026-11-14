@@ -16,6 +16,7 @@
 (* package org.allbinary.game.ag.layer.pickup.life *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class lifeResources () =
   object
@@ -37,9 +38,9 @@ let sINGLETON = (new lifeResources ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "LifeResources.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "LifeResources.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

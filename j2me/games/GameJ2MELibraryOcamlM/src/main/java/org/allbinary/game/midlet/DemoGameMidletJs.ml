@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual demoGameMidletJs =
   object
-    method virtual createDemoGameCanvasRunnableInterface : unit -> GameCanvasRunnableInterface.gameCanvasRunnableInterface
+    method virtual createDemoGameCanvasRunnableInterface : 'return . unit -> 'return
   end
 
 

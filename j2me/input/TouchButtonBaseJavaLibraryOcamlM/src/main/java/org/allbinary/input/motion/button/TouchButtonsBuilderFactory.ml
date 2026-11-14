@@ -16,14 +16,15 @@
 (* package org.allbinary.input.motion.button *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class touchButtonsBuilderFactory () =
   object
     
 
-    method getInstance () : BaseTouchInput.baseTouchInput =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((NoButtonsTouchInputFactory.getInstance ()) :> BaseTouchInput.baseTouchInput)
+        (Obj.magic ((NoButtonsTouchInputFactory.getInstance ())))
         end
 
     initializer

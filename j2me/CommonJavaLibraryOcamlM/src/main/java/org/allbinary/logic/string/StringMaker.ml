@@ -18,70 +18,70 @@ class stringMaker () =
     
     
 
-    method append ((string : string)) =
+    method append : 'return. string -> 'return = fun ((string : string)) ->
         begin
         let stringLength : int ref = ref ((String.length string)) in ();
         (self#ensureCapacity ((currentLength + !stringLength)));
         ignore (java_string_get_chars string (0, !stringLength, charArray, currentLength));
         currentLength <- (currentLength + !stringLength);
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendchar ((c : char)) =
+    method appendchar : 'return. char -> 'return = fun ((c : char)) ->
         begin
         (self#ensureCapacity ((currentLength + 1)));
         charArray.((let value = currentLength in currentLength <- currentLength + 1; value)) <- c;
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendCharArray ((charArray_arg : char array), (start : int), (end_ : int)) =
+    method appendCharArray : 'return. char array * int * int -> 'return = fun ((charArray_arg : char array), (start : int), (end_ : int)) ->
         begin
         (self#ensureCapacity ((currentLength + ((end_ - start)))));
         for index = start to end_ - 1 do
             charArray.((let value = currentLength in currentLength <- currentLength + 1; value)) <- charArray_arg.(index)
         done;
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendbyte ((b : int)) =
+    method appendbyte : 'return. int -> 'return = fun ((b : int)) ->
         begin
         ignore (self#append ((string_of_int (b))));
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendshort ((b : int)) =
+    method appendshort : 'return. int -> 'return = fun ((b : int)) ->
         begin
         ignore (self#append ((string_of_int (b))));
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendint ((i : int)) =
+    method appendint : 'return. int -> 'return = fun ((i : int)) ->
         begin
         ignore (self#append ((string_of_int (i))));
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendlong ((l : int)) =
+    method appendlong : 'return. int -> 'return = fun ((l : int)) ->
         begin
         ignore (self#append ((string_of_int (l))));
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendfloat ((f : float)) =
+    method appendfloat : 'return. float -> 'return = fun ((f : float)) ->
         begin
         ignore (self#append ((string_of_float (f))));
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
-    method appendboolean ((bool : bool)) =
+    method appendboolean : 'return. bool -> 'return = fun ((bool : bool)) ->
         begin
         if bool then begin
             (self#ensureCapacity ((currentLength + 4)));
@@ -97,7 +97,7 @@ class stringMaker () =
             charArray.((let value = currentLength in currentLength <- currentLength + 1; value)) <- 's';
             charArray.((let value = currentLength in currentLength <- currentLength + 1; value)) <- 'e'
         end;
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 
@@ -123,10 +123,10 @@ class stringMaker () =
         end
     
 
-    method delete ((start : int), (end_ : int)) =
+    method delete : 'return. int * int -> 'return = fun ((start : int), (end_ : int)) ->
         begin
         currentLength <- (currentLength - ((end_ - start)));
-        self
+        (Obj.magic ((Obj.magic self)))
         end
     
 

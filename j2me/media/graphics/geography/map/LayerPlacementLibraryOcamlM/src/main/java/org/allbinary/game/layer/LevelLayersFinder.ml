@@ -32,7 +32,7 @@ class levelLayersFinder () =
     method set_enumerationUtil value' = enumerationUtil <- value'
     
 
-    method get : 'any1. 'any1 -> BasicArrayList.basicArrayList = fun (hashtable) ->
+    method get : 'any1 'return. 'any1 -> 'return = fun (hashtable) ->
         let hashtable = Obj.repr hashtable in
         begin
         let smallIntegerSingletonFactory : SmallIntegerSingletonFactory.smallIntegerSingletonFactory ref = ref (((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory)) in ();
@@ -43,13 +43,13 @@ class levelLayersFinder () =
         let cachedIntegerCanBeNull : int ref = ref ((Obj.magic 0)) in ();
         while (enumerationUtil#hasMoreElements (!enumeration)) do
             layerHashtableCanBeNull := Obj.repr ((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (enumerationUtil#nextElement (!enumeration)))))));
-            integerCanBeNull := (Obj.magic ((Obj.magic !layerHashtableCanBeNull)#get ((Obj.magic (Obj.magic (java_call_static "Layer.get_iD" (Obj.repr ())))))));
+            integerCanBeNull := (Obj.magic ((Obj.magic !layerHashtableCanBeNull)#get ((Obj.magic (Layer.get_iD ())))));
             cachedIntegerCanBeNull := (!smallIntegerSingletonFactory#getAt (!integerCanBeNull));
             if (not (!list#contains (!cachedIntegerCanBeNull))) then begin
                 ignore (!list#add (!cachedIntegerCanBeNull))
             end
         done;
-        (!list :> BasicArrayList.basicArrayList)
+        (Obj.magic (!list))
         end [@@warning "-20"]
 
     initializer
@@ -64,9 +64,9 @@ let instance = (new levelLayersFinder ())
 let get_instance () = instance
 let () = java_register_static "LevelLayersFinder.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LevelLayersFinder.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

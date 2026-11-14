@@ -38,9 +38,9 @@ class myFormUtil () =
     val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
     method commonStrings = commonStrings
     method set_commonStrings value' = commonStrings <- value'
-    val mutable popupMenuRectangle : Obj.t = Obj.repr 0
-    method popupMenuRectangle : 'r. 'r = Obj.magic popupMenuRectangle
-    method set_popupMenuRectangle : 'v. 'v -> unit = fun value' -> popupMenuRectangle <- Obj.repr value'
+    val mutable popupMenuRectangle : Rectangle.rectangle = (Obj.magic 0)
+    method popupMenuRectangle = popupMenuRectangle
+    method set_popupMenuRectangle value' = popupMenuRectangle <- value'
     
 
     method updateMeasurement : 'any1. 'any1 -> unit = fun (graphics) ->
@@ -52,25 +52,25 @@ class myFormUtil () =
         let isOpenGL : bool ref = ref ((!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL))) in ();
         let tOTAL_CHAR_WIDTH : int ref = ref ((if (((Obj.magic (java_call_static "SWTJOGLProcessor.getInstance" (Obj.repr ())))#isJOGL ()) && !isOpenGL) then 2 else 3)) in ();
         let width : int ref = ref ((MyFontProcessor.defaultStringWidth ((Obj.magic !font), !tOTAL_CHAR_WIDTH))) in ();
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
         if ((!displayInfo#getLastHeight ()) < 320) then begin
-            popupMenuRectangle <- Obj.repr ((Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (0, 25)), !width, (((((Obj.magic !font)#getHeight ()) * 4)) + 2))))))
+            popupMenuRectangle <- (new Rectangle.rectangle ((!pointFactory#createXY (0, 25)), !width, (((((Obj.magic !font)#getHeight ()) * 4)) + 2)))
         end else begin
-            popupMenuRectangle <- Obj.repr ((Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (0, ((!displayInfo#getLastHalfHeight ()) - 70))), !width, ((((Obj.magic !font)#getHeight ()) * 5)))))))
+            popupMenuRectangle <- (new Rectangle.rectangle ((!pointFactory#createXY (0, ((!displayInfo#getLastHalfHeight ()) - 70))), !width, ((((Obj.magic !font)#getHeight ()) * 5))))
         end
         end [@@warning "-20"]
     
 
     method getPopupMenuRectangle : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic popupMenuRectangle)))
+        (Obj.magic (popupMenuRectangle))
         end
 
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        popupMenuRectangle <- (Obj.repr (RectangleFactory.get_sINGLETON ()));
+        popupMenuRectangle <- ((RectangleFactory.get_sINGLETON ()) :> Rectangle.rectangle);
         ()
       end
   end [@@warning "-20"]
@@ -80,9 +80,9 @@ let instance = (new myFormUtil ())
 let get_instance () = instance
 let () = java_register_static "MyFormUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MyFormUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

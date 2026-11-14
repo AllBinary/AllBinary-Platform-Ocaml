@@ -27,7 +27,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayer *)
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 
-class basicProjectileWeaponPart (animationInterface, (sourceLayerInterface : AllBinaryLayer.allBinaryLayer), (weaponLayerCircularStaticPool_arg : WeaponLayerCircularPool.weaponLayerCircularPool), (weaponProperties : WeaponProperties.weaponProperties), (scoreableInterface : ScoreableInterface.scoreableInterface), (relativeRelationship : RelativeRelationship.relativeRelationship)) =
+class basicProjectileWeaponPart ((animationInterface : Animation.animation), (sourceLayerInterface : AllBinaryLayer.allBinaryLayer), (weaponLayerCircularStaticPool_arg : WeaponLayerCircularPool.weaponLayerCircularPool), (weaponProperties : WeaponProperties.weaponProperties), (scoreableInterface : ScoreableInterface.scoreableInterface), (relativeRelationship : RelativeRelationship.relativeRelationship)) =
   object (self)
     inherit BasicWeaponPart.basicWeaponPart (animationInterface, sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
     val mutable weaponLayerCircularStaticPool : WeaponLayerCircularPool.weaponLayerCircularPool = (Obj.magic 0)
@@ -55,11 +55,11 @@ class basicProjectileWeaponPart (animationInterface, (sourceLayerInterface : All
   end
 let () = java_register_constructor "BasicProjectileWeaponPart" (fun arguments -> Obj.repr (new basicProjectileWeaponPart (Obj.obj arguments)))
 
-let createBasicProjectileWeaponPart : 'any1 'any2. 'any1 * 'any2 -> _ = fun (animationInterface, weaponLayerCircularStaticPool_arg) ->
+let createBasicProjectileWeaponPart : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (animationInterface, weaponLayerCircularStaticPool_arg) ->
         let animationInterface = Obj.repr animationInterface in
         let weaponLayerCircularStaticPool_arg = Obj.repr weaponLayerCircularStaticPool_arg in
         begin
-        (new basicProjectileWeaponPart ((Obj.magic animationInterface), (AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()), (Obj.magic weaponLayerCircularStaticPool_arg), (WeaponProperties.get_nULL_WEAPON_PROPERTIES ()), (NoScoreable.getInstance ()), (RelativeRelationship.get_nULL_RELATIVE_RELATIONSHIP ())))
+        (Obj.magic ((new basicProjectileWeaponPart ((Obj.magic animationInterface), (AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()), (Obj.magic weaponLayerCircularStaticPool_arg), (WeaponProperties.get_nULL_WEAPON_PROPERTIES ()), (NoScoreable.getInstance ()), (RelativeRelationship.get_nULL_RELATIVE_RELATIONSHIP ())))))
         end [@@warning "-20"]
 let () = java_register_static "BasicProjectileWeaponPart.createBasicProjectileWeaponPart" (fun arguments -> Obj.repr (createBasicProjectileWeaponPart (Obj.obj arguments)))
 

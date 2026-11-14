@@ -42,7 +42,7 @@ class startIntermissionProcessor (gameCanvas_arg) =
     method process () : unit =
         begin
         if ((((Obj.magic gameCanvas)#getStartIntermissionInterface ())#getTimeDelayHelper ())#isElapsedTNT (wAIT)) then begin
-            ignore ((Obj.magic logUtil)#putF ("Intermission End", self, commonStrings#pROCESS));
+            ignore ((Obj.magic logUtil)#putF ("Intermission End", (Obj.magic self), commonStrings#pROCESS));
             ignore (((Obj.magic gameCanvas)#getStartIntermissionInterface ())#setEnabled (false))
         end
         end [@@warning "-7"]

@@ -52,12 +52,12 @@ class basicGraphicsPipeline ((points : BasicArrayList.basicArrayList)) =
         begin
         let newBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let size : int ref = ref ((pointBasicArrayList#size ())) in ();
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
         let secondPoint : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
         for index = 0 to !size - 1 do
             secondPoint := (Obj.magic pointBasicArrayList#objectArray.(index));
-            if ((!secondPoint#getX ()) != 1000) then begin
-                ignore (!newBasicArrayList#add (((Obj.magic !pointFactory)#createXY (((!secondPoint#getX ()) + x), ((!secondPoint#getY ()) + y)))))
+            if ((!secondPoint#getX ()) <> 1000) then begin
+                ignore (!newBasicArrayList#add ((!pointFactory#createXY (((!secondPoint#getX ()) + x), ((!secondPoint#getY ()) + y)))))
             end else begin
                 ignore (!newBasicArrayList#add (!secondPoint))
             end
@@ -69,7 +69,7 @@ class basicGraphicsPipeline ((points : BasicArrayList.basicArrayList)) =
     method rotateToAngle : 'any1. 'any1 -> unit = fun (angle) ->
         let angle = Obj.repr angle in
         begin
-        (self#rotate ((java_to_int (Obj.repr (((Obj.magic angle)#getValue ()))))))
+        (self#rotate (((Obj.magic angle)#getValue ())))
         end [@@warning "-20"]
     
 
@@ -81,19 +81,19 @@ class basicGraphicsPipeline ((points : BasicArrayList.basicArrayList)) =
         let secondX : int ref = ref (0) in ();
         let secondY : int ref = ref (0) in ();
         let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
         let size : int ref = ref ((pointBasicArrayList#size ())) in ();
         let sin : int ref = ref (0) in ();
         let cos : int ref = ref (0) in ();
         for index = 0 to !size - 1 do
             secondPoint := (Obj.magic pointBasicArrayList#objectArray.(index));
-            if ((!secondPoint#getX ()) != 1000) then begin
+            if ((!secondPoint#getX ()) <> 1000) then begin
                 sin := (noDecimalTrigTable#sin (angle));
                 cos := (noDecimalTrigTable#cos (angle));
                 y := ((!secondPoint#getY ()) * !sin);
                 secondX := ((((!secondPoint#getX ()) * !cos)) - !y);
                 secondY := ((((!secondPoint#getX ()) * !sin)) + (((!secondPoint#getY ()) * !cos)));
-                point := ((Obj.magic !pointFactory)#createXY ((!secondX / 10000), (!secondY / 10000)));
+                point := (!pointFactory#createXY ((!secondX / 10000), (!secondY / 10000)));
                 ignore (!newBasicArrayList#add (!point))
             end else begin
                 ignore (!newBasicArrayList#add (!secondPoint))
@@ -105,7 +105,7 @@ class basicGraphicsPipeline ((points : BasicArrayList.basicArrayList)) =
 
     method mirror ((width : int)) : unit =
         begin
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
         let halfWidth : int ref = ref (((width asr 1))) in ();
         let newBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let secondPoint : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
@@ -114,14 +114,14 @@ class basicGraphicsPipeline ((points : BasicArrayList.basicArrayList)) =
         let size : int ref = ref ((pointBasicArrayList#size ())) in ();
         for index = 0 to !size - 1 do
             secondPoint := (Obj.magic pointBasicArrayList#objectArray.(index));
-            if ((!secondPoint#getX ()) != 1000) then begin
+            if ((!secondPoint#getX ()) <> 1000) then begin
                 newX := 0;
                 if ((!secondPoint#getX ()) > !halfWidth) then begin
                     newX := (!halfWidth - (((!secondPoint#getX ()) - !halfWidth)))
                 end else begin
                     newX := (!halfWidth + ((!halfWidth - (!secondPoint#getX ()))))
                 end;
-                point := ((Obj.magic !pointFactory)#createXY (!newX, (!secondPoint#getY ())));
+                point := (!pointFactory#createXY (!newX, (!secondPoint#getY ())));
                 ignore (!newBasicArrayList#add (!point))
             end else begin
                 ignore (!newBasicArrayList#add (!secondPoint))
@@ -131,9 +131,9 @@ class basicGraphicsPipeline ((points : BasicArrayList.basicArrayList)) =
         end
     
 
-    method getMatrix () : BasicArrayList.basicArrayList =
+    method getMatrix : 'return. unit -> 'return = fun () ->
         begin
-        (pointBasicArrayList :> BasicArrayList.basicArrayList)
+        (Obj.magic (pointBasicArrayList))
         end
 
     initializer

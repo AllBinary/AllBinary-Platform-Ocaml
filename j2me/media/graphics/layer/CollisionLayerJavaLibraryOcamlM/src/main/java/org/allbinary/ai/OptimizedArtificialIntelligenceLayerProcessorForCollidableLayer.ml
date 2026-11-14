@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class optimizedArtificialIntelligenceLayerProcessorForCollidableLayer () =
   object
-    inherit LayerProcessor.layerProcessor ((new OptimizedArtificialIntelligenceLayerManager.optimizedArtificialIntelligenceLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new OptimizedArtificialIntelligenceLayerManager.optimizedArtificialIntelligenceLayerManager ()) : OptimizedArtificialIntelligenceLayerManager.optimizedArtificialIntelligenceLayerManager :> LayerManager.layerManager))
     
     
 

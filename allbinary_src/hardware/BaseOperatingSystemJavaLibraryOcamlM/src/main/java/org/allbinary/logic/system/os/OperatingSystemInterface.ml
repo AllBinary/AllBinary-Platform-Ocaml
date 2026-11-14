@@ -23,7 +23,7 @@ class virtual operatingSystemInterface =
     method virtual getName : unit -> string
     method virtual getVersion : unit -> string
     method virtual getArch : unit -> string
-    method virtual getCharacterSet : unit -> CharacterSet.characterSet
+    method virtual getCharacterSet : 'return . unit -> 'return
     method virtual isOverScan : unit -> bool
     method virtual getOverScanXPercent : unit -> int
     method virtual getOverScanYPercent : unit -> int

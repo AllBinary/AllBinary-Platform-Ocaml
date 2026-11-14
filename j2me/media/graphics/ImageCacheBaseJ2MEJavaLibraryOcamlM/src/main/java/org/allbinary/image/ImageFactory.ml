@@ -19,6 +19,7 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import java.io.InputStream *)
 (* import javax.microedition.lcdui.Image *)
+(* import org.allbinary.MIDPUtil *)
 
 class imageFactory () =
   object
@@ -32,14 +33,14 @@ class imageFactory () =
 
     method createImage : 'return. string * int * int -> 'return = fun ((_caller : string), (width : int), (height : int)) ->
         begin
-        (Obj.magic ((Obj.magic (java_call_static "Image.createImage" (Obj.repr (width, height))))))
+        (Obj.magic (((MIDPUtil.getInstance ())#createImageWH (width, height))))
         end
     
 
     method createImageFromInputStream : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (_key, inputStream) ->
         let inputStream = Obj.repr inputStream in
         begin
-        let image : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Image.createImage" (Obj.repr ((Obj.magic inputStream))))))) in ();
+        let image : Obj.t ref = ref ((Obj.repr ((MIDPUtil.getInstance ())#createImageFromInputStream ((Obj.magic inputStream))))) in ();
         (Obj.magic ((Obj.magic !image)))
         end [@@warning "-20"]
     
@@ -57,9 +58,9 @@ let instance = (new imageFactory ())
 let get_instance () = instance
 let () = java_register_static "ImageFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ImageFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

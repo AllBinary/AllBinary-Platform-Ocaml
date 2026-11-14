@@ -44,7 +44,7 @@ class touchJ2ME () =
             ignore ((Obj.magic motionRecognizer)#processDraggedMotionEvent (x, y, dEVICE_ID, 0))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "pointerDragged", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "pointerDragged", e))
         end)
         end
     
@@ -55,7 +55,7 @@ class touchJ2ME () =
             ignore ((Obj.magic motionRecognizer)#processStartMotionEvent (x, y, dEVICE_ID, 0))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "pointerPressed", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "pointerPressed", e))
         end)
         end
     
@@ -66,7 +66,7 @@ class touchJ2ME () =
             ignore ((Obj.magic motionRecognizer)#processEndMotionEvent (x, y, dEVICE_ID, 0))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "pointerReleased", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "pointerReleased", e))
         end)
         end
 

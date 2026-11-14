@@ -48,9 +48,9 @@ class basicLayerProcessor () =
         end [@@warning "-20"]
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer

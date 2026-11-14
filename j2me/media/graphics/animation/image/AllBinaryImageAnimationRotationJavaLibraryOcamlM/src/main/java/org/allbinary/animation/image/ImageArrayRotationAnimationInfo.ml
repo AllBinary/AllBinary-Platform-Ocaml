@@ -40,10 +40,11 @@ class imageArrayRotationAnimationInfo (imageArray_arg, (angleIncrement_arg : int
     
     
 
-    method setImageArray (imageArray_arg) : unit =
+    method setImageArray : 'any1. 'any1 -> unit = fun (imageArray_arg) ->
+        let imageArray_arg = Obj.repr imageArray_arg in
         begin
-        imageArray <- Obj.repr (imageArray_arg)
-        end
+        imageArray <- Obj.repr ((Obj.magic imageArray_arg))
+        end [@@warning "-20"]
     
 
     method getImageArray : 'return. unit -> 'return = fun () ->
@@ -52,9 +53,9 @@ class imageArrayRotationAnimationInfo (imageArray_arg, (angleIncrement_arg : int
         end
     
 
-    method getAngleInfoP () : AngleInfo.angleInfo =
+    method getAngleInfoP : 'return. unit -> 'return = fun () ->
         begin
-        ((AngleInfo.getInstance (angleIncrement)) :> AngleInfo.angleInfo)
+        (Obj.magic ((AngleInfo.getInstance (angleIncrement))))
         end
     
 

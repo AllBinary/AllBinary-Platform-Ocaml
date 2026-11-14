@@ -29,7 +29,7 @@ class completeMotionGestureInputToGameMotionGestureInput () =
 
     method init () : unit =
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("No Touch Button = No Compound Motion Gestures", self, commonStrings#iNIT))))
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("No Touch Button = No Compound Motion Gestures", (Obj.magic self), commonStrings#iNIT))))
         end
 
     initializer
@@ -44,9 +44,9 @@ let instance = (new completeMotionGestureInputToGameMotionGestureInput ())
 let get_instance () = instance
 let () = java_register_static "CompleteMotionGestureInputToGameMotionGestureInput.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "CompleteMotionGestureInputToGameMotionGestureInput.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

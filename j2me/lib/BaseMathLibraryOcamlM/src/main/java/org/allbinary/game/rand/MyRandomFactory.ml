@@ -45,7 +45,7 @@ class myRandomFactory () =
     method getNextInt ((range : int)) : int =
         begin
         let div : int ref = ref ((((2147483647 / range)) + 1)) in ();
-        (java_to_int (Obj.repr ((((rand#nextInt ()) / !div)))))
+        (((rand#nextInt ()) / !div))
         end
     
 
@@ -128,9 +128,9 @@ let instance = (new myRandomFactory ())
 let get_instance () = instance
 let () = java_register_static "MyRandomFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let rec getInstance () =
+let rec getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 
 and main ((_args : string array)) : unit =

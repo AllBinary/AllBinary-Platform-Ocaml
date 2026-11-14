@@ -83,9 +83,9 @@ class log ((specialMessage_arg : string), (anyType_arg : Obj.t), (functionName_a
         ();
         ();
         specialMessage <- specialMessage_arg;
-        anyType <- anyType_arg;
+        anyType <- (Obj.repr (anyType_arg));
         functionName <- functionName_arg;
-        exception_ <- exception__arg
+        exception_ <- (Obj.repr (exception__arg))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "Log" (fun arguments -> Obj.repr (new log (Obj.obj arguments)))

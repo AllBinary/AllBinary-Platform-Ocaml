@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual pickedUpLayerInterface =
   object
     inherit LayerInterface.layerInterface
-    method virtual getPickedUpLayerInterfaceFactoryInterface : unit -> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface
+    method virtual getPickedUpLayerInterfaceFactoryInterface : 'return . unit -> 'return
     method virtual setPickedUp : unit -> unit
   end
 

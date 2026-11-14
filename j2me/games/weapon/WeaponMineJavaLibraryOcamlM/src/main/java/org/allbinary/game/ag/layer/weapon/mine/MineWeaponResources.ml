@@ -24,6 +24,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "MineWeaponResources.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "MineWeaponResources.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class mineWeaponResources () =
   object
     inherit BasicGameResources.basicGameResources () as super
@@ -56,12 +57,12 @@ class mineWeaponResources () =
   end
 let () = java_register_constructor "MineWeaponResources" (fun arguments -> Obj.repr (new mineWeaponResources (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new mineWeaponResources ())
+            instance := (Obj.repr ((new mineWeaponResources ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "MineWeaponResources.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

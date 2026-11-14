@@ -16,15 +16,17 @@
 (* package org.allbinary.game *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.business.advertisement.GameAdStateBase *)
 (* import org.allbinary.business.advertisement.AdConfiguration *)
 (* import org.allbinary.input.event.VirtualKeyboardEvent *)
 (* import org.allbinary.input.event.VirtualKeyboardEventHandler *)
 (* import org.allbinary.input.event.VirtualKeyboardEventListenerInterface *)
+(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
 
 class gameAdState ((adConfiguration : AdConfiguration.adConfiguration)) =
   object (self)
-    inherit GameAdStateBase.gameAdStateBase (adConfiguration)
+    inherit GameAdStateBase.gameAdStateBase (adConfiguration) as super
     
     
 
@@ -32,12 +34,19 @@ class gameAdState ((adConfiguration : AdConfiguration.adConfiguration)) =
         begin
         ()
         end [@@warning "-7-20"]
+    
+
+    method onEvent : 'any1. 'any1 -> unit = fun (eventObject) ->
+        let eventObject = Obj.repr eventObject in
+        begin
+        ignore (super#onEvent ((Obj.magic eventObject)))
+        end [@@warning "-7-20"]
 
     initializer
       begin
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((VirtualKeyboardEventHandler.getInstance ())#addListenerInterface (self))
+        ignore ((VirtualKeyboardEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
       end
   end
 let () = java_register_constructor "GameAdState" (fun arguments -> Obj.repr (new gameAdState (Obj.obj arguments)))

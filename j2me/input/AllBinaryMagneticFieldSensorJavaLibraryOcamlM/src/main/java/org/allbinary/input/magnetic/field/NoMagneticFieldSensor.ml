@@ -27,7 +27,7 @@ class noMagneticFieldSensor () =
 
     method getOrientation : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic (java_call_static "Orientation.get_nONE" (Obj.repr ())))))
+        (Obj.magic ((Orientation.get_nONE ())))
         end [@@warning "-7"]
     
 

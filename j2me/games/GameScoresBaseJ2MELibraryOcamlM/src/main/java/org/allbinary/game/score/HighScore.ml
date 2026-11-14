@@ -64,16 +64,16 @@ class highScore ((id_arg : int), (name_arg : string), (gameInfo_arg : GameInfo.g
     method getAsBytes () : int array =
         begin
         let byteArrayOutputStream : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
-        let outputStream : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))))) in ();
-        ignore ((Obj.magic !outputStream)#writeUTF ((self#getName ())));
-        ignore ((Obj.magic !outputStream)#writeLong ((self#getScore ())));
+        let outputStream : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))) :> java_data_output_stream)) in ();
+        ignore (!outputStream#writeUTF ((self#getName ())));
+        ignore (!outputStream#writeLong ((self#getScore ())));
         (!byteArrayOutputStream#toByteArray ())
         end
     
 
-    method getGameInfo () : GameInfo.gameInfo =
+    method getGameInfo : 'return. unit -> 'return = fun () ->
         begin
-        (gameInfo :> GameInfo.gameInfo)
+        (Obj.magic (gameInfo))
         end
     
 

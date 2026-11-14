@@ -27,6 +27,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "GameKeyEventFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameKeyEventFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class gameKeyEventFactory () =
   object
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -61,20 +62,20 @@ class gameKeyEventFactory () =
         end
     
 
-    method getInstanceForKey : 'any1. 'any1 * int -> GameKeyEvent.gameKeyEvent = fun (anyType, (key : int)) ->
+    method getInstanceForKey : 'any1 'return. 'any1 * int -> 'return = fun (anyType, (key : int)) ->
         let anyType = Obj.repr anyType in
         begin
         let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref ((aRRAY.(((Obj.magic anyType)#getSourceId ())).(key) :> GameKeyEvent.gameKeyEvent)) in ();
-        (!gameKeyEvent :> GameKeyEvent.gameKeyEvent)
+        (Obj.magic (!gameKeyEvent))
         end [@@warning "-20"]
     
 
-    method getInstanceForInput : 'any1 'any2. 'any1 * 'any2 -> GameKeyEvent.gameKeyEvent = fun (anyType, input) ->
+    method getInstanceForInput : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (anyType, input) ->
         let anyType = Obj.repr anyType in
         let input = Obj.repr input in
         begin
         let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref ((aRRAY.(((Obj.magic anyType)#getSourceId ())).(((Obj.magic input)#getId ())) :> GameKeyEvent.gameKeyEvent)) in ();
-        (!gameKeyEvent :> GameKeyEvent.gameKeyEvent)
+        (Obj.magic (!gameKeyEvent))
         end [@@warning "-20"]
 
     initializer
@@ -90,12 +91,12 @@ class gameKeyEventFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "GameKeyEventFactory" (fun arguments -> Obj.repr (new gameKeyEventFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new gameKeyEventFactory ())
+            instance := (Obj.repr ((new gameKeyEventFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "GameKeyEventFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

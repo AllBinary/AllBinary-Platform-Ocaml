@@ -22,6 +22,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.BasicArrayListD *)
 
+let sINGLETON_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_sINGLETON : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !sINGLETON_cell with Lazy.Undefined -> java_null)
+let set_sINGLETON value' = sINGLETON_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameConfigurationSingleton.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "GameConfigurationSingleton.set_sINGLETON" (fun value' -> set_sINGLETON value'; Obj.repr ())
 class gameConfigurationSingleton () =
   object
     val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
@@ -39,9 +44,9 @@ class gameConfigurationSingleton () =
         end
     
 
-    method getOptionsBasicArrayList () : BasicArrayList.basicArrayList =
+    method getOptionsBasicArrayList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
     
 
@@ -62,21 +67,18 @@ class gameConfigurationSingleton () =
         ();
         ();
         ();
-        list <- (new BasicArrayListD.basicArrayListD ());
+        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         hashtable <- Obj.repr (((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "GameConfigurationSingleton" (fun arguments -> Obj.repr (new gameConfigurationSingleton (Obj.obj arguments)))
 
-let sINGLETON = ref ((new gameConfigurationSingleton ()))
-let get_sINGLETON () = !sINGLETON
-let set_sINGLETON value' = sINGLETON := value'
-let () = java_register_static "GameConfigurationSingleton.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic ((Obj.magic (get_sINGLETON ()))))
         end
 let () = java_register_static "GameConfigurationSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = sINGLETON_cell := lazy (Obj.repr ((new gameConfigurationSingleton ())))
 
 

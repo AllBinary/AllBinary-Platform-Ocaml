@@ -40,6 +40,7 @@ let sPEED : int ref = ref (((SmallIntegerSingletonFactory.getInstance ())#getAt 
 let get_sPEED () = !sPEED
 let set_sPEED value' = sPEED := value'
 let () = java_register_static "BasePatrolAI.get_sPEED" (fun _ -> Obj.repr (get_sPEED ()))
+let () = java_register_static "BasePatrolAI.set_sPEED" (fun value' -> set_sPEED (Obj.obj value'); Obj.repr ())
 class basePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
   object (self)
     inherit BasicAI.basicAI (ownerLayerInterface, gameInput)

@@ -59,7 +59,7 @@ class sound ((resource_arg : string)) =
 
     method getDuration () : int =
         begin
-        (-1)
+        (- 1)
         end
     
 
@@ -69,7 +69,7 @@ class sound ((resource_arg : string)) =
             ignore ((Obj.magic player)#start ())
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (!commonStrings#eXCEPTION, self, !commonStrings#rUN))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#rUN))))
         end)
         end
 

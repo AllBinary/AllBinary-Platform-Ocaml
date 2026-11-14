@@ -27,6 +27,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.game.combat.destroy.event.DestroyedEvent *)
 (* import org.allbinary.game.combat.destroy.event.DestroyedEventHandler *)
 (* import org.allbinary.game.combat.destroy.event.DestroyedEventListenerInterface *)
+(* import org.allbinary.game.identification.Group *)
 (* import org.allbinary.game.input.GameInput *)
 (* import org.allbinary.game.physics.velocity.BasicVelocityProperties *)
 (* import org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface *)
@@ -123,7 +124,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         begin
         diveP <- false;
         directionOfTarget <- (DirectionFactory.getInstance ())#nOT_BORDERED_WITH;
-        ignore ((TrackingEventHandler.getInstance ())#addListenerInterface (self))
+        ignore ((TrackingEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -138,7 +139,9 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         lastTrackingLayerInterface <- (!lastTrackingEvent#getLayerInterface ());
         let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref ((lastTrackingLayerInterface :> AllBinaryLayer.allBinaryLayer)) in ();
         let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        if ((Obj.repr (!layerInterface#getGroupInterface ())) == (Obj.repr (!ownerLayerInterface#getGroupInterface ()))) then begin
+        let groupArray : Group.group array ref = ref ((!layerInterface#getGroupInterface ())) in ();
+        let ownerGroupArray : Group.group array ref = ref ((!ownerLayerInterface#getGroupInterface ())) in ();
+        if ((Obj.repr !groupArray) == (Obj.repr !ownerGroupArray)) then begin
             raise (Java_return (Obj.repr (())))
         end;
         let x : int ref = ref ((lastTrackingLayerInterface#getXP ())) in ();
@@ -149,13 +152,13 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         if ((mathUtil#abs (!yDistance)) > (mathUtil#abs (!xDistance))) then begin
             if (!yDistance > mIN_DISTANCE) then begin
                 directionOfTarget <- !directionFactory_arg#uP
-            end else if (!yDistance < (-mIN_DISTANCE)) then begin
+            end else if (!yDistance < (- mIN_DISTANCE)) then begin
                 directionOfTarget <- !directionFactory_arg#dOWN
             end
         end else begin
             if (!xDistance > mIN_DISTANCE) then begin
                 directionOfTarget <- !directionFactory_arg#lEFT
-            end else if (!xDistance < (-mIN_DISTANCE)) then begin
+            end else if (!xDistance < (- mIN_DISTANCE)) then begin
                 directionOfTarget <- !directionFactory_arg#rIGHT
             end
         end;
@@ -209,7 +212,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         begin
         diveP <- true;
         ignore (velocityInterface#zero ());
-        ignore ((TrackingEventHandler.getInstance ())#removeListener (self))
+        ignore ((TrackingEventHandler.getInstance ())#removeListener ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -217,7 +220,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         begin
         (self#setLastDirection (directionFactory#rIGHT));
         ignore (directionalInterface#setFrameByDirection (lastDirection));
-        ignore (aiVistor#visit (self))
+        ignore (aiVistor#visit ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -225,7 +228,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         begin
         (self#setLastDirection (directionFactory#lEFT));
         ignore (directionalInterface#setFrameByDirection (lastDirection));
-        ignore (aiVistor#visit (self))
+        ignore (aiVistor#visit ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -233,7 +236,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         begin
         (self#setLastDirection (directionFactory#dOWN));
         ignore (directionalInterface#setFrameByDirection (lastDirection));
-        ignore (aiVistor#visit (self))
+        ignore (aiVistor#visit ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -241,14 +244,14 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         begin
         (self#setLastDirection (directionFactory#uP));
         ignore (directionalInterface#setFrameByDirection (lastDirection));
-        ignore (aiVistor#visit (self))
+        ignore (aiVistor#visit ((Obj.magic self)))
         end [@@warning "-7"]
     
 
     method dive () : unit =
         begin
         ignore (directionalInterface#setFrameByDirection (directionOfTarget));
-        ignore (aiVistor#visit (self))
+        ignore (aiVistor#visit ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -262,7 +265,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         begin
         if (timeDelayHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
             initialDropped <- true;
-            ignore (aiVistor#visit (self))
+            ignore (aiVistor#visit ((Obj.magic self)))
         end
         end [@@warning "-7"]
     
@@ -303,7 +306,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -318,8 +321,8 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         let destroyedEvent = Obj.repr destroyedEvent in
         begin
         if ((Obj.repr (self#getOwnerLayerInterface ())) == (Obj.repr ((Obj.magic destroyedEvent)#getLayerInterface ()))) then begin
-            ignore ((TrackingEventHandler.getInstance ())#removeListener (self));
-            ignore ((DestroyedEventHandler.getInstance ())#removeListener (self))
+            ignore ((TrackingEventHandler.getInstance ())#removeListener ((Obj.magic self)));
+            ignore ((DestroyedEventHandler.getInstance ())#removeListener ((Obj.magic self)))
         end
         end [@@warning "-7-20"]
     
@@ -350,9 +353,9 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         end [@@warning "-7"]
     
 
-    method getLastDirection () : Direction.direction =
+    method getLastDirection : 'return. unit -> 'return = fun () ->
         begin
-        (lastDirection :> Direction.direction)
+        (Obj.magic (lastDirection))
         end [@@warning "-7"]
     
 
@@ -391,7 +394,7 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
         directionalInterface <- (!directionalCompositeInterface#getDirectionalInterface ());
         let velocityInterfaceCompositeInterface : VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface)) in ();
         velocityInterface <- (!velocityInterfaceCompositeInterface#getVelocityProperties ());
-        ignore ((DestroyedEventHandler.getInstance ())#addListenerInterface (self));
+        ignore ((DestroyedEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)));
         (self#init ())
       end
   end

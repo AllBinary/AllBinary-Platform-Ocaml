@@ -19,6 +19,11 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import org.allbinary.graphics.displayable.event.DisplayChangeEvent *)
 
+let instanceC_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instanceC : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instanceC_cell with Lazy.Undefined -> java_null)
+let set_instanceC value' = instanceC_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "InGameMenuBehavior.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
+let () = java_register_static "InGameMenuBehavior.set_instanceC" (fun value' -> set_instanceC value'; Obj.repr ())
 class inGameMenuBehavior () =
   object
     inherit BaseMenuBehavior.baseMenuBehavior ()
@@ -73,14 +78,12 @@ class inGameMenuBehavior () =
   end
 let () = java_register_constructor "InGameMenuBehavior" (fun arguments -> Obj.repr (new inGameMenuBehavior (Obj.obj arguments)))
 
-let instanceC = (new inGameMenuBehavior ())
-let get_instanceC () = instanceC
-let () = java_register_static "InGameMenuBehavior.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceC
+        (Obj.magic ((Obj.magic (get_instanceC ()))))
         end
 let () = java_register_static "InGameMenuBehavior.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instanceC_cell := lazy (Obj.repr ((new inGameMenuBehavior ())))
 
 

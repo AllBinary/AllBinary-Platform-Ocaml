@@ -59,9 +59,9 @@ class basicGameDemoPaintable ((mainDemoStatePaintable_arg : Paintable.paintable)
         end [@@warning "-7-20"]
     
 
-    method getHelpPaintableInterface () : Paintable.paintable =
+    method getHelpPaintableInterface : 'return. unit -> 'return = fun () ->
         begin
-        (helpPaintableInterface :> Paintable.paintable)
+        (Obj.magic (helpPaintableInterface))
         end [@@warning "-7"]
     
 
@@ -72,15 +72,15 @@ class basicGameDemoPaintable ((mainDemoStatePaintable_arg : Paintable.paintable)
         end [@@warning "-7-20"]
     
 
-    method getCurrentStatePaintable () : Paintable.paintable =
+    method getCurrentStatePaintable : 'return. unit -> 'return = fun () ->
         begin
-        (currentStatePaintable :> Paintable.paintable)
+        (Obj.magic (currentStatePaintable))
         end [@@warning "-7"]
     
 
-    method getMainDemoStatePaintable () : Paintable.paintable =
+    method getMainDemoStatePaintable : 'return. unit -> 'return = fun () ->
         begin
-        (mainDemoStatePaintable :> Paintable.paintable)
+        (Obj.magic (mainDemoStatePaintable))
         end [@@warning "-7"]
 
     initializer

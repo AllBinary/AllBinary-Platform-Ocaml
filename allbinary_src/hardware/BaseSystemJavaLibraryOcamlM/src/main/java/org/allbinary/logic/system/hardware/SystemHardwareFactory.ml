@@ -54,9 +54,9 @@ let instance = (new systemHardwareFactory ())
 let get_instance () = instance
 let () = java_register_static "SystemHardwareFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let rec getInstance () =
+let rec getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 
 and static_toString () : string =

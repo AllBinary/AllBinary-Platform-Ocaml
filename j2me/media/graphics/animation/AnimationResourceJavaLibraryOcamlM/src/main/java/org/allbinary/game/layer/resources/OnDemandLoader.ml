@@ -84,7 +84,7 @@ class onDemandLoader ((onDemandResourcesFactory_arg : OnDemandResourcesFactory.o
         let portion : int ref = ref (120) in ();
         let index : int ref = ref (0) in ();
         let onDemandArray : int array ref = ref (((Obj.magic layerPlacementInterfaceBasicArrayListFactoryInterface)#getOnDemandResources ())) in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!commonStrings#sTART))#appendint ((Array.length !onDemandArray))))), self, "initLevel"))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!commonStrings#sTART))#appendint ((Array.length !onDemandArray))))), (Obj.magic self), "initLevel"))));
         let onDemandResources : OnDemandResources.onDemandResources ref = ref (((Obj.magic 0) :> OnDemandResources.onDemandResources)) in ();
         let onDemandIndex : int ref = ref ((Array.length !onDemandArray)) in ();
         while ((onDemandIndex := !onDemandIndex - 1; !onDemandIndex) >= 0) do

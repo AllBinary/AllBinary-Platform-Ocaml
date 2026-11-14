@@ -24,14 +24,14 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.BasicArrayListD *)
 
-class compositeGroup (groupInterface_arg) =
+class compositeGroup ((groupInterface_arg : Group.group)) =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable groupInterface : Obj.t = Obj.repr 0
-    method groupInterface : 'r. 'r = Obj.magic groupInterface
-    method set_groupInterface : 'v. 'v -> unit = fun value' -> groupInterface <- Obj.repr value'
+    val mutable groupInterface : Group.group = (Obj.magic 0)
+    method groupInterface = groupInterface
+    method set_groupInterface value' = groupInterface <- value'
     val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
     method list = list
     method set_list value' = list <- value'
@@ -53,8 +53,8 @@ class compositeGroup (groupInterface_arg) =
         ignore (!stringBuffer#append (!groupCommonFactory#aDDING_LABEL));
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic groupInterface_arg)))));
         ignore (!stringBuffer#append (!groupCommonFactory#tO_LABEL));
-        ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString ((Obj.magic groupInterface)))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !commonStrings#aDD));
+        ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString (groupInterface))));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#aDD));
         ignore (list#add ((Obj.magic groupInterface_arg)))
         end [@@warning "-20"]
     
@@ -74,7 +74,7 @@ class compositeGroup (groupInterface_arg) =
 
     method getGroup : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic groupInterface)))
+        (Obj.magic (groupInterface))
         end
 
     initializer
@@ -83,7 +83,7 @@ class compositeGroup (groupInterface_arg) =
         ();
         list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         ();
-        groupInterface <- Obj.repr (groupInterface_arg)
+        groupInterface <- groupInterface_arg
       end
   end [@@warning "-20"]
 let () = java_register_constructor "CompositeGroup" (fun arguments -> Obj.repr (new compositeGroup (Obj.obj arguments)))

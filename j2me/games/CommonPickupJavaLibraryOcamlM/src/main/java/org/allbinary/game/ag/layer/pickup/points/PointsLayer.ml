@@ -27,7 +27,7 @@ open Allbinary_java [@@warning "-33"]
 
 class pointsLayer ((points_arg : int)) =
   object
-    inherit AllBinaryLayer.allBinaryLayer ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, 0, 0)))), (ViewPosition.getInstanceD ()))
+    inherit AllBinaryLayer.allBinaryLayer ((StringUtil.getInstance ())#eMPTY_STRING, (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, 0, 0)), (ViewPosition.getInstanceD ()))
     val mutable points : int = 0
     method points = points
     method set_points value' = points <- value'

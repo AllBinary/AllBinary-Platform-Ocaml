@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.math *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.string.CommonPhoneStrings *)
 (* import org.allbinary.string.CommonSeps *)
 
@@ -63,9 +64,9 @@ let instance = (new mathData ())
 let get_instance () = instance
 let () = java_register_static "MathData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MathData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

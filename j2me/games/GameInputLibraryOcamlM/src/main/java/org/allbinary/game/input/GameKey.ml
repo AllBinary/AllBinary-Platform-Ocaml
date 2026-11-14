@@ -38,7 +38,7 @@ class gameKey ((key : int), (name : string)) =
   end
 let () = java_register_constructor "GameKey" (fun arguments -> Obj.repr (new gameKey (Obj.obj arguments)))
 
-let nULL_GAME_KEY = (new gameKey ((-1), (StringUtil.getInstance ())#nULL_STRING))
+let nULL_GAME_KEY = (new gameKey ((- 1), (StringUtil.getInstance ())#nULL_STRING))
 let get_nULL_GAME_KEY () = nULL_GAME_KEY
 let () = java_register_static "GameKey.get_nULL_GAME_KEY" (fun _ -> Obj.repr (get_nULL_GAME_KEY ()))
 

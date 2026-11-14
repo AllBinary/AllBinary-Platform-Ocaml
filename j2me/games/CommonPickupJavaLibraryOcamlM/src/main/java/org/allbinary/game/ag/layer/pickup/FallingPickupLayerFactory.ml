@@ -25,9 +25,9 @@ class fallingPickupLayerFactory () =
   object
     
 
-    method getInstance () : AllBinaryLayer.allBinaryLayer =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new FallingPickupLayer.fallingPickupLayer ((Obj.magic (java_call_static "RemoteInfo.get_rEMOTE_INFO" (Obj.repr ()))))) :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic ((new FallingPickupLayer.fallingPickupLayer ((Obj.magic (java_call_static "RemoteInfo.get_rEMOTE_INFO" (Obj.repr ())))))))
         end
 
     initializer

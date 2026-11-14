@@ -45,20 +45,20 @@ class scoreComparator ((isHighestBest_arg : bool)) =
     method compare ((recordOne : int array), (recordTwo : int array)) : int =
         try
         begin
-        let byteArrayInputStreamOne : Obj.t ref = ref ((Obj.repr (new ByteArrayInputStream.byteArrayInputStream (recordOne)))) in ();
-        let inputStreamOne : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DataInputStream" (Obj.repr ((Obj.magic !byteArrayInputStreamOne))))))) in ();
-        let byteArrayInputStreamTwo : Obj.t ref = ref ((Obj.repr (new ByteArrayInputStream.byteArrayInputStream (recordTwo)))) in ();
-        let inputStreamTwo : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DataInputStream" (Obj.repr ((Obj.magic !byteArrayInputStreamTwo))))))) in ();
+        let byteArrayInputStreamOne : java_byte_array_input_stream ref = ref (((new java_byte_array_input_stream (recordOne)) :> java_byte_array_input_stream)) in ();
+        let inputStreamOne : java_data_input_stream ref = ref (((Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStreamOne)))) :> java_data_input_stream)) in ();
+        let byteArrayInputStreamTwo : java_byte_array_input_stream ref = ref (((new java_byte_array_input_stream (recordTwo)) :> java_byte_array_input_stream)) in ();
+        let inputStreamTwo : java_data_input_stream ref = ref (((Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStreamTwo)))) :> java_data_input_stream)) in ();
         let scoreOne : int ref = ref (0) in ();
         let scoreTwo : int ref = ref (0) in ();
         (try
-            ignore ((Obj.magic !inputStreamOne)#readUTF ());
-            ignore ((Obj.magic !inputStreamTwo)#readUTF ());
-            scoreOne := ((Obj.magic !inputStreamOne)#readLong ());
-            scoreTwo := ((Obj.magic !inputStreamTwo)#readLong ())
+            ignore (!inputStreamOne#readUTF ());
+            ignore (!inputStreamTwo#readUTF ());
+            scoreOne := (!inputStreamOne#readLong ());
+            scoreTwo := (!inputStreamTwo#readLong ())
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "compare", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "compare", e))
         end);
         if isHighestBest then begin
             raise (Java_return (Obj.repr ((self#getHighTooLow (!scoreOne, !scoreTwo)))))

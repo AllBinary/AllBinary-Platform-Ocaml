@@ -49,7 +49,7 @@ class smallLongFactory () =
             iNTEGER_ARRAY.((index + nEGATIVE_MAX)) <- (Obj.obj (java_new "Long" (Obj.repr (index))))
         done;
         for index = (negativeValue - 1) downto lastNegativeMin do
-            iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Long" (Obj.repr ((-index)))))
+            iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Long" (Obj.repr ((- index)))))
         done;
         if (lastMin < value) then begin
             lastMin <- value;
@@ -69,7 +69,7 @@ class smallLongFactory () =
                     iNTEGER_ARRAY.((index + nEGATIVE_MAX)) <- (Obj.obj (java_new "Long" (Obj.repr (index))))
                 done;
                 for index = (nEGATIVE_MAX - 1) downto lastNegativeMin do
-                    iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Long" (Obj.repr ((-index)))))
+                    iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Long" (Obj.repr ((- index)))))
                 done;
                 lastMin <- pOSITIVE_MAX;
                 lastNegativeMin <- nEGATIVE_MAX
@@ -83,7 +83,7 @@ class smallLongFactory () =
         try
         begin
         if ((index + nEGATIVE_MAX) > ((Array.length iNTEGER_ARRAY) - 1)) then begin
-            raise (Java_return (Obj.repr (iNTEGER_ARRAY.(((-1) + nEGATIVE_MAX)))))
+            raise (Java_return (Obj.repr (iNTEGER_ARRAY.(((- 1) + nEGATIVE_MAX)))))
         end;
         iNTEGER_ARRAY.(((index) + nEGATIVE_MAX))
         end
@@ -118,9 +118,9 @@ let instance = (new smallLongFactory ())
 let get_instance () = instance
 let () = java_register_static "SmallLongFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "SmallLongFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

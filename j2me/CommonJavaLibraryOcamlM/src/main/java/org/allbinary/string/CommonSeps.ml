@@ -16,6 +16,7 @@
 (* package org.allbinary.string *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import jsinterop.annotations.JsType *)
 (* import org.allbinary.logic.string.StringMaker *)
 (* import jsinterop.annotations.JsMethod *)
@@ -139,9 +140,9 @@ let instance = (new commonSeps ())
 let get_instance () = instance
 let () = java_register_static "CommonSeps.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "CommonSeps.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

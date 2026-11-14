@@ -119,9 +119,9 @@ class simultaneousCompoundIndexAnimation ((animationInterfaceArray_arg : Indexed
         end [@@warning "-7-20"]
     
 
-    method getAnimationInterfaceArray () : IndexedAnimation.indexedAnimation array =
+    method getAnimationInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        animationInterfaceArray
+        (Obj.magic (animationInterfaceArray))
         end [@@warning "-7"]
     
 

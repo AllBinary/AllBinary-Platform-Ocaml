@@ -16,14 +16,15 @@
 (* package org.allbinary.time *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : StupidTimer.stupidTimer = ((new StupidTimer.stupidTimer ()) :> StupidTimer.stupidTimer)
 let get_instance () = instance
 let () = java_register_static "RendererInitializedStupidTimerFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : StupidTimer.stupidTimer =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> StupidTimer.stupidTimer)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "RendererInitializedStupidTimerFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

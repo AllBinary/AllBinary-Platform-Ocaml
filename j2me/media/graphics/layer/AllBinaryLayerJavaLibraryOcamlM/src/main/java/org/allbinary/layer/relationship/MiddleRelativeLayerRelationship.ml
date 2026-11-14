@@ -16,14 +16,13 @@
 (* package org.allbinary.layer.relationship *)
 
 open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
 (* import org.allbinary.graphics.PointFactory *)
 (* import org.allbinary.layer.AllBinaryLayer *)
 (* import org.allbinary.util.BasicArrayListUtil *)
 
 class middleRelativeLayerRelationship ((layer : AllBinaryLayer.allBinaryLayer)) =
   object
-    inherit RelativeLayerRelationship.relativeLayerRelationship (layer, ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#createXY ((layer#getHalfWidth ()), (layer#getHalfHeight ()))), ((BasicArrayListUtil.getInstance ())#getImmutableInstance ()))
+    inherit RelativeLayerRelationship.relativeLayerRelationship (layer, ((PointFactory.getInstance ())#createXY ((layer#getHalfWidth ()), (layer#getHalfHeight ()))), ((BasicArrayListUtil.getInstance ())#getImmutableInstance ()))
     
 
     initializer

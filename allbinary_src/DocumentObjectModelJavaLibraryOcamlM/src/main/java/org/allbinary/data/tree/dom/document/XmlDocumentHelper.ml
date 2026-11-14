@@ -24,13 +24,13 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.xml.parsers.DocumentBuilderFactory *)
 (* import javax.xml.transform.OutputKeys *)
 (* import javax.xml.transform.Transformer *)
+(* import javax.xml.transform.TransformerConfigurationException *)
 (* import javax.xml.transform.TransformerFactory *)
 (* import javax.xml.transform.dom.DOMSource *)
 (* import javax.xml.transform.stream.StreamResult *)
 (* import org.allbinary.logic.communication.log.LogUtil *)
 (* import org.allbinary.logic.java.bool.BooleanFactory *)
 (* import org.allbinary.logic.java.characters.CharacterSetData *)
-(* import org.allbinary.string.CommonStrings *)
 (* import org.w3c.dom.Document *)
 (* import org.xml.sax.InputSource *)
 
@@ -60,43 +60,60 @@ class xmlDocumentHelper () =
     val mutable iNDENT_NUMBER : string = ""
     method iNDENT_NUMBER = iNDENT_NUMBER
     method set_iNDENT_NUMBER value' = iNDENT_NUMBER <- value'
-    val mutable transformer : Obj.t = Obj.repr 0
-    method transformer : 'r. 'r = Obj.magic transformer
-    method set_transformer : 'v. 'v -> unit = fun value' -> transformer <- Obj.repr value'
+    val mutable indent : int = 0
+    method indent = indent
+    method set_indent value' = indent <- value'
+    val mutable ignoreDeclaration : bool = false
+    method ignoreDeclaration = ignoreDeclaration
+    method set_ignoreDeclaration value' = ignoreDeclaration <- value'
     
     
 
-    method init ((indent : int), (ignoreDeclaration : bool)) : unit =
+    method init ((indent_arg : int), (ignoreDeclaration_arg : bool)) : unit =
         begin
-        (try
-            let booleanFactory : BooleanFactory.booleanFactory ref = ref (((BooleanFactory.getInstance ()) :> BooleanFactory.booleanFactory)) in ();
-            let transformerFactory : Obj.t ref = ref ((Obj.repr (TransformerFactory.newInstance ()))) in ();
-            ignore ((Obj.magic !transformerFactory)#setAttribute (iNDENT_NUMBER, indent));
-            transformer <- Obj.repr (((Obj.magic !transformerFactory)#newTransformer ()));
-            ignore ((Obj.magic transformer)#setOutputProperty ((OutputKeys.get_eNCODING ()), (CharacterSetData.getInstance ())#uTF_8));
-            ignore ((Obj.magic transformer)#setOutputProperty ((OutputKeys.get_oMIT_XML_DECLARATION ()), (if ignoreDeclaration then !booleanFactory#yES else !booleanFactory#nO)));
-            ignore ((Obj.magic transformer)#setOutputProperty ((OutputKeys.get_iNDENT ()), !booleanFactory#yES))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#iNIT, e))
-        end)
+        indent <- indent_arg;
+        ignoreDeclaration <- ignoreDeclaration_arg
         end
     
 
+    method createTransformer : 'return. int * bool -> 'return = fun ((indent_arg : int), (ignoreDeclaration_arg : bool)) ->
+        begin
+        let booleanFactory : BooleanFactory.booleanFactory ref = ref (((BooleanFactory.getInstance ()) :> BooleanFactory.booleanFactory)) in ();
+        let transformerFactory : Obj.t ref = ref ((Obj.repr (TransformerFactory.newInstance ()))) in ();
+        ignore ((Obj.magic !transformerFactory)#setAttribute (iNDENT_NUMBER, indent_arg));
+        let transformer : Obj.t ref = ref ((Obj.repr ((Obj.magic !transformerFactory)#newTransformer ()))) in ();
+        ignore ((Obj.magic !transformer)#setOutputProperty ((OutputKeys.get_eNCODING ()), (CharacterSetData.getInstance ())#uTF_8));
+        ignore ((Obj.magic !transformer)#setOutputProperty ((OutputKeys.get_oMIT_XML_DECLARATION ()), (if ignoreDeclaration_arg then !booleanFactory#yES else !booleanFactory#nO)));
+        ignore ((Obj.magic !transformer)#setOutputProperty ((OutputKeys.get_iNDENT ()), !booleanFactory#yES));
+        (Obj.magic ((Obj.magic !transformer)))
+        end
+    
+
+    (* Java overload createTransformer() is not converted: OCaml has one method per name *)
+    
+
     method format ((xmlString : string)) : string =
+        begin
+        (self#formatWithTransformer (xmlString, (self#createTransformer ())))
+        end
+    
+
+    method formatWithTransformer : 'any2. string * 'any2 -> string = fun ((xmlString : string), transformer) ->
+        let transformer = Obj.repr transformer in
         begin
         let src : Obj.t ref = ref ((Obj.repr (new InputSource.inputSource ((new StringReader.stringReader (xmlString)))))) in ();
         let document : Obj.t ref = ref ((Obj.repr (((DocumentBuilderFactory.newInstance ())#newDocumentBuilder ())#parse ((Obj.magic !src))))) in ();
         let out : Obj.t ref = ref ((Obj.repr (new StringWriter.stringWriter ()))) in ();
         ignore ((Obj.magic transformer)#transform ((new DOMSource.dOMSource ((Obj.magic !document))), (new StreamResult.streamResult ((Obj.magic !out)))));
         (java_string_of (Obj.repr (Obj.magic !out)))
-        end
+        end [@@warning "-20"]
 
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         iNDENT_NUMBER <- "indent-number";
-        transformer <- (Obj.repr (Obj.magic 0));
+        indent <- 0;
+        ignoreDeclaration <- false;
         ();
         (self#init (4, true))
       end
@@ -107,9 +124,9 @@ let instance = (new xmlDocumentHelper ())
 let get_instance () = instance
 let () = java_register_static "XmlDocumentHelper.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "XmlDocumentHelper.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

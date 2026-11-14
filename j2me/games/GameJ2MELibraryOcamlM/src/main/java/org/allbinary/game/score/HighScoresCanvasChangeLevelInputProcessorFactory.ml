@@ -23,10 +23,10 @@ class highScoresCanvasChangeLevelInputProcessorFactory () =
   object
     
 
-    method getInstance : 'any1. 'any1 -> HighScoresCanvasInputProcessor.highScoresCanvasInputProcessor = fun (highScoresCanvas) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (highScoresCanvas) ->
         let highScoresCanvas = Obj.repr highScoresCanvas in
         begin
-        ((new HighScoresCanvasLevelChangeInputProcessor.highScoresCanvasLevelChangeInputProcessor ((Obj.magic highScoresCanvas))) :> HighScoresCanvasInputProcessor.highScoresCanvasInputProcessor)
+        (Obj.magic ((new HighScoresCanvasLevelChangeInputProcessor.highScoresCanvasLevelChangeInputProcessor ((Obj.magic highScoresCanvas)))))
         end [@@warning "-20"]
 
     initializer

@@ -16,6 +16,7 @@
 (* package org.allbinary.game.tracking *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.layer.AllBinaryLayerCircularPool *)
 
 class genericTrackingLayerCircularStaticPool () =
@@ -35,10 +36,11 @@ let sINGLETON = ref ((new genericTrackingLayerCircularStaticPool ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "GenericTrackingLayerCircularStaticPool.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "GenericTrackingLayerCircularStaticPool.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "GenericTrackingLayerCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

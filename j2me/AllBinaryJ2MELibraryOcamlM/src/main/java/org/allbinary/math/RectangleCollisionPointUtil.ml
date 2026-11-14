@@ -25,12 +25,12 @@ let allPointsInside : 'any5. int * int * int * int * 'any5 -> bool = fun ((rectX
         let list = Obj.repr list in
         try
         begin
-        let rectangleCollisionUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "RectangleCollisionUtil.getInstance" (Obj.repr ()))))) in ();
+        let rectangleCollisionUtil : RectangleCollisionUtil.rectangleCollisionUtil ref = ref (((RectangleCollisionUtil.getInstance ()) :> RectangleCollisionUtil.rectangleCollisionUtil)) in ();
         let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
         let index : int ref = ref (((Obj.magic list)#size ())) in ();
         while ((index := !index - 1; !index) >= 0) do
             point := (Obj.magic (Obj.magic list)#objectArray.(!index));
-            if (not ((Obj.magic !rectangleCollisionUtil)#isInside (rectX1, rectY1, rectX2, rectY2, (!point#getX ()), (!point#getY ())))) then begin
+            if (not (!rectangleCollisionUtil#isInside (rectX1, rectY1, rectX2, rectY2, (!point#getX ()), (!point#getY ())))) then begin
                 raise (Java_return (Obj.repr (false)))
             end
         done;
@@ -42,12 +42,12 @@ and allPointsInsideCell : 'any5. int * int * int * int * 'any5 * int * int -> bo
         let list = Obj.repr list in
         try
         begin
-        let rectangleCollisionUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "RectangleCollisionUtil.getInstance" (Obj.repr ()))))) in ();
+        let rectangleCollisionUtil : RectangleCollisionUtil.rectangleCollisionUtil ref = ref (((RectangleCollisionUtil.getInstance ()) :> RectangleCollisionUtil.rectangleCollisionUtil)) in ();
         let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
         let index : int ref = ref (((Obj.magic list)#size ())) in ();
         while ((index := !index - 1; !index) >= 0) do
             point := (Obj.magic (Obj.magic list)#objectArray.(!index));
-            if (not ((Obj.magic !rectangleCollisionUtil)#isInside (rectX1, rectY1, rectX2, rectY2, ((!point#getX ()) * xCellSize), ((!point#getY ()) * yCellSize)))) then begin
+            if (not (!rectangleCollisionUtil#isInside (rectX1, rectY1, rectX2, rectY2, ((!point#getX ()) * xCellSize), ((!point#getY ()) * yCellSize)))) then begin
                 raise (Java_return (Obj.repr (false)))
             end
         done;

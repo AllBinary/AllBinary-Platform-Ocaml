@@ -79,7 +79,7 @@ class allBinaryVisualDebugVibration () =
         displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
         timeDelayHelper <- ((new TimeDelayHelper.timeDelayHelper (2147483647)) :> TimeDelayHelper.timeDelayHelper);
         vIBRATING <- "Vibrating";
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         anchor <- (Anchor.get_tOP_LEFT ());
         width <- 0;
         ()

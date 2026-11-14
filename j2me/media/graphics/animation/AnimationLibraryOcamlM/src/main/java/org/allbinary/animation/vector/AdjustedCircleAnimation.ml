@@ -44,10 +44,10 @@ class adjustedCircleAnimation ((width : int), (height : int), (basicColor : Basi
         begin
         if (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ()))) then begin
             let widthPortion : int ref = ref (((((((innerWidth / 3)) * 10)) / 7))) in ();
-            xAdjustment <- (-(((((self#width) asr 1)) - !widthPortion)));
+            xAdjustment <- (- (((((self#width) asr 1)) - !widthPortion)));
             yAdjustment <- xAdjustment
         end else begin
-            xAdjustment <- (-(((((self#width) asr 1)) - innerWidth)));
+            xAdjustment <- (- (((((self#width) asr 1)) - innerWidth)));
             yAdjustment <- xAdjustment
         end
         end [@@warning "-7"]
@@ -70,20 +70,20 @@ class adjustedCircleAnimation ((width : int), (height : int), (basicColor : Basi
   end
 let () = java_register_constructor "AdjustedCircleAnimation" (fun arguments -> Obj.repr (new adjustedCircleAnimation (Obj.obj arguments)))
 
-let createAnimation : 'any5. int * int * int * int * 'any5 -> _ = fun ((width : int), (height : int), (xAdjustment_arg : int), (yAdjustment_arg : int), basicColor) ->
+let createAnimation : 'any5 'return. int * int * int * int * 'any5 -> 'return = fun ((width : int), (height : int), (xAdjustment_arg : int), (yAdjustment_arg : int), basicColor) ->
         let basicColor = Obj.repr basicColor in
         begin
         let adjustedCircleAnimation : Obj.t ref = ref ((Obj.repr (new adjustedCircleAnimation (width, height, (Obj.magic basicColor))))) in ();
         ignore ((Obj.magic !adjustedCircleAnimation)#initXY (xAdjustment_arg, yAdjustment_arg));
-        (Obj.magic !adjustedCircleAnimation)
+        (Obj.magic ((Obj.magic !adjustedCircleAnimation)))
         end [@@warning "-20"]
 
-and createW : 'any4. int * int * int * 'any4 -> _ = fun ((width : int), (height : int), (innerWidth : int), basicColor) ->
+and createW : 'any4 'return. int * int * int * 'any4 -> 'return = fun ((width : int), (height : int), (innerWidth : int), basicColor) ->
         let basicColor = Obj.repr basicColor in
         begin
         let adjustedCircleAnimation : Obj.t ref = ref ((Obj.repr (new adjustedCircleAnimation (width, height, (Obj.magic basicColor))))) in ();
         ignore ((Obj.magic !adjustedCircleAnimation)#init (innerWidth));
-        (Obj.magic !adjustedCircleAnimation)
+        (Obj.magic ((Obj.magic !adjustedCircleAnimation)))
         end [@@warning "-20"]
 let () = java_register_static "AdjustedCircleAnimation.createAnimation" (fun arguments -> Obj.repr (createAnimation (Obj.obj arguments)))
 let () = java_register_static "AdjustedCircleAnimation.createW" (fun arguments -> Obj.repr (createW (Obj.obj arguments)))

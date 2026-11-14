@@ -38,10 +38,10 @@ class lurchAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput
 
     method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
         begin
-        if (currentSpeed = (-1)) then begin
+        if (currentSpeed = (- 1)) then begin
             currentSpeed <- 5
         end else begin
-            currentSpeed <- (-1)
+            currentSpeed <- (- 1)
         end;
         let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
         let x : int ref = ref ((!ownerLayerInterface#getXP ())) in ();

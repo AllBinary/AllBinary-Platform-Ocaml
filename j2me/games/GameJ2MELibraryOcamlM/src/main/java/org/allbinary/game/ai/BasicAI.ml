@@ -68,8 +68,8 @@ class basicAI ((ownerLayerInterface_arg : AllBinaryLayer.allBinaryLayer), (gameI
 
     method processKeyAI ((key : int)) : unit =
         begin
-        if (key <> (-1)) then begin
-            ignore (gameInput#add ((gameKeyEventFactory#getInstanceForKey (self, key))))
+        if (key <> (- 1)) then begin
+            ignore (gameInput#add ((gameKeyEventFactory#getInstanceForKey ((Obj.magic self), key))))
         end
         end [@@warning "-7"]
     
@@ -86,15 +86,15 @@ class basicAI ((ownerLayerInterface_arg : AllBinaryLayer.allBinaryLayer), (gameI
         end [@@warning "-7"]
     
 
-    method getOwnerLayerInterface () : AllBinaryLayer.allBinaryLayer =
+    method getOwnerLayerInterface : 'return. unit -> 'return = fun () ->
         begin
-        (ownerLayerInterface :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic (ownerLayerInterface))
         end [@@warning "-7"]
     
 
-    method getGameInput () : GameInput.gameInput =
+    method getGameInput : 'return. unit -> 'return = fun () ->
         begin
-        (gameInput :> GameInput.gameInput)
+        (Obj.magic (gameInput))
         end [@@warning "-7"]
     
 
@@ -127,7 +127,7 @@ class basicAI ((ownerLayerInterface_arg : AllBinaryLayer.allBinaryLayer), (gameI
         gameKeyEventFactory <- ((GameKeyEventFactory.getInstance ()) :> GameKeyEventFactory.gameKeyEventFactory);
         ();
         ();
-        lastKey <- (-1);
+        lastKey <- (- 1);
         ();
         ownerLayerInterface <- ownerLayerInterface_arg;
         gameInput <- gameInput_arg

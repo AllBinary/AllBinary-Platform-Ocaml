@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual lifeInterfaceCompositeInterface =
   object
-    method virtual getLifeInterface : unit -> Life.life
+    method virtual getLifeInterface : 'return . unit -> 'return
   end
 
 

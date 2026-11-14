@@ -25,6 +25,7 @@ let allBinaryAccelerometerSensor : Obj.t ref = ref ((Obj.repr (Obj.magic 0)))
 let get_allBinaryAccelerometerSensor () = Obj.magic !allBinaryAccelerometerSensor
 let set_allBinaryAccelerometerSensor value' = allBinaryAccelerometerSensor := Obj.repr value'
 let () = java_register_static "AccelerometerSensorFactory.get_allBinaryAccelerometerSensor" (fun _ -> Obj.repr (get_allBinaryAccelerometerSensor ()))
+let () = java_register_static "AccelerometerSensorFactory.set_allBinaryAccelerometerSensor" (fun value' -> set_allBinaryAccelerometerSensor (Obj.obj value'); Obj.repr ())
 
 let init () : unit =
         begin

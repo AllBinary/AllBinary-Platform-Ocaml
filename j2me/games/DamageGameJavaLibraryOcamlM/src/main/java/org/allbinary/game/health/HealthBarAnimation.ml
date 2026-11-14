@@ -49,16 +49,16 @@ class healthBarAnimation ((layerInterface : AllBinaryLayer.allBinaryLayer), (loc
         let quarter : int ref = ref ((((allbinaryLayer#getWidth ()) asr 2))) in ();
         if (x2 > (!quarter * 3)) then begin
             (self#set_basicColor) (basicColorFactory#gREEN);
-            (self#set_colorP) (((self#basicColor)#intValue ()))
+            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
         end else if (x2 > (!quarter * 2)) then begin
             (self#set_basicColor) (basicColorFactory#yELLOW);
-            (self#set_colorP) (((self#basicColor)#intValue ()))
+            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
         end else if (x2 > !quarter) then begin
             (self#set_basicColor) (basicColorFactory#oRANGE);
-            (self#set_colorP) (((self#basicColor)#intValue ()))
+            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
         end else begin
             (self#set_basicColor) (basicColorFactory#rED);
-            (self#set_colorP) (((self#basicColor)#intValue ()))
+            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
         end
         end [@@warning "-7"]
     
@@ -72,7 +72,7 @@ class healthBarAnimation ((layerInterface : AllBinaryLayer.allBinaryLayer), (loc
         end else if (location = !basicHudFactory#bOTTOMLEFT) then begin
             raise (Java_return (Obj.repr ((((allbinaryLayer#getViewPosition ())#getY2 ()) + 4))))
         end;
-        (-1)
+        (- 1)
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
 

@@ -37,23 +37,23 @@ class abFileSystem () =
 
     method isDirectoryOrFile ((path : string)) : bool =
         begin
-        let file : Obj.t ref = ref ((Obj.repr (new File.file (path)))) in ();
-        (((Obj.magic !file)#isDirectory ()) || ((Obj.magic !file)#isFile ()))
+        let file : java_file ref = ref (((new java_file (Obj.repr (path))) :> java_file)) in ();
+        ((!file#isDirectory ()) || (!file#isFile ()))
         end
     
 
     method isDirectory ((path : string)) : bool =
         begin
-        ((new File.file (path))#isDirectory ())
+        ((new java_file (Obj.repr (path)))#isDirectory ())
         end
     
 
     method getFilesAsStringArrayForPath ((currentDirPath : string)) : string array =
         try
         begin
-        let file : Obj.t ref = ref ((Obj.repr (new File.file (currentDirPath)))) in ();
-        if ((Obj.magic !file)#exists ()) then begin
-            raise (Java_return (Obj.repr (((Obj.magic !file)#list ()))))
+        let file : java_file ref = ref (((new java_file (Obj.repr (currentDirPath))) :> java_file)) in ();
+        if (!file#exists ()) then begin
+            raise (Java_return (Obj.repr ((!file#list ()))))
         end else begin
             raise (Java_return (Obj.repr (((StringUtil.getInstance ())#getArrayInstance ()))))
         end
@@ -61,14 +61,28 @@ class abFileSystem () =
         with Java_return value -> Obj.obj value
     
 
-    method readAsString ((fileName : string)) : string =
-        begin
-        let bytes : int array ref = ref ((Array.make (1000000) 0)) in ();
-        (self#readAsString (fileName, !bytes))
-        end
+    (* Java overload readAsString(String) is not converted: OCaml has one method per name *)
     
 
-    (* Java overload readAsString(String, ArrayType) is not converted: OCaml has one method per name *)
+    method readAsString ((fileName : string), (bytes : int array)) : string =
+        try
+        begin
+        let closeable : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) in ();
+        Fun.protect ~finally:(fun () -> 
+            ignore (self#close (!closeable))
+        ) (fun () -> (try
+            let idFile : Obj.t ref = ref ((Obj.repr (new java_file_input_stream (Obj.repr (fileName))))) in ();
+            closeable := (Obj.repr ((Obj.magic !idFile)));
+            let size : int ref = ref (((Obj.magic !idFile)#read (bytes))) in ();
+            if (!size > 0) then begin
+                raise (Java_return (Obj.repr ((Obj.obj (java_new "String" (Obj.repr (bytes, 0, !size)))))))
+            end
+        with e -> begin
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "readAsString", e))
+        end));
+        (StringUtil.getInstance ())#eMPTY_STRING
+        end
+        with Java_return value -> Obj.obj value
     
 
     method close : 'any1. 'any1 -> bool = fun (closeable) ->
@@ -81,7 +95,7 @@ class abFileSystem () =
             end;
             true
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cLOSE, e));
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#cLOSE, e));
             false
         end)
         end
@@ -99,9 +113,9 @@ let instance = (new abFileSystem ())
 let get_instance () = instance
 let () = java_register_static "AbFileSystem.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AbFileSystem.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.game.input *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.input.mapping.InputToGameKeyMapping *)
 
 class motionLaptopGameInputMapping () =
@@ -23,9 +24,9 @@ class motionLaptopGameInputMapping () =
     inherit PCGameInputMapping.pCGameInputMapping ()
     
 
-    method getDefault () : InputToGameKeyMapping.inputToGameKeyMapping =
+    method getDefault : 'return. unit -> 'return = fun () ->
         begin
-        (((new MotionLaptopDefaultGameInputMapping.motionLaptopDefaultGameInputMapping ())#getInputMapping ()) :> InputToGameKeyMapping.inputToGameKeyMapping)
+        (Obj.magic (((new MotionLaptopDefaultGameInputMapping.motionLaptopDefaultGameInputMapping ())#getInputMapping ())))
         end [@@warning "-7"]
 
     initializer

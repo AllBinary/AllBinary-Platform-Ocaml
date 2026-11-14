@@ -39,7 +39,7 @@ class nullCompleteMotionGestureReceiver () =
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ("Null Gesture Reciever", self, !commonStrings#cONSTRUCTOR))
+        ignore ((Obj.magic logUtil)#putF ("Null Gesture Reciever", (Obj.magic self), !commonStrings#cONSTRUCTOR))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "NullCompleteMotionGestureReceiver" (fun arguments -> Obj.repr (new nullCompleteMotionGestureReceiver (Obj.obj arguments)))

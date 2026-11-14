@@ -25,7 +25,7 @@ class fillAnimation ((pixelBuffer_arg : int array), (_width_arg : int), (_height
         let basicColor = Obj.repr basicColor in
         begin
         let changed : bool ref = ref (false) in ();
-        if (((self#getBasicColorP ()) == (Obj.magic 0)) || ((Obj.repr ((self#getBasicColorP ())#intValue ())) != (Obj.repr ((Obj.magic basicColor)#intValue ())))) then begin
+        if (((self#getBasicColorP ()) == (Obj.magic 0)) || ((java_int_value (Obj.repr (self#getBasicColorP ()))) != ((Obj.magic basicColor)#intValue ()))) then begin
             changed := true
         end;
         ignore (super#setBasicColorP ((Obj.magic basicColor)));
@@ -39,7 +39,7 @@ class fillAnimation ((pixelBuffer_arg : int array), (_width_arg : int), (_height
         let basicColor = Obj.repr basicColor in
         begin
         let changed : bool ref = ref (false) in ();
-        if (((self#getChangeBasicColor ()) == (Obj.magic 0)) || ((Obj.repr ((self#getChangeBasicColor ())#intValue ())) != (Obj.repr ((Obj.magic basicColor)#intValue ())))) then begin
+        if (((self#getChangeBasicColor ()) == (Obj.magic 0)) || ((java_int_value (Obj.repr (self#getChangeBasicColor ()))) != ((Obj.magic basicColor)#intValue ()))) then begin
             changed := true
         end;
         ignore (super#changeBasicColor ((Obj.magic basicColor)));

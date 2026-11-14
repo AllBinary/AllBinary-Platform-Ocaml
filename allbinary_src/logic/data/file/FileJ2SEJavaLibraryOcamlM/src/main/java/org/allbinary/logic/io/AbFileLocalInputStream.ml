@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 
 class abFileLocalInputStream (file) =
   object
-    inherit AbFileInputStream.abFileInputStream ((AbFileNativeUtil.get (file)))
+    inherit AbFileInputStream.abFileInputStream (((AbFileNativeUtil.get (file))#getPath ()))
     
 
     initializer

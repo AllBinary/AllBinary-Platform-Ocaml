@@ -38,9 +38,9 @@ class booleanUtil () =
             raise (Java_return (Obj.repr (false)))
         end;
         let booleanStringLowerCase : string ref = ref ((String.lowercase_ascii booleanString)) in ();
-        if (((Obj.magic tsUtil)#compareTo (!booleanStringLowerCase, !booleanFactory#tRUE_STRING)) == 0) then begin
+        if (((Obj.magic tsUtil)#compareTo (!booleanStringLowerCase, !booleanFactory#tRUE_STRING)) = 0) then begin
             raise (Java_return (Obj.repr (true)))
-        end else if (((Obj.magic tsUtil)#compareTo (!booleanStringLowerCase, !booleanFactory#fALSE_STRING)) == 0) then begin
+        end else if (((Obj.magic tsUtil)#compareTo (!booleanStringLowerCase, !booleanFactory#fALSE_STRING)) = 0) then begin
             raise (Java_return (Obj.repr (false)))
         end else begin
             raise (Failure ("Invalid booleanString - Must be true or false"))
@@ -85,9 +85,9 @@ let instance = (new booleanUtil ())
 let get_instance () = instance
 let () = java_register_static "BooleanUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "BooleanUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

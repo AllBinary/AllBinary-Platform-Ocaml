@@ -21,7 +21,7 @@ class artificialIntelligenceFactory () =
   object
     
 
-    method getInstance : 'any1. 'any1 -> ArtificialIntelligence.artificialIntelligence = fun (_anyType) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (_anyType) ->
         begin
         raise (Failure ("RuntimeException"))
         end

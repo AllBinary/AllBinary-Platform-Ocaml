@@ -16,6 +16,7 @@
 (* package javax.microedition.lcdui *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class preLoadPlatformImage () =
   object
@@ -32,9 +33,9 @@ let instance = (new preLoadPlatformImage ())
 let get_instance () = instance
 let () = java_register_static "PreLoadPlatformImage.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PreLoadPlatformImage.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

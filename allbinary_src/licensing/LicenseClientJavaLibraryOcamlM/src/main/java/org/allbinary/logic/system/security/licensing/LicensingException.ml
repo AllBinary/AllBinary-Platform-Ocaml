@@ -22,7 +22,7 @@ let get_serialVersionUID () = serialVersionUID
 let () = java_register_static "LicensingException.get_serialVersionUID" (fun _ -> Obj.repr (get_serialVersionUID ()))
 class licensingException () =
   object
-    inherit Exception.exception ()
+    inherit java_throwable (Obj.repr ())
     
     
 

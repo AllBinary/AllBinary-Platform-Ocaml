@@ -5,7 +5,7 @@ open Allbinary_java [@@warning "-33"]
 
 class xmlRpcException ((_code : int), (message : string)) =
   object
-    inherit Exception.exception (message)
+    inherit java_throwable (Obj.repr (message))
     
 
     initializer

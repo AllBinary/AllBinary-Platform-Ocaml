@@ -24,7 +24,7 @@ class virtual validatorBaseInterface =
     method virtual isValid : unit -> bool
     method virtual validationInfo : unit -> string
     method virtual toHashtable : 'return . unit -> 'return
-    method virtual toList : unit -> BasicArrayList.basicArrayList
+    method virtual toList : 'return . unit -> 'return
   end
 
 

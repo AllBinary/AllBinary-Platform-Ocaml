@@ -54,7 +54,7 @@ class basicRandomAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gam
             i_random <- (myRandomFactory#getAbsoluteNextInt ((inputProbability#getMax ())));
             let repeat : bool ref = ref (false) in ();
             let repeatLikelyhoodIntegerArray : int array ref = ref ((inputProbability#getRepeatLikelyhoodIntegerArray ())) in ();
-            if (((self#getLastKey ()) != (-1)) && ((!repeatLikelyhoodIntegerArray.((self#getLastKey ()))#intValue ()) >= i_random)) then begin
+            if (((self#getLastKey ()) != (- 1)) && ((java_int_value (Obj.repr !repeatLikelyhoodIntegerArray.((self#getLastKey ())))) >= i_random)) then begin
                 repeat := true
             end;
             if (not !repeat) then begin
@@ -66,14 +66,14 @@ class basicRandomAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gam
                     let key : int ref = ref (keyArray.(index)) in ();
                     likelyhoodIntegerKeyArray := !likelyhoodIntegerArray.(!key);
                     if (((Array.length !likelyhoodIntegerArray) >= !key) && (!likelyhoodIntegerKeyArray.(0) != (Obj.magic 0))) then begin
-                        if ((i_random >= (!likelyhoodIntegerKeyArray.(0)#intValue ())) && (i_random < (!likelyhoodIntegerKeyArray.(1)#intValue ()))) then begin
+                        if ((i_random >= (java_int_value (Obj.repr !likelyhoodIntegerKeyArray.(0)))) && (i_random < (java_int_value (Obj.repr !likelyhoodIntegerKeyArray.(1))))) then begin
                             ignore (self#setLastKey (!key));
                             raise Java_break
                         end
                     end
                 done
             end;
-            ignore (visitor#visit (self))
+            ignore (visitor#visit ((Obj.magic self)))
         end
         end [@@warning "-7-20"]
 

@@ -27,7 +27,7 @@ class noHardwareComponent () =
         let componentInterface = Obj.repr componentInterface in
         try
         begin
-        if ((Obj.repr self) == (Obj.repr (Obj.magic componentInterface))) then begin
+        if ((Obj.repr (Obj.magic self)) == (Obj.repr (Obj.magic componentInterface))) then begin
             raise (Java_return (Obj.repr (true)))
         end;
         false
@@ -51,9 +51,9 @@ let instance = (new noHardwareComponent ())
 let get_instance () = instance
 let () = java_register_static "NoHardwareComponent.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "NoHardwareComponent.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

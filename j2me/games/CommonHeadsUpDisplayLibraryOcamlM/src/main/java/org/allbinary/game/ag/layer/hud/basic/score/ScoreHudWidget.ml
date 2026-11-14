@@ -46,9 +46,9 @@ class scoreHudWidget ((maxscore : int), (location : int), (direction : int), (bu
   end
 let () = java_register_constructor "ScoreHudWidget" (fun arguments -> Obj.repr (new scoreHudWidget (Obj.obj arguments)))
 
-let getInstance ((maxscore : int), (location : int), (direction : int)) =
+let getInstance : 'return. int * int * int -> 'return = fun ((maxscore : int), (location : int), (direction : int)) ->
         begin
-        (new scoreHudWidget (maxscore, location, direction, 2, (BasicColorFactory.getInstance ())#gREY))
+        (Obj.magic ((new scoreHudWidget (maxscore, location, direction, 2, (BasicColorFactory.getInstance ())#gREY))))
         end
 let () = java_register_static "ScoreHudWidget.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

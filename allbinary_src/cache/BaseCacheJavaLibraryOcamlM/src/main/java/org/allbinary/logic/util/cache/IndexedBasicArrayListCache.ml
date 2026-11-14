@@ -98,11 +98,11 @@ class indexedBasicArrayListCache () =
   end
 let () = java_register_constructor "IndexedBasicArrayListCache" (fun arguments -> Obj.repr (new indexedBasicArrayListCache (Obj.obj arguments)))
 
-let createCache ((size_arg : int)) =
+let createCache : 'return. int -> 'return = fun ((size_arg : int)) ->
         begin
         let indexedBasicArrayListCache : Obj.t ref = ref ((Obj.repr (new indexedBasicArrayListCache ()))) in ();
         ignore ((Obj.magic !indexedBasicArrayListCache)#init (size_arg));
-        (Obj.magic !indexedBasicArrayListCache)
+        (Obj.magic ((Obj.magic !indexedBasicArrayListCache)))
         end
 let () = java_register_static "IndexedBasicArrayListCache.createCache" (fun arguments -> Obj.repr (createCache (Obj.obj arguments)))
 

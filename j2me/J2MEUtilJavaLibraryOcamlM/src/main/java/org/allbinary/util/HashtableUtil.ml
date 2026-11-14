@@ -35,8 +35,8 @@ class hashtableUtil () =
         let keyCanBeNull : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         let valueCanBeNull : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         while (enumerationUtil#hasMoreElements (!enumeration)) do
-            keyCanBeNull := (enumerationUtil#nextElement (!enumeration));
-            valueCanBeNull := ((Obj.magic hashtable)#get (!keyCanBeNull));
+            keyCanBeNull := (Obj.repr ((enumerationUtil#nextElement (!enumeration))));
+            valueCanBeNull := (Obj.repr (((Obj.magic hashtable)#get (!keyCanBeNull))));
             if (!valueCanBeNull == (Obj.magic 0)) then begin
                 ()
             end else begin
@@ -46,7 +46,7 @@ class hashtableUtil () =
         end [@@warning "-20"]
     
 
-    method getKeysAsArray : 'any1. 'any1 -> Obj.t array = fun (hashtable) ->
+    method getKeysAsArray : 'any1 'return. 'any1 -> 'return = fun (hashtable) ->
         let hashtable = Obj.repr hashtable in
         begin
         let objectArray : Obj.t array ref = ref ((Array.make (((Obj.magic hashtable)#size ())) (Obj.magic 0))) in ();
@@ -55,11 +55,11 @@ class hashtableUtil () =
         while (enumerationUtil#hasMoreElements (!enumeration)) do
             !objectArray.((let value = !index in index := !index + 1; value)) <- (Obj.repr ((enumerationUtil#nextElement (!enumeration))))
         done;
-        !objectArray
+        (Obj.magic (!objectArray))
         end [@@warning "-20"]
     
 
-    method getKeysAsList : 'any1. 'any1 -> BasicArrayList.basicArrayList = fun (hashtable) ->
+    method getKeysAsList : 'any1 'return. 'any1 -> 'return = fun (hashtable) ->
         let hashtable = Obj.repr hashtable in
         begin
         let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListS.basicArrayListS (((Obj.magic hashtable)#size ()))) :> BasicArrayList.basicArrayList)) in ();
@@ -67,7 +67,7 @@ class hashtableUtil () =
         while (enumerationUtil#hasMoreElements (!enumeration)) do
             ignore (!list#add ((enumerationUtil#nextElement (!enumeration))))
         done;
-        (!list :> BasicArrayList.basicArrayList)
+        (Obj.magic (!list))
         end [@@warning "-20"]
 
     initializer
@@ -82,9 +82,9 @@ let instance = (new hashtableUtil ())
 let get_instance () = instance
 let () = java_register_static "HashtableUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "HashtableUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

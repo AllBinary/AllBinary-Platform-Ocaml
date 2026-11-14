@@ -51,14 +51,13 @@ class abFileSystem () =
         end
     
 
-    method readAsString ((fileName : string)) : string =
-        begin
-        let bytes : int array ref = ref ((Array.make (1000000) 0)) in ();
-        (self#readAsString (fileName, !bytes))
-        end
+    (* Java overload readAsString(String) is not converted: OCaml has one method per name *)
     
 
-    (* Java overload readAsString(String, ArrayType) is not converted: OCaml has one method per name *)
+    method readAsString ((_fileName : string), (_bytes : int array)) : string =
+        begin
+        (StringUtil.getInstance ())#eMPTY_STRING
+        end
     
 
     method close : 'any1. 'any1 -> bool = fun (closeable) ->
@@ -71,7 +70,7 @@ class abFileSystem () =
             end;
             true
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cLOSE, e));
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#cLOSE, e));
             false
         end)
         end
@@ -89,9 +88,9 @@ let instance = (new abFileSystem ())
 let get_instance () = instance
 let () = java_register_static "AbFileSystem.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AbFileSystem.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -33,7 +33,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.media.ScaleProperties *)
 (* import org.allbinary.media.audio.Sound *)
 
-class imageCaptionIndexedAnimationFactory (captionImage_arg, spriteMovieImage_arg, soundInterface_arg, (frameWidth_arg : int), (frameHeight_arg : int), (captionDx_arg : int), (captionDy_arg : int), (dx_arg : int), (dy_arg : int), (time_arg : int), (animationBehaviorFactory_arg : AnimationBehaviorFactory.animationBehaviorFactory)) =
+class imageCaptionIndexedAnimationFactory (captionImage_arg, spriteMovieImage_arg, (soundInterface_arg : Sound.sound), (frameWidth_arg : int), (frameHeight_arg : int), (captionDx_arg : int), (captionDy_arg : int), (dx_arg : int), (dy_arg : int), (time_arg : int), (animationBehaviorFactory_arg : AnimationBehaviorFactory.animationBehaviorFactory)) =
   object (self)
     val mutable animationFactoryImageScaleUtil : AnimationFactoryImageScaleUtil.animationFactoryImageScaleUtil = (Obj.magic 0)
     method animationFactoryImageScaleUtil = animationFactoryImageScaleUtil
@@ -68,9 +68,9 @@ class imageCaptionIndexedAnimationFactory (captionImage_arg, spriteMovieImage_ar
     val mutable time : int = 0
     method time = time
     method set_time value' = time <- value'
-    val mutable soundInterface : Obj.t = Obj.repr 0
-    method soundInterface : 'r. 'r = Obj.magic soundInterface
-    method set_soundInterface : 'v. 'v -> unit = fun value' -> soundInterface <- Obj.repr value'
+    val mutable soundInterface : Sound.sound = (Obj.magic 0)
+    method soundInterface = soundInterface
+    method set_soundInterface value' = soundInterface <- value'
     val mutable scaleProperties : ScaleProperties.scaleProperties = (Obj.magic 0)
     method scaleProperties = scaleProperties
     method set_scaleProperties value' = scaleProperties <- value'
@@ -83,14 +83,14 @@ class imageCaptionIndexedAnimationFactory (captionImage_arg, spriteMovieImage_ar
     method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
         begin
         let scaledImage : Obj.t ref = ref ((Obj.repr (animationFactoryImageScaleUtil#createImage ((Obj.magic captionImage), ((Obj.magic captionImage)#getWidth ()), ((Obj.magic captionImage)#getHeight ()), scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
-        let animationInterface : Obj.t ref = ref ((Obj.repr (new ImageAnimation.imageAnimation ((Obj.magic !scaledImage), (animationBehaviorFactory#getOrCreateInstance ()))))) in ();
+        let animationInterface : Animation.animation ref = ref (((new ImageAnimation.imageAnimation ((Obj.magic !scaledImage), (animationBehaviorFactory#getOrCreateInstance ()))) :> Animation.animation)) in ();
         let sprite : Obj.t ref = ref ((Obj.repr (animationFactorySpriteScaleUtil#createImage ((Obj.magic spriteMovieImage), frameWidth, frameHeight, scaleProperties#scaleWidth, scaleProperties#scaleHeight)))) in ();
         let movieIndexedAnimationInterface : IndexedAnimation.indexedAnimation ref = ref (((new SpriteIndexedAnimation.spriteIndexedAnimation ((Obj.magic !sprite), (Obj.magic spriteMovieImage), (BasicColorUtil.getInstance ())#zERO_ARRAY, (animationBehaviorFactory#getOrCreateInstance ()))) :> IndexedAnimation.indexedAnimation)) in ();
-        let player : Obj.t ref = ref ((Obj.repr ((Obj.magic soundInterface)#getPlayerP ()))) in ();
+        let player : Obj.t ref = ref ((Obj.repr (soundInterface#getPlayerP ()))) in ();
         if ((Obj.magic !player) == (Obj.magic 0)) then begin
             raise (Failure ("Sound Was not Initialized"))
         end;
-        (Obj.magic ((new CaptionIndexedAnimation.captionIndexedAnimation ((Obj.magic !animationInterface), !movieIndexedAnimationInterface, (Obj.magic !player), captionDx, captionDy, dx, dy, time, (animationBehaviorFactory#getOrCreateInstance ())))))
+        (Obj.magic ((new CaptionIndexedAnimation.captionIndexedAnimation (!animationInterface, !movieIndexedAnimationInterface, (Obj.magic !player), captionDx, captionDy, dx, dy, time, (animationBehaviorFactory#getOrCreateInstance ())))))
         end
     
 
@@ -118,7 +118,7 @@ class imageCaptionIndexedAnimationFactory (captionImage_arg, spriteMovieImage_ar
         ();
         ();
         if ((Obj.repr animationBehaviorFactory_arg) == (Obj.repr (AnimationBehaviorFactory.getInstance ()))) then begin
-            ignore (ForcedLogUtil.log ("Using default AnimationBehaviorFactory with IndexedAnimationFactory", self))
+            ignore (ForcedLogUtil.log ("Using default AnimationBehaviorFactory with IndexedAnimationFactory", (Obj.magic self)))
         end;
         captionImage <- Obj.repr (captionImage_arg);
         spriteMovieImage <- Obj.repr (spriteMovieImage_arg);
@@ -129,7 +129,7 @@ class imageCaptionIndexedAnimationFactory (captionImage_arg, spriteMovieImage_ar
         dx <- dx_arg;
         dy <- dy_arg;
         time <- time_arg;
-        soundInterface <- Obj.repr (soundInterface_arg);
+        soundInterface <- soundInterface_arg;
         animationBehaviorFactory <- animationBehaviorFactory_arg
       end
   end [@@warning "-20"]

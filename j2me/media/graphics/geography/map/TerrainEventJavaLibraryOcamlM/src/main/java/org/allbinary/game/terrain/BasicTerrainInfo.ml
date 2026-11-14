@@ -28,9 +28,9 @@ class basicTerrainInfo ((angle_arg : Angle.angle)) =
     
     
 
-    method getAngle () : Angle.angle =
+    method getAngle : 'return. unit -> 'return = fun () ->
         begin
-        (angle :> Angle.angle)
+        (Obj.magic (angle))
         end
     
 

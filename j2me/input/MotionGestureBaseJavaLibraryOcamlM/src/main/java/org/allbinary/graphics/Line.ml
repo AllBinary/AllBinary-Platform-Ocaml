@@ -60,15 +60,15 @@ class line ((p1_arg : GPoint.gPoint), (p2_arg : GPoint.gPoint)) =
         end
     
 
-    method getP1 () : GPoint.gPoint =
+    method getP1 : 'return. unit -> 'return = fun () ->
         begin
-        (p1 :> GPoint.gPoint)
+        (Obj.magic (p1))
         end
     
 
-    method getP2 () : GPoint.gPoint =
+    method getP2 : 'return. unit -> 'return = fun () ->
         begin
-        (p2 :> GPoint.gPoint)
+        (Obj.magic (p2))
         end
     
 
@@ -94,7 +94,7 @@ class line ((p1_arg : GPoint.gPoint), (p2_arg : GPoint.gPoint)) =
         deltaX <- 0.0;
         deltaY <- 0.0;
         ();
-        p1 <- (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO;
+        p1 <- (PointFactory.getInstance ())#zERO_ZERO;
         p2 <- p1;
         (self#setP1 (p1_arg));
         (self#setP2 (p2_arg))

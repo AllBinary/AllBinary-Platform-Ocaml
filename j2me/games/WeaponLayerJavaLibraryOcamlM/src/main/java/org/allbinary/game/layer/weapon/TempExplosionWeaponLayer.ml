@@ -13,9 +13,9 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.time.TimeDelayHelper *)
 (* import org.allbinary.view.ViewPositionBase *)
 
-class tempExplosionWeaponLayer ((name : string), (movement : Movement.movement), animationInterface, rectangle, (viewPosition : ViewPositionBase.viewPositionBase), (timeDelay : int)) =
+class tempExplosionWeaponLayer ((name : string), (movement : Movement.movement), (animationInterface : Animation.animation), (rectangle : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase), (timeDelay : int)) =
   object (self)
-    inherit SimpleWeaponLayer.simpleWeaponLayer (name, (Obj.magic (java_call_static "RemoteInfo.get_rEMOTE_INFO" (Obj.repr ()))), (-1), movement, animationInterface, (SimpleWeaponLayer.createDestroyed ()), rectangle, viewPosition) as super
+    inherit SimpleWeaponLayer.simpleWeaponLayer (name, (Obj.magic (java_call_static "RemoteInfo.get_rEMOTE_INFO" (Obj.repr ()))), (- 1), movement, animationInterface, (SimpleWeaponLayer.createDestroyed ()), rectangle, viewPosition) as super
     val mutable weaponProperties : WeaponProperties.weaponProperties = (Obj.magic 0)
     method weaponProperties = weaponProperties
     method set_weaponProperties value' = weaponProperties <- value'
@@ -29,7 +29,7 @@ class tempExplosionWeaponLayer ((name : string), (movement : Movement.movement),
         let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
         begin
         if (timeDelayHelper#isTime ((GameTickTimeDelayHelperFactory.getInstance ())#startTime)) then begin
-            ignore ((self#getCollidableInferface ())#collide (self, self));
+            ignore ((self#getCollidableInferface ())#collide ((Obj.magic self), (Obj.magic self)));
             (self#set_totalDamage) (((self#getInitDamage ()) + 1))
         end;
         ignore (super#processTick ((Obj.magic allBinaryLayerManager)))
@@ -37,7 +37,7 @@ class tempExplosionWeaponLayer ((name : string), (movement : Movement.movement),
 
     initializer
       begin
-        weaponProperties <- ((new WeaponProperties.weaponProperties ((-1), (-1), 0, 1000, 0)) :> WeaponProperties.weaponProperties);
+        weaponProperties <- ((new WeaponProperties.weaponProperties ((- 1), (- 1), 0, 1000, 0)) :> WeaponProperties.weaponProperties);
         timeDelayHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
         ();
         (* super(...) is the inherit clause *) ();

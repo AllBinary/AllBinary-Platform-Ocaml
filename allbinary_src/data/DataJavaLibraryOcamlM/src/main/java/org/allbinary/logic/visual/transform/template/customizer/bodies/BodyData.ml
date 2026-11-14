@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.transform.template.customizer.bodies *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class bodyData () =
   object
@@ -45,9 +46,9 @@ let instance = (new bodyData ())
 let get_instance () = instance
 let () = java_register_static "BodyData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "BodyData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

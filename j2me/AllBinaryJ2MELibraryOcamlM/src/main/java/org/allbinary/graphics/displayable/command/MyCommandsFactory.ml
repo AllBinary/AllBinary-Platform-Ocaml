@@ -41,7 +41,7 @@ class myCommandsFactory () =
 
     initializer
       begin
-        nO_COMMAND <- (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ((StringUtil.getInstance ())#eMPTY_STRING, (StringUtil.getInstance ())#eMPTY_STRING, (-1), (-1))))));
+        nO_COMMAND <- (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ((StringUtil.getInstance ())#eMPTY_STRING, (StringUtil.getInstance ())#eMPTY_STRING, (- 1), (- 1))))));
         gAUGE_CHANGE <- (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ("GAUGE_CHANGE", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_iTEM" (Obj.repr ()))), 1)))));
         sET_DISPLAYABLE <- (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ("Display", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 2)))));
         pAUSE_COMMAND <- (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ("Pause", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 0)))));
@@ -56,9 +56,9 @@ let instance = (new myCommandsFactory ())
 let get_instance () = instance
 let () = java_register_static "MyCommandsFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MyCommandsFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

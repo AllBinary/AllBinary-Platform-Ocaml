@@ -40,7 +40,7 @@ let view : 'any1. 'any1 * string -> string = fun (constructor, (lineBreak : stri
             ignore (!stringBuffer#append (lineBreak));
             raise (Java_return (Obj.repr ((java_string_of (Obj.repr !stringBuffer)))))
         end else begin
-            "Constructor Null"
+            raise (Java_return (Obj.repr ("Constructor Null")))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-20"]

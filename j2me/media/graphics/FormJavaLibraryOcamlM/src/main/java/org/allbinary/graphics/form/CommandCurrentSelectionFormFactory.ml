@@ -24,7 +24,8 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.form.item.ABCustomItem *)
 
 
-let getInstance : 'any3 'any4 'any7 'any8. string * _ * 'any3 * 'any4 * int * bool * 'any7 * 'any8 -> ScrollSelectionForm.scrollSelectionForm = fun ((title : string), items, rectangle, formType, (border : int), (moveForSmallScreen : bool), backgroundBasicColor, foregroundBasicColor) ->
+let getInstance : 'any2 'any3 'any4 'any7 'any8 'return. string * 'any2 * 'any3 * 'any4 * int * bool * 'any7 * 'any8 -> 'return = fun ((title : string), items, rectangle, formType, (border : int), (moveForSmallScreen : bool), backgroundBasicColor, foregroundBasicColor) ->
+        let items = Obj.repr items in
         let rectangle = Obj.repr rectangle in
         let formType = Obj.repr formType in
         let backgroundBasicColor = Obj.repr backgroundBasicColor in
@@ -32,7 +33,7 @@ let getInstance : 'any3 'any4 'any7 'any8. string * _ * 'any3 * 'any4 * int * bo
         try
         begin
         if ((Features.getInstance ())#isFeature ((TouchFeatureFactory.getInstance ())#tOUCH_ENABLED)) then begin
-            let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((new CommandCurrentSelectionForm.commandCurrentSelectionForm (title, items, border, moveForSmallScreen, (Obj.magic backgroundBasicColor), (Obj.magic foregroundBasicColor))) :> ScrollSelectionForm.scrollSelectionForm)) in ();
+            let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((new CommandCurrentSelectionForm.commandCurrentSelectionForm (title, (Obj.magic items), border, moveForSmallScreen, (Obj.magic backgroundBasicColor), (Obj.magic foregroundBasicColor))) :> ScrollSelectionForm.scrollSelectionForm)) in ();
             ignore (!scrollSelectionForm#init ((Obj.magic rectangle), (Obj.magic formType)));
             raise (Java_return (Obj.repr (!scrollSelectionForm)))
         end else begin

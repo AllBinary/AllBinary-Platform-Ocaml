@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 
 
-let getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> PoolInterface.poolInterface = fun (_cacheableInterfaceFactoryInterface, poolType, _cachePolicy) ->
+let getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (_cacheableInterfaceFactoryInterface, poolType, _cachePolicy) ->
         let poolType = Obj.repr poolType in
         begin
         raise (Failure (("No Such PoolType: " ^ (java_string_of (Obj.repr (Obj.magic poolType))))))

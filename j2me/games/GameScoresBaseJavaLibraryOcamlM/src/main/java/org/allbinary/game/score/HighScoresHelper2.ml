@@ -43,12 +43,13 @@ class highScoresHelper2 () =
         end [@@warning "-7"]
     
 
-    method setHighScoresArray (highScoresArrayP) : unit =
+    method setHighScoresArray : 'any1. 'any1 -> unit = fun (highScoresArrayP) ->
+        let highScoresArrayP = Obj.repr highScoresArrayP in
         begin
-        ignore (super#setHighScoresArray (highScoresArrayP));
+        ignore (super#setHighScoresArray ((Obj.magic highScoresArrayP)));
         ignore (circularIndexUtil#setSize ((Array.length (self#highScoresArrayP))));
         (self#selectHighScores ())
-        end [@@warning "-7"]
+        end [@@warning "-7-20"]
     
 
     method selectHighScores () : unit =

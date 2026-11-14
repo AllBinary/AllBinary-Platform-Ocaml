@@ -102,17 +102,17 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
         with e -> begin
             let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic !logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#uPDATE, e))
+            ignore ((Obj.magic !logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#uPDATE, e))
         end)
         end [@@warning "-7-20"]
     
 
-    method getPoint ((x : int), (y : int)) : GPoint.gPoint =
+    method getPoint : 'return. int * int -> 'return = fun ((x : int), (y : int)) ->
         begin
         point <- (CustomGPoint.getInstance3 (0, 0));
         ignore (point#setX (x));
         ignore (point#setY (y));
-        (point :> GPoint.gPoint)
+        (Obj.magic (point))
         end [@@warning "-7"]
     
 
@@ -122,7 +122,7 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
         if permanent then begin
             if (lastString <> string_arg) then begin
                 lastString <- string_arg;
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (pERMANENT_GAME_NOTIFICATION))#append (string_arg)))), self, (self#commonStrings)#aDD))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (pERMANENT_GAME_NOTIFICATION))#append (string_arg)))), (Obj.magic self), (self#commonStrings)#aDD))
             end;
             ignore (permanentGameNotification#add (string_arg, seconds, (Obj.magic basicColor)));
             ignore (circularIndexUtil#setSize ((permanentGameNotification#getSize ())))
@@ -137,7 +137,7 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
         if (timeDelayHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
             let gameAdState : Obj.t ref = ref ((Obj.repr ((GameAdStateFactory.getInstance ())#getCurrentInstance ()))) in ();
             if ((Obj.magic !gameAdState)#isShowingAtLocation ((self#getLocation ()))) then begin
-                (self#set_offsetY) ((-54))
+                (self#set_offsetY) ((- 54))
             end else begin
                 (self#set_offsetY) (0)
             end;
@@ -218,8 +218,8 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
         ();
         gameNotification <- ((new GameNotification.gameNotification ()) :> GameNotification.gameNotification);
         permanentGameNotification <- ((new GameNotification.gameNotification ()) :> GameNotification.gameNotification);
-        setAndRemoveProcessor <- ((new SetAndRemoveProcessor.setAndRemoveProcessor (self)) :> Processor.processor);
-        nextUnremoveableProcessor <- ((new NextUnremoveableProcessor.nextUnremoveableProcessor (self)) :> Processor.processor);
+        setAndRemoveProcessor <- ((Obj.obj (java_new "SetAndRemoveProcessor" (Obj.repr ((Obj.magic self))))) :> Processor.processor);
+        nextUnremoveableProcessor <- ((Obj.obj (java_new "NextUnremoveableProcessor" (Obj.repr ((Obj.magic self))))) :> Processor.processor);
         processor <- ((Processor.getInstance ()) :> Processor.processor);
         pERMANENT_GAME_NOTIFICATION <- "Permanent Game Notification: ";
         lastString <- (StringUtil.getInstance ())#eMPTY_STRING;
@@ -231,7 +231,7 @@ class playerGameNotificationHud ((location : int), (direction : int), (bufferZon
         circularIndexUtil <- (CircularIndexUtil.createInstance (0));
         let gameNotificationEventHandler : GameNotificationEventHandler.gameNotificationEventHandler ref = ref (((GameNotificationEventHandler.getInstance ()) :> GameNotificationEventHandler.gameNotificationEventHandler)) in ();
         ignore (!gameNotificationEventHandler#removeAllListeners ());
-        ignore (!gameNotificationEventHandler#addListenerInterface (self))
+        ignore (!gameNotificationEventHandler#addListenerInterface ((Obj.magic self)))
       end
   end
 let () = java_register_constructor "PlayerGameNotificationHud" (fun arguments -> Obj.repr (new playerGameNotificationHud (Obj.obj arguments)))

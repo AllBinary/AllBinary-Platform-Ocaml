@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.transform.template.customizer.widgets.title *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class titleData () =
   object
@@ -49,9 +50,9 @@ let instance = (new titleData ())
 let get_instance () = instance
 let () = java_register_static "TitleData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TitleData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -77,7 +77,7 @@ class animationDamageFloaters ((layerInterface_arg : AllBinaryLayer.allBinaryLay
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             let canvasStrings : CanvasStrings.canvasStrings ref = ref (((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !canvasStrings#pAINT, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !canvasStrings#pAINT, e))
         end)
         end [@@warning "-7-20"]
 

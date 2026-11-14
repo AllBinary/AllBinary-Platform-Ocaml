@@ -20,10 +20,10 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.microedition.lcdui.ChoiceGroup *)
 (* import javax.microedition.lcdui.Item *)
 (* import javax.microedition.lcdui.NullImage *)
+(* import org.allbinary.MIDPUtil *)
 (* import org.allbinary.game.configuration.GameConfigurationGauge *)
 (* import org.allbinary.game.configuration.GameConfigurationUtil *)
 (* import org.allbinary.graphics.displayable.screen.CommandForm *)
-(* import org.allbinary.logic.MEUtil *)
 (* import org.allbinary.logic.communication.log.LogUtil *)
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.logic.string.StringUtil *)
@@ -31,14 +31,19 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.HashtableUtil *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameFeatureFormUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameFeatureFormUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class gameFeatureFormUtil () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable meUtil : Obj.t = Obj.repr 0
-    method meUtil : 'r. 'r = Obj.magic meUtil
-    method set_meUtil : 'v. 'v -> unit = fun value' -> meUtil <- Obj.repr value'
+    val mutable meUtil : MIDPUtil.mIDPUtil = (Obj.magic 0)
+    method meUtil = meUtil
+    method set_meUtil value' = meUtil <- value'
     
 
     method getChoiceGroup : 'any1 'return. 'any1 * string * int -> 'return = fun (hashtable, (name : string), (option : int)) ->
@@ -54,7 +59,7 @@ class gameFeatureFormUtil () =
         for index = 0 to !size - 1 do
             let gameFeature : Feature.feature ref = ref (((Obj.magic !list#objectArray.(index)) :> Feature.feature)) in ();
             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((!stringMaker#append (name))#append (!aDD_CHOICE))#append ((java_string_of (Obj.repr !gameFeature)))))), self, !gET_CHOICE_GROUP));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((!stringMaker#append (name))#append (!aDD_CHOICE))#append ((java_string_of (Obj.repr !gameFeature)))))), (Obj.magic self), !gET_CHOICE_GROUP));
             ignore ((Obj.magic !choiceGroup)#append ((java_string_of (Obj.repr !gameFeature)), (NullImage.get_nULL_IMAGE ())));
             if (!features#isFeature (!gameFeature)) then begin
                 ignore ((Obj.magic !choiceGroup)#setSelectedIndex (index, true))
@@ -77,8 +82,8 @@ class gameFeatureFormUtil () =
         for index = 0 to !size - 1 do
             name := (Obj.magic !objectArray.(index));
             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (!aDDING_CHOICE_GROUP))#append (!name)))), self, !aDD_CHOICE_GROUP));
-            ignore ((Obj.magic meUtil)#appendItem ((Obj.magic form), (self#getChoiceGroup ((Obj.magic hashtable), !name, option))))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (!aDDING_CHOICE_GROUP))#append (!name)))), (Obj.magic self), !aDD_CHOICE_GROUP));
+            ignore (meUtil#appendItem ((Obj.magic form), (self#getChoiceGroup ((Obj.magic hashtable), !name, option))))
         done
         end [@@warning "-20"]
     
@@ -100,20 +105,18 @@ class gameFeatureFormUtil () =
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        meUtil <- (Obj.repr (Obj.magic (java_call_static "MEUtil.getInstance" (Obj.repr ()))));
+        meUtil <- ((MIDPUtil.getInstance ()) :> MIDPUtil.mIDPUtil);
         ()
       end
   end [@@warning "-20"]
 let () = java_register_constructor "GameFeatureFormUtil" (fun arguments -> Obj.repr (new gameFeatureFormUtil (Obj.obj arguments)))
 
-let instance = (new gameFeatureFormUtil ())
-let get_instance () = instance
-let () = java_register_static "GameFeatureFormUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "GameFeatureFormUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new gameFeatureFormUtil ())))
 
 

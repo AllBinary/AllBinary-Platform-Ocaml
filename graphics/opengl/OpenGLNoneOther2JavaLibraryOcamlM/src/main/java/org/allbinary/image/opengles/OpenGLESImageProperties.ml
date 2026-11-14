@@ -52,7 +52,7 @@ class openGLESImageProperties () =
 
     initializer
       begin
-        textureID <- (-1);
+        textureID <- (- 1);
         scaleX <- 1.0;
         scaleY <- 1.0;
         scaleX2 <- 1.0;

@@ -71,13 +71,13 @@ class specialAnimation ((animationBehavior : AnimationBehavior.animationBehavior
   end
 let () = java_register_constructor "SpecialAnimation" (fun arguments -> Obj.repr (new specialAnimation (Obj.obj arguments)))
 
-let nULL_SPECIAL_ANIMATION = (new specialAnimation ((new IndexedAnimationBehavior.indexedAnimationBehavior (1, 250))))
+let nULL_SPECIAL_ANIMATION = (new specialAnimation (((new IndexedAnimationBehavior.indexedAnimationBehavior (1, 250)) : IndexedAnimationBehavior.indexedAnimationBehavior :> AnimationBehavior.animationBehavior)))
 let get_nULL_SPECIAL_ANIMATION () = nULL_SPECIAL_ANIMATION
 let () = java_register_static "SpecialAnimation.get_nULL_SPECIAL_ANIMATION" (fun _ -> Obj.repr (get_nULL_SPECIAL_ANIMATION ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        nULL_SPECIAL_ANIMATION
+        (Obj.magic (nULL_SPECIAL_ANIMATION))
         end
 let () = java_register_static "SpecialAnimation.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

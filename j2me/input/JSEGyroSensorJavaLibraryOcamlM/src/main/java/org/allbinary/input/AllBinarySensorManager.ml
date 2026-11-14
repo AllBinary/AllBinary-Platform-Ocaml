@@ -25,6 +25,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "AllBinarySensorManager.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "AllBinarySensorManager.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class allBinarySensorManager () =
   object
     val mutable oRIENTATION_SENSOR_INPUT : string = ""
@@ -45,9 +46,9 @@ class allBinarySensorManager () =
         end
     
 
-    method getSensorNamesList () : BasicArrayList.basicArrayList =
+    method getSensorNamesList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
     
 
@@ -67,12 +68,12 @@ class allBinarySensorManager () =
   end
 let () = java_register_constructor "AllBinarySensorManager" (fun arguments -> Obj.repr (new allBinarySensorManager (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new allBinarySensorManager ())
+            instance := (Obj.repr ((new allBinarySensorManager ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "AllBinarySensorManager.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

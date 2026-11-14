@@ -16,6 +16,7 @@
 (* package org.allbinary.business.page *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class pageData () =
   object
@@ -37,9 +38,9 @@ let instance = (new pageData ())
 let get_instance () = instance
 let () = java_register_static "PageData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PageData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

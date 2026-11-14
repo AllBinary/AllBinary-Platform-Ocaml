@@ -54,9 +54,9 @@ let defaultStringWidth : 'any1. 'any1 * int -> int = fun (font, (size : int)) ->
         ((defaultCharWidth ((Obj.magic font))) * size)
         end [@@warning "-20"]
 
-and getInstance () =
+and getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MyFontProcessor.defaultStringWidth" (fun arguments -> Obj.repr (defaultStringWidth (Obj.obj arguments)))
 let () = java_register_static "MyFontProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

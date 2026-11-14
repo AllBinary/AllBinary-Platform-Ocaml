@@ -125,8 +125,8 @@ class velocityProperties ((maxForwardVelocity_arg : int), (maxReverseVelocity_ar
 
     method limitMaxNegativeYVelocity ((maxVelocity : int)) : unit =
         begin
-        if (((self#velocityYBasicDecimal)#getUnscaled ()) < (-maxVelocity)) then begin
-            ignore ((self#velocityYBasicDecimal)#setint ((-maxVelocity)))
+        if (((self#velocityYBasicDecimal)#getUnscaled ()) < (- maxVelocity)) then begin
+            ignore ((self#velocityYBasicDecimal)#setint ((- maxVelocity)))
         end
         end [@@warning "-7"]
     
@@ -143,8 +143,8 @@ class velocityProperties ((maxForwardVelocity_arg : int), (maxReverseVelocity_ar
         if (((self#velocityXBasicDecimal)#getUnscaled ()) > maxVelocity) then begin
             ignore ((self#velocityXBasicDecimal)#setint (maxVelocity))
         end;
-        if (((self#velocityXBasicDecimal)#getUnscaled ()) < (-maxVelocity)) then begin
-            ignore ((self#velocityXBasicDecimal)#setint ((-maxVelocity)))
+        if (((self#velocityXBasicDecimal)#getUnscaled ()) < (- maxVelocity)) then begin
+            ignore ((self#velocityXBasicDecimal)#setint ((- maxVelocity)))
         end
         end [@@warning "-7"]
     
@@ -155,13 +155,13 @@ class velocityProperties ((maxForwardVelocity_arg : int), (maxReverseVelocity_ar
         if (((self#velocityXBasicDecimal)#getUnscaled ()) > maxVelocity) then begin
             raise (Java_return (Obj.repr (true)))
         end;
-        if (((self#velocityXBasicDecimal)#getUnscaled ()) < (-maxVelocity)) then begin
+        if (((self#velocityXBasicDecimal)#getUnscaled ()) < (- maxVelocity)) then begin
             raise (Java_return (Obj.repr (true)))
         end;
         if (((self#velocityYBasicDecimal)#getUnscaled ()) > maxVelocity) then begin
             raise (Java_return (Obj.repr (true)))
         end;
-        if (((self#velocityYBasicDecimal)#getUnscaled ()) < (-maxVelocity)) then begin
+        if (((self#velocityYBasicDecimal)#getUnscaled ()) < (- maxVelocity)) then begin
             raise (Java_return (Obj.repr (true)))
         end;
         false

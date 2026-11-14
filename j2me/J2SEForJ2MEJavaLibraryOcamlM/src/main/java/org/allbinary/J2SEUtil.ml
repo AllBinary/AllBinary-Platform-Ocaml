@@ -25,26 +25,26 @@ class j2SEUtil () =
   object
     
 
-    method getHashMapAsArray ((hashMap : java_hash_map)) : Obj.t array =
+    method getHashMapAsArray : 'return. java_hash_map -> 'return = fun ((hashMap : java_hash_map)) ->
         begin
         let objectArray : Obj.t array ref = ref (((hashMap#keySet ())#toArray ())) in ();
-        !objectArray
+        (Obj.magic (!objectArray))
         end
     
 
-    method getMapAsArray : 'any1. 'any1 -> Obj.t array = fun (map) ->
+    method getMapAsArray : 'any1 'return. 'any1 -> 'return = fun (map) ->
         let map = Obj.repr map in
         begin
         let objectArray : Obj.t array ref = ref ((((Obj.magic map)#keySet ())#toArray ())) in ();
-        !objectArray
+        (Obj.magic (!objectArray))
         end [@@warning "-20"]
     
 
-    method getSetAsArray : 'any1. 'any1 -> Obj.t array = fun (set) ->
+    method getSetAsArray : 'any1 'return. 'any1 -> 'return = fun (set) ->
         let set = Obj.repr set in
         begin
         let objectArray : Obj.t array ref = ref (((Obj.magic set)#toArray ())) in ();
-        !objectArray
+        (Obj.magic (!objectArray))
         end [@@warning "-20"]
 
     initializer
@@ -58,9 +58,9 @@ let instance = (new j2SEUtil ())
 let get_instance () = instance
 let () = java_register_static "J2SEUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "J2SEUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

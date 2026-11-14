@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual layerPlacementInterfaceBasicArrayListFactoryInterface =
   object
-    method virtual getInstance : unit -> BasicArrayList.basicArrayList
+    method virtual getInstance : 'return . unit -> 'return
     method virtual getOnDemandResources : unit -> int array
   end
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.dhtml.style.css.property.font *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class fontFamilyData () =
   object
@@ -41,9 +42,9 @@ let instance = (new fontFamilyData ())
 let get_instance () = instance
 let () = java_register_static "FontFamilyData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "FontFamilyData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

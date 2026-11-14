@@ -47,16 +47,16 @@ class tokenizer ((sep_arg : string)) =
         end
     
 
-    method getInsideSep ((string : string)) : BasicArrayList.basicArrayList =
+    method getInsideSep : 'return. string -> 'return = fun ((string : string)) ->
         begin
         let tokenList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let index : int ref = ref (0) in ();
         let size : int ref = ref ((String.length string)) in ();
         while (!index < !size) do
             index := (java_string_index_of_from string (Obj.repr (sep)) (!index));
-            if (!index <> (-1)) then begin
+            if (!index <> (- 1)) then begin
                 let end_ : int ref = ref ((java_string_index_of_from string (Obj.repr (endSep)) ((!index + (String.length sep))))) in ();
-                if (!end_ <> (-1)) then begin
+                if (!end_ <> (- 1)) then begin
                     ignore (!tokenList#add ((String.sub string ((!index + (String.length sep))) (((!end_ - (((String.length endSep) - 1)))) - ((!index + (String.length sep)))))));
                     index := (!end_ + (String.length endSep))
                 end else begin
@@ -66,18 +66,18 @@ class tokenizer ((sep_arg : string)) =
                 raise Java_break
             end
         done;
-        (!tokenList :> BasicArrayList.basicArrayList)
+        (Obj.magic (!tokenList))
         end
     
 
-    method getTokensFromString : 'any2. string * 'any2 -> BasicArrayList.basicArrayList = fun ((string : string), tokenVector) ->
+    method getTokensFromString : 'any2 'return. string * 'any2 -> 'return = fun ((string : string), tokenVector) ->
         let tokenVector = Obj.repr tokenVector in
         begin
         let index : int ref = ref (0) in ();
         let end_ : int ref = ref (0) in ();
         while (!index < (String.length string)) do
             end_ := (java_string_index_of_from string (Obj.repr (sep)) (!index));
-            if (!end_ <> (-1)) then begin
+            if (!end_ <> (- 1)) then begin
                 ignore ((Obj.magic tokenVector)#add ((String.sub string (!index) ((!end_) - (!index)))));
                 index := (!end_ + (String.length sep))
             end else begin
@@ -85,7 +85,7 @@ class tokenizer ((sep_arg : string)) =
                 raise Java_break
             end
         done;
-        ((Obj.magic tokenVector) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((Obj.magic tokenVector)))
         end [@@warning "-20"]
     
 
@@ -111,7 +111,7 @@ class tokenizer ((sep_arg : string)) =
         ();
         endSep <- (StringUtil.getInstance ())#eMPTY_STRING;
         ();
-        if ((sep_arg = (Obj.magic 0)) || (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#compareTo (sep_arg, (StringUtil.getInstance ())#eMPTY_STRING)) == 0)) then begin
+        if (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#compareTo (sep_arg, (StringUtil.getInstance ())#eMPTY_STRING)) == 0) then begin
             raise (Failure ("Sep provided is not valid"))
         end;
         sep <- sep_arg

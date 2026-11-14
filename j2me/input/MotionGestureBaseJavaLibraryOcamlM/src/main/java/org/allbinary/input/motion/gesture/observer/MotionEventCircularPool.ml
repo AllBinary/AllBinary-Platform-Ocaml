@@ -33,10 +33,10 @@ class motionEventCircularPool ((id : int)) =
     
     
 
-    method getInstance : 'any1. 'any1 -> MotionGestureEvent.motionGestureEvent = fun (motionGestureInput) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (motionGestureInput) ->
         let motionGestureInput = Obj.repr motionGestureInput in
         begin
-        ((Obj.magic (eventPool#getInstance ((((Obj.magic motionGestureInput)#getId ()) - mIN)))) :> MotionGestureEvent.motionGestureEvent)
+        (Obj.magic ((Obj.magic (eventPool#getInstance ((((Obj.magic motionGestureInput)#getId ()) - mIN))))))
         end [@@warning "-20"]
 
     initializer
@@ -44,14 +44,14 @@ class motionEventCircularPool ((id : int)) =
         mIN <- ((Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#lAST_MOTION#getId ());
         eventPool <- ((new AllBinaryEventCircularPool.allBinaryEventCircularPool (((((InputFactory.getInstance ())#mAX - 1)) - mIN))) :> AllBinaryEventCircularPool.allBinaryEventCircularPool);
         ();
-        ignore (eventPool#initAllBinaryEventCircularPool ((new MotionEventFactory.motionEventFactory (eventPool, id))))
+        ignore (eventPool#initAllBinaryEventCircularPool ((new MotionEventFactory.motionEventFactory ((Obj.repr (eventPool)), id))))
       end
   end
 let () = java_register_constructor "MotionEventCircularPool" (fun arguments -> Obj.repr (new motionEventCircularPool (Obj.obj arguments)))
 
-let createPool ((id : int)) =
+let createPool : 'return. int -> 'return = fun ((id : int)) ->
         begin
-        (new motionEventCircularPool (id))
+        (Obj.magic ((new motionEventCircularPool (id))))
         end
 let () = java_register_static "MotionEventCircularPool.createPool" (fun arguments -> Obj.repr (createPool (Obj.obj arguments)))
 

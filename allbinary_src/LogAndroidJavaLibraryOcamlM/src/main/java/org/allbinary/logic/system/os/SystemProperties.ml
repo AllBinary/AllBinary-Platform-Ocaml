@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.system.os *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class systemProperties () =
   object
@@ -69,9 +70,9 @@ let instance = (new systemProperties ())
 let get_instance () = instance
 let () = java_register_static "SystemProperties.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "SystemProperties.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

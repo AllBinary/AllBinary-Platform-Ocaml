@@ -69,11 +69,11 @@ class resourceUtil () =
     method getResourceAsStreamAtStart : 'return. string * int -> 'return = fun ((resource : string), (_startIndex : int)) ->
         try
         begin
-        let inputStream : Obj.t ref = ref ((Obj.repr (new FileInputStream.fileInputStream ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (path))#append (resource))#append (ext)))))))) in ();
+        let inputStream : Obj.t ref = ref ((Obj.repr (new java_file_input_stream (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (path))#append (resource))#append (ext))))))))) in ();
         if ((Obj.magic !inputStream) != (Obj.magic 0)) then begin
             let byteArray : int array ref = ref ((Array.make (((Obj.magic !inputStream)#available ())) 0)) in ();
             ignore ((StreamUtil.getInstance ())#getByteArray ((Obj.magic !inputStream), (new java_byte_array_output_stream ()), !byteArray));
-            raise (Java_return (Obj.repr ((new ByteArrayInputStream.byteArrayInputStream (!byteArray)))))
+            raise (Java_return (Obj.repr ((new java_byte_array_input_stream (!byteArray)))))
         end;
         (Obj.magic ((Obj.magic !inputStream)))
         end
@@ -100,9 +100,9 @@ let instance = (new resourceUtil ())
 let get_instance () = instance
 let () = java_register_static "ResourceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ResourceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

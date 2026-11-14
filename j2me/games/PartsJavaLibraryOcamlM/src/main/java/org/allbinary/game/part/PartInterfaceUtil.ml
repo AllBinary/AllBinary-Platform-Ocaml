@@ -22,9 +22,9 @@ let sINGLETON : PartInterface.partInterface array = (Array.make (0) (Obj.magic 0
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "PartInterfaceUtil.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getZeroArray () : PartInterface.partInterface array =
+let getZeroArray : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 
 let () = java_register_static "PartInterfaceUtil.getZeroArray" (fun arguments -> Obj.repr (getZeroArray (Obj.obj arguments)))

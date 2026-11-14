@@ -83,15 +83,15 @@ let nULL_CUSTOM_POINT = (new customGPoint (0, 0, 0))
 let get_nULL_CUSTOM_POINT () = nULL_CUSTOM_POINT
 let () = java_register_static "CustomGPoint.get_nULL_CUSTOM_POINT" (fun _ -> Obj.repr (get_nULL_CUSTOM_POINT ()))
 
-let getInstance : 'any1. 'any1 -> _ = fun (point) ->
+let getInstance : 'any1 'return. 'any1 -> 'return = fun (point) ->
         let point = Obj.repr point in
         begin
-        (new customGPoint (((Obj.magic point)#getX ()), ((Obj.magic point)#getY ()), ((Obj.magic point)#getZ ())))
+        (Obj.magic ((new customGPoint (((Obj.magic point)#getX ()), ((Obj.magic point)#getY ()), ((Obj.magic point)#getZ ())))))
         end [@@warning "-20"]
 
-and getInstance3 ((x : int), (y : int)) =
+and getInstance3 : 'return. int * int -> 'return = fun ((x : int), (y : int)) ->
         begin
-        (new customGPoint (x, y, 3))
+        (Obj.magic ((new customGPoint (x, y, 3))))
         end
 let () = java_register_static "CustomGPoint.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 let () = java_register_static "CustomGPoint.getInstance3" (fun arguments -> Obj.repr (getInstance3 (Obj.obj arguments)))

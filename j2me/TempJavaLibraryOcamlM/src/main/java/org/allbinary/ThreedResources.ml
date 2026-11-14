@@ -16,6 +16,7 @@
 (* package org.allbinary *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class threedResources () =
   object
@@ -37,9 +38,9 @@ let threedResources = (new threedResources ())
 let get_threedResources () = threedResources
 let () = java_register_static "ThreedResources.get_threedResources" (fun _ -> Obj.repr (get_threedResources ()))
 
-let getThreedResources () =
+let getThreedResources : 'return. unit -> 'return = fun () ->
         begin
-        threedResources
+        (Obj.magic (threedResources))
         end
 let () = java_register_static "ThreedResources.getThreedResources" (fun arguments -> Obj.repr (getThreedResources (Obj.obj arguments)))
 

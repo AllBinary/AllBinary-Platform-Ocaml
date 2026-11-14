@@ -30,7 +30,7 @@ class basicRandomAIFactory () =
   object
     
 
-    method getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (hashtable, ownerLayerInterface, gameInput) ->
+    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (hashtable, ownerLayerInterface, gameInput) ->
         let hashtable = Obj.repr hashtable in
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
@@ -40,7 +40,7 @@ class basicRandomAIFactory () =
             raise (Failure ("No Visitor Provided"))
         end;
         let inputProbability : InputProbability.inputProbability ref = ref (((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (InputProbability.get_iNPUT_PROBABILITY ()))))) :> InputProbability.inputProbability)) in ();
-        ((new BasicRandomAI.basicRandomAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput), !inputProbability, !visitor)) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((new BasicRandomAI.basicRandomAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput), !inputProbability, !visitor))))
         end [@@warning "-20"]
 
     initializer

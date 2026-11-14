@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual poolInterface =
   object
     inherit CacheInterface.cacheInterface
-    method virtual remove : 'any1 . 'any1 -> CacheableInterface.cacheableInterface
+    method virtual remove : 'any1 'return . 'any1 -> 'return
   end
 
 

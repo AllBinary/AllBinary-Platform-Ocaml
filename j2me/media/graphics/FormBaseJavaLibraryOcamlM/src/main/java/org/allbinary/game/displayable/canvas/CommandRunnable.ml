@@ -43,13 +43,13 @@ class commandRunnable (commandFormInputProcessor_arg, command_arg) =
     method run () : unit =
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART_RUNNABLE, self, commonStrings#rUN));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART_RUNNABLE, (Obj.magic self), commonStrings#rUN));
             let canvas : MyCanvas.myCanvas ref = ref ((((Obj.magic commandFormInputProcessor)#getCanvas ()) :> MyCanvas.myCanvas)) in ();
             let commandListener : Obj.t ref = ref ((Obj.repr (!canvas#getCustomCommandListener ()))) in ();
             ignore ((Obj.magic !commandListener)#commandAction ((Obj.magic command), !canvas));
-            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, self, commonStrings#rUN))
+            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, (Obj.magic self), commonStrings#rUN))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#rUN, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#rUN, e))
         end)
         end
 

@@ -16,14 +16,15 @@
 (* package org.allbinary.game.midlet *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class licensedDemoSetupFactory () =
   object
     
 
-    method getInstance () : DemoSetup.demoSetup =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new DemoSetup.demoSetup ()) :> DemoSetup.demoSetup)
+        (Obj.magic ((new DemoSetup.demoSetup ())))
         end
 
     initializer

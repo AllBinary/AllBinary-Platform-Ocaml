@@ -40,13 +40,13 @@ class shaderManager ((gL_VERTEX_SHADER_arg : int), (gL_FRAGMENT_SHADER_arg : int
 
     method load : 'any1. 'any1 * string * string array * int -> int = fun (_gl, (_resource : string), (_shaderAsStringArray : string array), (_shaderType : int)) ->
         begin
-        (-1)
+        (- 1)
         end [@@warning "-20"]
     
 
     method loadShader : 'any1 'any3. 'any1 * string * 'any3 * int -> int = fun (_gl, (_resource : string), _stringList, (_shaderType : int)) ->
         begin
-        (-1)
+        (- 1)
         end [@@warning "-20"]
 
     initializer
@@ -62,13 +62,13 @@ class shaderManager ((gL_VERTEX_SHADER_arg : int), (gL_FRAGMENT_SHADER_arg : int
   end
 let () = java_register_constructor "ShaderManager" (fun arguments -> Obj.repr (new shaderManager (Obj.obj arguments)))
 
-let instance = (new shaderManager ((-1), (-1)))
+let instance = (new shaderManager ((- 1), (- 1)))
 let get_instance () = instance
 let () = java_register_static "ShaderManager.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ShaderManager.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

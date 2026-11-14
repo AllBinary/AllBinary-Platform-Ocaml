@@ -22,10 +22,10 @@ class gameAdStateFactory () =
         end
     
 
-    method getInstanceForApp : 'any1. 'any1 -> GameAdStateBase.gameAdStateBase = fun (_softwareInformation) ->
+    method getInstanceForApp : 'any1 'return. 'any1 -> 'return = fun (_softwareInformation) ->
         begin
         gameAdState <- Obj.repr ((Obj.magic gameAdStateArray).(0));
-        ((Obj.magic gameAdStateArray).(0) :> GameAdStateBase.gameAdStateBase)
+        (Obj.magic ((Obj.magic gameAdStateArray).(0)))
         end [@@warning "-20"]
     
 
@@ -36,7 +36,7 @@ class gameAdStateFactory () =
 
     initializer
       begin
-        gameAdStateArray <- (Obj.repr [| (Obj.obj (java_new "GameAdState" (Obj.repr ((new AppNameLicensingAdConfiguration.appNameLicensingAdConfiguration ()))))) |]);
+        gameAdStateArray <- (Obj.repr [| (Obj.obj (java_new "GameAdState" (Obj.repr (((new AppNameLicensingAdConfiguration.appNameLicensingAdConfiguration ()) : AppNameLicensingAdConfiguration.appNameLicensingAdConfiguration :> AdConfiguration.adConfiguration))))) |]);
         gameAdState <- (Obj.repr (Obj.magic gameAdStateArray).(0));
         ()
       end
@@ -47,9 +47,9 @@ let instance = (new gameAdStateFactory ())
 let get_instance () = instance
 let () = java_register_static "GameAdStateFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameAdStateFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -57,10 +57,10 @@ class gameKeyCompleteMotionGestureInputEvent ((name : string), (motionGestureInp
         begin
         (try
             (self#setGameKey ((inputToGameKeyMapping#getInstance (((self#getMotionGestureInput ())#getId ())))));
-            (self#setGameKeyEvent ((gameKeyEventFactory#getInstanceForInput (self, (self#getGameKey ())))))
+            (self#setGameKeyEvent ((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), (self#getGameKey ())))))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((self#logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#uPDATE, e))
+            ignore ((self#logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#uPDATE, e))
         end)
         end [@@warning "-7"]
     
@@ -72,9 +72,9 @@ class gameKeyCompleteMotionGestureInputEvent ((name : string), (motionGestureInp
         end [@@warning "-7-20"]
     
 
-    method getGameKeyEvent () : GameKeyEvent.gameKeyEvent =
+    method getGameKeyEvent : 'return. unit -> 'return = fun () ->
         begin
-        (gameKeyEvent :> GameKeyEvent.gameKeyEvent)
+        (Obj.magic (gameKeyEvent))
         end [@@warning "-7"]
     
 
@@ -85,9 +85,9 @@ class gameKeyCompleteMotionGestureInputEvent ((name : string), (motionGestureInp
         end [@@warning "-7-20"]
     
 
-    method getGameKey () : GameKey.gameKey =
+    method getGameKey : 'return. unit -> 'return = fun () ->
         begin
-        (gameKey :> GameKey.gameKey)
+        (Obj.magic (gameKey))
         end [@@warning "-7"]
 
     initializer
@@ -100,7 +100,7 @@ class gameKeyCompleteMotionGestureInputEvent ((name : string), (motionGestureInp
         ();
         (* super(...) is the inherit clause *) ();
         inputToGameKeyMapping <- inputToGameKeyMapping_arg;
-        ignore ((GameKeyCompleteMotionGestureInputEventFactory.getInstance ())#add (self));
+        ignore ((Obj.magic (java_call_static "GameKeyCompleteMotionGestureInputEventFactory.getInstance" (Obj.repr ())))#add ((Obj.magic self)));
         (self#update ())
       end
   end

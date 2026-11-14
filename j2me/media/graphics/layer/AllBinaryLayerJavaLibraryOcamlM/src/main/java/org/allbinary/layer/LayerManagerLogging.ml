@@ -27,6 +27,7 @@ let removeFailed : bool ref = ref (false)
 let get_removeFailed () = !removeFailed
 let set_removeFailed value' = removeFailed := value'
 let () = java_register_static "LayerManagerLogging.get_removeFailed" (fun _ -> Obj.repr (get_removeFailed ()))
+let () = java_register_static "LayerManagerLogging.set_removeFailed" (fun value' -> set_removeFailed (Obj.obj value'); Obj.repr ())
 class layerManagerLogging () =
   object (self)
     inherit LayerManagerLoggingBase.layerManagerLoggingBase ()
@@ -66,7 +67,7 @@ class layerManagerLogging () =
         let layerInterface = Obj.repr layerInterface in
         begin
         ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (aPPEND_))#append (((Obj.magic layerInterface)#getName ()))))), self, aPPEND))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (aPPEND_))#append (((Obj.magic layerInterface)#getName ()))))), (Obj.magic self), aPPEND))
         end [@@warning "-7-20"]
     
 
@@ -74,7 +75,7 @@ class layerManagerLogging () =
         let layerInterface = Obj.repr layerInterface in
         begin
         ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (aPPEND_))#append (((Obj.magic layerInterface)#getName ())))#append (_AT_))#appendint (index)))), self, aPPEND))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (aPPEND_))#append (((Obj.magic layerInterface)#getName ())))#append (_AT_))#appendint (index)))), (Obj.magic self), aPPEND))
         end [@@warning "-7-20"]
     
 
@@ -83,10 +84,10 @@ class layerManagerLogging () =
         begin
         if ((Obj.magic layerInterface) == (Obj.magic 0)) then begin
             ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (aTTEMPT_REMOVE_))#append (((StringUtil.getInstance ())#toString ((Obj.magic layerInterface))))))), self, rEMOVE))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (aTTEMPT_REMOVE_))#append (((StringUtil.getInstance ())#toString ((Obj.magic layerInterface))))))), (Obj.magic self), rEMOVE))
         end else begin
             ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (aTTEMPT_REMOVE_))#append (((Obj.magic layerInterface)#getName ()))))), self, rEMOVE))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (aTTEMPT_REMOVE_))#append (((Obj.magic layerInterface)#getName ()))))), (Obj.magic self), rEMOVE))
         end
         end [@@warning "-7-20"]
     
@@ -96,15 +97,15 @@ class layerManagerLogging () =
         begin
         if ((Obj.magic layerInterface) == (Obj.magic 0)) then begin
             ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (rEMOVE_))#append (((StringUtil.getInstance ())#toString ((Obj.magic layerInterface))))))), self, rEMOVE))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (rEMOVE_))#append (((StringUtil.getInstance ())#toString ((Obj.magic layerInterface))))))), (Obj.magic self), rEMOVE))
         end else if result then begin
             if !removeFailed then begin
                 ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (rEMOVE_))#append (((Obj.magic layerInterface)#getName ()))))), self, rEMOVE))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (rEMOVE_))#append (((Obj.magic layerInterface)#getName ()))))), (Obj.magic self), rEMOVE))
             end
         end else begin
             ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (dID_NOT_REMOVE))#append (((Obj.magic layerInterface)#getName ()))))), self, rEMOVE));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (dID_NOT_REMOVE))#append (((Obj.magic layerInterface)#getName ()))))), (Obj.magic self), rEMOVE));
             removeFailed := true
         end
         end [@@warning "-7-20"]
@@ -123,14 +124,14 @@ class layerManagerLogging () =
             allBinaryLayer := ((Obj.magic ((Obj.magic layerManager)#getLayerAt (index))));
             ignore ((stringBuilder#append ((!allBinaryLayer#getName ())))#append (!commonSeps#cOMMA))
         done;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr stringBuilder)), self, rEMOVE))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr stringBuilder)), (Obj.magic self), rEMOVE))
         end [@@warning "-7-20"]
     
 
     method clear () : unit =
         begin
         ignore (stringBuilder#delete (0, (stringBuilder#length ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)))))))#append (cLEAR)))), self, cLEAR))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((stringBuilder#appendint ((java_to_int (Obj.repr (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))))))))#append (cLEAR)))), (Obj.magic self), cLEAR))
         end [@@warning "-7"]
 
     initializer
@@ -154,9 +155,9 @@ let instance = (new layerManagerLogging ())
 let get_instance () = instance
 let () = java_register_static "LayerManagerLogging.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LayerManagerLogging.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

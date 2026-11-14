@@ -50,10 +50,11 @@ let sTATE = ref ((new demoGameMidletStateFactory ()))
 let get_sTATE () = !sTATE
 let set_sTATE value' = sTATE := value'
 let () = java_register_static "DemoGameMidletStateFactory.get_sTATE" (fun _ -> Obj.repr (get_sTATE ()))
+let () = java_register_static "DemoGameMidletStateFactory.set_sTATE" (fun value' -> set_sTATE (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sTATE
+        (Obj.magic (!sTATE))
         end
 let () = java_register_static "DemoGameMidletStateFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

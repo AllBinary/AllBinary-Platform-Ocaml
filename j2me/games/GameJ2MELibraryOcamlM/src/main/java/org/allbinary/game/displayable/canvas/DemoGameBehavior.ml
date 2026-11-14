@@ -23,6 +23,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
 (* import org.allbinary.string.CommonStrings *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "DemoGameBehavior.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "DemoGameBehavior.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class demoGameBehavior () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -88,7 +93,7 @@ class demoGameBehavior () =
     method run : 'any1. 'any1 -> unit = fun (_allBinaryGameCanvas) ->
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (GameTypeFactory.getInstance ())#bOT)), self, !commonStrings#rUN))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (GameTypeFactory.getInstance ())#bOT)), (Obj.magic self), !commonStrings#rUN))
         end [@@warning "-20"]
     
 
@@ -105,14 +110,12 @@ class demoGameBehavior () =
   end [@@warning "-20"]
 let () = java_register_constructor "DemoGameBehavior" (fun arguments -> Obj.repr (new demoGameBehavior (Obj.obj arguments)))
 
-let instance = (new demoGameBehavior ())
-let get_instance () = instance
-let () = java_register_static "DemoGameBehavior.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "DemoGameBehavior.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new demoGameBehavior ())))
 
 

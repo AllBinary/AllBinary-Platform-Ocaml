@@ -31,10 +31,11 @@ let pickedUpLayerInterfaceFactoryInterface : PickedUpLayerInterfaceFactoryInterf
 let get_pickedUpLayerInterfaceFactoryInterface () = !pickedUpLayerInterfaceFactoryInterface
 let set_pickedUpLayerInterfaceFactoryInterface value' = pickedUpLayerInterfaceFactoryInterface := value'
 let () = java_register_static "Points30kPickedUpLayerInterfaceFactory.get_pickedUpLayerInterfaceFactoryInterface" (fun _ -> Obj.repr (get_pickedUpLayerInterfaceFactoryInterface ()))
+let () = java_register_static "Points30kPickedUpLayerInterfaceFactory.set_pickedUpLayerInterfaceFactoryInterface" (fun value' -> set_pickedUpLayerInterfaceFactoryInterface (Obj.obj value'); Obj.repr ())
 
-let getInstance () : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!pickedUpLayerInterfaceFactoryInterface :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
+        (Obj.magic (!pickedUpLayerInterfaceFactoryInterface))
         end
 
 let () = java_register_static "Points30kPickedUpLayerInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
@@ -61,7 +62,7 @@ class points30kPickedUpLayerInterfaceFactory () =
 
     initializer
       begin
-        pool <- ((new PointsLayerCircularStaticPool.pointsLayerCircularStaticPool ((new PointsLayerFactory.pointsLayerFactory ((((GameConfigurationUtil.getInstance ())#getCompetitionValue ()) * 30000))), 1)) :> PointsLayerCircularStaticPool.pointsLayerCircularStaticPool);
+        pool <- ((new PointsLayerCircularStaticPool.pointsLayerCircularStaticPool (((new PointsLayerFactory.pointsLayerFactory ((((GameConfigurationUtil.getInstance ())#getCompetitionValue ()) * 30000))) : PointsLayerFactory.pointsLayerFactory :> AllBinaryLayerFactoryInterface.allBinaryLayerFactoryInterface), 1)) :> PointsLayerCircularStaticPool.pointsLayerCircularStaticPool);
         ();
         (* super(...) is the inherit clause *) ()
       end

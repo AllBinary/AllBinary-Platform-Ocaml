@@ -34,9 +34,9 @@ class adConfiguration ((advertIdArray : Obj.t array)) =
     
     
 
-    method getValidAdSpots () : Direction.direction array =
+    method getValidAdSpots : 'return. unit -> 'return = fun () ->
         begin
-        (Array.make (0) (Obj.magic 0))
+        (Obj.magic ((Array.make (0) (Obj.magic 0))))
         end
     
 

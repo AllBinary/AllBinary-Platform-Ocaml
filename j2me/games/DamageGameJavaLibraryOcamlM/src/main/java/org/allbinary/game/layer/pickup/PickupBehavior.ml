@@ -31,6 +31,7 @@ let nULL_PICKUP_BEHAVIOR : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#
 let get_nULL_PICKUP_BEHAVIOR () = !nULL_PICKUP_BEHAVIOR
 let set_nULL_PICKUP_BEHAVIOR value' = nULL_PICKUP_BEHAVIOR := value'
 let () = java_register_static "PickupBehavior.get_nULL_PICKUP_BEHAVIOR" (fun _ -> Obj.repr (get_nULL_PICKUP_BEHAVIOR ()))
+let () = java_register_static "PickupBehavior.set_nULL_PICKUP_BEHAVIOR" (fun value' -> set_nULL_PICKUP_BEHAVIOR (Obj.obj value'); Obj.repr ())
 class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collidableCompositeLayer), (countedIndex_arg : int)) =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -55,7 +56,7 @@ class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collid
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "doPickup", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "doPickup", e))
         end)
         end [@@warning "-20"]
     
@@ -81,7 +82,7 @@ class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collid
             ignore ((Obj.magic pickupLayerInterface)#setPickedUp ())
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, self, "doPickup", e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), "doPickup", e))))
         end)
         end [@@warning "-20"]
     
@@ -103,7 +104,7 @@ class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collid
         end [@@warning "-20"]
     
 
-    method getFirstAvailableCountedLayerInterfaceFactory ((pickedUpLayerTypeArray : PickedUpLayerType.pickedUpLayerType array)) : CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart =
+    method getFirstAvailableCountedLayerInterfaceFactory : 'return. PickedUpLayerType.pickedUpLayerType array -> 'return = fun ((pickedUpLayerTypeArray : PickedUpLayerType.pickedUpLayerType array)) ->
         try
         begin
         let collidableDestroyableDamageableLayer : Obj.t ref = ref ((Obj.repr (Obj.magic ownerLayerInterface))) in ();
@@ -123,12 +124,12 @@ class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collid
                 end
             done
         done;
-        ((CountedLayerInterfaceFactoryPart.get_nULL_COUNTED_LAYER_INTERFACE_FACTORY ()) :> CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart)
+        (Obj.magic ((CountedLayerInterfaceFactoryPart.get_nULL_COUNTED_LAYER_INTERFACE_FACTORY ())))
         end
         with Java_return value -> Obj.obj value
     
 
-    method getCountedLayerInterfaceFactoryForSlot ((slotIndex : int)) : CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart =
+    method getCountedLayerInterfaceFactoryForSlot : 'return. int -> 'return = fun ((slotIndex : int)) ->
         try
         begin
         let currentSlot : int ref = ref (0) in ();
@@ -146,7 +147,7 @@ class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collid
                 end
             end
         done;
-        ((CountedLayerInterfaceFactoryPart.get_nULL_COUNTED_LAYER_INTERFACE_FACTORY ()) :> CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart)
+        (Obj.magic ((CountedLayerInterfaceFactoryPart.get_nULL_COUNTED_LAYER_INTERFACE_FACTORY ())))
         end
         with Java_return value -> Obj.obj value
     
@@ -168,12 +169,12 @@ class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collid
   end [@@warning "-20"]
 let () = java_register_constructor "PickupBehavior" (fun arguments -> Obj.repr (new pickupBehavior (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_PICKUP_BEHAVIOR) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_PICKUP_BEHAVIOR := (new pickupBehavior ((CollidableCompositeLayer.getNullInstance ()), 0))
+            nULL_PICKUP_BEHAVIOR := (Obj.repr ((new pickupBehavior ((CollidableCompositeLayer.getNullInstance ()), 0))))
         end;
-        (Obj.magic !nULL_PICKUP_BEHAVIOR)
+        (Obj.magic ((Obj.magic !nULL_PICKUP_BEHAVIOR)))
         end
 let () = java_register_static "PickupBehavior.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

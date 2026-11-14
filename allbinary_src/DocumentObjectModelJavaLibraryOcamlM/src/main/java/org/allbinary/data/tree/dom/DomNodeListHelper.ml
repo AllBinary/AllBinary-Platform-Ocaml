@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.w3c.dom.NodeList *)
 
 
-let getVector : 'any1. 'any1 -> BasicArrayList.basicArrayList = fun (nodeList) ->
+let getVector : 'any1 'return. 'any1 -> 'return = fun (nodeList) ->
         let nodeList = Obj.repr nodeList in
         begin
         let vector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
@@ -31,7 +31,7 @@ let getVector : 'any1. 'any1 -> BasicArrayList.basicArrayList = fun (nodeList) -
         for index = 0 to !size - 1 do
             ignore (!vector#add ((DomNodeHelper.getTextNodeValue (((Obj.magic nodeList)#item (index))))))
         done;
-        (!vector :> BasicArrayList.basicArrayList)
+        (Obj.magic (!vector))
         end [@@warning "-20"]
 
 let () = java_register_static "DomNodeListHelper.getVector" (fun arguments -> Obj.repr (getVector (Obj.obj arguments)))

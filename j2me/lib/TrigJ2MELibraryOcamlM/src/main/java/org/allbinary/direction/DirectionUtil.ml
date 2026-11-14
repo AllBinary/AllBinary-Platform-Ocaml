@@ -31,17 +31,17 @@ class directionUtil () =
     
     
 
-    method getAngle : 'any1. 'any1 -> Angle.angle = fun (direction) ->
+    method getAngle : 'any1 'return. 'any1 -> 'return = fun (direction) ->
         let direction = Obj.repr direction in
         begin
-        (directionArray2.(((Obj.magic direction)#getValue ())) :> Angle.angle)
+        (Obj.magic (directionArray2.(((Obj.magic direction)#getValue ()))))
         end [@@warning "-20"]
     
 
-    method getFrameAngle : 'any1. 'any1 -> Angle.angle = fun (direction) ->
+    method getFrameAngle : 'any1 'return. 'any1 -> 'return = fun (direction) ->
         let direction = Obj.repr direction in
         begin
-        (directionArray.(((Obj.magic direction)#getValue ())) :> Angle.angle)
+        (Obj.magic (directionArray.(((Obj.magic direction)#getValue ()))))
         end [@@warning "-20"]
 
     initializer
@@ -67,9 +67,9 @@ let instance = (new directionUtil ())
 let get_instance () = instance
 let () = java_register_static "DirectionUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "DirectionUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

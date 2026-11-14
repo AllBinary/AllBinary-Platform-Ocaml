@@ -62,7 +62,7 @@ class textNotificationUtil () =
 
     method fire ((message : string)) : unit =
         begin
-        let gameNotificationEvent : GameNotificationEvent.gameNotificationEvent ref = ref (((new GameNotificationEvent.gameNotificationEvent (self, message, tWO, (BasicColorFactory.getInstance ())#rED, fALSE)) :> GameNotificationEvent.gameNotificationEvent)) in ();
+        let gameNotificationEvent : GameNotificationEvent.gameNotificationEvent ref = ref (((new GameNotificationEvent.gameNotificationEvent ((Obj.magic self), message, tWO, (BasicColorFactory.getInstance ())#rED, fALSE)) :> GameNotificationEvent.gameNotificationEvent)) in ();
         ignore (gameNotificationEventHandler#fireEvent (!gameNotificationEvent))
         end
 
@@ -80,9 +80,9 @@ let instance = (new textNotificationUtil ())
 let get_instance () = instance
 let () = java_register_static "TextNotificationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TextNotificationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

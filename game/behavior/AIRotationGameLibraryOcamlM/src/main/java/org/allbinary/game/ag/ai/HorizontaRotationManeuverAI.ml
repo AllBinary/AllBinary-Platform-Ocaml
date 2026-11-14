@@ -60,7 +60,7 @@ class horizontaRotationManeuverAI ((ownerLayerInterface : AllBinaryLayer.allBina
         let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
         let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
         let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-        ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((!angleIncrementInfo#rIGHT_FRAME#intValue ())));
+        ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))));
         let allbinaryLayer : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
         ignore (!allbinaryLayer#setPosition ((!allbinaryLayer#getXP ()), 1, (!allbinaryLayer#getZP ())))
         end [@@warning "-7"]
@@ -72,12 +72,12 @@ class horizontaRotationManeuverAI ((ownerLayerInterface : AllBinaryLayer.allBina
         let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
         let frame : int ref = ref ((rotationAnimationInterface#getFrame ())) in ();
         let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        if ((((!ownerLayerInterface#getXP ()) - (!ownerLayerInterface#getWidth ())) <= 0) && (!frame = (!angleIncrementInfo#lEFT_FRAME#intValue ()))) then begin
+        if ((((!ownerLayerInterface#getXP ()) - (!ownerLayerInterface#getWidth ())) <= 0) && (!frame = (java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME)))) then begin
             (self#reverse ());
             (self#drop ())
         end;
         let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        if ((((!ownerLayerInterface#getX2 ()) + (!ownerLayerInterface#getWidth ())) > (!displayInfo#getLastWidth ())) && (!frame = (!angleIncrementInfo#rIGHT_FRAME#intValue ()))) then begin
+        if ((((!ownerLayerInterface#getX2 ()) + (!ownerLayerInterface#getWidth ())) > (!displayInfo#getLastWidth ())) && (!frame = (java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME)))) then begin
             (self#reverse ());
             (self#accelerate ());
             (self#drop ())
@@ -88,9 +88,9 @@ class horizontaRotationManeuverAI ((ownerLayerInterface : AllBinaryLayer.allBina
             ignore (velocityInterface#limitMaxXYVelocity (((velocityInterface#getMaxForwardVelocity ()) / currentSpeedDivisor)))
         end;
         ignore (circularIndexUtil#next ());
-        if (!frame = (!angleIncrementInfo#lEFT_FRAME#intValue ())) then begin
+        if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME))) then begin
             ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ())))))
-        end else if (!frame = (!angleIncrementInfo#rIGHT_FRAME#intValue ())) then begin
+        end else if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))) then begin
             ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_POUND" (Obj.repr ())))))
         end
         end [@@warning "-7-20"]
@@ -101,13 +101,13 @@ class horizontaRotationManeuverAI ((ownerLayerInterface : AllBinaryLayer.allBina
         let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
         let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
         let frame : int ref = ref ((rotationAnimationInterface#getFrame ())) in ();
-        if (!frame = (!angleIncrementInfo#lEFT_FRAME#intValue ())) then begin
+        if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME))) then begin
             let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((!angleIncrementInfo#rIGHT_FRAME#intValue ())));
+            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))));
             ignore (baseVelocityInterface#zero ())
-        end else if (!frame = (!angleIncrementInfo#rIGHT_FRAME#intValue ())) then begin
+        end else if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))) then begin
             let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((!angleIncrementInfo#lEFT_FRAME#intValue ())));
+            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME))));
             ignore (baseVelocityInterface#zero ())
         end
         end [@@warning "-7"]
@@ -156,7 +156,7 @@ class horizontaRotationManeuverAI ((ownerLayerInterface : AllBinaryLayer.allBina
         velocityInterface <- (Obj.magic baseVelocityInterface);
         let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
         let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
-        ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((!angleIncrementInfo#rIGHT_FRAME#intValue ())))
+        ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))))
       end
   end
 let () = java_register_constructor "HorizontaRotationManeuverAI" (fun arguments -> Obj.repr (new horizontaRotationManeuverAI (Obj.obj arguments)))

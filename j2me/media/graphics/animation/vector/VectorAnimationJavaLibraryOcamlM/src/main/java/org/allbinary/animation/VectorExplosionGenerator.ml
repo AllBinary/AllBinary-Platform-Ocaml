@@ -42,7 +42,7 @@ class vectorExplosionGenerator () =
     
     
 
-    method createList : 'any1 'any3. 'any1 * int * 'any3 -> BasicArrayList.basicArrayList = fun (list, (howMuch : int), type_) ->
+    method createList : 'any1 'any3 'return. 'any1 * int * 'any3 -> 'return = fun (list, (howMuch : int), type_) ->
         let list = Obj.repr list in
         let type_ = Obj.repr type_ in
         begin
@@ -54,14 +54,14 @@ class vectorExplosionGenerator () =
             !points.(index).(0) <- (!point#getX ());
             !points.(index).(1) <- (!point#getY ())
         done;
-        ((self#createListFromPoints ((Obj.magic list), !points, howMuch, (Obj.magic type_))) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((self#createListFromPoints ((Obj.magic list), !points, howMuch, (Obj.magic type_)))))
         end [@@warning "-20"]
     
 
     (* Java overload getInstance(ArrayType, INT, VectorExplosionType) is not converted: OCaml has one method per name *)
     
 
-    method getInstanceStartFrame : 'any3. int array array * int * 'any3 * bool -> BasicArrayList.basicArrayList = fun ((points : int array array), (howMuch : int), type_, (startFrame : bool)) ->
+    method getInstanceStartFrame : 'any3 'return. int array array * int * 'any3 * bool -> 'return = fun ((points : int array array), (howMuch : int), type_, (startFrame : bool)) ->
         let type_ = Obj.repr type_ in
         begin
         (try
@@ -79,14 +79,14 @@ class vectorExplosionGenerator () =
             if (not startFrame) then begin
                 ignore (!pointsBasicArrayList#removeAt (0))
             end;
-            (!pointsBasicArrayList :> BasicArrayList.basicArrayList)
+            (Obj.magic (!pointsBasicArrayList))
         with e -> begin
             raise e
         end)
         end [@@warning "-20"]
     
 
-    method createListFromPoints : 'any1 'any4. 'any1 * int array array * int * 'any4 -> BasicArrayList.basicArrayList = fun (tempBasicArrayList, (points : int array array), (howMuch : int), type_) ->
+    method createListFromPoints : 'any1 'any4 'return. 'any1 * int array array * int * 'any4 -> 'return = fun (tempBasicArrayList, (points : int array array), (howMuch : int), type_) ->
         let tempBasicArrayList = Obj.repr tempBasicArrayList in
         let type_ = Obj.repr type_ in
         begin
@@ -94,7 +94,7 @@ class vectorExplosionGenerator () =
         let pointBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let sectionBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
         while (!index < (Array.length points)) do
-            sectionBasicArrayList := (new BasicArrayListD.basicArrayListD ());
+            sectionBasicArrayList := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             while (points.(!index).(0) != 1000) do
                 ignore (!sectionBasicArrayList#add ((Obj.magic tempBasicArrayList)#objectArray.(!index)));
                 index := !index + 1;
@@ -117,21 +117,21 @@ class vectorExplosionGenerator () =
                 index := !index + 1
             end
         done;
-        (!pointBasicArrayList :> BasicArrayList.basicArrayList)
+        (Obj.magic (!pointBasicArrayList))
         end [@@warning "-20"]
     
 
-    method createPointsBasicArrayList ((points : int array array)) : BasicArrayList.basicArrayList =
+    method createPointsBasicArrayList : 'return. int array array -> 'return = fun ((points : int array array)) ->
         begin
         if ((Array.length points) = 0) then begin
             raise (Failure ("Not Points Provided"))
         end;
         let firstPointBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListS.basicArrayListS ((Array.length points))) :> BasicArrayList.basicArrayList)) in ();
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
         for index = 0 to (Array.length points) - 1 do
-            ignore (!firstPointBasicArrayList#add (((Obj.magic !pointFactory)#createXY (points.(index).(0), points.(index).(1)))))
+            ignore (!firstPointBasicArrayList#add ((!pointFactory#createXY (points.(index).(0), points.(index).(1)))))
         done;
-        (!firstPointBasicArrayList :> BasicArrayList.basicArrayList)
+        (Obj.magic (!firstPointBasicArrayList))
         end
 
     initializer
@@ -150,9 +150,9 @@ let instance = (new vectorExplosionGenerator ())
 let get_instance () = instance
 let () = java_register_static "VectorExplosionGenerator.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "VectorExplosionGenerator.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

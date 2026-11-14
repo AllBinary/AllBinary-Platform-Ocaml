@@ -43,8 +43,8 @@ class spriteIndexedAnimationFactory (image, (basicColorArray_arg : BasicColor.ba
 
     method initHWH () : unit =
         begin
-        (self#animationFactoryInitializationVisitor)#set_dx ((-(((self#animationFactoryInitializationVisitor)#width asr 2))));
-        (self#animationFactoryInitializationVisitor)#set_dy ((-(((self#animationFactoryInitializationVisitor)#height asr 2))));
+        (self#animationFactoryInitializationVisitor)#set_dx ((- (((self#animationFactoryInitializationVisitor)#width asr 2))));
+        (self#animationFactoryInitializationVisitor)#set_dy ((- (((self#animationFactoryInitializationVisitor)#height asr 2))));
         if (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ()))) then begin
             (self#animationFactoryInitializationVisitor)#set_dx (((self#animationFactoryInitializationVisitor)#dx + 3))
         end
@@ -80,27 +80,27 @@ class spriteIndexedAnimationFactory (image, (basicColorArray_arg : BasicColor.ba
   end
 let () = java_register_constructor "SpriteIndexedAnimationFactory" (fun arguments -> Obj.repr (new spriteIndexedAnimationFactory (Obj.obj arguments)))
 
-let createCWHDXY : 'any1 'any7. 'any1 * BasicColor.basicColor array * int * int * int * int * 'any7 -> _ = fun (image, (basicColorArray_arg : BasicColor.basicColor array), (width : int), (height : int), (dx : int), (dy : int), animationBehaviorFactory) ->
+let createCWHDXY : 'any1 'any7 'return. 'any1 * BasicColor.basicColor array * int * int * int * int * 'any7 -> 'return = fun (image, (basicColorArray_arg : BasicColor.basicColor array), (width : int), (height : int), (dx : int), (dy : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
-        (new spriteIndexedAnimationFactory ((Obj.magic image), basicColorArray_arg, (PrimitiveIntUtil.getArrayInstance ()), width, height, dx, dy, (Obj.magic animationBehaviorFactory)))
+        (Obj.magic ((new spriteIndexedAnimationFactory ((Obj.magic image), basicColorArray_arg, (PrimitiveIntUtil.getArrayInstance ()), width, height, dx, dy, (Obj.magic animationBehaviorFactory)))))
         end [@@warning "-20"]
 
-and createCWH : 'any1 'any5. 'any1 * BasicColor.basicColor array * int * int * 'any5 -> _ = fun (image, (basicColorArray_arg : BasicColor.basicColor array), (width : int), (height : int), animationBehaviorFactory) ->
+and createCWH : 'any1 'any5 'return. 'any1 * BasicColor.basicColor array * int * int * 'any5 -> 'return = fun (image, (basicColorArray_arg : BasicColor.basicColor array), (width : int), (height : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
         let spriteIndexedAnimationFactory : Obj.t ref = ref ((Obj.repr (new spriteIndexedAnimationFactory ((Obj.magic image), basicColorArray_arg, (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, (Obj.magic animationBehaviorFactory))))) in ();
         ignore ((Obj.magic !spriteIndexedAnimationFactory)#initHWH ());
-        (Obj.magic !spriteIndexedAnimationFactory)
+        (Obj.magic ((Obj.magic !spriteIndexedAnimationFactory)))
         end [@@warning "-20"]
 
-and createWH : 'any1 'any4. 'any1 * int * int * 'any4 -> _ = fun (image, (width : int), (height : int), animationBehaviorFactory) ->
+and createWH : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (width : int), (height : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
-        (new spriteIndexedAnimationFactory ((Obj.magic image), (BasicColorUtil.getInstance ())#zERO_ARRAY, (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, (Obj.magic animationBehaviorFactory)))
+        (Obj.magic ((new spriteIndexedAnimationFactory ((Obj.magic image), (BasicColorUtil.getInstance ())#zERO_ARRAY, (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, (Obj.magic animationBehaviorFactory)))))
         end [@@warning "-20"]
 let () = java_register_static "SpriteIndexedAnimationFactory.createCWHDXY" (fun arguments -> Obj.repr (createCWHDXY (Obj.obj arguments)))
 let () = java_register_static "SpriteIndexedAnimationFactory.createCWH" (fun arguments -> Obj.repr (createCWH (Obj.obj arguments)))

@@ -27,6 +27,7 @@ let index : int ref = ref (0)
 let get_index () = !index
 let set_index value' = index := value'
 let () = java_register_static "AllMotionRecognizer.get_index" (fun _ -> Obj.repr (get_index ()))
+let () = java_register_static "AllMotionRecognizer.set_index" (fun value' -> set_index (Obj.obj value'); Obj.repr ())
 let pointCircularPool : GPointCircularPool.gPointCircularPool = ((new GPointCircularPool.gPointCircularPool (40)) :> GPointCircularPool.gPointCircularPool)
 let get_pointCircularPool () = pointCircularPool
 let () = java_register_static "AllMotionRecognizer.get_pointCircularPool" (fun _ -> Obj.repr (get_pointCircularPool ()))
@@ -124,9 +125,9 @@ class allMotionRecognizer () =
         end [@@warning "-7"]
     
 
-    method getMotionGestureRecognizer () : MotionGestureRecognizer.motionGestureRecognizer =
+    method getMotionGestureRecognizer : 'return. unit -> 'return = fun () ->
         begin
-        (motionGestureRecognizer :> MotionGestureRecognizer.motionGestureRecognizer)
+        (Obj.magic (motionGestureRecognizer))
         end [@@warning "-7"]
 
     initializer

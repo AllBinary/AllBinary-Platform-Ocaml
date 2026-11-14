@@ -25,7 +25,7 @@ open Allbinary_java [@@warning "-33"]
 
 class imageArraySingletonAnimationInterfaceFactory (imageArray) =
   object
-    inherit SingletonAnimationInterfaceFactory.singletonAnimationInterfaceFactory ((new ImageArrayAnimation.imageArrayAnimation (imageArray, (AnimationBehavior.getInstance ()))))
+    inherit SingletonAnimationInterfaceFactory.singletonAnimationInterfaceFactory (((new ImageArrayAnimation.imageArrayAnimation (imageArray, (AnimationBehavior.getInstance ()))) : ImageArrayAnimation.imageArrayAnimation :> Animation.animation))
     
 
     initializer

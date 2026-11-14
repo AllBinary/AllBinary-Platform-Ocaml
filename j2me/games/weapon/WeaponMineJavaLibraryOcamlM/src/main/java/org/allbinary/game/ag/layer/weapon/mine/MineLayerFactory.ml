@@ -29,9 +29,9 @@ class mineLayerFactory ((viewPositionFactoryInterface_arg : ViewPositionFactoryI
     
     
 
-    method getInstance () : AllBinaryLayer.allBinaryLayer =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new MineLayer.mineLayer ((viewPositionFactoryInterface#getInstance ()))) :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic ((new MineLayer.mineLayer ((viewPositionFactoryInterface#getInstance ())))))
         end
 
     initializer

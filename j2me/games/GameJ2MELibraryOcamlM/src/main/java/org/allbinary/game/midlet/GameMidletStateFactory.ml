@@ -21,16 +21,16 @@ class gameMidletStateFactory () =
     
     
 
-    method getCurrentGameState () : GameState.gameState =
+    method getCurrentGameState : 'return. unit -> 'return = fun () ->
         begin
-        (currentGameState :> GameState.gameState)
+        (Obj.magic (currentGameState))
         end
     
 
     method setCurrentGameState : 'any1. 'any1 -> unit = fun (currentGameState_arg) ->
         let currentGameState_arg = Obj.repr currentGameState_arg in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#cURRENT))#append (" GameState: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic currentGameState_arg))))))), self, "setCurrentGameState"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#cURRENT))#append (" GameState: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic currentGameState_arg))))))), (Obj.magic self), "setCurrentGameState"));
         currentGameState <- (Obj.magic currentGameState_arg)
         end [@@warning "-20"]
 
@@ -48,9 +48,9 @@ let iNSTANCE = (new gameMidletStateFactory ())
 let get_iNSTANCE () = iNSTANCE
 let () = java_register_static "GameMidletStateFactory.get_iNSTANCE" (fun _ -> Obj.repr (get_iNSTANCE ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        iNSTANCE
+        (Obj.magic (iNSTANCE))
         end
 let () = java_register_static "GameMidletStateFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

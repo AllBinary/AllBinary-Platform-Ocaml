@@ -31,16 +31,16 @@ class downKeyEventHandler () =
     method set_playerInputIdFactory value' = playerInputIdFactory <- value'
     
 
-    method getInstanceForDevice ((deviceId : int)) : DownKeyEventHandlerBase.downKeyEventHandlerBase =
+    method getInstanceForDevice : 'return. int -> 'return = fun ((deviceId : int)) ->
         begin
         let playerInputId : int ref = ref ((playerInputIdFactory#getPlayerForDevice (deviceId))) in ();
-        (instanceArray.(!playerInputId) :> DownKeyEventHandlerBase.downKeyEventHandlerBase)
+        (Obj.magic (instanceArray.(!playerInputId)))
         end [@@warning "-7"]
     
 
-    method getInstanceForPlayer ((playerInputId : int)) : DownKeyEventHandlerBase.downKeyEventHandlerBase =
+    method getInstanceForPlayer : 'return. int -> 'return = fun ((playerInputId : int)) ->
         begin
-        (instanceArray.(playerInputId) :> DownKeyEventHandlerBase.downKeyEventHandlerBase)
+        (Obj.magic (instanceArray.(playerInputId)))
         end [@@warning "-7"]
     
     
@@ -86,9 +86,9 @@ let instance = (new downKeyEventHandler ())
 let get_instance () = instance
 let () = java_register_static "DownKeyEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "DownKeyEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

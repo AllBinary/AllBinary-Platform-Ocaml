@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual highScoresResultsListener =
   object
-    method virtual setHighScoresArray : Obj.t -> unit
+    method virtual setHighScoresArray : 'any1 . 'any1 -> unit
   end
 
 

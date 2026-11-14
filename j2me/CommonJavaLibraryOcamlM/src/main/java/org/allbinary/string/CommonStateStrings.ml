@@ -16,6 +16,7 @@
 (* package org.allbinary.string *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class commonStateStrings () =
   object
@@ -79,9 +80,9 @@ let instance = (new commonStateStrings ())
 let get_instance () = instance
 let () = java_register_static "CommonStateStrings.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "CommonStateStrings.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

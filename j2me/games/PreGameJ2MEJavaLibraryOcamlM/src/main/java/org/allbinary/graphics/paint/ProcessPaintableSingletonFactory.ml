@@ -16,14 +16,15 @@
 (* package org.allbinary.graphics.paint *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let sINGLETON : ProcessPaintable.processPaintable = ((new ProcessPaintable.processPaintable ()) :> ProcessPaintable.processPaintable)
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "ProcessPaintableSingletonFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () : ProcessPaintable.processPaintable =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (sINGLETON :> ProcessPaintable.processPaintable)
+        (Obj.magic (sINGLETON))
         end
 
 let () = java_register_static "ProcessPaintableSingletonFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

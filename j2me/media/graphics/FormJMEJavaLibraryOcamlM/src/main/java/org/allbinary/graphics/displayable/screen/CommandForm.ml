@@ -37,6 +37,7 @@ let nULL_COMMAND_FORM : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nUL
 let get_nULL_COMMAND_FORM () = !nULL_COMMAND_FORM
 let set_nULL_COMMAND_FORM value' = nULL_COMMAND_FORM := value'
 let () = java_register_static "CommandForm.get_nULL_COMMAND_FORM" (fun _ -> Obj.repr (get_nULL_COMMAND_FORM ()))
+let () = java_register_static "CommandForm.set_nULL_COMMAND_FORM" (fun value' -> set_nULL_COMMAND_FORM (Obj.obj value'); Obj.repr ())
 class commandForm (_commandListener, (formTitle : string), (_backgrounBasicColor : BasicColor.basicColor), (_foregroundBasicColor : BasicColor.basicColor)) =
   object (self)
     inherit Form.form (formTitle) as super
@@ -63,13 +64,13 @@ class commandForm (_commandListener, (formTitle : string), (_backgrounBasicColor
 
     method open_ () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "open"))
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "open"))
         end [@@warning "-7"]
     
 
     method close () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cLOSE))
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#cLOSE))
         end [@@warning "-7"]
     
 
@@ -105,7 +106,7 @@ class commandForm (_commandListener, (formTitle : string), (_backgrounBasicColor
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        repaintProcessor <- (((ScreenRepaintProcessorFactory.getInstance ())#create (self)) :> Processor.processor);
+        repaintProcessor <- (((ScreenRepaintProcessorFactory.getInstance ())#create ((Obj.magic self))) :> Processor.processor);
         ();
         ();
         (* super(...) is the inherit clause *) ();
@@ -113,18 +114,18 @@ class commandForm (_commandListener, (formTitle : string), (_backgrounBasicColor
         (try
             ignore (repaintProcessor#process ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#cONSTRUCTOR, e))
         end)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "CommandForm" (fun arguments -> Obj.repr (new commandForm (Obj.obj arguments)))
 
-let getNullCommandForm () =
+let getNullCommandForm : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_COMMAND_FORM) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_COMMAND_FORM := (new commandForm ((NullCommandListener.get_nULL_COMMAND_LISTENER ()), (StringUtil.getInstance ())#eMPTY_STRING, (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))
+            nULL_COMMAND_FORM := (Obj.repr ((new commandForm ((NullCommandListener.get_nULL_COMMAND_LISTENER ()), (StringUtil.getInstance ())#eMPTY_STRING, (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))))
         end;
-        (Obj.magic !nULL_COMMAND_FORM)
+        (Obj.magic ((Obj.magic !nULL_COMMAND_FORM)))
         end
 let () = java_register_static "CommandForm.getNullCommandForm" (fun arguments -> Obj.repr (getNullCommandForm (Obj.obj arguments)))
 

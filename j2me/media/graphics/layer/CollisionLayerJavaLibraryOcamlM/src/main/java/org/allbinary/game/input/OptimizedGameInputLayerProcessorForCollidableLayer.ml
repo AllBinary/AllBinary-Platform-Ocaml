@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class optimizedGameInputLayerProcessorForCollidableLayer () =
   object
-    inherit LayerProcessor.layerProcessor ((new OptimizedGameInputLayerManager.optimizedGameInputLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new OptimizedGameInputLayerManager.optimizedGameInputLayerManager ()) : OptimizedGameInputLayerManager.optimizedGameInputLayerManager :> LayerManager.layerManager))
     
     
 

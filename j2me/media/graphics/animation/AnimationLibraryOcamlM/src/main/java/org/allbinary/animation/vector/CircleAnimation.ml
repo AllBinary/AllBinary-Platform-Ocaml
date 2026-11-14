@@ -25,7 +25,7 @@ open Allbinary_java [@@warning "-33"]
 
 class circleAnimation ((width_arg : int), (height_arg : int), (basicColor : BasicColor.basicColor)) =
   object (self)
-    inherit Animation.animation ()
+    inherit Animation.animation () as super
     val mutable tOTAL_ANGLE : int = 0
     method tOTAL_ANGLE = tOTAL_ANGLE
     method set_tOTAL_ANGLE value' = tOTAL_ANGLE <- value'
@@ -50,6 +50,19 @@ class circleAnimation ((width_arg : int), (height_arg : int), (basicColor : Basi
         ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
         ignore ((Obj.magic graphics)#drawArc (x, y, width, height, 0, tOTAL_ANGLE))
         end [@@warning "-7-20"]
+    
+
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getBasicColorP ())))
+        end [@@warning "-7"]
+    
+
+    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor) ->
+        let basicColor = Obj.repr basicColor in
+        begin
+        ignore (super#setBasicColorP ((Obj.magic basicColor)))
+        end [@@warning "-7-20"]
 
     initializer
       begin
@@ -59,7 +72,7 @@ class circleAnimation ((width_arg : int), (height_arg : int), (basicColor : Basi
         ();
         width <- width_arg;
         height <- height_arg;
-        ignore (self#setBasicColorP (basicColor))
+        (self#setBasicColorP (basicColor))
       end
   end
 let () = java_register_constructor "CircleAnimation" (fun arguments -> Obj.repr (new circleAnimation (Obj.obj arguments)))

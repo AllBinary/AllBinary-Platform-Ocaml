@@ -41,6 +41,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.BasicArrayListD *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "CurrentDisplayableFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "CurrentDisplayableFactory.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class currentDisplayableFactory () =
   object (self)
     val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
@@ -94,7 +99,7 @@ class currentDisplayableFactory () =
         begin
         if (java_instanceof (Obj.repr (Obj.magic displayable)) "MyCanvas") then begin
             if ((Obj.magic displayable_arg)#hasChild ((Obj.magic (Obj.magic displayable)))) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Child Displayable is already set for: "))#append ((stringUtil#toString ((Obj.magic displayable_arg))))))), self, sET_DISPLAYABLE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Child Displayable is already set for: "))#append ((stringUtil#toString ((Obj.magic displayable_arg))))))), (Obj.magic self), sET_DISPLAYABLE))));
                 raise (Java_return (Obj.repr (())))
             end
         end;
@@ -128,19 +133,19 @@ class currentDisplayableFactory () =
     method setRunnable : 'any1. 'any1 -> unit = fun (runnable_arg) ->
         let runnable_arg = Obj.repr runnable_arg in
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString ((Obj.magic runnable_arg))))))), self, sET_RUNNABLE))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString ((Obj.magic runnable_arg))))))), (Obj.magic self), sET_RUNNABLE))));
         runnable <- (Obj.magic runnable_arg);
         if ((Obj.repr usedRunnable) != (Obj.repr runnable)) then begin
             (self#update ())
         end else begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE_WAS_ALREADY_IN_USE))#append ((stringUtil#toString ((Obj.magic runnable_arg))))))), self, sET_RUNNABLE))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE_WAS_ALREADY_IN_USE))#append ((stringUtil#toString ((Obj.magic runnable_arg))))))), (Obj.magic self), sET_RUNNABLE))))
         end
         end [@@warning "-20"]
     
 
     method clearRunnable () : unit =
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), self, cLEAR_RUNNABLE))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), (Obj.magic self), cLEAR_RUNNABLE))));
         (self#setUsedRunnable ((NullWaitGameRunnable.getInstance ())))
         end
     
@@ -153,16 +158,16 @@ class currentDisplayableFactory () =
             let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             ignore (!stringMaker#append ((stringUtil#toString ((Obj.magic openGlReadydisplayable)))));
             if ((SWTUtil.get_isSWT ()) && (not (!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL)))) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((SWTUtil.get_sWT ())))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), self, commonStrings#uPDATE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((SWTUtil.get_sWT ())))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), (Obj.magic self), commonStrings#uPDATE))));
                 (self#setUsedRunnable ((NullWaitGameRunnable.getInstance ())))
             end else if (J2MEUtil.isHTML ()) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((GraphicsStrings.getInstance ())#hTML))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString (runnable)))))), self, commonStrings#uPDATE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((GraphicsStrings.getInstance ())#hTML))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString (runnable)))))), (Obj.magic self), commonStrings#uPDATE))));
                 (self#setUsedRunnable (runnable))
             end else if (((java_instanceof (Obj.repr (Obj.magic openGlReadydisplayable)) "DemoCanvas") || (java_instanceof (Obj.repr (Obj.magic openGlReadydisplayable)) "AllBinaryGameCanvas")) || (!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL))) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((java_string_of (Obj.repr (OpenGLFeatureFactory.getInstance ())#oPENGL))))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString (runnable)))))), self, commonStrings#uPDATE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((java_string_of (Obj.repr (OpenGLFeatureFactory.getInstance ())#oPENGL))))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString (runnable)))))), (Obj.magic self), commonStrings#uPDATE))));
                 (self#setUsedRunnable (runnable))
             end else begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((!stringMaker#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), self, commonStrings#uPDATE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((!stringMaker#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), (Obj.magic self), commonStrings#uPDATE))));
                 (self#setUsedRunnable ((NullWaitGameRunnable.getInstance ())))
             end
         end
@@ -175,16 +180,16 @@ class currentDisplayableFactory () =
         end
     
 
-    method getUsedRunnable () : GameRunnable.gameRunnable =
+    method getUsedRunnable : 'return. unit -> 'return = fun () ->
         begin
-        (usedRunnable :> GameRunnable.gameRunnable)
+        (Obj.magic (usedRunnable))
         end
     
 
     method setUsedRunnable : 'any1. 'any1 -> unit = fun (usedRunnable_arg) ->
         let usedRunnable_arg = Obj.repr usedRunnable_arg in
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString (runnable))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#append ((stringUtil#toString ((Obj.magic usedRunnable_arg))))))), self, sET_USED_RUNNABLE))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString (runnable))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#append ((stringUtil#toString ((Obj.magic usedRunnable_arg))))))), (Obj.magic self), sET_USED_RUNNABLE))));
         usedRunnable <- (Obj.magic usedRunnable_arg)
         end [@@warning "-20"]
 
@@ -214,14 +219,12 @@ class currentDisplayableFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "CurrentDisplayableFactory" (fun arguments -> Obj.repr (new currentDisplayableFactory (Obj.obj arguments)))
 
-let instance = (new currentDisplayableFactory ())
-let get_instance () = instance
-let () = java_register_static "CurrentDisplayableFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "CurrentDisplayableFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new currentDisplayableFactory ())))
 
 

@@ -35,7 +35,7 @@ class randomPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinary
 
     method updateRandomDistance () : unit =
         begin
-        (self#set_currentDistance) (((MyRandomFactory.getInstance ())#getAbsoluteNextInt (((self#maxDistance)#intValue ()))))
+        (self#set_currentDistance) (((MyRandomFactory.getInstance ())#getAbsoluteNextInt ((java_int_value (Obj.repr (self#maxDistance))))))
         end [@@warning "-7"]
     
 

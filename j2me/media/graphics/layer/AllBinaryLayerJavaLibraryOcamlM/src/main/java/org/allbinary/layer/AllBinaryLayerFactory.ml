@@ -21,26 +21,26 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringUtil *)
 (* import org.allbinary.view.ViewPosition *)
 
-class allBinaryLayerFactory (rectangle_arg) =
+class allBinaryLayerFactory ((rectangle_arg : Rectangle.rectangle)) =
   object
-    val mutable rectangle : Obj.t = Obj.repr 0
-    method rectangle : 'r. 'r = Obj.magic rectangle
-    method set_rectangle : 'v. 'v -> unit = fun value' -> rectangle <- Obj.repr value'
+    val mutable rectangle : Rectangle.rectangle = (Obj.magic 0)
+    method rectangle = rectangle
+    method set_rectangle value' = rectangle <- value'
     
     
 
-    method getInstance () : AllBinaryLayer.allBinaryLayer =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new AllBinaryLayer.allBinaryLayer ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic rectangle), (ViewPosition.getInstanceD ()))) :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic ((new AllBinaryLayer.allBinaryLayer ((StringUtil.getInstance ())#eMPTY_STRING, rectangle, (ViewPosition.getInstanceD ())))))
         end
 
     initializer
       begin
         ();
         ();
-        rectangle <- Obj.repr (rectangle_arg)
+        rectangle <- rectangle_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "AllBinaryLayerFactory" (fun arguments -> Obj.repr (new allBinaryLayerFactory (Obj.obj arguments)))
 
 

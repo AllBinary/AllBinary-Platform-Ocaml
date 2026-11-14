@@ -44,7 +44,7 @@ class webCommandProcessor () =
             ignore (list#removeAt (0))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#pROCESS, e))
         end)
         end [@@warning "-20"]
 
@@ -62,9 +62,9 @@ let instance = (new webCommandProcessor ())
 let get_instance () = instance
 let () = java_register_static "WebCommandProcessor.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "WebCommandProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,12 +16,13 @@
 (* package org.allbinary.logic.io *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import java.io.DataOutputStream *)
 (* import java.io.OutputStream *)
 
 class abDataOutputStream (out) =
   object
-    inherit DataOutputStream.dataOutputStream (out)
+    inherit java_data_output_stream (Obj.magic (out))
     
 
     initializer

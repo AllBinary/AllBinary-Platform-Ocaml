@@ -23,7 +23,7 @@ class virtual rotationAnimationInterface =
   object
     inherit IndexedAnimationInterface.indexedAnimationInterface
     inherit DirectionalInterface.directionalInterface
-    method virtual getAngleInfoP : unit -> AngleInfo.angleInfo
+    method virtual getAngleInfoP : 'return . unit -> 'return
     method virtual nextRotation : unit -> unit
     method virtual previousRotation : unit -> unit
   end

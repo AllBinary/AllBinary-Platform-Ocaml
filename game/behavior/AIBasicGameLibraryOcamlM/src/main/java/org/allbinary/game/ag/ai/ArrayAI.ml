@@ -42,9 +42,9 @@ class arrayAI ((artificialIntelligenceInterface : ArtificialIntelligenceInterfac
         end [@@warning "-7-20"]
     
 
-    method getArtificialIntelligenceInterface () : ArtificialIntelligenceInterface.artificialIntelligenceInterface array =
+    method getArtificialIntelligenceInterface : 'return. unit -> 'return = fun () ->
         begin
-        artificialIntelligenceInterfaceArray
+        (Obj.magic (artificialIntelligenceInterfaceArray))
         end [@@warning "-7"]
 
     initializer

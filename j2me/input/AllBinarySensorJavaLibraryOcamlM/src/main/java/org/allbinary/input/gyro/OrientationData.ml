@@ -16,6 +16,7 @@
 (* package org.allbinary.input.gyro *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class orientationData () =
   object
@@ -41,9 +42,9 @@ let sINGLETON = (new orientationData ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "OrientationData.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "OrientationData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

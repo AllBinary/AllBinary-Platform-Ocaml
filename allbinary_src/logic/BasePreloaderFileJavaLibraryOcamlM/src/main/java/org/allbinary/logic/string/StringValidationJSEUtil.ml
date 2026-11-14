@@ -24,7 +24,7 @@ let isBlank ((string : string)) : bool =
         let len : int ref = ref ((String.length string)) in ();
         for i = 0 to !len - 1 do
             let c : char ref = ref ((String.get string (i))) in ();
-            if ((Character.isWhitespace (!c)) == false) then begin
+            if ((java_character_is_whitespace (!c)) == false) then begin
                 raise (Java_return (Obj.repr (false)))
             end
         done;

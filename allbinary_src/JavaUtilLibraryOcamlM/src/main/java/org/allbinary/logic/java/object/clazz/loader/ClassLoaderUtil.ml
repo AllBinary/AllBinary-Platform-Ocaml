@@ -23,7 +23,7 @@ let getName : 'any1. 'any1 -> string = fun (anyType) ->
         let anyType = Obj.repr anyType in
         try
         begin
-        let classLoader : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr anyType))#getClassLoader ()))) in ();
+        let classLoader : Obj.t ref = ref ((Obj.repr (Obj.magic java_null))) in ();
         if ((Obj.magic !classLoader) != (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr (("ClassLoader: " ^ (java_get_class (Obj.repr (Obj.magic !classLoader)))))))
         end;

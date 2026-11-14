@@ -16,6 +16,7 @@
 (* package org.allbinary.game.combat.damage *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.graphics.paint.Paintable *)
 
 class damageFloaters () =
@@ -39,9 +40,9 @@ let sINGLETON = (new damageFloaters ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "DamageFloaters.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "DamageFloaters.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

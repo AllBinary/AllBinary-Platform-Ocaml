@@ -39,73 +39,73 @@ class windowsHardware () =
     
     
 
-    method getMultimedia ((_index : int)) : MediaInterface.mediaInterface =
+    method getMultimedia : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getBridge ((_index : int)) : BridgeInterface.bridgeInterface =
+    method getBridge : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getCpu ((_index : int)) : CpuInterface.cpuInterface =
+    method getCpu : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getEthernet ((_index : int)) : EthernetInterface.ethernetInterface =
+    method getEthernet : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getFireWire ((_index : int)) : FireWireInterface.fireWireInterface =
+    method getFireWire : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getHardDriveController ((_index : int)) : HardDriveControllerInterface.hardDriveControllerInterface =
+    method getHardDriveController : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getHardDrive ((_index : int)) : HardDriveInterface.hardDriveInterface =
+    method getHardDrive : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getMachineAccessControlAddress ((_index : int)) : MachineAccessControlAddressInterface.machineAccessControlAddressInterface =
+    method getMachineAccessControlAddress : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getMonitor ((_index : int)) : MonitorInterface.monitorInterface =
+    method getMonitor : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getUsb ((_index : int)) : UsbInterface.usbInterface =
+    method getUsb : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getVideo ((_index : int)) : VideoInterface.videoInterface =
+    method getVideo : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end
     
 
-    method getComponent ((_index : int)) : HardwareComponentInterface.hardwareComponentInterface =
+    method getComponent : 'return. int -> 'return = fun ((_index : int)) ->
         begin
         raise (Failure ("RuntimeException"))
         end

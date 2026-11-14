@@ -41,6 +41,7 @@ let nULL_ALLBINARY_MIDLET : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())
 let get_nULL_ALLBINARY_MIDLET () = !nULL_ALLBINARY_MIDLET
 let set_nULL_ALLBINARY_MIDLET value' = nULL_ALLBINARY_MIDLET := value'
 let () = java_register_static "AllBinaryMidlet.get_nULL_ALLBINARY_MIDLET" (fun _ -> Obj.repr (get_nULL_ALLBINARY_MIDLET ()))
+let () = java_register_static "AllBinaryMidlet.set_nULL_ALLBINARY_MIDLET" (fun value' -> set_nULL_ALLBINARY_MIDLET (Obj.obj value'); Obj.repr ())
 class allBinaryMidlet () =
   object (self)
     inherit MIDlet.mIDlet ()
@@ -77,11 +78,7 @@ class allBinaryMidlet () =
         let title : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
         if ((Obj.repr (Obj.magic newDisplay)) != (Obj.repr (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ()))))) then begin
             title := ((Obj.magic newDisplay)#getTitle ());
-            if (!title <> (Obj.magic 0)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append (sETTING_))#append (!title))#append (_DISPLAY_))#append (((StringUtil.getInstance ())#toString ((Obj.magic newDisplay))))))), self, sET_DISPLAY))
-            end else begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (sETTING_NO_TITLE))#append (((StringUtil.getInstance ())#toString ((Obj.magic newDisplay))))))), self, sET_DISPLAY))
-            end
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append (sETTING_))#append (!title))#append (_DISPLAY_))#append (((StringUtil.getInstance ())#toString ((Obj.magic newDisplay))))))), (Obj.magic self), sET_DISPLAY))
         end;
         let display : Obj.t ref = ref ((Obj.repr (self#getDisplay ()))) in ();
         ignore ((Obj.magic !display)#setCurrent ((Obj.magic newDisplay)))
@@ -90,13 +87,13 @@ class allBinaryMidlet () =
 
     method getDisplay : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic (java_call_static "Display.getDisplay" (Obj.repr (self))))))
+        (Obj.magic ((Obj.magic (java_call_static "Display.getDisplay" (Obj.repr ((Obj.magic self)))))))
         end [@@warning "-7"]
     
 
     method getCurrentDisplayable : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic (((Obj.magic (java_call_static "Display.getDisplay" (Obj.repr (self))))#getCurrent ())))
+        (Obj.magic (((Obj.magic (java_call_static "Display.getDisplay" (Obj.repr ((Obj.magic self)))))#getCurrent ())))
         end [@@warning "-7"]
     
 
@@ -114,13 +111,13 @@ class allBinaryMidlet () =
 
     method startApp () : unit =
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7"]
     
 
     method pauseApp () : unit =
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -134,11 +131,11 @@ class allBinaryMidlet () =
         begin
         let mETHOD_NAME : string ref = ref ("AllBinaryMidlet::destroyApp") in ();
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, !mETHOD_NAME));
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((Memory.getInfo ()), self, !mETHOD_NAME))));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), !mETHOD_NAME));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((Memory.getInfo ()), (Obj.magic self), !mETHOD_NAME))));
             (self#setDestroyed (true))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, !mETHOD_NAME, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), !mETHOD_NAME, e))
         end)
         end [@@warning "-7"]
     
@@ -146,21 +143,21 @@ class allBinaryMidlet () =
     method setStartStateHashtable : 'any1. 'any1 -> unit = fun (hashtable_arg) ->
         let hashtable_arg = Obj.repr hashtable_arg in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable_arg))))))), self, "setStartStateHashtable"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable_arg))))))), (Obj.magic self), "setStartStateHashtable"));
         hashtable <- Obj.repr ((Obj.magic hashtable_arg))
         end [@@warning "-7-20"]
     
 
     method getStartStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, "getStartStateHashtable"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), (Obj.magic self), "getStartStateHashtable"));
         (Obj.magic ((Obj.magic hashtable)))
         end [@@warning "-7"]
     
 
     method getCurrentStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "getStateHashtable"));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "getStateHashtable"));
         (Obj.magic ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#nULL_TABLE))
         end [@@warning "-7"]
     
@@ -181,17 +178,17 @@ class allBinaryMidlet () =
         hashtable <- (Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()));
         midletDestroyed <- false;
         ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, self, "AllBinaryMidlet::AllBinaryMidlet"))
+        ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, (Obj.magic self), "AllBinaryMidlet::AllBinaryMidlet"))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "AllBinaryMidlet" (fun arguments -> Obj.repr (new allBinaryMidlet (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_ALLBINARY_MIDLET) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_ALLBINARY_MIDLET := (new allBinaryMidlet ())
+            nULL_ALLBINARY_MIDLET := (Obj.repr ((new allBinaryMidlet ())))
         end;
-        (Obj.magic !nULL_ALLBINARY_MIDLET)
+        (Obj.magic ((Obj.magic !nULL_ALLBINARY_MIDLET)))
         end
 let () = java_register_static "AllBinaryMidlet.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

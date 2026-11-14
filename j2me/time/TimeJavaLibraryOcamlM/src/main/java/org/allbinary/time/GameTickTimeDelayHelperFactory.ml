@@ -16,14 +16,15 @@
 (* package org.allbinary.time *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
-let instance : GameTickTimeDelayHelper.gameTickTimeDelayHelper = ((new GameTickTimeDelayHelper.gameTickTimeDelayHelper ((-1))) :> GameTickTimeDelayHelper.gameTickTimeDelayHelper)
+let instance : GameTickTimeDelayHelper.gameTickTimeDelayHelper = ((new GameTickTimeDelayHelper.gameTickTimeDelayHelper ((- 1))) :> GameTickTimeDelayHelper.gameTickTimeDelayHelper)
 let get_instance () = instance
 let () = java_register_static "GameTickTimeDelayHelperFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : GameTickTimeDelayHelper.gameTickTimeDelayHelper =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> GameTickTimeDelayHelper.gameTickTimeDelayHelper)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "GameTickTimeDelayHelperFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

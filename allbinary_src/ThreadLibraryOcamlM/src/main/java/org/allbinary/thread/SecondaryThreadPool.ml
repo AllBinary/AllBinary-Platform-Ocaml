@@ -21,6 +21,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.logic.string.StringUtil *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "SecondaryThreadPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "SecondaryThreadPool.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class secondaryThreadPool ((poolName : string), (numThreads : int), (priority : int)) =
   object (self)
     inherit ThreadPool.threadPool (poolName, numThreads, priority) as super
@@ -29,20 +34,20 @@ class secondaryThreadPool ((poolName : string), (numThreads : int), (priority : 
 
     method runTask ((task : java_runnable)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), self, (self#threadPoolStrings)#aDD_TASK));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), (Obj.magic self), (self#threadPoolStrings)#aDD_TASK));
         ignore (super#runTask (task))
         end [@@warning "-7"]
     
 
     method startTask ((task : java_runnable)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#sTART_TASK))#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), self, (self#commonStrings)#rUN))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#sTART_TASK))#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), (Obj.magic self), (self#commonStrings)#rUN))
         end [@@warning "-7"]
     
 
     method completedTask ((task : java_runnable)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#cOMPLETE_TASK))#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), self, (self#commonStrings)#rUN))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((self#threadPoolStrings)#cOMPLETE_TASK))#append (((StringUtil.getInstance ())#toString (task))))#appendlong ((java_to_int (Obj.repr ((Float.to_int (Unix.gettimeofday () *. 1000.0))))))))), (Obj.magic self), (self#commonStrings)#rUN))
         end [@@warning "-7"]
 
     initializer
@@ -53,14 +58,12 @@ class secondaryThreadPool ((poolName : string), (numThreads : int), (priority : 
   end
 let () = java_register_constructor "SecondaryThreadPool" (fun arguments -> Obj.repr (new secondaryThreadPool (Obj.obj arguments)))
 
-let instance : Obj.t = (Obj.repr (new secondaryThreadPool ("Secondary", 1, (Obj.magic (java_call_static "ThreadPool.get_nORMAL_PRIORITY" (Obj.repr ()))))))
-let get_instance () = Obj.magic instance
-let () = java_register_static "SecondaryThreadPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic instance)))
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "SecondaryThreadPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new secondaryThreadPool ("Secondary", 1, (Obj.magic (java_call_static "ThreadPool.get_nORMAL_PRIORITY" (Obj.repr ())))))))
 
 

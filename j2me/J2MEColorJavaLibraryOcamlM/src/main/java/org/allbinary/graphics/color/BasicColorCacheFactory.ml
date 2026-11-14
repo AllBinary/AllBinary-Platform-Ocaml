@@ -35,14 +35,14 @@ class basicColorCacheFactory () =
         end [@@warning "-20"]
     
 
-    method getAndOrCreate ((integer : int)) : BasicColor.basicColor =
+    method getAndOrCreate : 'return. int -> 'return = fun ((integer : int)) ->
         begin
         let basicColor : BasicColor.basicColor ref = ref (((Obj.magic ((Obj.magic hashtable)#get (integer))) :> BasicColor.basicColor)) in ();
         if (!basicColor == (Obj.magic 0)) then begin
             basicColor := ((BasicColorFactory.getInstance ())#createInstance (integer));
             ignore ((Obj.magic hashtable)#put (integer, !basicColor))
         end;
-        (!basicColor :> BasicColor.basicColor)
+        (Obj.magic (!basicColor))
         end
 
     initializer
@@ -58,9 +58,9 @@ let instance = (new basicColorCacheFactory ())
 let get_instance () = instance
 let () = java_register_static "BasicColorCacheFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "BasicColorCacheFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

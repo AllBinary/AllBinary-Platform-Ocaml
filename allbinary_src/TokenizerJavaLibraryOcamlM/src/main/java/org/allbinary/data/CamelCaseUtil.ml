@@ -34,11 +34,7 @@ class camelCaseUtil () =
 
     method getAsCamelCase : 'any2. string * 'any2 -> string = fun ((string : string), stringBuilder) ->
         let stringBuilder = Obj.repr stringBuilder in
-        try
         begin
-        if (string = (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((StringUtil.getInstance ())#eMPTY_STRING)))
-        end;
         let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
         ignore ((Obj.magic stringBuilder)#delete (0, ((Obj.magic stringBuilder)#length ())));
         let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
@@ -52,8 +48,7 @@ class camelCaseUtil () =
             ignore ((Obj.magic stringBuilder)#append (!word))
         done;
         (java_string_of (Obj.repr (Obj.magic stringBuilder)))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+        end [@@warning "-20"]
 
     initializer
       begin
@@ -67,9 +62,9 @@ let instance = (new camelCaseUtil ())
 let get_instance () = instance
 let () = java_register_static "CamelCaseUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "CamelCaseUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

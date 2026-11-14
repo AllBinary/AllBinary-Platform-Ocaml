@@ -34,17 +34,17 @@ class keylessBasicArrayListCache () =
     
     
 
-    method get () : BasicArrayList.basicArrayList =
+    method get : 'return. unit -> 'return = fun () ->
         begin
         (try
             if ((self#index) >= ((self#list)#size ())) then begin
                 ignore (self#addDefault ())
             end;
             let list : BasicArrayList.basicArrayList ref = ref (((Obj.magic (self#getAt ((let value = (self#index) in (self#set_index) ((self#index) + 1); value)))) :> BasicArrayList.basicArrayList)) in ();
-            (!list :> BasicArrayList.basicArrayList)
+            (Obj.magic (!list))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET, e));
-            ((basicArrayListUtil#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#gET, e));
+            (Obj.magic ((basicArrayListUtil#getImmutableInstance ())))
         end)
         end [@@warning "-7"]
     

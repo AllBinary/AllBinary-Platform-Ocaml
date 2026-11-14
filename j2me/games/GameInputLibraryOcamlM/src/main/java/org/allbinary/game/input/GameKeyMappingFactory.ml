@@ -23,6 +23,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "GameKeyMappingFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameKeyMappingFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class gameKeyMappingFactory () =
   object (self)
     val mutable intKeyToGameKey : GameKey.gameKey array = (Obj.magic 0)
@@ -31,9 +32,9 @@ class gameKeyMappingFactory () =
     
     
 
-    method getGameKey ((key : int)) : GameKey.gameKey =
+    method getGameKey : 'return. int -> 'return = fun ((key : int)) ->
         begin
-        (intKeyToGameKey.(key) :> GameKey.gameKey)
+        (Obj.magic (intKeyToGameKey.(key)))
         end
     
 
@@ -76,12 +77,12 @@ class gameKeyMappingFactory () =
   end
 let () = java_register_constructor "GameKeyMappingFactory" (fun arguments -> Obj.repr (new gameKeyMappingFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new gameKeyMappingFactory ())
+            instance := (Obj.repr ((new gameKeyMappingFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "GameKeyMappingFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

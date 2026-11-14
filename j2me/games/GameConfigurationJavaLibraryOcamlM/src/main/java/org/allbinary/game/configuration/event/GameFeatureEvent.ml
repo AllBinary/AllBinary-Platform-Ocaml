@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class gameFeatureEvent ((anyType : Obj.t), (whatChanged_arg : string)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable whatChanged : string = ""
     method whatChanged = whatChanged
     method set_whatChanged value' = whatChanged <- value'

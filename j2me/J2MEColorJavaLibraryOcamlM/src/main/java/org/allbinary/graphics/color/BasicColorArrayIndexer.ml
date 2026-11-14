@@ -39,15 +39,15 @@ class basicColorArrayIndexer ((basicColorArray_arg : BasicColor.basicColor array
         end
     
 
-    method get () : BasicColor.basicColor =
+    method get : 'return. unit -> 'return = fun () ->
         begin
-        (basicColorArray.((circularIndexUtil#getIndex ())) :> BasicColor.basicColor)
+        (Obj.magic (basicColorArray.((circularIndexUtil#getIndex ()))))
         end
     
 
-    method getBasicColorArray () : BasicColor.basicColor array =
+    method getBasicColorArray : 'return. unit -> 'return = fun () ->
         begin
-        basicColorArray
+        (Obj.magic (basicColorArray))
         end
 
     initializer

@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 
 
-let getInstance : 'any1 'any2. 'any1 * 'any2 -> CacheInterface.cacheInterface = fun (cacheType, _cachePolicy) ->
+let getInstance : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (cacheType, _cachePolicy) ->
         let cacheType = Obj.repr cacheType in
         begin
         raise (Failure (("No such " ^ (java_string_of (Obj.repr (Obj.magic cacheType))))))

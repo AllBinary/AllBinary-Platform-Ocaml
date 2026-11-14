@@ -26,6 +26,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "DownTouchInputToGameKeyEventAction.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "DownTouchInputToGameKeyEventAction.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class downTouchInputToGameKeyEventAction () =
   object
     inherit GameKeyCompleteMotionGestureInputEvent.gameKeyCompleteMotionGestureInputEvent ("Down Action", (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#dOWN, (((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#getInputMapping ()))
@@ -42,7 +43,7 @@ let () = java_register_constructor "DownTouchInputToGameKeyEventAction" (fun arg
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new downTouchInputToGameKeyEventAction ())
+            instance := (Obj.repr ((new downTouchInputToGameKeyEventAction ())))
         end;
         (Obj.magic ((Obj.magic !instance)))
         end

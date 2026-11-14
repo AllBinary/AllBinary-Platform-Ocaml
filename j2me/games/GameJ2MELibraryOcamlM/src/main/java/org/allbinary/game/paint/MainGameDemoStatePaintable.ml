@@ -40,15 +40,15 @@ class mainGameDemoStatePaintable ((ownershipPaintableInterface_arg : Paintable.p
         end [@@warning "-7-20"]
     
 
-    method getOwnershipPaintableInterface () : Paintable.paintable =
+    method getOwnershipPaintableInterface : 'return. unit -> 'return = fun () ->
         begin
-        (ownershipPaintableInterface :> Paintable.paintable)
+        (Obj.magic (ownershipPaintableInterface))
         end [@@warning "-7"]
     
 
-    method getMenuPaintableInterface () : Paintable.paintable =
+    method getMenuPaintableInterface : 'return. unit -> 'return = fun () ->
         begin
-        (menuPaintableInterface :> Paintable.paintable)
+        (Obj.magic (menuPaintableInterface))
         end [@@warning "-7"]
 
     initializer

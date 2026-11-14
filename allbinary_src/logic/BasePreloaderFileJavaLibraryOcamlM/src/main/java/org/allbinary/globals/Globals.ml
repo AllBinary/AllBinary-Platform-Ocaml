@@ -38,14 +38,14 @@ class globals () =
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         let appUrlGlobals : AppUrlGlobals.appUrlGlobals ref = ref (((new AppUrlGlobals.appUrlGlobals ()) :> AppUrlGlobals.appUrlGlobals)) in ();
         ignore (!appUrlGlobals#setWebappPath (pathString));
-        ignore (uRLGLOBALS#init (!appUrlGlobals));
+        ignore (URLGLOBALS.init (!appUrlGlobals));
         ignore (WebappClassLoaderInfo.setLoader ((Obj.magic classLoader)));
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ("Setting Up AllBinary System Configuration Args: "));
         ignore (!stringBuffer#append (pathString));
         ignore (!stringBuffer#append (" ClassLoader: "));
         ignore (!stringBuffer#append ((java_get_class (Obj.repr (Obj.magic classLoader)))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !commonStrings#iNIT));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT));
         let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
         if (!stringValidationUtil#isEmpty (pathString)) then begin
             ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
@@ -54,13 +54,13 @@ class globals () =
             ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
             ignore (!stringBuffer#append ((CommonSeps.getInstance ())#eQUALS));
             ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-            ignore (!stringBuffer#append ((uRLGLOBALS#getWebappPath ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !commonStrings#iNIT))
+            ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT))
         end;
         ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
         ignore (!stringBuffer#append ("Webapp Path Set To: "));
-        ignore (!stringBuffer#append ((uRLGLOBALS#getWebappPath ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !commonStrings#iNIT))
+        ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT))
         end [@@warning "-20"]
 
     initializer
@@ -76,9 +76,9 @@ let instance = (new globals ())
 let get_instance () = instance
 let () = java_register_static "Globals.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "Globals.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -21,6 +21,7 @@ let mAXLEN : int ref = ref (250)
 let get_mAXLEN () = !mAXLEN
 let set_mAXLEN value' = mAXLEN := value'
 let () = java_register_static "UserData.get_mAXLEN" (fun _ -> Obj.repr (get_mAXLEN ()))
+let () = java_register_static "UserData.set_mAXLEN" (fun value' -> set_mAXLEN (Obj.obj value'); Obj.repr ())
 let nAME : string = "USER_NAME"
 let get_nAME () = nAME
 let () = java_register_static "UserData.get_nAME" (fun _ -> Obj.repr (get_nAME ()))

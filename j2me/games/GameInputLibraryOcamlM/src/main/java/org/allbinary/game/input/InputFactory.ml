@@ -27,6 +27,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "InputFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "InputFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class inputFactory () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -44,19 +45,19 @@ class inputFactory () =
     val mutable mAX : int = 0
     method mAX = mAX
     method set_mAX value' = mAX <- value'
-    val mutable inputIntegerArray : Obj.t = Obj.repr 0
-    method inputIntegerArray : 'r. 'r = Obj.magic inputIntegerArray
-    method set_inputIntegerArray : 'v. 'v -> unit = fun value' -> inputIntegerArray <- Obj.repr value'
-    val mutable nO_INPUT : Obj.t = Obj.repr 0
-    method nO_INPUT : 'r. 'r = Obj.magic nO_INPUT
-    method set_nO_INPUT : 'v. 'v -> unit = fun value' -> nO_INPUT <- Obj.repr value'
+    val mutable inputIntegerArray : Input.input array = (Obj.magic 0)
+    method inputIntegerArray = inputIntegerArray
+    method set_inputIntegerArray value' = inputIntegerArray <- value'
+    val mutable nO_INPUT : Input.input = (Obj.magic 0)
+    method nO_INPUT = nO_INPUT
+    method set_nO_INPUT value' = nO_INPUT <- value'
     
     
 
     method add : 'any2. int * 'any2 -> unit = fun ((id : int), input) ->
         let input = Obj.repr input in
         begin
-        (Obj.magic inputIntegerArray).(id) <- (Obj.magic input)
+        inputIntegerArray.(id) <- ((Obj.magic input) :> Input.input)
         end [@@warning "-20"]
     
 
@@ -65,13 +66,13 @@ class inputFactory () =
         try
         begin
         if (!id < 0) then begin
-            id := (-!id)
+            id := (- !id)
         end;
-        if (!id > (Array.length (Obj.magic inputIntegerArray))) then begin
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Warning id: "))#appendint (!id)))), self, commonStrings#gET_INSTANCE));
-            raise (Java_return (Obj.repr ((Obj.magic nO_INPUT))))
+        if (!id > (Array.length inputIntegerArray)) then begin
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Warning id: "))#appendint (!id)))), (Obj.magic self), commonStrings#gET_INSTANCE));
+            raise (Java_return (Obj.repr (nO_INPUT)))
         end;
-        (Obj.magic ((Obj.magic inputIntegerArray).(!id)))
+        (Obj.magic (inputIntegerArray.(!id)))
         end
         with Java_return value -> Obj.obj value
 
@@ -82,23 +83,23 @@ class inputFactory () =
         kEY_CODE_LABEL <- "KeyCode: ";
         dEVICE_ID_LABEL <- "DeviceId: ";
         mAX <- ((SmallIntegerSingletonFactory.getInstance ())#getMin ());
-        inputIntegerArray <- (Obj.repr (Array.make (mAX) (Obj.magic 0)));
-        nO_INPUT <- (Obj.repr (Obj.obj (java_new "Input" (Obj.repr (0, commonStrings#uNKNOWN)))));
+        inputIntegerArray <- (Array.make (mAX) (Obj.magic 0));
+        nO_INPUT <- ((new Input.input (0, commonStrings#uNKNOWN)) :> Input.input);
         ();
-        let size : int ref = ref ((Array.length (Obj.magic inputIntegerArray))) in ();
+        let size : int ref = ref ((Array.length inputIntegerArray)) in ();
         for index = 0 to !size - 1 do
-            (Obj.magic inputIntegerArray).(index) <- (Obj.magic nO_INPUT)
+            inputIntegerArray.(index) <- (nO_INPUT :> Input.input)
         done
       end
   end [@@warning "-20"]
 let () = java_register_constructor "InputFactory" (fun arguments -> Obj.repr (new inputFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new inputFactory ())
+            instance := (Obj.repr ((new inputFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "InputFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -53,7 +53,7 @@ class gameFrameRunnable ((allBinaryGameCanvas_arg : AllBinaryGameCanvas.allBinar
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#rUN, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#rUN, e))
         end)
         end [@@warning "-7"]
 

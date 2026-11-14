@@ -37,7 +37,7 @@ class topToBottomImageAnimation (image, (sequenceArray : int array), (animationB
 
     method nextFrame () : unit =
         begin
-        if ((self#getSequence ()).(0) == (-1)) then begin
+        if ((self#getSequence ()).(0) == (- 1)) then begin
             ignore (super#previousFrame ())
         end else begin
             ignore (super#nextFrame ())
@@ -48,7 +48,7 @@ class topToBottomImageAnimation (image, (sequenceArray : int array), (animationB
 
     method previousFrame () : unit =
         begin
-        if ((self#getSequence ()).(0) == (-1)) then begin
+        if ((self#getSequence ()).(0) == (- 1)) then begin
             ignore (super#nextFrame ())
         end else begin
             ignore (super#previousFrame ())
@@ -83,7 +83,7 @@ class topToBottomImageAnimation (image, (sequenceArray : int array), (animationB
         ();
         (* super(...) is the inherit clause *) ();
         currentHeight <- 0;
-        if ((self#getSequence ()).(0) == (-1)) then begin
+        if ((self#getSequence ()).(0) == (- 1)) then begin
             (self#setFrame (((self#getSize ()) - 1)))
         end
       end

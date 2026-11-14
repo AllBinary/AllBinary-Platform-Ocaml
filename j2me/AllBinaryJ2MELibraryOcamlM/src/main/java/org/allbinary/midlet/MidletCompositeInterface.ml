@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual midletCompositeInterface =
   object
     method virtual setMidlet : 'any1 . 'any1 -> unit
-    method virtual getMidlet : unit -> AllBinaryMidlet.allBinaryMidlet
+    method virtual getMidlet : 'return . unit -> 'return
     method virtual getDisplayable : 'return . unit -> 'return
   end
 

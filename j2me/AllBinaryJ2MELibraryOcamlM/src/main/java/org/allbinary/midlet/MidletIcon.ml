@@ -21,6 +21,7 @@ let rESOURCE : string ref = ref ("icon")
 let get_rESOURCE () = !rESOURCE
 let set_rESOURCE value' = rESOURCE := value'
 let () = java_register_static "MidletIcon.get_rESOURCE" (fun _ -> Obj.repr (get_rESOURCE ()))
+let () = java_register_static "MidletIcon.set_rESOURCE" (fun value' -> set_rESOURCE (Obj.obj value'); Obj.repr ())
 class midletIcon () =
   object
 

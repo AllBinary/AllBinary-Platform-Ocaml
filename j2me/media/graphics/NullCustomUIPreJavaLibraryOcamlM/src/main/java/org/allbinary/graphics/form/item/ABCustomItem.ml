@@ -14,6 +14,7 @@ let nULL_CUSTOM_ITEM : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL
 let get_nULL_CUSTOM_ITEM () = !nULL_CUSTOM_ITEM
 let set_nULL_CUSTOM_ITEM value' = nULL_CUSTOM_ITEM := value'
 let () = java_register_static "ABCustomItem.get_nULL_CUSTOM_ITEM" (fun _ -> Obj.repr (get_nULL_CUSTOM_ITEM ()))
+let () = java_register_static "ABCustomItem.set_nULL_CUSTOM_ITEM" (fun value' -> set_nULL_CUSTOM_ITEM (Obj.obj value'); Obj.repr ())
 class aBCustomItem ((_label : string), (_backgroundBasicColor : BasicColor.basicColor), (_foregroundBasicColor : BasicColor.basicColor)) =
   object
     
@@ -104,12 +105,12 @@ class aBCustomItem ((_label : string), (_backgroundBasicColor : BasicColor.basic
   end
 let () = java_register_constructor "ABCustomItem" (fun arguments -> Obj.repr (new aBCustomItem (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_CUSTOM_ITEM) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_CUSTOM_ITEM := (new aBCustomItem ((StringUtil.getInstance ())#eMPTY_STRING, (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))
+            nULL_CUSTOM_ITEM := (Obj.repr ((new aBCustomItem ((StringUtil.getInstance ())#eMPTY_STRING, (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))))
         end;
-        (Obj.magic !nULL_CUSTOM_ITEM)
+        (Obj.magic ((Obj.magic !nULL_CUSTOM_ITEM)))
         end
 let () = java_register_static "ABCustomItem.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

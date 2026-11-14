@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory =
   object
-    method virtual getInstance : int -> LayerPlacementInterfaceBasicArrayListFactoryInterface.layerPlacementInterfaceBasicArrayListFactoryInterface
+    method virtual getInstance : 'return . int -> 'return
     method virtual size : unit -> int
   end
 

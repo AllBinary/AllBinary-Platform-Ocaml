@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual gameAdStateFactoryInterface =
   object
-    method virtual getInstanceForApp : 'any1 . 'any1 -> GameAdStateBase.gameAdStateBase
+    method virtual getInstanceForApp : 'any1 'return . 'any1 -> 'return
   end
 
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.graphics.opengles.shader *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.NullUtil *)
 
 class modelViewProjection () =
@@ -38,9 +39,9 @@ let instance = (new modelViewProjection ())
 let get_instance () = instance
 let () = java_register_static "ModelViewProjection.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ModelViewProjection.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

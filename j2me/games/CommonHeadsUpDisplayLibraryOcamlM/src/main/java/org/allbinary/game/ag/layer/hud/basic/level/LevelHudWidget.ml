@@ -139,9 +139,9 @@ class levelHudWidget ((maxlevel_arg : int), (location : int), (direction : int))
   end
 let () = java_register_constructor "LevelHudWidget" (fun arguments -> Obj.repr (new levelHudWidget (Obj.obj arguments)))
 
-let createHud ((maxlevel_arg : int), (location : int), (direction : int)) =
+let createHud : 'return. int * int * int -> 'return = fun ((maxlevel_arg : int), (location : int), (direction : int)) ->
         begin
-        (new levelHudWidget (maxlevel_arg, location, direction))
+        (Obj.magic ((new levelHudWidget (maxlevel_arg, location, direction))))
         end
 let () = java_register_static "LevelHudWidget.createHud" (fun arguments -> Obj.repr (createHud (Obj.obj arguments)))
 

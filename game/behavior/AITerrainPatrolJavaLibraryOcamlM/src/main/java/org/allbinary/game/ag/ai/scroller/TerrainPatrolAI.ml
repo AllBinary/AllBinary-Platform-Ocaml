@@ -62,7 +62,7 @@ class terrainPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinar
             if ((Obj.repr !angle) == (Obj.repr dOWN)) then begin
                 ignore (self#nextDirection ());
                 if (not (self#isFollowLimitedByTerrain)) then begin
-                    ignore ((self#logUtil)#putF ("Following Limited", self, "onTerrainEvent"));
+                    ignore ((self#logUtil)#putF ("Following Limited", (Obj.magic self), "onTerrainEvent"));
                     (self#set_isFollowLimitedByTerrain) (true)
                 end
             end

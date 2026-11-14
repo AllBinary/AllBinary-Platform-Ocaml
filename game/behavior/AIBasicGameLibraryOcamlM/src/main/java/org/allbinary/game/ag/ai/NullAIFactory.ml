@@ -16,6 +16,7 @@
 (* package org.allbinary.game.ag.ai *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.ai.ArtificialIntelligenceInterface *)
 (* import org.allbinary.game.ai.ArtificialIntelligenceInterfaceFactoryInterface *)
 (* import org.allbinary.game.input.GameInput *)
@@ -26,15 +27,16 @@ let nULL_AI : NullAI.nullAI ref = ref (((new NullAI.nullAI ()) :> NullAI.nullAI)
 let get_nULL_AI () = !nULL_AI
 let set_nULL_AI value' = nULL_AI := value'
 let () = java_register_static "NullAIFactory.get_nULL_AI" (fun _ -> Obj.repr (get_nULL_AI ()))
+let () = java_register_static "NullAIFactory.set_nULL_AI" (fun value' -> set_nULL_AI (Obj.obj value'); Obj.repr ())
 
 (* Java overload getInstance() is not converted: OCaml has one method per name *)
 class nullAIFactory () =
   object
     
 
-    method getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (_hashtable, _ownerLayerInterface, _gameInput) ->
+    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (_hashtable, _ownerLayerInterface, _gameInput) ->
         begin
-        (!nULL_AI :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic (!nULL_AI))
         end [@@warning "-20"]
 
     initializer

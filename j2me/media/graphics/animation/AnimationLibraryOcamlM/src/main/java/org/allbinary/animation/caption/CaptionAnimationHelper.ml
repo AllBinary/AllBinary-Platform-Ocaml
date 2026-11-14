@@ -27,7 +27,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.time.GameTickTimeDelayHelperFactory *)
 (* import org.allbinary.time.TimeDelayHelper *)
 
-class captionAnimationHelper (captionAnimation_arg, (captionDx : int), (captionDy : int), (dx : int), (dy : int)) =
+class captionAnimationHelper ((captionAnimation_arg : Animation.animation), (captionDx : int), (captionDy : int), (dx : int), (dy : int)) =
   object
     inherit CaptionAnimationHelperBase.captionAnimationHelperBase ()
     val mutable timeHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
@@ -36,19 +36,19 @@ class captionAnimationHelper (captionAnimation_arg, (captionDx : int), (captionD
     val mutable textAnimation : TextAnimation.textAnimation = (Obj.magic 0)
     method textAnimation = textAnimation
     method set_textAnimation value' = textAnimation <- value'
-    val mutable captionAnimation : Obj.t = Obj.repr 0
-    method captionAnimation : 'r. 'r = Obj.magic captionAnimation
-    method set_captionAnimation : 'v. 'v -> unit = fun value' -> captionAnimation <- Obj.repr value'
-    val mutable animation : Obj.t = Obj.repr 0
-    method animation : 'r. 'r = Obj.magic animation
-    method set_animation : 'v. 'v -> unit = fun value' -> animation <- Obj.repr value'
+    val mutable captionAnimation : Animation.animation = (Obj.magic 0)
+    method captionAnimation = captionAnimation
+    method set_captionAnimation value' = captionAnimation <- value'
+    val mutable animation : Animation.animation = (Obj.magic 0)
+    method animation = animation
+    method set_animation value' = animation <- value'
     
     
 
     method isShowing () : bool =
         try
         begin
-        if ((Obj.repr (Obj.magic animation)) == (Obj.repr (Obj.magic captionAnimation))) then begin
+        if ((Obj.repr animation) == (Obj.repr captionAnimation)) then begin
             raise (Java_return (Obj.repr (true)))
         end else begin
             raise (Java_return (Obj.repr (false)))
@@ -60,7 +60,7 @@ class captionAnimationHelper (captionAnimation_arg, (captionDx : int), (captionD
     method tick () : unit =
         begin
         if (timeHelper#isTime ((GameTickTimeDelayHelperFactory.getInstance ())#startTime)) then begin
-            animation <- Obj.repr (((NullAnimationFactory.getFactoryInstance ())#getInstance (0)))
+            animation <- ((NullAnimationFactory.getFactoryInstance ())#getInstance (0))
         end
         end [@@warning "-7"]
     
@@ -70,7 +70,7 @@ class captionAnimationHelper (captionAnimation_arg, (captionDx : int), (captionD
         begin
         ignore (textAnimation#setBasicColorP ((Obj.magic basicColor)));
         ignore (textAnimation#setText (message));
-        animation <- Obj.repr ((Obj.magic captionAnimation));
+        animation <- captionAnimation;
         ignore (timeHelper#setStartTimeTNT ())
         end [@@warning "-7-20"]
     
@@ -78,7 +78,7 @@ class captionAnimationHelper (captionAnimation_arg, (captionDx : int), (captionD
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animation)#paintXY ((Obj.magic graphics), x, y))
+        ignore (animation#paintXY ((Obj.magic graphics), x, y))
         end [@@warning "-7-20"]
 
     initializer
@@ -86,11 +86,11 @@ class captionAnimationHelper (captionAnimation_arg, (captionDx : int), (captionD
         timeHelper <- ((new TimeDelayHelper.timeDelayHelper (620)) :> TimeDelayHelper.timeDelayHelper);
         textAnimation <- ((new TextAnimation.textAnimation ((StringUtil.getInstance ())#eMPTY_STRING, (AnimationBehavior.getInstance ()))) :> TextAnimation.textAnimation);
         ();
-        animation <- (Obj.repr ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)));
+        animation <- (((NullAnimationFactory.getFactoryInstance ())#getInstance (0)) :> Animation.animation);
         ();
-        captionAnimation <- Obj.repr ((new CaptionAnimation.captionAnimation (captionAnimation_arg, textAnimation, captionDx, captionDy, dx, dy)))
+        captionAnimation <- ((new CaptionAnimation.captionAnimation (captionAnimation_arg, (textAnimation : TextAnimation.textAnimation :> Animation.animation), captionDx, captionDy, dx, dy)) :> Animation.animation)
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "CaptionAnimationHelper" (fun arguments -> Obj.repr (new captionAnimationHelper (Obj.obj arguments)))
 
 

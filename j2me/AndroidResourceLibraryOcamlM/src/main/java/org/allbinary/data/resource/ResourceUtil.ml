@@ -53,7 +53,7 @@ class resourceUtil () =
 
     method setLoadingPaths ((_path : string), (_ext : string)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, self, "setLoadingPaths"))
+        ignore ((Obj.magic logUtil)#putF ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, (Obj.magic self), "setLoadingPaths"))
         end
     
 
@@ -66,14 +66,14 @@ class resourceUtil () =
     method setContextFromActivity : 'any1. 'any1 -> unit = fun (activity) ->
         let activity = Obj.repr activity in
         begin
-        context <- (Obj.magic activity)
+        context <- (Obj.repr ((Obj.magic activity)))
         end [@@warning "-20"]
     
 
     method setContext : 'any1. 'any1 -> unit = fun (aContext) ->
         let aContext = Obj.repr aContext in
         begin
-        context <- (Obj.magic aContext)
+        context <- (Obj.repr ((Obj.magic aContext)))
         end [@@warning "-20"]
     
 
@@ -81,7 +81,7 @@ class resourceUtil () =
         begin
         let value : int ref = ref ((Obj.magic ((Obj.magic hashMap)#get (resource)))) in ();
         if ((Obj.repr (DebugFactory.getInstance ())) != (Obj.repr (NoDebug.getInstance ()))) then begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (resource))#append ((CommonSeps.getInstance ())#cOLON))#append ((string_of_int !value))))), self, "getResourceId"))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (resource))#append ((CommonSeps.getInstance ())#cOLON))#append ((string_of_int !value))))), (Obj.magic self), "getResourceId"))))
         end;
         !value
         end
@@ -90,9 +90,9 @@ class resourceUtil () =
     method addResource ((resource : string), (value : int)) : unit =
         begin
         if ((Obj.repr (DebugFactory.getInstance ())) != (Obj.repr (NoDebug.getInstance ()))) then begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (resource))#append ((CommonSeps.getInstance ())#cOLON))#append ((string_of_int value))))), self, "addResource"))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (resource))#append ((CommonSeps.getInstance ())#cOLON))#append ((string_of_int value))))), (Obj.magic self), "addResource"))));
             if (self#containsDuplicate (resource, value)) then begin
-                ignore (ForcedLogUtil.log ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Found Duplicate Resource: "))#append (resource)))), self))
+                ignore (ForcedLogUtil.log ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Found Duplicate Resource: "))#append (resource)))), (Obj.magic self)))
             end
         end;
         ignore ((Obj.magic hashMap)#put (resource, value))
@@ -122,8 +122,8 @@ class resourceUtil () =
     method setResources : 'any1. 'any1 -> unit = fun (resources_arg) ->
         let resources_arg = Obj.repr resources_arg in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Resource Loader: "))#append ((java_get_class (Obj.repr (Obj.magic resources_arg))))))), self, "setResources"));
-        resources <- (Obj.magic resources_arg)
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Resource Loader: "))#append ((java_get_class (Obj.repr (Obj.magic resources_arg))))))), (Obj.magic self), "setResources"));
+        resources <- (Obj.repr ((Obj.magic resources_arg)))
         end [@@warning "-20"]
     
 
@@ -157,9 +157,9 @@ let instance = (new resourceUtil ())
 let get_instance () = instance
 let () = java_register_static "ResourceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ResourceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -26,9 +26,9 @@ class noHardware () =
   object
     
 
-    method getComponent ((_index : int)) : HardwareComponentInterface.hardwareComponentInterface =
+    method getComponent : 'return. int -> 'return = fun ((_index : int)) ->
         begin
-        ((NoHardwareComponent.getInstance ()) :> HardwareComponentInterface.hardwareComponentInterface)
+        (Obj.magic ((NoHardwareComponent.getInstance ())))
         end
     
 
@@ -60,9 +60,9 @@ let instance : HardwareInterface.hardwareInterface = ((new noHardware ()) :> Har
 let get_instance () = instance
 let () = java_register_static "NoHardware.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : HardwareInterface.hardwareInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> HardwareInterface.hardwareInterface)
+        (Obj.magic (instance))
         end
 let () = java_register_static "NoHardware.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

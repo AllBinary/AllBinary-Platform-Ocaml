@@ -44,16 +44,15 @@ let wrapFiles : 'return. Obj.t array -> 'return = fun ((files : Obj.t array)) ->
         end)
         end
 
-and wrapFile : 'any1 'return. 'any1 -> 'return = fun (file) ->
-        let file = Obj.repr file in
+and wrapFile : 'return. java_file -> 'return = fun ((file : java_file)) ->
         begin
         (try
-            (Obj.magic ((Obj.obj (java_new "AbFile" (Obj.repr ((Obj.magic file)))))))
+            (Obj.magic ((Obj.obj (java_new "AbFile" (Obj.repr (file))))))
         with e -> begin
             ignore (Obj.magic (java_call_static "PreLogUtil.putSE" (Obj.repr ("Exception Wrapping File", "FileWrapperUtil", "wrapFile", e))));
             (Obj.magic ((Obj.magic (java_call_static "AbFile.get_nULL_FILE" (Obj.repr ())))))
         end)
-        end [@@warning "-20"]
+        end
 let () = java_register_static "FileWrapperUtil.wrapFiles" (fun arguments -> Obj.repr (wrapFiles (Obj.obj arguments)))
 let () = java_register_static "FileWrapperUtil.wrapFile" (fun arguments -> Obj.repr (wrapFile (Obj.obj arguments)))
 

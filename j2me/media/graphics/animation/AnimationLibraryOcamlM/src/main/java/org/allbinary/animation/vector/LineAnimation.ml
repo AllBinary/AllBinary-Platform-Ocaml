@@ -26,7 +26,7 @@ open Allbinary_java [@@warning "-33"]
 
 class lineAnimation ((basicColor : BasicColor.basicColor)) =
   object (self)
-    inherit Animation.animation ()
+    inherit Animation.animation () as super
     val mutable newLine : int array array = (Obj.magic 0)
     method newLine = newLine
     method set_newLine value' = newLine <- value'
@@ -76,6 +76,19 @@ class lineAnimation ((basicColor : BasicColor.basicColor)) =
         begin
         ()
         end [@@warning "-7"]
+    
+
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getBasicColorP ())))
+        end [@@warning "-7"]
+    
+
+    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor) ->
+        let basicColor = Obj.repr basicColor in
+        begin
+        ignore (super#setBasicColorP ((Obj.magic basicColor)))
+        end [@@warning "-7-20"]
 
     initializer
       begin
@@ -83,7 +96,7 @@ class lineAnimation ((basicColor : BasicColor.basicColor)) =
         tempLine <- (NullUtil.getInstance ())#nULL_INT_ARRAY_ARRAY;
         line <- (Array.make_matrix (2) (2) 0);
         ();
-        ignore (self#setBasicColorP (basicColor))
+        (self#setBasicColorP (basicColor))
       end
   end
 let () = java_register_constructor "LineAnimation" (fun arguments -> Obj.repr (new lineAnimation (Obj.obj arguments)))

@@ -24,6 +24,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "TouchMotionGestureFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "TouchMotionGestureFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class touchMotionGestureFactory () =
   object
     val mutable lEFT : MotionGestureInput.motionGestureInput = (Obj.magic 0)
@@ -106,12 +107,12 @@ class touchMotionGestureFactory () =
   end
 let () = java_register_constructor "TouchMotionGestureFactory" (fun arguments -> Obj.repr (new touchMotionGestureFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new touchMotionGestureFactory ())
+            instance := (Obj.repr ((new touchMotionGestureFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "TouchMotionGestureFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

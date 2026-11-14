@@ -50,7 +50,7 @@ class lockedFeatureNotificationUtil () =
 
     initializer
       begin
-        gameNotificationEvent <- ((new GameNotificationEvent.gameNotificationEvent (self, (LicenseStrings.getInstance ())#lOCKED, ((SmallIntegerSingletonFactory.getInstance ())#getAt (3)), (BasicColorFactory.getInstance ())#rED, (BooleanFactory.getInstance ())#fALSE)) :> GameNotificationEvent.gameNotificationEvent);
+        gameNotificationEvent <- ((new GameNotificationEvent.gameNotificationEvent ((Obj.magic self), (LicenseStrings.getInstance ())#lOCKED, ((SmallIntegerSingletonFactory.getInstance ())#getAt (3)), (BasicColorFactory.getInstance ())#rED, (BooleanFactory.getInstance ())#fALSE)) :> GameNotificationEvent.gameNotificationEvent);
         ()
       end
   end
@@ -60,9 +60,9 @@ let instance = (new lockedFeatureNotificationUtil ())
 let get_instance () = instance
 let () = java_register_static "LockedFeatureNotificationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LockedFeatureNotificationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

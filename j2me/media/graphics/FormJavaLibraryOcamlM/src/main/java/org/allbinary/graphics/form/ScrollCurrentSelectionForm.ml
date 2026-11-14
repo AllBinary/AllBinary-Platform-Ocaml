@@ -63,18 +63,18 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
         ignore (super#init ((Obj.magic rectangle), (Obj.magic formType)));
         let formTypeFactory : FormTypeFactory.formTypeFactory ref = ref (((FormTypeFactory.getInstance ()) :> FormTypeFactory.formTypeFactory)) in ();
         if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#tEMP_HORIZONTAL_FORM)) then begin
-            processor <- (new TempHorizontalFormProcessor.tempHorizontalFormProcessor (self));
-            preItemIndexDx <- (new TempHorizontalItemIndexDx.tempHorizontalItemIndexDx (self))
+            processor <- ((Obj.obj (java_new "TempHorizontalFormProcessor" (Obj.repr ((Obj.magic self))))) :> Processor.processor);
+            preItemIndexDx <- ((Obj.obj (java_new "TempHorizontalItemIndexDx" (Obj.repr ((Obj.magic self))))) :> ItemIndexDx.itemIndexDx)
         end else if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) then begin
-            processor <- (new HorizontalFormProcessor.horizontalFormProcessor (self));
-            preItemIndexDx <- (new HorizontalItemIndexDx.horizontalItemIndexDx (self))
+            processor <- ((Obj.obj (java_new "HorizontalFormProcessor" (Obj.repr ((Obj.magic self))))) :> Processor.processor);
+            preItemIndexDx <- ((Obj.obj (java_new "HorizontalItemIndexDx" (Obj.repr ((Obj.magic self))))) :> ItemIndexDx.itemIndexDx)
         end else if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
-            processor <- (new VerticalFormProcessor.verticalFormProcessor (self));
-            preItemIndexDx <- (new VerticalItemIndexDx.verticalItemIndexDx (self))
+            processor <- ((Obj.obj (java_new "VerticalFormProcessor" (Obj.repr ((Obj.magic self))))) :> Processor.processor);
+            preItemIndexDx <- ((Obj.obj (java_new "VerticalItemIndexDx" (Obj.repr ((Obj.magic self))))) :> ItemIndexDx.itemIndexDx)
         end else if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#nULL_FORM_TYPE)) then begin
             ()
         end else begin
-            ignore ((self#logUtil)#putF (!formTypeFactory#uNK, self, (self#commonStrings)#iNIT))
+            ignore ((self#logUtil)#putF (!formTypeFactory#uNK, (Obj.magic self), (self#commonStrings)#iNIT))
         end;
         myFontProcessor <- updateMyFontProcessor
         end [@@warning "-7-20"]
@@ -211,14 +211,14 @@ class scrollCurrentSelectionForm ((title : string), items, (formPaintableFactory
                 end
             done
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#pAINT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#pAINT, e))
         end)
         end [@@warning "-7-20"]
 
     initializer
       begin
         ();
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         processor <- ((Processor.getInstance ()) :> Processor.processor);
         preItemIndexDx <- ((ItemIndexDx.getInstance ()) :> ItemIndexDx.itemIndexDx);

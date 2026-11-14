@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.input.motion.gesture.configuration.MotionGestureConfigurationFactory *)
 
 
-let getInstance () : CompleteMotionGestureListenerInterface.completeMotionGestureListenerInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         try
         begin
         let configuration : MotionGestureConfiguration.motionGestureConfiguration ref = ref (((MotionGestureConfigurationFactory.getInstance ()) :> MotionGestureConfiguration.motionGestureConfiguration)) in ();

@@ -45,7 +45,7 @@ class virtual abFileInterface =
     method virtual setLastModified : int -> bool
     method virtual setReadOnly : unit -> bool
     method virtual toString : unit -> string
-    method virtual toURI : 'return . unit -> 'return
+    method virtual toURI : unit -> java_uri
   end
 
 

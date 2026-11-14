@@ -76,7 +76,7 @@ class stringValidationUtil () =
     method isValidRequired ((value : string), (min : int), (max : int)) : bool =
         try
         begin
-        if (((value = (Obj.magic 0)) || ((String.length value) < min)) || ((String.length value) > max)) then begin
+        if (((String.length value) < min) || ((String.length value) > max)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
         true
@@ -101,7 +101,7 @@ class stringValidationUtil () =
     method isValidNotRequired ((value : string), (min : int), (max : int)) : bool =
         try
         begin
-        if (value <> (Obj.magic 0)) then begin
+        if ((String.length value) > 0) then begin
             if (((String.length value) < min) || ((String.length value) > max)) then begin
                 raise (Java_return (Obj.repr (false)))
             end
@@ -114,8 +114,8 @@ class stringValidationUtil () =
     method isValidNotRequiredNumber ((value : string), (min : int), (max : int)) : bool =
         try
         begin
-        if (value <> (Obj.magic 0)) then begin
-            if (((((Obj.magic tsUtil)#compareTo (value, stringUtil#nULL_STRING)) == 0) || ((String.length value) < min)) || ((String.length value) > max)) then begin
+        if ((String.length value) > 0) then begin
+            if (((((Obj.magic tsUtil)#compareTo (value, stringUtil#nULL_STRING)) = 0) || ((String.length value) < min)) || ((String.length value) > max)) then begin
                 raise (Java_return (Obj.repr (false)))
             end;
             if (not (self#isNumber (value))) then begin
@@ -130,7 +130,7 @@ class stringValidationUtil () =
     method isEmpty ((string : string)) : bool =
         try
         begin
-        if (((string <> (Obj.magic 0)) && (((Obj.magic tsUtil)#compareTo (string, stringUtil#nULL_STRING)) != 0)) && (((Obj.magic tsUtil)#compareTo (string, stringUtil#eMPTY_STRING)) != 0)) then begin
+        if ((((Obj.magic tsUtil)#compareTo (string, stringUtil#nULL_STRING)) <> 0) && (((Obj.magic tsUtil)#compareTo (string, stringUtil#eMPTY_STRING)) <> 0)) then begin
             raise (Java_return (Obj.repr (false)))
         end else begin
             raise (Java_return (Obj.repr (true)))
@@ -152,9 +152,9 @@ let instance = (new stringValidationUtil ())
 let get_instance () = instance
 let () = java_register_static "StringValidationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "StringValidationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

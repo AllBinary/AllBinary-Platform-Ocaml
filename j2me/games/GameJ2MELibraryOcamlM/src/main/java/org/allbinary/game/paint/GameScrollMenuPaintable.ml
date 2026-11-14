@@ -69,7 +69,7 @@ class gameScrollMenuPaintable ((mainDemoStatePaintable : Paintable.paintable), (
         ();
         (* super(...) is the inherit clause *) ();
         (self#setColor (basicColor));
-        ignore ((ColorChangeEventHandler.getInstance ())#addListenerInterface (self))
+        ignore ((ColorChangeEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
       end
   end
 let () = java_register_constructor "GameScrollMenuPaintable" (fun arguments -> Obj.repr (new gameScrollMenuPaintable (Obj.obj arguments)))

@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual automaticCacheInterface =
   object
     inherit CacheInterface.cacheInterface
-    method virtual get : 'any1 . 'any1 -> CacheableInterface.cacheableInterface
+    method virtual get : 'any1 'return . 'any1 -> 'return
   end
 
 

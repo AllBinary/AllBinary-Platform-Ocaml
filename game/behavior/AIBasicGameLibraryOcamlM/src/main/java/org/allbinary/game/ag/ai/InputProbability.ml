@@ -26,6 +26,7 @@ let iNPUT_PROBABILITY : int ref = ref (((SmallIntegerSingletonFactory.getInstanc
 let get_iNPUT_PROBABILITY () = !iNPUT_PROBABILITY
 let set_iNPUT_PROBABILITY value' = iNPUT_PROBABILITY := value'
 let () = java_register_static "InputProbability.get_iNPUT_PROBABILITY" (fun _ -> Obj.repr (get_iNPUT_PROBABILITY ()))
+let () = java_register_static "InputProbability.set_iNPUT_PROBABILITY" (fun value' -> set_iNPUT_PROBABILITY (Obj.obj value'); Obj.repr ())
 class inputProbability ((likelyhoodIntegerArray_arg : int array array), (repeatLikelyhoodIntegerArray_arg : int array), (max_arg : int), (timeDelayHelper_arg : TimeDelayHelper.timeDelayHelper)) =
   object (self)
     val mutable likelyhoodIntegerArray : int array array = (Obj.magic 0)
@@ -61,16 +62,16 @@ class inputProbability ((likelyhoodIntegerArray_arg : int array array), (repeatL
         end
     
 
-    method getTimeDelayHelper () : TimeDelayHelper.timeDelayHelper =
+    method getTimeDelayHelper : 'return. unit -> 'return = fun () ->
         begin
-        (timeDelayHelper :> TimeDelayHelper.timeDelayHelper)
+        (Obj.magic (timeDelayHelper))
         end
     
 
     method toHashtable : 'return. unit -> 'return = fun () ->
         begin
         let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))) in ();
-        ignore ((Obj.magic !hashtable)#put (!iNPUT_PROBABILITY, self));
+        ignore ((Obj.magic !hashtable)#put (!iNPUT_PROBABILITY, (Obj.magic self)));
         (Obj.magic ((Obj.magic !hashtable)))
         end
 

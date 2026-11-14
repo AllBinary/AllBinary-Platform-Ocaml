@@ -27,15 +27,15 @@ class analogLocationInputFactory () =
         end
     
 
-    method getInstanceForPlayer ((playerInputId : int)) : AnalogLocationInput.analogLocationInput =
+    method getInstanceForPlayer : 'return. int -> 'return = fun ((playerInputId : int)) ->
         begin
-        ((Obj.magic (list#get (playerInputId))) :> AnalogLocationInput.analogLocationInput)
+        (Obj.magic ((Obj.magic (list#get (playerInputId)))))
         end
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer
@@ -51,9 +51,9 @@ let instance = (new analogLocationInputFactory ())
 let get_instance () = instance
 let () = java_register_static "AnalogLocationInputFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AnalogLocationInputFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

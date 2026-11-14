@@ -25,7 +25,7 @@ class colorTemperatureUtil () =
     method set_basicColorFactory value' = basicColorFactory <- value'
     
 
-    method getBasicColor ((thirdTemp : int)) : BasicColor.basicColor =
+    method getBasicColor : 'return. int -> 'return = fun ((thirdTemp : int)) ->
         begin
         let basicColor : BasicColor.basicColor ref = ref ((basicColorFactory#rED :> BasicColor.basicColor)) in ();
         if (thirdTemp > 3700) then begin
@@ -43,7 +43,7 @@ class colorTemperatureUtil () =
         end else if (thirdTemp > 700) then begin
             basicColor := basicColorFactory#oRANGE
         end;
-        (!basicColor :> BasicColor.basicColor)
+        (Obj.magic (!basicColor))
         end
 
     initializer
@@ -58,9 +58,9 @@ let instance = (new colorTemperatureUtil ())
 let get_instance () = instance
 let () = java_register_static "ColorTemperatureUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ColorTemperatureUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

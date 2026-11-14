@@ -16,16 +16,18 @@
 (* package org.allbinary.media *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.configuration.GameConfigurationCentral *)
 
 let vIBRATION : AllBinaryVibrationME.allBinaryVibrationME ref = ref (((AllBinaryNoVibration.get_nO_VIBRATION ()) :> AllBinaryVibrationME.allBinaryVibrationME))
 let get_vIBRATION () = !vIBRATION
 let set_vIBRATION value' = vIBRATION := value'
 let () = java_register_static "AllBinaryVibration.get_vIBRATION" (fun _ -> Obj.repr (get_vIBRATION ()))
+let () = java_register_static "AllBinaryVibration.set_vIBRATION" (fun value' -> set_vIBRATION (Obj.obj value'); Obj.repr ())
 
-let getInstance () : AllBinaryVibrationME.allBinaryVibrationME =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!vIBRATION :> AllBinaryVibrationME.allBinaryVibrationME)
+        (Obj.magic (!vIBRATION))
         end
 
 let () = java_register_static "AllBinaryVibration.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
@@ -50,7 +52,7 @@ let () = java_register_constructor "AllBinaryVibration" (fun arguments -> Obj.re
 
 let init () : unit =
         begin
-        if ((((GameConfigurationCentral.getInstance ())#vIBRATION#getValue ())#intValue ()) == 0) then begin
+        if ((java_int_value (Obj.repr ((GameConfigurationCentral.getInstance ())#vIBRATION#getValue ()))) == 0) then begin
             vIBRATION := (AllBinaryNoVibration.get_nO_VIBRATION ())
         end else begin
             vIBRATION := (new allBinaryVibration ())

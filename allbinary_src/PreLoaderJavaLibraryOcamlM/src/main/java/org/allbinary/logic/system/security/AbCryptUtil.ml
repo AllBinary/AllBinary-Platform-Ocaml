@@ -40,9 +40,9 @@ class abCryptUtil () =
             ignore (streamUtil#close ((Obj.magic inputStream)))
         ) (fun () -> (try
             outputStream := (Obj.magic (streamUtil#get ((Obj.magic inputStream), (new java_byte_array_output_stream ()), (Array.make (16384) 0))));
-            let abCrypt : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "AbCrypt" (Obj.repr ((Obj.magic (java_call_static "KeySpecFactory.getInstance" (Obj.repr ())))#dESEDE)))))) in ();
-            ignore ((Obj.magic !abCrypt)#init (key));
-            ((Obj.magic !abCrypt)#decrypt ((!outputStream#toByteArray ())))
+            let abCrypt : AbCrypt.abCrypt ref = ref (((new AbCrypt.abCrypt ((KeySpecFactory.getInstance ())#dESEDE)) :> AbCrypt.abCrypt)) in ();
+            ignore (!abCrypt#init (key));
+            (!abCrypt#decrypt ((!outputStream#toByteArray ())))
         with exception_value -> raise exception_value))
         end [@@warning "-20"]
 
@@ -59,9 +59,9 @@ let instance = (new abCryptUtil ())
 let get_instance () = instance
 let () = java_register_static "AbCryptUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AbCryptUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

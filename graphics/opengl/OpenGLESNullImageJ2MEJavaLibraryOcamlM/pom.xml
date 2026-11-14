@@ -93,7 +93,7 @@
         
         <dependency>
             <groupId>org.microemu</groupId>
-            <artifactId>microemu-midpOcaml</artifactId>
+            <artifactId>microemu-midp-for-polyglotOcaml</artifactId>
             <version>2.0.4</version>
             <optional>true</optional>
         </dependency>

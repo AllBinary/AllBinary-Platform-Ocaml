@@ -44,8 +44,8 @@ class boundBounceAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gam
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        let rectange : Obj.t ref = ref ((Obj.repr (layerBounds#getRectangleP ()))) in ();
-        ignore ((Obj.magic graphics)#drawRect ((((Obj.magic !rectange)#getPoint ())#getX ()), (((Obj.magic !rectange)#getPoint ())#getY ()), ((Obj.magic !rectange)#getWidth ()), ((Obj.magic !rectange)#getHeight ())))
+        let rectange : Rectangle.rectangle ref = ref (((layerBounds#getRectangleP ()) :> Rectangle.rectangle)) in ();
+        ignore ((Obj.magic graphics)#drawRect (((!rectange#getPoint ())#getX ()), ((!rectange#getPoint ())#getY ()), (!rectange#getWidth ()), (!rectange#getHeight ())))
         end [@@warning "-7-20"]
     
 

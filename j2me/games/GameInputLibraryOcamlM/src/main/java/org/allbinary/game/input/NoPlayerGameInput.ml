@@ -16,12 +16,13 @@
 (* package org.allbinary.game.input *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.input.event.GameKeyEvent *)
 (* import org.allbinary.util.BasicArrayListD *)
 
 class noPlayerGameInput () =
   object
-    inherit PlayerGameInput.playerGameInput ((new BasicArrayListD.basicArrayListD ()), (new BasicArrayListD.basicArrayListD ()), (-1))
+    inherit PlayerGameInput.playerGameInput (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), ((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1))
     
     
 
@@ -48,9 +49,9 @@ let sINGLETON = (new noPlayerGameInput ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "NoPlayerGameInput.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "NoPlayerGameInput.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

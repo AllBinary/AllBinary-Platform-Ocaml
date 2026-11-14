@@ -60,7 +60,7 @@ class aBCustomForm ((_title : string), _items, (_backgroundBasicColor : BasicCol
 
     method append : 'any1. 'any1 -> int = fun (_item) ->
         begin
-        (-1)
+        (- 1)
         end [@@warning "-7-20"]
     
 

@@ -20,10 +20,10 @@ open Allbinary_java [@@warning "-33"]
 (* import java.io.File *)
 
 
-let get : 'any1 'return. 'any1 -> 'return = fun (file) ->
+let get : 'any1. 'any1 -> java_file = fun (file) ->
         let file = Obj.repr file in
         begin
-        (Obj.magic (((Obj.magic file)#getFile ())))
+        (((Obj.magic file)#getFile ()) :> java_file)
         end [@@warning "-20"]
 
 let () = java_register_static "AbFileNativeUtil.get" (fun arguments -> Obj.repr (get (Obj.obj arguments)))

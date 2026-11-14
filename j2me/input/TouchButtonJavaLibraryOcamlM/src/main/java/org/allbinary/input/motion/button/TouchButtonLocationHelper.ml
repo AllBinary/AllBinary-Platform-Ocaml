@@ -107,8 +107,8 @@ class touchButtonLocationHelper () =
         ();
         let buttonSize : int ref = ref ((CommonButtons.getInstance ())#sTANDARD_BUTTON_SIZE) in ();
         let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        totalColumns <- (Float.to_int (Float.round (((java_to_float (Obj.repr ((!displayInfo#getLastWidth ())))) /. (float_of_int (!buttonSize))))));
-        totalRows <- (Float.to_int (Float.round (((java_to_float (Obj.repr ((!displayInfo#getLastHeight ())))) /. (float_of_int (!buttonSize))))));
+        totalColumns <- (Float.to_int (Float.round (((float_of_int ((!displayInfo#getLastWidth ()))) /. (float_of_int (!buttonSize))))));
+        totalRows <- (Float.to_int (Float.round (((float_of_int ((!displayInfo#getLastHeight ()))) /. (float_of_int (!buttonSize))))));
         columnsRemainder <- ((!displayInfo#getLastWidth ()) mod !buttonSize);
         columnsRemainderHalf <- ((columnsRemainder asr 1));
         rowsRemainder <- ((!displayInfo#getLastHeight ()) mod !buttonSize);

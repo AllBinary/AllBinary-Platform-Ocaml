@@ -39,9 +39,7 @@ class exceptionUtil () =
             let printStream : java_print_stream ref = ref (((Obj.obj (java_new "PrintStream" (Obj.repr (!byteArrayOutputStream)))) :> java_print_stream)) in ();
             ignore (java_print_stack_trace e (!printStream));
             let output : string ref = ref ((java_string_of (Obj.repr !byteArrayOutputStream))) in ();
-            if (!output <> (Obj.magic 0)) then begin
-                raise (Java_return (Obj.repr ((Obj.obj (java_new "String" (Obj.repr (!output)))))))
-            end
+            raise (Java_return (Obj.repr ((Obj.obj (java_new "String" (Obj.repr (!output)))))))
         end;
         nONE
         end
@@ -60,9 +58,9 @@ let instance = (new exceptionUtil ())
 let get_instance () = instance
 let () = java_register_static "ExceptionUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ExceptionUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

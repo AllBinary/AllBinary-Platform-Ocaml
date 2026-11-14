@@ -16,14 +16,15 @@
 (* package org.allbinary.game.ag.ai *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : LastKeyAIVisitor.lastKeyAIVisitor = ((new LastKeyAIVisitor.lastKeyAIVisitor ()) :> LastKeyAIVisitor.lastKeyAIVisitor)
 let get_instance () = instance
 let () = java_register_static "LastKeyAIVisitorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : LastKeyAIVisitor.lastKeyAIVisitor =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> LastKeyAIVisitor.lastKeyAIVisitor)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "LastKeyAIVisitorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

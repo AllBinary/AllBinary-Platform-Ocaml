@@ -21,14 +21,16 @@ open Allbinary_java [@@warning "-33"]
 (* import java.io.StringBufferInputStream *)
 (* import javax.xml.parsers.DocumentBuilder *)
 (* import javax.xml.parsers.DocumentBuilderFactory *)
+(* import org.allbinary.string.CommonPhoneStrings *)
 (* import org.w3c.dom.Document *)
 
 
 let init () : unit =
         begin
-        ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.maxElementDepth", "0"))));
-        ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.xpathExprOpLimit", "0"))));
-        ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.xpathTotalOpLimit", "0"))));
+        let commonPhoneStrings : CommonPhoneStrings.commonPhoneStrings ref = ref (((CommonPhoneStrings.getInstance ()) :> CommonPhoneStrings.commonPhoneStrings)) in ();
+        ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.maxElementDepth", !commonPhoneStrings#zERO))));
+        ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.xpathExprOpLimit", !commonPhoneStrings#zERO))));
+        ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.xpathTotalOpLimit", !commonPhoneStrings#zERO))));
         let lIMIT : string ref = ref ("500000") in ();
         ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.maxGeneralEntitySizeLimit", !lIMIT))));
         ignore (Obj.magic (java_call_static "System.setProperty" (Obj.repr ("jdk.xml.totalEntitySizeLimit", !lIMIT))))

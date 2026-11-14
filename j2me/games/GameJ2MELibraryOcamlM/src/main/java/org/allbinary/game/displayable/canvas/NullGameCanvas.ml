@@ -31,6 +31,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "NullGameCanvas.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "NullGameCanvas.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 let nO_GAME : string = "No Background Game"
 let get_nO_GAME () = nO_GAME
 let () = java_register_static "NullGameCanvas.get_nO_GAME" (fun _ -> Obj.repr (get_nO_GAME ()))
@@ -99,10 +100,10 @@ class nullGameCanvas ((gameLayerManager : AllBinaryGameLayerManager.allBinaryGam
     method run () : unit =
         begin
         (try
-            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, self, (self#commonStrings)#rUN));
-            ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, self, (self#commonStrings)#rUN))
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#rUN, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#rUN, e))
         end)
         end [@@warning "-7"]
     
@@ -122,31 +123,31 @@ class nullGameCanvas ((gameLayerManager : AllBinaryGameLayerManager.allBinaryGam
   end
 let () = java_register_constructor "NullGameCanvas" (fun arguments -> Obj.repr (new nullGameCanvas (Obj.obj arguments)))
 
-let rec createNull () =
+let rec createNull : 'return. unit -> 'return = fun () ->
         begin
         (try
-            (new nullGameCanvas ((AllBinaryGameLayerManager.getNullInstance ())))
+            (Obj.magic ((new nullGameCanvas ((AllBinaryGameLayerManager.getNullInstance ())))))
         with e -> begin
             ignore ((Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ())))#put ((CommonStrings.getInstance ())#eXCEPTION, "NullGameCanvas", (CommonStrings.getInstance ())#gET_INSTANCE, e));
             raise (Failure ("RuntimeException"))
         end)
         end
 
-and getInstance () =
+and getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (createNull ())
+            instance := (Obj.repr ((createNull ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 
-and createCanvas : 'any1. 'any1 -> _ = fun (gameLayerManager) ->
+and createCanvas : 'any1 'return. 'any1 -> 'return = fun (gameLayerManager) ->
         let gameLayerManager = Obj.repr gameLayerManager in
         begin
         let nullGameCanvas : Obj.t ref = ref ((Obj.repr (new nullGameCanvas ((Obj.magic gameLayerManager))))) in ();
         ignore ((Obj.magic !nullGameCanvas)#setInitialized (true));
         ignore ((Obj.magic !nullGameCanvas)#setTitle (nO_GAME));
-        (Obj.magic !nullGameCanvas)
+        (Obj.magic ((Obj.magic !nullGameCanvas)))
         end [@@warning "-20"]
 let () = java_register_static "NullGameCanvas.createNull" (fun arguments -> Obj.repr (createNull (Obj.obj arguments)))
 let () = java_register_static "NullGameCanvas.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

@@ -62,7 +62,7 @@ class canvasDrawLineString ((x_arg : int), (y_arg : int)) =
     initializer
       begin
         drawStringUtil <- ((DrawStringUtil.getInstance ()) :> DrawStringUtil.drawStringUtil);
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         ();
         ();
         fontHeight <- 0;

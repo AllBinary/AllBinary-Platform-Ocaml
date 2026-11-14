@@ -5,7 +5,7 @@ open Allbinary_java [@@warning "-33"]
 
 class bundleException () =
   object
-    inherit Exception.exception ()
+    inherit java_throwable (Obj.repr ())
 
     initializer
       begin

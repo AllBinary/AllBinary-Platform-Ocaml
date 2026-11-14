@@ -33,13 +33,13 @@ class resourceUtil () =
 
     method setLoadingPaths ((_path : string), (_ext : string)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, self, "setLoadingPaths"))
+        ignore ((Obj.magic logUtil)#putF ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, (Obj.magic self), "setLoadingPaths"))
         end
     
 
     method getResourceAsStream : 'return. string -> 'return = fun ((resource : string)) ->
         begin
-        let inputStream : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr resource))#getResourceAsStream (resource)))) in ();
+        let inputStream : Obj.t ref = ref ((Obj.repr (java_get_resource_as_stream (resource)))) in ();
         if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
             inputStream := Obj.repr ((self#getResourceAsStreamAtStart (resource, 2)));
             if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
@@ -48,36 +48,36 @@ class resourceUtil () =
                     let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
                     let index : int ref = ref ((java_string_last_index_of resource (Obj.repr ('/')))) in ();
                     let resourcePath : string ref = ref ((String.sub resource ((!index + 1)) (String.length resource - ((!index + 1))))) in ();
-                    inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                    inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                     if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                         resourcePath := (String.sub resource (!index) (String.length resource - (!index)));
-                        inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                        inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                         if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                             let rES : string ref = ref ("res") in ();
                             resourcePath := (java_string_of (Obj.repr ((!stringMaker#append (!rES))#append ((String.sub resource (!index) (String.length resource - (!index)))))));
-                            inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                            inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                             if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                                 resourcePath := (java_string_of (Obj.repr (((!stringMaker#append ("/"))#append (!rES))#append ((String.sub resource (!index) (String.length resource - (!index)))))));
-                                inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                                inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                                 let cOLON : string ref = ref ((CommonSeps.getInstance ())#cOLON) in ();
                                 if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                                     ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                                     resourcePath := (java_string_of (Obj.repr (((!stringMaker#append (!rES))#append (!cOLON))#append ((String.sub resource (!index) (String.length resource - (!index)))))));
-                                    inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                                    inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                                     if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                                         ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                                         resourcePath := (java_string_of (Obj.repr (((!stringMaker#append (!rES))#append (!cOLON))#append ((String.sub resource ((!index + 1)) (String.length resource - ((!index + 1))))))));
-                                        inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                                        inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                                         if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                                             let rESOURCE_STRING : string ref = ref ("resource") in ();
                                             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                                             resourcePath := (java_string_of (Obj.repr (((!stringMaker#append (!rESOURCE_STRING))#append (!cOLON))#append ((String.sub resource (!index) (String.length resource - (!index)))))));
-                                            inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                                            inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                                             if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                                                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                                                 resourcePath := (java_string_of (Obj.repr (((!stringMaker#append (!rESOURCE_STRING))#append (!cOLON))#append ((String.sub resource ((!index + 1)) (String.length resource - ((!index + 1))))))));
-                                                inputStream := Obj.repr (((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)));
+                                                inputStream := Obj.repr ((java_get_resource_as_stream (!resourcePath)));
                                                 if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
                                                     ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                                                     raise (Failure ((java_string_of (Obj.repr ((!stringMaker#append ("Unable to obtain: "))#append (resource))))))
@@ -102,7 +102,7 @@ class resourceUtil () =
         let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         let index : int ref = ref ((java_string_index_of resource (Obj.repr ((CommonSeps.getInstance ())#cOLON)))) in ();
         let resourcePath : string ref = ref ((String.sub resource ((!index + startIndex)) (String.length resource - ((!index + startIndex))))) in ();
-        let inputStream : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)))) in ();
+        let inputStream : Obj.t ref = ref ((Obj.repr (java_get_resource_as_stream (!resourcePath)))) in ();
         if ((Obj.magic !inputStream) != (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr ((Obj.magic !inputStream))))
         end;
@@ -129,10 +129,11 @@ let instance = ref ((new resourceUtil ()))
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "ResourceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "ResourceUtil.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !instance
+        (Obj.magic (!instance))
         end
 let () = java_register_static "ResourceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

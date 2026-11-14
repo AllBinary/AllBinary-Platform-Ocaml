@@ -21,6 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import java.io.File *)
 (* import java.io.OutputStream *)
 (* import java.io.StringBufferInputStream *)
+(* import javax.xml.transform.Templates *)
 (* import javax.xml.transform.Transformer *)
 (* import javax.xml.transform.TransformerFactory *)
 (* import javax.xml.transform.URIResolver *)
@@ -53,6 +54,21 @@ class xslHelper () =
     (* Java overload translate(URIResolver, StreamSource, StreamSource, StreamResult) is not converted: OCaml has one method per name *)
     
 
+    method translateTemplate : 'any1 'any2. 'any1 * 'any2 -> string = fun (templates, xmlStreamSource) ->
+        let templates = Obj.repr templates in
+        let xmlStreamSource = Obj.repr xmlStreamSource in
+        begin
+        (try
+            let outputStream : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
+            let streamResult : Obj.t ref = ref ((Obj.repr (new StreamResult.streamResult (!outputStream)))) in ();
+            ignore (((Obj.magic templates)#newTransformer ())#transform ((Obj.magic xmlStreamSource), (Obj.magic !streamResult)));
+            (java_string_of (Obj.repr ((Obj.magic !streamResult)#getOutputStream ())))
+        with e -> begin
+            raise e
+        end)
+        end [@@warning "-20"]
+    
+
     (* Java overload translate(StreamSource, Document) is not converted: OCaml has one method per name *)
     
 
@@ -62,13 +78,12 @@ class xslHelper () =
     (* Java overload translate(URIResolver, StreamSource, StreamSource) is not converted: OCaml has one method per name *)
     
 
-    method export : 'any1 'any3. 'any1 * string * 'any3 -> unit = fun (outputFile, (xsltFilePath : string), xmlDocument) ->
-        let outputFile = Obj.repr outputFile in
+    method export : 'any3. java_file * string * 'any3 -> unit = fun ((outputFile : java_file), (xsltFilePath : string), xmlDocument) ->
         let xmlDocument = Obj.repr xmlDocument in
         begin
         (try
-            ignore ((Obj.magic outputFile)#createNewFile ());
-            ignore (self#translate ((new StreamSource.streamSource (xsltFilePath)), (new StreamSource.streamSource ((new StringBufferInputStream.stringBufferInputStream ((XmlDocumentHelper.toString ((Obj.magic xmlDocument))))))), (new StreamResult.streamResult ((Obj.magic outputFile)))))
+            ignore (outputFile#createNewFile ());
+            ignore (self#translate ((new StreamSource.streamSource (xsltFilePath)), (new StreamSource.streamSource ((new StringBufferInputStream.stringBufferInputStream ((XmlDocumentHelper.toString ((Obj.magic xmlDocument))))))), (new StreamResult.streamResult (outputFile))))
         with e -> begin
             raise e
         end)
@@ -86,9 +101,9 @@ let instance = (new xslHelper ())
 let get_instance () = instance
 let () = java_register_static "XslHelper.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "XslHelper.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,14 +16,15 @@
 (* package org.allbinary.logic.util.cache *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class basicArrayListCacheableInterfaceFactory () =
   object
     
 
-    method getInstance : 'any1. 'any1 -> CacheableInterface.cacheableInterface = fun (_key) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (_key) ->
         begin
-        ((new BasicArrayListCacheable.basicArrayListCacheable ()) :> CacheableInterface.cacheableInterface)
+        (Obj.magic ((new BasicArrayListCacheable.basicArrayListCacheable ())))
         end
 
     initializer

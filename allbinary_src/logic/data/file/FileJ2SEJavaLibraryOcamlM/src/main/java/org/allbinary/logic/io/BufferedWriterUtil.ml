@@ -47,7 +47,7 @@ class bufferedWriterUtil () =
         begin
         let abFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (path)))))) in ();
         if ((Obj.magic !abFile)#exists ()) then begin
-            ignore ((Obj.magic logUtil)#putF ((rEMOVING_OLD ^ path), self, commonStrings#cREATE));
+            ignore ((Obj.magic logUtil)#putF ((rEMOVING_OLD ^ path), (Obj.magic self), commonStrings#cREATE));
             ignore ((Obj.magic !abFile)#delete ())
         end else begin
             let name : string ref = ref (((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#removeNameFromPath (path))) in ();
@@ -56,10 +56,10 @@ class bufferedWriterUtil () =
                 ()
             end else begin
                 let stringBuilder : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((!stringBuilder#append (commonStrings#cREATE))#append (commonLabels#cOLON_SEP))#append (!name)))), self, commonStrings#cREATE));
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((!stringBuilder#append (commonStrings#cREATE))#append (commonLabels#cOLON_SEP))#append (!name)))), (Obj.magic self), commonStrings#cREATE));
                 let result : bool ref = ref (((Obj.magic !abFileDirectory)#mkdirs ())) in ();
                 ignore (!stringBuilder#delete (0, (!stringBuilder#length ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringBuilder#append (commonLabels#rESULT_))#appendboolean (!result)))), self, commonStrings#cREATE))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringBuilder#append (commonLabels#rESULT_))#appendboolean (!result)))), (Obj.magic self), commonStrings#cREATE))
             end
         end;
         (self#write ((Obj.magic !abFile), data))
@@ -72,10 +72,10 @@ class bufferedWriterUtil () =
     method write : 'any1. 'any1 * string -> unit = fun (abFile, (data : string)) ->
         let abFile = Obj.repr abFile in
         begin
-        let fileOut : Obj.t ref = ref ((Obj.repr (new BufferedWriter.bufferedWriter ((new FileWriter.fileWriter ((AbFileNativeUtil.get ((Obj.magic abFile))))))))) in ();
-        ignore ((Obj.magic !fileOut)#write (data, 0, (String.length data)));
-        ignore ((Obj.magic !fileOut)#newLine ());
-        ignore ((Obj.magic !fileOut)#flush ())
+        let fileOut : java_buffered_writer ref = ref (((new java_buffered_writer (Obj.repr ((new java_file_writer (Obj.repr ((AbFileNativeUtil.get ((Obj.magic abFile))))))))) :> java_buffered_writer)) in ();
+        ignore (!fileOut#write (data, 0, (String.length data)));
+        ignore (!fileOut#newLine ());
+        ignore (!fileOut#flush ())
         end [@@warning "-20"]
 
     initializer
@@ -93,9 +93,9 @@ let instance = (new bufferedWriterUtil ())
 let get_instance () = instance
 let () = java_register_static "BufferedWriterUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "BufferedWriterUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

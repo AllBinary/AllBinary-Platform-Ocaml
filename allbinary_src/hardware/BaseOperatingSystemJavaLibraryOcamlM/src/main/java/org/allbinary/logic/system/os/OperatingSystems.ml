@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.system.os *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class operatingSystems () =
   object
@@ -93,9 +94,9 @@ let instance = (new operatingSystems ())
 let get_instance () = instance
 let () = java_register_static "OperatingSystems.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "OperatingSystems.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

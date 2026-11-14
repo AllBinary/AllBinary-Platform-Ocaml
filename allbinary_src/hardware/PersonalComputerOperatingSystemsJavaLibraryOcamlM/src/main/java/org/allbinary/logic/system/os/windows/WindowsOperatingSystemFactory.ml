@@ -34,38 +34,38 @@ class windowsOperatingSystemFactory () =
     
     
 
-    method getOperatingSystemInstance () : GenericOperatingSystem.genericOperatingSystem =
+    method getOperatingSystemInstance : 'return. unit -> 'return = fun () ->
         begin
         (try
             let operatingSystems : OperatingSystems.operatingSystems ref = ref (((OperatingSystems.getInstance ()) :> OperatingSystems.operatingSystems)) in ();
             let osName : string ref = ref (((Obj.magic (java_call_static "SystemProperties.getInstance" (Obj.repr ())))#getName ())) in ();
             let operatingSystemInterface : GenericOperatingSystem.genericOperatingSystem ref = ref (((Obj.magic 0) :> GenericOperatingSystem.genericOperatingSystem)) in ();
             if ((String.compare !osName (!operatingSystems#wINDOWS_NT)) == 0) then begin
-                operatingSystemInterface := (new WindowsOS.windowsOS ())
+                operatingSystemInterface := ((new WindowsOS.windowsOS ()) :> GenericOperatingSystem.genericOperatingSystem)
             end else if ((String.compare !osName (!operatingSystems#wINDOWS_10)) == 0) then begin
-                operatingSystemInterface := (new WindowsOS.windowsOS ())
+                operatingSystemInterface := ((new WindowsOS.windowsOS ()) :> GenericOperatingSystem.genericOperatingSystem)
             end else if ((String.compare !osName (!operatingSystems#wINDOWS_11)) == 0) then begin
-                operatingSystemInterface := (new WindowsOS.windowsOS ())
+                operatingSystemInterface := ((new WindowsOS.windowsOS ()) :> GenericOperatingSystem.genericOperatingSystem)
             end else if ((String.compare !osName (!operatingSystems#wINDOWS2000)) == 0) then begin
-                operatingSystemInterface := (new WindowsOS.windowsOS ())
+                operatingSystemInterface := ((new WindowsOS.windowsOS ()) :> GenericOperatingSystem.genericOperatingSystem)
             end else if ((String.compare !osName (!operatingSystems#wINDOWS_XP)) == 0) then begin
-                operatingSystemInterface := (new WindowsOS.windowsOS ())
+                operatingSystemInterface := ((new WindowsOS.windowsOS ()) :> GenericOperatingSystem.genericOperatingSystem)
             end else if ((String.compare !osName (!operatingSystems#wINDOWS_VISTA)) == 0) then begin
-                operatingSystemInterface := (new WindowsOS.windowsOS ())
+                operatingSystemInterface := ((new WindowsOS.windowsOS ()) :> GenericOperatingSystem.genericOperatingSystem)
             end else begin
                 if (!operatingSystems#isUnknownSpecificOSAllowed ()) then begin
-                    operatingSystemInterface := (new WindowsOS.windowsOS ())
+                    operatingSystemInterface := ((new WindowsOS.windowsOS ()) :> GenericOperatingSystem.genericOperatingSystem)
                 end else begin
                     raise (Failure (("Specific Windows OS Not Supported: " ^ !osName)))
                 end
             end;
-            (!operatingSystemInterface :> GenericOperatingSystem.genericOperatingSystem)
+            (Obj.magic (!operatingSystemInterface))
         with e -> begin
             if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#fACTORYERROR)) then begin
                 let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#gET_INSTANCE, e))
+                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))
             end;
-            ((NoOperatingSystem.get_nO_OPERATING_SYSTEM ()) :> GenericOperatingSystem.genericOperatingSystem)
+            (Obj.magic ((NoOperatingSystem.get_nO_OPERATING_SYSTEM ())))
         end)
         end
 
@@ -82,9 +82,9 @@ let instance = (new windowsOperatingSystemFactory ())
 let get_instance () = instance
 let () = java_register_static "WindowsOperatingSystemFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "WindowsOperatingSystemFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

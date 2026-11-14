@@ -2,19 +2,22 @@
 (* package org.bouncycastle.jce.provider *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import java.security.Provider *)
 
 let info : string ref = ref ("BouncyCastle Security Provider v1.41")
 let get_info () = !info
 let set_info value' = info := value'
 let () = java_register_static "BouncyCastleProvider.get_info" (fun _ -> Obj.repr (get_info ()))
+let () = java_register_static "BouncyCastleProvider.set_info" (fun value' -> set_info (Obj.obj value'); Obj.repr ())
 let pROVIDER_NAME : string ref = ref ("BC")
 let get_pROVIDER_NAME () = !pROVIDER_NAME
 let set_pROVIDER_NAME value' = pROVIDER_NAME := value'
 let () = java_register_static "BouncyCastleProvider.get_pROVIDER_NAME" (fun _ -> Obj.repr (get_pROVIDER_NAME ()))
+let () = java_register_static "BouncyCastleProvider.set_pROVIDER_NAME" (fun value' -> set_pROVIDER_NAME (Obj.obj value'); Obj.repr ())
 class bouncyCastleProvider () =
   object
-    inherit Provider.provider (!pROVIDER_NAME, 1.41, !info)
+    inherit java_provider (Obj.magic (!pROVIDER_NAME, 1.41, !info))
     
     
 

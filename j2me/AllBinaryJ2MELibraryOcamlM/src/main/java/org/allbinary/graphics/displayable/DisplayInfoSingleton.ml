@@ -198,11 +198,11 @@ class displayInfoSingleton () =
         let aLastHeight = ref aLastHeight in
         begin
         let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (reason)))), self, sET_LAST_SIZE_METHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (reason)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
         let aFullWidth : int ref = ref (!aLastWidth) in ();
         let aFullHeight : int ref = ref (!aLastHeight) in ();
         ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append (fULL_WIDTH))#appendint (!aFullWidth))#append (fULL_HEIGHT))#appendint (!aFullHeight))#append ((java_string_of (Obj.repr self)))))), self, sET_LAST_SIZE_METHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append (fULL_WIDTH))#appendint (!aFullWidth))#append (fULL_HEIGHT))#appendint (!aFullHeight))#append ((java_string_of (Obj.repr self)))))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
         let operatingSystemInterface : GenericOperatingSystem.genericOperatingSystem ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ()) :> GenericOperatingSystem.genericOperatingSystem)) in ();
         if (!operatingSystemInterface#isOverScan ()) then begin
             aLastWidth := ((!aLastWidth * (!operatingSystemInterface#getOverScanXPercent ())) / 100);
@@ -214,7 +214,7 @@ class displayInfoSingleton () =
                     displayRatio <- (scaleLargestTo /. (float_of_int (!aLastHeight)));
                     ratio <- ((float_of_int (!aLastHeight)) /. scaleLargestTo);
                     ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_PORTRAIT))#appendfloat (displayRatio)))), self, sET_LAST_SIZE_METHOD_NAME));
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_PORTRAIT))#appendfloat (displayRatio)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
                     aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
                     aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
                     ignore (scalableListener#scale (ratio))
@@ -227,7 +227,7 @@ class displayInfoSingleton () =
                     displayRatio <- (scaleLargestTo /. (float_of_int (!aLastWidth)));
                     ratio <- ((float_of_int (!aLastWidth)) /. scaleLargestTo);
                     ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_LANDSCAPE))#appendfloat (displayRatio)))), self, sET_LAST_SIZE_METHOD_NAME));
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_LANDSCAPE))#appendfloat (displayRatio)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
                     aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
                     aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
                     ignore (scalableListener#scale (ratio))
@@ -238,7 +238,7 @@ class displayInfoSingleton () =
             end
         end;
         ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((!stringMaker#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight)))), self, sET_LAST_SIZE_METHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((!stringMaker#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
         xOffset <- (!aFullWidth - !aLastWidth);
         yOffset <- (!aFullHeight - !aLastHeight);
         left <- (scalableListener#getLeft (xOffset));
@@ -275,9 +275,9 @@ class displayInfoSingleton () =
     method add ((reason : string)) : unit =
         begin
         let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (rEASON))#append (reason)))), self, fIRE_METHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (rEASON))#append (reason)))), (Obj.magic self), fIRE_METHOD_NAME));
         ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-        ignore ((Obj.magic logUtil)#putF ((self#toStringAppend (!stringMaker)), self, fIRE_METHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((self#toStringAppend (!stringMaker)), (Obj.magic self), fIRE_METHOD_NAME));
         ignore (list#add (reason))
         end
     
@@ -290,7 +290,7 @@ class displayInfoSingleton () =
             end;
             ignore (list#clear ())
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, self, fIRE_METHOD_NAME, e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), fIRE_METHOD_NAME, e))))
         end)
         end
     
@@ -304,7 +304,7 @@ class displayInfoSingleton () =
             ignore ((LastDisplayChangeEventHandler.getInstance ())#fireEvent (displayChangeEvent));
             ignore ((Obj.magic !swtJOGLProcessor)#onSurfaceChanged ())
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, self, fIRE_METHOD_NAME, e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), fIRE_METHOD_NAME, e))))
         end)
         end
     
@@ -317,13 +317,13 @@ class displayInfoSingleton () =
         let aFullWidth : int ref = ref (!aLastWidth) in ();
         let aFullHeight : int ref = ref (!aLastHeight) in ();
         let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((((((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (reason))#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight))#append (commonSeps#sPACE))#append ((java_string_of (Obj.repr self)))))), self, commonStrings#uPDATE));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((((((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (reason))#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight))#append (commonSeps#sPACE))#append ((java_string_of (Obj.repr self)))))), (Obj.magic self), commonStrings#uPDATE));
         if ((!aLastWidth > 0) && (!aLastHeight > 0)) then begin
             let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
             let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
             if (((not (!features#isDefault (!openGLFeatureFactory#oPENGL))) || (last.(wIDTH) <> !aLastWidth)) || (last.(hEIGHT) <> !aLastHeight)) then begin
                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (!stringMaker#append (uPDATE_FROM_ORIENTATION_CHANGE)))), self, commonStrings#uPDATE));
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (!stringMaker#append (uPDATE_FROM_ORIENTATION_CHANGE)))), (Obj.magic self), commonStrings#uPDATE));
                 let operatingSystemInterface : GenericOperatingSystem.genericOperatingSystem ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ()) :> GenericOperatingSystem.genericOperatingSystem)) in ();
                 if (!operatingSystemInterface#isOverScan ()) then begin
                     aLastWidth := ((!aLastWidth * (!operatingSystemInterface#getOverScanXPercent ())) / 100);
@@ -335,7 +335,7 @@ class displayInfoSingleton () =
                             displayRatio <- (scaleLargestTo /. (float_of_int (!aLastHeight)));
                             ratio <- ((float_of_int (!aLastHeight)) /. scaleLargestTo);
                             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_PORTRAIT))#appendfloat (displayRatio)))), self, commonStrings#uPDATE));
+                            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_PORTRAIT))#appendfloat (displayRatio)))), (Obj.magic self), commonStrings#uPDATE));
                             aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
                             aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
                             ignore (scalableListener#scale (ratio))
@@ -348,7 +348,7 @@ class displayInfoSingleton () =
                             displayRatio <- (scaleLargestTo /. (float_of_int (!aLastWidth)));
                             ratio <- ((float_of_int (!aLastWidth)) /. scaleLargestTo);
                             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_LANDSCAPE))#appendfloat (displayRatio)))), self, commonStrings#uPDATE));
+                            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_LANDSCAPE))#appendfloat (displayRatio)))), (Obj.magic self), commonStrings#uPDATE));
                             aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
                             aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
                             ignore (scalableListener#scale (ratio))
@@ -359,7 +359,7 @@ class displayInfoSingleton () =
                     end
                 end;
                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append (uPDATE_FROM_ORIENTATION_CHANGE))#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight)))), self, commonStrings#uPDATE));
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append (uPDATE_FROM_ORIENTATION_CHANGE))#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight)))), (Obj.magic self), commonStrings#uPDATE));
                 xOffset <- (!aFullWidth - !aLastWidth);
                 yOffset <- (!aFullHeight - !aLastHeight);
                 left <- (scalableListener#getLeft (xOffset));
@@ -493,9 +493,9 @@ class displayInfoSingleton () =
         end [@@warning "-20"]
     
 
-    method getScalableListener () : ScalableListener.scalableListener =
+    method getScalableListener : 'return. unit -> 'return = fun () ->
         begin
-        (scalableListener :> ScalableListener.scalableListener)
+        (Obj.magic (scalableListener))
         end
     
 
@@ -559,7 +559,7 @@ class displayInfoSingleton () =
         lAST_HEIGHT <- " LastHeight: ";
         pORTRAIT <- "Portrait";
         lANDSCAPE <- "Landscape";
-        displayChangeEvent <- ((new DisplayChangeEvent.displayChangeEvent (self)) :> DisplayChangeEvent.displayChangeEvent);
+        displayChangeEvent <- ((new DisplayChangeEvent.displayChangeEvent ((Obj.magic self))) :> DisplayChangeEvent.displayChangeEvent);
         fIRE_METHOD_NAME <- "fire";
         rEASON <- "reason: ";
         uPDATE_FROM_ORIENTATION_CHANGE <- "Updating from Orientation Change ";
@@ -588,9 +588,9 @@ let sINGLETON = (new displayInfoSingleton ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "DisplayInfoSingleton.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "DisplayInfoSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

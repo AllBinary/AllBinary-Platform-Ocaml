@@ -35,9 +35,9 @@ class abPath ((aPath : string), (name : string)) =
     val mutable abPathData : Obj.t = Obj.repr 0
     method abPathData : 'r. 'r = Obj.magic abPathData
     method set_abPathData : 'v. 'v -> unit = fun value' -> abPathData <- Obj.repr value'
-    val mutable abPathUtil : PathUtil.pathUtil = (Obj.magic 0)
-    method abPathUtil = abPathUtil
-    method set_abPathUtil value' = abPathUtil <- value'
+    val mutable abPathUtil : Obj.t = Obj.repr 0
+    method abPathUtil : 'r. 'r = Obj.magic abPathUtil
+    method set_abPathUtil : 'v. 'v -> unit = fun value' -> abPathUtil <- Obj.repr value'
     val mutable eMPTY_STRING : string = ""
     method eMPTY_STRING = eMPTY_STRING
     method set_eMPTY_STRING value' = eMPTY_STRING <- value'
@@ -92,7 +92,7 @@ class abPath ((aPath : string), (name : string)) =
         let filePathData : FilePathData.filePathData ref = ref (((FilePathData.getInstance ()) :> FilePathData.filePathData)) in ();
         let tempPath : string ref = ref (aPath) in ();
         if (not (self#hasSchema ())) then begin
-            tempPath := (abPathUtil#adjustStart (!tempPath))
+            tempPath := ((Obj.magic abPathUtil)#adjustStart (!tempPath))
         end else begin
             let beginIndex : int ref = ref ((java_string_index_of !tempPath (Obj.repr (commonSeps#cOLON)))) in ();
             if (!beginIndex >= 0) then begin
@@ -170,7 +170,7 @@ class abPath ((aPath : string), (name : string)) =
       begin
         commonSeps <- ((CommonSeps.getInstance ()) :> CommonSeps.commonSeps);
         abPathData <- (Obj.repr (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ()))));
-        abPathUtil <- ((PathUtil.getInstance ()) :> PathUtil.pathUtil);
+        abPathUtil <- (Obj.repr (Obj.magic (java_call_static "PathUtil.getInstance" (Obj.repr ()))));
         eMPTY_STRING <- (StringUtil.getInstance ())#eMPTY_STRING;
         schema <- eMPTY_STRING;
         path <- eMPTY_STRING;
@@ -182,7 +182,7 @@ class abPath ((aPath : string), (name : string)) =
         if (not (!stringValidationUtil#isEmpty (aPath))) then begin
             schema <- (self#getSchema (aPath));
             nameP <- name;
-            path <- (abPathUtil#adjustEnd ((abPathUtil#adjust ((self#getPathFromPath (aPath))))))
+            path <- ((Obj.magic abPathUtil)#adjustEnd (((Obj.magic abPathUtil)#adjust ((self#getPathFromPath (aPath))))))
         end else begin
             (self#init ());
             if (not (!stringValidationUtil#isEmpty (name))) then begin
@@ -193,11 +193,11 @@ class abPath ((aPath : string), (name : string)) =
   end [@@warning "-20"]
 let () = java_register_constructor "AbPath" (fun arguments -> Obj.repr (new abPath (Obj.obj arguments)))
 
-let createAbPath () =
+let createAbPath : 'return. unit -> 'return = fun () ->
         begin
         (try
             let eMPTY_STRING_arg : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
-            (new abPath (!eMPTY_STRING_arg, !eMPTY_STRING_arg))
+            (Obj.magic ((new abPath (!eMPTY_STRING_arg, !eMPTY_STRING_arg))))
         with ex -> begin
             raise (Failure ("RuntimeException"))
         end)

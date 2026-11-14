@@ -83,7 +83,7 @@ class orderedObjectArrayPermutationUtil () =
         (print_endline (java_string_of (Obj.repr (!iterations))));
         for _count = 0 to (!iterations - 1) - 1 do
             (self#getNext (data));
-            ignore ((Obj.magic visitor)#visit (self))
+            ignore ((Obj.magic visitor)#visit ((Obj.magic self)))
         done;
         (print_endline (java_string_of (Obj.repr (fINISHED))))
         end [@@warning "-20"]
@@ -102,9 +102,9 @@ let instance = (new orderedObjectArrayPermutationUtil ())
 let get_instance () = instance
 let () = java_register_static "OrderedObjectArrayPermutationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let rec getInstance () =
+let rec getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 
 and main ((_args : string array)) : unit =
@@ -114,7 +114,7 @@ and main ((_args : string array)) : unit =
         for i = 0 to !tOTAL - 1 do
             !data.(i) <- (Obj.repr ((new ComparableObject.comparableObject ())))
         done;
-        ignore (Arrays.sort (!data));
+        ignore (java_arrays_sort (!data));
         let permutationVisitor : ObjectPermutationVisitor.objectPermutationVisitor ref = ref (((new ObjectPermutationVisitor.objectPermutationVisitor (!data)) :> ObjectPermutationVisitor.objectPermutationVisitor)) in ();
         let oRIGINAL_DATA_LABEL : string ref = ref ("Original Data: ") in ();
         (print_string (java_string_of (Obj.repr (!oRIGINAL_DATA_LABEL))));

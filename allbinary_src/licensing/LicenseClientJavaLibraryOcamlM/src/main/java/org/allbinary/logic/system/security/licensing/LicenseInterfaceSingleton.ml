@@ -22,10 +22,11 @@ let licenseInterface : AbeLicenseInterface.abeLicenseInterface ref = ref (((AbeN
 let get_licenseInterface () = !licenseInterface
 let set_licenseInterface value' = licenseInterface := value'
 let () = java_register_static "LicenseInterfaceSingleton.get_licenseInterface" (fun _ -> Obj.repr (get_licenseInterface ()))
+let () = java_register_static "LicenseInterfaceSingleton.set_licenseInterface" (fun value' -> set_licenseInterface (Obj.obj value'); Obj.repr ())
 
-let getInstance () : AbeLicenseInterface.abeLicenseInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!licenseInterface :> AbeLicenseInterface.abeLicenseInterface)
+        (Obj.magic (!licenseInterface))
         end
 
 and init : 'any1. 'any1 -> unit = fun (licenseInterface_arg) ->

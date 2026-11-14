@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual domDocumentQueueInterface =
   object
     method virtual offer : 'any1 . 'any1 -> bool
-    method virtual remove : unit -> DomDocumentMappingInterface.domDocumentMappingInterface
+    method virtual remove : 'return . unit -> 'return
   end
 
 

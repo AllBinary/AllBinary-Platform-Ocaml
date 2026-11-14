@@ -16,6 +16,7 @@
 (* package org.allbinary.media.audio *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.string.StringUtil *)
 
 class noSound () =
@@ -36,9 +37,9 @@ let instance = (new noSound ())
 let get_instance () = instance
 let () = java_register_static "NoSound.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "NoSound.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

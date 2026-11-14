@@ -16,6 +16,7 @@
 (* package org.allbinary.graphics.opengles.shader *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class simpleShaderInitializer () =
   object
@@ -32,9 +33,9 @@ let instanceC = (new simpleShaderInitializer ())
 let get_instanceC () = instanceC
 let () = java_register_static "SimpleShaderInitializer.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceC
+        (Obj.magic (instanceC))
         end
 let () = java_register_static "SimpleShaderInitializer.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

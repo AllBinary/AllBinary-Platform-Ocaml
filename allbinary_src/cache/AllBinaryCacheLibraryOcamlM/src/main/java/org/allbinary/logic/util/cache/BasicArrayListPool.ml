@@ -31,7 +31,7 @@ class basicArrayListPool ((cacheableInterfaceFactoryInterface : CacheableInterfa
         end [@@warning "-7"]
     
 
-    method remove : 'any1. 'any1 -> CacheableInterface.cacheableInterface = fun (key) ->
+    method remove : 'any1 'return. 'any1 -> 'return = fun (key) ->
         let key = Obj.repr key in
         try
         begin

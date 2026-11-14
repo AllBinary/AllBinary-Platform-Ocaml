@@ -28,6 +28,7 @@ let index : int ref = ref (0)
 let get_index () = !index
 let set_index value' = index := value'
 let () = java_register_static "MotionEventFactory.get_index" (fun _ -> Obj.repr (get_index ()))
+let () = java_register_static "MotionEventFactory.set_index" (fun value' -> set_index (Obj.obj value'); Obj.repr ())
 class motionEventFactory ((source_arg : Obj.t), (id_arg : int)) =
   object
     val mutable source : Obj.t = (Obj.magic 0)
@@ -39,15 +40,15 @@ class motionEventFactory ((source_arg : Obj.t), (id_arg : int)) =
     
     
 
-    method getInstance () : AllBinaryEventObject.allBinaryEventObject =
+    method getInstance : 'return. unit -> 'return = fun () ->
         try
         begin
         let inputFactory : InputFactory.inputFactory ref = ref (((InputFactory.getInstance ()) :> InputFactory.inputFactory)) in ();
-        let input : Obj.t ref = ref ((Obj.repr (!inputFactory#getInstanceById ((let value = !index in index := !index + 1; value))))) in ();
-        if ((Obj.repr (Obj.magic !input)) == (Obj.repr !inputFactory#nO_INPUT)) then begin
-            raise (Java_return (Obj.repr ((new MotionGestureEvent.motionGestureEvent (source, id, (Obj.magic (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#nO_MOTION))))))
+        let input : Input.input ref = ref (((!inputFactory#getInstanceById ((let value = !index in index := !index + 1; value))) :> Input.input)) in ();
+        if ((Obj.repr !input) == (Obj.repr !inputFactory#nO_INPUT)) then begin
+            raise (Java_return (Obj.repr ((new MotionGestureEvent.motionGestureEvent ((Obj.repr (source)), id, (Obj.magic (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#nO_MOTION))))))
         end else begin
-            raise (Java_return (Obj.repr ((new MotionGestureEvent.motionGestureEvent (source, id, (Obj.magic (Obj.magic !input)))))))
+            raise (Java_return (Obj.repr ((new MotionGestureEvent.motionGestureEvent ((Obj.repr (source)), id, (Obj.magic !input))))))
         end
         end
         with Java_return value -> Obj.obj value
@@ -57,7 +58,7 @@ class motionEventFactory ((source_arg : Obj.t), (id_arg : int)) =
         ();
         ();
         ();
-        source <- source_arg;
+        source <- (Obj.repr (source_arg));
         id <- id_arg;
         index := ((Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#lAST_MOTION#getId ())
       end

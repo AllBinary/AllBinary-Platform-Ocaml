@@ -23,11 +23,12 @@ let classLoader : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJE
 let get_classLoader () = !classLoader
 let set_classLoader value' = classLoader := value'
 let () = java_register_static "WebappClassLoaderInfo.get_classLoader" (fun _ -> Obj.repr (get_classLoader ()))
+let () = java_register_static "WebappClassLoaderInfo.set_classLoader" (fun value' -> set_classLoader (Obj.obj value'); Obj.repr ())
 
 let setLoader : 'any1. 'any1 -> unit = fun (classLoader_arg) ->
         let classLoader_arg = Obj.repr classLoader_arg in
         begin
-        classLoader := (Obj.magic classLoader_arg)
+        classLoader := (Obj.repr ((Obj.magic classLoader_arg)))
         end [@@warning "-20"]
 
 and getLoader : 'return. unit -> 'return = fun () ->

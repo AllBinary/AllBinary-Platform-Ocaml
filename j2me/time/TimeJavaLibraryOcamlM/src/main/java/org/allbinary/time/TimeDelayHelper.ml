@@ -202,7 +202,7 @@ class timeDelayHelper ((delay_arg : int)) =
 
     initializer
       begin
-        startTime <- (-1);
+        startTime <- (- 1);
         elapsedTimeAtPause <- min_int;
         ();
         ();

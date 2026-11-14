@@ -26,7 +26,7 @@ class virtual collidableInterface =
     method virtual isCollidable : 'any1 . 'any1 -> bool
     method virtual isCollision : 'any1 'any2 . 'any1 * 'any2 -> bool
     method virtual collide : 'any1 'any2 . 'any1 * 'any2 -> unit
-    method virtual getCollisionTypeWith : 'any1 . 'any1 -> CollisionType.collisionType
+    method virtual getCollisionTypeWith : 'any1 'return . 'any1 -> 'return
   end
 
 

@@ -34,6 +34,7 @@ let isOnline : bool ref = ref (true)
 let get_isOnline () = !isOnline
 let set_isOnline value' = isOnline := value'
 let () = java_register_static "XmlRpcAbeClient.get_isOnline" (fun _ -> Obj.repr (get_isOnline ()))
+let () = java_register_static "XmlRpcAbeClient.set_isOnline" (fun value' -> set_isOnline (Obj.obj value'); Obj.repr ())
 class xmlRpcAbeClient ((clientInfo_arg : AbeClientInformationInterface.abeClientInformationInterface), (remoteMethod_arg : string)) =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -107,7 +108,7 @@ class xmlRpcAbeClient ((clientInfo_arg : AbeClientInformationInterface.abeClient
 
     method get : 'any1. 'any1 -> Obj.t = fun (_anyType) ->
         begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, self));
+        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, (Obj.magic self)));
         (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))
         end
     
@@ -131,9 +132,9 @@ class xmlRpcAbeClient ((clientInfo_arg : AbeClientInformationInterface.abeClient
         with Java_return value -> Obj.obj value
     
 
-    method getClientInfo () : AbeClientInformationInterface.abeClientInformationInterface =
+    method getClientInfo : 'return. unit -> 'return = fun () ->
         begin
-        (clientInfo :> AbeClientInformationInterface.abeClientInformationInterface)
+        (Obj.magic (clientInfo))
         end
     
 
@@ -218,7 +219,7 @@ class xmlRpcAbeClient ((clientInfo_arg : AbeClientInformationInterface.abeClient
         tRYING <- "Trying Server #";
         sEP <- (CommonLabels.getInstance ())#cOLON_SEP;
         cLIENT_INFO <- "Client Info: \n";
-        rESULT <- ((CommonLabels.getInstance ())#rESULT_ + (CommonSeps.getInstance ())#nEW_LINE);
+        rESULT <- (java_string_of (Obj.repr ((CommonLabels.getInstance ())#rESULT_)) ^ java_string_of (Obj.repr ((CommonSeps.getInstance ())#nEW_LINE)));
         iNVALID <- "License data is Invalid Trying Other Servers";
         eXCEPTION_IN_CLIENT <- "Exception in client";
         sERVER_REPORTED_ERROR <- "Server reported error";
@@ -233,7 +234,7 @@ class xmlRpcAbeClient ((clientInfo_arg : AbeClientInformationInterface.abeClient
         if ((clientInfo_arg#getNumberOfLicenseServers ()) > 1) then begin
             maxServers <- ((clientInfo_arg#getNumberOfLicenseServers ()) - 2);
             start <- ((myRandomFactory#getAbsoluteNextInt (maxServers)) + 1)
-        end else if ((clientInfo_arg#getNumberOfLicenseServers ()) == 1) then begin
+        end else if ((clientInfo_arg#getNumberOfLicenseServers ()) = 1) then begin
             maxServers <- 0;
             start <- 0
         end;
@@ -244,7 +245,7 @@ class xmlRpcAbeClient ((clientInfo_arg : AbeClientInformationInterface.abeClient
         ignore (!stringBuffer#appendint ((self#getServer ())));
         ignore (!stringBuffer#append (sEP));
         ignore (!stringBuffer#append ((clientInfo_arg#getLicenseServer ((self#getServer ())))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#cONSTRUCTOR))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#cONSTRUCTOR))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "XmlRpcAbeClient" (fun arguments -> Obj.repr (new xmlRpcAbeClient (Obj.obj arguments)))

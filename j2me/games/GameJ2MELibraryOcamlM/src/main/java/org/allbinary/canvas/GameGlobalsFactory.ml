@@ -36,7 +36,7 @@ class gameGlobalsFactory () =
       begin
         newCanvas <- true;
         newDisplaybleTime <- (java_to_int (Obj.repr ((-2147483648))));
-        point <- ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO :> GPoint.gPoint);
+        point <- ((PointFactory.getInstance ())#zERO_ZERO :> GPoint.gPoint);
         ()
       end
   end
@@ -46,9 +46,9 @@ let instance = (new gameGlobalsFactory ())
 let get_instance () = instance
 let () = java_register_static "GameGlobalsFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameGlobalsFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

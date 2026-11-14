@@ -34,11 +34,7 @@ class adjustedImageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.an
     
     
 
-    method init ((dx_arg : int), (dy_arg : int)) : unit =
-        begin
-        (self#setDx (dx_arg));
-        (self#setDy (dy_arg))
-        end [@@warning "-7"]
+    (* Java overload init(INT, INT) is not converted: OCaml has one method per name *)
     
 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
@@ -82,19 +78,20 @@ class adjustedImageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.an
   end
 let () = java_register_constructor "AdjustedImageArrayRotationAnimation" (fun arguments -> Obj.repr (new adjustedImageArrayRotationAnimation (Obj.obj arguments)))
 
-let createAdjustedImageArrayRotationAnimationInfo : 'any1 'any2. 'any1 * 'any2 -> _ = fun (anyType, animationBehavior) ->
+let createAdjustedImageArrayRotationAnimationInfo : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (anyType, animationBehavior) ->
         let anyType = Obj.repr anyType in
         let animationBehavior = Obj.repr animationBehavior in
         begin
         let imageRotationAnimationInfo : ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo ref = ref (((Obj.magic anyType) :> ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo)) in ();
-        (new adjustedImageArrayRotationAnimation ((!imageRotationAnimationInfo#getImageArray ()), (!imageRotationAnimationInfo#getAngleInfoP ()), (!imageRotationAnimationInfo#getTotalAngle ()), (!imageRotationAnimationInfo#getDx ()), (!imageRotationAnimationInfo#getDy ()), (Obj.magic animationBehavior)))
+        (Obj.magic ((new adjustedImageArrayRotationAnimation ((!imageRotationAnimationInfo#getImageArray ()), (!imageRotationAnimationInfo#getAngleInfoP ()), (!imageRotationAnimationInfo#getTotalAngle ()), (!imageRotationAnimationInfo#getDx ()), (!imageRotationAnimationInfo#getDy ()), (Obj.magic animationBehavior)))))
         end [@@warning "-20"]
 
-and createAnimation : 'any2 'any4. _ * 'any2 * int * 'any4 -> _ = fun (imageArray, angleInfo, (totalAngle : int), animationBehavior) ->
+and createAnimation : 'any1 'any2 'any4 'return. 'any1 * 'any2 * int * 'any4 -> 'return = fun (imageArray, angleInfo, (totalAngle : int), animationBehavior) ->
+        let imageArray = Obj.repr imageArray in
         let angleInfo = Obj.repr angleInfo in
         let animationBehavior = Obj.repr animationBehavior in
         begin
-        (new adjustedImageArrayRotationAnimation (imageArray, (Obj.magic angleInfo), totalAngle, (-(((imageArray.(0)#getWidth ()) asr 2))), (-(((imageArray.(0)#getHeight ()) asr 2))), (Obj.magic animationBehavior)))
+        (Obj.magic ((new adjustedImageArrayRotationAnimation ((Obj.magic imageArray), (Obj.magic angleInfo), totalAngle, (- ((((Obj.magic imageArray).(0)#getWidth ()) asr 2))), (- ((((Obj.magic imageArray).(0)#getHeight ()) asr 2))), (Obj.magic animationBehavior)))))
         end [@@warning "-20"]
 let () = java_register_static "AdjustedImageArrayRotationAnimation.createAdjustedImageArrayRotationAnimationInfo" (fun arguments -> Obj.repr (createAdjustedImageArrayRotationAnimationInfo (Obj.obj arguments)))
 let () = java_register_static "AdjustedImageArrayRotationAnimation.createAnimation" (fun arguments -> Obj.repr (createAnimation (Obj.obj arguments)))

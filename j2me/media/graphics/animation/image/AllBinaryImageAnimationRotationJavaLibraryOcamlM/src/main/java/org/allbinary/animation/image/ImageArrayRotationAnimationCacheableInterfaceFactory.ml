@@ -16,6 +16,7 @@
 (* package org.allbinary.animation.image *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.animation.AnimationBehavior *)
 (* import org.allbinary.logic.util.cache.CacheableInterface *)
 (* import org.allbinary.logic.util.cache.CacheableInterfaceFactoryInterface *)
@@ -24,10 +25,10 @@ class imageArrayRotationAnimationCacheableInterfaceFactory () =
   object
     
 
-    method getInstance : 'any1. 'any1 -> CacheableInterface.cacheableInterface = fun (key) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (key) ->
         let key = Obj.repr key in
         begin
-        ((new ImageArrayRotationAnimationCacheable.imageArrayRotationAnimationCacheable (key, (AnimationBehavior.getInstance ()))) :> CacheableInterface.cacheableInterface)
+        (Obj.magic ((new ImageArrayRotationAnimationCacheable.imageArrayRotationAnimationCacheable ((Obj.repr (key)), (AnimationBehavior.getInstance ())))))
         end
 
     initializer

@@ -140,13 +140,13 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
         begin
         (try
             let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((self#canvasStrings)#fD_WIDTH))#appendint ((java_to_int (Obj.repr ((MyFontProcessor.defaultCharWidth ((Obj.magic !font))))))))#append ((self#canvasStrings)#fD_HEIGHT))#appendint ((java_to_int (Obj.repr (((Obj.magic !font)#getHeight ())))))))), self, (self#canvasStrings)#uPDATE_MEASUREMENT));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((self#canvasStrings)#fD_WIDTH))#appendint ((MyFontProcessor.defaultCharWidth ((Obj.magic !font)))))#append ((self#canvasStrings)#fD_HEIGHT))#appendint (((Obj.magic !font)#getHeight ()))))), (Obj.magic self), (self#canvasStrings)#uPDATE_MEASUREMENT));
             fontHeight <- ((Obj.magic !font)#getHeight ());
-            let rectangle : Obj.t ref = ref ((Obj.repr (self#createRectangle ((menuForm#size ()))))) in ();
-            ignore (menuForm#init ((Obj.magic !rectangle), (FormTypeFactory.getInstance ())#vERTICAL_CENTER_FORM));
+            let rectangle : Rectangle.rectangle ref = ref (((self#createRectangle ((menuForm#size ()))) :> Rectangle.rectangle)) in ();
+            ignore (menuForm#init (!rectangle, (FormTypeFactory.getInstance ())#vERTICAL_CENTER_FORM));
             (self#update ())
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
         end);
         myFontProcessor <- (MyFontProcessor.getInstance ())
         end [@@warning "-7-20"]
@@ -154,13 +154,13 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
     method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((java_string_of (Obj.repr (DisplayInfoSingleton.getInstance ()))))))), self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((java_string_of (Obj.repr (DisplayInfoSingleton.getInstance ()))))))), (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
         myFontProcessor <- updateMyFontProcessor
         end [@@warning "-7-20"]
     
@@ -177,20 +177,20 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
     method initMenu () : unit =
         begin
         let form : ScrollSelectionForm.scrollSelectionForm ref = ref (((self#createForm ()) :> ScrollSelectionForm.scrollSelectionForm)) in ();
-        menuForm <- !form;
+        menuForm <- (!form :> PaintableForm.paintableForm);
         if ((Obj.repr !form) != (Obj.repr (ScrollSelectionFormNoneFactory.getInstance ()))) then begin
-            (self#setMenuInputProcessor ((Obj.obj (java_new "ImmediateCommandFormInputProcessor" (Obj.repr ((new BasicArrayListD.basicArrayListD ()), (-1), self, !form))))));
-            menuPaintable <- (new FormPaintable.formPaintable (!form))
+            (self#setMenuInputProcessor ((Obj.obj (java_new "ImmediateCommandFormInputProcessor" (Obj.repr (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1), (Obj.magic self), !form))))));
+            menuPaintable <- ((new FormPaintable.formPaintable ((!form : ScrollSelectionForm.scrollSelectionForm :> PaintableForm.paintableForm))) :> Paintable.paintable)
         end;
-        ignore (repaintBehavior#onChangeRepaint (self))
+        ignore (repaintBehavior#onChangeRepaint ((Obj.magic self)))
         end [@@warning "-7"]
     
 
-    method createForm () : ScrollSelectionForm.scrollSelectionForm =
+    method createForm : 'return. unit -> 'return = fun () ->
         begin
-        let items : Obj.t ref = ref ((Obj.repr ((new CommandTextItemArrayFactory.commandTextItemArrayFactory ((new AllCommandsVisitor.allCommandsVisitor ())))#getInstance ((self#getCommandStack ()), backgroundBasicColor, foregroundBasicColor)))) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (self#createRectangle ((Array.length (Obj.magic !items)))))) in ();
-        ((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), (Obj.magic !rectangle), (FormTypeFactory.getInstance ())#vERTICAL_CENTER_FORM, 15, false, backgroundBasicColor, foregroundBasicColor)) :> ScrollSelectionForm.scrollSelectionForm)
+        let items : Obj.t ref = ref ((Obj.repr ((new CommandTextItemArrayFactory.commandTextItemArrayFactory (((new AllCommandsVisitor.allCommandsVisitor ()) : AllCommandsVisitor.allCommandsVisitor :> Visitor.visitor)))#getInstance ((self#getCommandStack ()), backgroundBasicColor, foregroundBasicColor)))) in ();
+        let rectangle : Rectangle.rectangle ref = ref (((self#createRectangle ((Array.length (Obj.magic !items)))) :> Rectangle.rectangle)) in ();
+        (Obj.magic ((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), !rectangle, (FormTypeFactory.getInstance ())#vERTICAL_CENTER_FORM, 15, false, backgroundBasicColor, foregroundBasicColor))))
         end [@@warning "-7"]
     
 
@@ -198,27 +198,27 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
         begin
         let height : int ref = ref ((size * fontHeight)) in ();
         let startY : int ref = ref (((((((self#displayInfo)#getLastHeight ()) * 2) / 3)) - !height)) in ();
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (30, !startY)), (((self#displayInfo)#getLastWidth ()) - 30), !startY)))))) in ();
-        (Obj.magic ((Obj.magic !rectangle)))
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
+        let rectangle : Rectangle.rectangle ref = ref (((new Rectangle.rectangle ((!pointFactory#createXY (30, !startY)), (((self#displayInfo)#getLastWidth ()) - 30), !startY)) :> Rectangle.rectangle)) in ();
+        (Obj.magic (!rectangle))
         end [@@warning "-7"]
     
 
     method open_ () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, "open"));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), "open"));
         ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#addListenerInterface ((self#getMenuInputProcessor ())));
         ignore ((GameKeyEventHandler.getInstance ())#addListener ((self#getMenuInputProcessor ())));
-        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface (self))
+        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
         end [@@warning "-7"]
     
 
     method close () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cLOSE));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cLOSE));
         ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#removeListener ((self#getMenuInputProcessor ())));
         ignore ((GameKeyEventHandler.getInstance ())#removeListener ((self#getMenuInputProcessor ())));
-        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener (self))
+        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -254,7 +254,7 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
 
     method keyPressedByDevice ((keyCode : int), (_deviceId : int)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), self, gameInputStrings#kEY_PRESSED));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#kEY_PRESSED));
         (self#addGameKeyEvent (keyCode, 0, false))
         end [@@warning "-7"]
     
@@ -276,16 +276,16 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
     method addGameKeyEvent ((keyCode : int), (deviceId : int), (_repeated : bool)) : unit =
         begin
         (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas (self, keyCode)) :> GameKey.gameKey)) in ();
+            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
             if ((Obj.repr !gameKey) != (Obj.repr gameKeyFactory#nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput (self, !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
+                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
                 ignore (downGameKeyEventHandler#fireEvent (!gameKeyEvent));
                 ignore ((downGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
             end else begin
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#aDD_KEY_EVENT))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#aDD_KEY_EVENT))
             end
         with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#aDD_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#aDD_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -293,16 +293,16 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
     method removeGameKeyEvent ((keyCode : int), (deviceId : int), (_repeated : bool)) : unit =
         begin
         (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas (self, keyCode)) :> GameKey.gameKey)) in ();
+            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
             if ((Obj.repr !gameKey) != (Obj.repr gameKeyFactory#nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput (self, !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
+                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
                 ignore (upGameKeyEventHandler#fireEvent (!gameKeyEvent));
                 ignore ((upGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
             end else begin
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#rEMOVE_KEY_EVENT))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT))
             end
         with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#rEMOVE_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -312,7 +312,7 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
         begin
         ignore (myFontProcessor#process ((Obj.magic graphics)));
         ignore (menuPaintable#paint ((Obj.magic graphics)));
-        ignore (repaintBehavior#repaint (self))
+        ignore (repaintBehavior#repaint ((Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -323,14 +323,14 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
         end [@@warning "-7-20"]
     
 
-    method getMenuInputProcessor () : BasicMenuInputProcessor.basicMenuInputProcessor =
+    method getMenuInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (menuInputProcessor :> BasicMenuInputProcessor.basicMenuInputProcessor)
+        (Obj.magic (menuInputProcessor))
         end [@@warning "-7"]
 
     initializer
       begin
-        repaintProcessor <- (((ScreenRepaintProcessorFactory.getInstance ())#create (self)) :> Processor.processor);
+        repaintProcessor <- (((ScreenRepaintProcessorFactory.getInstance ())#create ((Obj.magic self))) :> Processor.processor);
         gameInputStrings <- ((GameInputStrings.getInstance ()) :> GameInputStrings.gameInputStrings);
         ();
         ();
@@ -340,7 +340,7 @@ class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg
         downGameKeyEventHandler <- ((DownGameKeyEventHandler.getInstance ()) :> DownGameKeyEventHandler.downGameKeyEventHandler);
         upGameKeyEventHandler <- ((UpGameKeyEventHandler.getInstance ()) :> UpGameKeyEventHandler.upGameKeyEventHandler);
         ();
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         ();
         ();

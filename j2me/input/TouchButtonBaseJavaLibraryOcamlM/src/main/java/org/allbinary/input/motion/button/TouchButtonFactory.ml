@@ -79,9 +79,9 @@ class touchButtonFactory () =
         end [@@warning "-20"]
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer
@@ -100,9 +100,9 @@ let sINGLETON = (new touchButtonFactory ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "TouchButtonFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "TouchButtonFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

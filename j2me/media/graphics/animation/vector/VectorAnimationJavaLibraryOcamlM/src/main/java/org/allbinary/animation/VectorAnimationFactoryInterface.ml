@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual vectorAnimationFactoryInterface =
   object
-    method virtual getInstance : 'any2 . int array array array * 'any2 -> VectorAnimation.vectorAnimation
+    method virtual getInstance : 'any2 'return . int array array array * 'any2 -> 'return
   end
 
 

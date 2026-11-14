@@ -59,21 +59,21 @@ class basicVelocityProperties () =
         end
     
 
-    method getVelocityXBasicDecimalP () : BasicDecimal.basicDecimal =
+    method getVelocityXBasicDecimalP : 'return. unit -> 'return = fun () ->
         begin
-        (velocityXBasicDecimal :> BasicDecimal.basicDecimal)
+        (Obj.magic (velocityXBasicDecimal))
         end
     
 
-    method getVelocityYBasicDecimalP () : BasicDecimal.basicDecimal =
+    method getVelocityYBasicDecimalP : 'return. unit -> 'return = fun () ->
         begin
-        (velocityYBasicDecimal :> BasicDecimal.basicDecimal)
+        (Obj.magic (velocityYBasicDecimal))
         end
     
 
-    method getVelocityZBasicDecimalP () : BasicDecimal.basicDecimal =
+    method getVelocityZBasicDecimalP : 'return. unit -> 'return = fun () ->
         begin
-        (velocityZBasicDecimal :> BasicDecimal.basicDecimal)
+        (Obj.magic (velocityZBasicDecimal))
         end
     
 
@@ -143,7 +143,7 @@ class basicVelocityProperties () =
         let angle = Obj.repr angle in
         let otherAngle = Obj.repr otherAngle in
         begin
-        (self#setVelocityi (magnitude, (java_to_int (Obj.repr (((Obj.magic angle)#getValue ())))), (java_to_int (Obj.repr (((Obj.magic otherAngle)#getValue ()))))))
+        (self#setVelocityi (magnitude, ((Obj.magic angle)#getValue ()), ((Obj.magic otherAngle)#getValue ())))
         end [@@warning "-20"]
     
 
@@ -151,7 +151,7 @@ class basicVelocityProperties () =
         let angle = Obj.repr angle in
         let otherAngle = Obj.repr otherAngle in
         begin
-        (self#addVelocityi (magnitude, (java_to_int (Obj.repr (((Obj.magic angle)#getValue ())))), (java_to_int (Obj.repr (((Obj.magic otherAngle)#getValue ()))))))
+        (self#addVelocityi (magnitude, ((Obj.magic angle)#getValue ()), ((Obj.magic otherAngle)#getValue ())))
         end [@@warning "-20"]
     
 

@@ -30,10 +30,11 @@ let pickedUpLayerInterfaceFactoryInterface : PickedUpLayerInterfaceFactoryInterf
 let get_pickedUpLayerInterfaceFactoryInterface () = !pickedUpLayerInterfaceFactoryInterface
 let set_pickedUpLayerInterfaceFactoryInterface value' = pickedUpLayerInterfaceFactoryInterface := value'
 let () = java_register_static "LifePickedUpLayerInterfaceFactory.get_pickedUpLayerInterfaceFactoryInterface" (fun _ -> Obj.repr (get_pickedUpLayerInterfaceFactoryInterface ()))
+let () = java_register_static "LifePickedUpLayerInterfaceFactory.set_pickedUpLayerInterfaceFactoryInterface" (fun value' -> set_pickedUpLayerInterfaceFactoryInterface (Obj.obj value'); Obj.repr ())
 
-let getInstance () : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!pickedUpLayerInterfaceFactoryInterface :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
+        (Obj.magic (!pickedUpLayerInterfaceFactoryInterface))
         end
 
 let () = java_register_static "LifePickedUpLayerInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
@@ -60,7 +61,7 @@ class lifePickedUpLayerInterfaceFactory () =
 
     initializer
       begin
-        pool <- ((new LifeLayerCircularStaticPool.lifeLayerCircularStaticPool ((new LifeLayerFactory.lifeLayerFactory ()), 1)) :> LifeLayerCircularStaticPool.lifeLayerCircularStaticPool);
+        pool <- ((new LifeLayerCircularStaticPool.lifeLayerCircularStaticPool (((new LifeLayerFactory.lifeLayerFactory ()) : LifeLayerFactory.lifeLayerFactory :> AllBinaryLayerFactoryInterface.allBinaryLayerFactoryInterface), 1)) :> LifeLayerCircularStaticPool.lifeLayerCircularStaticPool);
         ();
         (* super(...) is the inherit clause *) ()
       end

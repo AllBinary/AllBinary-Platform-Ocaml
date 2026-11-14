@@ -63,7 +63,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
         let cmdListener = Obj.repr cmdListener in
         begin
         ignore (self#removeAllCommands ());
-        ignore ((Obj.magic (java_call_static "PostGameCommandFactory.getInstance" (Obj.repr ())))#addCommands (self));
+        ignore ((Obj.magic (java_call_static "PostGameCommandFactory.getInstance" (Obj.repr ())))#addCommands ((Obj.magic self)));
         ignore (self#addCommand ((HighScoreUtil.get_sUBMIT_TEXTBOX_COMMAND ())));
         ignore (self#setCommandListener ((Obj.magic cmdListener)))
         end [@@warning "-7-20"]
@@ -81,7 +81,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
         begin
         ignore (virtualKeyboardEventHandler#close ());
         paintable <- pleaseWait;
-        ignore ((self#repaintBehavior)#onChangeRepaint (self));
+        ignore ((self#repaintBehavior)#onChangeRepaint ((Obj.magic self)));
         ignore (super#close ());
         ignore (self#removeCommand ((HighScoreUtil.get_sUBMIT_TEXTBOX_COMMAND ())));
         (self#update ());
@@ -91,7 +91,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
             ()
         end;
         paintable <- (NullPaintable.getInstance ());
-        ignore ((self#repaintBehavior)#onChangeRepaint (self))
+        ignore ((self#repaintBehavior)#onChangeRepaint ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -119,7 +119,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
 
     method submit () : unit =
         begin
-        ignore (highScoreUtil#submit (self))
+        ignore (highScoreUtil#submit ((Obj.magic self)))
         end [@@warning "-7"]
 
     initializer
@@ -135,11 +135,7 @@ class highScoreTextBox ((highScoresFactoryInterface : HighScoresFactoryInterface
         let operatingSystemInterface : GenericOperatingSystem.genericOperatingSystem ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ()) :> GenericOperatingSystem.genericOperatingSystem)) in ();
         if (!operatingSystemInterface#isOverScan ()) then begin
             let username : string ref = ref (((Obj.magic (java_call_static "InApplicationPurchaseFactory.getInstance" (Obj.repr ())))#getUserName ())) in ();
-            if (!username <> (Obj.magic 0)) then begin
-                ignore ((self#getTextFieldItem ())#setString (!username))
-            end else begin
-                ignore ((self#getTextFieldItem ())#setString ("NoGamerInfo"))
-            end
+            ignore ((self#getTextFieldItem ())#setString (!username))
         end
       end
   end

@@ -20,10 +20,10 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.animation.Animation *)
 
 
-let getInstance : 'any1. 'any1 * int * int -> IconLayer.iconLayer = fun (animationInterface, (width : int), (height : int)) ->
+let getInstance : 'any1 'return. 'any1 * int * int -> 'return = fun (animationInterface, (width : int), (height : int)) ->
         let animationInterface = Obj.repr animationInterface in
         begin
-        ((new IconLayer.iconLayer ((Obj.magic animationInterface), width, height)) :> IconLayer.iconLayer)
+        (Obj.magic ((new IconLayer.iconLayer ((Obj.magic animationInterface), width, height))))
         end [@@warning "-20"]
 
 let () = java_register_static "IconLayerFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

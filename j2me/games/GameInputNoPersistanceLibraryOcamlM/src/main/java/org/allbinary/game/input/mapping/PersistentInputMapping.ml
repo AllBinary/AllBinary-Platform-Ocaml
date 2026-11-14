@@ -38,6 +38,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "PersistentInputMapping.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "PersistentInputMapping.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class persistentInputMapping ((name : string)) =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -76,9 +77,9 @@ class persistentInputMapping ((name : string)) =
         end
     
 
-    method getDefault () : InputToGameKeyMapping.inputToGameKeyMapping =
+    method getDefault : 'return. unit -> 'return = fun () ->
         begin
-        ((InputToGameKeyMapping.getNullInstance ()) :> InputToGameKeyMapping.inputToGameKeyMapping)
+        (Obj.magic ((InputToGameKeyMapping.getNullInstance ())))
         end
     
 
@@ -113,11 +114,11 @@ class persistentInputMapping ((name : string)) =
     method init : 'any1. 'any1 -> unit = fun (abeClientInformation) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iNIT));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#iNIT));
         (try
             ignore ((Obj.magic inputPersistance)#loadAll ((Obj.magic abeClientInformation)))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, self, commonStrings#iNIT, e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#iNIT, e))));
             ignore ((Obj.magic inputPersistance)#deleteRecoreStore ((Obj.magic abeClientInformation)));
             (self#setDefault ((Obj.magic abeClientInformation)));
             ignore ((Obj.magic inputPersistance)#loadAll ((Obj.magic abeClientInformation)))
@@ -127,16 +128,16 @@ class persistentInputMapping ((name : string)) =
         let size : int ref = ref ((!list#size ())) in ();
         let hashtable : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         let enumeration : java_enumeration ref = ref (((Obj.magic 0) :> java_enumeration)) in ();
-        let mappedToInput : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let gameActionInput : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let mappedToInput : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
+        let gameActionInput : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
         for index = 0 to !size - 1 do
             hashtable := Obj.repr ((Obj.magic !list#objectArray.(index)));
             enumeration := ((Obj.magic !hashtable)#keys ());
             while (enumerationUtil#hasMoreElements (!enumeration)) do
-                mappedToInput := Obj.repr ((Obj.magic (enumerationUtil#nextElement (!enumeration))));
-                gameActionInput := Obj.repr ((Obj.magic ((Obj.magic !hashtable)#get ((Obj.magic !mappedToInput)))));
+                mappedToInput := (Obj.magic (enumerationUtil#nextElement (!enumeration)));
+                gameActionInput := (Obj.magic ((Obj.magic !hashtable)#get (!mappedToInput)));
                 totalMappedTo := !totalMappedTo + 1;
-                ignore ((self#getInputMapping ())#add ((Obj.magic !gameActionInput), (Obj.magic !mappedToInput)))
+                ignore ((self#getInputMapping ())#add (!gameActionInput, !mappedToInput))
             done
         done;
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
@@ -144,7 +145,7 @@ class persistentInputMapping ((name : string)) =
         ignore (!stringBuffer#appendint ((self#getTotalMapped ())));
         ignore (!stringBuffer#append (" to: "));
         ignore (!stringBuffer#appendint (!totalMappedTo));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iNIT))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iNIT))
         end [@@warning "-20"]
     
 
@@ -155,15 +156,15 @@ class persistentInputMapping ((name : string)) =
         end [@@warning "-20"]
     
 
-    method getInputMappingEventListenerInterface () : InputMappingEventListenerInterface.inputMappingEventListenerInterface =
+    method getInputMappingEventListenerInterface : 'return. unit -> 'return = fun () ->
         begin
-        (inputMappingEventListenerInterface :> InputMappingEventListenerInterface.inputMappingEventListenerInterface)
+        (Obj.magic (inputMappingEventListenerInterface))
         end
     
 
-    method getInputMapping () : InputToGameKeyMapping.inputToGameKeyMapping =
+    method getInputMapping : 'return. unit -> 'return = fun () ->
         begin
-        (inputMapping :> InputToGameKeyMapping.inputToGameKeyMapping)
+        (Obj.magic (inputMapping))
         end
     
 
@@ -186,19 +187,19 @@ class persistentInputMapping ((name : string)) =
         inputMapping <- ((new InputToGameKeyMapping.inputToGameKeyMapping ()) :> InputToGameKeyMapping.inputToGameKeyMapping);
         inputMappingEventListenerInterface <- ((NullInputMappingEventListener.get_nULL_INPUT_MAPPING_EVENT_LISTENER ()) :> InputMappingEventListenerInterface.inputMappingEventListenerInterface);
         ();
-        inputMappingEvent <- ((new InputMappingEvent.inputMappingEvent (self)) :> InputMappingEvent.inputMappingEvent);
+        inputMappingEvent <- ((new InputMappingEvent.inputMappingEvent ((Obj.magic self))) :> InputMappingEvent.inputMappingEvent);
         ();
         inputPersistance <- Obj.repr ((Obj.obj (java_new "InputPersistance" (Obj.repr (name)))))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "PersistentInputMapping" (fun arguments -> Obj.repr (new persistentInputMapping (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new persistentInputMapping ((GamePersistanceStrings.getInstance ())#sAVED_INPUT_CONFIGURATION_RECORD_ID))
+            instance := (Obj.repr ((new persistentInputMapping ((GamePersistanceStrings.getInstance ())#sAVED_INPUT_CONFIGURATION_RECORD_ID))))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "PersistentInputMapping.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

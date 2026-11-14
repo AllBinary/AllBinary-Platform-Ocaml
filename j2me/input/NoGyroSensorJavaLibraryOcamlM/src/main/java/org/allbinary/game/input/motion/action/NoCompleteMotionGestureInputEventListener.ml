@@ -16,6 +16,7 @@
 (* package org.allbinary.game.input.motion.action *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.input.CompleteMotionGestureInputEvent *)
 (* import org.allbinary.game.input.CompleteMotionGestureInputEventListenerInterface *)
 (* import org.allbinary.logic.communication.log.ForcedLogUtil *)
@@ -29,7 +30,7 @@ class noCompleteMotionGestureInputEventListener () =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 
@@ -50,9 +51,9 @@ let instance = (new noCompleteMotionGestureInputEventListener ())
 let get_instance () = instance
 let () = java_register_static "NoCompleteMotionGestureInputEventListener.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "NoCompleteMotionGestureInputEventListener.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

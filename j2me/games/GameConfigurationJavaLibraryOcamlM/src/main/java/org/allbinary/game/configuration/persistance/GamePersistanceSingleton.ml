@@ -16,6 +16,7 @@
 (* package org.allbinary.game.configuration.persistance *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class gamePersistanceSingleton () =
   object
@@ -34,10 +35,11 @@ let gAME_PERSISTANCE = ref ((new gamePersistanceSingleton ()))
 let get_gAME_PERSISTANCE () = !gAME_PERSISTANCE
 let set_gAME_PERSISTANCE value' = gAME_PERSISTANCE := value'
 let () = java_register_static "GamePersistanceSingleton.get_gAME_PERSISTANCE" (fun _ -> Obj.repr (get_gAME_PERSISTANCE ()))
+let () = java_register_static "GamePersistanceSingleton.set_gAME_PERSISTANCE" (fun value' -> set_gAME_PERSISTANCE (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !gAME_PERSISTANCE
+        (Obj.magic (!gAME_PERSISTANCE))
         end
 let () = java_register_static "GamePersistanceSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

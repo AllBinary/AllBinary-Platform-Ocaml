@@ -66,7 +66,7 @@ class completeMotionGestureInputEventHandler () =
                 let completeMotionGestureInputEventListener : CompleteMotionGestureInputEventListener.completeMotionGestureInputEventListener ref = ref (((Obj.magic list#objectArray.(!index)) :> CompleteMotionGestureInputEventListener.completeMotionGestureInputEventListener)) in ();
                 ignore (!completeMotionGestureInputEventListener#onCompleteMotionGestureInputEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -94,9 +94,9 @@ let sINGLETON = (new completeMotionGestureInputEventHandler ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "CompleteMotionGestureInputEventHandler.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "CompleteMotionGestureInputEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

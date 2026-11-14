@@ -91,7 +91,7 @@ class logFormatUtil () =
         end
     
 
-    method getF ((className : string), (functionName : string)) : StringMaker.stringMaker =
+    method getF : 'return. string * string -> 'return = fun ((className : string), (functionName : string)) ->
         let functionName = ref functionName in
         begin
         if (!functionName = (Obj.magic 0)) then begin
@@ -104,7 +104,7 @@ class logFormatUtil () =
         ignore (!stringBuffer#append (className));
         ignore (!stringBuffer#append (fUNCTION_CALL));
         ignore (!stringBuffer#append (!functionName));
-        (!stringBuffer :> StringMaker.stringMaker)
+        (Obj.magic (!stringBuffer))
         end
     
 
@@ -159,9 +159,9 @@ let instance = (new logFormatUtil ())
 let get_instance () = instance
 let () = java_register_static "LogFormatUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LogFormatUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

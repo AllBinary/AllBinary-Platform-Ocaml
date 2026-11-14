@@ -17,15 +17,16 @@ let nULL_PAINTABLE_FORM : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#n
 let get_nULL_PAINTABLE_FORM () = !nULL_PAINTABLE_FORM
 let set_nULL_PAINTABLE_FORM value' = nULL_PAINTABLE_FORM := value'
 let () = java_register_static "PaintableForm.get_nULL_PAINTABLE_FORM" (fun _ -> Obj.repr (get_nULL_PAINTABLE_FORM ()))
+let () = java_register_static "PaintableForm.set_nULL_PAINTABLE_FORM" (fun value' -> set_nULL_PAINTABLE_FORM (Obj.obj value'); Obj.repr ())
 class paintableForm ((title : string), items, (backgroundBasicColor : BasicColor.basicColor), (foregroundBasicColor : BasicColor.basicColor)) =
   object (self)
     inherit ABCustomForm.aBCustomForm (title, items, backgroundBasicColor, foregroundBasicColor)
     val mutable canvasStrings : CanvasStrings.canvasStrings = (Obj.magic 0)
     method canvasStrings = canvasStrings
     method set_canvasStrings value' = canvasStrings <- value'
-    val mutable rectangle : Obj.t = Obj.repr 0
-    method rectangle : 'r. 'r = Obj.magic rectangle
-    method set_rectangle : 'v. 'v -> unit = fun value' -> rectangle <- Obj.repr value'
+    val mutable rectangle : Rectangle.rectangle = (Obj.magic 0)
+    method rectangle = rectangle
+    method set_rectangle value' = rectangle <- value'
     val mutable x : int = 0
     method x = x
     method set_x value' = x <- value'
@@ -42,8 +43,8 @@ class paintableForm ((title : string), items, (backgroundBasicColor : BasicColor
         let rectangle_arg = Obj.repr rectangle_arg in
         let formType_arg = Obj.repr formType_arg in
         begin
-        rectangle <- Obj.repr ((Obj.magic rectangle_arg));
-        let point : GPoint.gPoint ref = ref ((((Obj.magic rectangle)#getPoint ()) :> GPoint.gPoint)) in ();
+        rectangle <- (Obj.magic rectangle_arg);
+        let point : GPoint.gPoint ref = ref (((rectangle#getPoint ()) :> GPoint.gPoint)) in ();
         x <- (!point#getX ());
         y <- (!point#getY ());
         formType <- (Obj.magic formType_arg)
@@ -52,13 +53,13 @@ class paintableForm ((title : string), items, (backgroundBasicColor : BasicColor
 
     method getWidth () : int =
         begin
-        ((Obj.magic rectangle)#getWidth ())
+        (rectangle#getWidth ())
         end [@@warning "-7"]
 
     initializer
       begin
         canvasStrings <- ((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings);
-        rectangle <- (Obj.repr (RectangleFactory.get_sINGLETON ()));
+        rectangle <- ((RectangleFactory.get_sINGLETON ()) :> Rectangle.rectangle);
         x <- 0;
         y <- 0;
         formType <- ((FormTypeFactory.getInstance ())#nULL_FORM_TYPE :> FormType.formType);
@@ -66,15 +67,15 @@ class paintableForm ((title : string), items, (backgroundBasicColor : BasicColor
         (* super(...) is the inherit clause *) ();
         ignore (self#setSelectedIndex (0))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "PaintableForm" (fun arguments -> Obj.repr (new paintableForm (Obj.obj arguments)))
 
-let getNullPaintableForm () =
+let getNullPaintableForm : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_PAINTABLE_FORM) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_PAINTABLE_FORM := (new paintableForm ((StringUtil.getInstance ())#eMPTY_STRING, (Array.make (0) (Obj.magic 0)), (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))
+            nULL_PAINTABLE_FORM := (Obj.repr ((new paintableForm ((StringUtil.getInstance ())#eMPTY_STRING, (Array.make (0) (Obj.magic 0)), (BasicColorFactory.getInstance ())#bLACK, (BasicColorFactory.getInstance ())#wHITE))))
         end;
-        (Obj.magic !nULL_PAINTABLE_FORM)
+        (Obj.magic ((Obj.magic !nULL_PAINTABLE_FORM)))
         end
 let () = java_register_static "PaintableForm.getNullPaintableForm" (fun arguments -> Obj.repr (getNullPaintableForm (Obj.obj arguments)))
 

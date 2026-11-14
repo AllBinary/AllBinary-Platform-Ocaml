@@ -82,7 +82,7 @@ class downGameKeyEventHandlerBase () =
                 let playerGameInput : PlayerGameInput.playerGameInput ref = ref (((Obj.magic list#objectArray.(!index)) :> PlayerGameInput.playerGameInput)) in ();
                 ignore (!playerGameInput#onDownGameKeyEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -113,7 +113,7 @@ class downGameKeyEventHandlerBase () =
                 ignore (!stringBuffer#append (lISTENER_LABEL));
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !eventListenerInterface))))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#tOSTRING, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#tOSTRING, e))
             end);
             index := !index + 1
         done;

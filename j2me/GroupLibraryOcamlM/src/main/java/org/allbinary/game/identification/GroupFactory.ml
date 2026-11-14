@@ -10,7 +10,7 @@
   AllBinary or the root directory of AllBinary's AllBinary Platform repository.
   
   Created By: Travis Berthelot
-   
+    
 *)
 (* Generated Code Do Not Modify *)
 (* package org.allbinary.game.identification *)
@@ -28,9 +28,9 @@ class groupFactory () =
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable nULL_GROUP_ARRAY : Obj.t = Obj.repr 0
-    method nULL_GROUP_ARRAY : 'r. 'r = Obj.magic nULL_GROUP_ARRAY
-    method set_nULL_GROUP_ARRAY : 'v. 'v -> unit = fun value' -> nULL_GROUP_ARRAY <- Obj.repr value'
+    val mutable nULL_GROUP_ARRAY : Group.group array = (Obj.magic 0)
+    method nULL_GROUP_ARRAY = nULL_GROUP_ARRAY
+    method set_nULL_GROUP_ARRAY value' = nULL_GROUP_ARRAY <- value'
     val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
     method list = list
     method set_list value' = list <- value'
@@ -41,17 +41,17 @@ class groupFactory () =
 
     method getNextGroup : 'return. unit -> 'return = fun () ->
         begin
-        let group : Obj.t ref = ref ((Obj.repr (Obj.magic list#objectArray.(index)))) in ();
+        let group : Group.group ref = ref (((Obj.magic list#objectArray.(index)) :> Group.group)) in ();
         index <- index + 1;
-        (Obj.magic ((Obj.magic !group)))
+        (Obj.magic (!group))
         end
     
 
     method getNextGroupByName : 'return. string -> 'return = fun ((name : string)) ->
         begin
-        let group : Obj.t ref = ref ((Obj.repr (self#getNextGroup ()))) in ();
-        ignore ((Obj.magic !group)#setName (name));
-        (Obj.magic ((Obj.magic !group)))
+        let group : Group.group ref = ref (((self#getNextGroup ()) :> Group.group)) in ();
+        ignore (!group#setName (name));
+        (Obj.magic (!group))
         end
     
 
@@ -63,15 +63,16 @@ class groupFactory () =
         ignore (list#clear ());
         index <- 0;
         let size : int ref = ref ((list#size ())) in ();
+        let name : string ref = ref ("") in ();
         while (!size < groups) do
-            let name : string ref = ref (!stringUtil#eMPTY_STRING) in ();
+            name := !stringUtil#eMPTY_STRING;
             if (!size < (Array.length nameArray)) then begin
                 name := nameArray.(!size)
             end else begin
                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                 name := (java_string_of (Obj.repr ((!stringMaker#append (!tEAM))#appendint (!size))))
             end;
-            ignore (list#add ((Obj.obj (java_new "Group" (Obj.repr (!name, ((!size + 3))))))));
+            ignore (list#add ((new Group.group (!name, ((!size + 3))))));
             size := !size + 1
         done
         end
@@ -79,7 +80,7 @@ class groupFactory () =
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        nULL_GROUP_ARRAY <- (Obj.repr (Array.make (0) (Obj.magic 0)));
+        nULL_GROUP_ARRAY <- (Array.make (0) (Obj.magic 0));
         list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         index <- 0;
         ()
@@ -87,14 +88,13 @@ class groupFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "GroupFactory" (fun arguments -> Obj.repr (new groupFactory (Obj.obj arguments)))
 
-let instance = ref ((new groupFactory ()))
-let get_instance () = !instance
-let set_instance value' = instance := value'
+let instance = (new groupFactory ())
+let get_instance () = instance
 let () = java_register_static "GroupFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GroupFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

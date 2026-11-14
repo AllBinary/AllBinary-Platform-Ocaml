@@ -2,6 +2,7 @@
 (* package org.allbinary.logic.math *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import jsinterop.annotations.JsType *)
 
 class mathUtil () =
@@ -48,7 +49,7 @@ class mathUtil () =
             raise (Java_return (Obj.repr (0.0)))
         end;
         if (x < 0) then begin
-            raise (Java_return (Obj.repr ((-.1.0))))
+            raise (Java_return (Obj.repr ((-. 1.0))))
         end;
         let result : float ref = ref ((float_of_int (x))) in ();
         for _index = 0 to aCCURACY - 1 do
@@ -61,13 +62,13 @@ class mathUtil () =
 
     method abs ((value : int)) : int =
         begin
-        (if ((value < 0)) then (-value) else value)
+        (if ((value < 0)) then (- value) else value)
         end
     
 
     method abslong ((value : int)) : int =
         begin
-        (if ((value < 0)) then (-value) else value)
+        (if ((value < 0)) then (- value) else value)
         end
     
 
@@ -94,9 +95,9 @@ let instance = (new mathUtil ())
 let get_instance () = instance
 let () = java_register_static "MathUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MathUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -31,9 +31,9 @@ class motionGestureToMotionGestureActionAssociation ((list_arg : BasicArrayList.
     
     
 
-    method getMotionGesture () : BasicArrayList.basicArrayList =
+    method getMotionGesture : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
     
 
@@ -44,9 +44,9 @@ class motionGestureToMotionGestureActionAssociation ((list_arg : BasicArrayList.
         end [@@warning "-20"]
     
 
-    method getCommandAction () : CompleteMotionGestureInputEvent.completeMotionGestureInputEvent =
+    method getCommandAction : 'return. unit -> 'return = fun () ->
         begin
-        (motionGestureAction :> CompleteMotionGestureInputEvent.completeMotionGestureInputEvent)
+        (Obj.magic (motionGestureAction))
         end
     
 

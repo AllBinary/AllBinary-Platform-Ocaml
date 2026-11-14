@@ -29,13 +29,13 @@ class baseScalable () =
 
     method getLeft ((_xOffset : int)) : int =
         begin
-        (-1)
+        (- 1)
         end
     
 
     method getTop ((_yOffset : int)) : int =
         begin
-        (-1)
+        (- 1)
         end
     
 

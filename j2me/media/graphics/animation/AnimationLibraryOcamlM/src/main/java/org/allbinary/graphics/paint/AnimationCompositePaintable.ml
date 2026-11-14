@@ -20,35 +20,35 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.microedition.lcdui.Graphics *)
 (* import org.allbinary.animation.Animation *)
 
-class animationCompositePaintable (animationInterface_arg) =
+class animationCompositePaintable ((animationInterface_arg : Animation.animation)) =
   object
     inherit InitUpdatePaintable.initUpdatePaintable ()
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
     
     
 
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), 0, 0))
+        ignore (animationInterface#paintXY ((Obj.magic graphics), 0, 0))
         end [@@warning "-7-20"]
     
 
     method paintThreed : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintThreedXYZ ((Obj.magic graphics), 0, 0, 0))
+        ignore (animationInterface#paintThreedXYZ ((Obj.magic graphics), 0, 0, 0))
         end [@@warning "-7-20"]
 
     initializer
       begin
         ();
         ();
-        animationInterface <- Obj.repr (animationInterface_arg)
+        animationInterface <- animationInterface_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "AnimationCompositePaintable" (fun arguments -> Obj.repr (new animationCompositePaintable (Obj.obj arguments)))
 
 

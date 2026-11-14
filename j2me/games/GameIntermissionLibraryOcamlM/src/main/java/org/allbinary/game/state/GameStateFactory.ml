@@ -23,6 +23,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "GameStateFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameStateFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class gameStateFactory () =
   object (self)
     val mutable index : int = 0
@@ -43,9 +44,9 @@ class gameStateFactory () =
     
     
 
-    method createGameState ((name : string)) : GameState.gameState =
+    method createGameState : 'return. string -> 'return = fun ((name : string)) ->
         begin
-        ((new GameState.gameState (name, (let value = index in index <- index + 1; value))) :> GameState.gameState)
+        (Obj.magic ((new GameState.gameState (name, (let value = index in index <- index + 1; value)))))
         end
 
     initializer
@@ -61,12 +62,12 @@ class gameStateFactory () =
   end
 let () = java_register_constructor "GameStateFactory" (fun arguments -> Obj.repr (new gameStateFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new gameStateFactory ())
+            instance := (Obj.repr ((new gameStateFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "GameStateFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

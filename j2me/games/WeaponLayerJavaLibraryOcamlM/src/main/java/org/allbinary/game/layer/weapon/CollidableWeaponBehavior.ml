@@ -32,6 +32,7 @@ let nULL_COLLIDABLE_WEAPON_BEHAVIOR : Obj.t ref = ref ((Obj.repr (NullUtil.getIn
 let get_nULL_COLLIDABLE_WEAPON_BEHAVIOR () = !nULL_COLLIDABLE_WEAPON_BEHAVIOR
 let set_nULL_COLLIDABLE_WEAPON_BEHAVIOR value' = nULL_COLLIDABLE_WEAPON_BEHAVIOR := value'
 let () = java_register_static "CollidableWeaponBehavior.get_nULL_COLLIDABLE_WEAPON_BEHAVIOR" (fun _ -> Obj.repr (get_nULL_COLLIDABLE_WEAPON_BEHAVIOR ()))
+let () = java_register_static "CollidableWeaponBehavior.set_nULL_COLLIDABLE_WEAPON_BEHAVIOR" (fun value' -> set_nULL_COLLIDABLE_WEAPON_BEHAVIOR (Obj.obj value'); Obj.repr ())
 class collidableWeaponBehavior ((collidable : bool)) =
   object (self)
     inherit CollidableDestroyableDamageableBehavior.collidableDestroyableDamageableBehavior (collidable) as super
@@ -105,9 +106,9 @@ class collidableWeaponBehavior ((collidable : bool)) =
         end [@@warning "-7-20"]
     
 
-    method getCollisionTypeWith : 'any1. 'any1 -> CollisionType.collisionType = fun (_layerInterface) ->
+    method getCollisionTypeWith : 'any1 'return. 'any1 -> 'return = fun (_layerInterface) ->
         begin
-        ((CollisionTypeFactory.getInstance ())#cOLLISION :> CollisionType.collisionType)
+        (Obj.magic ((CollisionTypeFactory.getInstance ())#cOLLISION))
         end [@@warning "-7-20"]
     
 
@@ -135,12 +136,12 @@ class collidableWeaponBehavior ((collidable : bool)) =
   end
 let () = java_register_constructor "CollidableWeaponBehavior" (fun arguments -> Obj.repr (new collidableWeaponBehavior (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_COLLIDABLE_WEAPON_BEHAVIOR) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_COLLIDABLE_WEAPON_BEHAVIOR := (new collidableWeaponBehavior (false))
+            nULL_COLLIDABLE_WEAPON_BEHAVIOR := (Obj.repr ((new collidableWeaponBehavior (false))))
         end;
-        (Obj.magic !nULL_COLLIDABLE_WEAPON_BEHAVIOR)
+        (Obj.magic ((Obj.magic !nULL_COLLIDABLE_WEAPON_BEHAVIOR)))
         end
 let () = java_register_static "CollidableWeaponBehavior.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

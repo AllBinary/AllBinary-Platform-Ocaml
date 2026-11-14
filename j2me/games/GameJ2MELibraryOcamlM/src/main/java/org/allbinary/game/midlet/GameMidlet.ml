@@ -237,11 +237,11 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
 
     method pauseAppBackground ((_background : bool)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, pAUSE_APP_BACKGROUND));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), pAUSE_APP_BACKGROUND));
         if ((Obj.repr allbinaryGameCanvasRunnableInterface) != (Obj.repr (NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ()))) then begin
             ignore (allbinaryGameCanvasRunnableInterface#pause ())
         end else begin
-            ignore ((self#logUtil)#putF ("<<<<<< Null", self, pAUSE_APP_BACKGROUND))
+            ignore ((self#logUtil)#putF ("<<<<<< Null", (Obj.magic self), pAUSE_APP_BACKGROUND))
         end;
         ignore ((Obj.magic (java_call_static "AllBinarySensorManager.getInstance" (Obj.repr ())))#shutdown ())
         end [@@warning "-7"]
@@ -257,13 +257,13 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
 
     method unPauseAppBackground ((_background : bool)) : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, uN_PAUSE_APP_BACKGROUND));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), uN_PAUSE_APP_BACKGROUND));
         ignore ((Obj.magic (java_call_static "AllBinarySensorManager.getInstance" (Obj.repr ())))#init ());
         let gameCanvasRunnableInterface : GameCanvasRunnableInterface.gameCanvasRunnableInterface ref = ref ((allbinaryGameCanvasRunnableInterface :> GameCanvasRunnableInterface.gameCanvasRunnableInterface)) in ();
         if ((Obj.repr !gameCanvasRunnableInterface) != (Obj.repr (NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ()))) then begin
             ignore (!gameCanvasRunnableInterface#unPause ())
         end else begin
-            ignore ((self#logUtil)#putF ("<<<<<< Null", self, uN_PAUSE_APP_BACKGROUND))
+            ignore ((self#logUtil)#putF ("<<<<<< Null", (Obj.magic self), uN_PAUSE_APP_BACKGROUND))
         end
         end [@@warning "-7"]
     
@@ -286,7 +286,7 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
         begin
         let mETHOD_NAME : string ref = ref ("GameMidlet::destroyApp") in ();
         (try
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic (java_call_static "GameStatisticsFactory.getInstance" (Obj.repr ()))))), self, !mETHOD_NAME))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic (java_call_static "GameStatisticsFactory.getInstance" (Obj.repr ()))))), (Obj.magic self), !mETHOD_NAME))));
             let gameAdState : Obj.t ref = ref ((Obj.repr (gameAdStateFactory#getCurrentInstance ()))) in ();
             ignore (((Obj.magic !gameAdState)#getAdvertisements ())#stopAll ());
             if (not (self#isDestroyed ())) then begin
@@ -294,14 +294,14 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 (self#setGameCanvasRunnableInterface ((NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ())));
                 (self#mediaShutdown ())
             end else begin
-                ignore ((self#logUtil)#putF ("Midlet Managment Error: Midlet Should Only Be Destroyed Once", self, !mETHOD_NAME))
+                ignore ((self#logUtil)#putF ("Midlet Managment Error: Midlet Should Only Be Destroyed Once", (Obj.magic self), !mETHOD_NAME))
             end;
             ignore (super#destroyApp (true));
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#eND, self, !mETHOD_NAME))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#eND, (Obj.magic self), !mETHOD_NAME))))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, !mETHOD_NAME, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), !mETHOD_NAME, e))
         end);
-        ignore ((self#logUtil)#putF ((self#commonStrings)#eND, self, !mETHOD_NAME))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#eND, (Obj.magic self), !mETHOD_NAME))
         end [@@warning "-7"]
     
 
@@ -311,21 +311,21 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
             let gameAdState : Obj.t ref = ref ((Obj.repr (gameAdStateFactory#getCurrentInstance ()))) in ();
             ignore (((Obj.magic !gameAdState)#getAdvertisements ())#startAll ());
             let sTART_APP : string ref = ref ("startApp") in ();
-            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, !sTART_APP));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), !sTART_APP));
             let gameCanvasRunnableInterface : Obj.t ref = ref ((Obj.repr allbinaryGameCanvasRunnableInterface)) in ();
             if ((Obj.repr !gameCanvasRunnableInterface) == (Obj.repr (NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ()))) then begin
                 ignore (gameMidletStateFactory#setCurrentGameState (gameStateFactory#nO_GAME_STATE));
                 (self#setDemo ())
             end else begin
-                ignore ((self#logUtil)#putF ("GameCanvasRunnableInterface is available", self, !sTART_APP));
+                ignore ((self#logUtil)#putF ("GameCanvasRunnableInterface is available", (Obj.magic self), !sTART_APP));
                 if ((Obj.repr !gameCanvasRunnableInterface) == (Obj.repr (self#getCurrentDisplayable ()))) then begin
                     (self#unPauseAppBackground (false))
                 end else begin
-                    ignore ((self#logUtil)#putF ("GameCanvasRunnableInterface is not current displayable", self, !sTART_APP))
+                    ignore ((self#logUtil)#putF ("GameCanvasRunnableInterface is not current displayable", (Obj.magic self), !sTART_APP))
                 end
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "startApp", e));
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "startApp", e));
             (self#destroyApp (false));
             ignore (self#notifyDestroyed ())
         end)
@@ -345,42 +345,42 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
             if ((Obj.magic command) != (Obj.magic 0)) then begin
                 label := ((Obj.magic command)#getLabel ())
             end;
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append (cOMMAND_NAME))#append (!label))#append (dISPLAYABLE))#append (!displayableAsString)))), self, cOMMAND_ACTION))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append (cOMMAND_NAME))#append (!label))#append (dISPLAYABLE))#append (!displayableAsString)))), (Obj.magic self), cOMMAND_ACTION))));
             let gameCommandsFactory : GameCommandsFactory.gameCommandsFactory ref = ref (((GameCommandsFactory.getInstance ()) :> GameCommandsFactory.gameCommandsFactory)) in ();
             let allbinaryGameCanvasRunnableInterface_arg : GameCanvasRunnableInterface.gameCanvasRunnableInterface ref = ref ((allbinaryGameCanvasRunnableInterface :> GameCanvasRunnableInterface.gameCanvasRunnableInterface)) in ();
             let gameCanvasRunnableInterface : Obj.t ref = ref ((Obj.repr !allbinaryGameCanvasRunnableInterface_arg)) in ();
             if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#sHOW_GAME_CANVAS)) then begin
-                if (((Obj.repr ((self#getDisplay ())#getCurrent ())) != (Obj.repr !gameCanvasRunnableInterface)) && ((Obj.repr (!allbinaryGameCanvasRunnableInterface_arg#getType ())) != (Obj.repr ((NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ())#getType ())))) then begin
+                if (((Obj.repr ((self#getDisplay ())#getCurrent ())) != (Obj.repr !gameCanvasRunnableInterface)) && ((!allbinaryGameCanvasRunnableInterface_arg#getType ()) <> ((NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ())#getType ()))) then begin
                     ignore (self#setDisplay ((Obj.magic !gameCanvasRunnableInterface)))
                 end;
                 (self#unPauseAppBackground (false))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#cLOSE_AND_SHOW_GAME_CANVAS)) then begin
-                let menuListener : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic displayable)))) in ();
-                ignore ((Obj.magic !menuListener)#close ());
+                let menuListener : MenuListener.menuListener ref = ref (((Obj.magic (Obj.magic displayable)) :> MenuListener.menuListener)) in ();
+                ignore (!menuListener#close ());
                 ignore (self#setDisplay ((Obj.magic !gameCanvasRunnableInterface)));
                 (self#unPauseAppBackground (false))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#eXIT_COMMAND)) then begin
                 if ((((GameMidletEventHandler.getInstance ())#getEventListenerInterfaceListP ())#size ()) = 0) then begin
                     ignore (self#exitProgress (true))
                 end;
-                ignore ((GameMidletEventHandler.getInstance ())#fireEvent ((new DemoGameMidletEvent.demoGameMidletEvent (self, (DemoGameMidletStateFactory.getInstance ())#nONE))))
+                ignore ((GameMidletEventHandler.getInstance ())#fireEvent ((new DemoGameMidletEvent.demoGameMidletEvent ((Obj.magic self), (DemoGameMidletStateFactory.getInstance ())#nONE))))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#eXIT_WITHOUT_PROGRESS_COMMAND)) then begin
                 ignore (self#exitProgress (false))
             end else if ((((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#sTART_COMMAND)) || ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#rESTART_COMMAND))) || ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#cONTINUE_COMMAND))) then begin
                 if (((Obj.repr (gameMidletStateFactory#getCurrentGameState ())) != (Obj.repr gameStateFactory#pLAYING_GAME_STATE)) || ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#rESTART_COMMAND))) then begin
                     if (gameStartTimeHelper#isTimeTNT ()) then begin
                         if (((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#sTART_COMMAND)) && (self#isDemoLoading ())) then begin
-                            ignore ((self#logUtil)#putF ("Trying to Start Game Before Loading Complete", self, midletStrings#cOMMAND_ACTION))
+                            ignore ((self#logUtil)#putF ("Trying to Start Game Before Loading Complete", (Obj.magic self), midletStrings#cOMMAND_ACTION))
                         end else begin
                             startedBefore <- true;
                             (self#createGame ());
                             ignore (gameMidletStateFactory#setCurrentGameState (gameStateFactory#pLAYING_GAME_STATE))
                         end
                     end else begin
-                        ignore ((self#logUtil)#putF ("Starting Game Too Often", self, midletStrings#cOMMAND_ACTION))
+                        ignore ((self#logUtil)#putF ("Starting Game Too Often", (Obj.magic self), midletStrings#cOMMAND_ACTION))
                     end
                 end else begin
-                    ignore ((self#logUtil)#putF ("Already in playing state", self, cOMMAND_ACTION))
+                    ignore ((self#logUtil)#putF ("Already in playing state", (Obj.magic self), cOMMAND_ACTION))
                 end
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#bUY_COMMAND)) then begin
                 let inApplicationPurchaseFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "InApplicationPurchaseFactory.getInstance" (Obj.repr ()))))) in ();
@@ -394,8 +394,8 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#qUIT_COMMAND)) then begin
                 if (gameStartTimeHelper#isTimeTNT ()) then begin
                     if (java_instanceof (Obj.repr (Obj.magic displayable)) "HighScoreTextBox") then begin
-                        let menuListener : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic displayable)))) in ();
-                        ignore ((Obj.magic !menuListener)#close ())
+                        let menuListener : MenuListener.menuListener ref = ref (((Obj.magic (Obj.magic displayable)) :> MenuListener.menuListener)) in ();
+                        ignore (!menuListener#close ())
                     end;
                     (self#stopGameCanvasRunnableInterface ());
                     ignore (gameMidletStateFactory#setCurrentGameState (gameStateFactory#nO_GAME_STATE));
@@ -410,8 +410,8 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 ignore (self#setDisplay ((Obj.magic displayable)))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#sET_MENU_DISPLAYABLE)) then begin
                 (self#pauseAppBackground (false));
-                let menuListener : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic displayable)))) in ();
-                ignore ((Obj.magic !menuListener)#open_ ());
+                let menuListener : MenuListener.menuListener ref = ref (((Obj.magic (Obj.magic displayable)) :> MenuListener.menuListener)) in ();
+                ignore (!menuListener#open_ ());
                 ignore (self#setDisplay ((Obj.magic displayable)))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#sTART_TRACE)) then begin
                 ignore (debugInterface#start ());
@@ -446,8 +446,8 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr (HighScoreCommands.getInstance ())#dISPLAY)) then begin
                 (self#commandAction (!gameCommandsFactory#sET_MENU_DISPLAYABLE, (self#createHighScoresCanvas ())))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr (GameInputMappingInstructionsCanvas.get_cLOSE ()))) then begin
-                let menuListener : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic displayable)))) in ();
-                ignore ((Obj.magic !menuListener)#close ());
+                let menuListener : MenuListener.menuListener ref = ref (((Obj.magic (Obj.magic displayable)) :> MenuListener.menuListener)) in ();
+                ignore (!menuListener#close ());
                 (self#commandAction ((GameInputMappingCanvas.get_dISPLAY ()), (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr (GameInputMappingCanvas.get_dISPLAY ()))) then begin
                 if (J2MEUtil.isHTML ()) then begin
@@ -466,10 +466,10 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 ignore (!progressCanvas#addNormalPortion (50, "In Game Options"));
                 let layerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager ref = ref (((self#createGameLayerManager ()) :> AllBinaryGameLayerManager.allBinaryGameLayerManager)) in ();
                 let inGameOptionsFormFactory : InGameOptionsFormFactory.inGameOptionsFormFactory ref = ref (((InGameOptionsFormFactory.getInstance ()) :> InGameOptionsFormFactory.inGameOptionsFormFactory)) in ();
-                ignore (!inGameOptionsFormFactory#init (self, (new InGameFeatures.inGameFeatures ()), "Options In Game", (!layerManager#getBackgroundBasicColor ()), (!layerManager#getForegroundBasicColor ())));
+                ignore (!inGameOptionsFormFactory#init ((Obj.magic self), (new InGameFeatures.inGameFeatures ()), "Options In Game", (!layerManager#getBackgroundBasicColor ()), (!layerManager#getForegroundBasicColor ())));
                 let inGameOptionsForm : Obj.t ref = ref ((Obj.repr (!inGameOptionsFormFactory#get ()))) in ();
-                ignore (!inGameOptionsForm#setItemStateListener (!allbinaryGameCanvasRunnableInterface_arg));
-                (self#commandAction (!gameCommandsFactory#sET_MENU_DISPLAYABLE, !inGameOptionsForm))
+                ignore ((Obj.magic !inGameOptionsForm)#setItemStateListener (!allbinaryGameCanvasRunnableInterface_arg));
+                (self#commandAction (!gameCommandsFactory#sET_MENU_DISPLAYABLE, (Obj.magic !inGameOptionsForm)))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr (InGameOptionsForm.get_dEFAULT ()))) then begin
                 let inGameOptionsForm : InGameOptionsForm.inGameOptionsForm ref = ref (((Obj.magic ((InGameOptionsFormFactory.getInstance ())#get ())) :> InGameOptionsForm.inGameOptionsForm)) in ();
                 ignore ((GameFeatureFormUtil.getInstance ())#setDefault (!inGameOptionsForm))
@@ -490,7 +490,7 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 ignore (!stringBuffer#appendboolean (((Obj.magic fullScreenUtil)#isScreenChange (isFullScreen))));
                 ignore (!stringBuffer#append (" isResized: "));
                 ignore (!stringBuffer#appendboolean ((self#isResized ())));
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr !stringBuffer)), self, cOMMAND_ACTION))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), cOMMAND_ACTION))));
                 if ((self#isResized ()) || ((Obj.magic fullScreenUtil)#isScreenChange (isFullScreen))) then begin
                     (self#updateFullScreen ())
                 end;
@@ -502,7 +502,7 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 ignore ((Obj.magic !keyValuePersistance)#loadAll ((self#abeClientInformation)));
                 if ((Obj.repr (self#getLoadGameForm ())) == (Obj.repr (Obj.magic (java_call_static "CommandForm.getNullCommandForm" (Obj.repr ()))))) then begin
                     let layerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager ref = ref (((self#createGameLayerManager ()) :> AllBinaryGameLayerManager.allBinaryGameLayerManager)) in ();
-                    (self#setLoadGameForm ((new LoadGameForm.loadGameForm (self, "Load Game", (!layerManager#getBackgroundBasicColor ()), (!layerManager#getForegroundBasicColor ())))))
+                    (self#setLoadGameForm ((new LoadGameForm.loadGameForm ((Obj.magic self), "Load Game", (!layerManager#getBackgroundBasicColor ()), (!layerManager#getForegroundBasicColor ())))))
                 end else begin
                     ignore ((self#getLoadGameForm ())#update ())
                 end;
@@ -510,19 +510,19 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#lOAD_FILE)) then begin
                 let loadGameForm_arg : LoadGameForm.loadGameForm ref = ref (((Obj.magic (self#getLoadGameForm ())) :> LoadGameForm.loadGameForm)) in ();
                 let index : int ref = ref ((!loadGameForm_arg#getSelectedId ())) in ();
-                if (!index <> (-1)) then begin
+                if (!index <> (- 1)) then begin
                     let keyValuePersistance : Obj.t ref = ref ((Obj.repr (GamePersistanceSingleton.getInstance ()))) in ();
                     ignore (self#setStartStateHashtable (((Obj.magic !keyValuePersistance)#get (!index))));
-                    let menuListener : Obj.t ref = ref ((Obj.repr (self#getLoadGameForm ()))) in ();
-                    ignore ((Obj.magic !menuListener)#close ());
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ()))))), self, cOMMAND_ACTION))));
+                    let menuListener : MenuListener.menuListener ref = ref (((self#getLoadGameForm ()) :> MenuListener.menuListener)) in ();
+                    ignore (!menuListener#close ());
+                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ()))))), (Obj.magic self), cOMMAND_ACTION))));
                     (self#commandAction (!gameCommandsFactory#sTART_COMMAND, (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))));
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ()))))), self, cOMMAND_ACTION))))
+                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ()))))), (Obj.magic self), cOMMAND_ACTION))))
                 end
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#dELETE_FILE)) then begin
                 let loadGameForm_arg : LoadGameForm.loadGameForm ref = ref (((Obj.magic (self#getLoadGameForm ())) :> LoadGameForm.loadGameForm)) in ();
                 let index : int ref = ref ((!loadGameForm_arg#getSelectedText ())) in ();
-                if (!index <> (-1)) then begin
+                if (!index <> (- 1)) then begin
                     let keyValuePersistance : Obj.t ref = ref ((Obj.repr (GamePersistanceSingleton.getInstance ()))) in ();
                     ignore ((Obj.magic !keyValuePersistance)#delete ((self#abeClientInformation), !index));
                     ignore ((Obj.magic !keyValuePersistance)#clear ());
@@ -535,7 +535,7 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 ignore ((Obj.magic !keyValuePersistance)#save ((self#abeClientInformation), (self#getCurrentStateHashtable ())));
                 (self#unPauseAppBackground (false))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr (HighScoreUtil.get_sUBMIT_TEXTBOX_COMMAND ()))) then begin
-                ignore ((self#logUtil)#putF ("Submitted Score", self, cOMMAND_ACTION));
+                ignore ((self#logUtil)#putF ("Submitted Score", (Obj.magic self), cOMMAND_ACTION));
                 if (java_instanceof (Obj.repr (Obj.magic displayable)) "HighScoreTextBox") then begin
                     let highScoreTextBox : HighScoreTextBox.highScoreTextBox ref = ref (((Obj.magic (Obj.magic displayable)) :> HighScoreTextBox.highScoreTextBox)) in ();
                     !highScoreTextBox#set_submitted (true)
@@ -543,13 +543,13 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 ignore (!allbinaryGameCanvasRunnableInterface_arg#setHighScoreSubmitted (true));
                 (self#commandAction (!gameCommandsFactory#cLOSE_AND_SHOW_GAME_CANVAS, (Obj.magic displayable)))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#dISPLAY_ABOUT)) then begin
-                ignore (aboutCommandProcessor#process (self, !gameCommandsFactory#sET_MENU_DISPLAYABLE, (self#getAboutCanvas ())))
+                ignore (aboutCommandProcessor#process ((Obj.magic self), !gameCommandsFactory#sET_MENU_DISPLAYABLE, (self#getAboutCanvas ())))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#oPEN_WEB_URL)) then begin
-                ignore ((Obj.magic webCommandProcessor)#process (self, !gameCommandsFactory#oPEN_WEB_URL, (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))))
+                ignore ((Obj.magic webCommandProcessor)#process ((Obj.magic self), !gameCommandsFactory#oPEN_WEB_URL, (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))))
             end else if ((Obj.repr (Obj.magic command)) == (Obj.repr !gameCommandsFactory#tOGGLE_KEYBOARD)) then begin
                 let virtualKeyboardEventHandler : VirtualKeyboardEventHandler.virtualKeyboardEventHandler ref = ref (((VirtualKeyboardEventHandler.getInstance ()) :> VirtualKeyboardEventHandler.virtualKeyboardEventHandler)) in ();
                 ignore (!virtualKeyboardEventHandler#fireEvent (!virtualKeyboardEventHandler#sHOW_EVENT))
-            end else if (((Obj.magic tsUtil)#compareTo (((Obj.magic command)#getLabel ()), (!gameCommandsFactory#tOGGLE_FULLSCREEN#getLabel ()))) == 0) then begin
+            end else if (((Obj.magic tsUtil)#compareTo (((Obj.magic command)#getLabel ()), (!gameCommandsFactory#tOGGLE_FULLSCREEN#getLabel ()))) = 0) then begin
                 let mainFeatureFactory : MainFeatureFactory.mainFeatureFactory ref = ref (((MainFeatureFactory.getInstance ()) :> MainFeatureFactory.mainFeatureFactory)) in ();
                 let isFullScreen_arg : bool ref = ref ((features#isFeature (!mainFeatureFactory#fULL_SCREEN))) in ();
                 if !isFullScreen_arg then begin
@@ -560,7 +560,7 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
                 (self#updateFullScreen ())
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#eXCEPTION_LABEL))#append (((Obj.magic command)#getLabel ()))))), self, midletStrings#cOMMAND_ACTION, e));
+            ignore ((self#logUtil)#put ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#eXCEPTION_LABEL))#append (((Obj.magic command)#getLabel ()))))), (Obj.magic self), midletStrings#cOMMAND_ACTION, e));
             if ((Obj.repr (Obj.magic command)) != (Obj.repr (GameCommandsFactory.getInstance ())#eXIT_COMMAND)) then begin
                 ignore (self#exitProgress (false))
             end
@@ -582,35 +582,35 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
-    method getInputMappingInstructionsCanvas () : MyCanvas.myCanvas =
+    method getInputMappingInstructionsCanvas : 'return. unit -> 'return = fun () ->
         begin
-        ((new GameInputMappingInstructionsCanvas.gameInputMappingInstructionsCanvas (self, (self#createGameLayerManager ()))) :> MyCanvas.myCanvas)
+        (Obj.magic ((new GameInputMappingInstructionsCanvas.gameInputMappingInstructionsCanvas ((Obj.magic self), (self#createGameLayerManager ())))))
         end [@@warning "-7"]
     
 
-    method getInputMappingCanvas () : MyCanvas.myCanvas =
+    method getInputMappingCanvas : 'return. unit -> 'return = fun () ->
         begin
-        ((new GameInputMappingCanvas.gameInputMappingCanvas ((self#abeClientInformation), self, (self#createGameLayerManager ()), (self#getHelpPaintable ()))) :> MyCanvas.myCanvas)
+        (Obj.magic ((new GameInputMappingCanvas.gameInputMappingCanvas ((self#abeClientInformation), (Obj.magic self), (self#createGameLayerManager ()), (self#getHelpPaintable ())))))
         end [@@warning "-7"]
     
 
-    method getAboutCanvas () : MyCanvas.myCanvas =
+    method getAboutCanvas : 'return. unit -> 'return = fun () ->
         begin
-        ((new BasicPaintablesCanvas.basicPaintablesCanvas (self, (CanvasStrings.getInstance ())#aBOUT, (self#createGameLayerManager ()), (Obj.magic (java_call_static "AboutPaintableFactory.getInstance" (Obj.repr ())))#paintableArray)) :> MyCanvas.myCanvas)
+        (Obj.magic ((new BasicPaintablesCanvas.basicPaintablesCanvas ((Obj.magic self), (CanvasStrings.getInstance ())#aBOUT, (self#createGameLayerManager ()), (Obj.magic (java_call_static "AboutPaintableFactory.getInstance" (Obj.repr ())))#paintableArray))))
         end [@@warning "-7"]
     
 
-    method getHelpPaintable () : HelpPaintable.helpPaintable =
+    method getHelpPaintable : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
-    method createHighScoresCanvas () : HighScoresCanvas.highScoresCanvas =
+    method createHighScoresCanvas : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
@@ -620,7 +620,7 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
         begin
         let threadFactoryUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ThreadFactoryUtil.getInstance" (Obj.repr ()))))) in ();
         thread <- ((Obj.magic !threadFactoryUtil)#getInstanceGameCanvasRunnable (allbinaryGameCanvasRunnableInterface));
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Thread Priority: "))#appendint ((java_to_int (Obj.repr ((thread#getPriority ())))))))), self, "startGameCanvasRunnableInterface"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Thread Priority: "))#appendint ((java_to_int (Obj.repr ((thread#getPriority ())))))))), (Obj.magic self), "startGameCanvasRunnableInterface"));
         ignore (allbinaryGameCanvasRunnableInterface#setThread (thread));
         ignore ((Obj.magic !threadFactoryUtil)#start (thread))
         end [@@warning "-7"]
@@ -628,16 +628,16 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
 
     method stopGameCanvasRunnableInterface () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE));
         ignore ((GameNotificationEventHandler.getInstance ())#removeAllListeners ());
         ignore ((ColorChangeEventHandler.getInstance ())#removeAllListeners ());
         ignore (GameEventHandlerUtil.removeAllListeners ());
         let gameCanvasRunnableInterface : GameCanvasRunnableInterface.gameCanvasRunnableInterface ref = ref ((allbinaryGameCanvasRunnableInterface :> GameCanvasRunnableInterface.gameCanvasRunnableInterface)) in ();
         if ((Obj.repr !gameCanvasRunnableInterface) != (Obj.repr (NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ()))) then begin
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Set Running False: "))#append ((java_string_of (Obj.repr !gameCanvasRunnableInterface)))))), self, gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Set Running False: "))#append ((java_string_of (Obj.repr !gameCanvasRunnableInterface)))))), (Obj.magic self), gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE));
             ignore (!gameCanvasRunnableInterface#setRunning (false))
         end else begin
-            ignore ((self#logUtil)#putF ("StopGame - Could Not Stop", self, gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE))
+            ignore ((self#logUtil)#putF ("StopGame - Could Not Stop", (Obj.magic self), gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE))
         end;
         ignore ((ThreadUtil.getInstance ())#join (thread));
         let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
@@ -646,13 +646,13 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
         end else begin
             ignore (!progressCanvas#addNormalPortion (50, "Stopped Main Runnable"))
         end;
-        ignore ((self#logUtil)#putF ((self#commonStrings)#eND, self, gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#eND, (Obj.magic self), gameStrings#sTOP_GAME_CANVAS_RUNNABLE_INTERFACE))
         end [@@warning "-7"]
     
 
-    method getGameCanvasRunnableInterface () : GameCanvasRunnableInterface.gameCanvasRunnableInterface =
+    method getGameCanvasRunnableInterface : 'return. unit -> 'return = fun () ->
         begin
-        (allbinaryGameCanvasRunnableInterface :> GameCanvasRunnableInterface.gameCanvasRunnableInterface)
+        (Obj.magic (allbinaryGameCanvasRunnableInterface))
         end [@@warning "-7"]
     
 
@@ -663,23 +663,23 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
         end [@@warning "-7-20"]
     
 
-    method createGameLayerManager () : AllBinaryGameLayerManager.allBinaryGameLayerManager =
+    method createGameLayerManager : 'return. unit -> 'return = fun () ->
         begin
         let gameInfo : GameInfo.gameInfo ref = ref (((new GameInfo.gameInfo ((GameTypeFactory.getInstance ())#sINGLE_PLAYER, (GameMode.get_sERVER ()), (PlayerTypesFactory.getInstance ())#pLAYER_TYPE_ONE, 1, 1)) :> GameInfo.gameInfo)) in ();
-        ((new AllBinaryGameLayerManager.allBinaryGameLayerManager (basicColorFactory#bLACK, basicColorFactory#wHITE, !gameInfo)) :> AllBinaryGameLayerManager.allBinaryGameLayerManager)
+        (Obj.magic ((new AllBinaryGameLayerManager.allBinaryGameLayerManager (basicColorFactory#bLACK, basicColorFactory#wHITE, !gameInfo))))
         end [@@warning "-7"]
     
 
     method getGameOptionsForm : 'return. unit -> 'return = fun () ->
         begin
         let layerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager ref = ref (((self#createGameLayerManager ()) :> AllBinaryGameLayerManager.allBinaryGameLayerManager)) in ();
-        (Obj.magic (((GameOptionsFormFactory.getInstance ())#init (self, "Game Options", (!layerManager#getBackgroundBasicColor ()), (!layerManager#getForegroundBasicColor ())))))
+        (Obj.magic (((GameOptionsFormFactory.getInstance ())#init ((Obj.magic self), "Game Options", (!layerManager#getBackgroundBasicColor ()), (!layerManager#getForegroundBasicColor ())))))
         end [@@warning "-7"]
     
 
     method save () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#sAVE));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#sAVE));
         let hashtable : Obj.t ref = ref ((Obj.repr (self#getCurrentStateHashtable ()))) in ();
         ignore ((GamePersistanceSingleton.getInstance ())#save ((self#abeClientInformation), (Obj.magic !hashtable)))
         end [@@warning "-7"]
@@ -687,14 +687,14 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
 
     method getCurrentStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, "getCurrentStateHashtable"));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), "getCurrentStateHashtable"));
         let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))) in ();
         if ((Obj.repr allbinaryGameCanvasRunnableInterface) != (Obj.repr (NullGameCanvasRunnable.get_nULL_GAME_CANVAS_RUNNABLE ()))) then begin
             let currentHashtable : Obj.t ref = ref ((Obj.repr (allbinaryGameCanvasRunnableInterface#getCurrentStateHashtable ()))) in ();
             let enumeration : java_enumeration ref = ref ((((Obj.magic !currentHashtable)#keys ()) :> java_enumeration)) in ();
             let key : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
             while (enumerationUtil#hasMoreElements (!enumeration)) do
-                key := (enumerationUtil#nextElement (!enumeration));
+                key := (Obj.repr ((enumerationUtil#nextElement (!enumeration))));
                 ignore ((Obj.magic !hashtable)#put (!key, ((Obj.magic !currentHashtable)#get (!key))))
             done
         end;
@@ -779,7 +779,7 @@ class gameMidlet ((clientInformationFactory : ClientInformationFactory.clientInf
         ignore ((SmallIntegerSingletonFactory.getInstance ())#initWithRange (0x291, 6));
         loadGameForm <- Obj.repr ((Obj.magic (java_call_static "CommandForm.getNullCommandForm" (Obj.repr ()))));
         let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-        ignore (!progressCanvas#init (self));
+        ignore (!progressCanvas#init ((Obj.magic self)));
         ignore ((GameFeatureEventHandler.getInstance ())#addListenerInterface ((ChangedGameFeatureListener.getInstance ())));
         ignore ((GamePersistanceSingleton.getInstance ())#clear ());
         debugInterface <- (DebugFactory.getInstance ());

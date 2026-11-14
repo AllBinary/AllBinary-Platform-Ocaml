@@ -27,7 +27,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 (* import org.allbinary.math.AngleFactory *)
 
-class arcedMultiBeamWeaponPart (animationInterface, (sourceLayerInterface : AllBinaryLayer.allBinaryLayer), (weaponLayerCircularStaticPool_arg : WeaponLayerCircularPool.weaponLayerCircularPool), (total_arg : int), (weaponProperties : WeaponProperties.weaponProperties), (scoreableInterface : ScoreableInterface.scoreableInterface), (relativeRelationship : RelativeRelationship.relativeRelationship)) =
+class arcedMultiBeamWeaponPart ((animationInterface : Animation.animation), (sourceLayerInterface : AllBinaryLayer.allBinaryLayer), (weaponLayerCircularStaticPool_arg : WeaponLayerCircularPool.weaponLayerCircularPool), (total_arg : int), (weaponProperties : WeaponProperties.weaponProperties), (scoreableInterface : ScoreableInterface.scoreableInterface), (relativeRelationship : RelativeRelationship.relativeRelationship)) =
   object (self)
     inherit BasicWeaponPart.basicWeaponPart (animationInterface, sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
     val mutable weaponLayerCircularStaticPool : WeaponLayerCircularPool.weaponLayerCircularPool = (Obj.magic 0)

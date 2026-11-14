@@ -36,15 +36,15 @@ class pointFactory () =
     
     
 
-    method createXY ((x : int), (y : int)) : GPoint.gPoint =
+    method createXY : 'return. int * int -> 'return = fun ((x : int), (y : int)) ->
         begin
-        ((new GPoint.gPoint (x, y, 0)) :> GPoint.gPoint)
+        (Obj.magic ((new GPoint.gPoint (x, y, 0))))
         end
     
 
-    method createXYZ ((x : int), (y : int), (z : int)) : GPoint.gPoint =
+    method createXYZ : 'return. int * int * int -> 'return = fun ((x : int), (y : int), (z : int)) ->
         begin
-        ((new GPoint.gPoint (x, y, z)) :> GPoint.gPoint)
+        (Obj.magic ((new GPoint.gPoint (x, y, z))))
         end
 
     initializer
@@ -60,9 +60,9 @@ let instance = (new pointFactory ())
 let get_instance () = instance
 let () = java_register_static "PointFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PointFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

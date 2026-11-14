@@ -26,213 +26,218 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.io.path.AbPath *)
 (* import org.allbinary.logic.string.StringUtil *)
 
-class abFile (file_arg) =
+let nULL_FILE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_nULL_FILE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !nULL_FILE_cell with Lazy.Undefined -> java_null)
+let set_nULL_FILE value' = nULL_FILE_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "AbFile.get_nULL_FILE" (fun _ -> Obj.repr (get_nULL_FILE ()))
+let () = java_register_static "AbFile.set_nULL_FILE" (fun value' -> set_nULL_FILE value'; Obj.repr ())
+class abFile ((file_arg : java_file)) =
   object
-    val mutable file : Obj.t = Obj.repr 0
-    method file : 'r. 'r = Obj.magic file
-    method set_file : 'v. 'v -> unit = fun value' -> file <- Obj.repr value'
+    val mutable file : java_file = (Obj.magic 0)
+    method file = file
+    method set_file value' = file <- value'
     
     
 
-    method getFile : 'return. unit -> 'return = fun () ->
+    method getFile () : java_file =
         begin
-        (Obj.magic ((Obj.magic file)))
+        (file :> java_file)
         end
     
 
     method getName () : string =
         begin
-        ((Obj.magic file)#getName ())
+        (file#getName ())
         end
     
 
     method getParent () : string =
         begin
-        ((Obj.magic file)#getParent ())
+        (file#getParent ())
         end
     
 
     method getParentFile () : Obj.t =
         begin
-        (Obj.repr (((Obj.magic file)#getParentFile ())))
+        (Obj.repr ((file#getParentFile ())))
         end
     
 
     method getPath () : string =
         begin
-        ((Obj.magic file)#getPath ())
+        (file#getPath ())
         end
     
 
     method isAbsolute () : bool =
         begin
-        ((Obj.magic file)#isAbsolute ())
+        (file#isAbsolute ())
         end
     
 
     method getAbsolutePath () : string =
         begin
-        ((Obj.magic file)#getAbsolutePath ())
+        (file#getAbsolutePath ())
         end
     
 
     method getAbsoluteFile () : Obj.t =
         begin
-        (Obj.repr (((Obj.magic file)#getAbsoluteFile ())))
+        (Obj.repr ((file#getAbsoluteFile ())))
         end
     
 
     method getCanonicalPath () : string =
         begin
-        ((Obj.magic file)#getCanonicalPath ())
+        (file#getCanonicalPath ())
         end
     
 
     method getCanonicalFile () : Obj.t =
         begin
-        (Obj.repr (((Obj.magic file)#getCanonicalFile ())))
+        (Obj.repr ((file#getCanonicalFile ())))
         end
     
 
-    method toURI : 'return. unit -> 'return = fun () ->
+    method toURI () : java_uri =
         begin
-        (Obj.magic (((Obj.magic file)#toURI ())))
+        ((file#toURI ()) :> java_uri)
         end
     
 
     method canRead () : bool =
         begin
-        ((Obj.magic file)#canRead ())
+        (file#canRead ())
         end
     
 
     method canWrite () : bool =
         begin
-        ((Obj.magic file)#canWrite ())
+        (file#canWrite ())
         end
     
 
     method exists () : bool =
         begin
-        ((Obj.magic file)#exists ())
+        (file#exists ())
         end
     
 
     method isDirectory () : bool =
         begin
-        ((Obj.magic file)#isDirectory ())
+        (file#isDirectory ())
         end
     
 
     method isFile () : bool =
         begin
-        ((Obj.magic file)#isFile ())
+        (file#isFile ())
         end
     
 
     method isHidden () : bool =
         begin
-        ((Obj.magic file)#isHidden ())
+        (file#isHidden ())
         end
     
 
     method lastModified () : int =
         begin
-        ((Obj.magic file)#lastModified ())
+        (file#lastModified ())
         end
     
 
     method length () : int =
         begin
-        ((Obj.magic file)#length ())
+        (file#length ())
         end
     
 
     method createNewFile () : bool =
         begin
-        ((Obj.magic file)#createNewFile ())
+        (file#createNewFile ())
         end
     
 
     method delete () : bool =
         begin
-        ((Obj.magic file)#delete ())
+        (file#delete ())
         end
     
 
     method deleteOnExit () : unit =
         begin
-        ignore ((Obj.magic file)#deleteOnExit ())
+        ignore (file#deleteOnExit ())
         end
     
 
     method list () : string array =
         begin
-        ((Obj.magic file)#list ())
+        (file#list ())
         end
     
 
     method listWithFilter : 'any1. 'any1 -> string array = fun (filter) ->
         let filter = Obj.repr filter in
         begin
-        ((Obj.magic file)#list ((Obj.magic filter)))
+        (file#list ((Obj.magic filter)))
         end [@@warning "-20"]
     
 
-    method listFiles () : Obj.t array =
+    method listFiles : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic file)#listFiles ()))
+        (Obj.magic ((Obj.magic (file#listFiles ()))))
         end
     
 
-    method listFilesFileNameFilter : 'any1. 'any1 -> Obj.t array = fun (filter) ->
+    method listFilesFileNameFilter : 'any1 'return. 'any1 -> 'return = fun (filter) ->
         let filter = Obj.repr filter in
         begin
-        (Obj.magic ((Obj.magic file)#listFiles ((Obj.magic filter))))
+        (Obj.magic ((Obj.magic (file#listFiles ((Obj.magic filter))))))
         end [@@warning "-20"]
     
 
-    method listFilesFileFilter : 'any1. 'any1 -> Obj.t array = fun (filter) ->
+    method listFilesFileFilter : 'any1 'return. 'any1 -> 'return = fun (filter) ->
         let filter = Obj.repr filter in
         begin
-        (Obj.magic ((Obj.magic file)#listFiles ((Obj.magic filter))))
+        (Obj.magic ((Obj.magic (file#listFiles ((Obj.magic filter))))))
         end [@@warning "-20"]
     
 
     method mkdir () : bool =
         begin
-        ((Obj.magic file)#mkdir ())
+        (file#mkdir ())
         end
     
 
     method mkdirs () : bool =
         begin
-        ((Obj.magic file)#mkdirs ())
+        (file#mkdirs ())
         end
     
 
     method renameTo : 'any1. 'any1 -> bool = fun (dest) ->
         let dest = Obj.repr dest in
         begin
-        ((Obj.magic file)#renameTo (((Obj.magic dest)#getFile ())))
+        (file#renameTo (((Obj.magic dest)#getFile ())))
         end [@@warning "-20"]
     
 
     method setLastModified ((time : int)) : bool =
         begin
-        ((Obj.magic file)#setLastModified (time))
+        (file#setLastModified (time))
         end
     
 
     method setReadOnly () : bool =
         begin
-        ((Obj.magic file)#setReadOnly ())
+        (file#setReadOnly ())
         end
     
 
     method setWritable ((writable : bool), (ownerOnly : bool)) : bool =
         begin
-        ((Obj.magic file)#setExecutable (writable, ownerOnly))
+        (file#setExecutable (writable, ownerOnly))
         end
     
 
@@ -241,7 +246,7 @@ class abFile (file_arg) =
 
     method setReadable ((readable : bool), (ownerOnly : bool)) : bool =
         begin
-        ((Obj.magic file)#setReadable (readable, ownerOnly))
+        (file#setReadable (readable, ownerOnly))
         end
     
 
@@ -250,7 +255,7 @@ class abFile (file_arg) =
 
     method setExecutable ((executable : bool), (ownerOnly : bool)) : bool =
         begin
-        ((Obj.magic file)#setExecutable (executable, ownerOnly))
+        (file#setExecutable (executable, ownerOnly))
         end
     
 
@@ -259,96 +264,93 @@ class abFile (file_arg) =
 
     method canExecute () : bool =
         begin
-        ((Obj.magic file)#canExecute ())
+        (file#canExecute ())
         end
     
 
     method getTotalSpace () : int =
         begin
-        ((Obj.magic file)#getTotalSpace ())
+        (file#getTotalSpace ())
         end
     
 
     method getFreeSpace () : int =
         begin
-        ((Obj.magic file)#getFreeSpace ())
+        (file#getFreeSpace ())
         end
     
 
     method getUsableSpace () : int =
         begin
-        ((Obj.magic file)#getUsableSpace ())
+        (file#getUsableSpace ())
         end
     
 
-    method compareTo : 'any1. 'any1 -> int = fun (pathname) ->
-        let pathname = Obj.repr pathname in
+    method compareTo ((pathname : java_file)) : int =
         begin
-        ((Obj.magic file)#compareTo ((Obj.magic pathname)))
-        end [@@warning "-20"]
+        (file#compareTo (pathname))
+        end
     
 
     method equals : 'any1. 'any1 -> bool = fun (obj) ->
         let obj = Obj.repr obj in
         begin
-        ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#equalsNotstring ((Obj.magic file), obj))
+        ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#equalsNotstring (file, obj))
         end
     
 
     method hashCode () : int =
         begin
-        ((Obj.magic file)#hashCode ())
+        (file#hashCode ())
         end
     
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr (Obj.magic file)))
+        (java_string_of (Obj.repr file))
         end
 
     initializer
       begin
         ();
         ();
-        file <- Obj.repr (file_arg)
+        file <- file_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "AbFile" (fun arguments -> Obj.repr (new abFile (Obj.obj arguments)))
 
-let nULL_FILE = (createAbFileFromRawPath ((StringUtil.getInstance ())#eMPTY_STRING))
-let get_nULL_FILE () = nULL_FILE
-let () = java_register_static "AbFile.get_nULL_FILE" (fun _ -> Obj.repr (get_nULL_FILE ()))
-
-let createAbFileWithChild : 'any1. 'any1 * string -> _ = fun (file_arg, (childPathName : string)) ->
+let createAbFileWithChild : 'any1 'return. 'any1 * string -> 'return = fun (file_arg, (childPathName : string)) ->
         let file_arg = Obj.repr file_arg in
         begin
-        (new abFile ((new File.file (((Obj.magic file_arg)#getFile ()), childPathName))))
+        (Obj.magic ((new abFile ((new java_file (Obj.repr (((Obj.magic file_arg)#getFile ()), childPathName)))))))
         end [@@warning "-20"]
 
-and createAbFile ((filePath : string)) =
+and createAbFile : 'return. string -> 'return = fun ((filePath : string)) ->
         begin
-        (new abFile ((new File.file (((new AbPath.abPath (filePath, (StringUtil.getInstance ())#eMPTY_STRING))#toFileSystemString ())))))
+        (Obj.magic ((new abFile ((new java_file (Obj.repr (((new AbPath.abPath (filePath, (StringUtil.getInstance ())#eMPTY_STRING))#toFileSystemString ()))))))))
         end
 
-and createAbFilePathAndName ((filePath : string), (fileName : string)) =
+and createAbFilePathAndName : 'return. string * string -> 'return = fun ((filePath : string), (fileName : string)) ->
         begin
-        (new abFile ((new File.file (((new AbPath.abPath (filePath, (StringUtil.getInstance ())#eMPTY_STRING))#toFileSystemString ()), fileName))))
+        (Obj.magic ((new abFile ((new java_file (Obj.repr (((new AbPath.abPath (filePath, (StringUtil.getInstance ())#eMPTY_STRING))#toFileSystemString ()), fileName)))))))
         end
 
-and createAbFileFromAbPath : 'any1. 'any1 -> _ = fun (abPath) ->
+and createAbFileFromAbPath : 'any1 'return. 'any1 -> 'return = fun (abPath) ->
         let abPath = Obj.repr abPath in
         begin
-        (new abFile ((new File.file (((Obj.magic abPath)#toFileSystemString ())))))
+        (Obj.magic ((new abFile ((new java_file (Obj.repr (((Obj.magic abPath)#toFileSystemString ()))))))))
         end [@@warning "-20"]
 
-and createAbFileFromRawPath ((filePath : string)) =
+and createAbFileFromRawPath : 'return. string -> 'return = fun ((filePath : string)) ->
         begin
-        (new abFile ((new File.file (filePath))))
+        (Obj.magic ((new abFile ((new java_file (Obj.repr (filePath)))))))
         end
 let () = java_register_static "AbFile.createAbFileWithChild" (fun arguments -> Obj.repr (createAbFileWithChild (Obj.obj arguments)))
 let () = java_register_static "AbFile.createAbFile" (fun arguments -> Obj.repr (createAbFile (Obj.obj arguments)))
 let () = java_register_static "AbFile.createAbFilePathAndName" (fun arguments -> Obj.repr (createAbFilePathAndName (Obj.obj arguments)))
 let () = java_register_static "AbFile.createAbFileFromAbPath" (fun arguments -> Obj.repr (createAbFileFromAbPath (Obj.obj arguments)))
 let () = java_register_static "AbFile.createAbFileFromRawPath" (fun arguments -> Obj.repr (createAbFileFromRawPath (Obj.obj arguments)))
+
+let () = nULL_FILE_cell := lazy (Obj.repr ((createAbFileFromRawPath ((StringUtil.getInstance ())#eMPTY_STRING))))
 
 

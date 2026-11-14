@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class gameInputLayerProcessor () =
   object
-    inherit LayerProcessor.layerProcessor ((new GameInputLayerManager.gameInputLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new GameInputLayerManager.gameInputLayerManager ()) : GameInputLayerManager.gameInputLayerManager :> LayerManager.layerManager))
     
     
 

@@ -33,6 +33,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
 (* import org.allbinary.string.CommonStrings *)
 
+let sUBMIT_TEXTBOX_COMMAND_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_sUBMIT_TEXTBOX_COMMAND : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !sUBMIT_TEXTBOX_COMMAND_cell with Lazy.Undefined -> java_null)
+let set_sUBMIT_TEXTBOX_COMMAND value' = sUBMIT_TEXTBOX_COMMAND_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "HighScoreUtil.get_sUBMIT_TEXTBOX_COMMAND" (fun _ -> Obj.repr (get_sUBMIT_TEXTBOX_COMMAND ()))
+let () = java_register_static "HighScoreUtil.set_sUBMIT_TEXTBOX_COMMAND" (fun value' -> set_sUBMIT_TEXTBOX_COMMAND value'; Obj.repr ())
 class highScoreUtil ((highScoresFactoryInterface_arg : HighScoresFactoryInterface.highScoresFactoryInterface), (highScoresHelper_arg : HighScoresHelperBaseInterface.highScoresHelperBaseInterface), (abeClientInformation_arg : AbeClientInformationInterface.abeClientInformationInterface), (gameInfo_arg : GameInfo.gameInfo), _cmdListener, (_name : string), highScore_arg) =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -65,12 +70,13 @@ class highScoreUtil ((highScoresFactoryInterface_arg : HighScoresFactoryInterfac
     
     
 
-    method setHighScoresArray (highScoresArray_arg) : unit =
+    method setHighScoresArray : 'any1. 'any1 -> unit = fun (highScoresArray_arg) ->
+        let highScoresArray_arg = Obj.repr highScoresArray_arg in
         begin
-        highScoresArray <- Obj.repr (highScoresArray_arg);
+        highScoresArray <- Obj.repr ((Obj.magic highScoresArray_arg));
         firstTime <- false;
         (self#saveHighScore ())
-        end
+        end [@@warning "-20"]
     
 
     method update ((name : string)) : unit =
@@ -83,11 +89,11 @@ class highScoreUtil ((highScoresFactoryInterface_arg : HighScoresFactoryInterfac
     method saveHighScore () : unit =
         try
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#sTART))#append (((StringUtil.getInstance ())#toString ((Obj.magic highScore))))))), self, "saveHighScore"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#sTART))#append (((StringUtil.getInstance ())#toString ((Obj.magic highScore))))))), (Obj.magic self), "saveHighScore"));
         let size : int ref = ref ((Array.length (Obj.magic highScoresArray))) in ();
         if (firstTime && (!size = 0)) then begin
-            ignore ((Obj.magic logUtil)#putF ("Games canvas did not give us any HighScores", self, "saveHighScore"));
-            ignore (highScoresFactoryInterface#fetchHighScores (gameInfo, self));
+            ignore ((Obj.magic logUtil)#putF ("Games canvas did not give us any HighScores", (Obj.magic self), "saveHighScore"));
+            ignore (highScoresFactoryInterface#fetchHighScores (gameInfo, (Obj.magic self)));
             raise (Java_return (Obj.repr (())))
         end;
         let highScores : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
@@ -96,7 +102,7 @@ class highScoreUtil ((highScoresFactoryInterface_arg : HighScoresFactoryInterfac
             highScores := Obj.repr ((Obj.magic highScoresArray).(index));
             ignore ((Obj.magic !highScores)#addHighScore ((Obj.magic highScore)));
             highScoresAsString := (java_string_of (Obj.repr (Obj.magic !highScores)));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Added/Adding Score: "))#append (!highScoresAsString)))), self, "saveHighScore"))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Added/Adding Score: "))#append (!highScoresAsString)))), (Obj.magic self), "saveHighScore"))
         done;
         ignore (highScoresHelper#setHighScoresArray ((Obj.magic highScoresArray)))
         end
@@ -107,7 +113,7 @@ class highScoreUtil ((highScoresFactoryInterface_arg : HighScoresFactoryInterfac
         let myCanvas = Obj.repr myCanvas in
         begin
         let commandListener : Obj.t ref = ref ((Obj.repr ((Obj.magic myCanvas)#getCustomCommandListener ()))) in ();
-        ignore ((Obj.magic !commandListener)#commandAction ((Obj.magic sUBMIT_TEXTBOX_COMMAND), (Obj.magic myCanvas)))
+        ignore ((Obj.magic !commandListener)#commandAction ((Obj.magic (get_sUBMIT_TEXTBOX_COMMAND ())), (Obj.magic myCanvas)))
         end [@@warning "-20"]
 
     initializer
@@ -132,8 +138,6 @@ class highScoreUtil ((highScoresFactoryInterface_arg : HighScoresFactoryInterfac
   end [@@warning "-20"]
 let () = java_register_constructor "HighScoreUtil" (fun arguments -> Obj.repr (new highScoreUtil (Obj.obj arguments)))
 
-let sUBMIT_TEXTBOX_COMMAND : Obj.t = (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ("Submit", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 1)))))
-let get_sUBMIT_TEXTBOX_COMMAND () = Obj.magic sUBMIT_TEXTBOX_COMMAND
-let () = java_register_static "HighScoreUtil.get_sUBMIT_TEXTBOX_COMMAND" (fun _ -> Obj.repr (get_sUBMIT_TEXTBOX_COMMAND ()))
+let () = sUBMIT_TEXTBOX_COMMAND_cell := lazy (Obj.repr ((Obj.obj (java_new "Command" (Obj.repr ("Submit", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 1))))))
 
 

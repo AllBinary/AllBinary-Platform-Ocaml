@@ -58,7 +58,7 @@ class nullCanvas () =
         end [@@warning "-7-20"]
     
 
-    method getCustomCommandListener () : CommandListener.commandListener =
+    method getCustomCommandListener : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ("RuntimeException"))
         end [@@warning "-7"]

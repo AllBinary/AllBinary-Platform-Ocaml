@@ -34,7 +34,7 @@ class topUBoundBounceAIFactory () =
   object
     
 
-    method getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (_hashtable, ownerLayerInterface, gameInput) ->
+    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (_hashtable, ownerLayerInterface, gameInput) ->
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
         begin
@@ -43,10 +43,10 @@ class topUBoundBounceAIFactory () =
         let maxDistancePerTick : int ref = ref ((((!velocityInterface#getMaxForwardVelocity ()) asr ((!velocityInterface#getVelocityXBasicDecimalP ())#getScaledFactor ())))) in ();
         let halfWidth : int ref = ref ((((((Obj.magic ownerLayerInterface)#getWidth ()) * 2) + !maxDistancePerTick) + 1)) in ();
         let halfHeight : int ref = ref ((((((Obj.magic ownerLayerInterface)#getHeight ()) * 2) + !maxDistancePerTick) + 1)) in ();
-        let point : GPoint.gPoint ref = ref ((((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#createXY (!halfWidth, (!halfHeight + 60))) :> GPoint.gPoint)) in ();
+        let point : GPoint.gPoint ref = ref ((((PointFactory.getInstance ())#createXY (!halfWidth, (!halfHeight + 60))) :> GPoint.gPoint)) in ();
         let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "Rectangle" (Obj.repr (!point, ((((!displayInfo#getLastWidth ()) - !halfWidth) - (!point#getX ()))), ((((!displayInfo#getLastHeight ()) - !halfHeight) - (!point#getY ()))))))))) in ();
-        ((new BoundBounceAI.boundBounceAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput), (new TopULayerBounds.topULayerBounds ((Obj.magic !rectangle))), (new ReverseVelocityBoundsVisitor.reverseVelocityBoundsVisitor ((Obj.magic ownerLayerInterface))))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        let rectangle : Rectangle.rectangle ref = ref (((new Rectangle.rectangle (!point, ((((!displayInfo#getLastWidth ()) - !halfWidth) - (!point#getX ()))), ((((!displayInfo#getLastHeight ()) - !halfHeight) - (!point#getY ()))))) :> Rectangle.rectangle)) in ();
+        (Obj.magic ((new BoundBounceAI.boundBounceAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput), ((new TopULayerBounds.topULayerBounds (!rectangle)) : TopULayerBounds.topULayerBounds :> LayerBounds.layerBounds), ((new ReverseVelocityBoundsVisitor.reverseVelocityBoundsVisitor (((Obj.magic ownerLayerInterface) : AllBinaryLayer.allBinaryLayer :> LayerInterface.layerInterface))) : ReverseVelocityBoundsVisitor.reverseVelocityBoundsVisitor :> BoundsVisitorInterface.boundsVisitorInterface)))))
         end [@@warning "-20"]
 
     initializer

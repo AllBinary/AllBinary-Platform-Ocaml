@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 
 class colorChangeEvent ((anyType : Obj.t)) =
   object
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable basicColor : BasicColor.basicColor = (Obj.magic 0)
     method basicColor = basicColor
     method set_basicColor value' = basicColor <- value'
@@ -35,9 +35,9 @@ class colorChangeEvent ((anyType : Obj.t)) =
         end [@@warning "-7-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end [@@warning "-7"]
 
     initializer

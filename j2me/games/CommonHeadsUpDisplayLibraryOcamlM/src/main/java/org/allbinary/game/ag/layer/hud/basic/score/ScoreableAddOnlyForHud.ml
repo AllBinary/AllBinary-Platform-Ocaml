@@ -41,9 +41,9 @@ class scoreableAddOnlyForHud ((scoreVectorGraphic : ScoreHudWidget.scoreHudWidge
         end [@@warning "-7"]
     
 
-    method getScoreHudWidget () : ScoreHudWidget.scoreHudWidget =
+    method getScoreHudWidget : 'return. unit -> 'return = fun () ->
         begin
-        (scoreHudWidget :> ScoreHudWidget.scoreHudWidget)
+        (Obj.magic (scoreHudWidget))
         end [@@warning "-7"]
 
     initializer

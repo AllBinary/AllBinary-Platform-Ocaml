@@ -38,7 +38,7 @@ let getNodeNoThrow : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName :
         end
         with Java_return value -> Obj.obj value [@@warning "-20"]
 
-and getAllNodesNoThrow : 'any2. string * 'any2 -> BasicArrayList.basicArrayList = fun ((nodeName : string), nodeList) ->
+and getAllNodesNoThrow : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName : string), nodeList) ->
         let nodeList = Obj.repr nodeList in
         begin
         let nodeVector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
@@ -49,7 +49,7 @@ and getAllNodesNoThrow : 'any2. string * 'any2 -> BasicArrayList.basicArrayList 
                 ignore (!nodeVector#add ((Obj.magic !node)))
             end
         done;
-        (!nodeVector :> BasicArrayList.basicArrayList)
+        (Obj.magic (!nodeVector))
         end [@@warning "-20"]
 
 let () = java_register_static "DomSearchHelper.getNodeNoThrow" (fun arguments -> Obj.repr (getNodeNoThrow (Obj.obj arguments)))
@@ -86,7 +86,7 @@ and getChildNodeList : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName
         (Obj.magic (((Obj.magic !node)#getChildNodes ())))
         end [@@warning "-20"]
 
-and getAllNodes : 'any2. string * 'any2 -> BasicArrayList.basicArrayList = fun ((nodeName : string), nodeList) ->
+and getAllNodes : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName : string), nodeList) ->
         let nodeList = Obj.repr nodeList in
         try
         begin

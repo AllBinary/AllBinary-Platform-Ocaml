@@ -44,9 +44,9 @@ class basicLayerPlacement ((layerType_arg : LayerPlacementType.layerPlacementTyp
         end
     
 
-    method getLayerType () : LayerPlacementType.layerPlacementType =
+    method getLayerType : 'return. unit -> 'return = fun () ->
         begin
-        (layerType :> LayerPlacementType.layerPlacementType)
+        (Obj.magic (layerType))
         end
     
 

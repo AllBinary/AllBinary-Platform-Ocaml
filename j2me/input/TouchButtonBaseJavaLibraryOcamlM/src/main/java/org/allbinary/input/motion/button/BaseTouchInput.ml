@@ -32,9 +32,9 @@ class baseTouchInput () =
     
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        ((basicArrayListUtil#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((basicArrayListUtil#getImmutableInstance ())))
         end
     
 

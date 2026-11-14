@@ -23,11 +23,11 @@ open Allbinary_java [@@warning "-33"]
 (* import java.util.jar.JarEntry *)
 (* import java.util.jar.JarInputStream *)
 
-class jarUtil (jarURL_arg) =
+class jarUtil ((jarURL_arg : java_uri)) =
   object
-    val mutable jarURL : Obj.t = Obj.repr 0
-    method jarURL : 'r. 'r = Obj.magic jarURL
-    method set_jarURL : 'v. 'v -> unit = fun value' -> jarURL <- Obj.repr value'
+    val mutable jarURL : java_uri = (Obj.magic 0)
+    method jarURL = jarURL
+    method set_jarURL value' = jarURL <- value'
     
     
 
@@ -35,7 +35,7 @@ class jarUtil (jarURL_arg) =
         begin
         let cache : int array ref = ref ((Array.make (1024) 0)) in ();
         (try
-            let conn : Obj.t ref = ref ((Obj.repr ((Obj.magic jarURL)#openConnection ()))) in ();
+            let conn : Obj.t ref = ref ((Obj.repr (jarURL#openConnection ()))) in ();
             let jis : Obj.t ref = ref ((Obj.repr (new JarInputStream.jarInputStream (((Obj.magic !conn)#getInputStream ()))))) in ();
             while true do
                 let entry : Obj.t ref = ref ((Obj.repr ((Obj.magic !jis)#getNextJarEntry ()))) in ();
@@ -43,7 +43,7 @@ class jarUtil (jarURL_arg) =
                     if (not ((Obj.magic !entry)#isDirectory ())) then begin
                         let offset : int ref = ref (0) in ();
                         let i : int ref = ref (0) in ();
-                        while (((i := ((Obj.magic !jis)#read (!cache, !offset, ((Array.length !cache) - !offset))); !i)) != (-1)) do
+                        while (((i := ((Obj.magic !jis)#read (!cache, !offset, ((Array.length !cache) - !offset))); !i)) != (- 1)) do
                             offset := (!offset + !i);
                             if (!offset >= (Array.length !cache)) then begin
                                 let newcache : int array ref = ref ((Array.make (((Array.length !cache) + 1024)) 0)) in ();
@@ -69,14 +69,14 @@ class jarUtil (jarURL_arg) =
       begin
         ();
         ();
-        jarURL <- Obj.repr (jarURL_arg)
+        jarURL <- jarURL_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "JarUtil" (fun arguments -> Obj.repr (new jarUtil (Obj.obj arguments)))
 
 let main ((_args : string array)) : unit =
         begin
-        ignore ((new jarUtil ((new URL.uRL ("file:///G:/mnt/bc/mydev/working/j2me/MiniSpaceWars/MiniSpaceWars/dist/MiniSpaceWars.jar"))))#show ())
+        ignore ((new jarUtil ((new java_uri ("file:///G:/mnt/bc/mydev/working/j2me/MiniSpaceWars/MiniSpaceWars/dist/MiniSpaceWars.jar"))))#show ())
         end
 let () = java_register_static "JarUtil.main" (fun arguments -> Obj.repr (main (Obj.obj arguments)))
 

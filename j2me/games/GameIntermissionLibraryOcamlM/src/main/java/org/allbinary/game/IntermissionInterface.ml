@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual intermissionInterface =
   object
-    method virtual getTimeDelayHelper : unit -> TimeDelayHelper.timeDelayHelper
+    method virtual getTimeDelayHelper : 'return . unit -> 'return
     method virtual isEnabled : unit -> bool
     method virtual setEnabled : bool -> unit
     method virtual setListener : 'any1 . 'any1 -> unit

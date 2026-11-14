@@ -30,18 +30,18 @@ class mirrorMotionGestureEventUtil () =
     
     
 
-    method mirrorVerticle : 'any1. 'any1 * int -> MotionGestureEvent.motionGestureEvent = fun (motionGestureEvent, (halfWidth : int)) ->
+    method mirrorVerticle : 'any1 'return. 'any1 * int -> 'return = fun (motionGestureEvent, (halfWidth : int)) ->
         let motionGestureEvent = Obj.repr motionGestureEvent in
         begin
         let event : MotionGestureEvent.motionGestureEvent ref = ref (((motionEventCircularPool#getInstance (((Obj.magic motionGestureEvent)#getMotionGesture ()))) :> MotionGestureEvent.motionGestureEvent)) in ();
         let previousNewX : int ref = ref ((self#getNewX ((((Obj.magic motionGestureEvent)#getPreviousPoint ())#getX ()), halfWidth))) in ();
         let currentNewX : int ref = ref ((self#getNewX ((((Obj.magic motionGestureEvent)#getCurrentPoint ())#getX ()), halfWidth))) in ();
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
-        let mirroredPreviousPoint : GPoint.gPoint ref = ref ((((Obj.magic !pointFactory)#createXY (!previousNewX, (((Obj.magic motionGestureEvent)#getPreviousPoint ())#getY ()))) :> GPoint.gPoint)) in ();
-        let mirroredCurrentPoint : GPoint.gPoint ref = ref ((((Obj.magic !pointFactory)#createXY (!currentNewX, (((Obj.magic motionGestureEvent)#getCurrentPoint ())#getY ()))) :> GPoint.gPoint)) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
+        let mirroredPreviousPoint : GPoint.gPoint ref = ref (((!pointFactory#createXY (!previousNewX, (((Obj.magic motionGestureEvent)#getPreviousPoint ())#getY ()))) :> GPoint.gPoint)) in ();
+        let mirroredCurrentPoint : GPoint.gPoint ref = ref (((!pointFactory#createXY (!currentNewX, (((Obj.magic motionGestureEvent)#getCurrentPoint ())#getY ()))) :> GPoint.gPoint)) in ();
         ignore (!event#setPreviousPoint (!mirroredPreviousPoint));
         ignore (!event#setCurrentPoint (!mirroredCurrentPoint));
-        (!event :> MotionGestureEvent.motionGestureEvent)
+        (Obj.magic (!event))
         end [@@warning "-20"]
     
 
@@ -69,9 +69,9 @@ let instance = (new mirrorMotionGestureEventUtil ())
 let get_instance () = instance
 let () = java_register_static "MirrorMotionGestureEventUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MirrorMotionGestureEventUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

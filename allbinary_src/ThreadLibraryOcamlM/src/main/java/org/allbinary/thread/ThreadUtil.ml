@@ -44,7 +44,7 @@ class threadUtil () =
     method join ((thread : java_thread)) : unit =
         begin
         if ((Obj.magic (java_call_static "ThreadUtil.getInstance" (Obj.repr ())))#isRunning (thread)) then begin
-            ignore ((Obj.magic logUtil)#putF ("Waiting for Thread To Join/End", self, jOIN));
+            ignore ((Obj.magic logUtil)#putF ("Waiting for Thread To Join/End", (Obj.magic self), jOIN));
             ignore (thread#join ())
         end
         end
@@ -62,9 +62,9 @@ let instance = (new threadUtil ())
 let get_instance () = instance
 let () = java_register_static "ThreadUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ThreadUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

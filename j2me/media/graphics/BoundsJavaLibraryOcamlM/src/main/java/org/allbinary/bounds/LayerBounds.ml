@@ -25,20 +25,20 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.util.event.AllBinaryEventObject *)
 (* import org.allbinary.logic.util.event.EventStrings *)
 
-class layerBounds (rectangle_arg) =
+class layerBounds ((rectangle_arg : Rectangle.rectangle)) =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable rectangle : Obj.t = Obj.repr 0
-    method rectangle : 'r. 'r = Obj.magic rectangle
-    method set_rectangle : 'v. 'v -> unit = fun value' -> rectangle <- Obj.repr value'
+    val mutable rectangle : Rectangle.rectangle = (Obj.magic 0)
+    method rectangle = rectangle
+    method set_rectangle value' = rectangle <- value'
     
     
 
     method getRectangleP : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic rectangle)))
+        (Obj.magic (rectangle))
         end
     
 
@@ -50,14 +50,14 @@ class layerBounds (rectangle_arg) =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 
     method onBoundsChangeEvent : 'any1. 'any1 -> unit = fun (boundsChangeEvent) ->
         let boundsChangeEvent = Obj.repr boundsChangeEvent in
         begin
-        rectangle <- Obj.repr (((Obj.magic boundsChangeEvent)#getRectangle ()))
+        rectangle <- ((Obj.magic boundsChangeEvent)#getRectangle ())
         end [@@warning "-20"]
 
     initializer
@@ -65,7 +65,7 @@ class layerBounds (rectangle_arg) =
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         ();
-        rectangle <- Obj.repr (rectangle_arg)
+        rectangle <- rectangle_arg
       end
   end [@@warning "-20"]
 let () = java_register_constructor "LayerBounds" (fun arguments -> Obj.repr (new layerBounds (Obj.obj arguments)))

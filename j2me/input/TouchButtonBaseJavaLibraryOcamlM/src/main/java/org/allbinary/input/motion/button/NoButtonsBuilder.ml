@@ -29,15 +29,15 @@ class noButtonsBuilder () =
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
             let list : BasicArrayList.basicArrayList ref = ref ((((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList)) in ();
-            (!list :> BasicArrayList.basicArrayList)
+            (Obj.magic (!list))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET_LIST, e));
-            (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#gET_LIST, e));
+            (Obj.magic (((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))
         end)
         end [@@warning "-7"]
 

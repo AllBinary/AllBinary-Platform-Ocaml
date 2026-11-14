@@ -23,12 +23,12 @@ class dataOutputStreamFactory () =
   object
     
 
-    method getInstanceForAbFile : 'any1. 'any1 -> AbDataOutputStream.abDataOutputStream = fun (file) ->
+    method getInstanceForAbFile : 'any1 'return. 'any1 -> 'return = fun (file) ->
         let file = Obj.repr file in
         begin
         let idFileOutputStream : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFileOutputStream.createFromAbFile" (Obj.repr ((Obj.magic file))))))) in ();
         let idOutData : AbDataOutputStream.abDataOutputStream ref = ref (((new AbDataOutputStream.abDataOutputStream ((Obj.magic !idFileOutputStream))) :> AbDataOutputStream.abDataOutputStream)) in ();
-        (!idOutData :> AbDataOutputStream.abDataOutputStream)
+        (Obj.magic (!idOutData))
         end [@@warning "-20"]
     
 
@@ -45,9 +45,9 @@ let instance = (new dataOutputStreamFactory ())
 let get_instance () = instance
 let () = java_register_static "DataOutputStreamFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "DataOutputStreamFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

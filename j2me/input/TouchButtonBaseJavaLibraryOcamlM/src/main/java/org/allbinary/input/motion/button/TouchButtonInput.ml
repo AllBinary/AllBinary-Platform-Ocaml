@@ -50,10 +50,10 @@ class touchButtonInput ((id : int), (name : string)) =
         begin
         (try
             let gameKey : GameKey.gameKey ref = ref ((((Obj.magic inputToGameKeyMapping)#getInstance ((self#getId ()))) :> GameKey.gameKey)) in ();
-            gameKeyEvent <- (gameKeyEventFactory#getInstanceForInput (self, !gameKey))
+            gameKeyEvent <- (gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#uPDATE, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#uPDATE, e))
         end)
         end [@@warning "-7-20"]
     
@@ -64,9 +64,9 @@ class touchButtonInput ((id : int), (name : string)) =
         end [@@warning "-7"]
     
 
-    method getGameKeyEvent () : GameKeyEvent.gameKeyEvent =
+    method getGameKeyEvent : 'return. unit -> 'return = fun () ->
         begin
-        (gameKeyEvent :> GameKeyEvent.gameKeyEvent)
+        (Obj.magic (gameKeyEvent))
         end [@@warning "-7"]
 
     initializer
@@ -78,7 +78,7 @@ class touchButtonInput ((id : int), (name : string)) =
         ();
         (* super(...) is the inherit clause *) ();
         let inputFactory : InputFactory.inputFactory ref = ref (((InputFactory.getInstance ()) :> InputFactory.inputFactory)) in ();
-        ignore (!inputFactory#add ((self#getId ()), self))
+        ignore (!inputFactory#add ((self#getId ()), (Obj.magic self)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "TouchButtonInput" (fun arguments -> Obj.repr (new touchButtonInput (Obj.obj arguments)))

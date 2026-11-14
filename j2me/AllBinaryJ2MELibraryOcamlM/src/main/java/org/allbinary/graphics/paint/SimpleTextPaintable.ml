@@ -71,7 +71,7 @@ class simpleTextPaintable ((text_arg : string), (basicColor_arg : BasicColor.bas
         begin
         ignore (myFontProcessor#process ((Obj.magic graphics)));
         let width : int ref = ref ((displayInfoSingleton#getLast ()).(displayInfoSingleton#wIDTH)) in ();
-        ignore ((Obj.magic graphics)#setColor (((self#getBasicColorP ())#intValue ())));
+        ignore ((Obj.magic graphics)#setColor ((java_int_value (Obj.repr (self#getBasicColorP ())))));
         ignore ((Obj.magic graphics)#drawString (text, (((!width asr 1)) - topScoresWidth), fontHeight, anchor))
         end [@@warning "-7-20"]
     
@@ -83,9 +83,9 @@ class simpleTextPaintable ((text_arg : string), (basicColor_arg : BasicColor.bas
         end [@@warning "-7-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end [@@warning "-7"]
     
 
@@ -104,7 +104,7 @@ class simpleTextPaintable ((text_arg : string), (basicColor_arg : BasicColor.bas
     initializer
       begin
         displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         ();
         ();

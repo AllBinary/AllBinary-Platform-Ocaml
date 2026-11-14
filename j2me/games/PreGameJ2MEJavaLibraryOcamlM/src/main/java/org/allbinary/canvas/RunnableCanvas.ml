@@ -105,7 +105,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
 
     method initCommands : 'any1. 'any1 -> unit = fun (_cmdListener) ->
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#nOT_IMPLEMENTED, self, "initCommands"))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#nOT_IMPLEMENTED, (Obj.magic self), "initCommands"))
         end [@@warning "-7-20"]
     
 
@@ -133,10 +133,10 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         if (not running) then begin
             thread <- (NullThread.get_nULL_THREAD ());
             begin (* synchronized *)
-                ignore (threadObjectUtil#notifyObject (self))
+                ignore (threadObjectUtil#notifyObject ((Obj.magic self)))
             end
         end;
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (iS_RUNNING))#appendboolean (running)))), self, sET_RUNNING))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (iS_RUNNING))#appendboolean (running)))), (Obj.magic self), sET_RUNNING))
         end [@@warning "-7"]
     
 
@@ -155,16 +155,16 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
             if (currentThread != (Obj.magic 0)) then begin
                 ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString (currentThread))))
             end;
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, iS_RUNNING));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), iS_RUNNING));
             raise (Java_return (Obj.repr (false)))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
     
 
-    method getLoopTimeHelperP () : TimeDelayHelper.timeDelayHelper =
+    method getLoopTimeHelperP : 'return. unit -> 'return = fun () ->
         begin
-        (loopTimeHelper :> TimeDelayHelper.timeDelayHelper)
+        (Obj.magic (loopTimeHelper))
         end [@@warning "-7"]
     
 
@@ -172,7 +172,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         begin
         loopTimeHelper#set_delay (wait);
         pauseWait <- (wait * 3);
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("setWait - delay: "))#appendint ((java_to_int (Obj.repr (loopTimeHelper#delay))))))), self, (self#commonStrings)#cONSTRUCTOR))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("setWait - delay: "))#appendint ((java_to_int (Obj.repr (loopTimeHelper#delay))))))), (Obj.magic self), (self#commonStrings)#cONSTRUCTOR))
         end [@@warning "-7"]
     
 
@@ -199,7 +199,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         (try
             (self#stopWaiting ())
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "showNotify", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "showNotify", e))
         end)
         end [@@warning "-7"]
     
@@ -208,7 +208,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         begin
         notified <- true;
         begin (* synchronized *)
-            ignore (threadObjectUtil#notifyObject (self))
+            ignore (threadObjectUtil#notifyObject ((Obj.magic self)))
         end;
         ignore (self#repaint ())
         end [@@warning "-7"]
@@ -218,9 +218,9 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         begin
         if (not notified) then begin
             if (wait > 0) then begin
-                ignore (threadObjectUtil#waitObjectFor (self, wait))
+                ignore (threadObjectUtil#waitObjectFor ((Obj.magic self), wait))
             end else begin
-                ignore (threadObjectUtil#waitObject (self))
+                ignore (threadObjectUtil#waitObject ((Obj.magic self)))
             end
         end
         end [@@warning "-7"]
@@ -253,12 +253,12 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
             if ((self#isRunning ()) && (not (self#isSingleThread ()))) then begin
                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
                 let currentTimeMillis : int ref = ref ((systemWrapper#currentTimeMillis ())) in ();
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((!stringMaker#append (sTART_PAUSE))#appendlong (!currentTimeMillis))#append (pAUSE_SLEEP))#appendlong (pauseWait)))), self, pROCESS_LOOP_SLEEP));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((!stringMaker#append (sTART_PAUSE))#appendlong (!currentTimeMillis))#append (pAUSE_SLEEP))#appendlong (pauseWait)))), (Obj.magic self), pROCESS_LOOP_SLEEP));
                 while (((self#isPaused ()) && (self#isRunning ())) && (not (self#isSingleThread ()))) do
                     (self#processSleep ());
                     if (not (self#isPausable ())) then begin
                         ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (eND_PAUSE))#appendlong (!currentTimeMillis)))), self, pROCESS_LOOP_SLEEP));
+                        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (eND_PAUSE))#appendlong (!currentTimeMillis)))), (Obj.magic self), pROCESS_LOOP_SLEEP));
                         raise (Java_return (Obj.repr (())))
                     end
                 done
@@ -295,7 +295,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
 
     method getType () : int =
         begin
-        (-1)
+        (- 1)
         end [@@warning "-7"]
 
     initializer
@@ -323,12 +323,12 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         notified <- false;
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("RunnableCanvas delay: "))#appendint ((java_to_int (Obj.repr (loopTimeHelper#delay))))))), self, (self#commonStrings)#cONSTRUCTOR));
-        runnableCanvasRefreshHelper <- (new RunnableCanvasRefreshHelper.runnableCanvasRefreshHelper (self));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("RunnableCanvas delay: "))#appendint ((java_to_int (Obj.repr (loopTimeHelper#delay))))))), (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
+        runnableCanvasRefreshHelper <- ((new RunnableCanvasRefreshHelper.runnableCanvasRefreshHelper ((Obj.magic self))) :> Processor.processor);
         if (commandListener != (Obj.magic 0)) then begin
             (self#initCommands (commandListener))
         end else if hasParam then begin
-            ignore ((self#logUtil)#putF ("commandListener was null", self, "initCommands"))
+            ignore ((self#logUtil)#putF ("commandListener was null", (Obj.magic self), "initCommands"))
         end
       end
   end [@@warning "-20"]

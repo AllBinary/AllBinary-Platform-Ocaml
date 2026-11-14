@@ -22,8 +22,8 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual basicVelocityInterface =
   object
-    method virtual getVelocityXBasicDecimalP : unit -> BasicDecimal.basicDecimal
-    method virtual getVelocityYBasicDecimalP : unit -> BasicDecimal.basicDecimal
+    method virtual getVelocityXBasicDecimalP : 'return . unit -> 'return
+    method virtual getVelocityYBasicDecimalP : 'return . unit -> 'return
     method virtual zero : unit -> unit
     method virtual setVelocityWithBigDecimalAndDirection : 'any1 'any2 'any3 . 'any1 * 'any2 * 'any3 -> unit
     method virtual addVelocityWithBigDecimalAndDirection : 'any1 'any2 'any3 . 'any1 * 'any2 * 'any3 -> unit

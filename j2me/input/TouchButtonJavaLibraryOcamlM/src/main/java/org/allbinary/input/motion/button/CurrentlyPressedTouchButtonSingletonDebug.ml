@@ -31,9 +31,9 @@ class currentlyPressedTouchButtonSingletonDebug () =
     val mutable listString : string = ""
     method listString = listString
     method set_listString value' = listString <- value'
-    val mutable append : string = ""
-    method append = append
-    method set_append value' = append <- value'
+    val mutable appendText : string = ""
+    method appendText = appendText
+    method set_appendText value' = appendText <- value'
     val mutable pRESSED_AND_FIRED : string = ""
     method pRESSED_AND_FIRED = pRESSED_AND_FIRED
     method set_pRESSED_AND_FIRED value' = pRESSED_AND_FIRED <- value'
@@ -54,29 +54,29 @@ class currentlyPressedTouchButtonSingletonDebug () =
     method set_rELEASED_AND_NOT_FIRED value' = rELEASED_AND_NOT_FIRED <- value'
     
 
-    method appendTouchButtonInput : 'any2. string * 'any2 -> unit = fun ((append_arg : string), touchButtonInput) ->
+    method appendTouchButtonInput : 'any2. string * 'any2 -> unit = fun ((append : string), touchButtonInput) ->
         let touchButtonInput = Obj.repr touchButtonInput in
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic touchButtonInput)))));
         ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-        ignore (!stringBuffer#append (append_arg));
-        append <- (java_string_of (Obj.repr !stringBuffer));
-        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))))
+        ignore (!stringBuffer#append (append));
+        appendText <- (java_string_of (Obj.repr !stringBuffer));
+        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (appendText))))
         end [@@warning "-7-20"]
     
 
-    method append ((append_arg : string)) : unit =
+    method append ((append : string)) : unit =
         begin
-        append <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (append))#append (append_arg))));
-        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))))
+        appendText <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (appendText))#append (append))));
+        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (appendText))))
         end [@@warning "-7"]
     
 
     method clearLog ((x : int), (y : int)) : unit =
         begin
-        append <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((GPoint.toStringStatic (x, y, 0))))#append ((CommonSeps.getInstance ())#sPACE))));
-        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))))
+        appendText <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((GPoint.toStringStatic (x, y, 0))))#append ((CommonSeps.getInstance ())#sPACE))));
+        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (appendText))))
         end [@@warning "-7"]
     
 
@@ -121,12 +121,12 @@ class currentlyPressedTouchButtonSingletonDebug () =
         end [@@warning "-7-20"]
     
 
-    method removeAt ((index : int)) : TouchButtonInput.touchButtonInput =
+    method removeAt : 'return. int -> 'return = fun ((index : int)) ->
         begin
         let touchButtonInput : TouchButtonInput.touchButtonInput ref = ref (((super#removeAt (index)) :> TouchButtonInput.touchButtonInput)) in ();
         listString <- (java_string_of (Obj.repr (self#list)));
-        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))));
-        (!touchButtonInput :> TouchButtonInput.touchButtonInput)
+        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (appendText))));
+        (Obj.magic (!touchButtonInput))
         end [@@warning "-7"]
     
 
@@ -135,7 +135,7 @@ class currentlyPressedTouchButtonSingletonDebug () =
         begin
         let isRemoved : bool ref = ref ((super#remove ((Obj.magic touchButtonInput)))) in ();
         listString <- (java_string_of (Obj.repr (self#list)));
-        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))));
+        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (appendText))));
         !isRemoved
         end [@@warning "-7-20"]
     
@@ -145,7 +145,7 @@ class currentlyPressedTouchButtonSingletonDebug () =
         begin
         ignore (super#add ((Obj.magic touchButtonInput)));
         listString <- (java_string_of (Obj.repr (self#list)));
-        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (append))))
+        string <- (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (listString))#append (appendText))))
         end [@@warning "-7-20"]
     
 
@@ -158,7 +158,7 @@ class currentlyPressedTouchButtonSingletonDebug () =
       begin
         string <- (StringUtil.getInstance ())#eMPTY_STRING;
         listString <- (StringUtil.getInstance ())#eMPTY_STRING;
-        append <- (StringUtil.getInstance ())#eMPTY_STRING;
+        appendText <- (StringUtil.getInstance ())#eMPTY_STRING;
         pRESSED_AND_FIRED <- "pressed & fired";
         pRESSED_AND_NOT_FIRED <- "pressed in button but not fired";
         aSSOCIATED_RELEASED_AND_FIRED <- "assoc. rel & fired";
@@ -174,9 +174,9 @@ let instanceC = (new currentlyPressedTouchButtonSingletonDebug ())
 let get_instanceC () = instanceC
 let () = java_register_static "CurrentlyPressedTouchButtonSingletonDebug.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
 
-let getInstance () : CurrentlyPressedTouchButtonSingleton.currentlyPressedTouchButtonSingleton =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instanceC :> CurrentlyPressedTouchButtonSingleton.currentlyPressedTouchButtonSingleton)
+        (Obj.magic (instanceC))
         end
 let () = java_register_static "CurrentlyPressedTouchButtonSingletonDebug.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

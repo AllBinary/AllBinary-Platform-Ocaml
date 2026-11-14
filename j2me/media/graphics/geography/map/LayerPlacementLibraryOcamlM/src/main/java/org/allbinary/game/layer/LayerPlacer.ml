@@ -78,24 +78,24 @@ class layerPlacer ((layerInterfaceVisitor_arg : LayerInterfaceVisitor.layerInter
         end [@@warning "-20"]
     
 
-    method getPoint : 'any1. 'any1 -> GPoint.gPoint = fun (layerPlacementInterface) ->
+    method getPoint : 'any1 'return. 'any1 -> 'return = fun (layerPlacementInterface) ->
         let layerPlacementInterface = Obj.repr layerPlacementInterface in
         try
         begin
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
         let layerPlacementType : LayerPlacementType.layerPlacementType ref = ref ((((Obj.magic layerPlacementInterface)#getLayerType ()) :> LayerPlacementType.layerPlacementType)) in ();
         if ((Obj.repr !layerPlacementType) == (Obj.repr (LayerPlacementTypeFactory.getInstance ())#mAP)) then begin
             let width : int ref = ref (((Obj.magic layerPlacementInterface)#getWidth ())) in ();
             let height : int ref = ref (((Obj.magic layerPlacementInterface)#getHeight ())) in ();
             let x : int ref = ref ((((((dimension#getX ()) - !width)) / 2))) in ();
             let y : int ref = ref ((((((dimension#getY ()) - !height)) / 2))) in ();
-            raise (Java_return (Obj.repr (((Obj.magic !pointFactory)#createXY (!x, !y)))))
+            raise (Java_return (Obj.repr ((!pointFactory#createXY (!x, !y)))))
         end else if ((Obj.repr !layerPlacementType) == (Obj.repr (LayerPlacementTypeFactory.getInstance ())#uP)) then begin
             let width : int ref = ref (((Obj.magic layerPlacementInterface)#getWidth ())) in ();
             let height : int ref = ref (((Obj.magic layerPlacementInterface)#getHeight ())) in ();
             let x : int ref = ref ((((((dimension#getX ()) - !width)) / 2))) in ();
-            let y : int ref = ref ((-!height)) in ();
-            raise (Java_return (Obj.repr (((Obj.magic !pointFactory)#createXY (!x, !y)))))
+            let y : int ref = ref ((- !height)) in ();
+            raise (Java_return (Obj.repr ((!pointFactory#createXY (!x, !y)))))
         end else begin
             raise (Failure ("PlacementType Not Recognized"))
         end

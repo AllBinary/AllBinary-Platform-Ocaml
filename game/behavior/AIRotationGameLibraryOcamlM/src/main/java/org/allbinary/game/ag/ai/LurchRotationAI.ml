@@ -47,12 +47,12 @@ class lurchRotationAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (g
             let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
             let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
             let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((!angleIncrementInfo#rIGHT_FRAME#intValue ())))
+            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))))
         end else if ((self#currentRelativeAngle) == 180) then begin
             let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
             let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
             let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((!angleIncrementInfo#lEFT_FRAME#intValue ())))
+            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME))))
         end
         end [@@warning "-7"]
 

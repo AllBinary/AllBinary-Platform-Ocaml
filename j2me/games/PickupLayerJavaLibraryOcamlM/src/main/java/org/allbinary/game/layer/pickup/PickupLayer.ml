@@ -30,7 +30,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.image.opengles.OpenGLSurfaceChangedInterface *)
 (* import org.allbinary.view.ViewPositionBase *)
 
-class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerInterfaceFactoryInterface_arg : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface), animationInterface_arg, rectangle, (viewPosition : ViewPositionBase.viewPositionBase)) =
+class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerInterfaceFactoryInterface_arg : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface), (animationInterface_arg : Animation.animation), (rectangle : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
   object (self)
     inherit MultiPlayerGameLayer.multiPlayerGameLayer (remoteInfo, (BasicGroupFactory.getInstance ())#nONE_ARRAY, name, rectangle, viewPosition)
     val mutable pickedUpLayerInterfaceFactoryInterface : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface = (Obj.magic 0)
@@ -39,9 +39,9 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
     val mutable destroyed : bool = false
     method destroyed = destroyed
     method set_destroyed value' = destroyed <- value'
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
     
     
 
@@ -50,7 +50,7 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
         let animationInterface_arg = Obj.repr animationInterface_arg in
         begin
         pickedUpLayerInterfaceFactoryInterface <- (Obj.magic pickedUpLayerInterfaceFactoryInterface_arg);
-        animationInterface <- Obj.repr ((Obj.magic animationInterface_arg));
+        animationInterface <- (Obj.magic animationInterface_arg);
         (self#setDestroyed (false))
         end [@@warning "-7-20"]
     
@@ -67,7 +67,7 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
         let viewPosition : ViewPositionBase.viewPositionBase ref = ref (((self#getViewPosition ()) :> ViewPositionBase.viewPositionBase)) in ();
         let viewX : int ref = ref ((!viewPosition#getX ())) in ();
         let viewY : int ref = ref ((!viewPosition#getY ())) in ();
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), !viewX, !viewY))
+        ignore (animationInterface#paintXY ((Obj.magic graphics), !viewX, !viewY))
         end [@@warning "-7-20"]
     
 
@@ -77,13 +77,13 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
         let viewPosition : ViewPositionBase.viewPositionBase ref = ref (((self#getViewPosition ()) :> ViewPositionBase.viewPositionBase)) in ();
         let viewX : int ref = ref ((!viewPosition#getX ())) in ();
         let viewY : int ref = ref ((!viewPosition#getY ())) in ();
-        ignore ((Obj.magic animationInterface)#paintThreedXYZ ((Obj.magic graphics), !viewX, !viewY, 3))
+        ignore (animationInterface#paintThreedXYZ ((Obj.magic graphics), !viewX, !viewY, 3))
         end [@@warning "-7-20"]
     
 
-    method getPickedUpLayerInterfaceFactoryInterface () : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface =
+    method getPickedUpLayerInterfaceFactoryInterface : 'return. unit -> 'return = fun () ->
         begin
-        (pickedUpLayerInterfaceFactoryInterface :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
+        (Obj.magic (pickedUpLayerInterfaceFactoryInterface))
         end [@@warning "-7"]
     
 
@@ -103,7 +103,7 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
         begin
         destroyed <- destroyed_arg;
         if (self#isDestroyed ()) then begin
-            ignore ((DestroyedLayerProcessor.getInstance ())#add (self))
+            ignore ((DestroyedLayerProcessor.getInstance ())#add ((Obj.magic self)))
         end
         end [@@warning "-7"]
     
@@ -123,7 +123,7 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
     method set : 'any1. 'any1 -> unit = fun (gl) ->
         let gl = Obj.repr gl in
         begin
-        let openGLSurfaceChangedInterface : OpenGLSurfaceChangedInterface.openGLSurfaceChangedInterface ref = ref (((Obj.magic (Obj.magic animationInterface)) :> OpenGLSurfaceChangedInterface.openGLSurfaceChangedInterface)) in ();
+        let openGLSurfaceChangedInterface : OpenGLSurfaceChangedInterface.openGLSurfaceChangedInterface ref = ref (((Obj.magic animationInterface) :> OpenGLSurfaceChangedInterface.openGLSurfaceChangedInterface)) in ();
         ignore (!openGLSurfaceChangedInterface#set ((Obj.magic gl)))
         end [@@warning "-7-20"]
 
@@ -131,7 +131,7 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
       begin
         pickedUpLayerInterfaceFactoryInterface <- ((CountedPickedUpLayerInterfaceFactory.get_nULL_COUNTED_PICKUP_LAYER_FACTORY ()) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface);
         destroyed <- false;
-        animationInterface <- (Obj.repr ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)));
+        animationInterface <- (((NullAnimationFactory.getFactoryInstance ())#getInstance (0)) :> Animation.animation);
         ();
         (* super(...) is the inherit clause *) ();
         ignore (self#setCollidableInferface (((CollidableAlwaysPickupNeverCollideBehaviorFactory.getInstance ())#createBehavior ())));
@@ -139,7 +139,7 @@ class pickupLayer ((name : string), remoteInfo, (_total : int), (pickedUpLayerIn
         ignore (self#setLayerHeight (10));
         (self#init (pickedUpLayerInterfaceFactoryInterface_arg, animationInterface_arg))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "PickupLayer" (fun arguments -> Obj.repr (new pickupLayer (Obj.obj arguments)))
 
 

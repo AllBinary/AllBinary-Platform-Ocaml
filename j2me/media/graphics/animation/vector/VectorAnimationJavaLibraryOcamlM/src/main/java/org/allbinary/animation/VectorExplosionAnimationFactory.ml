@@ -52,9 +52,9 @@ class vectorExplosionAnimationFactory ((basicColor_arg : BasicColor.basicColor),
         end [@@warning "-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end
 
     initializer

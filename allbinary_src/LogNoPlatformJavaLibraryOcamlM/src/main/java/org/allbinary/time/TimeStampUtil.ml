@@ -16,6 +16,7 @@
 (* package org.allbinary.time *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import java.util.Calendar *)
 (* import java.util.Date *)
 
@@ -41,9 +42,9 @@ let instance = (new timeStampUtil ())
 let get_instance () = instance
 let () = java_register_static "TimeStampUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TimeStampUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

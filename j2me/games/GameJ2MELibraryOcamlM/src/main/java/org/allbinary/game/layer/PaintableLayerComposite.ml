@@ -22,21 +22,21 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.paint.PaintableInterface *)
 (* import org.allbinary.layer.Layer *)
 
-class paintableLayerComposite (paintableArray_arg) =
+class paintableLayerComposite ((paintableArray_arg : Layer.layer array)) =
   object
     inherit Paintable.paintable ()
-    val mutable paintableArray : Obj.t = Obj.repr 0
-    method paintableArray : 'r. 'r = Obj.magic paintableArray
-    method set_paintableArray : 'v. 'v -> unit = fun value' -> paintableArray <- Obj.repr value'
+    val mutable paintableArray : Layer.layer array = (Obj.magic 0)
+    method paintableArray = paintableArray
+    method set_paintableArray value' = paintableArray <- value'
     
     
 
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        let index : int ref = ref ((Array.length (Obj.magic paintableArray))) in ();
+        let index : int ref = ref ((Array.length paintableArray)) in ();
         while ((index := !index - 1; !index) >= 0) do
-            ignore ((Obj.magic paintableArray).(!index)#paint ((Obj.magic graphics)))
+            ignore (paintableArray.(!index)#paint ((Obj.magic graphics)))
         done
         end [@@warning "-7-20"]
     
@@ -45,9 +45,9 @@ class paintableLayerComposite (paintableArray_arg) =
         let graphics = Obj.repr graphics in
         begin
         let paintableInterface : PaintableInterface.paintableInterface ref = ref (((Obj.magic 0) :> PaintableInterface.paintableInterface)) in ();
-        let index : int ref = ref ((Array.length (Obj.magic paintableArray))) in ();
+        let index : int ref = ref ((Array.length paintableArray)) in ();
         while ((index := !index - 1; !index) >= 0) do
-            paintableInterface := (Obj.magic (Obj.magic paintableArray).(!index));
+            paintableInterface := (Obj.magic paintableArray.(!index));
             ignore (!paintableInterface#paintThreed ((Obj.magic graphics)))
         done
         end [@@warning "-7-20"]
@@ -56,9 +56,9 @@ class paintableLayerComposite (paintableArray_arg) =
       begin
         ();
         ();
-        paintableArray <- Obj.repr (paintableArray_arg)
+        paintableArray <- paintableArray_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "PaintableLayerComposite" (fun arguments -> Obj.repr (new paintableLayerComposite (Obj.obj arguments)))
 
 

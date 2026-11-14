@@ -62,7 +62,7 @@ class spriteIndexedAnimation (sprite_arg, image_arg, (basicColorArray_arg : Basi
         end [@@warning "-7-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         try
         begin
         if ((Array.length basicColorArray) < (self#getFrame ())) then begin
@@ -131,7 +131,7 @@ class spriteIndexedAnimation (sprite_arg, image_arg, (basicColorArray_arg : Basi
     method isLastFrame () : bool =
         try
         begin
-        if (((Obj.magic sprite)#getFrame ()) == ((self#getSize ()) - 1)) then begin
+        if (((Obj.magic sprite)#getFrame ()) = ((self#getSize ()) - 1)) then begin
             raise (Java_return (Obj.repr (true)))
         end else begin
             raise (Java_return (Obj.repr (false)))

@@ -25,42 +25,42 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.math.PrimitiveIntUtil *)
 (* import org.allbinary.util.CircularIndexUtil *)
 
-class compoundIndexedAnimation (animationInterfaceArray_arg, (animationBehavior : AnimationBehavior.animationBehavior)) =
+class compoundIndexedAnimation ((animationInterfaceArray_arg : Animation.animation array), (animationBehavior : AnimationBehavior.animationBehavior)) =
   object (self)
     inherit IndexedAnimation.indexedAnimation (animationBehavior)
     val mutable circularIndexUtil : CircularIndexUtil.circularIndexUtil = (Obj.magic 0)
     method circularIndexUtil = circularIndexUtil
     method set_circularIndexUtil value' = circularIndexUtil <- value'
-    val mutable animationInterfaceArray : Obj.t = Obj.repr 0
-    method animationInterfaceArray : 'r. 'r = Obj.magic animationInterfaceArray
-    method set_animationInterfaceArray : 'v. 'v -> unit = fun value' -> animationInterfaceArray <- Obj.repr value'
+    val mutable animationInterfaceArray : Animation.animation array = (Obj.magic 0)
+    method animationInterfaceArray = animationInterfaceArray
+    method set_animationInterfaceArray value' = animationInterfaceArray <- value'
     
     
 
     method setFrame ((index : int)) : unit =
         begin
-        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic (Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
+        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic animationInterfaceArray.((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
         ignore (!indexedAnimation#setFrame (index))
         end [@@warning "-7"]
     
 
     method getFrame () : int =
         begin
-        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic (Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
+        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic animationInterfaceArray.((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
         (!indexedAnimation#getFrame ())
         end [@@warning "-7"]
     
 
     method getSize () : int =
         begin
-        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic (Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
+        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic animationInterfaceArray.((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
         (!indexedAnimation#getSize ())
         end [@@warning "-7"]
     
 
     method previousFrame () : unit =
         begin
-        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic (Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
+        let indexedAnimation : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic animationInterfaceArray.((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)) in ();
         ignore (!indexedAnimation#previousFrame ())
         end [@@warning "-7"]
     
@@ -79,27 +79,27 @@ class compoundIndexedAnimation (animationInterfaceArray_arg, (animationBehavior 
 
     method nextFrame () : unit =
         begin
-        ignore ((Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))#nextFrame ())
+        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#nextFrame ())
         end [@@warning "-7"]
     
 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))#paintXY ((Obj.magic graphics), x, y))
+        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#paintXY ((Obj.magic graphics), x, y))
         end [@@warning "-7-20"]
     
 
     method paintThreedXYZ : 'any1. 'any1 * int * int * int -> unit = fun (graphics, (x : int), (y : int), (z : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))#paintThreedXYZ ((Obj.magic graphics), x, y, z))
+        ignore (animationInterfaceArray.((circularIndexUtil#getIndex ()))#paintThreedXYZ ((Obj.magic graphics), x, y, z))
         end [@@warning "-7-20"]
     
 
-    method getCurrentAnimation () : IndexedAnimation.indexedAnimation =
+    method getCurrentAnimation : 'return. unit -> 'return = fun () ->
         begin
-        ((Obj.magic (Obj.magic animationInterfaceArray).((circularIndexUtil#getIndex ()))) :> IndexedAnimation.indexedAnimation)
+        (Obj.magic ((Obj.magic animationInterfaceArray.((circularIndexUtil#getIndex ())))))
         end [@@warning "-7"]
     
 
@@ -129,22 +129,22 @@ class compoundIndexedAnimation (animationInterfaceArray_arg, (animationBehavior 
 
     method getAnimationInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic animationInterfaceArray)))
+        (Obj.magic (animationInterfaceArray))
         end [@@warning "-7"]
     
 
-    method setAnimationInterfaceArray (animationInterfaceArray_arg) : unit =
+    method setAnimationInterfaceArray ((animationInterfaceArray_arg : Animation.animation array)) : unit =
         begin
-        animationInterfaceArray <- Obj.repr (animationInterfaceArray_arg)
+        animationInterfaceArray <- animationInterfaceArray_arg
         end [@@warning "-7"]
     
 
     method set : 'any1. 'any1 -> unit = fun (gl) ->
         let gl = Obj.repr gl in
         begin
-        let index : int ref = ref ((Array.length (Obj.magic animationInterfaceArray))) in ();
+        let index : int ref = ref ((Array.length animationInterfaceArray)) in ();
         while ((index := !index - 1; !index) >= 0) do
-            ignore ((Obj.magic animationInterfaceArray).(!index)#set ((Obj.magic gl)))
+            ignore (animationInterfaceArray.(!index)#set ((Obj.magic gl)))
         done
         end [@@warning "-7-20"]
 
@@ -154,10 +154,10 @@ class compoundIndexedAnimation (animationInterfaceArray_arg, (animationBehavior 
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        animationInterfaceArray <- Obj.repr (animationInterfaceArray_arg);
-        circularIndexUtil <- (CircularIndexUtil.createInstance ((Array.length (Obj.magic animationInterfaceArray))))
+        animationInterfaceArray <- animationInterfaceArray_arg;
+        circularIndexUtil <- (CircularIndexUtil.createInstance ((Array.length animationInterfaceArray)))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "CompoundIndexedAnimation" (fun arguments -> Obj.repr (new compoundIndexedAnimation (Obj.obj arguments)))
 
 

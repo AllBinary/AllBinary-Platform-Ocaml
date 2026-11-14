@@ -78,11 +78,11 @@ class basicPersitance ((recordId_arg : string)) =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (persistanceStrings#cLOSING_RECORDSTORE, self, commonStrings#delete))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (persistanceStrings#cLOSING_RECORDSTORE, (Obj.magic self), commonStrings#delete))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (persistanceStrings#dELETING_WITH_ID))#appendint (deleteId)))), self, commonStrings#delete));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (persistanceStrings#dELETING_WITH_ID))#appendint (deleteId)))), (Obj.magic self), commonStrings#delete));
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))));
             ignore ((Obj.magic !recordStore)#deleteRecord (deleteId))
         with e -> begin
@@ -98,15 +98,15 @@ class basicPersitance ((recordId_arg : string)) =
         end [@@warning "-20"]
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (valueList :> BasicArrayList.basicArrayList)
+        (Obj.magic (valueList))
         end
     
 
-    method getIds () : BasicArrayList.basicArrayList =
+    method getIds : 'return. unit -> 'return = fun () ->
         begin
-        (idList :> BasicArrayList.basicArrayList)
+        (Obj.magic (idList))
         end
     
 

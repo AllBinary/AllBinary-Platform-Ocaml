@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 
 class demoGameMidletEvent ((anyType : Obj.t), (demoGameMidletState_arg : DemoGameMidletState.demoGameMidletState)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable demoGameMidletState : DemoGameMidletState.demoGameMidletState = (Obj.magic 0)
     method demoGameMidletState = demoGameMidletState
     method set_demoGameMidletState value' = demoGameMidletState <- value'
@@ -42,9 +42,9 @@ class demoGameMidletEvent ((anyType : Obj.t), (demoGameMidletState_arg : DemoGam
         end [@@warning "-7-20"]
     
 
-    method getDemoGameMidletState () : DemoGameMidletState.demoGameMidletState =
+    method getDemoGameMidletState : 'return. unit -> 'return = fun () ->
         begin
-        (demoGameMidletState :> DemoGameMidletState.demoGameMidletState)
+        (Obj.magic (demoGameMidletState))
         end [@@warning "-7"]
 
     initializer

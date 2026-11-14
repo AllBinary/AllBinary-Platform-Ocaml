@@ -29,6 +29,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "AllBinarySensorManager.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "AllBinarySensorManager.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class allBinarySensorManager () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -55,9 +56,9 @@ class allBinarySensorManager () =
         end
     
 
-    method getSensorNamesList () : BasicArrayList.basicArrayList =
+    method getSensorNamesList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
     
 
@@ -78,18 +79,18 @@ class allBinarySensorManager () =
             ignore (Obj.magic (java_call_static "GyroSensorFactory.init" (Obj.repr ())));
             ignore (Obj.magic (java_call_static "AccelerometerSensorFactory.init" (Obj.repr ())))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#cONSTRUCTOR, e))
         end)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "AllBinarySensorManager" (fun arguments -> Obj.repr (new allBinarySensorManager (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new allBinarySensorManager ())
+            instance := (Obj.repr ((new allBinarySensorManager ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "AllBinarySensorManager.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

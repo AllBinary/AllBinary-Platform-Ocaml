@@ -31,14 +31,15 @@ class gameYouLoseSound () =
   end
 let () = java_register_constructor "GameYouLoseSound" (fun arguments -> Obj.repr (new gameYouLoseSound (Obj.obj arguments)))
 
-let soundInterface : Obj.t ref = ref ((Obj.repr (new gameYouLoseSound ())))
-let get_soundInterface () = Obj.magic !soundInterface
-let set_soundInterface value' = soundInterface := Obj.repr value'
+let soundInterface : Sound.sound ref = ref (((new gameYouLoseSound ()) :> Sound.sound))
+let get_soundInterface () = !soundInterface
+let set_soundInterface value' = soundInterface := value'
 let () = java_register_static "GameYouLoseSound.get_soundInterface" (fun _ -> Obj.repr (get_soundInterface ()))
+let () = java_register_static "GameYouLoseSound.set_soundInterface" (fun value' -> set_soundInterface (Obj.obj value'); Obj.repr ())
 
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic !soundInterface)))
+        (Obj.magic (!soundInterface))
         end
 let () = java_register_static "GameYouLoseSound.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

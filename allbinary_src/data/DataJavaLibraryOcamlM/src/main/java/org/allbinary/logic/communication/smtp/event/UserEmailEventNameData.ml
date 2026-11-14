@@ -25,12 +25,14 @@ let userNameEvenNameHashMap : java_hash_map ref = ref ((((Obj.magic (java_call_s
 let get_userNameEvenNameHashMap () = !userNameEvenNameHashMap
 let set_userNameEvenNameHashMap value' = userNameEvenNameHashMap := value'
 let () = java_register_static "UserEmailEventNameData.get_userNameEvenNameHashMap" (fun _ -> Obj.repr (get_userNameEvenNameHashMap ()))
+let () = java_register_static "UserEmailEventNameData.set_userNameEvenNameHashMap" (fun value' -> set_userNameEvenNameHashMap (Obj.obj value'); Obj.repr ())
 let nextId : int ref = ref (0)
 let get_nextId () = !nextId
 let set_nextId value' = nextId := value'
 let () = java_register_static "UserEmailEventNameData.get_nextId" (fun _ -> Obj.repr (get_nextId ()))
+let () = java_register_static "UserEmailEventNameData.set_nextId" (fun value' -> set_nextId (Obj.obj value'); Obj.repr ())
 
-let getInstance ((userEmailEventNameString : string)) =
+let getInstance : 'return. string -> 'return = fun ((userEmailEventNameString : string)) ->
         try
         begin
         let userEmailEventNameData : Obj.t ref = ref ((Obj.repr (Obj.magic (!userNameEvenNameHashMap#get (userEmailEventNameString))))) in ();
@@ -79,7 +81,7 @@ class userEmailEventNameData ((eventHandlerName_arg : string)) =
         ();
         eventHandlerName <- eventHandlerName_arg;
         (self#initNextId ());
-        ignore (!userNameEvenNameHashMap#put (eventHandlerName, self))
+        ignore (!userNameEvenNameHashMap#put (eventHandlerName, (Obj.magic self)))
       end
   end
 let () = java_register_constructor "UserEmailEventNameData" (fun arguments -> Obj.repr (new userEmailEventNameData (Obj.obj arguments)))

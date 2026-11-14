@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual colorCompositeInterface =
   object
     inherit BasicColorCompositeSetterInterface.basicColorCompositeSetterInterface
-    method virtual getBasicColorP : unit -> BasicColor.basicColor
+    method virtual getBasicColorP : 'return . unit -> 'return
   end
 
 

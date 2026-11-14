@@ -38,5 +38,6 @@ let nO_VIBRATION : AllBinaryVibrationME.allBinaryVibrationME ref = ref (((new al
 let get_nO_VIBRATION () = !nO_VIBRATION
 let set_nO_VIBRATION value' = nO_VIBRATION := value'
 let () = java_register_static "AllBinaryNoVibration.get_nO_VIBRATION" (fun _ -> Obj.repr (get_nO_VIBRATION ()))
+let () = java_register_static "AllBinaryNoVibration.set_nO_VIBRATION" (fun value' -> set_nO_VIBRATION (Obj.obj value'); Obj.repr ())
 
 

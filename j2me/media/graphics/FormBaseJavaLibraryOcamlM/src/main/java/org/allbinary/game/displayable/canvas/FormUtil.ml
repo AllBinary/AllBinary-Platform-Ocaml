@@ -29,9 +29,9 @@ class formUtil () =
     method createFormRectangle : 'return. unit -> 'return = fun () ->
         begin
         let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY (30, 10)), ((!displayInfo#getLastWidth ()) - 30), ((!displayInfo#getLastHeight ()) - 35))))))) in ();
-        (Obj.magic ((Obj.magic !rectangle)))
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
+        let rectangle : Rectangle.rectangle ref = ref (((new Rectangle.rectangle ((!pointFactory#createXY (30, 10)), ((!displayInfo#getLastWidth ()) - 30), ((!displayInfo#getLastHeight ()) - 35))) :> Rectangle.rectangle)) in ();
+        (Obj.magic (!rectangle))
         end
 
     initializer
@@ -45,9 +45,9 @@ let instance = (new formUtil ())
 let get_instance () = instance
 let () = java_register_static "FormUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "FormUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

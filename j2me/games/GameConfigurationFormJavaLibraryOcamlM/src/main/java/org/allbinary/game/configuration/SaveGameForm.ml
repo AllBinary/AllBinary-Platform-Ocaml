@@ -19,16 +19,17 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import javax.microedition.lcdui.CommandListener *)
 (* import javax.microedition.lcdui.TextField *)
+(* import org.allbinary.MIDPUtil *)
 (* import org.allbinary.game.commands.GameCommandsFactory *)
 (* import org.allbinary.graphics.color.BasicColor *)
 (* import org.allbinary.graphics.displayable.screen.CommandForm *)
 (* import org.allbinary.logic.ABSystemWrapper *)
-(* import org.allbinary.logic.MEUtil *)
 
 let fORM : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CommandForm.getNullCommandForm" (Obj.repr ())))))
 let get_fORM () = Obj.magic !fORM
 let set_fORM value' = fORM := Obj.repr value'
 let () = java_register_static "SaveGameForm.get_fORM" (fun _ -> Obj.repr (get_fORM ()))
+let () = java_register_static "SaveGameForm.set_fORM" (fun value' -> set_fORM (Obj.obj value'); Obj.repr ())
 
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
@@ -39,9 +40,9 @@ let () = java_register_static "SaveGameForm.getInstance" (fun arguments -> Obj.r
 class saveGameForm (commandListener, (title : string), (backgrounBasicColor : BasicColor.basicColor), (foregroundBasicColor : BasicColor.basicColor)) =
   object (self)
     inherit CommandForm.commandForm (commandListener, title, backgrounBasicColor, foregroundBasicColor)
-    val mutable meUtil : Obj.t = Obj.repr 0
-    method meUtil : 'r. 'r = Obj.magic meUtil
-    method set_meUtil : 'v. 'v -> unit = fun value' -> meUtil <- Obj.repr value'
+    val mutable meUtil : MIDPUtil.mIDPUtil = (Obj.magic 0)
+    method meUtil = meUtil
+    method set_meUtil value' = meUtil <- value'
     
     
 
@@ -57,15 +58,15 @@ class saveGameForm (commandListener, (title : string), (backgrounBasicColor : Ba
 
     initializer
       begin
-        meUtil <- (Obj.repr (Obj.magic (java_call_static "MEUtil.getInstance" (Obj.repr ()))));
+        meUtil <- ((MIDPUtil.getInstance ()) :> MIDPUtil.mIDPUtil);
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
         let timeString : string ref = ref ((string_of_int (((ABSystemWrapper.getInstance ())#currentTimeMillis ())))) in ();
-        ignore ((Obj.magic meUtil)#appendItem (self, (Obj.obj (java_new "TextField" (Obj.repr ("Name: ", !timeString, 30, (Obj.magic (java_call_static "TextField.get_aNY" (Obj.repr ())))))))));
+        ignore (meUtil#appendItem ((Obj.magic self), (Obj.obj (java_new "TextField" (Obj.repr ("Name: ", !timeString, 30, (Obj.magic (java_call_static "TextField.get_aNY" (Obj.repr ())))))))));
         (self#initCommands (commandListener))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "SaveGameForm" (fun arguments -> Obj.repr (new saveGameForm (Obj.obj arguments)))
 
 let createForm : 'any1 'any3 'any4 'return. 'any1 * string * 'any3 * 'any4 -> 'return = fun (commandListener, (title : string), backgrounBasicColor, foregroundBasicColor) ->

@@ -41,18 +41,18 @@ class layerInterfaceFactory () =
 
     method init () : unit =
         begin
-        list <- (new BasicArrayListD.basicArrayListD ())
+        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
         end
     
 
-    method getNexInstance : 'any1. 'any1 * int * int * int -> AllBinaryLayer.allBinaryLayer = fun (hashtable, (x : int), (y : int), (z : int)) ->
+    method getNexInstance : 'any1 'return. 'any1 * int * int * int -> 'return = fun (hashtable, (x : int), (y : int), (z : int)) ->
         let hashtable = Obj.repr hashtable in
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (hASHTABLE_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, !commonStrings#gET_INSTANCE));
-        let typeInteger : int ref = ref ((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (Obj.magic (java_call_static "Layer.get_iD" (Obj.repr ())))))))) in ();
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (hASHTABLE_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), (Obj.magic self), !commonStrings#gET_INSTANCE));
+        let typeInteger : int ref = ref ((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (Layer.get_iD ())))))) in ();
         let layerInterfaceFactoryInterface : LayerInterfaceFactoryInterface.layerInterfaceFactoryInterface ref = ref (((Obj.magic list#objectArray.((!typeInteger - 1))) :> LayerInterfaceFactoryInterface.layerInterfaceFactoryInterface)) in ();
-        ((!layerInterfaceFactoryInterface#getNextInstance ((Obj.magic hashtable), x, y, z)) :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic ((!layerInterfaceFactoryInterface#getNextInstance ((Obj.magic hashtable), x, y, z))))
         end [@@warning "-20"]
     
 
@@ -76,9 +76,9 @@ let sINGLETON = (new layerInterfaceFactory ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "LayerInterfaceFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "LayerInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

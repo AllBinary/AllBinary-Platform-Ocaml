@@ -23,9 +23,9 @@ class virtual abeLicenseInterface =
     method virtual hasKey : unit -> bool
     method virtual getKey : string -> string
     method virtual getLicenseId : unit -> string
-    method virtual getServers : unit -> BasicArrayList.basicArrayList
+    method virtual getServers : 'return . unit -> 'return
     method virtual getSpecial : unit -> string
-    method virtual getLicenseType : unit -> LicenseType.licenseType
+    method virtual getLicenseType : 'return . unit -> 'return
     method virtual isValid : unit -> bool
     method virtual toString : unit -> string
   end

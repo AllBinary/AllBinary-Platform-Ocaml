@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.communication.log.config *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class logConfigsData () =
   object
@@ -35,9 +36,9 @@ let instance = (new logConfigsData ())
 let get_instance () = instance
 let () = java_register_static "LogConfigsData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LogConfigsData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

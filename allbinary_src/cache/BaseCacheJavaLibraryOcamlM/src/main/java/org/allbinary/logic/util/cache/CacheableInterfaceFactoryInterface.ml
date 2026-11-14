@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual cacheableInterfaceFactoryInterface =
   object
-    method virtual getInstance : 'any1 . 'any1 -> CacheableInterface.cacheableInterface
+    method virtual getInstance : 'any1 'return . 'any1 -> 'return
   end
 
 

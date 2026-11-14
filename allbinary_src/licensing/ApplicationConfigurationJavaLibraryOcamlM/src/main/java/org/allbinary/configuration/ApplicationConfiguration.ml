@@ -25,6 +25,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "ApplicationConfiguration.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "ApplicationConfiguration.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class applicationConfiguration () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -74,7 +75,7 @@ class applicationConfiguration () =
         end else begin
             raise (Failure ("Invalid ShowTitleBar ActivityConfiguration"))
         end;
-        ignore ((Obj.magic logUtil)#putF (("Read Configuration: " ^ (java_string_of (Obj.repr self))), self, "read"))
+        ignore ((Obj.magic logUtil)#putF (("Read Configuration: " ^ (java_string_of (Obj.repr self))), (Obj.magic self), "read"))
         end
     
 
@@ -84,7 +85,7 @@ class applicationConfiguration () =
         Fun.protect ~finally:(fun () -> 
             ignore ((StreamUtil.getInstance ())#close ((Obj.magic !closeable)))
         ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF (("Write Configuration: " ^ (java_string_of (Obj.repr self))), self, "write"));
+            ignore ((Obj.magic logUtil)#putF (("Write Configuration: " ^ (java_string_of (Obj.repr self))), (Obj.magic self), "write"));
             let fileInputStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
             let fileOutputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !fileInputStreamFactory)#getFileOutputStreamInstance ((StringUtil.getInstance ())#eMPTY_STRING, fILE)))) in ();
             let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref (((new AbDataOutputStream.abDataOutputStream ((Obj.magic !fileOutputStream))) :> AbDataOutputStream.abDataOutputStream)) in ();
@@ -195,18 +196,18 @@ class applicationConfiguration () =
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
         end)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "ApplicationConfiguration" (fun arguments -> Obj.repr (new applicationConfiguration (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new applicationConfiguration ())
+            instance := (Obj.repr ((new applicationConfiguration ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "ApplicationConfiguration.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

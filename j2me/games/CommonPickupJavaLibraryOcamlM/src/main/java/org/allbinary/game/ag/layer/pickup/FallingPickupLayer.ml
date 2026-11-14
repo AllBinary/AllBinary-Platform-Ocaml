@@ -16,7 +16,6 @@
 (* package org.allbinary.game.ag.layer.pickup *)
 
 open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
 (* import org.allbinary.animation.NullAnimationFactory *)
 (* import org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory *)
 (* import org.allbinary.game.layer.pickup.PickupLayer *)
@@ -32,7 +31,7 @@ let get_nAME () = nAME
 let () = java_register_static "FallingPickupLayer.get_nAME" (fun _ -> Obj.repr (get_nAME ()))
 class fallingPickupLayer (remoteInfo) =
   object (self)
-    inherit PickupLayer.pickupLayer (nAME, remoteInfo, 0, (CountedPickedUpLayerInterfaceFactory.get_nULL_COUNTED_PICKUP_LAYER_FACTORY ()), ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)), (Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, 0, 0)))), (ViewPosition.getInstanceD ()))
+    inherit PickupLayer.pickupLayer (nAME, remoteInfo, 0, (CountedPickedUpLayerInterfaceFactory.get_nULL_COUNTED_PICKUP_LAYER_FACTORY ()), ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)), (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, 0, 0)), (ViewPosition.getInstanceD ()))
     
     
 

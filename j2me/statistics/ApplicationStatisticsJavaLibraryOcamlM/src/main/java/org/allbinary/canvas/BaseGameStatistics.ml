@@ -119,9 +119,9 @@ class baseGameStatistics () =
         with Java_return value -> Obj.obj value
     
 
-    method getTimeDelayHelper () : TimeDelayHelper.timeDelayHelper =
+    method getTimeDelayHelper : 'return. unit -> 'return = fun () ->
         begin
-        (timeDelayHelper :> TimeDelayHelper.timeDelayHelper)
+        (Obj.magic (timeDelayHelper))
         end
     
 

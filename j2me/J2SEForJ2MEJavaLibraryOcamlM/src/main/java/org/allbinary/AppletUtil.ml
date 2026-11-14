@@ -21,6 +21,7 @@ let applet : bool ref = ref (false)
 let get_applet () = !applet
 let set_applet value' = applet := value'
 let () = java_register_static "AppletUtil.get_applet" (fun _ -> Obj.repr (get_applet ()))
+let () = java_register_static "AppletUtil.set_applet" (fun value' -> set_applet (Obj.obj value'); Obj.repr ())
 
 let setApplet () : unit =
         begin

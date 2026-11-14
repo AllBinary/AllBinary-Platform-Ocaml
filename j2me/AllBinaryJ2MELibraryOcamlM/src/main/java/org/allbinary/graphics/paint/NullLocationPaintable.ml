@@ -16,6 +16,7 @@
 (* package org.allbinary.graphics.paint *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class nullLocationPaintable () =
   object
@@ -32,9 +33,9 @@ let instanceC = (new nullLocationPaintable ())
 let get_instanceC () = instanceC
 let () = java_register_static "NullLocationPaintable.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceC
+        (Obj.magic (instanceC))
         end
 let () = java_register_static "NullLocationPaintable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

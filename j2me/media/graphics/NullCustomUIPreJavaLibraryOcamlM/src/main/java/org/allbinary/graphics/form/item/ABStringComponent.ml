@@ -2,6 +2,7 @@
 (* package org.allbinary.graphics.form.item *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.graphics.color.BasicColor *)
 (* import org.allbinary.graphics.color.BasicColorFactory *)
 
@@ -9,16 +10,16 @@ class aBStringComponent ((_backgroundBasicColor : BasicColor.basicColor), (_fore
   object
     
 
-    method getBackgroundBasicColor () : BasicColor.basicColor =
+    method getBackgroundBasicColor : 'return. unit -> 'return = fun () ->
         begin
-        ((BasicColorFactory.getInstance ())#wHITE :> BasicColor.basicColor)
+        (Obj.magic ((BasicColorFactory.getInstance ())#wHITE))
         end
     
     
 
-    method getForegroundBasicColor () : BasicColor.basicColor =
+    method getForegroundBasicColor : 'return. unit -> 'return = fun () ->
         begin
-        ((BasicColorFactory.getInstance ())#wHITE :> BasicColor.basicColor)
+        (Obj.magic ((BasicColorFactory.getInstance ())#wHITE))
         end
     
 

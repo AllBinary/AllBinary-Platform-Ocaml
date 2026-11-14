@@ -41,7 +41,7 @@ class abstractArrayListPool ((cacheableInterfaceFactoryInterface_arg : Cacheable
         end
     
 
-    method remove : 'any1. 'any1 -> CacheableInterface.cacheableInterface = fun (_key) ->
+    method remove : 'any1 'return. 'any1 -> 'return = fun (_key) ->
         begin
         raise (Failure (commonStrings#nOT_IMPLEMENTED))
         end

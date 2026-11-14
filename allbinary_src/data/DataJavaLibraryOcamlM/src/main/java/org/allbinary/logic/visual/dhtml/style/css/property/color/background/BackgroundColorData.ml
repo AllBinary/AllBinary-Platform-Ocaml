@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.dhtml.style.css.property.color.background *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class backgroundColorData () =
   object
@@ -37,9 +38,9 @@ let instance = (new backgroundColorData ())
 let get_instance () = instance
 let () = java_register_static "BackgroundColorData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "BackgroundColorData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

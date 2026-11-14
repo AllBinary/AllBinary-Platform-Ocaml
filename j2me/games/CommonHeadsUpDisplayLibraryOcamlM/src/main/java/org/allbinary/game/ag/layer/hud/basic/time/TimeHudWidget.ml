@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.font.MyFontProcessor *)
 (* import org.allbinary.logic.math.PrimitiveLongSingleton *)
 
-class timeHudWidget ((location : int), (direction : int), (bufferZone : int), (basicColor : BasicColor.basicColor), timer_arg) =
+class timeHudWidget ((location : int), (direction : int), (bufferZone : int), (basicColor : BasicColor.basicColor), (timer_arg : HudTimer.hudTimer)) =
   object (self)
     inherit BasicHud.basicHud (location, direction, bufferZone, basicColor) as super
     val mutable tIME_STRING : string = ""
@@ -42,9 +42,9 @@ class timeHudWidget ((location : int), (direction : int), (bufferZone : int), (b
     val mutable totalDigits : int = 0
     method totalDigits = totalDigits
     method set_totalDigits value' = totalDigits <- value'
-    val mutable timer : Obj.t = Obj.repr 0
-    method timer : 'r. 'r = Obj.magic timer
-    method set_timer : 'v. 'v -> unit = fun value' -> timer <- Obj.repr value'
+    val mutable timer : HudTimer.hudTimer = (Obj.magic 0)
+    method timer = timer
+    method set_timer value' = timer <- value'
     
     
 
@@ -60,21 +60,21 @@ class timeHudWidget ((location : int), (direction : int), (bufferZone : int), (b
 
     method update () : unit =
         begin
-        ignore ((Obj.magic timer)#update ());
+        ignore (timer#update ());
         (self#set ())
         end [@@warning "-7"]
     
 
     method set () : unit =
         begin
-        string <- ((Obj.magic timer)#getTimeChars ());
-        totalDigits <- ((Obj.magic timer)#getCurrentTotalDigits ())
+        string <- (timer#getTimeChars ());
+        totalDigits <- (timer#getCurrentTotalDigits ())
         end [@@warning "-7"]
     
 
     method getTimer : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic timer)))
+        (Obj.magic (timer))
         end [@@warning "-7"]
     
 
@@ -94,18 +94,18 @@ class timeHudWidget ((location : int), (direction : int), (bufferZone : int), (b
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        timer <- Obj.repr (timer_arg);
+        timer <- timer_arg;
         (self#set ());
         (self#set_updateMaxHeight) (14)
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "TimeHudWidget" (fun arguments -> Obj.repr (new timeHudWidget (Obj.obj arguments)))
 
-let getInstance : 'any3 'any4. int * int * 'any3 * 'any4 -> _ = fun ((location : int), (direction : int), basicColor, timer_arg) ->
+let getInstance : 'any3 'any4 'return. int * int * 'any3 * 'any4 -> 'return = fun ((location : int), (direction : int), basicColor, timer_arg) ->
         let basicColor = Obj.repr basicColor in
         let timer_arg = Obj.repr timer_arg in
         begin
-        (new timeHudWidget (location, direction, 2, (Obj.magic basicColor), (Obj.magic timer_arg)))
+        (Obj.magic ((new timeHudWidget (location, direction, 2, (Obj.magic basicColor), (Obj.magic timer_arg)))))
         end [@@warning "-20"]
 let () = java_register_static "TimeHudWidget.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

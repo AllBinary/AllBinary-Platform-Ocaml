@@ -68,6 +68,13 @@ class customTextAnimation ((text : string), (fontSize_arg : int), (animationBeha
         end [@@warning "-7"]
     
 
+    method setTextWithOnMeasure : 'any2. string * 'any2 -> unit = fun ((text : string), textChangeListener) ->
+        let textChangeListener = Obj.repr textChangeListener in
+        begin
+        ignore (super#setTextWithOnMeasure (text, (Obj.magic textChangeListener)))
+        end [@@warning "-7-20"]
+    
+
     method setText ((text : string)) : unit =
         begin
         if (lastText <> text) then begin

@@ -20,31 +20,31 @@ open Allbinary_java [@@warning "-33"]
 
 class inputProcessorFactory () =
   object
-    val mutable inputProcessor : Obj.t = Obj.repr 0
-    method inputProcessor : 'r. 'r = Obj.magic inputProcessor
-    method set_inputProcessor : 'v. 'v -> unit = fun value' -> inputProcessor <- Obj.repr value'
+    val mutable inputProcessor : InputProcessor.inputProcessor = (Obj.magic 0)
+    method inputProcessor = inputProcessor
+    method set_inputProcessor value' = inputProcessor <- value'
     
 
     method getInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic inputProcessor)))
+        (Obj.magic (inputProcessor))
         end
 
     initializer
       begin
-        inputProcessor <- (Obj.repr (Obj.obj (java_new "InputProcessor" (Obj.repr ()))));
+        inputProcessor <- ((new InputProcessor.inputProcessor ()) :> InputProcessor.inputProcessor);
         ()
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "InputProcessorFactory" (fun arguments -> Obj.repr (new inputProcessorFactory (Obj.obj arguments)))
 
 let instance = (new inputProcessorFactory ())
 let get_instance () = instance
 let () = java_register_static "InputProcessorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "InputProcessorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

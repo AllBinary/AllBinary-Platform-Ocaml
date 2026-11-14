@@ -16,11 +16,12 @@
 (* package org.allbinary.graphics.form *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 
-let getInstance () : ScrollSelectionForm.scrollSelectionForm =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((ScrollSelectionForm.getNullScrollSelectionFormHorizontal ()) :> ScrollSelectionForm.scrollSelectionForm)
+        (Obj.magic ((ScrollSelectionForm.getNullScrollSelectionFormHorizontal ())))
         end
 
 let () = java_register_static "ScrollSelectionFormNoneFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

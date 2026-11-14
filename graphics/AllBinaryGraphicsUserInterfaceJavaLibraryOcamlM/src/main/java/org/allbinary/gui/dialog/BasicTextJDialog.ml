@@ -54,14 +54,14 @@ class basicTextJDialog ((text : string)) =
         textJLabel <- Obj.repr ((new JLabel.jLabel ()));
         ignore (self#setDefaultCloseOperation ((javax.get_swing ())#windowConstants#dISPOSE_ON_CLOSE));
         ignore ((Obj.magic jButton1)#setText ("OK"));
-        ignore ((Obj.magic jButton1)#addActionListener ((object (self)
+        ignore ((Obj.magic jButton1)#addActionListener ((let outer_self = self in object (self)
             inherit ActionListener.actionListener () as super
             
 
             method actionPerformed : 'any1. 'any1 -> unit = fun (evt) ->
                 let evt = Obj.repr evt in
                 begin
-                (self#jButton1ActionPerformed ((Obj.magic evt)))
+                (outer_self#jButton1ActionPerformed ((Obj.magic evt)))
                 end [@@warning "-20"]
         end)));
         ignore ((Obj.magic textJLabel)#setText ("No Text Set"));

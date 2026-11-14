@@ -31,7 +31,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringUtil *)
 (* import org.allbinary.string.CommonStrings *)
 
-class touchButton ((touchButtonInput_arg : TouchButtonInput.touchButtonInput), animationInterface_arg, hintAnimationInterface_arg, rawRectangle_arg, (cellPosition : CellPosition.cellPosition), (xBorder_arg : int), (yBorder_arg : int)) =
+class touchButton ((touchButtonInput_arg : TouchButtonInput.touchButtonInput), (animationInterface_arg : Animation.animation), (hintAnimationInterface_arg : Animation.animation), (rawRectangle_arg : Rectangle.rectangle), (cellPosition : CellPosition.cellPosition), (xBorder_arg : int), (yBorder_arg : int)) =
   object (self)
     inherit Paintable.paintable ()
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -43,24 +43,24 @@ class touchButton ((touchButtonInput_arg : TouchButtonInput.touchButtonInput), a
     val mutable touchButtonInput : TouchButtonInput.touchButtonInput = (Obj.magic 0)
     method touchButtonInput = touchButtonInput
     method set_touchButtonInput value' = touchButtonInput <- value'
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
-    val mutable hintAnimationInterface : Obj.t = Obj.repr 0
-    method hintAnimationInterface : 'r. 'r = Obj.magic hintAnimationInterface
-    method set_hintAnimationInterface : 'v. 'v -> unit = fun value' -> hintAnimationInterface <- Obj.repr value'
-    val mutable rawRectangle : Obj.t = Obj.repr 0
-    method rawRectangle : 'r. 'r = Obj.magic rawRectangle
-    method set_rawRectangle : 'v. 'v -> unit = fun value' -> rawRectangle <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
+    val mutable hintAnimationInterface : Animation.animation = (Obj.magic 0)
+    method hintAnimationInterface = hintAnimationInterface
+    method set_hintAnimationInterface value' = hintAnimationInterface <- value'
+    val mutable rawRectangle : Rectangle.rectangle = (Obj.magic 0)
+    method rawRectangle = rawRectangle
+    method set_rawRectangle value' = rawRectangle <- value'
     val mutable xBorder : int = 0
     method xBorder = xBorder
     method set_xBorder value' = xBorder <- value'
     val mutable yBorder : int = 0
     method yBorder = yBorder
     method set_yBorder value' = yBorder <- value'
-    val mutable rectangleP : Obj.t = Obj.repr 0
-    method rectangleP : 'r. 'r = Obj.magic rectangleP
-    method set_rectangleP : 'v. 'v -> unit = fun value' -> rectangleP <- Obj.repr value'
+    val mutable rectangleP : Rectangle.rectangle = (Obj.magic 0)
+    method rectangleP = rectangleP
+    method set_rectangleP value' = rectangleP <- value'
     val mutable cellPositionP : CellPosition.cellPosition = (Obj.magic 0)
     method cellPositionP = cellPositionP
     method set_cellPositionP value' = cellPositionP <- value'
@@ -79,49 +79,49 @@ class touchButton ((touchButtonInput_arg : TouchButtonInput.touchButtonInput), a
     method paintHint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic hintAnimationInterface)#paintXY ((Obj.magic graphics), animationX, hintAnimationY))
+        ignore (hintAnimationInterface#paintXY ((Obj.magic graphics), animationX, hintAnimationY))
         end [@@warning "-7-20"]
     
 
     method paint : 'any1. 'any1 -> unit = fun (graphics) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), animationX, animationY))
+        ignore (animationInterface#paintXY ((Obj.magic graphics), animationX, animationY))
         end [@@warning "-7-20"]
     
 
     method updateRectangle () : unit =
         begin
         (try
-            let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
-            let x : int ref = ref ((((Obj.magic rawRectangle)#getWidth ()) * (cellPositionP#getColumn ()))) in ();
-            let y : int ref = ref ((((Obj.magic rawRectangle)#getHeight ()) * (cellPositionP#getRow ()))) in ();
-            rectangleP <- Obj.repr ((Obj.obj (java_new "Rectangle" (Obj.repr (((Obj.magic !pointFactory)#createXY ((!x + xBorder), (!y + yBorder))), ((Obj.magic rawRectangle)#getWidth ()), ((Obj.magic rawRectangle)#getHeight ()))))));
-            let point : GPoint.gPoint ref = ref ((((Obj.magic rectangleP)#getPoint ()) :> GPoint.gPoint)) in ();
+            let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
+            let x : int ref = ref (((rawRectangle#getWidth ()) * (cellPositionP#getColumn ()))) in ();
+            let y : int ref = ref (((rawRectangle#getHeight ()) * (cellPositionP#getRow ()))) in ();
+            rectangleP <- (new Rectangle.rectangle ((!pointFactory#createXY ((!x + xBorder), (!y + yBorder))), (rawRectangle#getWidth ()), (rawRectangle#getHeight ())));
+            let point : GPoint.gPoint ref = ref (((rectangleP#getPoint ()) :> GPoint.gPoint)) in ();
             animationX <- (!point#getX ());
             animationY <- (!point#getY ());
             hintAnimationY <- (animationY - 32)
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "updateRectangle", e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "updateRectangle", e))
         end)
         end [@@warning "-7"]
     
 
-    method getCellPosition () : CellPosition.cellPosition =
+    method getCellPosition : 'return. unit -> 'return = fun () ->
         begin
-        (cellPositionP :> CellPosition.cellPosition)
+        (Obj.magic (cellPositionP))
         end [@@warning "-7"]
     
 
     method getRectangle : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic rectangleP)))
+        (Obj.magic (rectangleP))
         end [@@warning "-7"]
     
 
-    method getTouchButtonInput () : TouchButtonInput.touchButtonInput =
+    method getTouchButtonInput : 'return. unit -> 'return = fun () ->
         begin
-        (touchButtonInput :> TouchButtonInput.touchButtonInput)
+        (Obj.magic (touchButtonInput))
         end [@@warning "-7"]
     
 
@@ -150,32 +150,32 @@ class touchButton ((touchButtonInput_arg : TouchButtonInput.touchButtonInput), a
         ();
         ();
         ();
-        rectangleP <- (Obj.repr (RectangleFactory.get_sINGLETON ()));
+        rectangleP <- ((RectangleFactory.get_sINGLETON ()) :> Rectangle.rectangle);
         ();
         animationX <- 0;
         animationY <- 0;
         hintAnimationY <- 0;
         ();
         touchButtonInput <- touchButtonInput_arg;
-        animationInterface <- Obj.repr (animationInterface_arg);
-        hintAnimationInterface <- Obj.repr (hintAnimationInterface_arg);
-        rawRectangle <- Obj.repr (rawRectangle_arg);
+        animationInterface <- animationInterface_arg;
+        hintAnimationInterface <- hintAnimationInterface_arg;
+        rawRectangle <- rawRectangle_arg;
         cellPositionP <- cellPosition;
         xBorder <- xBorder_arg;
         yBorder <- yBorder_arg;
         (self#updateRectangle ());
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Created: "))#append ((java_string_of (Obj.repr self)))))), self, commonStrings#cONSTRUCTOR))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Created: "))#append ((java_string_of (Obj.repr self)))))), (Obj.magic self), commonStrings#cONSTRUCTOR))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "TouchButton" (fun arguments -> Obj.repr (new touchButton (Obj.obj arguments)))
 
-let createButton : 'any1 'any2 'any3 'any4. 'any1 * 'any2 * 'any3 * 'any4 * int * int -> _ = fun (touchButtonInput_arg, touchButtonResource, rawRectangle_arg, cellPosition, (xBorder_arg : int), (yBorder_arg : int)) ->
+let createButton : 'any1 'any2 'any3 'any4 'return. 'any1 * 'any2 * 'any3 * 'any4 * int * int -> 'return = fun (touchButtonInput_arg, touchButtonResource, rawRectangle_arg, cellPosition, (xBorder_arg : int), (yBorder_arg : int)) ->
         let touchButtonInput_arg = Obj.repr touchButtonInput_arg in
         let touchButtonResource = Obj.repr touchButtonResource in
         let rawRectangle_arg = Obj.repr rawRectangle_arg in
         let cellPosition = Obj.repr cellPosition in
         begin
-        (new touchButton ((Obj.magic touchButtonInput_arg), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#rESOURCE))#getInstance (0)), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#hINT))#getInstance (0)), (Obj.magic rawRectangle_arg), (Obj.magic cellPosition), xBorder_arg, yBorder_arg))
+        (Obj.magic ((new touchButton ((Obj.magic touchButtonInput_arg), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#rESOURCE))#getInstance (0)), (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((Obj.magic touchButtonResource)#hINT))#getInstance (0)), (Obj.magic rawRectangle_arg), (Obj.magic cellPosition), xBorder_arg, yBorder_arg))))
         end [@@warning "-20"]
 let () = java_register_static "TouchButton.createButton" (fun arguments -> Obj.repr (createButton (Obj.obj arguments)))
 

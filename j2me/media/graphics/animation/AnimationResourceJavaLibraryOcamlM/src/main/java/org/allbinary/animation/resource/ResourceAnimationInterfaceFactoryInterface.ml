@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual resourceAnimationInterfaceFactoryInterface =
   object
-    method virtual getBasicAnimationInterfaceFactoryInstance : string -> BasicAnimationInterfaceFactoryInterface.basicAnimationInterfaceFactoryInterface
+    method virtual getBasicAnimationInterfaceFactoryInstance : 'return . string -> 'return
   end
 
 

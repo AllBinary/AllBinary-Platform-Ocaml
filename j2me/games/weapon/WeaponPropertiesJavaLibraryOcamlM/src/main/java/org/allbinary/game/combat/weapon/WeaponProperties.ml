@@ -27,6 +27,7 @@ let messageSent : bool ref = ref (false)
 let get_messageSent () = !messageSent
 let set_messageSent value' = messageSent := value'
 let () = java_register_static "WeaponProperties.get_messageSent" (fun _ -> Obj.repr (get_messageSent ()))
+let () = java_register_static "WeaponProperties.set_messageSent" (fun value' -> set_messageSent (Obj.obj value'); Obj.repr ())
 let dAMAGE : string = "Damage: "
 let get_dAMAGE () = dAMAGE
 let () = java_register_static "WeaponProperties.get_dAMAGE" (fun _ -> Obj.repr (get_dAMAGE ()))
@@ -81,9 +82,9 @@ class weaponProperties ((reloadTime_arg : int), (targetingTime_arg : int), (spee
         end [@@warning "-7"]
     
 
-    method getSpeed () : BasicDecimal.basicDecimal =
+    method getSpeed : 'return. unit -> 'return = fun () ->
         begin
-        (speed :> BasicDecimal.basicDecimal)
+        (Obj.magic (speed))
         end [@@warning "-7"]
     
 
@@ -136,7 +137,7 @@ class weaponProperties ((reloadTime_arg : int), (targetingTime_arg : int), (spee
         if (((speed_arg < mAX) && (speed_arg <> 0)) && (not !messageSent)) then begin
             let mESSAGE : string ref = ref ("Danger Danger Danger: Speed probably to slow if using 1 degree calculations as velocity for a single axis could be below 1024: ") in ();
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!mESSAGE))#appendlong (speed_arg)))), self, !commonStrings#cONSTRUCTOR))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!mESSAGE))#appendlong (speed_arg)))), (Obj.magic self), !commonStrings#cONSTRUCTOR))));
             messageSent := true
         end;
         (self#setReloadTime (reloadTime_arg));

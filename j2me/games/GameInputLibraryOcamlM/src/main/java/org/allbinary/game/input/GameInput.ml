@@ -54,7 +54,7 @@ class gameInput ((gameKeyEventList_arg : BasicArrayList.basicArrayList), (remova
         if ((Obj.magic gameKeyEvent) != (Obj.magic 0)) then begin
             ignore (gameKeyEventList#add ((Obj.magic gameKeyEvent)))
         end else begin
-            ignore ((Obj.magic logUtil)#putF ("Danger Passed Null GameKeyEvent", self, commonStrings#aDD))
+            ignore ((Obj.magic logUtil)#putF ("Danger Passed Null GameKeyEvent", (Obj.magic self), commonStrings#aDD))
         end
         end
         with Java_return value -> Obj.obj value [@@warning "-20"]
@@ -87,7 +87,7 @@ class gameInput ((gameKeyEventList_arg : BasicArrayList.basicArrayList), (remova
         let index : int ref = ref ((!list#size ())) in ();
         while ((index := !index - 1; !index) >= 0) do
             gameKeyEvent := (Obj.magic !list#objectArray.(!index));
-            if ((!gameKeyEvent#getSourceId ()) != 1) then begin
+            if ((!gameKeyEvent#getSourceId ()) <> 1) then begin
                 ignore (!list#removeAt (!index))
             end
         done
@@ -112,15 +112,15 @@ class gameInput ((gameKeyEventList_arg : BasicArrayList.basicArrayList), (remova
         end
     
 
-    method getRemovalGameKeyEventList () : BasicArrayList.basicArrayList =
+    method getRemovalGameKeyEventList : 'return. unit -> 'return = fun () ->
         begin
-        (removalGameKeyEventList :> BasicArrayList.basicArrayList)
+        (Obj.magic (removalGameKeyEventList))
         end
     
 
-    method getGameKeyEventList () : BasicArrayList.basicArrayList =
+    method getGameKeyEventList : 'return. unit -> 'return = fun () ->
         begin
-        (gameKeyEventList :> BasicArrayList.basicArrayList)
+        (Obj.magic (gameKeyEventList))
         end
 
     initializer

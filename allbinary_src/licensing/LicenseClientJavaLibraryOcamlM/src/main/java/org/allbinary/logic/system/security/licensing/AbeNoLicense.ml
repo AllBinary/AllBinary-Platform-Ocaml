@@ -53,9 +53,9 @@ class abeNoLicense () =
         end
     
 
-    method getServers () : BasicArrayList.basicArrayList =
+    method getServers : 'return. unit -> 'return = fun () ->
         begin
-        (serverVector :> BasicArrayList.basicArrayList)
+        (Obj.magic (serverVector))
         end
     
 
@@ -65,9 +65,9 @@ class abeNoLicense () =
         end
     
 
-    method getLicenseType () : LicenseType.licenseType =
+    method getLicenseType : 'return. unit -> 'return = fun () ->
         begin
-        ((LicenseTypeFactory.getInstance ())#uNKNOWN :> LicenseType.licenseType)
+        (Obj.magic ((LicenseTypeFactory.getInstance ())#uNKNOWN))
         end
 
     initializer
@@ -83,10 +83,11 @@ let abeNoLicense = ref ((new abeNoLicense ()))
 let get_abeNoLicense () = !abeNoLicense
 let set_abeNoLicense value' = abeNoLicense := value'
 let () = java_register_static "AbeNoLicense.get_abeNoLicense" (fun _ -> Obj.repr (get_abeNoLicense ()))
+let () = java_register_static "AbeNoLicense.set_abeNoLicense" (fun value' -> set_abeNoLicense (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !abeNoLicense
+        (Obj.magic (!abeNoLicense))
         end
 let () = java_register_static "AbeNoLicense.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

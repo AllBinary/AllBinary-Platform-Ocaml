@@ -24,13 +24,13 @@ class trueTypeFontUtilBase ((_scale : int)) =
 
     method getAsTextureSize ((_textureSize : int)) : int =
         begin
-        (-1)
+        (- 1)
         end
     
 
     method getCellSize ((_cellSize : int)) : int =
         begin
-        (-1)
+        (- 1)
         end
 
     initializer

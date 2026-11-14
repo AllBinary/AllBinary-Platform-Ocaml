@@ -78,7 +78,7 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
         let gameInfo = Obj.repr gameInfo in
         let highScoresResultsListener = Obj.repr highScoresResultsListener in
         begin
-        ignore ((Obj.magic logUtil)#putF ("Getting Remote/Local HighScores", self, fETCH));
+        ignore ((Obj.magic logUtil)#putF ("Getting Remote/Local HighScores", (Obj.magic self), fETCH));
         (self#fetchHighScoresPreload ((Obj.magic gameInfo), (Obj.magic highScoresResultsListener), true))
         end [@@warning "-7-20"]
     
@@ -95,7 +95,7 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
                 begin
                 let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
                 (try
-                    ignore ((Obj.magic !logUtil_arg)#putF ((self#commonStrings)#sTART, self, fETCH));
+                    ignore ((Obj.magic !logUtil_arg)#putF ((self#commonStrings)#sTART, (Obj.magic self), fETCH));
                     (Obj.magic highScoresArray).(0) <- (Obj.magic (java_call_static "RecordStoreHighScores.getInstance" (Obj.repr (abeClientInformation, !gameInfo, tOP, pERSONAL_HIGH_SCORES, sCORES, (new ScoreComparator.scoreComparator (true))))));
                     let gameType : GameType.gameType ref = ref (((!gameInfo#getGameType ()) :> GameType.gameType)) in ();
                     let gameTypeFactory : GameTypeFactory.gameTypeFactory ref = ref (((GameTypeFactory.getInstance ()) :> GameTypeFactory.gameTypeFactory)) in ();
@@ -106,20 +106,20 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
                         gameInfo2 := (BasicHighScoresGameInfoFactory.getInstance ())#mULTI_PLAYER_SERVER
                     end;
                     (Obj.magic highScoresArray).(1) <- (RemoteHighScores.getInstancePreload (abeClientInformation, softwareInformation, !gameInfo2, wORLD_TOP_SCORES, sCORES, (BooleanFactory.getInstance ())#fALSE, !preload));
-                    ignore ((Obj.magic !logUtil_arg)#putF ((self#commonStrings)#eND, self, fETCH));
+                    ignore ((Obj.magic !logUtil_arg)#putF ((self#commonStrings)#eND, (Obj.magic self), fETCH));
                     (LastFetchHighScoresFactory.getInstance ())#set_highScoresArray ((Obj.magic highScoresArray));
                     ignore (!highScoresResultsListener#setHighScoresArray ((Obj.magic highScoresArray)))
                 with e -> begin
-                    ignore ((Obj.magic !logUtil_arg)#put (commonStrings#eXCEPTION, self, fETCH, e))
+                    ignore ((Obj.magic !logUtil_arg)#put (commonStrings#eXCEPTION, (Obj.magic self), fETCH, e))
                 end)
                 end
         end)))
         end [@@warning "-7-20"]
     
 
-    method createHighScoresHelper () : HighScoresHelperBaseInterface.highScoresHelperBaseInterface =
+    method createHighScoresHelper : 'return. unit -> 'return = fun () ->
         begin
-        ((new HighScoresHelper2.highScoresHelper2 ()) :> HighScoresHelperBaseInterface.highScoresHelperBaseInterface)
+        (Obj.magic ((new HighScoresHelper2.highScoresHelper2 ())))
         end [@@warning "-7"]
 
     initializer

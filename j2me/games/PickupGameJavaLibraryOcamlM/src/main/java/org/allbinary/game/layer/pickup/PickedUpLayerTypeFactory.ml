@@ -73,9 +73,9 @@ let instance = (new pickedUpLayerTypeFactory ())
 let get_instance () = instance
 let () = java_register_static "PickedUpLayerTypeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PickedUpLayerTypeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

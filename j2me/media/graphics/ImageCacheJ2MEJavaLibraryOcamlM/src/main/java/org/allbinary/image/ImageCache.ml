@@ -60,7 +60,7 @@ class imageCache () =
                 raise (Java_return (Obj.repr (index)))
             end
         done;
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("unable to find key: "))#append (((StringUtil.getInstance ())#toString (key)))))), self, commonStrings#rUN));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("unable to find key: "))#append (((StringUtil.getInstance ())#toString (key)))))), (Obj.magic self), commonStrings#rUN));
         raise (Failure ("RuntimeException"))
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
@@ -79,7 +79,7 @@ class imageCache () =
             image := Obj.repr ((self#createImage (caller, width, height)));
             let widths : int array ref = ref ((self#widths)) in ();
             if ((self#nextIndex) > ((Array.length !widths) - 1)) then begin
-                if (!foundIndex = (-1)) then begin
+                if (!foundIndex = (- 1)) then begin
                     foundIndex := (self#nextIndex);
                     !widths.((self#nextIndex)) <- width;
                     (self#heights).((self#nextIndex)) <- (Obj.magic (height));
@@ -105,11 +105,11 @@ class imageCache () =
             (try
                 image := Obj.repr ((self#createImageFromInputStream (key, (Obj.magic !resourceInputStream))))
             with e -> begin
-                ignore ((self#logUtil)#put ("Exception: Trying Again After GC", self, commonStrings#gET, e));
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("InputStream: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic !resourceInputStream))))))), self, commonStrings#gET));
+                ignore ((self#logUtil)#put ("Exception: Trying Again After GC", (Obj.magic self), commonStrings#gET, e));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("InputStream: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic !resourceInputStream))))))), (Obj.magic self), commonStrings#gET));
                 ignore ((Obj.magic tsUtil)#gc ());
                 ignore ((Obj.magic tsUtil)#gc ());
-                ignore ((self#logUtil)#putF ((Memory.getInfo ()), self, commonStrings#gET));
+                ignore ((self#logUtil)#putF ((Memory.getInfo ()), (Obj.magic self), commonStrings#gET));
                 ignore (Unix.sleepf (Float.of_int (100) /. 1000.0));
                 image := Obj.repr ((self#createImageFromInputStream (key, (Obj.magic !resourceInputStream))))
             end);

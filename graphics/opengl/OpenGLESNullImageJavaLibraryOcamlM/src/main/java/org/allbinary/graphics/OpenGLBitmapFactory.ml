@@ -18,15 +18,12 @@ class openGLBitmapFactory () =
     method set_aRGB_8888 : 'v. 'v -> unit = fun value' -> aRGB_8888 <- Obj.repr value'
     
 
-    method createBitmap : 'any3 'return. int * int * 'any3 -> 'return = fun ((_width : int), (_height : int), _config) ->
-        begin
-        (Obj.magic ((Obj.obj (java_new "OpenGLBitmap" (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))))))
-        end [@@warning "-7-20"]
+    (* Java overload createBitmap(INT, INT, Config) is not converted: OCaml has one method per name *)
     
 
     method decodeStream : 'any1 'return. 'any1 -> 'return = fun (_inputStream) ->
         begin
-        (Obj.magic ((Obj.obj (java_new "OpenGLBitmap" (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))))))
+        (Obj.magic ((Obj.obj (java_new "OpenGLBitmap" (Obj.repr ((Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))))))))
         end [@@warning "-7-20"]
     
 
@@ -44,9 +41,9 @@ let instance = (new openGLBitmapFactory ())
 let get_instance () = instance
 let () = java_register_static "OpenGLBitmapFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "OpenGLBitmapFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

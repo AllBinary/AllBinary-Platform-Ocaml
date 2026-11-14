@@ -21,6 +21,7 @@ let points : int array array array ref = ref ([| [| [| 10; 5 |]; [| 2; 6 |]; [| 
 let get_points () = !points
 let set_points value' = points := value'
 let () = java_register_static "MineVectorData.get_points" (fun _ -> Obj.repr (get_points ()))
+let () = java_register_static "MineVectorData.set_points" (fun value' -> set_points (Obj.obj value'); Obj.repr ())
 class mineVectorData () =
   object
     

@@ -63,7 +63,7 @@ class imageCopyUtil () =
         try
         begin
         if (not (features#isFeature (gameFeatureFactory#pOST_IMAGE_LOADING_MODIFICATION))) then begin
-            ignore ((Obj.magic logUtil)#put (nO_COPY, self, commonStrings#cONSTRUCTOR, (Failure ("Exception"))));
+            ignore ((Obj.magic logUtil)#put (nO_COPY, (Obj.magic self), commonStrings#cONSTRUCTOR, (Failure ("Exception"))));
             raise (Java_return (Obj.repr ((Obj.magic originalImage))))
         end;
         let image : Obj.t ref = ref ((Obj.repr (imageCreationUtil#createImageWH (((Obj.magic originalImage)#getWidth ()), ((Obj.magic originalImage)#getHeight ()))))) in ();
@@ -82,11 +82,11 @@ class imageCopyUtil () =
         try
         begin
         if (not (features#isFeature (gameFeatureFactory#pOST_IMAGE_LOADING_MODIFICATION))) then begin
-            ignore ((Obj.magic logUtil)#put (nO_COPY, self, commonStrings#cONSTRUCTOR, (Failure ("Exception"))));
+            ignore ((Obj.magic logUtil)#put (nO_COPY, (Obj.magic self), commonStrings#cONSTRUCTOR, (Failure ("Exception"))));
             raise (Java_return (Obj.repr ((Obj.magic originalImage))))
         end;
-        let newWidth : int ref = ref ((java_to_int (Obj.repr (((((Obj.magic originalImage)#getWidth ()) *. canvasScale)))))) in ();
-        let newHeight : int ref = ref ((java_to_int (Obj.repr (((((Obj.magic originalImage)#getHeight ()) *. canvasScale)))))) in ();
+        let newWidth : int ref = ref ((int_of_float ((((float_of_int (((Obj.magic originalImage)#getWidth ()))) *. canvasScale))))) in ();
+        let newHeight : int ref = ref ((int_of_float ((((float_of_int (((Obj.magic originalImage)#getHeight ()))) *. canvasScale))))) in ();
         if resize then begin
             if (!newWidth < !newHeight) then begin
                 newWidth := !newHeight
@@ -127,9 +127,9 @@ let instance = (new imageCopyUtil ())
 let get_instance () = instance
 let () = java_register_static "ImageCopyUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ImageCopyUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

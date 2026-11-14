@@ -30,10 +30,10 @@ class basicTouchButtonsBuilder () =
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
             let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             let commonButtons : CommonButtons.commonButtons ref = ref (((CommonButtons.getInstance ()) :> CommonButtons.commonButtons)) in ();
             let touchButtonLocationHelper : TouchButtonLocationHelper.touchButtonLocationHelper ref = ref (((new TouchButtonLocationHelper.touchButtonLocationHelper ()) :> TouchButtonLocationHelper.touchButtonLocationHelper)) in ();
@@ -46,10 +46,10 @@ class basicTouchButtonsBuilder () =
             ignore (!list#add ((Obj.magic !lEFT)));
             ignore (!list#add ((Obj.magic !rIGHT)));
             ignore (!list#add ((Obj.magic !dOWN)));
-            (!list :> BasicArrayList.basicArrayList)
+            (Obj.magic (!list))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET_LIST, e));
-            (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#gET_LIST, e));
+            (Obj.magic (((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))
         end)
         end [@@warning "-7"]
 

@@ -98,11 +98,11 @@ class highScoreNamePersistanceSingleton () =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", self, commonStrings#delete))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), commonStrings#delete))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Deleting: "))#appendint (deleteId)))), self, commonStrings#delete));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Deleting: "))#appendint (deleteId)))), (Obj.magic self), commonStrings#delete));
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))));
             ignore ((Obj.magic !recordStore)#deleteRecord (deleteId))
         with e -> begin
@@ -111,9 +111,9 @@ class highScoreNamePersistanceSingleton () =
         end [@@warning "-20"]
     
 
-    method getIds () : BasicArrayList.basicArrayList =
+    method getIds : 'return. unit -> 'return = fun () ->
         begin
-        (nameBasicArrayList :> BasicArrayList.basicArrayList)
+        (Obj.magic (nameBasicArrayList))
         end
     
 
@@ -125,11 +125,11 @@ class highScoreNamePersistanceSingleton () =
         Fun.protect ~finally:(fun () -> 
             (try
                 if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", self, commonStrings#lOAD))));
+                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), commonStrings#lOAD))));
                     ignore ((Obj.magic !recordStore)#closeRecordStore ())
                 end
             with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#lOAD, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#lOAD, e))
             end)
         ) (fun () -> (try
             if (name = (StringUtil.getInstance ())#eMPTY_STRING) then begin
@@ -138,23 +138,23 @@ class highScoreNamePersistanceSingleton () =
                 let recordEnum : Obj.t ref = ref ((Obj.repr ((Obj.magic !recordStore)#enumerateRecords ((NullRecordFilter.get_nULL_RECORD_FILTER ()), (NullRecordComparator.get_nULL_RECORD_COMPARATOR ()), true)))) in ();
                 let smallIntegerSingletonFactory : SmallIntegerSingletonFactory.smallIntegerSingletonFactory ref = ref (((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory)) in ();
                 let recordAsBytes : int array ref = ref ((Obj.magic 0)) in ();
-                let byteArrayInputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-                let inputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+                let byteArrayInputStream : java_byte_array_input_stream ref = ref (((Obj.magic 0) :> java_byte_array_input_stream)) in ();
+                let inputStream : java_data_input_stream ref = ref (((Obj.magic 0) :> java_data_input_stream)) in ();
                 while ((Obj.magic !recordEnum)#hasNextElement ()) do
                     let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!lOADING_ID))#appendint (!id)))), self, commonStrings#lOAD));
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!lOADING_ID))#appendint (!id)))), (Obj.magic self), commonStrings#lOAD));
                     recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
-                    byteArrayInputStream := Obj.repr ((new ByteArrayInputStream.byteArrayInputStream (!recordAsBytes)));
-                    inputStream := Obj.repr ((Obj.obj (java_new "DataInputStream" (Obj.repr ((Obj.magic !byteArrayInputStream))))));
-                    while (((Obj.magic !inputStream)#available ()) > 0) do
-                        name <- ((Obj.magic !inputStream)#readUTF ())
+                    byteArrayInputStream := (new java_byte_array_input_stream (!recordAsBytes));
+                    inputStream := (Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStream))));
+                    while ((!inputStream#available ()) > 0) do
+                        name <- (!inputStream#readUTF ())
                     done;
                     ignore (nameBasicArrayList#add ((!smallIntegerSingletonFactory#getAt (!id))))
                 done
             end
         with e -> begin
             (self#save ((Obj.magic abeClientInformation), (Obj.magic gameInfo), name));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e)))))), self, commonStrings#lOAD))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e)))))), (Obj.magic self), commonStrings#lOAD))
         end));
         name
         end [@@warning "-20"]
@@ -167,23 +167,23 @@ class highScoreNamePersistanceSingleton () =
         Fun.protect ~finally:(fun () -> 
             (try
                 if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", self, commonStrings#sAVE))));
+                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), commonStrings#sAVE))));
                     ignore ((Obj.magic !recordStore)#closeRecordStore ())
                 end
             with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#sAVE, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#sAVE, e))
             end)
         ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Saving: "))#append (name_arg)))), self, commonStrings#sAVE));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Saving: "))#append (name_arg)))), (Obj.magic self), commonStrings#sAVE));
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))));
             let byteArrayOutputStream : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
-            let outputStream : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))))) in ();
-            ignore ((Obj.magic !outputStream)#writeUTF (name_arg));
+            let outputStream : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))) :> java_data_output_stream)) in ();
+            ignore (!outputStream#writeUTF (name_arg));
             let savedGameBytes : int array ref = ref ((!byteArrayOutputStream#toByteArray ())) in ();
             ignore ((Obj.magic !recordStore)#addRecord (!savedGameBytes, 0, (Array.length !savedGameBytes)));
             name <- name_arg
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#sAVE, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#sAVE, e))
         end))
         end [@@warning "-20"]
 
@@ -205,10 +205,11 @@ let sINGLETON = ref ((new highScoreNamePersistanceSingleton ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "HighScoreNamePersistanceSingleton.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "HighScoreNamePersistanceSingleton.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "HighScoreNamePersistanceSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

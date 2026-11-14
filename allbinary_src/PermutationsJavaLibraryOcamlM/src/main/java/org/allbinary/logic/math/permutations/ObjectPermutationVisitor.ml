@@ -29,14 +29,20 @@ class objectPermutationVisitor ((data_arg : Obj.t array)) =
         end [@@warning "-7"]
     
 
-    method print ((data_arg : Obj.t array)) : unit =
-        begin
-        let stringBuilder_arg : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        (self#print (data_arg, !stringBuilder_arg))
-        end [@@warning "-7"]
+    (* Java overload print(ArrayType) is not converted: OCaml has one method per name *)
     
 
-    (* Java overload print(ArrayType, StringMaker) is not converted: OCaml has one method per name *)
+    method print : 'any2. Obj.t array * 'any2 -> unit = fun ((data_arg : Obj.t array), stringBuilder_arg) ->
+        let stringBuilder_arg = Obj.repr stringBuilder_arg in
+        begin
+        let tsUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))))) in ();
+        let size : int ref = ref ((Array.length data_arg)) in ();
+        for i = 0 to !size - 1 do
+            ignore ((Obj.magic stringBuilder_arg)#appendint (((Obj.magic !tsUtil)#hashCode (data_arg.(i)))));
+            ignore ((Obj.magic stringBuilder_arg)#append ((CommonSeps.getInstance ())#sPACE))
+        done;
+        (print_endline (java_string_of (Obj.repr ((java_string_of (Obj.repr (Obj.magic stringBuilder_arg)))))))
+        end [@@warning "-7-20"]
 
     initializer
       begin

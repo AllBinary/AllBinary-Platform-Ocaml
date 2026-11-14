@@ -57,27 +57,27 @@ class pooledImageArrayRotationAnimationFactory (image, (_width : int), (_height 
         animationBehaviorFactory <- animationBehaviorFactory_arg;
         let totalAngle : int ref = ref ((java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE)))) in ();
         let imageArray : Obj.t ref = ref ((Obj.repr ((ImageToRotationImageArrayUtil.getInstance ())#generate (image, angleIncrement, !totalAngle)))) in ();
-        allBinaryImageRotationAnimationInfo <- (new ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo ((Obj.magic !imageArray), angleIncrement, !totalAngle, dx, dy))
+        allBinaryImageRotationAnimationInfo <- (Obj.repr ((new ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo ((Obj.magic !imageArray), angleIncrement, !totalAngle, dx, dy))))
       end
   end
 let () = java_register_constructor "PooledImageArrayRotationAnimationFactory" (fun arguments -> Obj.repr (new pooledImageArrayRotationAnimationFactory (Obj.obj arguments)))
 
-let createFactory : 'any1 'any2. 'any1 * 'any2 -> _ = fun (image, animationBehaviorFactory_arg) ->
+let createFactory : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (image, animationBehaviorFactory_arg) ->
         let image = Obj.repr image in
         let animationBehaviorFactory_arg = Obj.repr animationBehaviorFactory_arg in
         begin
         let totalAngle : int ref = ref ((java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE)))) in ();
         let angleIncrement : int ref = ref (((!totalAngle / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ())))) in ();
-        (new pooledImageArrayRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), (-((((Obj.magic image)#getWidth ()) asr 2))), (-((((Obj.magic image)#getHeight ()) asr 2))), !angleIncrement, (Obj.magic animationBehaviorFactory_arg)))
+        (Obj.magic ((new pooledImageArrayRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), (- ((((Obj.magic image)#getWidth ()) asr 2))), (- ((((Obj.magic image)#getHeight ()) asr 2))), !angleIncrement, (Obj.magic animationBehaviorFactory_arg)))))
         end [@@warning "-20"]
 
-and createDXY : 'any1 'any4. 'any1 * int * int * 'any4 -> _ = fun (image, (dx : int), (dy : int), animationBehaviorFactory_arg) ->
+and createDXY : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (dx : int), (dy : int), animationBehaviorFactory_arg) ->
         let image = Obj.repr image in
         let animationBehaviorFactory_arg = Obj.repr animationBehaviorFactory_arg in
         begin
         let totalAngle : int ref = ref ((java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE)))) in ();
         let angleIncrement : int ref = ref (((!totalAngle / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ())))) in ();
-        (new pooledImageArrayRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), dx, dy, !angleIncrement, (Obj.magic animationBehaviorFactory_arg)))
+        (Obj.magic ((new pooledImageArrayRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), dx, dy, !angleIncrement, (Obj.magic animationBehaviorFactory_arg)))))
         end [@@warning "-20"]
 let () = java_register_static "PooledImageArrayRotationAnimationFactory.createFactory" (fun arguments -> Obj.repr (createFactory (Obj.obj arguments)))
 let () = java_register_static "PooledImageArrayRotationAnimationFactory.createDXY" (fun arguments -> Obj.repr (createDXY (Obj.obj arguments)))

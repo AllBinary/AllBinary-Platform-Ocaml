@@ -46,38 +46,38 @@ class completeMotionGestureInputToGameMotionGestureInput () =
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         (try
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Compound Motion Gestures", self, !commonStrings#iNIT))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Compound Motion Gestures", (Obj.magic self), !commonStrings#iNIT))));
             let motionGestureConfiguration : MotionGestureConfiguration.motionGestureConfiguration ref = ref (((MotionGestureConfigurationFactory.getInstance ()) :> MotionGestureConfiguration.motionGestureConfiguration)) in ();
             let touchMotionGestureFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ()))))) in ();
             let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#dIAGONAL_DOWN_LEFT));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (DiagonalDownLeftTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#dIAGONAL_DOWN_RIGHT));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (DiagonalDownRightTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#dIAGONAL_UP_LEFT));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (DiagonalUpLeftTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#dIAGONAL_UP_RIGHT));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (DiagonalUpRightTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#lEFT));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (LeftTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#rIGHT));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (RightTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#dOWN));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (DownTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#uP));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (UpTouchInputToGameKeyEventAction.getInstance ())));
-            list := (new BasicArrayListD.basicArrayListD ());
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             ignore (!list#add ((Obj.magic !touchMotionGestureFactory)#rELEASED));
             ignore (!motionGestureConfiguration#addMotionGestureAction (!list, (ReleaseTouchInputToGameKeyEventAction.getInstance ())))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#iNIT, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iNIT, e))
         end)
         end
 
@@ -93,9 +93,9 @@ let instance = (new completeMotionGestureInputToGameMotionGestureInput ())
 let get_instance () = instance
 let () = java_register_static "CompleteMotionGestureInputToGameMotionGestureInput.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "CompleteMotionGestureInputToGameMotionGestureInput.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

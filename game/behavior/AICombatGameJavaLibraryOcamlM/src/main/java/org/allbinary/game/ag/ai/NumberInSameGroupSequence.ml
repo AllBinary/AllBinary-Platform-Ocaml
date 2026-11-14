@@ -86,9 +86,9 @@ class numberInSameGroupSequence () =
   end
 let () = java_register_constructor "NumberInSameGroupSequence" (fun arguments -> Obj.repr (new numberInSameGroupSequence (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (new numberInSameGroupSequence ())
+        (Obj.magic ((new numberInSameGroupSequence ())))
         end
 let () = java_register_static "NumberInSameGroupSequence.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

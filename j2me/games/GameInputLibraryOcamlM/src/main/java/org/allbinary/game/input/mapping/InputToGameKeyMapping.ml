@@ -35,6 +35,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "InputToGameKeyMapping.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "InputToGameKeyMapping.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class inputToGameKeyMapping () =
   object (self)
     inherit InputMapping.inputMapping () as super
@@ -72,9 +73,9 @@ class inputToGameKeyMapping () =
         let inputToGameKeyMapping = Obj.repr inputToGameKeyMapping in
         begin
         for index = (((Obj.magic inputToGameKeyMapping)#getMaxMappable ()) - 1) downto 0 do
-            let input : Obj.t ref = ref ((Obj.repr ((Obj.magic inputToGameKeyMapping)#getInstance (index)))) in ();
-            if ((Obj.repr (Obj.magic !input)) != (Obj.repr gameKeyFactory#nONE)) then begin
-                (self#addAll ((Obj.magic !input), ((Obj.magic inputToGameKeyMapping)#getMappedInput ((Obj.magic !input)))))
+            let input : Input.input ref = ref ((((Obj.magic inputToGameKeyMapping)#getInstance (index)) :> Input.input)) in ();
+            if ((Obj.repr !input) != (Obj.repr gameKeyFactory#nONE)) then begin
+                (self#addAll (!input, ((Obj.magic inputToGameKeyMapping)#getMappedInput (!input))))
             end
         done
         end [@@warning "-7-20"]
@@ -85,8 +86,8 @@ class inputToGameKeyMapping () =
         let list = Obj.repr list in
         begin
         for index = (((Obj.magic list)#size ()) - 1) downto 0 do
-            let mappedToInput : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic list)#objectArray.(index)))) in ();
-            (self#add ((Obj.magic input), (Obj.magic !mappedToInput)))
+            let mappedToInput : Input.input ref = ref (((Obj.magic (Obj.magic list)#objectArray.(index)) :> Input.input)) in ();
+            (self#add ((Obj.magic input), !mappedToInput))
         done
         end [@@warning "-7-20"]
     
@@ -104,7 +105,7 @@ class inputToGameKeyMapping () =
         let input = Obj.repr input in
         let mappedToInput = Obj.repr mappedToInput in
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic input)))))#append (" == "))#append (((StringUtil.getInstance ())#toString ((Obj.magic mappedToInput))))))), self, "InputToGameKeyMapping::remove"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic input)))))#append (" == "))#append (((StringUtil.getInstance ())#toString ((Obj.magic mappedToInput))))))), (Obj.magic self), "InputToGameKeyMapping::remove"));
         ignore (super#remove ((Obj.magic input), (Obj.magic mappedToInput)));
         (self#set ((Obj.magic input), gameKeyFactory#nONE))
         end [@@warning "-7-20"]
@@ -127,19 +128,19 @@ class inputToGameKeyMapping () =
         end [@@warning "-7"]
     
 
-    method getReverseInstance ((id : int)) : BasicArrayList.basicArrayList =
+    method getReverseInstance : 'return. int -> 'return = fun ((id : int)) ->
         begin
         let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let inputFactory : InputFactory.inputFactory ref = ref (((InputFactory.getInstance ()) :> InputFactory.inputFactory)) in ();
         for index = 0 to (Array.length platformToGameKeyMapping) - 1 do
             if ((platformToGameKeyMapping.(index)#getId ()) == id) then begin
-                let input : Obj.t ref = ref ((Obj.repr (!inputFactory#getInstanceById (index)))) in ();
-                if ((Obj.magic !input) != (Obj.magic 0)) then begin
-                    ignore (!list#add ((Obj.magic !input)))
+                let input : Input.input ref = ref (((!inputFactory#getInstanceById (index)) :> Input.input)) in ();
+                if (!input != (Obj.magic 0)) then begin
+                    ignore (!list#add (!input))
                 end
             end
         done;
-        (!list :> BasicArrayList.basicArrayList)
+        (Obj.magic (!list))
         end [@@warning "-7"]
     
 
@@ -148,14 +149,14 @@ class inputToGameKeyMapping () =
         let gameKey = Obj.repr gameKey in
         begin
         let key : int ref = ref (((Obj.magic canvas)#getKeyCode (((Obj.magic gameKey)#getId ())))) in ();
-        if ((!key < 0) && ((-!key) < (Array.length negativePlatformToGameKeyMapping))) then begin
-            negativePlatformToGameKeyMapping.((-!key)) <- ((Obj.magic gameKey) :> GameKey.gameKey)
+        if ((!key < 0) && ((- !key) < (Array.length negativePlatformToGameKeyMapping))) then begin
+            negativePlatformToGameKeyMapping.((- !key)) <- ((Obj.magic gameKey) :> GameKey.gameKey)
         end else if (!key > 0) then begin
             if ((Obj.repr platformToGameKeyMapping.(!key)) == (Obj.repr gameKeyFactory#nONE)) then begin
                 platformToGameKeyMapping.(!key) <- ((Obj.magic gameKey) :> GameKey.gameKey)
             end
         end else begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr (Obj.magic gameKey)))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#appendint (!key)))), self, (self#commonStrings)#iNIT, (Failure ("Exception"))))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((java_string_of (Obj.repr (Obj.magic gameKey)))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#appendint (!key)))), (Obj.magic self), (self#commonStrings)#iNIT, (Failure ("Exception"))))))
         end
         end [@@warning "-7-20"]
     
@@ -184,10 +185,10 @@ class inputToGameKeyMapping () =
             let smallestKey : int ref = ref ((self#getSmallestCanvasGameKeyCode ((Obj.magic canvas)))) in ();
             if (!smallestKey < 0) then begin
                 smallestKey := !smallestKey - 1;
-                if (!smallestKey < (-256)) then begin
-                    smallestKey := (-256)
+                if (!smallestKey < (- 256)) then begin
+                    smallestKey := (- 256)
                 end;
-                negativePlatformToGameKeyMapping_arg := (Array.make ((-!smallestKey)) (Obj.magic 0));
+                negativePlatformToGameKeyMapping_arg := (Array.make ((- !smallestKey)) (Obj.magic 0));
                 let index : int ref = ref ((Array.length !negativePlatformToGameKeyMapping_arg)) in ();
                 while ((index := !index - 1; !index) >= 0) do
                     !negativePlatformToGameKeyMapping_arg.(!index) <- (gameKeyFactory#nONE :> GameKey.gameKey)
@@ -199,18 +200,18 @@ class inputToGameKeyMapping () =
                 (self#initGameKey ((Obj.magic canvas), mappedGameKeys.(!index)))
             done
         with t -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#iNIT, t))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#iNIT, t))
         end)
         end [@@warning "-7-20"]
     
 
-    method getInstanceForCanvas : 'any1. 'any1 * int -> GameKey.gameKey = fun (_canvas, (id : int)) ->
+    method getInstanceForCanvas : 'any1 'return. 'any1 * int -> 'return = fun (_canvas, (id : int)) ->
         try
         begin
         if ((id >= 0) && (id < (Array.length platformToGameKeyMapping))) then begin
             raise (Java_return (Obj.repr (platformToGameKeyMapping.(id))))
-        end else if ((id < 0) && ((-id) < (Array.length negativePlatformToGameKeyMapping))) then begin
-            raise (Java_return (Obj.repr (negativePlatformToGameKeyMapping.((-id)))))
+        end else if ((id < 0) && ((- id) < (Array.length negativePlatformToGameKeyMapping))) then begin
+            raise (Java_return (Obj.repr (negativePlatformToGameKeyMapping.((- id)))))
         end else begin
             raise (Java_return (Obj.repr (gameKeyFactory#nONE)))
         end
@@ -218,13 +219,13 @@ class inputToGameKeyMapping () =
         with Java_return value -> Obj.obj value [@@warning "-7-20"]
     
 
-    method getInstance ((id : int)) : GameKey.gameKey =
+    method getInstance : 'return. int -> 'return = fun ((id : int)) ->
         try
         begin
         if ((id >= 0) && (id < (Array.length platformToGameKeyMapping))) then begin
             raise (Java_return (Obj.repr (platformToGameKeyMapping.(id))))
-        end else if ((id < 0) && ((-id) < (Array.length negativePlatformToGameKeyMapping))) then begin
-            raise (Java_return (Obj.repr (negativePlatformToGameKeyMapping.((-id)))))
+        end else if ((id < 0) && ((- id) < (Array.length negativePlatformToGameKeyMapping))) then begin
+            raise (Java_return (Obj.repr (negativePlatformToGameKeyMapping.((- id)))))
         end else begin
             raise (Java_return (Obj.repr (gameKeyFactory#nONE)))
         end
@@ -238,18 +239,18 @@ class inputToGameKeyMapping () =
         platformToGameKeyMapping <- (Array.make ((InputFactory.getInstance ())#mAX) (Obj.magic 0));
         negativePlatformToGameKeyMapping <- (Array.make (0) (Obj.magic 0));
         ();
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
         (self#clear ())
       end
   end
 let () = java_register_constructor "InputToGameKeyMapping" (fun arguments -> Obj.repr (new inputToGameKeyMapping (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new inputToGameKeyMapping ())
+            instance := (Obj.repr ((new inputToGameKeyMapping ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "InputToGameKeyMapping.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

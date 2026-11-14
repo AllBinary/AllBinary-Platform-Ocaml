@@ -25,6 +25,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "GameKeyFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameKeyFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class gameKeyFactory () =
   object
     val mutable nONE : GameKey.gameKey = (Obj.magic 0)
@@ -131,12 +132,12 @@ class gameKeyFactory () =
   end
 let () = java_register_constructor "GameKeyFactory" (fun arguments -> Obj.repr (new gameKeyFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new gameKeyFactory ())
+            instance := (Obj.repr ((new gameKeyFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "GameKeyFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -30,6 +30,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "ReleaseTouchInputToGameKeyEventAction.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "ReleaseTouchInputToGameKeyEventAction.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class releaseTouchInputToGameKeyEventAction () =
   object (self)
     inherit GameKeyCompleteMotionGestureInputEvent.gameKeyCompleteMotionGestureInputEvent ("Release Action", (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#rELEASED, (((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#getInputMapping ()))
@@ -51,10 +52,10 @@ class releaseTouchInputToGameKeyEventAction () =
         (* super(...) is the inherit clause *) ();
         (try
             ignore (self#setGameKey (nONE));
-            ignore (self#setGameKeyEvent (((GameKeyEventFactory.getInstance ())#getInstanceForInput (self, nONE))))
+            ignore (self#setGameKeyEvent (((GameKeyEventFactory.getInstance ())#getInstanceForInput ((Obj.magic self), nONE))))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((self#logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
+            ignore ((self#logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
         end)
       end
   end
@@ -63,7 +64,7 @@ let () = java_register_constructor "ReleaseTouchInputToGameKeyEventAction" (fun 
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new releaseTouchInputToGameKeyEventAction ())
+            instance := (Obj.repr ((new releaseTouchInputToGameKeyEventAction ())))
         end;
         (Obj.magic ((Obj.magic !instance)))
         end

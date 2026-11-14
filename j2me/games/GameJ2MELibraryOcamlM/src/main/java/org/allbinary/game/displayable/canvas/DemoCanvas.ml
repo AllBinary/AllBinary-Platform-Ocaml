@@ -128,7 +128,7 @@ let get_tYPE () = tYPE
 let () = java_register_static "DemoCanvas.get_tYPE" (fun _ -> Obj.repr (get_tYPE ()))
 class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeClientInformationInterface), commandListener, (highScoresFactoryInterface_arg : HighScoresFactoryInterface.highScoresFactoryInterface), (paintable : Paintable.paintable), (overlayPaintable_arg : InitUpdatePaintable.initUpdatePaintable), (gameInitializationInterfaceFactoryInterface_arg : BasicBuildGameInitializerFactory.basicBuildGameInitializerFactory), (isContinue : bool)) =
   object (self)
-    inherit RunnableCanvas.runnableCanvas (commandListener, (CurrentDisplayableFactory.getInstance ())#dEFAULT_CHILD_NAME_LIST, true) as super
+    inherit RunnableCanvas.runnableCanvas (commandListener, (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ())))#dEFAULT_CHILD_NAME_LIST, true) as super
     val mutable basicColorFactory : BasicColorFactory.basicColorFactory = (Obj.magic 0)
     method basicColorFactory = basicColorFactory
     method set_basicColorFactory value' = basicColorFactory <- value'
@@ -144,9 +144,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     val mutable gameStateFactory : GameStateFactory.gameStateFactory = (Obj.magic 0)
     method gameStateFactory = gameStateFactory
     method set_gameStateFactory value' = gameStateFactory <- value'
-    val mutable threadFactoryUtil : ThreadFactoryUtil.threadFactoryUtil = (Obj.magic 0)
-    method threadFactoryUtil = threadFactoryUtil
-    method set_threadFactoryUtil value' = threadFactoryUtil <- value'
+    val mutable threadFactoryUtil : Obj.t = Obj.repr 0
+    method threadFactoryUtil : 'r. 'r = Obj.magic threadFactoryUtil
+    method set_threadFactoryUtil : 'v. 'v -> unit = fun value' -> threadFactoryUtil <- Obj.repr value'
     val mutable formUtil : FormUtil.formUtil = (Obj.magic 0)
     method formUtil = formUtil
     method set_formUtil value' = formUtil <- value'
@@ -159,9 +159,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     val mutable specialAnimationInterface : SpecialAnimation.specialAnimation = (Obj.magic 0)
     method specialAnimationInterface = specialAnimationInterface
     method set_specialAnimationInterface value' = specialAnimationInterface <- value'
-    val mutable paintedSpecialAnimationInterface : Obj.t = Obj.repr 0
-    method paintedSpecialAnimationInterface : 'r. 'r = Obj.magic paintedSpecialAnimationInterface
-    method set_paintedSpecialAnimationInterface : 'v. 'v -> unit = fun value' -> paintedSpecialAnimationInterface <- Obj.repr value'
+    val mutable paintedSpecialAnimationInterface : Animation.animation = (Obj.magic 0)
+    method paintedSpecialAnimationInterface = paintedSpecialAnimationInterface
+    method set_paintedSpecialAnimationInterface value' = paintedSpecialAnimationInterface <- value'
     val mutable fullScreenUtil : Obj.t = Obj.repr 0
     method fullScreenUtil : 'r. 'r = Obj.magic fullScreenUtil
     method set_fullScreenUtil : 'v. 'v -> unit = fun value' -> fullScreenUtil <- Obj.repr value'
@@ -207,9 +207,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     val mutable initialized : bool = false
     method initialized = initialized
     method set_initialized value' = initialized <- value'
-    val mutable demoGameRunnable : DemoGameStartupRunnable.demoGameStartupRunnable = (Obj.magic 0)
-    method demoGameRunnable = demoGameRunnable
-    method set_demoGameRunnable value' = demoGameRunnable <- value'
+    val mutable demoGameRunnable : Obj.t = Obj.repr 0
+    method demoGameRunnable : 'r. 'r = Obj.magic demoGameRunnable
+    method set_demoGameRunnable : 'v. 'v -> unit = fun value' -> demoGameRunnable <- Obj.repr value'
     val mutable defaultPaintableInterface : Paintable.paintable = (Obj.magic 0)
     method defaultPaintableInterface = defaultPaintableInterface
     method set_defaultPaintableInterface value' = defaultPaintableInterface <- value'
@@ -254,28 +254,28 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
     method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
         begin
         (try
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append ((java_string_of (Obj.repr (self#displayInfo))))))), self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append ((java_string_of (Obj.repr (self#displayInfo))))))), (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
             let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((self#getMenuForm ()) :> ScrollSelectionForm.scrollSelectionForm)) in ();
             if (!scrollSelectionForm != (Obj.magic 0)) then begin
                 let formType : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-                let rectangle : Obj.t ref = ref ((Obj.repr (formUtil#createFormRectangle ()))) in ();
-                ignore (!scrollSelectionForm#init ((Obj.magic !rectangle), !formType))
+                let rectangle : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
+                ignore (!scrollSelectionForm#init (!rectangle, !formType))
             end;
             ignore (overlayPaintable#init ())
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
         end)
         end [@@warning "-7-20"]
     
 
-    method getCustomCommands () : Obj.t array =
+    method getCustomCommands : 'return. unit -> 'return = fun () ->
         try
         begin
         let gameCommandsFactory : GameCommandsFactory.gameCommandsFactory ref = ref (((GameCommandsFactory.getInstance ()) :> GameCommandsFactory.gameCommandsFactory)) in ();
@@ -322,7 +322,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         for index = 0 to !size - 1 do
             ignore (self#addCommand ((Obj.magic !commandArray.(index))))
         done;
-        ignore (CustomGameMenuUtil.add (self));
+        ignore (CustomGameMenuUtil.add ((Obj.magic self)));
         ignore (self#setCommandListener ((Obj.magic cmdListener)))
         end [@@warning "-7-20"]
     
@@ -341,7 +341,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method itemStateChanged : 'any1. 'any1 -> unit = fun (_item) ->
         begin
-        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -351,15 +351,15 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         let commandTextItemArrayFactory : CommandTextItemArrayFactory.commandTextItemArrayFactory ref = ref ((((DemoLimitedCommandTextItemArrayFactory.getInstance ())#getCommandTextItemArrayFactory ()) :> CommandTextItemArrayFactory.commandTextItemArrayFactory)) in ();
         let items : Obj.t ref = ref ((Obj.repr (!commandTextItemArrayFactory#getInstance ((self#getCommandStack ()), basicColorFactory#bLACK, basicColorFactory#wHITE)))) in ();
         let formType : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (formUtil#createFormRectangle ()))) in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append ((java_string_of (Obj.repr (self#displayInfo))))))), self, "initMenu"))));
-        let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), (Obj.magic !rectangle), !formType, 15, true, basicColorFactory#bLACK, basicColorFactory#wHITE)) :> ScrollSelectionForm.scrollSelectionForm)) in ();
+        let rectangle : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append ((java_string_of (Obj.repr (self#displayInfo))))))), (Obj.magic self), "initMenu"))));
+        let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), !rectangle, !formType, 15, true, basicColorFactory#bLACK, basicColorFactory#wHITE)) :> ScrollSelectionForm.scrollSelectionForm)) in ();
         (self#setMenuForm (!scrollSelectionForm));
         let formType2 : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-        let rectangle2 : Obj.t ref = ref ((Obj.repr (formUtil#createFormRectangle ()))) in ();
-        ignore (!scrollSelectionForm#init ((Obj.magic !rectangle2), !formType2));
+        let rectangle2 : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
+        ignore (!scrollSelectionForm#init (!rectangle2, !formType2));
         if ((Obj.repr (self#getMenuForm ())) != (Obj.repr (ScrollSelectionFormNoneFactory.getInstance ()))) then begin
-            (self#setMenuInputProcessor ((new CommandFormInputProcessor.commandFormInputProcessor ((new BasicArrayListD.basicArrayListD ()), (-1), self, (self#getMenuForm ())))))
+            (self#setMenuInputProcessor ((new CommandFormInputProcessor.commandFormInputProcessor (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1), (Obj.magic self), (self#getMenuForm ())))))
         end;
         (self#open_ ())
         end [@@warning "-7"]
@@ -426,18 +426,18 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     method addGameKeyEvent ((keyCode : int), (_repeated : bool)) : unit =
         begin
         (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas (self, keyCode)) :> GameKey.gameKey)) in ();
+            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
             if ((Obj.repr !gameKey) != (Obj.repr nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput (self, !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
+                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
                 ignore ((DownGameKeyEventHandler.getInstance ())#fireEvent (!gameKeyEvent))
             end else begin
                 if (lastKeyNotMapped <> keyCode) then begin
                     lastKeyNotMapped <- keyCode;
-                    ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#aDD_KEY_EVENT))
+                    ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#aDD_KEY_EVENT))
                 end
             end
         with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#aDD_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#aDD_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -445,15 +445,15 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     method removeGameKeyEvent ((keyCode : int), (_repeated : bool)) : unit =
         begin
         (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas (self, keyCode)) :> GameKey.gameKey)) in ();
+            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
             if ((Obj.repr !gameKey) != (Obj.repr nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput (self, !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
+                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
                 ignore ((UpGameKeyEventHandler.getInstance ())#fireEvent (!gameKeyEvent))
             end else begin
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), self, gameInputStrings#rEMOVE_KEY_EVENT))
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT))
             end
         with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", self, gameInputStrings#rEMOVE_KEY_EVENT, e))
+            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT, e))
         end)
         end [@@warning "-7"]
     
@@ -479,7 +479,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     method isPausable () : bool =
         try
         begin
-        if ((Obj.repr ((CurrentDisplayableFactory.getInstance ())#getUsedRunnable ())) == (Obj.repr (NullWaitGameRunnable.getInstance ()))) then begin
+        if ((Obj.repr ((Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ())))#getUsedRunnable ())) == (Obj.repr (NullWaitGameRunnable.getInstance ()))) then begin
             raise (Java_return (Obj.repr (true)))
         end else begin
             raise (Java_return (Obj.repr (false)))
@@ -490,27 +490,27 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method isGameOver () : bool =
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#nOT_IMPLEMENTED))#append (" since not a game")))), self, "isGameOver"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#nOT_IMPLEMENTED))#append (" since not a game")))), (Obj.magic self), "isGameOver"));
         false
         end [@@warning "-7"]
     
 
     method setLoadStateHashtable : 'any1. 'any1 -> unit = fun (_hashtable) ->
         begin
-        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", self, "setLoadStateHashtable"))
+        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", (Obj.magic self), "setLoadStateHashtable"))
         end [@@warning "-7-20"]
     
 
     method getLoadStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", self, "getLoadStateHashtable"));
+        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", (Obj.magic self), "getLoadStateHashtable"));
         (Obj.magic ((self#stdUtil)#nULL_TABLE))
         end [@@warning "-7"]
     
 
     method getCurrentStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore ((self#logUtil)#putF ("Trying to save the AI lol", self, "getCurrentStateHashtable"));
+        ignore ((self#logUtil)#putF ("Trying to save the AI lol", (Obj.magic self), "getCurrentStateHashtable"));
         (Obj.magic ((self#stdUtil)#nULL_TABLE))
         end [@@warning "-7"]
     
@@ -525,7 +525,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         let graphics = Obj.repr graphics in
         begin
         ignore (paintableInterface#paint ((Obj.magic graphics)));
-        ignore ((Obj.magic paintedSpecialAnimationInterface)#paintXY ((Obj.magic graphics), 0, 0));
+        ignore (paintedSpecialAnimationInterface#paintXY ((Obj.magic graphics), 0, 0));
         ignore (highScoresPaintable#paint ((Obj.magic graphics)));
         ignore ((self#getBasicGameDemoPaintable ())#paint ((Obj.magic graphics)));
         ignore (overlayPaintable#paint ((Obj.magic graphics)));
@@ -538,13 +538,13 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         let graphics = Obj.repr graphics in
         begin
         ignore (paintableInterface#paintThreed ((Obj.magic graphics)));
-        ignore ((Obj.magic paintedSpecialAnimationInterface)#paintThreedXYZ ((Obj.magic graphics), 0, 0, 0))
+        ignore (paintedSpecialAnimationInterface#paintThreedXYZ ((Obj.magic graphics), 0, 0, 0))
         end [@@warning "-7-20"]
     
 
     method processGameOver () : unit =
         begin
-        ignore ((self#logUtil)#putF ("Not Implemented since not a game", self, "setGameOver"))
+        ignore ((self#logUtil)#putF ("Not Implemented since not a game", (Obj.magic self), "setGameOver"))
         end [@@warning "-7"]
     
 
@@ -572,16 +572,16 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method updateDemoState () : unit =
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((SmallIntegerSingletonFactory.getInstance ())#createInstance (state)))), self, sET_STATE))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((SmallIntegerSingletonFactory.getInstance ())#createInstance (state)))), (Obj.magic self), sET_STATE))));
         ignore ((self#getBasicGameDemoPaintable ())#setState (state));
         if (state = 0) then begin
             highScoresPaintable <- (NullPaintable.getInstance ());
-            paintedSpecialAnimationInterface <- Obj.repr ((self#getSpecialAnimationInterface ()));
-            if ((not (demoGameRunnable#isRunning ())) && ((Obj.magic gameCanvas)#isInitialized ())) then begin
+            paintedSpecialAnimationInterface <- (self#getSpecialAnimationInterface ());
+            if ((not ((Obj.magic demoGameRunnable)#isRunning ())) && ((Obj.magic gameCanvas)#isInitialized ())) then begin
                 ignore ((self#getSpecialAnimationInterface ())#reset ())
             end
         end else if (state = 1) then begin
-            paintedSpecialAnimationInterface <- Obj.repr ((SpecialAnimation.getInstance ()))
+            paintedSpecialAnimationInterface <- (SpecialAnimation.getInstance ())
         end else if (state = 2) then begin
             highScoresPaintable <- (self#getRealHighScoresPaintable ())
         end;
@@ -596,13 +596,13 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7"]
     
 
-    method createGameLayerManager ((_randomValue : int)) : AllBinaryGameLayerManager.allBinaryGameLayerManager =
+    method createGameLayerManager : 'return. int -> 'return = fun ((_randomValue : int)) ->
         begin
         raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
     
 
-    method createRunnable ((_randomLevel : int)) : GameCanvasRunnableInterface.gameCanvasRunnableInterface =
+    method createRunnable : 'return. int -> 'return = fun ((_randomLevel : int)) ->
         begin
         raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
         end [@@warning "-7"]
@@ -610,13 +610,13 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method create () : unit =
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, self, "create"))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, (Obj.magic self), "create"))));
         highScoresPaintable <- (NullPaintable.getInstance ());
         let randomLevel : int ref = ref ((self#getNextRandom ())) in ();
         gameCanvas <- Obj.repr ((Obj.magic (self#createRunnable (!randomLevel))));
         basicColor <- (((Obj.magic gameCanvas)#getLayerManager ())#getForegroundBasicColor ());
         ignore ((self#getRealHighScoresPaintable ())#setBasicColorP (basicColor));
-        ignore ((Obj.magic gameCanvas)#setGameCanvasStartListener (self));
+        ignore ((Obj.magic gameCanvas)#setGameCanvasStartListener ((Obj.magic self)));
         let gameInfo : GameInfo.gameInfo ref = ref (((((Obj.magic gameCanvas)#getLayerManager ())#getGameInfo ()) :> GameInfo.gameInfo)) in ();
         ignore ((self#getHighScoresFactoryInterface ())#fetchHighScores (!gameInfo, highScoresHelper))
         end [@@warning "-7"]
@@ -625,10 +625,10 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     method start () : unit =
         begin
         let gameCanvas_arg : Obj.t ref = ref ((Obj.repr (Obj.magic gameCanvas))) in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Game Thread in DemoCanvas: "))#append (((self#stringUtil)#toString ((Obj.magic !gameCanvas_arg))))))), self, (self#commonStrings)#sTART))));
-        canvasThread <- (threadFactoryUtil#getInstanceGameCanvasRunnable ((Obj.magic !gameCanvas_arg)));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Game Thread in DemoCanvas: "))#append (((self#stringUtil)#toString ((Obj.magic !gameCanvas_arg))))))), (Obj.magic self), (self#commonStrings)#sTART))));
+        canvasThread <- ((Obj.magic threadFactoryUtil)#getInstanceGameCanvasRunnable ((Obj.magic !gameCanvas_arg)));
         ignore ((Obj.magic gameCanvas)#setThread (canvasThread));
-        ignore (threadFactoryUtil#start (canvasThread));
+        ignore ((Obj.magic threadFactoryUtil)#start (canvasThread));
         if ((Obj.repr (self#getWait ())) == (Obj.repr (NullWaitGameRunnable.getInstance ())#wAIT)) then begin
             ignore (self#setWait ((self#getTempWait ())))
         end
@@ -637,7 +637,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method preDemoProcess () : unit =
         begin
-        if ((not ((Obj.magic gameCanvas)#isInitialized ())) || ((Obj.repr ((Obj.magic gameCanvas)#getTitle ())) == (Obj.repr (NullGameCanvas.get_nO_GAME ())))) then begin
+        if ((not ((Obj.magic gameCanvas)#isInitialized ())) || ((Obj.repr ((Obj.magic gameCanvas)#getTitle ())) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.get_nO_GAME" (Obj.repr ())))))) then begin
             if (Obj.magic (java_call_static "AllBinaryMediaManager.update" (Obj.repr ()))) then begin
                 if (not ((PrimaryPlayerQueueFactory.getInstance ())#process ())) then begin
                     ignore ((SecondaryPlayerQueueFactory.getInstance ())#process ())
@@ -659,20 +659,20 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
                 ignore (timeDelayHelper#setStartTimeTNT ())
             end;
             let demoGameMidlet : Obj.t ref = ref ((Obj.repr (Obj.magic (self#getCustomCommandListener ())))) in ();
-            if (((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (NullGameCanvas.getInstance ()))) && ((Obj.magic gameCanvas)#isGameOver ())) then begin
+            if (((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) && ((Obj.magic gameCanvas)#isGameOver ())) then begin
                 (self#stopGameDemo ());
                 let randomLevel : int ref = ref ((self#getNextRandom ())) in ();
                 let gameInfo : GameInfo.gameInfo ref = ref (((((Obj.magic gameCanvas)#getLayerManager ())#getGameInfo ()) :> GameInfo.gameInfo)) in ();
                 ignore (!gameInfo#setCurrentLevel (!randomLevel));
                 ignore ((Obj.magic gameCanvas)#setGameOver (false));
                 (self#start ())
-            end else if (((Obj.repr (Obj.magic gameCanvas)) == (Obj.repr (NullGameCanvas.getInstance ()))) && ((Obj.magic !demoGameMidlet)#isReady ())) then begin
-                if (not (demoGameRunnable#isRunning ())) then begin
+            end else if (((Obj.repr (Obj.magic gameCanvas)) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) && ((Obj.magic !demoGameMidlet)#isReady ())) then begin
+                if (not ((Obj.magic demoGameRunnable)#isRunning ())) then begin
                     (self#startDemoGame ());
-                    ignore (demoGameRunnable#setRunning (true));
-                    let thread : java_thread ref = ref (((threadFactoryUtil#getInstanceForRunnable (demoGameRunnable)) :> java_thread)) in ();
-                    ignore (demoGameRunnable#setThread (!thread));
-                    ignore (threadFactoryUtil#start (!thread))
+                    ignore ((Obj.magic demoGameRunnable)#setRunning (true));
+                    let thread : java_thread ref = ref ((((Obj.magic threadFactoryUtil)#getInstanceForRunnable ((Obj.magic demoGameRunnable))) :> java_thread)) in ();
+                    ignore ((Obj.magic demoGameRunnable)#setThread (!thread));
+                    ignore ((Obj.magic threadFactoryUtil)#start (!thread))
                 end
             end
         end
@@ -681,14 +681,14 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method startDemoGame () : unit =
         begin
-        ignore (Obj.magic (java_call_static "DemoCanvasProgressUtil.showProgress" (Obj.repr (self))))
+        ignore (Obj.magic (java_call_static "DemoCanvasProgressUtil.showProgress" (Obj.repr ((Obj.magic self)))))
         end [@@warning "-7"]
     
 
     method stopGameDemo () : unit =
         begin
-        if ((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (NullGameCanvas.getInstance ()))) then begin
-            ignore ((self#logUtil)#putF ("Set Running False", self, "stopGameDemo"));
+        if ((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) then begin
+            ignore ((self#logUtil)#putF ("Set Running False", (Obj.magic self), "stopGameDemo"));
             ignore ((Obj.magic gameCanvas)#setRunning (false))
         end;
         ignore ((ThreadUtil.getInstance ())#join (canvasThread))
@@ -698,15 +698,15 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
     method showGamePaintable () : unit =
         begin
         let mETHOD_NAME : string ref = ref ("showGamePaintable") in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, self, !mETHOD_NAME))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, (Obj.magic self), !mETHOD_NAME))));
         let isDefault : bool ref = ref ((J2MEUtil.isHTML ())) in ();
-        if ((((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (NullGameCanvas.getInstance ()))) && (((((Obj.magic gameCanvas)#isRunning ()) || !isDefault) || (SWTUtil.get_isSWT ())))) && (not (((Obj.repr ((Obj.magic gameCanvas)#getType ())) == (Obj.repr (NullGameCanvas.get_tYPE ())))))) then begin
+        if ((((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) && (((((Obj.magic gameCanvas)#isRunning ()) || !isDefault) || (SWTUtil.get_isSWT ())))) && (not ((((Obj.magic gameCanvas)#getType ()) = (Obj.magic (java_call_static "NullGameCanvas.get_tYPE" (Obj.repr ()))))))) then begin
             gameRunnable <- (Obj.magic gameCanvas)#gameRunnable;
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Showing Game", self, !mETHOD_NAME))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Showing Game", (Obj.magic self), !mETHOD_NAME))));
             (self#setPaintableInterface ((Obj.magic gameCanvas)))
         end else begin
             gameRunnable <- (NullWaitGameRunnable.getInstance ());
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Not Showing Game", self, !mETHOD_NAME))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Not Showing Game", (Obj.magic self), !mETHOD_NAME))));
             (self#setPaintableInterface ((self#getDefaultPaintableInterface ())))
         end
         end [@@warning "-7"]
@@ -714,7 +714,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method isReadyForStateChange () : bool =
         begin
-        ((not (demoGameRunnable#isRunning ())) && ((Obj.magic gameCanvas)#isInitialized ()))
+        ((not ((Obj.magic demoGameRunnable)#isRunning ())) && ((Obj.magic gameCanvas)#isInitialized ()))
         end [@@warning "-7"]
     
 
@@ -734,7 +734,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method run () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, self, (self#commonStrings)#rUN));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN));
         (try
             let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
             let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
@@ -747,27 +747,27 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
             end else begin
                 ignore (!progressCanvas#addNormalPortion (50, "Demo Thread Running"))
             end;
-            ignore ((Obj.magic fullScreenUtil)#initOnRun (self, (self#getCustomCommandListener ())));
+            ignore ((Obj.magic fullScreenUtil)#initOnRun ((Obj.magic self), (self#getCustomCommandListener ())));
             (self#initMenu ());
             (self#initPostPaint ());
             (self#updateDemoState ());
             if (!features#isDefault (!openGLFeatureFactory#oPENGL_AS_GAME_THREAD)) then begin
-                while (((Obj.repr (Obj.magic gameCanvas)) == (Obj.repr (NullGameCanvas.getInstance ()))) || (not ((Obj.magic gameCanvas)#isInitialized ()))) do
+                while (((Obj.repr (Obj.magic gameCanvas)) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) || (not ((Obj.magic gameCanvas)#isInitialized ()))) do
                     ignore ((self#loopTimeHelper)#setStartTimeTNT ());
                     (self#processGame ());
                     ignore (self#processLoopSleep ())
                 done;
-                let demoGameRunnable_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DemoGameRunnable" (Obj.repr (self)))))) in ();
-                let currentDisplayableFactory : CurrentDisplayableFactory.currentDisplayableFactory ref = ref (((CurrentDisplayableFactory.getInstance ()) :> CurrentDisplayableFactory.currentDisplayableFactory)) in ();
-                ignore (!currentDisplayableFactory#setRunnable ((Obj.magic !demoGameRunnable_arg)));
-                ignore (!currentDisplayableFactory#setMyCanvas (self));
+                let demoGameRunnable_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DemoGameRunnable" (Obj.repr ((Obj.magic self))))))) in ();
+                let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
+                ignore ((Obj.magic !currentDisplayableFactory)#setRunnable ((Obj.magic !demoGameRunnable_arg)));
+                ignore ((Obj.magic !currentDisplayableFactory)#setMyCanvas ((Obj.magic self)));
                 ignore ((Obj.magic (java_call_static "OpenGLThreadUtil.getInstance" (Obj.repr ())))#onResume ())
             end;
             if ((!features#isDefault (!openGLFeatureFactory#oPENGL_AS_GAME_THREAD)) || (J2MEUtil.isHTML ())) then begin
-                let demoGameRunnable_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DemoGameRunnable" (Obj.repr (self)))))) in ();
-                let currentDisplayableFactory : CurrentDisplayableFactory.currentDisplayableFactory ref = ref (((CurrentDisplayableFactory.getInstance ()) :> CurrentDisplayableFactory.currentDisplayableFactory)) in ();
-                ignore (!currentDisplayableFactory#setRunnable ((Obj.magic !demoGameRunnable_arg)));
-                ignore (!currentDisplayableFactory#setMyCanvas (self))
+                let demoGameRunnable_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DemoGameRunnable" (Obj.repr ((Obj.magic self))))))) in ();
+                let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
+                ignore ((Obj.magic !currentDisplayableFactory)#setRunnable ((Obj.magic !demoGameRunnable_arg)));
+                ignore ((Obj.magic !currentDisplayableFactory)#setMyCanvas ((Obj.magic self)))
             end else begin
                 while (self#isRunning ()) do
                     (self#run3 ())
@@ -775,9 +775,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
                 (self#end_ ())
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#rUN, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#rUN, e))
         end);
-        ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, self, (self#commonStrings)#rUN))
+        ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN))
         end [@@warning "-7"]
     
 
@@ -799,13 +799,13 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
                 ()
             end else begin
                 if ((((!features#isDefault (!openGLFeatureFactory#oPENGL)) || (J2MEUtil.isHTML ()))) || (SWTUtil.get_isSWT ())) then begin
-                    let currentDisplayableFactory : CurrentDisplayableFactory.currentDisplayableFactory ref = ref (((CurrentDisplayableFactory.getInstance ()) :> CurrentDisplayableFactory.currentDisplayableFactory)) in ();
-                    ignore (!currentDisplayableFactory#clearRunnable ());
+                    let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
+                    ignore ((Obj.magic !currentDisplayableFactory)#clearRunnable ());
                     (self#end_ ())
                 end
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#sET_RUNNING), e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#sET_RUNNING), e))
         end)
         end [@@warning "-7"]
     
@@ -819,9 +819,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         if (!features#isFeature ((MainFeatureFactory.getInstance ())#lOAD_ONDEMAND)) then begin
             ignore (!progressCanvas#start ())
         end;
-        ignore ((self#logUtil)#putF ("Demo End", self, (self#commonStrings)#rUN));
+        ignore ((self#logUtil)#putF ("Demo End", (Obj.magic self), (self#commonStrings)#rUN));
         (self#close ());
-        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener (self));
+        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener ((Obj.magic self)));
         (self#stopGameDemo ())
         end [@@warning "-7"]
     
@@ -832,9 +832,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7-20"]
     
 
-    method getGameState () : GameState.gameState =
+    method getGameState : 'return. unit -> 'return = fun () ->
         begin
-        (gameStateFactory#pLAYING_GAME_STATE :> GameState.gameState)
+        (Obj.magic (gameStateFactory#pLAYING_GAME_STATE))
         end [@@warning "-7"]
     
 
@@ -848,7 +848,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         try
         begin
         let gameCanvas_arg : Obj.t ref = ref ((Obj.repr (Obj.magic gameCanvas))) in ();
-        if ((Obj.repr (Obj.magic !gameCanvas_arg)) == (Obj.repr (NullGameCanvas.getInstance ()))) then begin
+        if ((Obj.repr (Obj.magic !gameCanvas_arg)) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) then begin
             raise (Java_return (Obj.repr (true)))
         end else if ((Obj.magic !gameCanvas_arg)#isInitialized ()) then begin
             raise (Java_return (Obj.repr (false)))
@@ -872,14 +872,14 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
 
     method isHighScoreSubmitted () : bool =
         begin
-        ignore ((self#logUtil)#putF ("Wow the AI got a high score!", self, "isHighScoreSubmitted"));
+        ignore ((self#logUtil)#putF ("Wow the AI got a high score!", (Obj.magic self), "isHighScoreSubmitted"));
         false
         end [@@warning "-7"]
     
 
-    method getRealHighScoresPaintable () : HighScoresPaintable.highScoresPaintable =
+    method getRealHighScoresPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (realHighScoresPaintable :> HighScoresPaintable.highScoresPaintable)
+        (Obj.magic (realHighScoresPaintable))
         end [@@warning "-7"]
     
 
@@ -891,9 +891,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7-20"]
     
 
-    method getSpecialAnimationInterface () : SpecialAnimation.specialAnimation =
+    method getSpecialAnimationInterface : 'return. unit -> 'return = fun () ->
         begin
-        (specialAnimationInterface :> SpecialAnimation.specialAnimation)
+        (Obj.magic (specialAnimationInterface))
         end [@@warning "-7"]
     
 
@@ -904,9 +904,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7-20"]
     
 
-    method getPaintableInterface () : PaintableInterface.paintableInterface =
+    method getPaintableInterface : 'return. unit -> 'return = fun () ->
         begin
-        (paintableInterface :> PaintableInterface.paintableInterface)
+        (Obj.magic (paintableInterface))
         end [@@warning "-7"]
     
 
@@ -917,15 +917,15 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7-20"]
     
 
-    method getDefaultPaintableInterface () : Paintable.paintable =
+    method getDefaultPaintableInterface : 'return. unit -> 'return = fun () ->
         begin
-        (defaultPaintableInterface :> Paintable.paintable)
+        (Obj.magic (defaultPaintableInterface))
         end [@@warning "-7"]
     
 
-    method getHighScoresFactoryInterface () : HighScoresFactoryInterface.highScoresFactoryInterface =
+    method getHighScoresFactoryInterface : 'return. unit -> 'return = fun () ->
         begin
-        (highScoresFactoryInterface :> HighScoresFactoryInterface.highScoresFactoryInterface)
+        (Obj.magic (highScoresFactoryInterface))
         end [@@warning "-7"]
     
 
@@ -936,15 +936,15 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7-20"]
     
 
-    method getMenuInputProcessor () : BasicMenuInputProcessor.basicMenuInputProcessor =
+    method getMenuInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (menuInputProcessor :> BasicMenuInputProcessor.basicMenuInputProcessor)
+        (Obj.magic (menuInputProcessor))
         end [@@warning "-7"]
     
 
-    method getMenuForm () : ScrollSelectionForm.scrollSelectionForm =
+    method getMenuForm : 'return. unit -> 'return = fun () ->
         begin
-        (menuForm :> ScrollSelectionForm.scrollSelectionForm)
+        (Obj.magic (menuForm))
         end [@@warning "-7"]
     
 
@@ -961,9 +961,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7"]
     
 
-    method getOverlayPaintable () : Paintable.paintable =
+    method getOverlayPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (overlayPaintable :> Paintable.paintable)
+        (Obj.magic (overlayPaintable))
         end [@@warning "-7"]
     
 
@@ -974,9 +974,9 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         end [@@warning "-7-20"]
     
 
-    method getBasicGameDemoPaintable () : StatePaintable.statePaintable =
+    method getBasicGameDemoPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (basicGameDemoPaintable :> StatePaintable.statePaintable)
+        (Obj.magic (basicGameDemoPaintable))
         end [@@warning "-7"]
     
 
@@ -1012,15 +1012,27 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         with Java_return value -> Obj.obj value [@@warning "-7"]
     
 
-    method getGameInitializationInterfaceFactoryInterface () : BasicBuildGameInitializerFactory.basicBuildGameInitializerFactory =
+    method getGameInitializationInterfaceFactoryInterface : 'return. unit -> 'return = fun () ->
         begin
-        (gameInitializationInterfaceFactoryInterface :> BasicBuildGameInitializerFactory.basicBuildGameInitializerFactory)
+        (Obj.magic (gameInitializationInterfaceFactoryInterface))
         end [@@warning "-7"]
     
 
     method getType () : int =
         begin
         tYPE
+        end [@@warning "-7"]
+    
+
+    method getTitle () : string =
+        begin
+        (super#getTitle ())
+        end [@@warning "-7"]
+    
+
+    method isPaused () : bool =
+        begin
+        (super#isPaused ())
         end [@@warning "-7"]
 
     initializer
@@ -1030,14 +1042,14 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         gameAdStateFactory <- ((GameAdStateFactory.getInstance ()) :> GameAdStateFactory.gameAdStateFactory);
         gameInputStrings <- ((GameInputStrings.getInstance ()) :> GameInputStrings.gameInputStrings);
         gameStateFactory <- ((GameStateFactory.getInstance ()) :> GameStateFactory.gameStateFactory);
-        threadFactoryUtil <- ((ThreadFactoryUtil.getInstance ()) :> ThreadFactoryUtil.threadFactoryUtil);
+        threadFactoryUtil <- (Obj.repr (Obj.magic (java_call_static "ThreadFactoryUtil.getInstance" (Obj.repr ()))));
         formUtil <- ((FormUtil.getInstance ()) :> FormUtil.formUtil);
         fullscreenPaintable <- ((FullScreenPaintableFactory.getInstance ())#paintable :> Paintable.paintable);
         basicGameDemoPaintable <- ((StatePaintableFactory.getInstance ()) :> StatePaintable.statePaintable);
         specialAnimationInterface <- ((SpecialAnimation.getInstance ()) :> SpecialAnimation.specialAnimation);
-        paintedSpecialAnimationInterface <- (Obj.repr (SpecialAnimation.getInstance ()));
+        paintedSpecialAnimationInterface <- ((SpecialAnimation.getInstance ()) :> Animation.animation);
         fullScreenUtil <- (Obj.repr (Obj.magic (java_call_static "FullScreenUtil.getInstance" (Obj.repr ()))));
-        gameCanvas <- (Obj.repr (NullGameCanvas.getInstance ()));
+        gameCanvas <- (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))));
         highScoresHelper <- ((new HighScoresHelper.highScoresHelper ()) :> HighScoresHelperBase.highScoresHelperBase);
         realHighScoresPaintable <- ((new HighScoresPaintable.highScoresPaintable ()) :> HighScoresPaintable.highScoresPaintable);
         highScoresPaintable <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
@@ -1062,7 +1074,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         isSingleKeyRepeatableProcessing <- ((Features.getInstance ())#isFeature ((InputFeatureFactory.getInstance ())#sINGLE_KEY_REPEAT_PRESS));
         nONE <- ((GameKeyFactory.getInstance ())#nONE :> GameKey.gameKey);
         gameKeyEventFactory <- ((GameKeyEventFactory.getInstance ()) :> GameKeyEventFactory.gameKeyEventFactory);
-        lastKeyNotMapped <- (-1);
+        lastKeyNotMapped <- (- 1);
         sET_STATE <- "setState";
         baseGameStatistics <- ((Obj.magic (java_call_static "GameStatisticsFactory.getInstance" (Obj.repr ()))) :> BaseGameStatistics.baseGameStatistics);
         ();
@@ -1070,7 +1082,7 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         abeClientInformation <- abeClientInformation_arg;
         ignore (self#setWait ((NullWaitGameRunnable.getInstance ())#wAIT));
         gameInitializationInterfaceFactoryInterface <- gameInitializationInterfaceFactoryInterface_arg;
-        ignore ((GameInitializationUtil.getInstance ())#initDemo (abeClientInformation_arg, self, gameInitializationInterfaceFactoryInterface_arg));
+        ignore ((GameInitializationUtil.getInstance ())#initDemo (abeClientInformation_arg, (Obj.magic self), gameInitializationInterfaceFactoryInterface_arg));
         ignore ((ResizableListenerHandler.getInstance ())#fireEvent (false));
         overlayPaintable <- overlayPaintable_arg;
         highScoresFactoryInterface <- highScoresFactoryInterface_arg;
@@ -1082,8 +1094,8 @@ class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeC
         if ((ChangedGameFeatureListener.getInstance ())#isChangedFeature ((GameFeatureFactory.getInstance ())#sOUND)) then begin
             (self#mediaInit ())
         end;
-        demoGameRunnable <- (new DemoGameStartupRunnable.demoGameStartupRunnable (self));
-        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface (self))
+        demoGameRunnable <- Obj.repr ((Obj.obj (java_new "DemoGameStartupRunnable" (Obj.repr ((Obj.magic self))))));
+        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "DemoCanvas" (fun arguments -> Obj.repr (new demoCanvas (Obj.obj arguments)))

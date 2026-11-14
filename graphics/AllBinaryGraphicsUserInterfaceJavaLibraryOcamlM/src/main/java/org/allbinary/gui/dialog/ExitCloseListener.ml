@@ -24,7 +24,7 @@ class exitCloseListener () =
 
     method onClose () : unit =
         begin
-        ignore (exit ((-1)))
+        ignore (exit ((- 1)))
         end
 
     initializer

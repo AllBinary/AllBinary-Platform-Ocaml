@@ -29,7 +29,7 @@ class shaderInitializer () =
 
     method init : 'any1. 'any1 * Shader.shader array * string array -> int = fun (_gl, (_shader : Shader.shader array), (_attributeArray : string array)) ->
         begin
-        (-1)
+        (- 1)
         end [@@warning "-20"]
 
     initializer
@@ -44,9 +44,9 @@ let instance = (new shaderInitializer ())
 let get_instance () = instance
 let () = java_register_static "ShaderInitializer.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ShaderInitializer.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

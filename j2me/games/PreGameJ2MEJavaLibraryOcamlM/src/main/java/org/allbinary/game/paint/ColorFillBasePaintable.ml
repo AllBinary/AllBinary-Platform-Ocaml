@@ -39,13 +39,13 @@ class colorFillBasePaintable ((basicColor_arg : BasicColor.basicColor)) =
         let basicColor_arg = Obj.repr basicColor_arg in
         begin
         basicColor <- (Obj.magic basicColor_arg);
-        (self#setColor (((self#getBasicColorP ())#intValue ())))
+        (self#setColor ((java_int_value (Obj.repr (self#getBasicColorP ())))))
         end [@@warning "-7-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end [@@warning "-7"]
     
 

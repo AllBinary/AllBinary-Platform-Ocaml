@@ -40,9 +40,9 @@ let sINGLETON = (new basicHighScoresGameInfoFactory ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "BasicHighScoresGameInfoFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "BasicHighScoresGameInfoFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

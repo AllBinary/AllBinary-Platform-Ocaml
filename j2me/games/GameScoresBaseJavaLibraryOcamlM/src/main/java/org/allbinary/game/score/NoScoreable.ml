@@ -16,6 +16,7 @@
 (* package org.allbinary.game.score *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class noScoreable () =
   object
@@ -46,9 +47,9 @@ let sINGLETON = (new noScoreable ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "NoScoreable.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "NoScoreable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

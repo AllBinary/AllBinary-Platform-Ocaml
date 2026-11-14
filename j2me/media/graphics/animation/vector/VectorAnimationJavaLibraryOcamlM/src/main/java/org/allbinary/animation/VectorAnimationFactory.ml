@@ -23,10 +23,10 @@ class vectorAnimationFactory () =
   object
     
 
-    method getInstance : 'any2. int array array array * 'any2 -> VectorAnimation.vectorAnimation = fun ((points : int array array array), basicColor) ->
+    method getInstance : 'any2 'return. int array array array * 'any2 -> 'return = fun ((points : int array array array), basicColor) ->
         let basicColor = Obj.repr basicColor in
         begin
-        ((new VectorAnimation.vectorAnimation (points, (Obj.magic basicColor), (AnimationBehavior.getInstance ()))) :> VectorAnimation.vectorAnimation)
+        (Obj.magic ((new VectorAnimation.vectorAnimation (points, (Obj.magic basicColor), (AnimationBehavior.getInstance ())))))
         end [@@warning "-20"]
 
     initializer

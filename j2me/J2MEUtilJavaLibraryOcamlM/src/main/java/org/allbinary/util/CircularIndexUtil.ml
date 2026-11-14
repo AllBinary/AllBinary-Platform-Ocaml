@@ -16,6 +16,7 @@
 (* package org.allbinary.util *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import jsinterop.annotations.JsType *)
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.string.CommonLabels *)
@@ -111,14 +112,14 @@ let nULL_CIRCULAR_INDEX_UTIL = (new circularIndexUtil (0, 0))
 let get_nULL_CIRCULAR_INDEX_UTIL () = nULL_CIRCULAR_INDEX_UTIL
 let () = java_register_static "CircularIndexUtil.get_nULL_CIRCULAR_INDEX_UTIL" (fun _ -> Obj.repr (get_nULL_CIRCULAR_INDEX_UTIL ()))
 
-let createInstance ((max : int)) =
+let createInstance : 'return. int -> 'return = fun ((max : int)) ->
         begin
-        (new circularIndexUtil (0, max))
+        (Obj.magic ((new circularIndexUtil (0, max))))
         end
 
-and createInstanceAt ((index_arg : int), (max : int)) =
+and createInstanceAt : 'return. int * int -> 'return = fun ((index_arg : int), (max : int)) ->
         begin
-        (new circularIndexUtil (index_arg, max))
+        (Obj.magic ((new circularIndexUtil (index_arg, max))))
         end
 let () = java_register_static "CircularIndexUtil.createInstance" (fun arguments -> Obj.repr (createInstance (Obj.obj arguments)))
 let () = java_register_static "CircularIndexUtil.createInstanceAt" (fun arguments -> Obj.repr (createInstanceAt (Obj.obj arguments)))

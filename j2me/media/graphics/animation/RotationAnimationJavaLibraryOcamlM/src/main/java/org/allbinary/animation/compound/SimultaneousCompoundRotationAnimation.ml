@@ -168,15 +168,15 @@ class simultaneousCompoundRotationAnimation ((animationInterfaceArray_arg : Rota
         end [@@warning "-7"]
     
 
-    method getAngleInfoP () : AngleInfo.angleInfo =
+    method getAngleInfoP : 'return. unit -> 'return = fun () ->
         begin
-        ((animationInterfaceArray.(0)#getAngleInfoP ()) :> AngleInfo.angleInfo)
+        (Obj.magic ((animationInterfaceArray.(0)#getAngleInfoP ())))
         end [@@warning "-7"]
     
 
-    method getAnimationInterfaceArray () : RotationAnimation.rotationAnimation array =
+    method getAnimationInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        animationInterfaceArray
+        (Obj.magic (animationInterfaceArray))
         end [@@warning "-7"]
     
 

@@ -51,7 +51,7 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
         let gameInfo = Obj.repr gameInfo in
         let highScoresResultsListener = Obj.repr highScoresResultsListener in
         begin
-        ignore ((Obj.magic logUtil)#putF ("Getting Local HighScores", self, fETCH));
+        ignore ((Obj.magic logUtil)#putF ("Getting Local HighScores", (Obj.magic self), fETCH));
         (self#fetchHighScoresPreload ((Obj.magic gameInfo), (Obj.magic highScoresResultsListener), true))
         end [@@warning "-7-20"]
     
@@ -64,14 +64,14 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
             (Obj.magic highScoresArray).(0) <- (Obj.magic (java_call_static "RecordStoreHighScores.getInstance" (Obj.repr (abeClientInformation, (Obj.magic gameInfo), tOP, pERSONAL_HIGH_SCORES, sCORES, (new ScoreComparator.scoreComparator (true))))));
             ignore ((Obj.magic highScoresResultsListener)#setHighScoresArray ((Obj.magic highScoresArray)))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, fETCH, e))
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), fETCH, e))
         end)
         end [@@warning "-7-20"]
     
 
-    method createHighScoresHelper () : HighScoresHelperBaseInterface.highScoresHelperBaseInterface =
+    method createHighScoresHelper : 'return. unit -> 'return = fun () ->
         begin
-        ((new HighScoresHelper2.highScoresHelper2 ()) :> HighScoresHelperBaseInterface.highScoresHelperBaseInterface)
+        (Obj.magic ((new HighScoresHelper2.highScoresHelper2 ())))
         end [@@warning "-7"]
 
     initializer

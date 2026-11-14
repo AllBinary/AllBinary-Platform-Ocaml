@@ -24,15 +24,16 @@ class imageJ2MEScaleUtil () =
     
     
 
-    method scaleArray : 'return. _ * int * int -> 'return = fun (images, (width : int), (height : int)) ->
+    method scaleArray : 'any1 'return. 'any1 * int * int -> 'return = fun (images, (width : int), (height : int)) ->
+        let images = Obj.repr images in
         begin
-        let scaledImages : Obj.t ref = ref ((Obj.repr (Array.make ((Array.length images)) (Obj.magic 0)))) in ();
-        let index : int ref = ref ((Array.length images)) in ();
+        let scaledImages : Obj.t ref = ref ((Obj.repr (Array.make ((Array.length (Obj.magic images))) (Obj.magic 0)))) in ();
+        let index : int ref = ref ((Array.length (Obj.magic images))) in ();
         while ((index := !index - 1; !index) >= 0) do
-            (Obj.magic !scaledImages).(!index) <- (self#scale (images.(!index), width, height))
+            (Obj.magic !scaledImages).(!index) <- (self#scale ((Obj.magic images).(!index), width, height))
         done;
         (Obj.magic ((Obj.magic !scaledImages)))
-        end
+        end [@@warning "-20"]
     
 
     method scale : 'any1 'return. 'any1 * int * int -> 'return = fun (image, (width : int), (height : int)) ->
@@ -73,9 +74,9 @@ let instance = (new imageJ2MEScaleUtil ())
 let get_instance () = instance
 let () = java_register_static "ImageJ2MEScaleUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ImageJ2MEScaleUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

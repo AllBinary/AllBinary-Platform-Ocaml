@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual gameStateCompositeInterface =
   object
     method virtual setGameState : 'any1 . 'any1 -> unit
-    method virtual getGameState : unit -> GameState.gameState
+    method virtual getGameState : 'return . unit -> 'return
   end
 
 

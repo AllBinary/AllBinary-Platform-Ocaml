@@ -50,9 +50,9 @@ let instance = (new intermissionFactory ())
 let get_instance () = instance
 let () = java_register_static "IntermissionFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "IntermissionFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -51,7 +51,7 @@ class gameKeyEventHandler () =
     method addListenerForPlayer : 'any1. 'any1 * int -> unit = fun (eventListenerInterface, (playerInputId : int)) ->
         let eventListenerInterface = Obj.repr eventListenerInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), self, commonStrings#aDD_LISTENER));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), (Obj.magic self), commonStrings#aDD_LISTENER));
         ignore (pressGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
         ignore ((upGameKeyEventHandler#getInstanceForPlayer (playerInputId))#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
         ignore ((downGameKeyEventHandler#getInstanceForPlayer (playerInputId))#addListenerSingleThreaded ((Obj.magic eventListenerInterface)))
@@ -61,7 +61,7 @@ class gameKeyEventHandler () =
     method addListener : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
         let eventListenerInterface = Obj.repr eventListenerInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), self, commonStrings#aDD_LISTENER));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), (Obj.magic self), commonStrings#aDD_LISTENER));
         ignore (pressGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
         ignore (upGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
         ignore (downGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)))
@@ -71,7 +71,7 @@ class gameKeyEventHandler () =
     method removeListener : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
         let eventListenerInterface = Obj.repr eventListenerInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), self, commonStrings#rEMOVE_LISTENER));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), (Obj.magic self), commonStrings#rEMOVE_LISTENER));
         ignore (pressGameKeyEventHandler#removeListenerSingleThreaded ((Obj.magic eventListenerInterface)));
         ignore (upGameKeyEventHandler#removeListenerSingleThreaded ((Obj.magic eventListenerInterface)));
         ignore (downGameKeyEventHandler#removeListenerSingleThreaded ((Obj.magic eventListenerInterface)))
@@ -93,9 +93,9 @@ let instance = (new gameKeyEventHandler ())
 let get_instance () = instance
 let () = java_register_static "GameKeyEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameKeyEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

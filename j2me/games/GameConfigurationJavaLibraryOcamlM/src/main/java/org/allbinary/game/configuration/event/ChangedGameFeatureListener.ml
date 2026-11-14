@@ -19,6 +19,11 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import org.allbinary.game.configuration.GameConfiguration *)
 
+let gameFeatureListener_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_gameFeatureListener : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !gameFeatureListener_cell with Lazy.Undefined -> java_null)
+let set_gameFeatureListener value' = gameFeatureListener_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "ChangedGameFeatureListener.get_gameFeatureListener" (fun _ -> Obj.repr (get_gameFeatureListener ()))
+let () = java_register_static "ChangedGameFeatureListener.set_gameFeatureListener" (fun value' -> set_gameFeatureListener value'; Obj.repr ())
 class changedGameFeatureListener () =
   object (self)
     inherit BaseChangedGameFeatureListener.baseChangedGameFeatureListener ()
@@ -37,14 +42,12 @@ class changedGameFeatureListener () =
   end
 let () = java_register_constructor "ChangedGameFeatureListener" (fun arguments -> Obj.repr (new changedGameFeatureListener (Obj.obj arguments)))
 
-let gameFeatureListener = (new changedGameFeatureListener ())
-let get_gameFeatureListener () = gameFeatureListener
-let () = java_register_static "ChangedGameFeatureListener.get_gameFeatureListener" (fun _ -> Obj.repr (get_gameFeatureListener ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        gameFeatureListener
+        (Obj.magic ((Obj.magic (get_gameFeatureListener ()))))
         end
 let () = java_register_static "ChangedGameFeatureListener.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = gameFeatureListener_cell := lazy (Obj.repr ((new changedGameFeatureListener ())))
 
 

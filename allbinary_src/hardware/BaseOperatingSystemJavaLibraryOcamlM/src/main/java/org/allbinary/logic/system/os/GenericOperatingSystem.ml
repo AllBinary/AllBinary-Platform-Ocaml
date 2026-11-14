@@ -61,9 +61,9 @@ class genericOperatingSystem () =
         end
     
 
-    method getCharacterSet () : CharacterSet.characterSet =
+    method getCharacterSet : 'return. unit -> 'return = fun () ->
         begin
-        (characterSet :> CharacterSet.characterSet)
+        (Obj.magic (characterSet))
         end
     
 

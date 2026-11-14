@@ -63,7 +63,7 @@ class remoteHighScores ((abeClientInformation_arg : AbeClientInformationInterfac
     method addHighScore : 'any1. 'any1 -> unit = fun (newHighScore) ->
         let newHighScore = Obj.repr newHighScore in
         begin
-        ignore ((Obj.magic (java_call_static "RemoteHighScoresSubmissionProcessorFactory.getInstance" (Obj.repr ())))#process (self, abeClientInformation, (Obj.magic newHighScore)))
+        ignore ((Obj.magic (java_call_static "RemoteHighScoresSubmissionProcessorFactory.getInstance" (Obj.repr ())))#process ((Obj.magic self), abeClientInformation, (Obj.magic newHighScore)))
         end [@@warning "-7-20"]
     
 
@@ -79,7 +79,7 @@ class remoteHighScores ((abeClientInformation_arg : AbeClientInformationInterfac
                 let displayName : string ref = ref ((Obj.magic (!highScoreVector#get (0)))) in ();
                 let score : string ref = ref ((Obj.magic (!highScoreVector#get (1)))) in ();
                 let longScore : int ref = ref ((int_of_string (!score))) in ();
-                let highScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr ((-1), !displayName, (Obj.magic 0), !longScore)))))) in ();
+                let highScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr ((- 1), !displayName, (Obj.magic 0), !longScore)))))) in ();
                 ignore ((self#getList ())#add ((Obj.magic !highScore)))
             done
         end else begin
@@ -88,8 +88,8 @@ class remoteHighScores ((abeClientInformation_arg : AbeClientInformationInterfac
             let enumeration : java_enumeration ref = ref ((((Obj.magic hashtable)#elements ()) :> java_enumeration)) in ();
             let nextElement : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
             while (enumerationUtil#hasMoreElements (!enumeration)) do
-                nextElement := (enumerationUtil#nextElement (!enumeration));
-                ignore ((Obj.magic logUtil)#putF ((!nEXT_ELEMENT ^ java_string_of (Obj.repr (!nextElement))), self, !commonStrings#pROCESS))
+                nextElement := (Obj.repr ((enumerationUtil#nextElement (!enumeration))));
+                ignore ((Obj.magic logUtil)#putF ((!nEXT_ELEMENT ^ java_string_of (Obj.repr (!nextElement))), (Obj.magic self), !commonStrings#pROCESS))
             done
         end
         end [@@warning "-7-20"]
@@ -107,9 +107,9 @@ class remoteHighScores ((abeClientInformation_arg : AbeClientInformationInterfac
         end [@@warning "-7"]
     
 
-    method getSoftwareInformation () : SoftwareInformation.softwareInformation =
+    method getSoftwareInformation : 'return. unit -> 'return = fun () ->
         begin
-        (softwareInformation :> SoftwareInformation.softwareInformation)
+        (Obj.magic (softwareInformation))
         end [@@warning "-7"]
 
     initializer
@@ -126,7 +126,7 @@ class remoteHighScores ((abeClientInformation_arg : AbeClientInformationInterfac
         softwareInformation <- softwareInformation_arg;
         (self#setAscending (ascending_arg));
         if preload then begin
-            ignore ((RemoteHighScoresProcessorFactory.getInstance ())#process (self, abeClientInformation, gameInfo))
+            ignore ((Obj.magic (java_call_static "RemoteHighScoresProcessorFactory.getInstance" (Obj.repr ())))#process ((Obj.magic self), abeClientInformation, gameInfo))
         end
       end
   end [@@warning "-20"]

@@ -46,15 +46,16 @@ let nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER : Obj.t ref = ref ((Obj.repr (NullU
 let get_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER () = !nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER
 let set_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER value' = nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER := value'
 let () = java_register_static "CollidableDestroyableDamageableLayer.get_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER" (fun _ -> Obj.repr (get_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER ()))
+let () = java_register_static "CollidableDestroyableDamageableLayer.set_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER" (fun value' -> set_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER (Obj.obj value'); Obj.repr ())
 let rEADYFOREXPLOSION : string = "ReadyForExplosion: "
 let get_rEADYFOREXPLOSION () = rEADYFOREXPLOSION
 let () = java_register_static "CollidableDestroyableDamageableLayer.get_rEADYFOREXPLOSION" (fun _ -> Obj.repr (get_rEADYFOREXPLOSION ()))
-class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string), layerInfo, (viewPosition : ViewPositionBase.viewPositionBase)) =
+class collidableDestroyableDamageableLayer ((groupInterface_arg : Group.group array), (name : string), (layerInfo : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
   object (self)
     inherit CollidableCompositeLayer.collidableCompositeLayer (name, layerInfo, viewPosition, (CollidableNeverCollideBehaviorFactory.getInstance ())) as super
-    val mutable groupInterface : Obj.t = Obj.repr 0
-    method groupInterface : 'r. 'r = Obj.magic groupInterface
-    method set_groupInterface : 'v. 'v -> unit = fun value' -> groupInterface <- Obj.repr value'
+    val mutable groupInterface : Group.group array = (Obj.magic 0)
+    method groupInterface = groupInterface
+    method set_groupInterface value' = groupInterface <- value'
     val mutable readyForExplosion : bool = false
     method readyForExplosion = readyForExplosion
     method set_readyForExplosion value' = readyForExplosion <- value'
@@ -76,9 +77,9 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
     val mutable partInterfaceArrayP : PartInterface.partInterface array = (Obj.magic 0)
     method partInterfaceArrayP = partInterfaceArrayP
     method set_partInterfaceArrayP value' = partInterfaceArrayP <- value'
-    val mutable pickupBehavior : PickupBehavior.pickupBehavior = (Obj.magic 0)
-    method pickupBehavior = pickupBehavior
-    method set_pickupBehavior value' = pickupBehavior <- value'
+    val mutable pickupBehavior : Obj.t = Obj.repr 0
+    method pickupBehavior : 'r. 'r = Obj.magic pickupBehavior
+    method set_pickupBehavior : 'v. 'v -> unit = fun value' -> pickupBehavior <- Obj.repr value'
     val mutable allBinaryGameLayerManagerP : AllBinaryGameLayerManager.allBinaryGameLayerManager = (Obj.magic 0)
     method allBinaryGameLayerManagerP = allBinaryGameLayerManagerP
     method set_allBinaryGameLayerManagerP value' = allBinaryGameLayerManagerP <- value'
@@ -135,13 +136,13 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
 
     method getGroupInterface : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic groupInterface)))
+        (Obj.magic (groupInterface))
         end [@@warning "-7"]
     
 
-    method setGroupInterface (teamInterface) : unit =
+    method setGroupInterface ((teamInterface : Group.group array)) : unit =
         begin
-        groupInterface <- Obj.repr (teamInterface)
+        groupInterface <- teamInterface
         end [@@warning "-7"]
     
 
@@ -305,16 +306,16 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
         end [@@warning "-7-20"]
     
 
-    method getPickupBehavior () : PickupBehavior.pickupBehavior =
+    method getPickupBehavior : 'return. unit -> 'return = fun () ->
         begin
-        (pickupBehavior :> PickupBehavior.pickupBehavior)
+        (Obj.magic ((Obj.magic pickupBehavior)))
         end [@@warning "-7"]
     
 
     method setPickupBehavior : 'any1. 'any1 -> unit = fun (pickupBehavior_arg) ->
         let pickupBehavior_arg = Obj.repr pickupBehavior_arg in
         begin
-        pickupBehavior <- (Obj.magic pickupBehavior_arg)
+        pickupBehavior <- Obj.repr ((Obj.magic pickupBehavior_arg))
         end [@@warning "-7-20"]
     
 
@@ -330,9 +331,9 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
         end [@@warning "-7"]
     
 
-    method getPartInterfaceArray () : PartInterface.partInterface array =
+    method getPartInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        partInterfaceArrayP
+        (Obj.magic (partInterfaceArrayP))
         end [@@warning "-7"]
     
 
@@ -343,16 +344,16 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
         let positionStrings : PositionStrings.positionStrings ref = ref (((PositionStrings.getInstance ()) :> PositionStrings.positionStrings)) in ();
         ignore (super#toStringAppend ((Obj.magic stringBuffer)));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
-        let groupInterfaceArray : Obj.t ref = ref ((Obj.repr (self#getGroupInterface ()))) in ();
-        let size : int ref = ref ((Array.length (Obj.magic !groupInterfaceArray))) in ();
+        let groupInterfaceArray : Group.group array ref = ref ((self#getGroupInterface ())) in ();
+        let size : int ref = ref ((Array.length !groupInterfaceArray)) in ();
         for index = 0 to !size - 1 do
-            ignore ((Obj.magic stringBuffer)#append ((java_string_of (Obj.repr (Obj.magic !groupInterfaceArray).(index)))));
+            ignore ((Obj.magic stringBuffer)#append ((java_string_of (Obj.repr !groupInterfaceArray.(index)))));
             ignore ((Obj.magic stringBuffer)#append (!commonSeps#cOMMA))
         done;
-        let pickupBehavior_arg : PickupBehavior.pickupBehavior ref = ref (((self#getPickupBehavior ()) :> PickupBehavior.pickupBehavior)) in ();
-        if (!pickupBehavior_arg != (Obj.magic 0)) then begin
+        let pickupBehavior_arg : Obj.t ref = ref ((Obj.repr (self#getPickupBehavior ()))) in ();
+        if ((Obj.magic !pickupBehavior_arg) != (Obj.magic 0)) then begin
             ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
-            ignore ((Obj.magic stringBuffer)#append ((java_string_of (Obj.repr !pickupBehavior_arg))))
+            ignore ((Obj.magic stringBuffer)#append ((java_string_of (Obj.repr (Obj.magic !pickupBehavior_arg)))))
         end;
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
         ignore ((Obj.magic stringBuffer)#append (rEADYFOREXPLOSION));
@@ -395,18 +396,18 @@ class collidableDestroyableDamageableLayer (groupInterface_arg, (name : string),
         (* super(...) is the inherit clause *) ();
         initWidth <- (layerInfo#getWidth ());
         initHeight <- (layerInfo#getHeight ());
-        groupInterface <- Obj.repr (groupInterface_arg);
-        pickupBehavior <- (PickupBehavior.getNullInstance ())
+        groupInterface <- groupInterface_arg;
+        pickupBehavior <- Obj.repr ((Obj.magic (java_call_static "PickupBehavior.getNullInstance" (Obj.repr ()))))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "CollidableDestroyableDamageableLayer" (fun arguments -> Obj.repr (new collidableDestroyableDamageableLayer (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER := (new collidableDestroyableDamageableLayer ((BasicGroupFactory.getInstance ())#nONE_ARRAY, (StringUtil.getInstance ())#eMPTY_STRING, (RectangleFactory.get_sINGLETON ()), (ViewPositionBase.get_nULL_VIEW_POSITION ())))
+            nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER := (Obj.repr ((new collidableDestroyableDamageableLayer ((BasicGroupFactory.getInstance ())#nONE_ARRAY, (StringUtil.getInstance ())#eMPTY_STRING, (RectangleFactory.get_sINGLETON ()), (ViewPositionBase.get_nULL_VIEW_POSITION ())))))
         end;
-        (Obj.magic !nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER)
+        (Obj.magic ((Obj.magic !nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER)))
         end
 let () = java_register_static "CollidableDestroyableDamageableLayer.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

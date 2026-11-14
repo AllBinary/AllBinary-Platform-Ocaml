@@ -24,6 +24,7 @@ let wEAPON_LAYER_CIRCULAR_STATIC_POOL : WeaponLayerCircularPool.weaponLayerCircu
 let get_wEAPON_LAYER_CIRCULAR_STATIC_POOL () = !wEAPON_LAYER_CIRCULAR_STATIC_POOL
 let set_wEAPON_LAYER_CIRCULAR_STATIC_POOL value' = wEAPON_LAYER_CIRCULAR_STATIC_POOL := value'
 let () = java_register_static "MineLayerCircularStaticPool.get_wEAPON_LAYER_CIRCULAR_STATIC_POOL" (fun _ -> Obj.repr (get_wEAPON_LAYER_CIRCULAR_STATIC_POOL ()))
+let () = java_register_static "MineLayerCircularStaticPool.set_wEAPON_LAYER_CIRCULAR_STATIC_POOL" (fun value' -> set_wEAPON_LAYER_CIRCULAR_STATIC_POOL (Obj.obj value'); Obj.repr ())
 
 let init : 'any1. 'any1 -> unit = fun (viewPositionFactoryInterface) ->
         let viewPositionFactoryInterface = Obj.repr viewPositionFactoryInterface in
@@ -32,9 +33,9 @@ let init : 'any1. 'any1 -> unit = fun (viewPositionFactoryInterface) ->
         ignore (!wEAPON_LAYER_CIRCULAR_STATIC_POOL#initAllBinaryLayerCircularPool ((new MineLayerFactory.mineLayerFactory ((Obj.magic viewPositionFactoryInterface))), 20))
         end [@@warning "-20"]
 
-and getInstance () : WeaponLayerCircularPool.weaponLayerCircularPool =
+and getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!wEAPON_LAYER_CIRCULAR_STATIC_POOL :> WeaponLayerCircularPool.weaponLayerCircularPool)
+        (Obj.magic (!wEAPON_LAYER_CIRCULAR_STATIC_POOL))
         end
 
 let () = java_register_static "MineLayerCircularStaticPool.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))

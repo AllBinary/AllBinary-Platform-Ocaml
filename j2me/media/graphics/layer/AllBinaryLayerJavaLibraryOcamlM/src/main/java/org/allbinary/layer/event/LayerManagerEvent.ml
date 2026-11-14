@@ -22,9 +22,9 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.logic.util.event.AllBinaryEventObject *)
 
-class layerManagerEvent (layerManager, (crud_arg : string)) =
+class layerManagerEvent ((layerManager : LayerManager.layerManager), (crud_arg : string)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (layerManager)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (layerManager)))
     val mutable layerInterface : AllBinaryLayer.allBinaryLayer = (Obj.magic 0)
     method layerInterface = layerInterface
     method set_layerInterface value' = layerInterface <- value'
@@ -34,9 +34,9 @@ class layerManagerEvent (layerManager, (crud_arg : string)) =
     
     
 
-    method getLayerInterface () : AllBinaryLayer.allBinaryLayer =
+    method getLayerInterface : 'return. unit -> 'return = fun () ->
         begin
-        (layerInterface :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic (layerInterface))
         end [@@warning "-7"]
     
 

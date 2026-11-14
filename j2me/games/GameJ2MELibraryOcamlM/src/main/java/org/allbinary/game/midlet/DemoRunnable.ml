@@ -44,16 +44,16 @@ class demoRunnable (demoGameMidlet_arg) =
     method run () : unit =
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ("GameCanvasRunnableInterface")))), self, commonStrings#rUN));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ("GameCanvasRunnableInterface")))), (Obj.magic self), commonStrings#rUN));
             ignore ((Obj.magic demoGameMidlet)#commandAction ((MyCommandsFactory.getInstance ())#sET_DISPLAYABLE, (ProgressCanvasFactory.getInstance ())));
             ignore ((Obj.magic demoGameMidlet)#setGameCanvasRunnableInterface (((Obj.magic demoGameMidlet)#createDemoGameCanvasRunnableInterface ())));
             ignore ((Obj.magic demoGameMidlet)#demoSetup ());
             ignore ((DemoGameMidletEventHandler.getInstance ())#fireEvent (startDemoGameMidletEvent));
             ignore ((Obj.magic demoGameMidlet)#startGameCanvasRunnableInterface ());
             ignore ((Obj.magic demoGameMidlet)#postDemoSetup ());
-            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, self, commonStrings#rUN))
+            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, (Obj.magic self), commonStrings#rUN))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#rUN, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#rUN, e))
         end)
         end
 
@@ -65,7 +65,7 @@ class demoRunnable (demoGameMidlet_arg) =
         ();
         ();
         demoGameMidlet <- Obj.repr (demoGameMidlet_arg);
-        startDemoGameMidletEvent <- (new DemoGameMidletEvent.demoGameMidletEvent ((Obj.magic demoGameMidlet), (DemoGameMidletStateFactory.getInstance ())#sTART_DEMO))
+        startDemoGameMidletEvent <- (new DemoGameMidletEvent.demoGameMidletEvent ((Obj.repr ((Obj.magic demoGameMidlet))), (DemoGameMidletStateFactory.getInstance ())#sTART_DEMO))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "DemoRunnable" (fun arguments -> Obj.repr (new demoRunnable (Obj.obj arguments)))

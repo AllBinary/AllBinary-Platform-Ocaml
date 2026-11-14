@@ -16,6 +16,7 @@
 (* package org.allbinary.emulator.swt *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.eclipse.swt.widgets.Display *)
 
 class sWTRunnableProcessor () =
@@ -39,9 +40,9 @@ let instanceR = (new sWTRunnableProcessor ())
 let get_instanceR () = instanceR
 let () = java_register_static "SWTRunnableProcessor.get_instanceR" (fun _ -> Obj.repr (get_instanceR ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceR
+        (Obj.magic (instanceR))
         end
 let () = java_register_static "SWTRunnableProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

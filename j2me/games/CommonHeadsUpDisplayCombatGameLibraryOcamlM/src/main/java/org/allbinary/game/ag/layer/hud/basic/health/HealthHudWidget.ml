@@ -29,15 +29,15 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.time.NoTimeDelayHelper *)
 (* import org.allbinary.time.TimeDelayHelper *)
 
-class healthHudWidget (animationInterface_arg, (healthInterface_arg : Health.health), (location : int), (direction : int)) =
+class healthHudWidget ((animationInterface_arg : Animation.animation), (healthInterface_arg : Health.health), (location : int), (direction : int)) =
   object (self)
     inherit BasicHud.basicHud (location, direction, 2, (BasicColorFactory.getInstance ())#wHITE) as super
     val mutable healthScale : int = 0
     method healthScale = healthScale
     method set_healthScale value' = healthScale <- value'
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
     val mutable healthInterface : Health.health = (Obj.magic 0)
     method healthInterface = healthInterface
     method set_healthInterface value' = healthInterface <- value'
@@ -105,7 +105,7 @@ class healthHudWidget (animationInterface_arg, (healthInterface_arg : Health.hea
         ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         for index = 0 to max - 1 do
             if (timeDelayHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
-                ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), xArray.(index), (self#getY ())))
+                ignore (animationInterface#paintXY ((Obj.magic graphics), xArray.(index), (self#getY ())))
             end
         done
         end [@@warning "-7-20"]
@@ -130,9 +130,9 @@ class healthHudWidget (animationInterface_arg, (healthInterface_arg : Health.hea
         fastBeatTimeDelayHelper <- ((new TimeDelayHelper.timeDelayHelper (320)) :> TimeDelayHelper.timeDelayHelper);
         ();
         (* super(...) is the inherit clause *) ();
-        animationInterface <- Obj.repr (animationInterface_arg);
+        animationInterface <- animationInterface_arg;
         healthInterface <- healthInterface_arg;
-        ignore (healthInterface#addListener (self));
+        ignore (healthInterface#addListener ((Obj.magic self)));
         healthScale <- ((((healthInterface#getMaxHealth ()) / 6)) + 1);
         (self#onHealthChange ());
         (self#set_updateMaxWidth) (((healthInterface_arg#getMaxHealth ()) * 16));
@@ -140,7 +140,7 @@ class healthHudWidget (animationInterface_arg, (healthInterface_arg : Health.hea
         xArray <- (Array.make (30) 0);
         (self#update ())
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "HealthHudWidget" (fun arguments -> Obj.repr (new healthHudWidget (Obj.obj arguments)))
 
 

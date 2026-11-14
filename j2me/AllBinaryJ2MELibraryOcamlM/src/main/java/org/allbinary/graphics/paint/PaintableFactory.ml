@@ -16,14 +16,15 @@
 (* package org.allbinary.graphics.paint *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class paintableFactory () =
   object
     
 
-    method getInstance () : Paintable.paintable =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((NullPaintable.getInstance ()) :> Paintable.paintable)
+        (Obj.magic ((NullPaintable.getInstance ())))
         end
 
     initializer

@@ -31,9 +31,9 @@ class touchButtonRecognizer () =
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable rectangleCollisionUtil : Obj.t = Obj.repr 0
-    method rectangleCollisionUtil : 'r. 'r = Obj.magic rectangleCollisionUtil
-    method set_rectangleCollisionUtil : 'v. 'v -> unit = fun value' -> rectangleCollisionUtil <- Obj.repr value'
+    val mutable rectangleCollisionUtil : RectangleCollisionUtil.rectangleCollisionUtil = (Obj.magic 0)
+    method rectangleCollisionUtil = rectangleCollisionUtil
+    method set_rectangleCollisionUtil value' = rectangleCollisionUtil <- value'
     val mutable upGameKeyEventHandler : UpGameKeyEventHandler.upGameKeyEventHandler = (Obj.magic 0)
     method upGameKeyEventHandler = upGameKeyEventHandler
     method set_upGameKeyEventHandler value' = upGameKeyEventHandler <- value'
@@ -46,16 +46,16 @@ class touchButtonRecognizer () =
     val mutable currentlyPressedTouchButtonSingleton : CurrentlyPressedTouchButtonSingleton.currentlyPressedTouchButtonSingleton = (Obj.magic 0)
     method currentlyPressedTouchButtonSingleton = currentlyPressedTouchButtonSingleton
     method set_currentlyPressedTouchButtonSingleton value' = currentlyPressedTouchButtonSingleton <- value'
-    val mutable releaseHelper : ReleaseHelper.releaseHelper = (Obj.magic 0)
-    method releaseHelper = releaseHelper
-    method set_releaseHelper value' = releaseHelper <- value'
+    val mutable releaseHelper : Obj.t = Obj.repr 0
+    method releaseHelper : 'r. 'r = Obj.magic releaseHelper
+    method set_releaseHelper : 'v. 'v -> unit = fun value' -> releaseHelper <- Obj.repr value'
     
     
 
     method processRelease : 'any1. 'any1 * int -> unit = fun (touchButtonInput, (deviceId : int)) ->
         let touchButtonInput = Obj.repr touchButtonInput in
         begin
-        ignore (releaseHelper#release ((Obj.magic touchButtonInput), deviceId));
+        ignore ((Obj.magic releaseHelper)#release ((Obj.magic touchButtonInput), deviceId));
         let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref ((((Obj.magic touchButtonInput)#getGameKeyEvent ()) :> GameKeyEvent.gameKeyEvent)) in ();
         ignore (upGameKeyEventHandler#fireEvent (!gameKeyEvent));
         ignore ((upGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent));
@@ -73,14 +73,14 @@ class touchButtonRecognizer () =
             raise (Java_return (Obj.repr (true)))
         end else begin
             let list : BasicArrayList.basicArrayList ref = ref ((((TouchButtonFactory.getInstance ())#getList ()) :> BasicArrayList.basicArrayList)) in ();
-            let rectangle : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+            let rectangle : Rectangle.rectangle ref = ref (((Obj.magic 0) :> Rectangle.rectangle)) in ();
             let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
             let touchButton : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
             for index = ((!list#size ()) - 1) downto 0 do
                 touchButton := Obj.repr ((Obj.magic !list#objectArray.(index)));
-                rectangle := Obj.repr (((Obj.magic !touchButton)#getRectangle ()));
-                point := ((Obj.magic !rectangle)#getPoint ());
-                if ((Obj.magic rectangleCollisionUtil)#isInside ((!point#getX ()), (!point#getY ()), ((Obj.magic !rectangle)#getMaxX ()), ((Obj.magic !rectangle)#getMaxY ()), x, y)) then begin
+                rectangle := ((Obj.magic !touchButton)#getRectangle ());
+                point := (!rectangle#getPoint ());
+                if (rectangleCollisionUtil#isInside ((!point#getX ()), (!point#getY ()), (!rectangle#getMaxX ()), (!rectangle#getMaxY ()), x, y)) then begin
                     touchButtonInput := ((Obj.magic !touchButton)#getTouchButtonInput ());
                     (self#processRelease (!touchButtonInput, deviceId));
                     raise (Java_return (Obj.repr (true)))
@@ -96,19 +96,19 @@ class touchButtonRecognizer () =
         try
         begin
         let list : BasicArrayList.basicArrayList ref = ref ((((TouchButtonFactory.getInstance ())#getList ()) :> BasicArrayList.basicArrayList)) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let rectangle : Rectangle.rectangle ref = ref (((Obj.magic 0) :> Rectangle.rectangle)) in ();
         let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
         let touchButton : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         let touchButtonInput : TouchButtonInput.touchButtonInput ref = ref (((Obj.magic 0) :> TouchButtonInput.touchButtonInput)) in ();
         let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((Obj.magic 0) :> GameKeyEvent.gameKeyEvent)) in ();
         for index = ((!list#size ()) - 1) downto 0 do
             touchButton := Obj.repr ((Obj.magic !list#objectArray.(index)));
-            rectangle := Obj.repr (((Obj.magic !touchButton)#getRectangle ()));
-            point := ((Obj.magic !rectangle)#getPoint ());
-            if ((Obj.magic rectangleCollisionUtil)#isInside ((!point#getX ()), (!point#getY ()), ((Obj.magic !rectangle)#getMaxX ()), ((Obj.magic !rectangle)#getMaxY ()), x, y)) then begin
+            rectangle := ((Obj.magic !touchButton)#getRectangle ());
+            point := (!rectangle#getPoint ());
+            if (rectangleCollisionUtil#isInside ((!point#getX ()), (!point#getY ()), (!rectangle#getMaxX ()), (!rectangle#getMaxY ()), x, y)) then begin
                 touchButtonInput := ((Obj.magic !touchButton)#getTouchButtonInput ());
                 if (not (currentlyPressedTouchButtonSingleton#contains (!touchButtonInput))) then begin
-                    ignore (releaseHelper#release (!touchButtonInput, deviceId));
+                    ignore ((Obj.magic releaseHelper)#release (!touchButtonInput, deviceId));
                     lastPressedTouchButtonInput <- !touchButtonInput;
                     ignore (currentlyPressedTouchButtonSingleton#add (!touchButtonInput));
                     gameKeyEvent := (!touchButtonInput#getGameKeyEvent ());
@@ -125,17 +125,17 @@ class touchButtonRecognizer () =
     initializer
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        rectangleCollisionUtil <- (Obj.repr (Obj.magic (java_call_static "RectangleCollisionUtil.getInstance" (Obj.repr ()))));
+        rectangleCollisionUtil <- ((RectangleCollisionUtil.getInstance ()) :> RectangleCollisionUtil.rectangleCollisionUtil);
         upGameKeyEventHandler <- ((UpGameKeyEventHandler.getInstance ()) :> UpGameKeyEventHandler.upGameKeyEventHandler);
         downGameKeyEventHandler <- ((DownGameKeyEventHandler.getInstance ()) :> DownGameKeyEventHandler.downGameKeyEventHandler);
         lastPressedTouchButtonInput <- ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#nONE :> TouchButtonInput.touchButtonInput);
         currentlyPressedTouchButtonSingleton <- ((CurrentlyPressedTouchButtonSingleton.getInstance ()) :> CurrentlyPressedTouchButtonSingleton.currentlyPressedTouchButtonSingleton);
-        releaseHelper <- ((Obj.magic 0) :> ReleaseHelper.releaseHelper);
+        releaseHelper <- (Obj.repr (Obj.magic 0));
         ();
         if ((Obj.magic (java_call_static "TouchScreenFactory.getInstance" (Obj.repr ())))#isMultiTouch ()) then begin
-            releaseHelper <- (new MultitouchReleaseHelper.multitouchReleaseHelper (self))
+            releaseHelper <- Obj.repr ((Obj.obj (java_new "MultitouchReleaseHelper" (Obj.repr ((Obj.magic self))))))
         end else begin
-            releaseHelper <- (new ReleaseHelper.releaseHelper (self))
+            releaseHelper <- Obj.repr ((Obj.obj (java_new "ReleaseHelper" (Obj.repr ((Obj.magic self))))))
         end
       end
   end [@@warning "-20"]

@@ -48,12 +48,12 @@ class touchButtonsMappingPaintable ((basicColor : BasicColor.basicColor)) =
             paintableTable <- (self#createPaintableTable ())
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "updateRectangle", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "updateRectangle", e))
         end)
         end [@@warning "-7"]
     
 
-    method createPaintableTable () : Paintable.paintable array array =
+    method createPaintableTable : 'return. unit -> 'return = fun () ->
         begin
         let totalColumns : int ref = ref ((touchButtonLocationHelper#getTotalColumns ())) in ();
         let totalRows : int ref = ref ((touchButtonLocationHelper#getTotalRows ())) in ();
@@ -65,7 +65,7 @@ class touchButtonsMappingPaintable ((basicColor : BasicColor.basicColor)) =
                 paintableTable.(index).(rowIndex) <- (Obj.magic (java_call_static "TouchButton.createButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#nONE, (TouchButtonBlankResource.getInstance ()), !commonButtons#nORMAL_BUTTON, (!cellPositionFactory#getInstanceColRow (index, rowIndex)), (touchButtonLocationHelper#getColumnsRemainderHalf ()), (touchButtonLocationHelper#getRowsRemainderHalf ())))))
             done
         done;
-        !paintableTable_arg
+        (Obj.magic (!paintableTable_arg))
         end [@@warning "-7"]
     
 

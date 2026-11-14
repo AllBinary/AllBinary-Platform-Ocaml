@@ -44,7 +44,7 @@ class angleInfo ((angleIncrementInfo_arg : AngleIncrementInfo.angleIncrementInfo
     method adjustAngle ((frame : int)) : unit =
         begin
         let newAngle : int ref = ref ((((angleIncrementInfo#getAngleIncrement ()) * frame) - 90)) in ();
-        (self#setAngle ((java_to_int (Obj.repr ((frameUtil#adjustAngleToFrameAngle (!newAngle)))))))
+        (self#setAngle ((frameUtil#adjustAngleToFrameAngle (!newAngle))))
         end
     
 
@@ -60,9 +60,9 @@ class angleInfo ((angleIncrementInfo_arg : AngleIncrementInfo.angleIncrementInfo
         end
     
 
-    method getAngleIncrementInfo () : AngleIncrementInfo.angleIncrementInfo =
+    method getAngleIncrementInfo : 'return. unit -> 'return = fun () ->
         begin
-        (angleIncrementInfo :> AngleIncrementInfo.angleIncrementInfo)
+        (Obj.magic (angleIncrementInfo))
         end
     
 
@@ -87,9 +87,9 @@ class angleInfo ((angleIncrementInfo_arg : AngleIncrementInfo.angleIncrementInfo
   end
 let () = java_register_constructor "AngleInfo" (fun arguments -> Obj.repr (new angleInfo (Obj.obj arguments)))
 
-let getInstance ((angleIncrement : int)) =
+let getInstance : 'return. int -> 'return = fun ((angleIncrement : int)) ->
         begin
-        (new angleInfo (((AngleIncrementInfoFactory.getInstance ())#getAt (angleIncrement))))
+        (Obj.magic ((new angleInfo (((AngleIncrementInfoFactory.getInstance ())#getAt (angleIncrement))))))
         end
 let () = java_register_static "AngleInfo.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

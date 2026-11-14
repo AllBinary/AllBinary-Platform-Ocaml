@@ -75,10 +75,10 @@ class threadPool ((poolName_arg : string), (numThreads_arg : int), (priority_arg
         begin
         if (not isAlive) then begin
             isAlive <- true;
-            taskQueue <- (new BasicArrayListD.basicArrayListD ());
+            taskQueue <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
             let pooledThread : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
             for _i = 0 to numThreads - 1 do
-                pooledThread := Obj.repr ((Obj.obj (java_new "PooledThread" (Obj.repr (self)))));
+                pooledThread := Obj.repr ((Obj.obj (java_new "PooledThread" (Obj.repr ((Obj.magic self))))));
                 ignore ((Obj.magic !pooledThread)#setPriority (priority));
                 ignore ((Obj.magic !pooledThread)#start ())
             done

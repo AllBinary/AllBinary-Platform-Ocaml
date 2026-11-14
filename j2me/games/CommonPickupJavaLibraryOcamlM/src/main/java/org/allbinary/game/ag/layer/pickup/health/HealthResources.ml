@@ -16,6 +16,7 @@
 (* package org.allbinary.game.ag.layer.pickup.health *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class healthResources () =
   object
@@ -37,9 +38,9 @@ let sINGLETON = (new healthResources ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "HealthResources.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "HealthResources.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

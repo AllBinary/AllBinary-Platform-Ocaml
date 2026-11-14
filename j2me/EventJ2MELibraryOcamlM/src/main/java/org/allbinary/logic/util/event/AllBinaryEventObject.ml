@@ -40,19 +40,19 @@ class allBinaryEventObject ((anyType : Obj.t)) =
     method setSource : 'any1. 'any1 -> unit = fun (source_arg) ->
         let source_arg = Obj.repr source_arg in
         begin
-        source <- source_arg
+        source <- (Obj.repr (source_arg))
         end
 
     initializer
       begin
         ();
         ();
-        source <- anyType
+        source <- (Obj.repr (anyType))
       end
   end
 let () = java_register_constructor "AllBinaryEventObject" (fun arguments -> Obj.repr (new allBinaryEventObject (Obj.obj arguments)))
 
-let nULL_EVENT = (new allBinaryEventObject ((NullUtil.getInstance ())#nULL_OBJECT))
+let nULL_EVENT = (new allBinaryEventObject ((Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))))
 let get_nULL_EVENT () = nULL_EVENT
 let () = java_register_static "AllBinaryEventObject.get_nULL_EVENT" (fun _ -> Obj.repr (get_nULL_EVENT ()))
 

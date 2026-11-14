@@ -37,13 +37,13 @@
         <module>../working_thirdpartyocaml/embedded/j2me/microemulator/2_0_4/microemu-extensions/microemu-jsr-135Ocaml</module>
         
         <module>./j2me/AllBinaryBaseLibraryPOOcamlM</module>
-        <module>./j2me/AllBinaryJ2MELibraryP</module>
-        <module>./AllBinaryPersistenceLibraryP</module>
+        <module>./j2me/AllBinaryJ2MELibraryOcamlP</module>
+        <module>./AllBinaryPersistenceLibraryOcamlP</module>
 
-        <module>./automation/InputAutomationToolsP</module>
-        <module>./graphics/GraphicsToolsP</module>
-        <module>./allbinary_src/FreeblisketJavaLibraryP</module>
-        <module>./j2me/games/platform/AllBinaryOnAllPlatformsJavaLibraryP</module>
+        <!--<module>./automation/InputAutomationToolsOcamlP</module>-->
+        <module>./graphics/GraphicsToolsOcamlP</module>
+        <!--<module>./allbinary_src/FreeblisketJavaLibraryOcamlP</module>-->
+        <module>./j2me/games/platform/AllBinaryOnAllPlatformsJavaLibraryOcamlP</module>
 
         <!--
         <module>./j2me/media/graphics/animation/image/AllBinaryHTMLImageAnimationRotationJavaLibraryOcamlM</module>

@@ -44,7 +44,7 @@ class defaultGameInitializationListener () =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 
@@ -54,9 +54,9 @@ class defaultGameInitializationListener () =
         let oN_GAME_INITIALIZED : string ref = ref ("onGameInitialized") in ();
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         (try
-            ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, self, !oN_GAME_INITIALIZED));
+            ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, (Obj.magic self), !oN_GAME_INITIALIZED));
             while (not ((Obj.magic swtJOGLProcessor)#isHolderCreated ())) do
-                ignore ((Obj.magic logUtil)#putF (!commonStrings#uPDATE, self, !oN_GAME_INITIALIZED));
+                ignore ((Obj.magic logUtil)#putF (!commonStrings#uPDATE, (Obj.magic self), !oN_GAME_INITIALIZED));
                 ignore (Unix.sleepf (Float.of_int (20) /. 1000.0))
             done;
             ignore ((FeatureResourceInitializationUtil.getInstance ())#init (((Obj.magic gameInitializedEvent)#getLevel ())));
@@ -66,7 +66,7 @@ class defaultGameInitializationListener () =
                 ignore ((Obj.magic swtJOGLProcessor)#onSurfaceChanged ())
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !oN_GAME_INITIALIZED, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !oN_GAME_INITIALIZED, e))
         end)
         end [@@warning "-20"]
 
@@ -78,7 +78,7 @@ class defaultGameInitializationListener () =
         ();
         let gameInitializedEventHandler : GameInitializedEventHandler.gameInitializedEventHandler ref = ref (((GameInitializedEventHandler.getInstance ()) :> GameInitializedEventHandler.gameInitializedEventHandler)) in ();
         ignore (!gameInitializedEventHandler#removeAllListeners ());
-        ignore (!gameInitializedEventHandler#addListenerInterface ((Obj.magic self)))
+        ignore (!gameInitializedEventHandler#addListenerInterface ((Obj.magic (Obj.magic self))))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "DefaultGameInitializationListener" (fun arguments -> Obj.repr (new defaultGameInitializationListener (Obj.obj arguments)))

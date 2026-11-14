@@ -138,9 +138,14 @@ if ! sorted_sources="$(ocamldep -sort "${dependency_sources[@]}" "${sources[@]}"
     echo "Warning: ocamldep could not sort the sources so some modules may compile before modules they use. See $output_dir/ocamldep.log" >&2
 fi
 
+# A platform module, like org.allbinary.J2MEUtil, is in more than one library like a Java class on the class path.
+# -no-keep-locs keeps source paths out of the interfaces so modules with the same signature have the same interface,
+# and -opaque keeps modules from depending on the implementation of another so any library's version can be linked.
+platform_flags=(-no-keep-locs -opaque)
+
 for source in $sorted_sources; do
     module_file="$(basename "$source" .ml)"
-    if "$compiler" -c "${compiler_flags[@]}" "${include_flags[@]}" -o "$output_dir/$module_file.$object_extension" "$source"; then
+    if "$compiler" -c "${compiler_flags[@]}" "${platform_flags[@]}" "${include_flags[@]}" -o "$output_dir/$module_file.$object_extension" "$source"; then
         for library_source in "${sources[@]}"; do
             if [ "$library_source" = "$source" ]; then
                 compiled=$((compiled + 1))

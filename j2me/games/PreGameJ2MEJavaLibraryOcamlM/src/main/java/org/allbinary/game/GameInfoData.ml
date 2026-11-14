@@ -16,6 +16,7 @@
 (* package org.allbinary.game *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class gameInfoData () =
   object
@@ -57,9 +58,9 @@ let instance = (new gameInfoData ())
 let get_instance () = instance
 let () = java_register_static "GameInfoData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameInfoData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

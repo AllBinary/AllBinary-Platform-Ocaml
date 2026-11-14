@@ -68,11 +68,11 @@ class basicInputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapp
         let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         let aND : string ref = ref ("and ") in ();
-        let key : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let key : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
         let size : int ref = ref (((Obj.magic keyList)#size ())) in ();
         for index = 0 to !size - 1 do
-            key := Obj.repr ((Obj.magic (Obj.magic keyList)#objectArray.(index)));
-            ignore (!stringBuffer#append (((Obj.magic !key)#getName ())));
+            key := (Obj.magic (Obj.magic keyList)#objectArray.(index));
+            ignore (!stringBuffer#append ((!key#getName ())));
             if ((index + 1) < ((Obj.magic keyList)#size ())) then begin
                 if (((Obj.magic keyList)#size ()) = 2) then begin
                     ignore ((!stringBuffer#append (!commonSeps#sPACE))#append (!aND))

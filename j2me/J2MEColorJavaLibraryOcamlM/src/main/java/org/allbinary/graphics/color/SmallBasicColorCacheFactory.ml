@@ -45,7 +45,7 @@ class smallBasicColorCacheFactory () =
         end [@@warning "-20"]
     
 
-    method getAndOrCreate ((colorAsInt : int)) : BasicColor.basicColor =
+    method getAndOrCreate : 'return. int -> 'return = fun ((colorAsInt : int)) ->
         try
         begin
         let basicColor : BasicColor.basicColor ref = ref (((Obj.magic 0) :> BasicColor.basicColor)) in ();
@@ -57,7 +57,7 @@ class smallBasicColorCacheFactory () =
         let aLPHA_MASK : int ref = ref (0xFF000000) in ();
         basicColor := ((BasicColorFactory.getInstance ())#createInstanceAN ((colorAsInt land !aLPHA_MASK), (colorAsInt land 0x00FFFFFF), (StringUtil.getInstance ())#eMPTY_STRING));
         (self#add (!basicColor));
-        (!basicColor :> BasicColor.basicColor)
+        (Obj.magic (!basicColor))
         end
         with Java_return value -> Obj.obj value
 
@@ -77,9 +77,9 @@ let instance = (new smallBasicColorCacheFactory ())
 let get_instance () = instance
 let () = java_register_static "SmallBasicColorCacheFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "SmallBasicColorCacheFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

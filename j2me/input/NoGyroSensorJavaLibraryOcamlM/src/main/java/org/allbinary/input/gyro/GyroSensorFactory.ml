@@ -22,6 +22,7 @@ let allBinaryGyroSensor : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_stati
 let get_allBinaryGyroSensor () = Obj.magic !allBinaryGyroSensor
 let set_allBinaryGyroSensor value' = allBinaryGyroSensor := Obj.repr value'
 let () = java_register_static "GyroSensorFactory.get_allBinaryGyroSensor" (fun _ -> Obj.repr (get_allBinaryGyroSensor ()))
+let () = java_register_static "GyroSensorFactory.set_allBinaryGyroSensor" (fun value' -> set_allBinaryGyroSensor (Obj.obj value'); Obj.repr ())
 
 let init () : unit =
         begin

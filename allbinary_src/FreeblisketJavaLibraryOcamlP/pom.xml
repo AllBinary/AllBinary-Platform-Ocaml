@@ -35,7 +35,7 @@
     
     <modules>
 
-        <module>../BlisketJavaLibraryP</module>
+        <module>../BlisketJavaLibraryOcamlP</module>
 
         <!--
         <module>../logging/LogConfigTypeFreeblisketJavaLibraryOcamlM</module>

@@ -16,6 +16,7 @@
 (* package org.allbinary.debug *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class noDebug () =
   object
@@ -61,10 +62,11 @@ let sINGLETON : DebugInterface.debugInterface ref = ref (((new noDebug ()) :> De
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "NoDebug.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "NoDebug.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () : DebugInterface.debugInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!sINGLETON :> DebugInterface.debugInterface)
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "NoDebug.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

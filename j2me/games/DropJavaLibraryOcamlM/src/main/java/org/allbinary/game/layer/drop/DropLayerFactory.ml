@@ -45,9 +45,9 @@ class dropLayerFactory () =
         end
     
 
-    method getRandomInstance () : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface =
+    method getRandomInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((Obj.magic (basicArrayListUtil#getRandom (list))) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
+        (Obj.magic ((Obj.magic (basicArrayListUtil#getRandom (list)))))
         end
     
 
@@ -58,9 +58,9 @@ class dropLayerFactory () =
         end [@@warning "-20"]
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer
@@ -77,9 +77,9 @@ let dROP_LAYER_FACTORY = (new dropLayerFactory ())
 let get_dROP_LAYER_FACTORY () = dROP_LAYER_FACTORY
 let () = java_register_static "DropLayerFactory.get_dROP_LAYER_FACTORY" (fun _ -> Obj.repr (get_dROP_LAYER_FACTORY ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        dROP_LAYER_FACTORY
+        (Obj.magic (dROP_LAYER_FACTORY))
         end
 let () = java_register_static "DropLayerFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -39,7 +39,7 @@ class formTypeFactory () =
     method set_vERTICAL_CENTER_FORM value' = vERTICAL_CENTER_FORM <- value'
     
 
-    method getFormType () : FormType.formType =
+    method getFormType : 'return. unit -> 'return = fun () ->
         begin
         let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
         let formType : FormType.formType ref = ref (((Obj.magic 0) :> FormType.formType)) in ();
@@ -48,7 +48,7 @@ class formTypeFactory () =
         end else begin
             formType := hORIZONTAL_FORM
         end;
-        (!formType :> FormType.formType)
+        (Obj.magic (!formType))
         end
 
     initializer
@@ -67,9 +67,9 @@ let instance = (new formTypeFactory ())
 let get_instance () = instance
 let () = java_register_static "FormTypeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "FormTypeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

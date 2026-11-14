@@ -5,7 +5,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual serviceRegistration =
   object
-    method virtual getReference : unit -> ServiceReference.serviceReference
+    method virtual getReference : 'return . unit -> 'return
   end
 
 

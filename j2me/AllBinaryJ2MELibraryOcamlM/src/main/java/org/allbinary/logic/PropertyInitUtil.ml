@@ -35,12 +35,12 @@ let instance = (new propertyInitUtil ())
 let get_instance () = instance
 let () = java_register_static "PropertyInitUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance ((value : int)) =
+let getInstance : 'return. int -> 'return = fun ((value : int)) ->
         begin
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
         ignore ((Obj.magic !logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("PropertyInitUtil: "))#appendint (value)))), (Obj.magic !logUtil), !commonStrings#cONSTRUCTOR));
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PropertyInitUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

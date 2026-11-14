@@ -16,14 +16,15 @@
 (* package org.allbinary.input.motion.button *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.input.mapping.InputMappingInterface *)
 (* import org.allbinary.graphics.color.BasicColor *)
 (* import org.allbinary.graphics.paint.ProcessPaintable *)
 
 
-let getInstance : 'any1 'any2. 'any1 * 'any2 -> ProcessPaintable.processPaintable = fun (_inputMappingInterface, _basicColor) ->
+let getInstance : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (_inputMappingInterface, _basicColor) ->
         begin
-        ((new ProcessPaintable.processPaintable ()) :> ProcessPaintable.processPaintable)
+        (Obj.magic ((new ProcessPaintable.processPaintable ())))
         end [@@warning "-20"]
 
 let () = java_register_static "TouchButtonsPaintableCompositeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

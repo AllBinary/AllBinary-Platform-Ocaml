@@ -20,6 +20,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.game.GameInfo *)
 (* import org.allbinary.logic.communication.log.LogUtil *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "NoHighScoresFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "NoHighScoresFactory.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class noHighScoresFactory () =
   object (self)
     inherit HighScoresBase.highScoresBase ()
@@ -35,14 +40,14 @@ class noHighScoresFactory () =
     method fetchHighScores : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_gameInfo, highScoresResultsListener) ->
         let highScoresResultsListener = Obj.repr highScoresResultsListener in
         begin
-        ignore ((Obj.magic logUtil)#putF ("Getting No HighScores", self, "fetchHighScores"));
+        ignore ((Obj.magic logUtil)#putF ("Getting No HighScores", (Obj.magic self), "fetchHighScores"));
         ignore ((Obj.magic highScoresResultsListener)#setHighScoresArray ((Obj.magic nO_HIGH_SCORES)))
         end [@@warning "-7-20"]
     
 
-    method createHighScoresHelper () : HighScoresHelperBaseInterface.highScoresHelperBaseInterface =
+    method createHighScoresHelper : 'return. unit -> 'return = fun () ->
         begin
-        ((Obj.obj (java_new "HighScoresHelperBase" (Obj.repr ()))) :> HighScoresHelperBaseInterface.highScoresHelperBaseInterface)
+        (Obj.magic ((Obj.obj (java_new "HighScoresHelperBase" (Obj.repr ())))))
         end [@@warning "-7"]
 
     initializer
@@ -55,14 +60,12 @@ class noHighScoresFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "NoHighScoresFactory" (fun arguments -> Obj.repr (new noHighScoresFactory (Obj.obj arguments)))
 
-let instance = (new noHighScoresFactory ())
-let get_instance () = instance
-let () = java_register_static "NoHighScoresFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "NoHighScoresFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new noHighScoresFactory ())))
 
 

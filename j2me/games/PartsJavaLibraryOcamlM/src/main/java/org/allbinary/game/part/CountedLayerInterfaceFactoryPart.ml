@@ -38,9 +38,9 @@ class countedLayerInterfaceFactoryPart ((total_arg : int), (countedPickedUpLayer
     val mutable myFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
     method myFontProcessor = myFontProcessor
     method set_myFontProcessor value' = myFontProcessor <- value'
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
     val mutable total : int = 0
     method total = total
     method set_total value' = total <- value'
@@ -76,7 +76,7 @@ class countedLayerInterfaceFactoryPart ((total_arg : int), (countedPickedUpLayer
         end [@@warning "-20"]
     
 
-    method getInstance : 'any1. 'any1 * int * int * int -> AllBinaryLayer.allBinaryLayer = fun (hashtable, (x : int), (y : int), (z : int)) ->
+    method getInstance : 'any1 'return. 'any1 * int * int * int -> 'return = fun (hashtable, (x : int), (y : int), (z : int)) ->
         let hashtable = Obj.repr hashtable in
         try
         begin
@@ -119,14 +119,14 @@ class countedLayerInterfaceFactoryPart ((total_arg : int), (countedPickedUpLayer
 
     method getAnimationInterface : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic animationInterface)))
+        (Obj.magic (animationInterface))
         end
     
 
     method setAnimationInterface : 'any1. 'any1 -> unit = fun (animationInterface_arg) ->
         let animationInterface_arg = Obj.repr animationInterface_arg in
         begin
-        animationInterface <- Obj.repr ((Obj.magic animationInterface_arg))
+        animationInterface <- (Obj.magic animationInterface_arg)
         end [@@warning "-20"]
     
 
@@ -148,9 +148,9 @@ class countedLayerInterfaceFactoryPart ((total_arg : int), (countedPickedUpLayer
         end
     
 
-    method getCountedPickedUpLayerInterfaceFactory () : CountedPickedUpLayerInterfaceFactory.countedPickedUpLayerInterfaceFactory =
+    method getCountedPickedUpLayerInterfaceFactory : 'return. unit -> 'return = fun () ->
         begin
-        (countedPickedUpLayerInterfaceFactory :> CountedPickedUpLayerInterfaceFactory.countedPickedUpLayerInterfaceFactory)
+        (Obj.magic (countedPickedUpLayerInterfaceFactory))
         end
     
 
@@ -162,9 +162,9 @@ class countedLayerInterfaceFactoryPart ((total_arg : int), (countedPickedUpLayer
 
     initializer
       begin
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
-        animationInterface <- (Obj.repr ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)));
+        animationInterface <- (((NullAnimationFactory.getFactoryInstance ())#getInstance (0)) :> Animation.animation);
         total <- 0;
         totalString <- (NullUtil.getInstance ())#nULL_CHAR_ARRAY;
         xOffset <- 0;
@@ -174,7 +174,7 @@ class countedLayerInterfaceFactoryPart ((total_arg : int), (countedPickedUpLayer
         primitiveLongUtil <- (PrimitiveLongUtil.createPowerOfTen (1000));
         (self#init (total_arg, countedPickedUpLayerInterfaceFactory_arg))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "CountedLayerInterfaceFactoryPart" (fun arguments -> Obj.repr (new countedLayerInterfaceFactoryPart (Obj.obj arguments)))
 
 let nULL_COUNTED_LAYER_INTERFACE_FACTORY = (new countedLayerInterfaceFactoryPart (0, (CountedPickedUpLayerInterfaceFactory.get_nULL_COUNTED_PICKUP_LAYER_FACTORY ())))

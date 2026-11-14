@@ -16,15 +16,17 @@
 (* package org.allbinary.input.motion.gesture.configuration *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let config : MotionGestureConfiguration.motionGestureConfiguration ref = ref (((new MotionGestureConfiguration.motionGestureConfiguration ()) :> MotionGestureConfiguration.motionGestureConfiguration))
 let get_config () = !config
 let set_config value' = config := value'
 let () = java_register_static "MotionGestureConfigurationFactory.get_config" (fun _ -> Obj.repr (get_config ()))
+let () = java_register_static "MotionGestureConfigurationFactory.set_config" (fun value' -> set_config (Obj.obj value'); Obj.repr ())
 
-let getInstance () : MotionGestureConfiguration.motionGestureConfiguration =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!config :> MotionGestureConfiguration.motionGestureConfiguration)
+        (Obj.magic (!config))
         end
 
 let () = java_register_static "MotionGestureConfigurationFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

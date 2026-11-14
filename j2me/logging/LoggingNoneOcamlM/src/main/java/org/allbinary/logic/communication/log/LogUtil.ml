@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.communication.log *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class logUtil () =
   object
@@ -34,7 +35,10 @@ class logUtil () =
         end
     
 
-    (* Java overload putF(String, String, String) is not converted: OCaml has one method per name *)
+    method putFS ((_specialMessage : string), (_className : string), (_functionName : string)) : unit =
+        begin
+        ()
+        end
     
 
     method put : 'any2 'any4. string * 'any2 * string * 'any4 -> unit = fun ((_specialMessage : string), _anyType, (_functionName : string), _exception_) ->
@@ -54,9 +58,9 @@ let instance = (new logUtil ())
 let get_instance () = instance
 let () = java_register_static "LogUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LogUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

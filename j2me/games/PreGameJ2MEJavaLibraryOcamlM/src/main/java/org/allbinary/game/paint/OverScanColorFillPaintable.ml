@@ -30,7 +30,7 @@ class overScanColorFillPaintable ((basicColor : BasicColor.basicColor)) =
         let graphics = Obj.repr graphics in
         begin
         ignore ((Obj.magic graphics)#setColor ((self#colorP)));
-        ignore ((Obj.magic graphics)#fillRect ((-((Obj.magic graphics)#getClipX ())), (-((Obj.magic graphics)#getClipY ())), (((self#displayInfoSingleton)#getLastWidth ()) + ((((Obj.magic graphics)#getClipX ()) * 2))), (((self#displayInfoSingleton)#getLastHeight ()) + ((((Obj.magic graphics)#getClipY ()) * 2)))))
+        ignore ((Obj.magic graphics)#fillRect ((- ((Obj.magic graphics)#getClipX ())), (- ((Obj.magic graphics)#getClipY ())), (((self#displayInfoSingleton)#getLastWidth ()) + ((((Obj.magic graphics)#getClipX ()) * 2))), (((self#displayInfoSingleton)#getLastHeight ()) + ((((Obj.magic graphics)#getClipY ()) * 2)))))
         end [@@warning "-7-20"]
 
     initializer

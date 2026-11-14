@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class pooledThread (threadPool_arg) =
   object (self)
-    inherit java_thread ()
+    inherit java_thread (Obj.magic ((threadPool_arg#createName ())))
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
@@ -54,7 +54,7 @@ class pooledThread (threadPool_arg) =
                 ignore ((Obj.magic threadPool)#startTask (!task2))
             with ex -> begin
                 let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-                ignore ((Obj.magic !logUtil_arg)#putF (iNTERRUPT_EXCEPTION, self, commonStrings#rUN));
+                ignore ((Obj.magic !logUtil_arg)#putF (iNTERRUPT_EXCEPTION, (Obj.magic self), commonStrings#rUN));
                 raise Java_break
             end);
             if ((Obj.repr !task2) == (Obj.repr threadObjectUtil#nULL_PRIORITY_RUNNABLE)) then begin
@@ -66,7 +66,7 @@ class pooledThread (threadPool_arg) =
                 ignore ((Obj.magic threadPool)#set_runningTask (false))
             with e -> begin
                 let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-                ignore ((Obj.magic !logUtil_arg)#put ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (((StringUtil.getInstance ())#toString (!task2)))))), self, commonStrings#rUN, e))
+                ignore ((Obj.magic !logUtil_arg)#put ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (((StringUtil.getInstance ())#toString (!task2)))))), (Obj.magic self), commonStrings#rUN, e))
             end)
         done;
         ignore ((Obj.magic threadPool)#threadStopped ())
@@ -81,7 +81,7 @@ class pooledThread (threadPool_arg) =
         iNTERRUPT_EXCEPTION <- "Exit InterruptedException";
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, (Obj.magic self), commonStrings#cONSTRUCTOR));
         threadPool <- Obj.repr (threadPool_arg)
       end
   end [@@warning "-20"]

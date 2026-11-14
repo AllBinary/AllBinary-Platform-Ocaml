@@ -24,6 +24,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.logic.string.StringUtil *)
 
+let mIN_VALUE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_mIN_VALUE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !mIN_VALUE_cell with Lazy.Undefined -> java_null)
+let set_mIN_VALUE value' = mIN_VALUE_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameConfiguration.get_mIN_VALUE" (fun _ -> Obj.repr (get_mIN_VALUE ()))
+let () = java_register_static "GameConfiguration.set_mIN_VALUE" (fun value' -> set_mIN_VALUE value'; Obj.repr ())
 class gameConfiguration ((name_arg : string), (defaultValue_arg : int), (minValue_arg : int), (maxValue_arg : int)) =
   object (self)
     val mutable name : string = ""
@@ -52,7 +57,7 @@ class gameConfiguration ((name_arg : string), (defaultValue_arg : int), (minValu
         if ((Obj.repr value) != (Obj.repr value_arg)) then begin
             let oldValue : int ref = ref (value) in ();
             value <- value_arg;
-            ignore ((GameFeatureEventHandler.getInstance ())#fireEvent ((new GameFeatureEvent.gameFeatureEvent (self, (java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (name))#append (" value: from: "))#appendint ((java_to_int (Obj.repr (!oldValue)))))#append (" to "))#appendint ((java_to_int (Obj.repr (value)))))))))))
+            ignore ((GameFeatureEventHandler.getInstance ())#fireEvent ((new GameFeatureEvent.gameFeatureEvent ((Obj.magic self), (java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (name))#append (" value: from: "))#appendint ((java_to_int (Obj.repr (!oldValue)))))#append (" to "))#appendint ((java_to_int (Obj.repr (value)))))))))))
         end
         end
     
@@ -123,15 +128,15 @@ class gameConfiguration ((name_arg : string), (defaultValue_arg : int), (minValu
         ignore (!stringBuffer#append ("Name: "));
         ignore (!stringBuffer#append (name));
         ignore (!stringBuffer#append (" Min: "));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((self#getMinValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((self#getMinValue ()))))));
         ignore (!stringBuffer#append (" Max: "));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((self#getMaxValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((self#getMaxValue ()))))));
         ignore (!stringBuffer#append (" Value: "));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((self#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((self#getValue ()))))));
         ignore (!stringBuffer#append (" Default: "));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((self#getDefaultValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((self#getDefaultValue ()))))));
         ignore (!stringBuffer#append (" Modifiable: "));
-        ignore (!stringBuffer#appendboolean (((self#isModifiable ())#booleanValue ())));
+        ignore (!stringBuffer#appendboolean ((self#isModifiable ())));
         (java_string_of (Obj.repr !stringBuffer))
         end
     
@@ -151,7 +156,7 @@ class gameConfiguration ((name_arg : string), (defaultValue_arg : int), (minValu
       begin
         name <- (StringUtil.getInstance ())#eMPTY_STRING;
         defaultValue <- ((SmallIntegerSingletonFactory.getInstance ())#getAt (0));
-        value <- mIN_VALUE;
+        value <- (Obj.obj (get_mIN_VALUE ()) : int);
         minValue <- defaultValue;
         maxValue <- defaultValue;
         modifiable <- (BooleanFactory.getInstance ())#tRUE;
@@ -161,13 +166,11 @@ class gameConfiguration ((name_arg : string), (defaultValue_arg : int), (minValu
         value <- (self#getDefaultValue ());
         (self#setMinValue (minValue_arg));
         (self#setMaxValue (maxValue_arg));
-        ignore (((GameConfigurationSingleton.getInstance ())#getHashtable ())#put ((self#getName ()), self))
+        ignore (((Obj.magic (java_call_static "GameConfigurationSingleton.getInstance" (Obj.repr ())))#getHashtable ())#put ((self#getName ()), (Obj.magic self)))
       end
   end
 let () = java_register_constructor "GameConfiguration" (fun arguments -> Obj.repr (new gameConfiguration (Obj.obj arguments)))
 
-let mIN_VALUE : int = (Obj.obj (java_new "Integer" (Obj.repr ((-2147483648)))))
-let get_mIN_VALUE () = mIN_VALUE
-let () = java_register_static "GameConfiguration.get_mIN_VALUE" (fun _ -> Obj.repr (get_mIN_VALUE ()))
+let () = mIN_VALUE_cell := lazy (Obj.repr ((Obj.obj (java_new "Integer" (Obj.repr ((-2147483648)))))))
 
 

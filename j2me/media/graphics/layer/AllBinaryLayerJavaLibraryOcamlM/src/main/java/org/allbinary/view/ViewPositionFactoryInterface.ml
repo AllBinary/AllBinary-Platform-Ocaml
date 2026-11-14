@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual viewPositionFactoryInterface =
   object
-    method virtual getInstance : unit -> ViewPositionBase.viewPositionBase
+    method virtual getInstance : 'return . unit -> 'return
   end
 
 

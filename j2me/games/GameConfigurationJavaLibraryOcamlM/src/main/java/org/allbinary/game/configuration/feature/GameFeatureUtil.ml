@@ -28,6 +28,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.EnumerationUtil *)
 (* import org.allbinary.util.HashtableUtil *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameFeatureUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameFeatureUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class gameFeatureUtil () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -58,7 +63,7 @@ class gameFeatureUtil () =
         let total : int ref = ref (((Obj.magic choiceGroup)#getSelectedFlags (!selectedArray_return))) in ();
         ignore (!stringBuffer#append ("Multiple Total Choices: "));
         ignore (!stringBuffer#appendint (!total));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !mETHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !mETHOD_NAME));
         let features : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Features.getInstance" (Obj.repr ()))))) in ();
         for index = 0 to (Array.length !selectedArray_return) - 1 do
             let isSelected : bool ref = ref (!selectedArray_return.(index)) in ();
@@ -67,7 +72,7 @@ class gameFeatureUtil () =
             ignore (!stringBuffer#appendint (index));
             ignore (!stringBuffer#append (!sELECTED_SEP));
             ignore (!stringBuffer#appendboolean (!isSelected));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !mETHOD_NAME));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !mETHOD_NAME));
             let selectedChoiceLabel : string ref = ref (((Obj.magic choiceGroup)#getString (index))) in ();
             let gameFeature : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Feature.getInstance" (Obj.repr (!selectedChoiceLabel)))))) in ();
             if ((Obj.magic !features)#isDefault ((Obj.magic !gameFeature))) then begin
@@ -92,7 +97,7 @@ class gameFeatureUtil () =
         let total : int ref = ref (((Obj.magic choiceGroup)#getSelectedFlags (!selectedArray_return))) in ();
         ignore (!stringBuffer#append ("Multiple Total Choices: "));
         ignore (!stringBuffer#appendint (!total));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !mETHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !mETHOD_NAME));
         let features : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Features.getInstance" (Obj.repr ()))))) in ();
         for index = 0 to (Array.length !selectedArray_return) - 1 do
             let isSelected : bool ref = ref (!selectedArray_return.(index)) in ();
@@ -101,7 +106,7 @@ class gameFeatureUtil () =
             ignore (!stringBuffer#appendint (index));
             ignore (!stringBuffer#append (!sELECTED_SEP));
             ignore (!stringBuffer#appendboolean (!isSelected));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !mETHOD_NAME));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !mETHOD_NAME));
             let selectedChoiceLabel : string ref = ref (((Obj.magic choiceGroup)#getString (index))) in ();
             let gameFeature : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Feature.getInstance" (Obj.repr (!selectedChoiceLabel)))))) in ();
             if ((not !isSelected) && ((Obj.magic !features)#isFeature ((Obj.magic !gameFeature)))) then begin
@@ -124,7 +129,7 @@ class gameFeatureUtil () =
         let total : int ref = ref (((Obj.magic choiceGroup)#getSelectedFlags (!selectedArray_return))) in ();
         ignore (!stringBuffer#append ("Exclusive Total Choices: 1=="));
         ignore (!stringBuffer#appendint (!total));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !mETHOD_NAME));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !mETHOD_NAME));
         for index = 0 to (Array.length !selectedArray_return) - 1 do
             let isSelected : bool ref = ref (!selectedArray_return.(index)) in ();
             ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
@@ -132,7 +137,7 @@ class gameFeatureUtil () =
             ignore (!stringBuffer#appendint (index));
             ignore (!stringBuffer#append (!sELECTED_SEP));
             ignore (!stringBuffer#appendboolean (!isSelected));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !mETHOD_NAME));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !mETHOD_NAME));
             if !isSelected then begin
                 let selectedChoiceLabel : string ref = ref (((Obj.magic choiceGroup)#getString (index))) in ();
                 (self#updateExclusive (!selectedChoiceLabel))
@@ -148,7 +153,7 @@ class gameFeatureUtil () =
         let name : string ref = ref ("") in ();
         while (enumerationUtil#hasMoreElements (!enumeration)) do
             name := (Obj.magic (enumerationUtil#nextElement (!enumeration)));
-            if (((Obj.magic tsUtil)#compareTo (itemLabel, !name)) == 0) then begin
+            if (((Obj.magic tsUtil)#compareTo (itemLabel, !name)) = 0) then begin
                 raise (Java_return (Obj.repr (true)))
             end
         done;
@@ -159,7 +164,7 @@ class gameFeatureUtil () =
 
     method updateExclusive ((selectedChoiceLabel : string)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#iTEM_LABEL))#append (selectedChoiceLabel)))), self, "updateExclusive"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#iTEM_LABEL))#append (selectedChoiceLabel)))), (Obj.magic self), "updateExclusive"));
         let gameFeature : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Feature.getInstance" (Obj.repr (selectedChoiceLabel)))))) in ();
         let hashtable : Obj.t ref = ref ((Obj.repr ((GameFeatureChoiceGroups.getExclusiveInstance ())#get ()))) in ();
         let objectArray : Obj.t array ref = ref (((HashtableUtil.getInstance ())#getKeysAsArray ((Obj.magic !hashtable)))) in ();
@@ -167,7 +172,7 @@ class gameFeatureUtil () =
         let anyType : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         let size : int ref = ref ((Array.length !objectArray)) in ();
         for index = 0 to !size - 1 do
-            anyType := (Obj.magic !objectArray.(index));
+            anyType := (Obj.repr ((Obj.magic !objectArray.(index))));
             basicArrayList := (Obj.magic ((Obj.magic !hashtable)#get (!anyType)));
             (self#updateExclusiveList ((Obj.magic !gameFeature), !basicArrayList))
         done
@@ -204,14 +209,12 @@ class gameFeatureUtil () =
   end [@@warning "-20"]
 let () = java_register_constructor "GameFeatureUtil" (fun arguments -> Obj.repr (new gameFeatureUtil (Obj.obj arguments)))
 
-let instance = (new gameFeatureUtil ())
-let get_instance () = instance
-let () = java_register_static "GameFeatureUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "GameFeatureUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new gameFeatureUtil ())))
 
 

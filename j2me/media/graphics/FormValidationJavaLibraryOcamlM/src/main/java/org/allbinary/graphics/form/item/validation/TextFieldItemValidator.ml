@@ -61,7 +61,7 @@ class textFieldItemValidator (textFieldItem_arg, (min_arg : int), (max_arg : int
         end [@@warning "-7"]
     
 
-    method toList () : BasicArrayList.basicArrayList =
+    method toList : 'return. unit -> 'return = fun () ->
         begin
         let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let string : string ref = ref (((Obj.magic textFieldItem)#getString ())) in ();
@@ -77,7 +77,7 @@ class textFieldItemValidator (textFieldItem_arg, (min_arg : int), (max_arg : int
                 ignore (!list#add ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!name))#append (" is to long"))))))
             end
         end;
-        (!list :> BasicArrayList.basicArrayList)
+        (Obj.magic (!list))
         end [@@warning "-7"]
 
     initializer

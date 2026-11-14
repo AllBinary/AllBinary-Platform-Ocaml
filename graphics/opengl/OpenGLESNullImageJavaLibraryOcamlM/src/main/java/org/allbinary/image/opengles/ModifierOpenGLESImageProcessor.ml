@@ -16,6 +16,7 @@
 (* package org.allbinary.image.opengles *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class modifierOpenGLESImageProcessor () =
   object
@@ -32,9 +33,9 @@ let instanceC = (new modifierOpenGLESImageProcessor ())
 let get_instanceC () = instanceC
 let () = java_register_static "ModifierOpenGLESImageProcessor.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instanceC
+        (Obj.magic (instanceC))
         end
 let () = java_register_static "ModifierOpenGLESImageProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

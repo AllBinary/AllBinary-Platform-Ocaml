@@ -16,6 +16,7 @@
 (* package org.allbinary.game.input *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class gameInputStrings () =
   object
@@ -95,9 +96,9 @@ let instance = (new gameInputStrings ())
 let get_instance () = instance
 let () = java_register_static "GameInputStrings.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameInputStrings.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.game.configuration.persistance *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class gamePersistanceStrings () =
   object
@@ -47,9 +48,9 @@ let instance = (new gamePersistanceStrings ())
 let get_instance () = instance
 let () = java_register_static "GamePersistanceStrings.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GamePersistanceStrings.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -2,6 +2,7 @@
 (* package org.allbinary.game.configuration.feature *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class multiPlayerGameFeatureFactory () =
   object
@@ -25,9 +26,9 @@ let instance = (new multiPlayerGameFeatureFactory ())
 let get_instance () = instance
 let () = java_register_static "MultiPlayerGameFeatureFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "MultiPlayerGameFeatureFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

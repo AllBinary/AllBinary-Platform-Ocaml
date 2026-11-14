@@ -34,9 +34,9 @@ class currentlyPressedTouchButtonSingleton () =
         end
     
 
-    method removeAt ((index : int)) : TouchButtonInput.touchButtonInput =
+    method removeAt : 'return. int -> 'return = fun ((index : int)) ->
         begin
-        ((Obj.magic (list#removeAt (index))) :> TouchButtonInput.touchButtonInput)
+        (Obj.magic ((Obj.magic (list#removeAt (index)))))
         end
     
 
@@ -47,9 +47,9 @@ class currentlyPressedTouchButtonSingleton () =
         end [@@warning "-20"]
     
 
-    method get ((index : int)) : TouchButtonInput.touchButtonInput =
+    method get : 'return. int -> 'return = fun ((index : int)) ->
         begin
-        ((Obj.magic list#objectArray.(index)) :> TouchButtonInput.touchButtonInput)
+        (Obj.magic ((Obj.magic list#objectArray.(index))))
         end
     
 
@@ -79,9 +79,9 @@ let instance = (new currentlyPressedTouchButtonSingleton ())
 let get_instance () = instance
 let () = java_register_static "CurrentlyPressedTouchButtonSingleton.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "CurrentlyPressedTouchButtonSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

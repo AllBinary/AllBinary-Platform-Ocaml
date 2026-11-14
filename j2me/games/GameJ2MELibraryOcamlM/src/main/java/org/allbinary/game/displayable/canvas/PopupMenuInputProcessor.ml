@@ -33,28 +33,28 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.time.TimeDelayHelper *)
 (* import org.allbinary.util.BasicArrayList *)
 
-class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (playerInputId : int), (gameCanvas : MyCanvas.myCanvas), rectangle_arg) =
+class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (playerInputId : int), (gameCanvas : MyCanvas.myCanvas), (rectangle_arg : Rectangle.rectangle)) =
   object (self)
     inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, playerInputId, gameCanvas)
-    val mutable rectangleCollisionUtil : Obj.t = Obj.repr 0
-    method rectangleCollisionUtil : 'r. 'r = Obj.magic rectangleCollisionUtil
-    method set_rectangleCollisionUtil : 'v. 'v -> unit = fun value' -> rectangleCollisionUtil <- Obj.repr value'
+    val mutable rectangleCollisionUtil : RectangleCollisionUtil.rectangleCollisionUtil = (Obj.magic 0)
+    method rectangleCollisionUtil = rectangleCollisionUtil
+    method set_rectangleCollisionUtil value' = rectangleCollisionUtil <- value'
     val mutable cLICK_DELAY : int = 0
     method cLICK_DELAY = cLICK_DELAY
     method set_cLICK_DELAY value' = cLICK_DELAY <- value'
     val mutable clickTimeHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
     method clickTimeHelper = clickTimeHelper
     method set_clickTimeHelper value' = clickTimeHelper <- value'
-    val mutable rectangle : Obj.t = Obj.repr 0
-    method rectangle : 'r. 'r = Obj.magic rectangle
-    method set_rectangle : 'v. 'v -> unit = fun value' -> rectangle <- Obj.repr value'
+    val mutable rectangle : Rectangle.rectangle = (Obj.magic 0)
+    method rectangle = rectangle
+    method set_rectangle value' = rectangle <- value'
     
     
 
     method init : 'any1. 'any1 -> unit = fun (rectangle_arg) ->
         let rectangle_arg = Obj.repr rectangle_arg in
         begin
-        rectangle <- Obj.repr ((Obj.magic rectangle_arg))
+        rectangle <- (Obj.magic rectangle_arg)
         end [@@warning "-7-20"]
     
 
@@ -93,11 +93,11 @@ class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList
             if ((!size > 0) || (!motionInputsIndex >= 0)) then begin
                 raise (Java_return (Obj.repr (1)))
             end else begin
-                raise (Java_return (Obj.repr ((-1))))
+                raise (Java_return (Obj.repr ((- 1))))
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (GameInputStrings.getInstance ())#pROCESS_INPUT, e));
-            (-1)
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (GameInputStrings.getInstance ())#pROCESS_INPUT, e));
+            (- 1)
         end)
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
@@ -120,15 +120,15 @@ class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList
         try
         begin
         if ((Obj.magic motionGestureEvent) == (Obj.magic 0)) then begin
-            ignore ((self#logUtil)#putF ("Exception: Bug", self, (self#gameInputStrings)#pROCESS_MOTION_INPUT));
+            ignore ((self#logUtil)#putF ("Exception: Bug", (Obj.magic self), (self#gameInputStrings)#pROCESS_MOTION_INPUT));
             raise (Java_return (Obj.repr (())))
         end;
         let touchMotionGestureFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ()))))) in ();
         let motionGestureInput : MotionGestureInput.motionGestureInput ref = ref ((((Obj.magic motionGestureEvent)#getMotionGesture ()) :> MotionGestureInput.motionGestureInput)) in ();
         if ((Obj.repr !motionGestureInput) == (Obj.repr (Obj.magic !touchMotionGestureFactory)#rELEASED)) then begin
             let point : GPoint.gPoint ref = ref ((((Obj.magic motionGestureEvent)#getCurrentPoint ()) :> GPoint.gPoint)) in ();
-            let rectPoint : GPoint.gPoint ref = ref ((((Obj.magic rectangle)#getPoint ()) :> GPoint.gPoint)) in ();
-            if ((Obj.magic rectangleCollisionUtil)#isInside ((!rectPoint#getX ()), (!rectPoint#getY ()), (((Obj.magic rectangle)#getMaxX ()) + 20), ((Obj.magic rectangle)#getMaxY ()), (!point#getX ()), (!point#getY ()))) then begin
+            let rectPoint : GPoint.gPoint ref = ref (((rectangle#getPoint ()) :> GPoint.gPoint)) in ();
+            if (rectangleCollisionUtil#isInside ((!rectPoint#getX ()), (!rectPoint#getY ()), ((rectangle#getMaxX ()) + 20), (rectangle#getMaxY ()), (!point#getX ()), (!point#getY ()))) then begin
                 if (clickTimeHelper#isTimeTNT ()) then begin
                     let gameCanvas : Obj.t ref = ref ((Obj.repr (Obj.magic (self#getCanvas ())))) in ();
                     ignore ((Obj.magic !gameCanvas)#toggleMenu ())
@@ -140,15 +140,15 @@ class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList
 
     initializer
       begin
-        rectangleCollisionUtil <- (Obj.repr (Obj.magic (java_call_static "RectangleCollisionUtil.getInstance" (Obj.repr ()))));
+        rectangleCollisionUtil <- ((RectangleCollisionUtil.getInstance ()) :> RectangleCollisionUtil.rectangleCollisionUtil);
         cLICK_DELAY <- 120;
         clickTimeHelper <- ((new TimeDelayHelper.timeDelayHelper (cLICK_DELAY)) :> TimeDelayHelper.timeDelayHelper);
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        rectangle <- Obj.repr (rectangle_arg)
+        rectangle <- rectangle_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "PopupMenuInputProcessor" (fun arguments -> Obj.repr (new popupMenuInputProcessor (Obj.obj arguments)))
 
 

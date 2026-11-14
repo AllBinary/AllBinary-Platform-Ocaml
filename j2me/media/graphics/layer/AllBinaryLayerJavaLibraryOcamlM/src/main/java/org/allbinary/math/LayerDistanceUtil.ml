@@ -34,7 +34,7 @@ class layerDistanceUtil () =
         begin
         let dx : int ref = ref ((((((Obj.magic layerInterface)#getXP ()) + ((Obj.magic layerInterface)#getHalfWidth ()))) - ((((Obj.magic layerInterface2)#getXP ()) + ((Obj.magic layerInterface2)#getHalfWidth ()))))) in ();
         let dy : int ref = ref ((((((Obj.magic layerInterface)#getYP ()) + ((Obj.magic layerInterface)#getHalfHeight ()))) - ((((Obj.magic layerInterface2)#getYP ()) + ((Obj.magic layerInterface2)#getHalfHeight ()))))) in ();
-        (java_to_int (Obj.repr ((mathUtil#sqrt ((((!dx * !dx)) + ((!dy * !dy))))))))
+        (mathUtil#sqrt ((((!dx * !dx)) + ((!dy * !dy)))))
         end [@@warning "-20"]
     
 
@@ -45,7 +45,7 @@ class layerDistanceUtil () =
         let dx : int ref = ref ((((((Obj.magic layerInterface)#getXP ()) + ((Obj.magic layerInterface)#getHalfWidth ()))) - ((((Obj.magic layerInterface2)#getXP ()) + ((Obj.magic layerInterface2)#getHalfWidth ()))))) in ();
         let dy : int ref = ref ((((((Obj.magic layerInterface)#getYP ()) + ((Obj.magic layerInterface)#getHalfHeight ()))) - ((((Obj.magic layerInterface2)#getYP ()) + ((Obj.magic layerInterface2)#getHalfHeight ()))))) in ();
         let dz : int ref = ref ((((((Obj.magic layerInterface)#getZP ()) + ((Obj.magic layerInterface)#getHalfDepth ()))) - ((((Obj.magic layerInterface2)#getZP ()) + ((Obj.magic layerInterface2)#getHalfDepth ()))))) in ();
-        (java_to_int (Obj.repr ((mathUtil#sqrt (((((!dx * !dx)) + ((!dy * !dy))) + ((!dz * !dz))))))))
+        (mathUtil#sqrt (((((!dx * !dx)) + ((!dy * !dy))) + ((!dz * !dz)))))
         end [@@warning "-20"]
     
 
@@ -55,7 +55,7 @@ class layerDistanceUtil () =
         begin
         let dx : int ref = ref ((((Obj.magic layerInterface)#getXP ()) - ((Obj.magic point)#getX ()))) in ();
         let dy : int ref = ref ((((Obj.magic layerInterface)#getYP ()) - ((Obj.magic point)#getY ()))) in ();
-        (java_to_int (Obj.repr ((mathUtil#sqrt ((((!dx * !dx)) + ((!dy * !dy))))))))
+        (mathUtil#sqrt ((((!dx * !dx)) + ((!dy * !dy)))))
         end [@@warning "-20"]
 
     initializer
@@ -70,9 +70,9 @@ let instance = (new layerDistanceUtil ())
 let get_instance () = instance
 let () = java_register_static "LayerDistanceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LayerDistanceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

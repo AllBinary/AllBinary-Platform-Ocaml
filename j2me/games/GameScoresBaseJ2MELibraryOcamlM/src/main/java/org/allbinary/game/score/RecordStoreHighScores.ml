@@ -93,16 +93,16 @@ class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInt
         Fun.protect ~finally:(fun () -> 
             (try
                 if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", self, commonStrings#aDD))));
+                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), commonStrings#aDD))));
                     ignore ((Obj.magic !recordStore)#closeRecordStore ())
                 end
             with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#aDD, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD, e))
             end)
         ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Adding HighScore: "))#appendlong ((java_to_int (Obj.repr (((Obj.magic newHighScore)#getScore ())))))))), self, commonStrings#aDD));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Adding HighScore: "))#appendlong (((Obj.magic newHighScore)#getScore ()))))), (Obj.magic self), commonStrings#aDD));
             if (self#isTooManyHighScores ()) then begin
-                ignore ((Obj.magic logUtil)#putF ("Removing Lowest Score", self, commonStrings#aDD));
+                ignore ((Obj.magic logUtil)#putF ("Removing Lowest Score", (Obj.magic self), commonStrings#aDD));
                 (self#removeLowestHighScore ())
             end;
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId (abeClientInformation)), true)))));
@@ -110,7 +110,7 @@ class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInt
             let recordId : int ref = ref (((Obj.magic !recordStore)#addRecord (!highScoreBytes, 0, (Array.length !highScoreBytes)))) in ();
             (self#load ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#aDD, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD, e))
         end))
         end [@@warning "-7-20"]
     
@@ -121,40 +121,40 @@ class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInt
         Fun.protect ~finally:(fun () -> 
             (try
                 if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", self, "removeLowestHighScore"))));
+                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), "removeLowestHighScore"))));
                     ignore ((Obj.magic !recordStore)#closeRecordStore ())
                 end
             with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "removeLowestHighScore", e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "removeLowestHighScore", e))
             end)
         ) (fun () -> (try
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId (abeClientInformation)), true)))));
             let recordEnum : Obj.t ref = ref ((Obj.repr ((Obj.magic !recordStore)#enumerateRecords ((NullRecordFilter.get_nULL_RECORD_FILTER ()), (NullRecordComparator.get_nULL_RECORD_COMPARATOR ()), true)))) in ();
             let scoreComparator : ScoreComparator.scoreComparator ref = ref ((((Obj.magic (Obj.magic recordComparatorInterface))) :> ScoreComparator.scoreComparator)) in ();
-            let bestHighScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr ((-1), "none", (GameInfo.get_nONE ()), (!scoreComparator#getBestScore ()))))))) in ();
+            let bestHighScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr ((- 1), "none", (GameInfo.get_nONE ()), (!scoreComparator#getBestScore ()))))))) in ();
             let recordAsBytes : int array ref = ref ((Obj.magic 0)) in ();
-            let byteArrayInputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-            let inputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+            let byteArrayInputStream : java_byte_array_input_stream ref = ref (((Obj.magic 0) :> java_byte_array_input_stream)) in ();
+            let inputStream : java_data_input_stream ref = ref (((Obj.magic 0) :> java_data_input_stream)) in ();
             while ((Obj.magic !recordEnum)#hasNextElement ()) do
                 let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
                 recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
                 if (!recordAsBytes != (Obj.magic 0)) then begin
-                    byteArrayInputStream := Obj.repr ((new ByteArrayInputStream.byteArrayInputStream (!recordAsBytes)));
-                    inputStream := Obj.repr ((Obj.obj (java_new "DataInputStream" (Obj.repr ((Obj.magic !byteArrayInputStream))))));
-                    let name : string ref = ref (((Obj.magic !inputStream)#readUTF ())) in ();
-                    let nextScore : int ref = ref (((Obj.magic !inputStream)#readLong ())) in ();
+                    byteArrayInputStream := (new java_byte_array_input_stream (!recordAsBytes));
+                    inputStream := (Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStream))));
+                    let name : string ref = ref ((!inputStream#readUTF ())) in ();
+                    let nextScore : int ref = ref ((!inputStream#readLong ())) in ();
                     let nextCurrentHighScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr (!id, !name, (GameInfo.get_nONE ()), !nextScore)))))) in ();
-                    if ((Obj.repr ((Obj.magic recordComparatorInterface)#compare (((Obj.magic !nextCurrentHighScore)#getAsBytes ()), ((Obj.magic !bestHighScore)#getAsBytes ())))) == (Obj.repr (Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ()))))) then begin
+                    if (((Obj.magic recordComparatorInterface)#compare (((Obj.magic !nextCurrentHighScore)#getAsBytes ()), ((Obj.magic !bestHighScore)#getAsBytes ()))) = (Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ())))) then begin
                         bestHighScore := Obj.repr ((Obj.magic !nextCurrentHighScore))
                     end
                 end
             done;
-            if (((Obj.magic !bestHighScore)#getId ()) != (-1)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Removing Lowest HighScore: "))#appendlong ((java_to_int (Obj.repr (((Obj.magic !bestHighScore)#getScore ())))))))), self, commonStrings#lOAD));
+            if (((Obj.magic !bestHighScore)#getId ()) <> (- 1)) then begin
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Removing Lowest HighScore: "))#appendlong (((Obj.magic !bestHighScore)#getScore ()))))), (Obj.magic self), commonStrings#lOAD));
                 ignore ((Obj.magic !recordStore)#deleteRecord (((Obj.magic !bestHighScore)#getId ())))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, "removeLowestHighScore", e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "removeLowestHighScore", e))
         end))
         end [@@warning "-7"]
     
@@ -165,48 +165,48 @@ class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInt
         Fun.protect ~finally:(fun () -> 
             (try
                 if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", self, commonStrings#lOAD))));
+                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), commonStrings#lOAD))));
                     ignore ((Obj.magic !recordStore)#closeRecordStore ())
                 end
             with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#lOAD, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#lOAD, e))
             end)
         ) (fun () -> (try
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId (abeClientInformation)), true)))));
             ignore (self#setList ((new BasicArrayListD.basicArrayListD ())));
             let recordEnum : Obj.t ref = ref ((Obj.repr ((Obj.magic !recordStore)#enumerateRecords ((NullRecordFilter.get_nULL_RECORD_FILTER ()), (NullRecordComparator.get_nULL_RECORD_COMPARATOR ()), true)))) in ();
             let recordAsBytes : int array ref = ref ((Obj.magic 0)) in ();
-            let byteArrayInputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-            let inputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+            let byteArrayInputStream : java_byte_array_input_stream ref = ref (((Obj.magic 0) :> java_byte_array_input_stream)) in ();
+            let inputStream : java_data_input_stream ref = ref (((Obj.magic 0) :> java_data_input_stream)) in ();
             while ((Obj.magic !recordEnum)#hasNextElement ()) do
                 let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
                 recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
                 if (!recordAsBytes != (Obj.magic 0)) then begin
-                    byteArrayInputStream := Obj.repr ((new ByteArrayInputStream.byteArrayInputStream (!recordAsBytes)));
-                    inputStream := Obj.repr ((Obj.obj (java_new "DataInputStream" (Obj.repr ((Obj.magic !byteArrayInputStream))))));
+                    byteArrayInputStream := (new java_byte_array_input_stream (!recordAsBytes));
+                    inputStream := (Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStream))));
                     (try
-                        let name : string ref = ref (((Obj.magic !inputStream)#readUTF ())) in ();
-                        let score : int ref = ref (((Obj.magic !inputStream)#readLong ())) in ();
+                        let name : string ref = ref ((!inputStream#readUTF ())) in ();
+                        let score : int ref = ref ((!inputStream#readLong ())) in ();
                         let newHighScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr (!id, !name, (GameInfo.get_nONE ()), !score)))))) in ();
                         let list : BasicArrayList.basicArrayList ref = ref (((self#getList ()) :> BasicArrayList.basicArrayList)) in ();
                         let size : int ref = ref ((!list#size ())) in ();
                         let lastIndex : int ref = ref (!size) in ();
                         for index = 0 to !size - 1 do
                             let highScore : Obj.t ref = ref ((Obj.repr (Obj.magic !list#objectArray.(index)))) in ();
-                            if ((Obj.repr ((Obj.magic recordComparatorInterface)#compare (((Obj.magic !newHighScore)#getAsBytes ()), ((Obj.magic !highScore)#getAsBytes ())))) == (Obj.repr (Obj.magic (java_call_static "RecordComparator.get_pRECEDES" (Obj.repr ()))))) then begin
+                            if (((Obj.magic recordComparatorInterface)#compare (((Obj.magic !newHighScore)#getAsBytes ()), ((Obj.magic !highScore)#getAsBytes ()))) = (Obj.magic (java_call_static "RecordComparator.get_pRECEDES" (Obj.repr ())))) then begin
                                 lastIndex := index;
                                 raise Java_break
                             end
                         done;
                         ignore (!list#addAt (!lastIndex, (Obj.magic !newHighScore)))
                     with e -> begin
-                        ignore ((Obj.magic logUtil)#put ("EOF", self, commonStrings#lOAD, e));
+                        ignore ((Obj.magic logUtil)#put ("EOF", (Obj.magic self), commonStrings#lOAD, e));
                         raise e
                     end)
                 end
             done
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ("No High Scores", self, commonStrings#lOAD, e))
+            ignore ((Obj.magic logUtil)#put ("No High Scores", (Obj.magic self), commonStrings#lOAD, e))
         end))
         end [@@warning "-7"]
     
@@ -217,7 +217,7 @@ class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInt
         if (((self#getList ()) != (Obj.magic 0)) && (((self#getList ())#size ()) < mAXHIGHSCORES)) then begin
             raise (Java_return (Obj.repr (false)))
         end else begin
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("HighScores RecordStore Max Reached: "))#appendint (mAXHIGHSCORES)))), self, "isTooManyHighScores"));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("HighScores RecordStore Max Reached: "))#appendint (mAXHIGHSCORES)))), (Obj.magic self), "isTooManyHighScores"));
             raise (Java_return (Obj.repr (true)))
         end
         end
@@ -230,23 +230,23 @@ class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInt
         begin
         (try
             if (not (self#isTooManyHighScores ())) then begin
-                ignore ((Obj.magic logUtil)#putF ("Slot Available for a High Score", self, "isBestScore"));
+                ignore ((Obj.magic logUtil)#putF ("Slot Available for a High Score", (Obj.magic self), "isBestScore"));
                 raise (Java_return (Obj.repr (true)))
             end else begin
                 let list : BasicArrayList.basicArrayList ref = ref (((self#getList ()) :> BasicArrayList.basicArrayList)) in ();
                 let size : int ref = ref ((!list#size ())) in ();
                 for index = 0 to !size - 1 do
                     let highScore : Obj.t ref = ref ((Obj.repr (Obj.magic !list#objectArray.(index)))) in ();
-                    if ((Obj.repr ((Obj.magic recordComparatorInterface)#compare (((Obj.magic newHighScore)#getAsBytes ()), ((Obj.magic !highScore)#getAsBytes ())))) == (Obj.repr (Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ()))))) then begin
-                        ignore ((Obj.magic logUtil)#putF ("Obtained a High Score", self, "isBestScore"));
+                    if (((Obj.magic recordComparatorInterface)#compare (((Obj.magic newHighScore)#getAsBytes ()), ((Obj.magic !highScore)#getAsBytes ()))) = (Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ())))) then begin
+                        ignore ((Obj.magic logUtil)#putF ("Obtained a High Score", (Obj.magic self), "isBestScore"));
                         raise (Java_return (Obj.repr (true)))
                     end
                 done
             end;
-            ignore ((Obj.magic logUtil)#putF ("Not a High Score", self, "isBestScore"));
+            ignore ((Obj.magic logUtil)#putF ("Not a High Score", (Obj.magic self), "isBestScore"));
             false
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#aDD, e));
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD, e));
             raise e
         end)
         end

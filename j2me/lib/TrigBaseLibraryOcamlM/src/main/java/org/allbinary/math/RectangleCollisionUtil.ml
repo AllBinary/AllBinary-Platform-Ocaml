@@ -16,6 +16,7 @@
 (* package org.allbinary.math *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import jsinterop.annotations.JsType *)
 (* import jsinterop.annotations.JsMethod *)
 (* import jsinterop.annotations.JsConstructor *)
@@ -60,9 +61,9 @@ let instance = (new rectangleCollisionUtil ())
 let get_instance () = instance
 let () = java_register_static "RectangleCollisionUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "RectangleCollisionUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

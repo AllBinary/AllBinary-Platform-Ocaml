@@ -23,6 +23,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.string.CommonStrings *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameConfigurationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameConfigurationUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class gameConfigurationUtil () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -62,15 +67,15 @@ class gameConfigurationUtil () =
         let gameConfigurationSingleton : GameConfigurationSingleton.gameConfigurationSingleton ref = ref (((GameConfigurationSingleton.getInstance ()) :> GameConfigurationSingleton.gameConfigurationSingleton)) in ();
         let gameConfiguration : GameConfiguration.gameConfiguration ref = ref (((!gameConfigurationSingleton#getInstanceByName (((Obj.magic gauge)#getLabel ()))) :> GameConfiguration.gameConfiguration)) in ();
         let smallIntegerSingletonFactory : SmallIntegerSingletonFactory.smallIntegerSingletonFactory ref = ref (((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory)) in ();
-        let value : int ref = ref ((!smallIntegerSingletonFactory#getAt ((((Obj.magic gauge)#getValue ()) + ((!gameConfiguration#getMinValue ())#intValue ()))))) in ();
+        let value : int ref = ref ((!smallIntegerSingletonFactory#getAt ((((Obj.magic gauge)#getValue ()) + (java_int_value (Obj.repr (!gameConfiguration#getMinValue ()))))))) in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append (gAUGE_UPDATE));
         ignore (!stringBuffer#append ((!gameConfiguration#getName ())));
         ignore (!stringBuffer#append (fROM));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((!gameConfiguration#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (!gameConfiguration#getValue ()))))))));
         ignore (!stringBuffer#append (tO));
         ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (!value)))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#uPDATE));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#uPDATE));
         ignore (!gameConfiguration#setValue (!value))
         end [@@warning "-20"]
     
@@ -84,9 +89,9 @@ class gameConfigurationUtil () =
         ignore (!stringBuffer#append ("Gauge Default: "));
         ignore (!stringBuffer#append ((!gameConfiguration#getName ())));
         ignore (!stringBuffer#append (tO));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((!gameConfiguration#getDefaultValue ())#intValue ()))))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "setDefault"));
-        ignore ((Obj.magic gauge)#setValue ((((!gameConfiguration#getDefaultValue ())#intValue ()) - ((!gameConfiguration#getMinValue ())#intValue ()))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (!gameConfiguration#getDefaultValue ()))))))));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "setDefault"));
+        ignore ((Obj.magic gauge)#setValue (((java_int_value (Obj.repr (!gameConfiguration#getDefaultValue ()))) - (java_int_value (Obj.repr (!gameConfiguration#getMinValue ()))))));
         ignore (!gameConfiguration#setValue ((!gameConfiguration#getDefaultValue ())))
         end [@@warning "-20"]
     
@@ -98,7 +103,7 @@ class gameConfigurationUtil () =
         let gameConfigurationSingleton : GameConfigurationSingleton.gameConfigurationSingleton ref = ref (((GameConfigurationSingleton.getInstance ()) :> GameConfigurationSingleton.gameConfigurationSingleton)) in ();
         let gameConfigurationCentral : GameConfigurationCentral.gameConfigurationCentral ref = ref (((GameConfigurationCentral.getInstance ()) :> GameConfigurationCentral.gameConfigurationCentral)) in ();
         if ((Obj.repr (Obj.magic gameConfiguration)) == (Obj.repr !gameConfigurationCentral#cHALLENGE_LEVEL)) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "updateChallange"));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "updateChallange"));
             ignore (!gameConfigurationCentral#cOLLIDE_DAMAGE#setValue (((Obj.magic gameConfiguration)#getValue ())));
             ignore (!gameConfigurationCentral#aTTACK_CHALLENGE_LEVEL#setValue (((Obj.magic gameConfiguration)#getValue ())));
             ignore (!gameConfigurationCentral#dURABILITY_CHALLENGE_LEVEL#setValue (((Obj.magic gameConfiguration)#getValue ())));
@@ -111,13 +116,13 @@ class gameConfigurationUtil () =
                     let name : string ref = ref (((Obj.magic !item)#getLabel ())) in ();
                     let nextGameConfiguration : GameConfiguration.gameConfiguration ref = ref (((!gameConfigurationSingleton#getInstanceByName (!name)) :> GameConfiguration.gameConfiguration)) in ();
                     if ((Obj.repr !nextGameConfiguration) == (Obj.repr !gameConfigurationCentral#cOLLIDE_DAMAGE)) then begin
-                        ignore (!gauge#setValue ((((!gameConfigurationCentral#cOLLIDE_DAMAGE#getValue ())#intValue ()) - (((Obj.magic gameConfiguration)#getMinValue ())#intValue ()))))
+                        ignore (!gauge#setValue (((java_int_value (Obj.repr (!gameConfigurationCentral#cOLLIDE_DAMAGE#getValue ()))) - (java_int_value (Obj.repr ((Obj.magic gameConfiguration)#getMinValue ()))))))
                     end else if ((Obj.repr !nextGameConfiguration) == (Obj.repr !gameConfigurationCentral#dURABILITY_CHALLENGE_LEVEL)) then begin
-                        ignore (!gauge#setValue ((((!gameConfigurationCentral#dURABILITY_CHALLENGE_LEVEL#getValue ())#intValue ()) - (((Obj.magic gameConfiguration)#getMinValue ())#intValue ()))))
+                        ignore (!gauge#setValue (((java_int_value (Obj.repr (!gameConfigurationCentral#dURABILITY_CHALLENGE_LEVEL#getValue ()))) - (java_int_value (Obj.repr ((Obj.magic gameConfiguration)#getMinValue ()))))))
                     end else if ((Obj.repr !nextGameConfiguration) == (Obj.repr !gameConfigurationCentral#aTTACK_CHALLENGE_LEVEL)) then begin
-                        ignore (!gauge#setValue ((((!gameConfigurationCentral#aTTACK_CHALLENGE_LEVEL#getValue ())#intValue ()) - (((Obj.magic gameConfiguration)#getMinValue ())#intValue ()))))
+                        ignore (!gauge#setValue (((java_int_value (Obj.repr (!gameConfigurationCentral#aTTACK_CHALLENGE_LEVEL#getValue ()))) - (java_int_value (Obj.repr ((Obj.magic gameConfiguration)#getMinValue ()))))))
                     end else if ((Obj.repr !nextGameConfiguration) == (Obj.repr !gameConfigurationCentral#sPEED_CHALLENGE_LEVEL)) then begin
-                        ignore (!gauge#setValue ((((!gameConfigurationCentral#sPEED_CHALLENGE_LEVEL#getValue ())#intValue ()) - (((Obj.magic gameConfiguration)#getMinValue ())#intValue ()))))
+                        ignore (!gauge#setValue (((java_int_value (Obj.repr (!gameConfigurationCentral#sPEED_CHALLENGE_LEVEL#getValue ()))) - (java_int_value (Obj.repr ((Obj.magic gameConfiguration)#getMinValue ()))))))
                     end
                 end
             done
@@ -127,9 +132,9 @@ class gameConfigurationUtil () =
 
     method updateCompetitionValue () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "updateCompetitionValue"));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "updateCompetitionValue"));
         let gameConfigurationCentral : GameConfigurationCentral.gameConfigurationCentral ref = ref (((GameConfigurationCentral.getInstance ()) :> GameConfigurationCentral.gameConfigurationCentral)) in ();
-        cOMPETITION_VALUE <- (((((!gameConfigurationCentral#cOLLIDE_DAMAGE#getValue ())#intValue ()) + ((!gameConfigurationCentral#aTTACK_CHALLENGE_LEVEL#getValue ())#intValue ())) + ((!gameConfigurationCentral#dURABILITY_CHALLENGE_LEVEL#getValue ())#intValue ())) + ((!gameConfigurationCentral#sPEED_CHALLENGE_LEVEL#getValue ())#intValue ()));
+        cOMPETITION_VALUE <- ((((java_int_value (Obj.repr (!gameConfigurationCentral#cOLLIDE_DAMAGE#getValue ()))) + (java_int_value (Obj.repr (!gameConfigurationCentral#aTTACK_CHALLENGE_LEVEL#getValue ())))) + (java_int_value (Obj.repr (!gameConfigurationCentral#dURABILITY_CHALLENGE_LEVEL#getValue ())))) + (java_int_value (Obj.repr (!gameConfigurationCentral#sPEED_CHALLENGE_LEVEL#getValue ()))));
         cOMPETITION_VALUE <- ((cOMPETITION_VALUE asr 2))
         end
     
@@ -152,14 +157,12 @@ class gameConfigurationUtil () =
   end [@@warning "-20"]
 let () = java_register_constructor "GameConfigurationUtil" (fun arguments -> Obj.repr (new gameConfigurationUtil (Obj.obj arguments)))
 
-let instance = (new gameConfigurationUtil ())
-let get_instance () = instance
-let () = java_register_static "GameConfigurationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "GameConfigurationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new gameConfigurationUtil ())))
 
 

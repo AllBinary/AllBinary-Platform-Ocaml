@@ -49,9 +49,9 @@ class vectorRotationAnimationInterfaceFactory ((currentPoints_arg : int array ar
         end [@@warning "-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end
     
 

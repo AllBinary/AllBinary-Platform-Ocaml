@@ -67,7 +67,7 @@ class viewPositionEventHandler () =
                 let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic list#objectArray.(!index)) :> AllBinaryLayer.allBinaryLayer)) in ();
                 ignore (!layerInterface#onChangeEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -95,10 +95,11 @@ let sINGLETON = ref ((new viewPositionEventHandler ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "ViewPositionEventHandler.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "ViewPositionEventHandler.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "ViewPositionEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -34,6 +34,7 @@ let toggleList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.
 let get_toggleList () = !toggleList
 let set_toggleList value' = toggleList := value'
 let () = java_register_static "GameFeatureItemStateListener.get_toggleList" (fun _ -> Obj.repr (get_toggleList ()))
+let () = java_register_static "GameFeatureItemStateListener.set_toggleList" (fun value' -> set_toggleList (Obj.obj value'); Obj.repr ())
 
 let add : 'any1. 'any1 -> unit = fun (gameFeature) ->
         let gameFeature = Obj.repr gameFeature in
@@ -60,7 +61,7 @@ class gameFeatureItemStateListener (gameOptionsForm_arg) =
         begin
         (try
             let itemLabel : string ref = ref (((Obj.magic item)#getLabel ())) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#iTEM_LABEL))#append (!itemLabel)))), self, "itemStateChanged"));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#iTEM_LABEL))#append (!itemLabel)))), (Obj.magic self), "itemStateChanged"));
             if (java_instanceof (Obj.repr (Obj.magic item)) "GameConfigurationGauge") then begin
                 ignore ((Obj.magic (java_call_static "GameConfigurationUtil.getInstance" (Obj.repr ())))#change ((Obj.magic gameOptionsForm), (Obj.magic (Obj.magic item))))
             end else if (java_instanceof (Obj.repr (Obj.magic item)) "ChoiceGroup") then begin
@@ -73,7 +74,7 @@ class gameFeatureItemStateListener (gameOptionsForm_arg) =
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "itemStateChanged", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "itemStateChanged", e))
         end)
         end [@@warning "-20"]
 

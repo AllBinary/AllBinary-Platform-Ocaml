@@ -45,18 +45,18 @@ class exitRunnable ((midlet_arg : AllBinaryMidlet.allBinaryMidlet), (processor_a
     method run () : unit =
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART_RUNNABLE, self, commonStrings#rUN));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART_RUNNABLE, (Obj.magic self), commonStrings#rUN));
             ignore (midlet#destroyAppInRunnable (false, isProgress));
             ignore (midlet#setDisplay ((Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))));
             ignore (midlet#notifyDestroyed ());
-            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, self, commonStrings#rUN));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, (Obj.magic self), commonStrings#rUN));
             ignore (processor#process ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#rUN, e));
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#rUN, e));
             (try
                 ignore (processor#process ())
             with e2 -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#rUN, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#rUN, e))
             end)
         end)
         end

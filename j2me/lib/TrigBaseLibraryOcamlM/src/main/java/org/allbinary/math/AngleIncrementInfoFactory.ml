@@ -25,7 +25,7 @@ class angleIncrementInfoFactory () =
     method set_angleIncrementInfo value' = angleIncrementInfo <- value'
     
 
-    method getAt ((angleIncrement : int)) : AngleIncrementInfo.angleIncrementInfo =
+    method getAt : 'return. int -> 'return = fun ((angleIncrement : int)) ->
         try
         begin
         let halfAngleIncrement : int ref = ref (((angleIncrement asr 1))) in ();
@@ -38,7 +38,7 @@ class angleIncrementInfoFactory () =
         end else begin
             angleIncrementInfo_arg := !angleIncrementInfoCanBeNull
         end;
-        (!angleIncrementInfo_arg :> AngleIncrementInfo.angleIncrementInfo)
+        (Obj.magic (!angleIncrementInfo_arg))
         end
         with Java_return value -> Obj.obj value
 
@@ -54,9 +54,9 @@ let instance = (new angleIncrementInfoFactory ())
 let get_instance () = instance
 let () = java_register_static "AngleIncrementInfoFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AngleIncrementInfoFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

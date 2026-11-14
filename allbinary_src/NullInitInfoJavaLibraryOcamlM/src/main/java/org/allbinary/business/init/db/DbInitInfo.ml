@@ -28,7 +28,7 @@ class dbInitInfo ((_initFileName : string), (_read : bool)) =
     method getUrl () : string =
         begin
         let url : string ref = ref ((super#getUrl ())) in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("Url: " ^ !url), self, "getUrl"))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("Url: " ^ !url), (Obj.magic self), "getUrl"))));
         !url
         end [@@warning "-7"]
     

@@ -22,11 +22,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.paint.ProcessPaintable *)
 
 
-let getInstance : 'any1 'any2. 'any1 * 'any2 -> ProcessPaintable.processPaintable = fun (inputMappingInterface, basicColor) ->
+let getInstance : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (inputMappingInterface, basicColor) ->
         let inputMappingInterface = Obj.repr inputMappingInterface in
         let basicColor = Obj.repr basicColor in
         begin
-        ((new TouchButtonsPaintableComposite.touchButtonsPaintableComposite ((Obj.magic inputMappingInterface), (Obj.magic basicColor))) :> ProcessPaintable.processPaintable)
+        (Obj.magic ((new TouchButtonsPaintableComposite.touchButtonsPaintableComposite ((Obj.magic inputMappingInterface), (Obj.magic basicColor)))))
         end [@@warning "-20"]
 
 let () = java_register_static "TouchButtonsPaintableCompositeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

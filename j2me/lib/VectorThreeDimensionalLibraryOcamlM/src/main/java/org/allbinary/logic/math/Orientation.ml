@@ -62,18 +62,20 @@ let nONE = ref ((new orientation (0, 0, 0)))
 let get_nONE () = !nONE
 let set_nONE value' = nONE := value'
 let () = java_register_static "Orientation.get_nONE" (fun _ -> Obj.repr (get_nONE ()))
+let () = java_register_static "Orientation.set_nONE" (fun value' -> set_nONE (Obj.obj value'); Obj.repr ())
 
 let sINGLETON = ref ((new orientation (0, 0, 0)))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "Orientation.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "Orientation.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance ((yaw_arg : int), (pitch_arg : int), (roll_arg : int)) =
+let getInstance : 'return. int * int * int -> 'return = fun ((yaw_arg : int), (pitch_arg : int), (roll_arg : int)) ->
         begin
         ignore (!sINGLETON#yaw#setint (yaw_arg));
         ignore (!sINGLETON#pitch#setint (pitch_arg));
         ignore (!sINGLETON#roll#setint (roll_arg));
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "Orientation.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

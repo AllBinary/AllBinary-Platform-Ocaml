@@ -27,9 +27,9 @@ class comparableObject () =
         let anyType = Obj.repr anyType in
         try
         begin
-        if (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)) < ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (anyType))) then begin
-            raise (Java_return (Obj.repr ((-1))))
-        end else if (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self)) > ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (anyType))) then begin
+        if (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))) < ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (anyType))) then begin
+            raise (Java_return (Obj.repr ((- 1))))
+        end else if (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self))) > ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (anyType))) then begin
             raise (Java_return (Obj.repr (1)))
         end;
         0

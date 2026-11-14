@@ -35,7 +35,7 @@ class abKeys () =
         try
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF (("Getting Key: " ^ keyName), self, "getKey"));
+            ignore ((Obj.magic logUtil)#putF (("Getting Key: " ^ keyName), (Obj.magic self), "getKey"));
             if (((((String.compare keyName ("DirectX 8")) == 0) || ((String.compare keyName ("DirectX")) == 0)) || ((String.compare keyName ("Low Level")) == 0)) || ((String.compare keyName ("System Drivers")) == 0)) then begin
                 raise (Java_return (Obj.repr ("Temp For Input Library")))
             end;
@@ -59,9 +59,9 @@ let instance = (new abKeys ())
 let get_instance () = instance
 let () = java_register_static "AbKeys.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AbKeys.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

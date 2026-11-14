@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class noMenuInputProcessor () =
   object
-    inherit BasicMenuInputProcessor.basicMenuInputProcessor (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()), (-1), (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ()))))
+    inherit BasicMenuInputProcessor.basicMenuInputProcessor (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()), (- 1), (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ()))))
     
     
 
@@ -57,9 +57,9 @@ let sINGLETON = (new noMenuInputProcessor ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "NoMenuInputProcessor.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "NoMenuInputProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -113,7 +113,7 @@ class pressStartMenuPaintable () =
         pRESS_START <- "Press Screen To Start";
         kEY_START <- "Press or Click F2 To Begin";
         mENU_START <- "Press Start From The Menu To Begin";
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         startString <- (StringUtil.getInstance ())#eMPTY_STRING;
         timeDelayHelper <- ((new TimeDelayHelper.timeDelayHelper (1100)) :> TimeDelayHelper.timeDelayHelper);
         flash <- false;
@@ -123,7 +123,7 @@ class pressStartMenuPaintable () =
         ();
         if ((Obj.magic (java_call_static "TouchScreenFactory.getInstance" (Obj.repr ())))#isTouch ()) then begin
             startString <- pRESS_START
-        end else if (Obj.magic (java_call_static "AppletUtil.isAppletLoader" (Obj.repr (self)))) then begin
+        end else if (Obj.magic (java_call_static "AppletUtil.isAppletLoader" (Obj.repr ((Obj.magic self))))) then begin
             startString <- kEY_START
         end else begin
             startString <- mENU_START

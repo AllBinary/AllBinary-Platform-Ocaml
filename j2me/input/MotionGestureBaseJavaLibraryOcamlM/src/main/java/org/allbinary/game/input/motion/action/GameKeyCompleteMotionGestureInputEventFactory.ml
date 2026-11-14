@@ -23,6 +23,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.BasicArrayListD *)
 
+let sINGLETON_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_sINGLETON : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !sINGLETON_cell with Lazy.Undefined -> java_null)
+let set_sINGLETON value' = sINGLETON_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameKeyCompleteMotionGestureInputEventFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "GameKeyCompleteMotionGestureInputEventFactory.set_sINGLETON" (fun value' -> set_sINGLETON value'; Obj.repr ())
 class gameKeyCompleteMotionGestureInputEventFactory () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -42,7 +47,7 @@ class gameKeyCompleteMotionGestureInputEventFactory () =
 
     method updateAll () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#appendint ((eventList#size ()))))), self, "updateAll"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#appendint ((eventList#size ()))))), (Obj.magic self), "updateAll"));
         for index = ((eventList#size ()) - 1) downto 0 do
             let gameKeyCompleteMotionGestureInputEvent : Obj.t ref = ref ((Obj.repr (Obj.magic eventList#objectArray.(index)))) in ();
             ignore ((Obj.magic !gameKeyCompleteMotionGestureInputEvent)#update ())
@@ -58,14 +63,12 @@ class gameKeyCompleteMotionGestureInputEventFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "GameKeyCompleteMotionGestureInputEventFactory" (fun arguments -> Obj.repr (new gameKeyCompleteMotionGestureInputEventFactory (Obj.obj arguments)))
 
-let sINGLETON = (new gameKeyCompleteMotionGestureInputEventFactory ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "GameKeyCompleteMotionGestureInputEventFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic ((Obj.magic (get_sINGLETON ()))))
         end
 let () = java_register_static "GameKeyCompleteMotionGestureInputEventFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = sINGLETON_cell := lazy (Obj.repr ((new gameKeyCompleteMotionGestureInputEventFactory ())))
 
 

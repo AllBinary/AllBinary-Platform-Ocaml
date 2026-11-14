@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 
 class inputMappingEvent ((anyType : Obj.t)) =
   object
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable inputToGameKeyMapping : InputToGameKeyMapping.inputToGameKeyMapping = (Obj.magic 0)
     method inputToGameKeyMapping = inputToGameKeyMapping
     method set_inputToGameKeyMapping value' = inputToGameKeyMapping <- value'
@@ -36,9 +36,9 @@ class inputMappingEvent ((anyType : Obj.t)) =
         end [@@warning "-7-20"]
     
 
-    method getInputToGameKeyMapping () : InputToGameKeyMapping.inputToGameKeyMapping =
+    method getInputToGameKeyMapping : 'return. unit -> 'return = fun () ->
         begin
-        (inputToGameKeyMapping :> InputToGameKeyMapping.inputToGameKeyMapping)
+        (Obj.magic (inputToGameKeyMapping))
         end [@@warning "-7"]
 
     initializer

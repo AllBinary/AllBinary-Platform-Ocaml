@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual partFactoryInterface =
   object
-    method virtual getInstance : 'any1 'any2 . 'any1 * 'any2 -> PartInterface.partInterface
+    method virtual getInstance : 'any1 'any2 'return . 'any1 * 'any2 -> 'return
   end
 
 

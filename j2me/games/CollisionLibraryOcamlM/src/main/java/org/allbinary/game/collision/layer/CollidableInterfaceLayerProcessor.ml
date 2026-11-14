@@ -25,7 +25,7 @@ open Allbinary_java [@@warning "-33"]
 
 class collidableInterfaceLayerProcessor () =
   object (self)
-    inherit LayerProcessor.layerProcessor ((new CollidableInterfaceLayerManager.collidableInterfaceLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new CollidableInterfaceLayerManager.collidableInterfaceLayerManager ()) : CollidableInterfaceLayerManager.collidableInterfaceLayerManager :> LayerManager.layerManager))
     
     
 

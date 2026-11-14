@@ -32,9 +32,9 @@ class openGLESGraphicsCompositeFactory () =
         end [@@warning "-20"]
     
 
-    method get () : OpenGLESGraphicsFactory.openGLESGraphicsFactory =
+    method get : 'return. unit -> 'return = fun () ->
         begin
-        (openGLESGraphicsFactory :> OpenGLESGraphicsFactory.openGLESGraphicsFactory)
+        (Obj.magic (openGLESGraphicsFactory))
         end
 
     initializer
@@ -49,9 +49,9 @@ let instance = (new openGLESGraphicsCompositeFactory ())
 let get_instance () = instance
 let () = java_register_static "OpenGLESGraphicsCompositeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "OpenGLESGraphicsCompositeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.animation.image *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import javax.microedition.lcdui.Image *)
 (* import org.allbinary.animation.Animation *)
 (* import org.allbinary.animation.AnimationBehaviorFactory *)
@@ -37,7 +38,7 @@ class imageRotationAnimationFactory (image, (width : int), (height : int), (dx :
         try
         begin
         if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
-            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust ((Obj.magic self)));
             raise (Java_return (Obj.repr ((new AdjustedImageBaseRotationAnimation.adjustedImageBaseRotationAnimation ((self#getImage ()), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
             raise (Java_return (Obj.repr ((new ImageBaseRotationAnimation.imageBaseRotationAnimation ((self#getImage ()), (AngleInfo.getInstance (angleIncrement)), (AngleFactory.getInstance ())#tOTAL_ANGLE, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))

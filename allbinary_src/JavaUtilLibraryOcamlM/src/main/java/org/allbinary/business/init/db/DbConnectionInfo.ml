@@ -112,7 +112,7 @@ class dbConnectionInfo () =
         ignore (!stringBuffer#append ((self#getSchema ())));
         ignore (!stringBuffer#append (sCHEMA_SEP));
         ignore (!stringBuffer#append ((self#getServer ())));
-        if (((self#getPort ()) != (Obj.magic 0)) && (((self#getPort ())#length ()) > 1)) then begin
+        if (((self#getPort ()) != (Obj.magic 0)) && ((String.length (self#getPort ())) > 1)) then begin
             ignore (!stringBuffer#append ((CommonSeps.getInstance ())#cOLON));
             ignore (!stringBuffer#append ((self#getPort ())))
         end;

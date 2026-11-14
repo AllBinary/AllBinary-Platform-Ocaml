@@ -21,16 +21,16 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 
 
-let getInstance : 'any1. 'any1 * int -> BasicArrayList.basicArrayList = fun (vector, (howMuch : int)) ->
+let getInstance : 'any1 'return. 'any1 * int -> 'return = fun (vector, (howMuch : int)) ->
         let vector = Obj.repr vector in
         begin
         let myRandomFactory : MyRandomFactory.myRandomFactory ref = ref (((MyRandomFactory.getInstance ()) :> MyRandomFactory.myRandomFactory)) in ();
-        let x : int ref = ref ((-(!myRandomFactory#getNextInt (howMuch)))) in ();
+        let x : int ref = ref ((- (!myRandomFactory#getNextInt (howMuch)))) in ();
         let y : int ref = ref ((!myRandomFactory#getNextInt (howMuch))) in ();
         let graphicsPipe : BasicGraphicsPipeline.basicGraphicsPipeline ref = ref (((new BasicGraphicsPipeline.basicGraphicsPipeline ((Obj.magic vector))) :> BasicGraphicsPipeline.basicGraphicsPipeline)) in ();
         ignore (!graphicsPipe#createMatrix ());
         ignore (!graphicsPipe#translate (!x, !y));
-        ((!graphicsPipe#getMatrix ()) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((!graphicsPipe#getMatrix ())))
         end [@@warning "-20"]
 
 let () = java_register_static "RandomTranslation.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

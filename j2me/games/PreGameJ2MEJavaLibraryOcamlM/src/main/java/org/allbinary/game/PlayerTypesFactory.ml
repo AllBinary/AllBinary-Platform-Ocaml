@@ -44,9 +44,9 @@ let sINGLETON = (new playerTypesFactory ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "PlayerTypesFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "PlayerTypesFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -31,17 +31,17 @@ class platformInputMappingFactory () =
     method set_inputToGameKeyMapping value' = inputToGameKeyMapping <- value'
     
 
-    method getPersistentInputMappingInstance () : PersistentInputMapping.persistentInputMapping =
+    method getPersistentInputMappingInstance : 'return. unit -> 'return = fun () ->
         begin
         (try
             if ((Obj.repr inputToGameKeyMapping) == (Obj.repr (PersistentInputMapping.getNullInstance ()))) then begin
-                inputToGameKeyMapping <- (new MotionJ2MEGameInputMapping.motionJ2MEGameInputMapping ())
+                inputToGameKeyMapping <- ((new MotionJ2MEGameInputMapping.motionJ2MEGameInputMapping ()) :> PersistentInputMapping.persistentInputMapping)
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#gET_INSTANCE, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))
         end);
-        (inputToGameKeyMapping :> PersistentInputMapping.persistentInputMapping)
+        (Obj.magic (inputToGameKeyMapping))
         end
 
     initializer
@@ -57,9 +57,9 @@ let instance = (new platformInputMappingFactory ())
 let get_instance () = instance
 let () = java_register_static "PlatformInputMappingFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PlatformInputMappingFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

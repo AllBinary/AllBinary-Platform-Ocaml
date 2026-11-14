@@ -57,9 +57,9 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
         ignore (super#init ((Obj.magic rectangle), (Obj.magic formType)));
         let formTypeFactory : FormTypeFactory.formTypeFactory ref = ref (((FormTypeFactory.getInstance ()) :> FormTypeFactory.formTypeFactory)) in ();
         if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#hORIZONTAL_FORM)) then begin
-            multipleScrollSelectionHorizontalFormTypeItemIndexPaintable <- (new MultipleScrollSelectionFormHorizontalPaintable.multipleScrollSelectionFormHorizontalPaintable (self))
+            multipleScrollSelectionHorizontalFormTypeItemIndexPaintable <- ((Obj.obj (java_new "MultipleScrollSelectionFormHorizontalPaintable" (Obj.repr ((Obj.magic self))))) :> ItemIndexPaintable.itemIndexPaintable)
         end else if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#vERTICAL_CENTER_FORM)) then begin
-            multipleScrollSelectionHorizontalFormTypeItemIndexPaintable <- (new MultipleScrollSelectionFormVerticalPaintable.multipleScrollSelectionFormVerticalPaintable (self))
+            multipleScrollSelectionHorizontalFormTypeItemIndexPaintable <- ((Obj.obj (java_new "MultipleScrollSelectionFormVerticalPaintable" (Obj.repr ((Obj.magic self))))) :> ItemIndexPaintable.itemIndexPaintable)
         end else if ((Obj.repr (Obj.magic formType)) == (Obj.repr !formTypeFactory#nULL_FORM_TYPE)) then begin
             ()
         end else begin
@@ -124,13 +124,13 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
                         ()
                     end else begin
                         logged <- true;
-                        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("painting beyond maxx: "))#appendint ((java_to_int (Obj.repr (((self#rectangle)#getMaxX ())))))))), self, (self#canvasStrings)#pAINT))))
+                        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("painting beyond maxx: "))#appendint (((self#rectangle)#getMaxX ()))))), (Obj.magic self), (self#canvasStrings)#pAINT))))
                     end
                 end;
                 dx := (multipleScrollSelectionHorizontalFormTypeItemIndexPaintable#paint ((Obj.magic graphics), index, (Obj.magic !item), !dx, !dy))
             done
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#pAINT))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#pAINT))))
         end)
         end [@@warning "-7-20"]
 
@@ -138,8 +138,8 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
       begin
         rectPaintable <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
         multipleScrollSelectionHorizontalFormTypeItemIndexPaintable <- ((ItemIndexPaintable.getInstance ()) :> ItemIndexPaintable.itemIndexPaintable);
-        backgroundColor <- ((BasicColorFactory.getInstance ())#tRANSPARENT_GREY#intValue ());
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        backgroundColor <- (java_int_value (Obj.repr (BasicColorFactory.getInstance ())#tRANSPARENT_GREY));
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         logged <- false;
         fontHeight <- 0;
         ();
@@ -147,22 +147,22 @@ class multipleScrollSelectionHorizontalForm ((title : string), items, (formPaint
         if ((J2MEUtil.isJ2ME ()) || (J2MEUtil.isHTML ())) then begin
             ()
         end else begin
-            (* Java nested class MPaintable: move it to its own module *) ();
-            rectPaintable <- (new MPaintable.mPaintable ())
+            rectPaintable <- ((Obj.obj (java_new "MultipleScrollSelectionFormRectPaintable" (Obj.repr ((Obj.magic self))))) :> Paintable.paintable)
         end
       end
   end
 let () = java_register_constructor "MultipleScrollSelectionHorizontalForm" (fun arguments -> Obj.repr (new multipleScrollSelectionHorizontalForm (Obj.obj arguments)))
 
-let createForm : 'any3 'any4 'any6 'any7. string * _ * 'any3 * 'any4 * int * 'any6 * 'any7 -> ScrollSelectionForm.scrollSelectionForm = fun ((title : string), items, rectangle, formType, (border : int), backgroundBasicColor, foregroundBasicColor) ->
+let createForm : 'any2 'any3 'any4 'any6 'any7 'return. string * 'any2 * 'any3 * 'any4 * int * 'any6 * 'any7 -> 'return = fun ((title : string), items, rectangle, formType, (border : int), backgroundBasicColor, foregroundBasicColor) ->
+        let items = Obj.repr items in
         let rectangle = Obj.repr rectangle in
         let formType = Obj.repr formType in
         let backgroundBasicColor = Obj.repr backgroundBasicColor in
         let foregroundBasicColor = Obj.repr foregroundBasicColor in
         begin
-        let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((new multipleScrollSelectionHorizontalForm (title, items, (ItemPaintableFactory.getInstance ()), border, (Obj.magic backgroundBasicColor), (Obj.magic foregroundBasicColor))) :> ScrollSelectionForm.scrollSelectionForm)) in ();
+        let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((new multipleScrollSelectionHorizontalForm (title, (Obj.magic items), (ItemPaintableFactory.getInstance ()), border, (Obj.magic backgroundBasicColor), (Obj.magic foregroundBasicColor))) :> ScrollSelectionForm.scrollSelectionForm)) in ();
         ignore (!scrollSelectionForm#init ((Obj.magic rectangle), (Obj.magic formType)));
-        (!scrollSelectionForm :> ScrollSelectionForm.scrollSelectionForm)
+        (Obj.magic (!scrollSelectionForm))
         end [@@warning "-20"]
 let () = java_register_static "MultipleScrollSelectionHorizontalForm.createForm" (fun arguments -> Obj.repr (createForm (Obj.obj arguments)))
 

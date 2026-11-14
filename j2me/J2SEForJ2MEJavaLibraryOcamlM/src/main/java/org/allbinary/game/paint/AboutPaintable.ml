@@ -84,9 +84,9 @@ class aboutPaintable ((info_arg : string array), (developers_arg : string array)
         end [@@warning "-7-20"]
     
 
-    method getPaintableArrayInstance () : Paintable.paintable array =
+    method getPaintableArrayInstance : 'return. unit -> 'return = fun () ->
         begin
-        paintableArray
+        (Obj.magic (paintableArray))
         end [@@warning "-7"]
     
 
@@ -112,8 +112,8 @@ class aboutPaintable ((info_arg : string array), (developers_arg : string array)
         aBOUT <- (CanvasStrings.getInstance ())#aBOUT;
         ();
         ();
-        paintableArray <- [| self |];
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        paintableArray <- [| (Obj.magic self) |];
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         charHeight <- 0;
         aboutBeginWidth <- 0;
         ();
@@ -128,9 +128,9 @@ class aboutPaintable ((info_arg : string array), (developers_arg : string array)
   end
 let () = java_register_constructor "AboutPaintable" (fun arguments -> Obj.repr (new aboutPaintable (Obj.obj arguments)))
 
-let getInstance ((info_arg : string array), (developers_arg : string array)) =
+let getInstance : 'return. string array * string array -> 'return = fun ((info_arg : string array), (developers_arg : string array)) ->
         begin
-        (new aboutPaintable (info_arg, developers_arg))
+        (Obj.magic ((new aboutPaintable (info_arg, developers_arg))))
         end
 let () = java_register_static "AboutPaintable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -49,20 +49,20 @@ class playerQueue ((max_arg : int)) =
                 ignore (list#add ((Obj.magic sound)))
             end
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (commonStrings#eXCEPTION, self, commonStrings#aDD))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD))))
         end)
         end [@@warning "-20"]
     
 
     method process () : bool =
         begin
-        let sound : Obj.t ref = ref ((Obj.repr (NoSound.getInstance ()))) in ();
+        let sound : Sound.sound ref = ref (((NoSound.getInstance ()) :> Sound.sound)) in ();
         (try
             let played : bool ref = ref (false) in ();
             if ((list#size ()) > 0) then begin
-                sound := Obj.repr ((Obj.magic (list#removeAt (0))));
-                if ((Obj.magic !sound) != (Obj.magic 0)) then begin
-                    ignore (((Obj.magic !sound)#getPlayerP ())#start ())
+                sound := (Obj.magic (list#removeAt (0)));
+                if (!sound != (Obj.magic 0)) then begin
+                    ignore ((!sound#getPlayerP ())#start ())
                 end;
                 while ((list#size ()) > max) do
                     ignore (list#removeAt (0))
@@ -72,10 +72,10 @@ class playerQueue ((max_arg : int)) =
             !played
         with e -> begin
             let resource : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
-            if ((Obj.magic !sound) != (Obj.magic 0)) then begin
-                resource := ((Obj.magic !sound)#getResource ())
+            if (!sound != (Obj.magic 0)) then begin
+                resource := (!sound#getResource ())
             end;
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (!resource)))), self, commonStrings#pROCESS))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (!resource)))), (Obj.magic self), commonStrings#pROCESS))));
             false
         end)
         end

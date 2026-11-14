@@ -16,28 +16,29 @@
 (* package org.allbinary.logic.communication.log *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.NullUtil *)
 (* import org.allbinary.logic.string.StringUtil *)
 
-let lOG : Log.log = ((new Log.log ((StringUtil.getInstance ())#eMPTY_STRING, (NullUtil.getInstance ())#nULL_OBJECT, (StringUtil.getInstance ())#eMPTY_STRING, (NullUtil.getInstance ())#nULL_OBJECT)) :> Log.log)
+let lOG : Log.log = ((new Log.log ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT)), (StringUtil.getInstance ())#eMPTY_STRING, (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT)))) :> Log.log)
 let get_lOG () = lOG
 let () = java_register_static "LogFactory.get_lOG" (fun _ -> Obj.repr (get_lOG ()))
 
-let getInstanceD () : Log.log =
+let getInstanceD : 'return. unit -> 'return = fun () ->
         begin
         let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
         let nullUtil : NullUtil.nullUtil ref = ref (((NullUtil.getInstance ()) :> NullUtil.nullUtil)) in ();
-        ((new Log.log (!stringUtil#eMPTY_STRING, !nullUtil#nULL_OBJECT, !stringUtil#eMPTY_STRING, !nullUtil#nULL_OBJECT)) :> Log.log)
+        (Obj.magic ((new Log.log (!stringUtil#eMPTY_STRING, (Obj.repr (!nullUtil#nULL_OBJECT)), !stringUtil#eMPTY_STRING, (Obj.repr (!nullUtil#nULL_OBJECT))))))
         end
 
-and getInstance : 'any2 'any4. string * 'any2 * string * 'any4 -> Log.log = fun ((_specialMessage : string), _anyType, (_functionName : string), _exception_) ->
+and getInstance : 'any2 'any4 'return. string * 'any2 * string * 'any4 -> 'return = fun ((_specialMessage : string), _anyType, (_functionName : string), _exception_) ->
         begin
-        (lOG :> Log.log)
+        (Obj.magic (lOG))
         end
 
-and getInstanceF : 'any2. string * 'any2 * string -> Log.log = fun ((_specialMessage : string), _anyType, (_functionName : string)) ->
+and getInstanceF : 'any2 'return. string * 'any2 * string -> 'return = fun ((_specialMessage : string), _anyType, (_functionName : string)) ->
         begin
-        (lOG :> Log.log)
+        (Obj.magic (lOG))
         end
 
 let () = java_register_static "LogFactory.getInstanceD" (fun arguments -> Obj.repr (getInstanceD (Obj.obj arguments)))

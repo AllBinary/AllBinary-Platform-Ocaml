@@ -52,7 +52,7 @@ class reverseVelocityBoundsVisitor ((layerInterface_arg : LayerInterface.layerIn
     method minX () : unit =
         begin
         if (((velocityInterface#getVelocityXBasicDecimalP ())#getUnscaled ()) < 0) then begin
-            ignore ((velocityInterface#getVelocityXBasicDecimalP ())#multiplyint ((-1)))
+            ignore ((velocityInterface#getVelocityXBasicDecimalP ())#multiplyint ((- 1)))
         end
         end
     
@@ -60,7 +60,7 @@ class reverseVelocityBoundsVisitor ((layerInterface_arg : LayerInterface.layerIn
     method maxX () : unit =
         begin
         if (((velocityInterface#getVelocityXBasicDecimalP ())#getUnscaled ()) > 0) then begin
-            ignore ((velocityInterface#getVelocityXBasicDecimalP ())#multiplyint ((-1)))
+            ignore ((velocityInterface#getVelocityXBasicDecimalP ())#multiplyint ((- 1)))
         end
         end
     
@@ -68,7 +68,7 @@ class reverseVelocityBoundsVisitor ((layerInterface_arg : LayerInterface.layerIn
     method minY () : unit =
         begin
         if (((velocityInterface#getVelocityYBasicDecimalP ())#getUnscaled ()) < 0) then begin
-            ignore ((velocityInterface#getVelocityYBasicDecimalP ())#multiplyint ((-1)))
+            ignore ((velocityInterface#getVelocityYBasicDecimalP ())#multiplyint ((- 1)))
         end
         end
     
@@ -76,7 +76,7 @@ class reverseVelocityBoundsVisitor ((layerInterface_arg : LayerInterface.layerIn
     method maxY () : unit =
         begin
         if (((velocityInterface#getVelocityYBasicDecimalP ())#getUnscaled ()) > 0) then begin
-            ignore ((velocityInterface#getVelocityYBasicDecimalP ())#multiplyint ((-1)))
+            ignore ((velocityInterface#getVelocityYBasicDecimalP ())#multiplyint ((- 1)))
         end
         end
 

@@ -28,28 +28,30 @@ let keys : string array ref = ref ([| "qwres6qewrupoi1132790jfahleavi89398"; "14
 let get_keys () = !keys
 let set_keys value' = keys := value'
 let () = java_register_static "WeakCrypt.get_keys" (fun _ -> Obj.repr (get_keys ()))
+let () = java_register_static "WeakCrypt.set_keys" (fun value' -> set_keys (Obj.obj value'); Obj.repr ())
 let kEYMAX : int ref = ref ((Array.length !keys))
 let get_kEYMAX () = !kEYMAX
 let set_kEYMAX value' = kEYMAX := value'
 let () = java_register_static "WeakCrypt.get_kEYMAX" (fun _ -> Obj.repr (get_kEYMAX ()))
+let () = java_register_static "WeakCrypt.set_kEYMAX" (fun value' -> set_kEYMAX (Obj.obj value'); Obj.repr ())
 class weakCrypt ((key : int)) =
   object (self)
     val mutable tsUtil : Obj.t = Obj.repr 0
     method tsUtil : 'r. 'r = Obj.magic tsUtil
     method set_tsUtil : 'v. 'v -> unit = fun value' -> tsUtil <- Obj.repr value'
-    val mutable abCrypt : Obj.t = Obj.repr 0
-    method abCrypt : 'r. 'r = Obj.magic abCrypt
-    method set_abCrypt : 'v. 'v -> unit = fun value' -> abCrypt <- Obj.repr value'
+    val mutable abCrypt : AbCrypt.abCrypt = (Obj.magic 0)
+    method abCrypt = abCrypt
+    method set_abCrypt value' = abCrypt <- value'
     
     
 
     method encrypt ((value : string)) : string =
         begin
         (try
-            let crypted : int array ref = ref (((Obj.magic abCrypt)#encrypt (((Obj.magic tsUtil)#getByteArray (value))))) in ();
+            let crypted : int array ref = ref ((abCrypt#encrypt (((Obj.magic tsUtil)#getByteArray (value))))) in ();
             (DatabaseEncoder.encode (!crypted))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", self, "encrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", (Obj.magic self), "encrypt", e))));
             (StringUtil.getInstance ())#eMPTY_STRING
         end)
         end
@@ -58,10 +60,10 @@ class weakCrypt ((key : int)) =
     method decrypt ((value : string)) : string =
         begin
         (try
-            let decrypted : int array ref = ref (((Obj.magic abCrypt)#decrypt ((DatabaseEncoder.decode (value))))) in ();
+            let decrypted : int array ref = ref ((abCrypt#decrypt ((DatabaseEncoder.decode (value))))) in ();
             (Obj.obj (java_new "String" (Obj.repr (!decrypted))))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", self, "decrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", (Obj.magic self), "decrypt", e))));
             (StringUtil.getInstance ())#eMPTY_STRING
         end)
         end
@@ -69,13 +71,13 @@ class weakCrypt ((key : int)) =
     initializer
       begin
         tsUtil <- (Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))));
-        abCrypt <- (Obj.repr (Obj.obj (java_new "AbCrypt" (Obj.repr ((Obj.magic (java_call_static "KeySpecFactory.getInstance" (Obj.repr ())))#dES)))));
+        abCrypt <- ((new AbCrypt.abCrypt ((KeySpecFactory.getInstance ())#dES)) :> AbCrypt.abCrypt);
         ();
         (try
-            ignore ((Obj.magic abCrypt)#init (!keys.(key)))
+            ignore (abCrypt#init (!keys.(key)))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, self, "SuperCrypt(key)", e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), "SuperCrypt(key)", e))))
         end)
       end
   end [@@warning "-20"]

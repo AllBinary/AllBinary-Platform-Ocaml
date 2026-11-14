@@ -50,7 +50,7 @@ class remoteHighScoresSubmissionProcessor () =
         let highScore = Obj.repr highScore in
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF ("Begin Remote HighScores Submission", self, commonStrings#pROCESS));
+            ignore ((Obj.magic logUtil)#putF ("Begin Remote HighScores Submission", (Obj.magic self), commonStrings#pROCESS));
             let gameInfoData : GameInfoData.gameInfoData ref = ref (((GameInfoData.getInstance ()) :> GameInfoData.gameInfoData)) in ();
             let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic abeClientInformation)#toHashtable ()))) in ();
             ignore ((HashtableUtil.getInstance ())#putAll ((((Obj.magic highScore)#getGameInfo ())#toHashtable ()), (Obj.magic !hashtable)));
@@ -67,7 +67,7 @@ class remoteHighScoresSubmissionProcessor () =
                 ignore ((Obj.magic remoteHighScores)#update ((Obj.magic !resultHashtable)))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#pROCESS, e))
         end)
         end [@@warning "-20"]
 

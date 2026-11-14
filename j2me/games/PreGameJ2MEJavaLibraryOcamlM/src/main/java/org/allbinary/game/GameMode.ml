@@ -56,15 +56,18 @@ let nONE = ref ((new gameMode ((StringUtil.getInstance ())#nULL_STRING)))
 let get_nONE () = !nONE
 let set_nONE value' = nONE := value'
 let () = java_register_static "GameMode.get_nONE" (fun _ -> Obj.repr (get_nONE ()))
+let () = java_register_static "GameMode.set_nONE" (fun value' -> set_nONE (Obj.obj value'); Obj.repr ())
 
 let sERVER = ref ((new gameMode ("Server")))
 let get_sERVER () = !sERVER
 let set_sERVER value' = sERVER := value'
 let () = java_register_static "GameMode.get_sERVER" (fun _ -> Obj.repr (get_sERVER ()))
+let () = java_register_static "GameMode.set_sERVER" (fun value' -> set_sERVER (Obj.obj value'); Obj.repr ())
 
 let cLIENT = ref ((new gameMode ("Client")))
 let get_cLIENT () = !cLIENT
 let set_cLIENT value' = cLIENT := value'
 let () = java_register_static "GameMode.get_cLIENT" (fun _ -> Obj.repr (get_cLIENT ()))
+let () = java_register_static "GameMode.set_cLIENT" (fun value' -> set_cLIENT (Obj.obj value'); Obj.repr ())
 
 

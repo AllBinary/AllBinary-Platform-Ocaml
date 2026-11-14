@@ -18,6 +18,11 @@
 open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 
+let iMAGE_CACHE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_iMAGE_CACHE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !iMAGE_CACHE_cell with Lazy.Undefined -> java_null)
+let set_iMAGE_CACHE value' = iMAGE_CACHE_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "ImageCacheFactory.get_iMAGE_CACHE" (fun _ -> Obj.repr (get_iMAGE_CACHE ()))
+let () = java_register_static "ImageCacheFactory.set_iMAGE_CACHE" (fun value' -> set_iMAGE_CACHE value'; Obj.repr ())
 
 let init () : unit =
         begin
@@ -35,14 +40,12 @@ class imageCacheFactory () =
   end
 let () = java_register_constructor "ImageCacheFactory" (fun arguments -> Obj.repr (new imageCacheFactory (Obj.obj arguments)))
 
-let iMAGE_CACHE : Obj.t = (Obj.repr (Obj.obj (java_new "ImageCache" (Obj.repr ()))))
-let get_iMAGE_CACHE () = Obj.magic iMAGE_CACHE
-let () = java_register_static "ImageCacheFactory.get_iMAGE_CACHE" (fun _ -> Obj.repr (get_iMAGE_CACHE ()))
-
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic iMAGE_CACHE)))
+        (Obj.magic ((Obj.magic (get_iMAGE_CACHE ()))))
         end
 let () = java_register_static "ImageCacheFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = iMAGE_CACHE_cell := lazy (Obj.repr ((Obj.obj (java_new "ImageCache" (Obj.repr ())))))
 
 

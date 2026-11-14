@@ -16,6 +16,7 @@
 (* package org.allbinary.business.context.modules.storefront.statistics *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class storeFrontStatisticsData () =
   object
@@ -37,9 +38,9 @@ let instance = (new storeFrontStatisticsData ())
 let get_instance () = instance
 let () = java_register_static "StoreFrontStatisticsData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "StoreFrontStatisticsData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

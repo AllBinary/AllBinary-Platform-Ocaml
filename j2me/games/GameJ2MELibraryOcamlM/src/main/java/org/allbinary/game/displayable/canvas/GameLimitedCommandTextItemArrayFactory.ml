@@ -27,14 +27,14 @@ class gameLimitedCommandTextItemArrayFactory () =
     method set_commandTextItemArrayFactory value' = commandTextItemArrayFactory <- value'
     
 
-    method getCommandTextItemArrayFactory () : CommandTextItemArrayFactory.commandTextItemArrayFactory =
+    method getCommandTextItemArrayFactory : 'return. unit -> 'return = fun () ->
         begin
-        (commandTextItemArrayFactory :> CommandTextItemArrayFactory.commandTextItemArrayFactory)
+        (Obj.magic (commandTextItemArrayFactory))
         end
 
     initializer
       begin
-        commandTextItemArrayFactory <- ((new CommandTextItemArrayFactory.commandTextItemArrayFactory ((new LimitCommandsVisitor.limitCommandsVisitor ()))) :> CommandTextItemArrayFactory.commandTextItemArrayFactory);
+        commandTextItemArrayFactory <- ((new CommandTextItemArrayFactory.commandTextItemArrayFactory (((new LimitCommandsVisitor.limitCommandsVisitor ()) : LimitCommandsVisitor.limitCommandsVisitor :> Visitor.visitor))) :> CommandTextItemArrayFactory.commandTextItemArrayFactory);
         ()
       end
   end
@@ -44,9 +44,9 @@ let instance = (new gameLimitedCommandTextItemArrayFactory ())
 let get_instance () = instance
 let () = java_register_static "GameLimitedCommandTextItemArrayFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameLimitedCommandTextItemArrayFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

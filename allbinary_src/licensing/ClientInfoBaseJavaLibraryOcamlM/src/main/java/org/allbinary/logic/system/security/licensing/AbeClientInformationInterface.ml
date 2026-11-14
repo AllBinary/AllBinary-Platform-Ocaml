@@ -23,12 +23,12 @@ open Allbinary_java [@@warning "-33"]
 class virtual abeClientInformationInterface =
   object
     method virtual init : unit -> unit
-    method virtual getOperatingSystemInterface : unit -> GenericOperatingSystem.genericOperatingSystem
+    method virtual getOperatingSystemInterface : 'return . unit -> 'return
     method virtual getName : unit -> string
     method virtual getSpecialName : unit -> string
     method virtual getVersion : unit -> string
     method virtual getLicenseId : unit -> string
-    method virtual getLicenseServers : unit -> BasicArrayList.basicArrayList
+    method virtual getLicenseServers : 'return . unit -> 'return
     method virtual getLicenseServer : int -> string
     method virtual getNumberOfLicenseServers : unit -> int
     method virtual toHashtable : 'return . unit -> 'return

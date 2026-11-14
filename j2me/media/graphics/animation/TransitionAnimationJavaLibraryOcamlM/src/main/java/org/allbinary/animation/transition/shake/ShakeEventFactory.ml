@@ -54,9 +54,9 @@ let instance = (new shakeEventFactory ())
 let get_instance () = instance
 let () = java_register_static "ShakeEventFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ShakeEventFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

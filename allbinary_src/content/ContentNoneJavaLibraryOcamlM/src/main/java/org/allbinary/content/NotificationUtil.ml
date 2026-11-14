@@ -16,6 +16,7 @@
 (* package org.allbinary.content *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import javax.microedition.lcdui.Command *)
 
 class notificationUtil () =
@@ -38,9 +39,9 @@ let sINGLETON = (new notificationUtil ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "NotificationUtil.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "NotificationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

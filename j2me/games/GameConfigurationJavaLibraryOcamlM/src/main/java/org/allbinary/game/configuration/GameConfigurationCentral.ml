@@ -33,6 +33,7 @@ let sINGLETON : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "GameConfigurationCentral.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "GameConfigurationCentral.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 class gameConfigurationCentral () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -103,12 +104,12 @@ class gameConfigurationCentral () =
                 let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic !keyValuePersistance)#get (0)))) in ();
                 let anyType : Obj.t ref = ref ((Obj.repr (Obj.magic (sCALE#getName ())))) in ();
                 let value : string ref = ref ((Obj.magic ((Obj.magic !hashtable)#get (!anyType)))) in ();
-                ignore (sCALE#setValue ((!smallIntegerSingletonFactory#getAt (((string_of_int (!value))#intValue ())))))
+                ignore (sCALE#setValue ((!smallIntegerSingletonFactory#getAt ((java_int_value (Obj.repr (int_of_string (Stdlib.String.trim (!value)))))))))
             end else begin
-                ignore ((Obj.magic logUtil)#putF ("No Game Configuration To Load", self, !commonStrings#lOAD))
+                ignore ((Obj.magic logUtil)#putF ("No Game Configuration To Load", (Obj.magic self), !commonStrings#lOAD))
             end
         with e -> begin
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#lOAD, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#lOAD, e))
         end)
         end [@@warning "-20"]
     
@@ -132,55 +133,55 @@ class gameConfigurationCentral () =
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((sCALE#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((sCALE#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (sCALE#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((oRIENTATION#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((oRIENTATION#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (oRIENTATION#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((sENSOR_UPDATE_RATE#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((sENSOR_UPDATE_RATE#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (sENSOR_UPDATE_RATE#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((vIBRATION#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((vIBRATION#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (vIBRATION#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((cHALLENGE_LEVEL#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((cHALLENGE_LEVEL#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (cHALLENGE_LEVEL#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((cOLLIDE_DAMAGE#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((cOLLIDE_DAMAGE#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (cOLLIDE_DAMAGE#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((dURABILITY_CHALLENGE_LEVEL#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((dURABILITY_CHALLENGE_LEVEL#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (dURABILITY_CHALLENGE_LEVEL#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((sPEED_CHALLENGE_LEVEL#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((sPEED_CHALLENGE_LEVEL#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (sPEED_CHALLENGE_LEVEL#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((aTTACK_CHALLENGE_LEVEL#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((aTTACK_CHALLENGE_LEVEL#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (aTTACK_CHALLENGE_LEVEL#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((cONTROL_LEVEL#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((cONTROL_LEVEL#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (cONTROL_LEVEL#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((sPEED#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((sPEED#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (sPEED#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((mAX_GAME_OBJECTS#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((mAX_GAME_OBJECTS#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (mAX_GAME_OBJECTS#getValue ()))))))));
         ignore (!stringBuffer#append (!commonStrings#cOMMA_SEP));
         ignore (!stringBuffer#append ((mAX_LAYERS#getName ())));
         ignore (!stringBuffer#append (!commonStrings#eQUALS));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((mAX_LAYERS#getValue ())#intValue ()))))));
+        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((java_int_value (Obj.repr (mAX_LAYERS#getValue ()))))))));
         (java_string_of (Obj.repr !stringBuffer))
         end
 
@@ -224,12 +225,12 @@ class gameConfigurationCentral () =
   end [@@warning "-20"]
 let () = java_register_constructor "GameConfigurationCentral" (fun arguments -> Obj.repr (new gameConfigurationCentral (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !sINGLETON) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            sINGLETON := (new gameConfigurationCentral ())
+            sINGLETON := (Obj.repr ((new gameConfigurationCentral ())))
         end;
-        (Obj.magic !sINGLETON)
+        (Obj.magic ((Obj.magic !sINGLETON)))
         end
 let () = java_register_static "GameConfigurationCentral.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

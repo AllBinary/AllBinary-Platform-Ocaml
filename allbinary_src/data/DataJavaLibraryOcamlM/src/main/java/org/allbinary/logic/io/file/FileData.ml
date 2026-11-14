@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.io.file *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class fileData () =
   object
@@ -97,9 +98,9 @@ let instance = (new fileData ())
 let get_instance () = instance
 let () = java_register_static "FileData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "FileData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

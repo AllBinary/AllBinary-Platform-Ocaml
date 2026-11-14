@@ -25,9 +25,9 @@ class noMovementFactory () =
     method set_movement value' = movement <- value'
     
 
-    method getMovmentInstance () : Movement.movement =
+    method getMovmentInstance : 'return. unit -> 'return = fun () ->
         begin
-        (movement :> Movement.movement)
+        (Obj.magic (movement))
         end
 
     initializer
@@ -42,9 +42,9 @@ let instance = (new noMovementFactory ())
 let get_instance () = instance
 let () = java_register_static "NoMovementFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "NoMovementFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

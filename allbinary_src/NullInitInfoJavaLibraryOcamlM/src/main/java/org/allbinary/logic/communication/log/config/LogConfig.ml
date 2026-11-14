@@ -106,10 +106,10 @@ class logConfig (node) =
         end
     
 
-    method getTypeVector () : BasicArrayList.basicArrayList =
+    method getTypeVector : 'return. unit -> 'return = fun () ->
         begin
         let logKeyVector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        (!logKeyVector :> BasicArrayList.basicArrayList)
+        (Obj.magic (!logKeyVector))
         end
 
     initializer

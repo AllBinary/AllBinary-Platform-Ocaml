@@ -54,14 +54,22 @@ class guiLog () =
         end
     
 
-    method put : 'any2. string * 'any2 * string -> string = fun ((specialMessage : string), anyType, (functionName : string)) ->
-        let anyType = Obj.repr anyType in
-        begin
-        (self#put (specialMessage, anyType, functionName, (Obj.magic 0)))
-        end
+    (* Java overload put(String, Any, String) is not converted: OCaml has one method per name *)
     
 
-    (* Java overload put(String, Any, String, Exception) is not converted: OCaml has one method per name *)
+    method put : 'any2. string * 'any2 * string * exn -> string = fun ((specialMessage : string), anyType, (functionName : string), (exception_ : exn)) ->
+        let anyType = Obj.repr anyType in
+        begin
+        (try
+            let data : string ref = ref (((Obj.magic logFormatUtil)#get (specialMessage, (java_get_class (Obj.repr anyType)), functionName, exception_))) in ();
+            (self#showDialog (!data));
+            (print_endline (java_string_of (Obj.repr (!data))));
+            !data
+        with e -> begin
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), "put", e))));
+            "Logging Error"
+        end)
+        end
     
 
     (* Java overload put(String, String, String) is not converted: OCaml has one method per name *)
@@ -83,9 +91,9 @@ let instance = (new guiLog ())
 let get_instance () = instance
 let () = java_register_static "GuiLog.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GuiLog.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

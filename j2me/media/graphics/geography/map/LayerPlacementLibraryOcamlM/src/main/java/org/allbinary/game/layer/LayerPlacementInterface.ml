@@ -22,7 +22,7 @@ class virtual layerPlacementInterface =
   object
     method virtual getWidth : unit -> int
     method virtual getHeight : unit -> int
-    method virtual getLayerType : unit -> LayerPlacementType.layerPlacementType
+    method virtual getLayerType : 'return . unit -> 'return
     method virtual getInstance : 'return . unit -> 'return
   end
 

@@ -17,6 +17,7 @@
 
 open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
+(* import org.allbinary.logic.string.StringUtil *)
 (* import java.io.IOException *)
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.BasicArrayListD *)
@@ -34,7 +35,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.apache.xmlrpc.XmlRpcException *)
 
 class xmlRpcAbeLicenseRetrievalClient ((clientInfo : AbeClientInformationInterface.abeClientInformationInterface)) =
-  object (self)
+  object
     inherit XmlRpcAbeClient.xmlRpcAbeClient (clientInfo, "LicServ.getLicense")
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
@@ -42,49 +43,7 @@ class xmlRpcAbeLicenseRetrievalClient ((clientInfo : AbeClientInformationInterfa
     
     
 
-    method get : 'any1 'any2. 'any1 * 'any2 -> Obj.t = fun (anyType, cryptInterface) ->
-        let anyType = Obj.repr anyType in
-        let cryptInterface = Obj.repr cryptInterface in
-        try
-        begin
-        (try
-            let server : string ref = ref (((self#getClientInfo ())#getLicenseServer ((self#getServer ())))) in ();
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append (tRYING));
-            ignore (!stringBuffer#appendint ((java_to_int (Obj.repr ((self#getServer ()))))));
-            ignore (!stringBuffer#append (SEP));
-            ignore (!stringBuffer#append (!server));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((CommonLabels.getInstance ())#sTART_LABEL)) ^ (java_string_of (Obj.repr !stringBuffer))), self, (self#commonStrings)#gET));
-            let param : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            let xmlRpcClient : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "XmlRpcClient" (Obj.repr (!server)))))) in ();
-            ignore (self#setClient ((Obj.magic !xmlRpcClient)));
-            ignore ((Obj.magic !xmlRpcClient)#setBasicAuthentication ((Obj.magic 0), (Obj.magic 0)));
-            let hashtable : Obj.t ref = ref ((Obj.repr ((self#getClientInfo ())#toHashtable ()))) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (cLIENT_INFO)) ^ (java_string_of (Obj.repr (Obj.magic !hashtable)))), self, (self#commonStrings)#gET));
-            ignore (!param#add ((Obj.magic !hashtable)));
-            let result : Obj.t ref = ref ((Obj.repr ((Obj.magic !xmlRpcClient)#execute ((self#getRemoteMethod ()), !param, (Obj.magic cryptInterface))))) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (rESULT)) ^ (java_string_of (Obj.repr !result))), self, (self#commonStrings)#gET));
-            let resultHashtable : Obj.t ref = ref ((Obj.repr (Obj.magic !result))) in ();
-            if (not (AbeClientLicense.hasRequiredKeys ((Obj.magic !resultHashtable)))) then begin
-                ignore ((Obj.magic logUtil)#putF (iNVALID, self, (self#commonStrings)#gET));
-                raise (Java_return (Obj.repr ((self#tryAnother (anyType)))))
-            end;
-            let abeLicenseInterface : AbeLicenseInterface.abeLicenseInterface ref = ref (((new AbeClientLicense.abeClientLicense ((Obj.magic !resultHashtable))) :> AbeLicenseInterface.abeLicenseInterface)) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((self#commonStrings)#eND)) ^ (java_string_of (Obj.repr !stringBuffer))), self, (self#commonStrings)#gET));
-            isOnline <- true;
-            (Obj.repr (!abeLicenseInterface))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (eXCEPTION_IN_CLIENT, self, (self#commonStrings)#gET, e));
-            ignore ((Obj.magic logUtil)#putF ((tRYING_OTHER_SERVERS + ((Obj.magic (java_call_static "ExceptionUtil.getInstance" (Obj.repr ())))#getStackTrace (e))), self, (self#commonStrings)#gET));
-            if (not ((Printexc.to_string e)#startsWith (hOST_NOT_RESOLVED))) then begin
-                raise (Java_return (Obj.repr ((self#tryAnother (anyType)))))
-            end else begin
-                isOnline <- false;
-                raise (Failure (hOST_NOT_RESOLVED_MSG))
-            end
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
+    (* Java overload get(Any, CryptInterface) is not converted: OCaml has one method per name *)
 
     initializer
       begin

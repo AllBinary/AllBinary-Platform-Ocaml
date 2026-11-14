@@ -34,7 +34,7 @@ class simultaneousCompoundIndexedAnimationInterfaceFactory ((basicAnimationInter
         end [@@warning "-7"]
     
 
-    method createAnimation : 'return. _ -> 'return = fun (animationArray) ->
+    method createAnimation : 'return. Animation.animation array -> 'return = fun ((animationArray : Animation.animation array)) ->
         begin
         (Obj.magic ((new SimultaneousCompoundIndexedAnimation.simultaneousCompoundIndexedAnimation (animationArray, ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]

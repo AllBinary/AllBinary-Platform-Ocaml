@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class gameInitializedEvent ((anyType : Obj.t)) =
   object
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable resourceLoadingLevel : ResourceLoadingLevel.resourceLoadingLevel = (Obj.magic 0)
     method resourceLoadingLevel = resourceLoadingLevel
     method set_resourceLoadingLevel value' = resourceLoadingLevel <- value'
@@ -54,9 +54,9 @@ class gameInitializedEvent ((anyType : Obj.t)) =
         end [@@warning "-7-20"]
     
 
-    method getResourceLoadingLevel () : ResourceLoadingLevel.resourceLoadingLevel =
+    method getResourceLoadingLevel : 'return. unit -> 'return = fun () ->
         begin
-        (resourceLoadingLevel :> ResourceLoadingLevel.resourceLoadingLevel)
+        (Obj.magic (resourceLoadingLevel))
         end [@@warning "-7"]
 
     initializer

@@ -92,7 +92,7 @@ class tsUtil () =
     method getClassClassLoader : 'any1 'return. 'any1 -> 'return = fun (anyType) ->
         let anyType = Obj.repr anyType in
         begin
-        (Obj.magic (((java_get_class (Obj.repr anyType))#getClassLoader ())))
+        (Obj.magic ((Obj.magic java_null)))
         end
     
 
@@ -143,9 +143,9 @@ let instance = (new tsUtil ())
 let get_instance () = instance
 let () = java_register_static "TsUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TsUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

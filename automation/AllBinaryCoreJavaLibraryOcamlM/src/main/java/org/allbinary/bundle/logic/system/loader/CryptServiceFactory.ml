@@ -39,7 +39,7 @@ class cryptServiceFactory () =
 
     method getService : 'any1 'any2. 'any1 * 'any2 -> Obj.t = fun (_bundle, _registration) ->
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "getService"));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "getService"));
         (Obj.repr (cryptService))
         end [@@warning "-20"]
     

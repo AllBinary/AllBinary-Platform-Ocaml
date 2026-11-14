@@ -77,7 +77,7 @@ class featuredResourceFactory () =
             let featureInterface : GameFeatureControlledInterface.gameFeatureControlledInterface ref = ref (((Obj.magic list#objectArray.(index)) :> GameFeatureControlledInterface.gameFeatureControlledInterface)) in ();
             let isLoadingLevel : bool ref = ref ((!featureInterface#isLoadingLevel (level))) in ();
             let isFeature : bool ref = ref ((!featureInterface#isFeature ())) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((((((new StringMaker.stringMaker ())#append (gAME_FEATURE_CONTROLLED))#append ((java_string_of (Obj.repr !featureInterface))))#append (iS_LOADING_LEVEL_LABEL))#append (((ResourceLoadingLevelFactory.getInstance ())#getLevelString (level))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#appendboolean (!isLoadingLevel))#append (iS_FEATURE))#appendboolean (!isFeature)))), self, commonStrings#iNIT));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((((((new StringMaker.stringMaker ())#append (gAME_FEATURE_CONTROLLED))#append ((java_string_of (Obj.repr !featureInterface))))#append (iS_LOADING_LEVEL_LABEL))#append (((ResourceLoadingLevelFactory.getInstance ())#getLevelString (level))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#appendboolean (!isLoadingLevel))#append (iS_FEATURE))#appendboolean (!isFeature)))), (Obj.magic self), commonStrings#iNIT));
             if (!isLoadingLevel && !isFeature) then begin
                 ignore (!featureInterface#init (level))
             end
@@ -89,7 +89,7 @@ class featuredResourceFactory () =
         ignore (!stringBuffer#appendboolean ((!features#isFeature (!graphicsFeatureFactory#vECTOR_GRAPHICS))));
         ignore (!stringBuffer#append (iMAGE_LABEL));
         ignore (!stringBuffer#appendboolean ((!features#isFeature (!graphicsFeatureFactory#iMAGE_GRAPHICS))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iNIT));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iNIT));
         if (!features#isFeature (!graphicsFeatureFactory#iMAGE_GRAPHICS)) then begin
             ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
             ignore (!stringBuffer#append (iMAGE_GRAPHICS_ARRAY));
@@ -100,7 +100,7 @@ class featuredResourceFactory () =
             ignore (!stringBuffer#appendboolean ((!features#isFeature (!graphicsFeatureFactory#sPRITE_QUARTER_ROTATION_GRAPHICS))));
             ignore (!stringBuffer#append (sPRITE_FULL));
             ignore (!stringBuffer#appendboolean ((!features#isFeature (!graphicsFeatureFactory#sPRITE_FULL_GRAPHICS))));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iNIT))
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iNIT))
         end
         end
     
@@ -114,14 +114,14 @@ class featuredResourceFactory () =
     method add : 'any1. 'any1 -> unit = fun (featureInterface) ->
         let featureInterface = Obj.repr featureInterface in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic featureInterface))))))), self, commonStrings#aDD));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (((StringUtil.getInstance ())#toString ((Obj.magic featureInterface))))))), (Obj.magic self), commonStrings#aDD));
         ignore (list#add ((Obj.magic featureInterface)))
         end [@@warning "-20"]
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer

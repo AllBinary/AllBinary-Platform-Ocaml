@@ -33,9 +33,9 @@ class noGameNotificationHudSingleton () =
     
     
 
-    method getGameNotificationHud () : GameNotificationHud.gameNotificationHud =
+    method getGameNotificationHud : 'return. unit -> 'return = fun () ->
         begin
-        (gameNotificationHud :> GameNotificationHud.gameNotificationHud)
+        (Obj.magic (gameNotificationHud))
         end
 
     initializer
@@ -45,11 +45,10 @@ class noGameNotificationHudSingleton () =
         ();
         (try
             let basicHudFactory : BasicHudFactory.basicHudFactory ref = ref (((BasicHudFactory.getInstance ()) :> BasicHudFactory.basicHudFactory)) in ();
-            (* Java nested class NoGameGameNotificationHud: move it to its own module *) ();
-            gameNotificationHud <- (new NoGameGameNotificationHud.noGameGameNotificationHud ())
+            gameNotificationHud <- ((new NoGameGameNotificationHud.noGameGameNotificationHud ()) :> GameNotificationHud.gameNotificationHud)
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
         end)
       end
   end [@@warning "-20"]
@@ -59,9 +58,9 @@ let instance = (new noGameNotificationHudSingleton ())
 let get_instance () = instance
 let () = java_register_static "NoGameNotificationHudSingleton.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "NoGameNotificationHudSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

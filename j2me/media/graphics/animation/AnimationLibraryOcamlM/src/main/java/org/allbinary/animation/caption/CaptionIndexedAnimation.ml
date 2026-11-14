@@ -28,12 +28,12 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.time.GameTickTimeDelayHelperFactory *)
 (* import org.allbinary.time.TimeDelayHelper *)
 
-class captionIndexedAnimation (animationInterface_arg, (movieIndexedAnimationInterface_arg : IndexedAnimation.indexedAnimation), player_arg, (captionDx_arg : int), (captionDy_arg : int), (dx_arg : int), (dy_arg : int), (time_arg : int), (animationBehavior : AnimationBehavior.animationBehavior)) =
+class captionIndexedAnimation ((animationInterface_arg : Animation.animation), (movieIndexedAnimationInterface_arg : IndexedAnimation.indexedAnimation), player_arg, (captionDx_arg : int), (captionDy_arg : int), (dx_arg : int), (dy_arg : int), (time_arg : int), (animationBehavior : AnimationBehavior.animationBehavior)) =
   object (self)
     inherit IndexedAnimation.indexedAnimation (animationBehavior)
-    val mutable animationInterface : Obj.t = Obj.repr 0
-    method animationInterface : 'r. 'r = Obj.magic animationInterface
-    method set_animationInterface : 'v. 'v -> unit = fun value' -> animationInterface <- Obj.repr value'
+    val mutable animationInterface : Animation.animation = (Obj.magic 0)
+    method animationInterface = animationInterface
+    method set_animationInterface value' = animationInterface <- value'
     val mutable movieIndexedAnimationInterface : IndexedAnimation.indexedAnimation = (Obj.magic 0)
     method movieIndexedAnimationInterface = movieIndexedAnimationInterface
     method set_movieIndexedAnimationInterface value' = movieIndexedAnimationInterface <- value'
@@ -78,7 +78,7 @@ class captionIndexedAnimation (animationInterface_arg, (movieIndexedAnimationInt
     method isLastFrame () : bool =
         try
         begin
-        if ((movieIndexedAnimationInterface#getFrame ()) == ((self#getSize ()) - 1)) then begin
+        if ((movieIndexedAnimationInterface#getFrame ()) = ((self#getSize ()) - 1)) then begin
             raise (Java_return (Obj.repr (true)))
         end else begin
             raise (Java_return (Obj.repr (false)))
@@ -126,7 +126,7 @@ class captionIndexedAnimation (animationInterface_arg, (movieIndexedAnimationInt
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic graphics), (x + captionDx), (y + captionDy)));
+        ignore (animationInterface#paintXY ((Obj.magic graphics), (x + captionDx), (y + captionDy)));
         ignore (movieIndexedAnimationInterface#paintXY ((Obj.magic graphics), ((x + captionDx) + dx), ((y + captionDy) + dy)))
         end [@@warning "-7-20"]
     
@@ -134,7 +134,7 @@ class captionIndexedAnimation (animationInterface_arg, (movieIndexedAnimationInt
     method paintThreedXYZ : 'any1. 'any1 * int * int * int -> unit = fun (graphics, (x : int), (y : int), (z : int)) ->
         let graphics = Obj.repr graphics in
         begin
-        ignore ((Obj.magic animationInterface)#paintThreedXYZ ((Obj.magic graphics), (x + captionDx), (y + captionDy), z));
+        ignore (animationInterface#paintThreedXYZ ((Obj.magic graphics), (x + captionDx), (y + captionDy), z));
         ignore (movieIndexedAnimationInterface#paintThreedXYZ ((Obj.magic graphics), ((x + captionDx) + dx), ((y + captionDy) + dy), z))
         end [@@warning "-7-20"]
 
@@ -152,14 +152,14 @@ class captionIndexedAnimation (animationInterface_arg, (movieIndexedAnimationInt
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        animationInterface <- Obj.repr (animationInterface_arg);
+        animationInterface <- animationInterface_arg;
         movieIndexedAnimationInterface <- movieIndexedAnimationInterface_arg;
         captionDx <- captionDx_arg;
         captionDy <- captionDy_arg;
         dx <- dx_arg;
         dy <- dy_arg;
         time <- time_arg;
-        eND_EVENT <- (new AllBinaryEventObject.allBinaryEventObject (self));
+        eND_EVENT <- (new AllBinaryEventObject.allBinaryEventObject ((Obj.magic self)));
         let timePerFrame : int ref = ref ((time / (self#getSize ()))) in ();
         timeDelayHelper <- (new TimeDelayHelper.timeDelayHelper (!timePerFrame));
         player <- Obj.repr (player_arg);

@@ -21,6 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.microedition.media.Manager *)
 (* import javax.microedition.media.MediaException *)
 (* import javax.microedition.media.Player *)
+(* import org.allbinary.MIDPUtil *)
 (* import org.allbinary.TsUtil *)
 (* import org.allbinary.audio.AudioContentTypeDataFactory *)
 (* import org.allbinary.data.resource.ResourceUtil *)
@@ -75,7 +76,7 @@ and createPlayer : 'return. string -> 'return = fun ((resource : string)) ->
                 raise (Java_return (Obj.repr ((Obj.magic (java_call_static "Manager.createPlayer" (Obj.repr (resource)))))))
             end else begin
                 let inputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "ResourceUtil.getInstance" (Obj.repr ())))#getResourceAsStream (resource)))) in ();
-                raise (Java_return (Obj.repr ((Obj.magic (java_call_static "Manager.createPlayer" (Obj.repr ((Obj.magic !inputStream), ((AudioContentTypeDataFactory.getInstance ())#mIME_AUDIO_WAV#getName ()))))))))
+                raise (Java_return (Obj.repr (((MIDPUtil.getInstance ())#createPlayerFromInputStream ((Obj.magic !inputStream), ((AudioContentTypeDataFactory.getInstance ())#mIME_AUDIO_WAV#getName ()))))))
             end
         end else begin
             raise (Java_return (Obj.repr ((NoPlayer.get_nO_PLAYER ()))))

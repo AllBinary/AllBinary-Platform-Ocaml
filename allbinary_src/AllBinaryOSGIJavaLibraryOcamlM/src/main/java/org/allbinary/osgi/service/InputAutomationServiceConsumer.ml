@@ -51,9 +51,9 @@ class inputAutomationServiceConsumer ((registryName_arg : string), bundleContext
 
     method process () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#pROCESS));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#pROCESS));
         let vector : BasicArrayList.basicArrayList ref = ref (((osgiServiceUtil#getServicesObjectVector ((self#getBundleContext ()), (self#getServiceReferences ()))) :> BasicArrayList.basicArrayList)) in ();
-        ignore ((Obj.magic logUtil)#putF ((("Processing " ^ java_string_of (Obj.repr ((!vector#size ())))) ^ " Services"), self, commonStrings#pROCESS));
+        ignore ((Obj.magic logUtil)#putF ((("Processing " ^ java_string_of (Obj.repr ((!vector#size ())))) ^ " Services"), (Obj.magic self), commonStrings#pROCESS));
         let size : int ref = ref ((!vector#size ())) in ();
         let osgiServiceInterface : OSGIServiceInterface.oSGIServiceInterface ref = ref (((Obj.magic 0) :> OSGIServiceInterface.oSGIServiceInterface)) in ();
         for index = 0 to !size - 1 do
@@ -96,9 +96,9 @@ class inputAutomationServiceConsumer ((registryName_arg : string), bundleContext
         end
     
 
-    method getOsgiServiceVisitorInterface () : OSGIServiceVisitorInterface.oSGIServiceVisitorInterface =
+    method getOsgiServiceVisitorInterface : 'return. unit -> 'return = fun () ->
         begin
-        (osgiServiceVisitorInterface :> OSGIServiceVisitorInterface.oSGIServiceVisitorInterface)
+        (Obj.magic (osgiServiceVisitorInterface))
         end
     
 

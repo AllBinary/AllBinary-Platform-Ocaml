@@ -34,7 +34,7 @@ class numberOnOwnGroupSequenceAIFactory () =
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
     
 
-    method getInstance : 'any1 'any3 'any4. 'any1 * ArtificialIntelligenceInterface.artificialIntelligenceInterface array * 'any3 * 'any4 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (hashtable, (artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), ownerLayerInterface, gameInput) ->
+    method getInstance : 'any1 'any3 'any4 'return. 'any1 * ArtificialIntelligenceInterface.artificialIntelligenceInterface array * 'any3 * 'any4 -> 'return = fun (hashtable, (artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), ownerLayerInterface, gameInput) ->
         let hashtable = Obj.repr hashtable in
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
@@ -55,7 +55,7 @@ class numberOnOwnGroupSequenceAIFactory () =
         ignore (!stringBuffer#appendint ((Array.length artificialIntelligenceInterface)));
         ignore (!stringBuffer#append (" + 1"));
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, !commonStrings#gET_INSTANCE));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#gET_INSTANCE));
         if (((Array.length artificialIntelligenceInterface) - 1) > (!list#size ())) then begin
             raise (Failure ("Not enough AI properties."))
         end;
@@ -66,7 +66,7 @@ class numberOnOwnGroupSequenceAIFactory () =
         for index = 0 to (Array.length !numberOnSameTeam) - 1 do
             !numberOnSameTeam.(index) <- (Obj.magic !list#objectArray.(index))
         done;
-        ((new NumberOnOwnGroupSequenceAI.numberOnOwnGroupSequenceAI (!numberOnSameTeam, artificialIntelligenceInterface, (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((new NumberOnOwnGroupSequenceAI.numberOnOwnGroupSequenceAI (!numberOnSameTeam, artificialIntelligenceInterface, (Obj.magic ownerLayerInterface), (Obj.magic gameInput)))))
         end [@@warning "-20"]
 
     initializer

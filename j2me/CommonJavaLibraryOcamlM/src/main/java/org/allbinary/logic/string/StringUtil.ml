@@ -36,6 +36,9 @@ class stringUtil () =
     val mutable oNE_EMPTY_STRING_ARRAY : string array = (Obj.magic 0)
     method oNE_EMPTY_STRING_ARRAY = oNE_EMPTY_STRING_ARRAY
     method set_oNE_EMPTY_STRING_ARRAY value' = oNE_EMPTY_STRING_ARRAY <- value'
+    val mutable oNE_EMPTY_STRING_ARRAY_OF_ARRAYS : string array array = (Obj.magic 0)
+    method oNE_EMPTY_STRING_ARRAY_OF_ARRAYS = oNE_EMPTY_STRING_ARRAY_OF_ARRAYS
+    method set_oNE_EMPTY_STRING_ARRAY_OF_ARRAYS value' = oNE_EMPTY_STRING_ARRAY_OF_ARRAYS <- value'
     val mutable stringArray : string array = (Obj.magic 0)
     method stringArray = stringArray
     method set_stringArray value' = stringArray <- value'
@@ -43,15 +46,9 @@ class stringUtil () =
     
 
     method getNonNull ((string : string)) : string =
-        try
         begin
-        if (string = (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr (eMPTY_STRING)))
-        end else begin
-            raise (Java_return (Obj.repr (string)))
+        string
         end
-        end
-        with Java_return value -> Obj.obj value
     
 
     method getArrayInstance () : string array =
@@ -91,6 +88,7 @@ class stringUtil () =
         nULL_STRING <- "null";
         eMPTY_STRING <- "";
         oNE_EMPTY_STRING_ARRAY <- [| eMPTY_STRING |];
+        oNE_EMPTY_STRING_ARRAY_OF_ARRAYS <- (Array.make_matrix (0) (0) (Obj.magic 0));
         stringArray <- (Array.make (0) (Obj.magic 0));
         ();
         ()
@@ -102,9 +100,9 @@ let instance = (new stringUtil ())
 let get_instance () = instance
 let () = java_register_static "StringUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "StringUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

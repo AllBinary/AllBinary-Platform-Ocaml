@@ -28,16 +28,16 @@ class countedPickedUpLayerInterfaceFactoryPool () =
     
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer
       begin
         ();
         ();
-        list <- (new BasicArrayListD.basicArrayListD ())
+        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
       end
   end
 let () = java_register_constructor "CountedPickedUpLayerInterfaceFactoryPool" (fun arguments -> Obj.repr (new countedPickedUpLayerInterfaceFactoryPool (Obj.obj arguments)))
@@ -46,10 +46,11 @@ let sINGLETON = ref ((new countedPickedUpLayerInterfaceFactoryPool ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "CountedPickedUpLayerInterfaceFactoryPool.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "CountedPickedUpLayerInterfaceFactoryPool.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 
 and init () : unit =

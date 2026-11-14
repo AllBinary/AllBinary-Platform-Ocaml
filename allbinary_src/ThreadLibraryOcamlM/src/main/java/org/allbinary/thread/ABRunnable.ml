@@ -50,7 +50,7 @@ class aBRunnable () =
 
     method getType () : int =
         begin
-        (-1)
+        (- 1)
         end
 
     initializer

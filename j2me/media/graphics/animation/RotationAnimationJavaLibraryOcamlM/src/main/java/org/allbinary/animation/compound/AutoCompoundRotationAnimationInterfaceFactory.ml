@@ -34,7 +34,7 @@ class autoCompoundRotationAnimationInterfaceFactory ((basicAnimationInterfaceFac
         end [@@warning "-7"]
     
 
-    method createAnimation : 'return. _ -> 'return = fun (animationInterfaceArray) ->
+    method createAnimation : 'return. Animation.animation array -> 'return = fun ((animationInterfaceArray : Animation.animation array)) ->
         begin
         (Obj.magic ((new AutoCompoundRotationAnimation.autoCompoundRotationAnimation ((Obj.magic animationInterfaceArray), ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
         end [@@warning "-7"]

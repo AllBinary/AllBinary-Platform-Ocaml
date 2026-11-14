@@ -27,6 +27,11 @@ open Allbinary_java [@@warning "-33"]
 (* import jsinterop.annotations.JsConstructor *)
 (* import jsinterop.annotations.JsProperty *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "AngleFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "AngleFactory.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class angleFactory () =
   object
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -59,20 +64,20 @@ class angleFactory () =
     val mutable rIGHT : NamedAngle.namedAngle = (Obj.magic 0)
     method rIGHT = rIGHT
     method set_rIGHT value' = rIGHT <- value'
-    val mutable frameUtil : FrameUtil.frameUtil = (Obj.magic 0)
-    method frameUtil = frameUtil
-    method set_frameUtil value' = frameUtil <- value'
+    val mutable frameUtil : Obj.t = Obj.repr 0
+    method frameUtil : 'r. 'r = Obj.magic frameUtil
+    method set_frameUtil : 'v. 'v -> unit = fun value' -> frameUtil <- Obj.repr value'
     
     
 
-    method getAt ((index : int)) : Angle.angle =
+    method getAt : 'return. int -> 'return = fun ((index : int)) ->
         begin
-        let adjustedIndex : int ref = ref ((java_to_int (Obj.repr ((frameUtil#adjustAngleToFrameAngle (index)))))) in ();
-        (angleArray.(!adjustedIndex) :> Angle.angle)
+        let adjustedIndex : int ref = ref (((Obj.magic frameUtil)#adjustAngleToFrameAngle (index))) in ();
+        (Obj.magic (angleArray.(!adjustedIndex)))
         end
     
 
-    method getClosestDirection ((angle : int)) : Angle.angle =
+    method getClosestDirection : 'return. int -> 'return = fun ((angle : int)) ->
         try
         begin
         if ((((angle >= 315) && (angle < 360))) || (((angle >= 0) && (angle < 45)))) then begin
@@ -89,9 +94,9 @@ class angleFactory () =
         with Java_return value -> Obj.obj value
     
 
-    method getGeneralDirection () : Angle.angle =
+    method getGeneralDirection : 'return. unit -> 'return = fun () ->
         begin
-        (nOT_ANGLE :> Angle.angle)
+        (Obj.magic (nOT_ANGLE))
         end
 
     initializer
@@ -100,13 +105,13 @@ class angleFactory () =
         tOTAL_ANGLE <- 360;
         qUARTER_TOTAL_ANGLE <- 90;
         angleArray <- (Array.make (tOTAL_ANGLE) (Obj.magic 0));
-        nEGATIVE_ONE <- (-1);
+        nEGATIVE_ONE <- (- 1);
         nOT_ANGLE <- ((new NamedAngle.namedAngle (nEGATIVE_ONE, (CommonStrings.getInstance ())#eMPTY)) :> NamedAngle.namedAngle);
         ();
         ();
         ();
         ();
-        frameUtil <- ((FrameUtil.getInstance ()) :> FrameUtil.frameUtil);
+        frameUtil <- (Obj.repr (Obj.magic (java_call_static "FrameUtil.getInstance" (Obj.repr ()))));
         ();
         let commonPhoneStrings : CommonPhoneStrings.commonPhoneStrings ref = ref (((CommonPhoneStrings.getInstance ()) :> CommonPhoneStrings.commonPhoneStrings)) in ();
         let total : int ref = ref ((Array.length angleArray)) in ();
@@ -134,13 +139,9 @@ class angleFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "AngleFactory" (fun arguments -> Obj.repr (new angleFactory (Obj.obj arguments)))
 
-let instance = (new angleFactory ())
-let get_instance () = instance
-let () = java_register_static "AngleFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let rec getInstance () =
+let rec getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 
 and main ((_args : string array)) : unit =
@@ -154,5 +155,7 @@ and main ((_args : string array)) : unit =
         end
 let () = java_register_static "AngleFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 let () = java_register_static "AngleFactory.main" (fun arguments -> Obj.repr (main (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new angleFactory ())))
 
 

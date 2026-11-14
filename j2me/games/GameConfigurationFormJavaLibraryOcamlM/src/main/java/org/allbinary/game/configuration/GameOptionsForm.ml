@@ -22,6 +22,7 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.microedition.lcdui.CommandListener *)
 (* import javax.microedition.lcdui.Item *)
 (* import javax.microedition.lcdui.TextField *)
+(* import org.allbinary.MIDPUtil *)
 (* import org.allbinary.game.commands.GameCommandsFactory *)
 (* import org.allbinary.game.configuration.feature.GameFeatureChoiceGroups *)
 (* import org.allbinary.game.configuration.feature.GameFeatureFormUtil *)
@@ -34,7 +35,6 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.displayable.command.MyCommandsFactory *)
 (* import org.allbinary.graphics.displayable.screen.CommandForm *)
 (* import org.allbinary.input.gyro.OrientationData *)
-(* import org.allbinary.logic.MEUtil *)
 (* import org.allbinary.logic.string.StringMaker *)
 (* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
 (* import org.allbinary.util.BasicArrayList *)
@@ -45,9 +45,9 @@ open Allbinary_java [@@warning "-33"]
 class gameOptionsForm (commandListener, (title : string), (backgrounBasicColor : BasicColor.basicColor), (foregroundBasicColor : BasicColor.basicColor)) =
   object (self)
     inherit CommandForm.commandForm (commandListener, title, backgrounBasicColor, foregroundBasicColor) as super
-    val mutable meUtil : Obj.t = Obj.repr 0
-    method meUtil : 'r. 'r = Obj.magic meUtil
-    method set_meUtil : 'v. 'v -> unit = fun value' -> meUtil <- Obj.repr value'
+    val mutable meUtil : MIDPUtil.mIDPUtil = (Obj.magic 0)
+    method meUtil = meUtil
+    method set_meUtil value' = meUtil <- value'
     
     
 
@@ -85,7 +85,7 @@ class gameOptionsForm (commandListener, (title : string), (backgrounBasicColor :
         for index = 0 to !size - 1 do
             gameConfigurationTextInput := (Obj.magic ((Obj.magic !hashtable)#get ((Obj.magic !objectArray.(index)))));
             textField := Obj.repr ((Obj.obj (java_new "TextField" (Obj.repr ((!gameConfigurationTextInput#getLabel ()), (!gameConfigurationTextInput#getText ()), 30, (Obj.magic (java_call_static "TextField.get_aNY" (Obj.repr ()))))))));
-            ignore ((Obj.magic meUtil)#appendItem (self, (Obj.magic !textField)))
+            ignore (meUtil#appendItem ((Obj.magic self), (Obj.magic !textField)))
         done
         end [@@warning "-7"]
     
@@ -103,11 +103,11 @@ class gameOptionsForm (commandListener, (title : string), (backgrounBasicColor :
         for index = 0 to !size - 1 do
             gameConfiguration := (Obj.magic !list#objectArray.(index));
             ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (!nAME))#append ((java_string_of (Obj.repr !gameConfiguration)))))), self, !mETHOD_NAME));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (!nAME))#append ((java_string_of (Obj.repr !gameConfiguration)))))), (Obj.magic self), !mETHOD_NAME));
             gauge := (new GameConfigurationGauge.gameConfigurationGauge (!gameConfiguration));
             ignore (!gauge#setDefaultCommand ((Obj.magic !gAUGE_CHANGE)));
-            ignore (!gauge#setItemCommandListener ((Obj.obj (java_new "GameFeatureItemCommandListener" (Obj.repr (self))))));
-            ignore ((Obj.magic meUtil)#appendItem (self, !gauge))
+            ignore (!gauge#setItemCommandListener ((Obj.obj (java_new "GameFeatureItemCommandListener" (Obj.repr ((Obj.magic self)))))));
+            ignore (meUtil#appendItem ((Obj.magic self), !gauge))
         done
         end [@@warning "-7"]
     
@@ -139,7 +139,7 @@ class gameOptionsForm (commandListener, (title : string), (backgrounBasicColor :
         ignore ((Obj.magic (java_call_static "GameConfigurationUtil.getInstance" (Obj.repr ())))#updateCompetitionValue ());
         let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))) in ();
         let sCALE : GameConfiguration.gameConfiguration ref = ref (((GameConfigurationCentral.getInstance ())#sCALE :> GameConfiguration.gameConfiguration)) in ();
-        ignore ((Obj.magic !hashtable)#put ((!sCALE#getName ()), (java_string_of (Obj.repr (!sCALE#getValue ())))));
+        ignore ((Obj.magic !hashtable)#put ((!sCALE#getName ()), (string_of_int ((java_int_value (Obj.repr (!sCALE#getValue ())))))));
         let keyValuePersistance : Obj.t ref = ref ((Obj.repr (GameConfigurationPersistanceSingleton.getInstance ()))) in ();
         ignore ((Obj.magic !keyValuePersistance)#clear ());
         ignore ((Obj.magic !keyValuePersistance)#loadAll ((Obj.magic abeClientInformation)));
@@ -155,19 +155,19 @@ class gameOptionsForm (commandListener, (title : string), (backgrounBasicColor :
 
     initializer
       begin
-        meUtil <- (Obj.repr (Obj.magic (java_call_static "MEUtil.getInstance" (Obj.repr ()))));
+        meUtil <- ((MIDPUtil.getInstance ()) :> MIDPUtil.mIDPUtil);
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
         (self#addConfiguration ());
         let gameFeatureFormUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "GameFeatureFormUtil.getInstance" (Obj.repr ()))))) in ();
-        ignore ((Obj.magic !gameFeatureFormUtil)#addChoiceGroup (self, ((GameFeatureChoiceGroups.getExclusiveInstance ())#get ()), (Obj.magic (java_call_static "Choice.get_eXCLUSIVE" (Obj.repr ())))));
-        ignore ((Obj.magic !gameFeatureFormUtil)#addChoiceGroup (self, ((GameFeatureChoiceGroups.getMultipleInstance ())#get ()), (Obj.magic (java_call_static "Choice.get_mULTIPLE" (Obj.repr ())))));
+        ignore ((Obj.magic !gameFeatureFormUtil)#addChoiceGroup ((Obj.magic self), ((GameFeatureChoiceGroups.getExclusiveInstance ())#get ()), (Obj.magic (java_call_static "Choice.get_eXCLUSIVE" (Obj.repr ())))));
+        ignore ((Obj.magic !gameFeatureFormUtil)#addChoiceGroup ((Obj.magic self), ((GameFeatureChoiceGroups.getMultipleInstance ())#get ()), (Obj.magic (java_call_static "Choice.get_mULTIPLE" (Obj.repr ())))));
         (self#initCommands (commandListener));
-        ignore (self#setItemStateListener ((new GameFeatureItemStateListener.gameFeatureItemStateListener (self))));
+        ignore (self#setItemStateListener ((Obj.obj (java_new "GameFeatureItemStateListener" (Obj.repr ((Obj.magic self)))))));
         (self#addTextFieldsIfSimulated ())
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "GameOptionsForm" (fun arguments -> Obj.repr (new gameOptionsForm (Obj.obj arguments)))
 
 

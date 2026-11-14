@@ -56,9 +56,9 @@ let lAYER_PROCESSOR : BasicLayerProcessor.basicLayerProcessor = ((new dropLayerP
 let get_lAYER_PROCESSOR () = lAYER_PROCESSOR
 let () = java_register_static "DropLayerProcessor.get_lAYER_PROCESSOR" (fun _ -> Obj.repr (get_lAYER_PROCESSOR ()))
 
-let getInstance () : BasicLayerProcessor.basicLayerProcessor =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (lAYER_PROCESSOR :> BasicLayerProcessor.basicLayerProcessor)
+        (Obj.magic (lAYER_PROCESSOR))
         end
 let () = java_register_static "DropLayerProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

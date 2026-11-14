@@ -37,6 +37,7 @@ let basicLayerProcessor : BasicLayerProcessor.basicLayerProcessor array ref = re
 let get_basicLayerProcessor () = !basicLayerProcessor
 let set_basicLayerProcessor value' = basicLayerProcessor := value'
 let () = java_register_static "CombatGameCanvas.get_basicLayerProcessor" (fun _ -> Obj.repr (get_basicLayerProcessor ()))
+let () = java_register_static "CombatGameCanvas.set_basicLayerProcessor" (fun value' -> set_basicLayerProcessor (Obj.obj value'); Obj.repr ())
 class combatGameCanvas (cmdListener, (gameLayerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager), (highScoresFactoryInterface : HighScoresFactoryInterface.highScoresFactoryInterface), (gameInitializationInterfaceFactoryInterface : BasicBuildGameInitializerFactory.basicBuildGameInitializerFactory), (buffered : bool)) =
   object (self)
     inherit AllBinaryGameCanvas.allBinaryGameCanvas (cmdListener, gameLayerManager, highScoresFactoryInterface, gameInitializationInterfaceFactoryInterface, buffered) as super
@@ -45,7 +46,7 @@ class combatGameCanvas (cmdListener, (gameLayerManager : AllBinaryGameLayerManag
 
     method combatGameCanvas_init () : unit =
         begin
-        ignore ((DestroyEventCircularStaticPool.getInstance ())#init (self));
+        ignore ((DestroyEventCircularStaticPool.getInstance ())#init ((Obj.magic self)));
         ignore ((ProgressCanvasFactory.getInstance ())#addNormalPortion (50, "Destroy Events"))
         end [@@warning "-7"]
     

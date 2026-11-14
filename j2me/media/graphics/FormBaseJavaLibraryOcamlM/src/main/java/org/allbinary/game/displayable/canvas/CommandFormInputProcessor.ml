@@ -42,7 +42,7 @@ open Allbinary_java [@@warning "-33"]
 
 class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (playerInputId : int), (gameCanvas : MyCanvas.myCanvas), (form_arg : ScrollSelectionForm.scrollSelectionForm)) =
   object (self)
-    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, playerInputId, gameCanvas) as super
+    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, playerInputId, gameCanvas)
     val mutable mOTION_GESTURE_SOURCE_ID : int = 0
     method mOTION_GESTURE_SOURCE_ID = mOTION_GESTURE_SOURCE_ID
     method set_mOTION_GESTURE_SOURCE_ID value' = mOTION_GESTURE_SOURCE_ID <- value'
@@ -97,16 +97,16 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
         begin
         let commandCurrentSelectionForm : CommandCurrentSelectionForm.commandCurrentSelectionForm ref = ref (((Obj.magic form) :> CommandCurrentSelectionForm.commandCurrentSelectionForm)) in ();
         let command : Obj.t ref = ref ((Obj.repr (!commandCurrentSelectionForm#getSelectedCommand ()))) in ();
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (Obj.magic !command))), self, pROCESS_COMMAND));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (Obj.magic !command))), (Obj.magic self), pROCESS_COMMAND));
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
         let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
         if (((SWTUtil.get_isSWT ()) && (!features#isFeature (!openGLFeatureFactory#oPENGL))) && ((Obj.repr (Obj.magic !command)) != (Obj.repr (GameCommandsFactory.getInstance ())#eXIT_COMMAND))) then begin
-            ignore ((Obj.obj (java_new "CommandRunnable" (Obj.repr (self, (Obj.magic !command)))))#run ())
+            ignore ((Obj.obj (java_new "CommandRunnable" (Obj.repr ((Obj.magic self), (Obj.magic !command)))))#run ())
         end else begin
-            ignore ((PrimaryThreadPool.getInstance ())#runTask ((Obj.obj (java_new "CommandRunnable" (Obj.repr (self, (Obj.magic !command)))))))
+            ignore ((PrimaryThreadPool.getInstance ())#runTask ((Obj.obj (java_new "CommandRunnable" (Obj.repr ((Obj.magic self), (Obj.magic !command)))))))
         end;
         if ((Obj.repr (Obj.magic !command)) == (Obj.repr (GameCommandsFactory.getInstance ())#qUIT_COMMAND)) then begin
-            raise (Java_return (Obj.repr ((-1))))
+            raise (Java_return (Obj.repr ((- 1))))
         end else begin
             raise (Java_return (Obj.repr (1)))
         end
@@ -126,7 +126,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
             for index = 0 to !size - 1 do
                 gameKeyEvent := (Obj.magic !list#objectArray.(index));
                 key := (!gameKeyEvent#getKey ());
-                if ((!gameKeyEvent#getSourceId ()) != mOTION_GESTURE_SOURCE_ID) then begin
+                if ((!gameKeyEvent#getSourceId ()) <> mOTION_GESTURE_SOURCE_ID) then begin
                     if ((self#processInput (!key)) = 1) then begin
                         raise Java_break
                     end
@@ -136,11 +136,11 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
             if ((!size > 0) || (!motionInputsIndex >= 0)) then begin
                 raise (Java_return (Obj.repr (1)))
             end else begin
-                raise (Java_return (Obj.repr ((-1))))
+                raise (Java_return (Obj.repr ((- 1))))
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#gameInputStrings)#pROCESS_INPUT, e));
-            (-1)
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#gameInputStrings)#pROCESS_INPUT, e));
+            (- 1)
         end)
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
@@ -167,7 +167,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
             let point : GPoint.gPoint ref = ref ((((Obj.magic motionGestureEvent)#getCurrentPoint ()) :> GPoint.gPoint)) in ();
             if (form#isInForm (!point)) then begin
                 let index : int ref = ref ((form#getSelectedIndexForPoint (!point))) in ();
-                if (!index <> (-1)) then begin
+                if (!index <> (- 1)) then begin
                     ignore ((PrimaryPlayerQueueFactory.getInstance ())#add ((SelectSound.getInstance ())));
                     if (!index = (form#getSelectedIndex ())) then begin
                         if (clickTimeHelper#isTimeTNT ()) then begin
@@ -182,7 +182,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
             end;
             if hasPressed then begin
                 if (not (doubleClickTimeHelper#isTimeTNT ())) then begin
-                    ignore ((self#logUtil)#putF ("Double Press", self, (self#gameInputStrings)#pROCESS_MOTION_INPUT));
+                    ignore ((self#logUtil)#putF ("Double Press", (Obj.magic self), (self#gameInputStrings)#pROCESS_MOTION_INPUT));
                     ignore (self#processCommand ())
                 end;
                 doubleClickTimeHelper#set_delay (dOUBLE_CLICK_DELAY);
@@ -198,7 +198,7 @@ class commandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayLi
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((super#toString ())))#append (nAME_LABEL))#append ((java_string_of (Obj.repr form))))))
+        (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (("Object@" ^ string_of_int (Oo.id self))))#append (nAME_LABEL))#append ((java_string_of (Obj.repr form))))))
         end [@@warning "-7"]
 
     initializer

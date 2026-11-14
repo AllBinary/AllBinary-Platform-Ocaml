@@ -58,69 +58,69 @@ class adminRoleFactory () =
     
     
 
-    method getProductManagementRoles () : BasicArrayList.basicArrayList =
+    method getProductManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (productManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (productManagementRoles))
         end
     
 
-    method getAdminRoles () : BasicArrayList.basicArrayList =
+    method getAdminRoles : 'return. unit -> 'return = fun () ->
         begin
-        (adminRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (adminRoles))
         end
     
 
-    method getStoreAdminRoles () : BasicArrayList.basicArrayList =
+    method getStoreAdminRoles : 'return. unit -> 'return = fun () ->
         begin
-        (storeAdminRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (storeAdminRoles))
         end
     
 
-    method getStoreManagementRoles () : BasicArrayList.basicArrayList =
+    method getStoreManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (storeManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (storeManagementRoles))
         end
     
 
-    method getReviewManagementRoles () : BasicArrayList.basicArrayList =
+    method getReviewManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (reviewManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (reviewManagementRoles))
         end
     
 
-    method getCustomerManagementRoles () : BasicArrayList.basicArrayList =
+    method getCustomerManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (customerManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (customerManagementRoles))
         end
     
 
-    method getWorkflowManagementRoles () : BasicArrayList.basicArrayList =
+    method getWorkflowManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (workflowManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (workflowManagementRoles))
         end
     
 
-    method getWebManagementRoles () : BasicArrayList.basicArrayList =
+    method getWebManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (webManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (webManagementRoles))
         end
     
 
-    method getShippingManagementRoles () : BasicArrayList.basicArrayList =
+    method getShippingManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (shippingManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (shippingManagementRoles))
         end
     
 
-    method getAdjusterManagementRoles () : BasicArrayList.basicArrayList =
+    method getAdjusterManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (adjusterManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (adjusterManagementRoles))
         end
     
 
-    method getOrderManagementRoles () : BasicArrayList.basicArrayList =
+    method getOrderManagementRoles : 'return. unit -> 'return = fun () ->
         begin
-        (orderManagementRoles :> BasicArrayList.basicArrayList)
+        (Obj.magic (orderManagementRoles))
         end
 
     initializer
@@ -181,9 +181,9 @@ let instance = (new adminRoleFactory ())
 let get_instance () = instance
 let () = java_register_static "AdminRoleFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AdminRoleFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

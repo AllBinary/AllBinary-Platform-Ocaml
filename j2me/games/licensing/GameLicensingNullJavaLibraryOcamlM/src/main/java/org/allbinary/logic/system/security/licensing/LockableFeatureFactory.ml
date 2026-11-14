@@ -27,9 +27,9 @@ class lockableFeatureFactory () =
     method set_list value' = list <- value'
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer
@@ -44,9 +44,9 @@ let instance = (new lockableFeatureFactory ())
 let get_instance () = instance
 let () = java_register_static "LockableFeatureFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LockableFeatureFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

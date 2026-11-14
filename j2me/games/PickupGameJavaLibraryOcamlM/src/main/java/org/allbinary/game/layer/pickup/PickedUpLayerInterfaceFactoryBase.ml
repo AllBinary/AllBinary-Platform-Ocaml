@@ -23,7 +23,7 @@ class pickedUpLayerInterfaceFactoryBase () =
   object
     
 
-    method getIconLayer () : AllBinaryLayer.allBinaryLayer =
+    method getIconLayer : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ("RuntimeException"))
         end
@@ -35,7 +35,7 @@ class pickedUpLayerInterfaceFactoryBase () =
         end
     
 
-    method getPickedUpLayerType () : PickedUpLayerType.pickedUpLayerType =
+    method getPickedUpLayerType : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ("RuntimeException"))
         end

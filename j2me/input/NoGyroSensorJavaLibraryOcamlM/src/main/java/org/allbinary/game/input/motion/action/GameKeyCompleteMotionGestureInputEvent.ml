@@ -55,9 +55,9 @@ class gameKeyCompleteMotionGestureInputEvent ((name : string), (motionGestureInp
         end [@@warning "-7-20"]
     
 
-    method getGameKeyEvent () : GameKeyEvent.gameKeyEvent =
+    method getGameKeyEvent : 'return. unit -> 'return = fun () ->
         begin
-        (gameKeyEvent :> GameKeyEvent.gameKeyEvent)
+        (Obj.magic (gameKeyEvent))
         end [@@warning "-7"]
     
 
@@ -68,9 +68,9 @@ class gameKeyCompleteMotionGestureInputEvent ((name : string), (motionGestureInp
         end [@@warning "-7-20"]
     
 
-    method getGameKey () : GameKey.gameKey =
+    method getGameKey : 'return. unit -> 'return = fun () ->
         begin
-        (gameKey :> GameKey.gameKey)
+        (Obj.magic (gameKey))
         end [@@warning "-7"]
 
     initializer

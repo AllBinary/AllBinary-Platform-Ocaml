@@ -40,9 +40,9 @@ class intermission () =
         end [@@warning "-20"]
     
 
-    method getTimeDelayHelper () : TimeDelayHelper.timeDelayHelper =
+    method getTimeDelayHelper : 'return. unit -> 'return = fun () ->
         begin
-        (timeElapsedHelper :> TimeDelayHelper.timeDelayHelper)
+        (Obj.magic (timeElapsedHelper))
         end
     
 

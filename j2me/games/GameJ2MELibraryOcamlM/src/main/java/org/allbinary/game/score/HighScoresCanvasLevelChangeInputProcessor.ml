@@ -62,13 +62,13 @@ class highScoresCanvasLevelChangeInputProcessor ((highScoresCanvas : HighScoresC
 
     method open_ () : unit =
         begin
-        ignore ((GameKeyEventHandler.getInstance ())#addListener (self))
+        ignore ((GameKeyEventHandler.getInstance ())#addListener ((Obj.magic self)))
         end [@@warning "-7"]
     
 
     method close () : unit =
         begin
-        ignore ((GameKeyEventHandler.getInstance ())#removeListener (self))
+        ignore ((GameKeyEventHandler.getInstance ())#removeListener ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -103,7 +103,7 @@ class highScoresCanvasLevelChangeInputProcessor ((highScoresCanvas : HighScoresC
       begin
         displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
         iNSTRUCTIONS <- "(Right = Next Track, Left = Previous Track)";
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         anchor <- (Anchor.get_tOP_LEFT ());
         fontHeight <- 0;
         ();

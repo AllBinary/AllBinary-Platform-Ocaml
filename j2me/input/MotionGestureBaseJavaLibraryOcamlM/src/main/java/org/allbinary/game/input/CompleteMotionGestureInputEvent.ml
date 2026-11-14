@@ -26,7 +26,7 @@ open Allbinary_java [@@warning "-33"]
 
 class completeMotionGestureInputEvent ((name_arg : string), (motionGestureInput_arg : MotionGestureInput.motionGestureInput)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (motionGestureInput_arg)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (motionGestureInput_arg)))
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
@@ -58,9 +58,9 @@ class completeMotionGestureInputEvent ((name_arg : string), (motionGestureInput_
         end [@@warning "-7-20"]
     
 
-    method getMotionGestureInput () : MotionGestureInput.motionGestureInput =
+    method getMotionGestureInput : 'return. unit -> 'return = fun () ->
         begin
-        (motionGestureInput :> MotionGestureInput.motionGestureInput)
+        (Obj.magic (motionGestureInput))
         end [@@warning "-7"]
 
     initializer
@@ -75,7 +75,7 @@ class completeMotionGestureInputEvent ((name_arg : string), (motionGestureInput_
             (self#setMotionGestureInput (motionGestureInput_arg))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, "InputToGameKeyEventAction", e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "InputToGameKeyEventAction", e))
         end)
       end
   end [@@warning "-20"]

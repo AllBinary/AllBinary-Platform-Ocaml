@@ -32,10 +32,11 @@ let dESTROYED_LAYER_PROCESSOR : BasicLayerProcessor.basicLayerProcessor ref = re
 let get_dESTROYED_LAYER_PROCESSOR () = !dESTROYED_LAYER_PROCESSOR
 let set_dESTROYED_LAYER_PROCESSOR value' = dESTROYED_LAYER_PROCESSOR := value'
 let () = java_register_static "DestroyedLayerProcessor.get_dESTROYED_LAYER_PROCESSOR" (fun _ -> Obj.repr (get_dESTROYED_LAYER_PROCESSOR ()))
+let () = java_register_static "DestroyedLayerProcessor.set_dESTROYED_LAYER_PROCESSOR" (fun value' -> set_dESTROYED_LAYER_PROCESSOR (Obj.obj value'); Obj.repr ())
 
-let getInstance () : BasicLayerProcessor.basicLayerProcessor =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!dESTROYED_LAYER_PROCESSOR :> BasicLayerProcessor.basicLayerProcessor)
+        (Obj.magic (!dESTROYED_LAYER_PROCESSOR))
         end
 
 let () = java_register_static "DestroyedLayerProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

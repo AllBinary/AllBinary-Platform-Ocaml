@@ -16,6 +16,7 @@
 (* package org.allbinary.animation *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.util.event.handler.BasicEventHandler *)
 
 class animationEventHandler () =
@@ -35,9 +36,9 @@ let eventHandler = (new animationEventHandler ())
 let get_eventHandler () = eventHandler
 let () = java_register_static "AnimationEventHandler.get_eventHandler" (fun _ -> Obj.repr (get_eventHandler ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        eventHandler
+        (Obj.magic (eventHandler))
         end
 let () = java_register_static "AnimationEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

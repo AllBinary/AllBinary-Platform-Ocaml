@@ -22,6 +22,7 @@ let iD : int ref = ref (((SmallIntegerSingletonFactory.getInstance ())#getAt (3)
 let get_iD () = !iD
 let set_iD value' = iD := value'
 let () = java_register_static "Scoreable.get_iD" (fun _ -> Obj.repr (get_iD ()))
+let () = java_register_static "Scoreable.set_iD" (fun value' -> set_iD (Obj.obj value'); Obj.repr ())
 class scoreable ((points_arg : int)) =
   object
     val mutable points : int = 0

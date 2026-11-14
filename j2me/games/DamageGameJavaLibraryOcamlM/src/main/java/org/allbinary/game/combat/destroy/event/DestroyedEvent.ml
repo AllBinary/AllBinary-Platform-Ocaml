@@ -26,7 +26,7 @@ open Allbinary_java [@@warning "-33"]
 
 class destroyedEvent ((combatGameCanvas : AllBinaryGameCanvas.allBinaryGameCanvas)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject ((DestroyedEventHandler.getInstance ()))
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr ((Obj.magic (java_call_static "DestroyedEventHandler.getInstance" (Obj.repr ()))))))
     val mutable allBinaryGameCanvas : AllBinaryGameCanvas.allBinaryGameCanvas = (Obj.magic 0)
     method allBinaryGameCanvas = allBinaryGameCanvas
     method set_allBinaryGameCanvas value' = allBinaryGameCanvas <- value'
@@ -36,15 +36,15 @@ class destroyedEvent ((combatGameCanvas : AllBinaryGameCanvas.allBinaryGameCanva
     
     
 
-    method getAllBinaryGameCanvas () : AllBinaryGameCanvas.allBinaryGameCanvas =
+    method getAllBinaryGameCanvas : 'return. unit -> 'return = fun () ->
         begin
-        (allBinaryGameCanvas :> AllBinaryGameCanvas.allBinaryGameCanvas)
+        (Obj.magic (allBinaryGameCanvas))
         end [@@warning "-7"]
     
 
-    method getLayerInterface () : AllBinaryLayer.allBinaryLayer =
+    method getLayerInterface : 'return. unit -> 'return = fun () ->
         begin
-        (allBinaryLayerInterface :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic (allBinaryLayerInterface))
         end [@@warning "-7"]
     
 

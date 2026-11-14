@@ -26,12 +26,12 @@ class commonButtons () =
     val mutable sTANDARD_BUTTON_SIZE : int = 0
     method sTANDARD_BUTTON_SIZE = sTANDARD_BUTTON_SIZE
     method set_sTANDARD_BUTTON_SIZE value' = sTANDARD_BUTTON_SIZE <- value'
-    val mutable nORMAL_BUTTON : Obj.t = Obj.repr 0
-    method nORMAL_BUTTON : 'r. 'r = Obj.magic nORMAL_BUTTON
-    method set_nORMAL_BUTTON : 'v. 'v -> unit = fun value' -> nORMAL_BUTTON <- Obj.repr value'
-    val mutable lARGE_BUTTON : Obj.t = Obj.repr 0
-    method lARGE_BUTTON : 'r. 'r = Obj.magic lARGE_BUTTON
-    method set_lARGE_BUTTON : 'v. 'v -> unit = fun value' -> lARGE_BUTTON <- Obj.repr value'
+    val mutable nORMAL_BUTTON : Rectangle.rectangle = (Obj.magic 0)
+    method nORMAL_BUTTON = nORMAL_BUTTON
+    method set_nORMAL_BUTTON value' = nORMAL_BUTTON <- value'
+    val mutable lARGE_BUTTON : Rectangle.rectangle = (Obj.magic 0)
+    method lARGE_BUTTON = lARGE_BUTTON
+    method set_lARGE_BUTTON value' = lARGE_BUTTON <- value'
     
 
     initializer
@@ -55,19 +55,19 @@ class commonButtons () =
             commonButtonSize := (!commonButtonSize asr 1)
         done;
         sTANDARD_BUTTON_SIZE <- !commonButtonSize;
-        nORMAL_BUTTON <- Obj.repr ((Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, sTANDARD_BUTTON_SIZE, sTANDARD_BUTTON_SIZE)))));
-        lARGE_BUTTON <- Obj.repr ((Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, (sTANDARD_BUTTON_SIZE lsl 1), (sTANDARD_BUTTON_SIZE lsl 1))))))
+        nORMAL_BUTTON <- (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, sTANDARD_BUTTON_SIZE, sTANDARD_BUTTON_SIZE));
+        lARGE_BUTTON <- (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, (sTANDARD_BUTTON_SIZE lsl 1), (sTANDARD_BUTTON_SIZE lsl 1)))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "CommonButtons" (fun arguments -> Obj.repr (new commonButtons (Obj.obj arguments)))
 
 let instance = (new commonButtons ())
 let get_instance () = instance
 let () = java_register_static "CommonButtons.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "CommonButtons.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

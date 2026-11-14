@@ -24,7 +24,7 @@ class nullAllBinaryGameCanvas () =
   object
     
 
-    method getLayerManager () : AllBinaryGameLayerManager.allBinaryGameLayerManager =
+    method getLayerManager : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ("RuntimeException"))
         end

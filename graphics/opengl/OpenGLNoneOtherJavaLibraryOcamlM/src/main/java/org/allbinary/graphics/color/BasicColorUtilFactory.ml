@@ -16,11 +16,12 @@
 (* package org.allbinary.graphics.color *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 
-let getInstance () : BasicColorUtil.basicColorUtil =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((BasicColorUtil.getInstance ()) :> BasicColorUtil.basicColorUtil)
+        (Obj.magic ((BasicColorUtil.getInstance ())))
         end
 
 let () = java_register_static "BasicColorUtilFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

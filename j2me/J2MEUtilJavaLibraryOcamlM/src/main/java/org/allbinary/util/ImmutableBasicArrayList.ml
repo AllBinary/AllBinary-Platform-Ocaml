@@ -16,6 +16,8 @@
 (* package org.allbinary.util *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import jsinterop.annotations.JsType *)
 (* import org.allbinary.logic.communication.log.ForcedLogUtil *)
 
 class immutableBasicArrayList ((name_arg : string), (size : int)) =
@@ -29,14 +31,14 @@ class immutableBasicArrayList ((name_arg : string), (size : int)) =
 
     method add : 'any1. 'any1 -> bool = fun (_e) ->
         begin
-        ignore (ForcedLogUtil.log (name, self));
+        ignore (ForcedLogUtil.log (name, (Obj.magic self)));
         true
         end [@@warning "-7"]
     
 
     method addAt : 'any2. int * 'any2 -> unit = fun ((_index : int), _element) ->
         begin
-        ignore (ForcedLogUtil.log (name, self))
+        ignore (ForcedLogUtil.log (name, (Obj.magic self)))
         end [@@warning "-7"]
     
 

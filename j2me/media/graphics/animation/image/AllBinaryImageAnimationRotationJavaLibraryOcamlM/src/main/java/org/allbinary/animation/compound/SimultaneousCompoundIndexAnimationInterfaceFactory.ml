@@ -52,9 +52,9 @@ class simultaneousCompoundIndexAnimationInterfaceFactory ((basicAnimationInterfa
         end
     
 
-    method getBasicAnimationInterfaceFactoryInterfaceArray () : AnimationInterfaceFactoryInterface.animationInterfaceFactoryInterface array =
+    method getBasicAnimationInterfaceFactoryInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        basicAnimationInterfaceFactoryInterfaceArray
+        (Obj.magic (basicAnimationInterfaceFactoryInterfaceArray))
         end
     
 

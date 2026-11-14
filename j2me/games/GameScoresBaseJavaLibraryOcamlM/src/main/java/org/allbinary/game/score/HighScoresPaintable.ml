@@ -79,7 +79,7 @@ class highScoresPaintable () =
         ignore (myFontProcessor#process ((Obj.magic graphics)));
         let width : int ref = ref ((displayInfoSingleton#getLastWidth ())) in ();
         let height : int ref = ref ((displayInfoSingleton#getLastHeight ())) in ();
-        ignore ((Obj.magic graphics)#setColor (((self#getBasicColorP ())#intValue ())));
+        ignore ((Obj.magic graphics)#setColor ((java_int_value (Obj.repr (self#getBasicColorP ())))));
         let heading : string ref = ref (((Obj.magic highScores)#getHeading ())) in ();
         let topScoresWidth : int ref = ref ((((((Obj.magic graphics)#getFont ())#stringWidth (!heading)) asr 1))) in ();
         let charHeight_arg : int ref = ref (charHeight) in ();
@@ -120,9 +120,9 @@ class highScoresPaintable () =
         end [@@warning "-7-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end [@@warning "-7"]
     
 
@@ -135,7 +135,7 @@ class highScoresPaintable () =
     initializer
       begin
         displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         basicColor <- ((BasicColorFactory.getInstance ())#wHITE :> BasicColor.basicColor);
         highScores <- (Obj.repr (NullHighScoresSingletonFactory.getInstance ()));
         anchor <- (Anchor.get_tOP_LEFT ());

@@ -16,6 +16,7 @@
 (* package org.allbinary.game.collision *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.layer.AllBinaryLayer *)
 
 class collidableAlwaysPickupNeverCollideBehavior () =
@@ -24,9 +25,9 @@ class collidableAlwaysPickupNeverCollideBehavior () =
     
     
 
-    method getCollisionTypeWith : 'any1. 'any1 -> CollisionType.collisionType = fun (_layerInterface) ->
+    method getCollisionTypeWith : 'any1 'return. 'any1 -> 'return = fun (_layerInterface) ->
         begin
-        ((CollisionTypeFactory.getInstance ())#pICKUP :> CollisionType.collisionType)
+        (Obj.magic ((CollisionTypeFactory.getInstance ())#pICKUP))
         end [@@warning "-7-20"]
 
     initializer

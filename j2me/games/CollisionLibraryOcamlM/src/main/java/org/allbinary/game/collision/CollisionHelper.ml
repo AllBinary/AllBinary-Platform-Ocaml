@@ -34,9 +34,9 @@ class collisionHelper ((sourceLayerInterface_arg : AllBinaryLayer.allBinaryLayer
         end [@@warning "-20"]
     
 
-    method getOwnerLayerInterface () : AllBinaryLayer.allBinaryLayer =
+    method getOwnerLayerInterface : 'return. unit -> 'return = fun () ->
         begin
-        (sourceLayerInterface :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic (sourceLayerInterface))
         end
     
 

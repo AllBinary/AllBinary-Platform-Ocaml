@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class basicGravityConstantVelocityMovement ((speedBasicDecimal : BasicDecimal.basicDecimal)) =
   object (self)
-    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (speedBasicDecimal, (new VelocityProperties.velocityProperties ((java_to_int (Obj.repr ((speedBasicDecimal#getUnscaled ())))), (java_to_int (Obj.repr ((speedBasicDecimal#getUnscaled ()))))))) as super
+    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (speedBasicDecimal, ((new VelocityProperties.velocityProperties ((speedBasicDecimal#getUnscaled ()), (speedBasicDecimal#getUnscaled ()))) : VelocityProperties.velocityProperties :> BasicVelocityProperties.basicVelocityProperties)) as super
     val mutable gravityUtil : GravityUtil.gravityUtil = (Obj.magic 0)
     method gravityUtil = gravityUtil
     method set_gravityUtil value' = gravityUtil <- value'

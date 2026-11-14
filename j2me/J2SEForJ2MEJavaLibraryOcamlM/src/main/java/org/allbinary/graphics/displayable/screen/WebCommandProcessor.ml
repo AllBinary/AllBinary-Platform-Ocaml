@@ -43,12 +43,12 @@ class webCommandProcessor () =
     method process : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> unit = fun (_midletCommandListener, _command, _canvas) ->
         begin
         (try
-            if ((Desktop.isDesktopSupported ()) && ((Desktop.getDesktop ())#isSupported ((Desktop.get_action ())#bROWSE))) then begin
-                ignore ((Desktop.getDesktop ())#browse ((new URI.uRI ((Obj.magic (list#removeAt (0)))))))
+            if (false && ((Obj.magic java_null)#isSupported ((Obj.magic java_null)#bROWSE))) then begin
+                ignore ((Obj.magic java_null)#browse ((new java_uri ((Obj.magic (list#removeAt (0)))))))
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#pROCESS, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#pROCESS, e))
         end)
         end [@@warning "-20"]
 
@@ -66,9 +66,9 @@ let instance = (new webCommandProcessor ())
 let get_instance () = instance
 let () = java_register_static "WebCommandProcessor.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "WebCommandProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

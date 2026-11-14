@@ -16,6 +16,7 @@
 (* package org.allbinary.game.input *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.input.mapping.InputToGameKeyMapping *)
 
 class motionJ2MEGameInputMapping () =
@@ -23,9 +24,9 @@ class motionJ2MEGameInputMapping () =
     inherit J2MEGameInputMapping.j2MEGameInputMapping ()
     
 
-    method getDefault () : InputToGameKeyMapping.inputToGameKeyMapping =
+    method getDefault : 'return. unit -> 'return = fun () ->
         begin
-        (((new MotionJ2MEDefaultGameInputMapping.motionJ2MEDefaultGameInputMapping ())#getInputMapping ()) :> InputToGameKeyMapping.inputToGameKeyMapping)
+        (Obj.magic (((new MotionJ2MEDefaultGameInputMapping.motionJ2MEDefaultGameInputMapping ())#getInputMapping ())))
         end [@@warning "-7"]
 
     initializer

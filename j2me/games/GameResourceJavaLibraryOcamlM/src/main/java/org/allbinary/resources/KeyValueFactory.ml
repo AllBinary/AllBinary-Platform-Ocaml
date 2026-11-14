@@ -30,11 +30,10 @@ class keyValueFactory () =
     method get ((key : string)) : string =
         try
         begin
-        let value : string ref = ref ((Obj.magic ((Obj.magic mAP)#get ((Obj.magic key))))) in ();
-        if (!value = (Obj.magic 0)) then begin
+        if (not ((Obj.magic mAP)#containsKey ((Obj.magic key)))) then begin
             raise (Java_return (Obj.repr (key)))
         end;
-        !value
+        (Obj.magic ((Obj.magic mAP)#get ((Obj.magic key))))
         end
         with Java_return value -> Obj.obj value
 
@@ -50,9 +49,9 @@ let instance = (new keyValueFactory ())
 let get_instance () = instance
 let () = java_register_static "KeyValueFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "KeyValueFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

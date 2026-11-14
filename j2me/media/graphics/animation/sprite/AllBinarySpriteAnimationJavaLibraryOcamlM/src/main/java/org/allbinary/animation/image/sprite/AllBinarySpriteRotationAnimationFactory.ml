@@ -46,8 +46,8 @@ class allBinarySpriteRotationAnimationFactory (image, (sequenceArray : int array
     method initWH ((dx : int), (dy : int)) : unit =
         begin
         (self#init (dx, dy));
-        (self#animationFactoryInitializationVisitor)#set_dx (((self#animationFactoryInitializationVisitor)#dx + ((-(self#animationFactoryInitializationVisitor)#width) / 5)));
-        (self#animationFactoryInitializationVisitor)#set_dy (((self#animationFactoryInitializationVisitor)#dy + ((-(self#animationFactoryInitializationVisitor)#height) / 5)))
+        (self#animationFactoryInitializationVisitor)#set_dx (((self#animationFactoryInitializationVisitor)#dx + ((- (self#animationFactoryInitializationVisitor)#width) / 5)));
+        (self#animationFactoryInitializationVisitor)#set_dy (((self#animationFactoryInitializationVisitor)#dy + ((- (self#animationFactoryInitializationVisitor)#height) / 5)))
         end [@@warning "-7"]
     
 
@@ -75,58 +75,58 @@ class allBinarySpriteRotationAnimationFactory (image, (sequenceArray : int array
         ();
         (* super(...) is the inherit clause *) ();
         if ((Obj.repr animationBehaviorFactory) == (Obj.repr (AnimationBehaviorFactory.getInstance ()))) then begin
-            ignore (ForcedLogUtil.log ("Using default AnimationBehaviorFactory with IndexedAnimationFactory", self))
+            ignore (ForcedLogUtil.log ("Using default AnimationBehaviorFactory with IndexedAnimationFactory", (Obj.magic self)))
         end
       end
   end
 let () = java_register_constructor "AllBinarySpriteRotationAnimationFactory" (fun arguments -> Obj.repr (new allBinarySpriteRotationAnimationFactory (Obj.obj arguments)))
 
-let rec createWHDY : 'any1 'any4. 'any1 * int * int * 'any4 -> _ = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
+let rec createWHDY : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
         let spriteRotationAnimationFactory : Obj.t ref = ref ((Obj.repr (new allBinarySpriteRotationAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((((Obj.magic image)#getHeight ()) asr 2)), ((((Obj.magic image)#getHeight ()) asr 2)), 0, 0, (Obj.magic animationBehaviorFactory))))) in ();
         ignore ((Obj.magic !spriteRotationAnimationFactory)#initWH (dx, dy));
-        (Obj.magic !spriteRotationAnimationFactory)
+        (Obj.magic ((Obj.magic !spriteRotationAnimationFactory)))
         end [@@warning "-20"]
 
-and createWH : 'any1 'any2. 'any1 * 'any2 -> _ = fun (image, animationBehaviorFactory) ->
+and createWH : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (image, animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
-        (createWHDY ((Obj.magic image), 0, 0, (Obj.magic animationBehaviorFactory)))
+        (Obj.magic ((createWHDY ((Obj.magic image), 0, 0, (Obj.magic animationBehaviorFactory)))))
         end [@@warning "-20"]
 
-and createDXY : 'any1 'any4. 'any1 * int * int * 'any4 -> _ = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
+and createDXY : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
         let spriteRotationAnimationFactory : Obj.t ref = ref ((Obj.repr (new allBinarySpriteRotationAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((Obj.magic image)#getHeight ()), ((Obj.magic image)#getHeight ()), 0, 0, (Obj.magic animationBehaviorFactory))))) in ();
         ignore ((Obj.magic !spriteRotationAnimationFactory)#init (dx, dy));
-        (Obj.magic !spriteRotationAnimationFactory)
+        (Obj.magic ((Obj.magic !spriteRotationAnimationFactory)))
         end [@@warning "-20"]
 
-and createDXYQ : 'any1 'any4. 'any1 * int * int * 'any4 -> _ = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
+and createDXYQ : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (dx : int), (dy : int), animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
         let spriteRotationAnimationFactory : Obj.t ref = ref ((Obj.repr (new allBinarySpriteRotationAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((((Obj.magic image)#getHeight ()) asr 2)), ((((Obj.magic image)#getHeight ()) asr 2)), 0, 0, (Obj.magic animationBehaviorFactory))))) in ();
         ignore ((Obj.magic !spriteRotationAnimationFactory)#init (dx, dy));
-        (Obj.magic !spriteRotationAnimationFactory)
+        (Obj.magic ((Obj.magic !spriteRotationAnimationFactory)))
         end [@@warning "-20"]
 
-and createQ : 'any1 'any2. 'any1 * 'any2 -> _ = fun (image, animationBehaviorFactory) ->
+and createQ : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (image, animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
-        (new allBinarySpriteRotationAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((((Obj.magic image)#getHeight ()) asr 2)), ((((Obj.magic image)#getHeight ()) asr 2)), 0, 0, (Obj.magic animationBehaviorFactory)))
+        (Obj.magic ((new allBinarySpriteRotationAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((((Obj.magic image)#getHeight ()) asr 2)), ((((Obj.magic image)#getHeight ()) asr 2)), 0, 0, (Obj.magic animationBehaviorFactory)))))
         end [@@warning "-20"]
 
-and createWHF : 'any1 'any2. 'any1 * 'any2 -> _ = fun (image, animationBehaviorFactory) ->
+and createWHF : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (image, animationBehaviorFactory) ->
         let image = Obj.repr image in
         let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
         begin
-        (new allBinarySpriteRotationAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((Obj.magic image)#getHeight ()), ((Obj.magic image)#getHeight ()), 0, 0, (Obj.magic animationBehaviorFactory)))
+        (Obj.magic ((new allBinarySpriteRotationAnimationFactory ((Obj.magic image), (PrimitiveIntUtil.getArrayInstance ()), ((Obj.magic image)#getHeight ()), ((Obj.magic image)#getHeight ()), 0, 0, (Obj.magic animationBehaviorFactory)))))
         end [@@warning "-20"]
 let () = java_register_static "AllBinarySpriteRotationAnimationFactory.createWHDY" (fun arguments -> Obj.repr (createWHDY (Obj.obj arguments)))
 let () = java_register_static "AllBinarySpriteRotationAnimationFactory.createWH" (fun arguments -> Obj.repr (createWH (Obj.obj arguments)))

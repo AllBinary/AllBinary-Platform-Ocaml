@@ -16,15 +16,21 @@
 (* package org.allbinary.graphics.form *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "ItemPaintableFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "ItemPaintableFactory.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class itemPaintableFactory () =
   object
     inherit ItemPaintable.itemPaintable ()
     
 
-    method getInstanceItemPaintable : 'any1. 'any1 -> ItemPaintable.itemPaintable = fun (_paintableForm) ->
+    method getInstanceItemPaintable : 'any1 'return. 'any1 -> 'return = fun (_paintableForm) ->
         begin
-        (instance :> ItemPaintable.itemPaintable)
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end [@@warning "-7-20"]
 
     initializer
@@ -34,14 +40,12 @@ class itemPaintableFactory () =
   end
 let () = java_register_constructor "ItemPaintableFactory" (fun arguments -> Obj.repr (new itemPaintableFactory (Obj.obj arguments)))
 
-let instance = (new itemPaintableFactory ())
-let get_instance () = instance
-let () = java_register_static "ItemPaintableFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "ItemPaintableFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new itemPaintableFactory ())))
 
 

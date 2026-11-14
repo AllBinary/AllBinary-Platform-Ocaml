@@ -66,7 +66,7 @@ class analogControllerConfigurationEventHandler () =
                 let playerGameInput : AnalogControllerConfigurationEventListenerInterface.analogControllerConfigurationEventListenerInterface ref = ref (((Obj.magic list#objectArray.(!index)) :> AnalogControllerConfigurationEventListenerInterface.analogControllerConfigurationEventListenerInterface)) in ();
                 ignore (!playerGameInput#onAnalogControllerConfigurationEvent ((Obj.magic (Obj.magic eventObject))))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         ignore (super#fireEvent ((Obj.magic eventObject)))
@@ -94,9 +94,9 @@ let instance = (new analogControllerConfigurationEventHandler ())
 let get_instance () = instance
 let () = java_register_static "AnalogControllerConfigurationEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AnalogControllerConfigurationEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

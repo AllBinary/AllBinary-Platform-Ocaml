@@ -104,7 +104,7 @@ class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg :
             (self#setY (((hudGraphicsPosition#getPoint ())#getY ())))
         with e -> begin
             let commonStrings_arg : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings_arg#eXCEPTION, self, canvasStrings#oN_DISPLAY_CHANGE_EVENT, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings_arg#eXCEPTION, (Obj.magic self), canvasStrings#oN_DISPLAY_CHANGE_EVENT, e))
         end);
         myFontProcessor <- (MyFontProcessor.getInstance ())
         end [@@warning "-20"]
@@ -122,7 +122,7 @@ class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg :
         end
     
 
-    method getHudGraphicsPositionWH ((width : int), (height : int), (maxWidth : int), (maxHeight : int)) : HudGraphicsPosition.hudGraphicsPosition =
+    method getHudGraphicsPositionWH : 'return. int * int * int * int -> 'return = fun ((width : int), (height : int), (maxWidth : int), (maxHeight : int)) ->
         begin
         let x_arg : int ref = ref (0) in ();
         let y_arg : int ref = ref (0) in ();
@@ -157,13 +157,13 @@ class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg :
             y_arg := maxWidth;
             anchor := 0
         end;
-        ((new HudGraphicsPosition.hudGraphicsPosition ((self#getPoint (!x_arg, !y_arg)), !anchor)) :> HudGraphicsPosition.hudGraphicsPosition)
+        (Obj.magic ((new HudGraphicsPosition.hudGraphicsPosition ((self#getPoint (!x_arg, !y_arg)), !anchor))))
         end
     
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 
@@ -173,9 +173,9 @@ class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg :
         end [@@warning "-20"]
     
 
-    method getPoint ((x_arg : int), (y_arg : int)) : GPoint.gPoint =
+    method getPoint : 'return. int * int -> 'return = fun ((x_arg : int), (y_arg : int)) ->
         begin
-        (((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#createXY (x_arg, y_arg)) :> GPoint.gPoint)
+        (Obj.magic (((PointFactory.getInstance ())#createXY (x_arg, y_arg))))
         end
     
 
@@ -203,9 +203,9 @@ class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg :
         end
     
 
-    method getHudGraphicsPosition () : HudGraphicsPosition.hudGraphicsPosition =
+    method getHudGraphicsPosition : 'return. unit -> 'return = fun () ->
         begin
-        (hudGraphicsPosition :> HudGraphicsPosition.hudGraphicsPosition)
+        (Obj.magic (hudGraphicsPosition))
         end
     
 
@@ -234,9 +234,9 @@ class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg :
         end [@@warning "-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end
     
 
@@ -320,7 +320,7 @@ class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg :
         canvasStrings <- ((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings);
         basicSetColorUtil <- ((BasicColorSetUtil.getInstance ()) :> BasicColorSetUtil.basicColorSetUtil);
         displayInfo <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         location <- 0;
         direction <- 0;

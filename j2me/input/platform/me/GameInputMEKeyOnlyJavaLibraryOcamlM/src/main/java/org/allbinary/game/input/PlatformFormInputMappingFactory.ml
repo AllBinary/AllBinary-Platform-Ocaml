@@ -26,6 +26,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "PlatformFormInputMappingFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "PlatformFormInputMappingFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class platformFormInputMappingFactory () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -36,7 +37,7 @@ class platformFormInputMappingFactory () =
     method set_inputToGameKeyMapping value' = inputToGameKeyMapping <- value'
     
 
-    method getOrCreate () : InputToGameKeyMapping.inputToGameKeyMapping =
+    method getOrCreate : 'return. unit -> 'return = fun () ->
         begin
         (try
             if ((Obj.repr inputToGameKeyMapping) == (Obj.repr (InputToGameKeyMapping.getNullInstance ()))) then begin
@@ -51,9 +52,9 @@ class platformFormInputMappingFactory () =
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#gET_INSTANCE, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))
         end);
-        (inputToGameKeyMapping :> InputToGameKeyMapping.inputToGameKeyMapping)
+        (Obj.magic (inputToGameKeyMapping))
         end
 
     initializer
@@ -65,12 +66,12 @@ class platformFormInputMappingFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "PlatformFormInputMappingFactory" (fun arguments -> Obj.repr (new platformFormInputMappingFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new platformFormInputMappingFactory ())
+            instance := (Obj.repr ((new platformFormInputMappingFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "PlatformFormInputMappingFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

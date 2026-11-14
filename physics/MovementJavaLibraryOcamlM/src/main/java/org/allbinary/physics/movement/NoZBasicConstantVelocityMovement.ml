@@ -53,8 +53,8 @@ class noZBasicConstantVelocityMovement ((basicDecimal : BasicDecimal.basicDecima
         let layer = Obj.repr layer in
         begin
         let scaleFactorValue : int ref = ref ((speedBasicDecimal#getScaledFactorValue ())) in ();
-        let xVector : int ref = ref ((java_to_int (Obj.repr ((((axisMathVectorUtil#calculateX (radius, angle)) / !scaleFactorValue)))))) in ();
-        let yVector : int ref = ref ((java_to_int (Obj.repr ((((axisMathVectorUtil#calculateY (radius, angle)) / !scaleFactorValue)))))) in ();
+        let xVector : int ref = ref ((((axisMathVectorUtil#calculateX (radius, angle)) / !scaleFactorValue))) in ();
+        let yVector : int ref = ref ((((axisMathVectorUtil#calculateY (radius, angle)) / !scaleFactorValue))) in ();
         ignore ((Obj.magic layer)#moveDXYZ (!xVector, !yVector, 0))
         end [@@warning "-7-20"]
     
@@ -78,9 +78,9 @@ class noZBasicConstantVelocityMovement ((basicDecimal : BasicDecimal.basicDecima
         end [@@warning "-7"]
     
 
-    method getVelocityProperties () : BasicVelocityProperties.basicVelocityProperties =
+    method getVelocityProperties : 'return. unit -> 'return = fun () ->
         begin
-        (velocityProperties :> BasicVelocityProperties.basicVelocityProperties)
+        (Obj.magic (velocityProperties))
         end [@@warning "-7"]
     
 
@@ -98,9 +98,9 @@ class noZBasicConstantVelocityMovement ((basicDecimal : BasicDecimal.basicDecima
         end [@@warning "-7-20"]
     
 
-    method getSpeedBasicDecimal () : BasicDecimal.basicDecimal =
+    method getSpeedBasicDecimal : 'return. unit -> 'return = fun () ->
         begin
-        (speedBasicDecimal :> BasicDecimal.basicDecimal)
+        (Obj.magic (speedBasicDecimal))
         end [@@warning "-7"]
 
     initializer

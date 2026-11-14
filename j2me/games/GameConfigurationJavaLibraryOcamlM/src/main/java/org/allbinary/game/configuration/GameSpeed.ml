@@ -16,6 +16,7 @@
 (* package org.allbinary.game.configuration *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class gameSpeed () =
   object
@@ -24,14 +25,14 @@ class gameSpeed () =
     method getSpeed () : int =
         begin
         let speedGameConfiguration : GameConfiguration.gameConfiguration ref = ref (((GameConfigurationCentral.getInstance ())#sPEED :> GameConfiguration.gameConfiguration)) in ();
-        (((((!speedGameConfiguration#getMaxValue ())#intValue ()) - ((!speedGameConfiguration#getValue ())#intValue ())) + 1))
+        ((((java_int_value (Obj.repr (!speedGameConfiguration#getMaxValue ()))) - (java_int_value (Obj.repr (!speedGameConfiguration#getValue ())))) + 1))
         end
     
 
     method getDelay () : int =
         begin
         let speedGameConfiguration : GameConfiguration.gameConfiguration ref = ref (((GameConfigurationCentral.getInstance ())#sPEED :> GameConfiguration.gameConfiguration)) in ();
-        (19 * ((((!speedGameConfiguration#getMaxValue ())#intValue ()) - ((!speedGameConfiguration#getValue ())#intValue ()))))
+        (19 * (((java_int_value (Obj.repr (!speedGameConfiguration#getMaxValue ()))) - (java_int_value (Obj.repr (!speedGameConfiguration#getValue ()))))))
         end
 
     initializer
@@ -45,9 +46,9 @@ let instance = (new gameSpeed ())
 let get_instance () = instance
 let () = java_register_static "GameSpeed.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameSpeed.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

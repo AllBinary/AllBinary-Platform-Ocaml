@@ -21,10 +21,10 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.paint.Paintable *)
 
 
-let getInstance : 'any1. 'any1 -> Paintable.paintable = fun (basicColor) ->
+let getInstance : 'any1 'return. 'any1 -> 'return = fun (basicColor) ->
         let basicColor = Obj.repr basicColor in
         begin
-        ((new TouchButtonsPaintable.touchButtonsPaintable ((Obj.magic basicColor))) :> Paintable.paintable)
+        (Obj.magic ((new TouchButtonsPaintable.touchButtonsPaintable ((Obj.magic basicColor)))))
         end [@@warning "-20"]
 
 let () = java_register_static "TouchButtonsPaintableFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

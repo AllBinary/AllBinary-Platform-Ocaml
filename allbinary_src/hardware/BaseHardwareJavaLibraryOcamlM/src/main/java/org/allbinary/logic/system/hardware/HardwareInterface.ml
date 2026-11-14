@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual hardwareInterface =
   object
-    method virtual getComponent : int -> HardwareComponentInterface.hardwareComponentInterface
+    method virtual getComponent : 'return . int -> 'return
     method virtual toString : unit -> string
     method virtual compareTo : 'any1 . 'any1 -> bool
     method virtual difference : 'any1 'return . 'any1 -> 'return

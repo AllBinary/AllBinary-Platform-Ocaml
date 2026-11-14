@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class terrainEvent ((basicTerrainInfo_arg : Obj.t)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (basicTerrainInfo_arg)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (basicTerrainInfo_arg)))
     val mutable basicTerrainInfo : BasicTerrainInfo.basicTerrainInfo = (Obj.magic 0)
     method basicTerrainInfo = basicTerrainInfo
     method set_basicTerrainInfo value' = basicTerrainInfo <- value'
@@ -40,9 +40,9 @@ class terrainEvent ((basicTerrainInfo_arg : Obj.t)) =
         end [@@warning "-7"]
     
 
-    method getBasicTerrainInfo () : BasicTerrainInfo.basicTerrainInfo =
+    method getBasicTerrainInfo : 'return. unit -> 'return = fun () ->
         begin
-        (basicTerrainInfo :> BasicTerrainInfo.basicTerrainInfo)
+        (Obj.magic (basicTerrainInfo))
         end [@@warning "-7"]
     
 

@@ -17,17 +17,17 @@ class arrayUtil () =
     method set_mathUtil value' = mathUtil <- value'
     
 
-    method copyOf ((original : Obj.t array), (newLength : int)) : Obj.t array =
+    method copyOf : 'return. Obj.t array * int -> 'return = fun ((original : Obj.t array), (newLength : int)) ->
         begin
-        (self#copyOfType (original, newLength, (java_get_class (Obj.repr original))))
+        (Obj.magic ((self#copyOfType (original, newLength, (java_get_class (Obj.repr original))))))
         end
     
 
-    method copyOfType ((original : Obj.t array), (newLength : int), (_newType : string)) : Obj.t array =
+    method copyOfType : 'return. Obj.t array * int * string -> 'return = fun ((original : Obj.t array), (newLength : int), (_newType : string)) ->
         begin
         let copy : Obj.t array ref = ref ((Array.make (newLength) (Obj.magic 0))) in ();
         ignore (Array.blit (original) (0) (!copy) (0) ((mathUtil#min ((Array.length original), newLength))));
-        !copy
+        (Obj.magic (!copy))
         end
     
 
@@ -180,9 +180,9 @@ let instance = (new arrayUtil ())
 let get_instance () = instance
 let () = java_register_static "ArrayUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ArrayUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

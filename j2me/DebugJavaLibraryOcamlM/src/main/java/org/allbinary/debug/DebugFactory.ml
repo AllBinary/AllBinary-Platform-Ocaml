@@ -16,11 +16,12 @@
 (* package org.allbinary.debug *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 
-let getInstance () : DebugInterface.debugInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((NoDebug.getInstance ()) :> DebugInterface.debugInterface)
+        (Obj.magic ((NoDebug.getInstance ())))
         end
 
 let () = java_register_static "DebugFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

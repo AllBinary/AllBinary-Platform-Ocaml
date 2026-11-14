@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.Rectangle *)
 (* import org.allbinary.view.ViewPositionBase *)
 
-class multiPlayerGameLayer (_remoteInfo, groupInterface, (name : string), layerInfo, (viewPosition : ViewPositionBase.viewPositionBase)) =
+class multiPlayerGameLayer (_remoteInfo, (groupInterface : Group.group array), (name : string), (layerInfo : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
   object
     inherit CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer (groupInterface, name, layerInfo, viewPosition)
     

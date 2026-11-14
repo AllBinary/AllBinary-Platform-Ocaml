@@ -120,7 +120,7 @@
 
         <module>../../media/motion/AllBinaryVibrationJavaLibraryOcamlM</module>
         <module>../../media/motion/NoVibrateJavaLibraryOcamlM</module>
-        <module>../../media/motion/VibrateAndroidJavaLibraryOcamlM</module>
+        <!--<module>../../media/motion/VibrateAndroidJavaLibraryOcamlM</module>-->
 
         <module>../../media/graphics/NullCustomUIJavaLibraryOcamlM</module>
         <module>../../media/graphics/NullCustomUIBaseJavaLibraryOcamlM</module>
@@ -144,13 +144,13 @@
         <module>../../games/GameResourceJavaLibraryOcamlM</module>
         <module>../../games/GameSoundsJavaLibraryOcamlM</module>
 
-        <module>../../input/TouchInputLibraryP</module>
+        <module>../../input/TouchInputLibraryOcamlP</module>
 
         <module>../../media/MediaDataOcamlM</module>
         <module>../../media/sound/NotDeviceSpecificNoMediaMIDP1LibraryOcamlM</module>
 
         <module>../../../allbinary_src/content/ContentNoneJavaLibraryOcamlM</module>
-        <module>../../../allbinary_src/content/ContentAndroidJavaLibraryOcamlM</module>
+        <!--<module>../../../allbinary_src/content/ContentAndroidJavaLibraryOcamlM</module>-->
 
         <module>../../games/GameConfigurationFormJavaLibraryOcamlM</module>
 

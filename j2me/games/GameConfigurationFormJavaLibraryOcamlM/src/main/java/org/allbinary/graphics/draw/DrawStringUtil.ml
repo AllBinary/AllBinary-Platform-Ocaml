@@ -45,7 +45,7 @@ class drawStringUtil () =
         (try
             ignore ((Obj.magic graphics)#drawSubstring (string, offset, length, (x - !width), y, anchor))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((((new StringMaker.stringMaker ())#append ("Exception: stringLength: "))#appendint ((String.length string)))#append (" offset: "))#appendint (offset))#append (" currentLength: "))#appendint (length)))), self, "drawCenterString"))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((((new StringMaker.stringMaker ())#append ("Exception: stringLength: "))#appendint ((String.length string)))#append (" offset: "))#appendint (offset))#append (" currentLength: "))#appendint (length)))), (Obj.magic self), "drawCenterString"))))
         end)
         end [@@warning "-20"]
     
@@ -71,7 +71,7 @@ class drawStringUtil () =
                         currentLength := (!size - !offset)
                     end;
                     if ((!offset + !currentLength) <> !size) then begin
-                        while ((!currentLength > 0) && ((stringArray.(index)#charAt ((!offset + !currentLength))) != ' ')) do
+                        while ((!currentLength > 0) && ((String.get stringArray.(index) ((!offset + !currentLength))) != ' ')) do
                             currentLength := !currentLength - 1
                         done;
                         if (!currentLength <= 4) then begin
@@ -100,9 +100,9 @@ let instance = (new drawStringUtil ())
 let get_instance () = instance
 let () = java_register_static "DrawStringUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "DrawStringUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -73,7 +73,7 @@ class gameInitializationUtil () =
 
     initializer
       begin
-        eVENT <- ((new GameInitializedEvent.gameInitializedEvent (self)) :> GameInitializedEvent.gameInitializedEvent);
+        eVENT <- ((new GameInitializedEvent.gameInitializedEvent ((Obj.magic self))) :> GameInitializedEvent.gameInitializedEvent);
         ()
       end
   end
@@ -83,9 +83,9 @@ let instance = (new gameInitializationUtil ())
 let get_instance () = instance
 let () = java_register_static "GameInitializationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameInitializationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

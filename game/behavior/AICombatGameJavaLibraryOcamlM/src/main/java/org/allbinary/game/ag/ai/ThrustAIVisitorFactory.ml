@@ -16,14 +16,15 @@
 (* package org.allbinary.game.ag.ai *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : ThrustAIVisitor.thrustAIVisitor = ((new ThrustAIVisitor.thrustAIVisitor ()) :> ThrustAIVisitor.thrustAIVisitor)
 let get_instance () = instance
 let () = java_register_static "ThrustAIVisitorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : ThrustAIVisitor.thrustAIVisitor =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> ThrustAIVisitor.thrustAIVisitor)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "ThrustAIVisitorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

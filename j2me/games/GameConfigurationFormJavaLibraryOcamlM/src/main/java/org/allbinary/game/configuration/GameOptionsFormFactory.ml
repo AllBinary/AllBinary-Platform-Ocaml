@@ -40,7 +40,7 @@ class gameOptionsFormFactory () =
             (Obj.magic ((new GameOptionsForm.gameOptionsForm ((Obj.magic commandListener), title, (Obj.magic backgrounBasicColor), (Obj.magic foregroundBasicColor)))))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#iNIT, e));
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iNIT, e));
             (Obj.magic ((Obj.magic (java_call_static "CommandForm.getNullCommandForm" (Obj.repr ())))))
         end)
         end [@@warning "-20"]
@@ -58,9 +58,9 @@ let instance = (new gameOptionsFormFactory ())
 let get_instance () = instance
 let () = java_register_static "GameOptionsFormFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "GameOptionsFormFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

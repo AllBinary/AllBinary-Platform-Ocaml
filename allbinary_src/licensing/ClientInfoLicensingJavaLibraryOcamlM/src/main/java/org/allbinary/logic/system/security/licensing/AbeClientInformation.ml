@@ -48,11 +48,11 @@ class abeClientInformation ((name : string), (version : string), (specialName : 
                 ignore (self#setLicenseId (!nONE))
             end;
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Special Name: "))#append ((self#getSpecialName ()))))), self, !commonStrings#cONSTRUCTOR))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Special Name: "))#append ((self#getSpecialName ()))))), (Obj.magic self), !commonStrings#cONSTRUCTOR))))
         with e -> begin
             let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic !logUtil_arg)#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic !logUtil_arg)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
         end)
         end [@@warning "-7"]
 

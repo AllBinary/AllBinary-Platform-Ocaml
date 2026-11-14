@@ -55,9 +55,9 @@ class relativeRelationship ((point : GPoint.gPoint), (typesAllowedList_arg : Bas
         end
     
 
-    method getTypesAllowedList () : BasicArrayList.basicArrayList =
+    method getTypesAllowedList : 'return. unit -> 'return = fun () ->
         begin
-        (typesAllowedList :> BasicArrayList.basicArrayList)
+        (Obj.magic (typesAllowedList))
         end
     
 
@@ -82,7 +82,7 @@ class relativeRelationship ((point : GPoint.gPoint), (typesAllowedList_arg : Bas
   end
 let () = java_register_constructor "RelativeRelationship" (fun arguments -> Obj.repr (new relativeRelationship (Obj.obj arguments)))
 
-let nULL_RELATIVE_RELATIONSHIP = (new relativeRelationship ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, ((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))
+let nULL_RELATIVE_RELATIONSHIP = (new relativeRelationship ((PointFactory.getInstance ())#zERO_ZERO, ((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))
 let get_nULL_RELATIVE_RELATIONSHIP () = nULL_RELATIVE_RELATIONSHIP
 let () = java_register_static "RelativeRelationship.get_nULL_RELATIVE_RELATIONSHIP" (fun _ -> Obj.repr (get_nULL_RELATIVE_RELATIONSHIP ()))
 

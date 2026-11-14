@@ -13,15 +13,15 @@ open Allbinary_java [@@warning "-33"]
 
 class xmlRpcClient ((url_arg : string)) =
   object
-    val mutable url : Obj.t = Obj.repr 0
-    method url : 'r. 'r = Obj.magic url
-    method set_url : 'v. 'v -> unit = fun value' -> url <- Obj.repr value'
+    val mutable url : java_uri = (Obj.magic 0)
+    method url = url
+    method set_url value' = url <- value'
     
     
 
-    method getURL : 'return. unit -> 'return = fun () ->
+    method getURL () : java_uri =
         begin
-        (Obj.magic ((Obj.magic url)))
+        (url :> java_uri)
         end
     
 
@@ -37,15 +37,18 @@ class xmlRpcClient ((url_arg : string)) =
         end [@@warning "-20"]
     
 
-    (* Java overload execute(String, BasicArrayList, CryptInterface) is not converted: OCaml has one method per name *)
+    method executeWithCrypt : 'any2 'any3. string * 'any2 * 'any3 -> Obj.t = fun ((_method_ : string), _params, _cryptInterface) ->
+        begin
+        (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))
+        end [@@warning "-20"]
 
     initializer
       begin
         ();
         ();
-        url <- Obj.repr ((new URL.uRL (url_arg)))
+        url <- (new java_uri (url_arg))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "XmlRpcClient" (fun arguments -> Obj.repr (new xmlRpcClient (Obj.obj arguments)))
 
 

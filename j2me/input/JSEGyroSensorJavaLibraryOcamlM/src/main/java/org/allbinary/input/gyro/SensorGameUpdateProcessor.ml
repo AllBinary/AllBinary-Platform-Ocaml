@@ -36,9 +36,9 @@ class sensorGameUpdateProcessor () =
         end [@@warning "-20"]
     
 
-    method getInputSensor () : AllBinarySensor.allBinarySensor =
+    method getInputSensor : 'return. unit -> 'return = fun () ->
         begin
-        (inputSensor :> AllBinarySensor.allBinarySensor)
+        (Obj.magic (inputSensor))
         end
     
 

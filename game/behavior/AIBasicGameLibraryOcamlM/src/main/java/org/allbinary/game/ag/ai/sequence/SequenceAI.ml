@@ -69,9 +69,9 @@ class sequenceAI ((artificialIntelligenceInterfaceArray : ArtificialIntelligence
         end [@@warning "-7"]
     
 
-    method getSelectedArtificialIntelligenceInterface () : ArtificialIntelligenceInterface.artificialIntelligenceInterface =
+    method getSelectedArtificialIntelligenceInterface : 'return. unit -> 'return = fun () ->
         begin
-        ((self#getArtificialIntelligenceInterface ()).(index) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((self#getArtificialIntelligenceInterface ()).(index)))
         end [@@warning "-7"]
     
 

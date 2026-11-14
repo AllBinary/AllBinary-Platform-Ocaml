@@ -24,9 +24,9 @@ open Allbinary_java [@@warning "-33"]
 
 class bufferedLineReader (file) =
   object
-    val mutable tmpIn : Obj.t = Obj.repr 0
-    method tmpIn : 'r. 'r = Obj.magic tmpIn
-    method set_tmpIn : 'v. 'v -> unit = fun value' -> tmpIn <- Obj.repr value'
+    val mutable tmpIn : java_buffered_reader = (Obj.magic 0)
+    method tmpIn = tmpIn
+    method set_tmpIn value' = tmpIn <- value'
     
     
 
@@ -38,7 +38,13 @@ class bufferedLineReader (file) =
 
     method readLine () : string =
         begin
-        ((Obj.magic tmpIn)#readLine ())
+        (tmpIn#readLine ())
+        end
+    
+
+    method ready () : bool =
+        begin
+        (tmpIn#ready ())
         end
     
 
@@ -57,9 +63,9 @@ class bufferedLineReader (file) =
       begin
         ();
         ();
-        tmpIn <- Obj.repr ((new BufferedReader.bufferedReader ((new FileReader.fileReader ((AbFileNativeUtil.get (file)))))))
+        tmpIn <- (new java_buffered_reader (Obj.repr ((new java_file_reader (Obj.repr ((AbFileNativeUtil.get (file))))))))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "BufferedLineReader" (fun arguments -> Obj.repr (new bufferedLineReader (Obj.obj arguments)))
 
 

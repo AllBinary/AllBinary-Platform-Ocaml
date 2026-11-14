@@ -59,9 +59,9 @@ class horizontalScreenPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer
     val mutable secondaryPlayerQueue : PlayerQueue.playerQueue = (Obj.magic 0)
     method secondaryPlayerQueue = secondaryPlayerQueue
     method set_secondaryPlayerQueue value' = secondaryPlayerQueue <- value'
-    val mutable sound : Obj.t = Obj.repr 0
-    method sound : 'r. 'r = Obj.magic sound
-    method set_sound : 'v. 'v -> unit = fun value' -> sound <- Obj.repr value'
+    val mutable sound : Sound.sound = (Obj.magic 0)
+    method sound = sound
+    method set_sound value' = sound <- value'
     
     
 
@@ -72,14 +72,14 @@ class horizontalScreenPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer
         if (timeDelayHelper#isTimeTNT ()) then begin
             let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
             let currentOwnerLayerX : int ref = ref ((!layerInterface#getXP ())) in ();
-            if (!currentOwnerLayerX < (-(!layerInterface#getWidth ()))) then begin
+            if (!currentOwnerLayerX < (- (!layerInterface#getWidth ()))) then begin
                 let y : int ref = ref (((MyRandomFactory.getInstance ())#getAbsoluteNextIntAllowZero (50))) in ();
                 ignore (!layerInterface#setPosition ((((displayInfoSingleton#getLastWidth ()) + (!layerInterface#getWidth ())) + 50), !y, (!layerInterface#getZP ())));
                 firedIndex <- 0;
                 firingX <- ((displayInfoSingleton#getLastHalfWidth ()) + ((MyRandomFactory.getInstance ())#getNextInt ((displayInfoSingleton#getLastHalfWidth ()))));
-                ignore (secondaryPlayerQueue#add ((Obj.magic sound)))
+                ignore (secondaryPlayerQueue#add (sound))
             end;
-            if ((!currentOwnerLayerX < firingX) && (!currentOwnerLayerX > (-(!layerInterface#getWidth ())))) then begin
+            if ((!currentOwnerLayerX < firingX) && (!currentOwnerLayerX > (- (!layerInterface#getWidth ())))) then begin
                 ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))));
                 let gameLayerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager ref = ref (((Obj.magic (Obj.magic allBinaryLayerManager)) :> AllBinaryGameLayerManager.allBinaryGameLayerManager)) in ();
                 let fIRE : int ref = ref ((((((!gameLayerManager#getGameInfo ())#getCurrentLevel ()) + 12)) asr 2)) in ();
@@ -113,12 +113,12 @@ class horizontalScreenPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer
         ();
         ();
         (* super(...) is the inherit clause *) ();
-        sound <- Obj.repr ((Obj.magic (hashtable#get (sOUND))));
-        if ((Obj.magic sound) == (Obj.magic 0)) then begin
+        sound <- (Obj.magic (hashtable#get (sOUND)));
+        if (sound == (Obj.magic 0)) then begin
             raise (Failure ("No Sound Provided!!"))
         end
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "HorizontalScreenPatrolAI" (fun arguments -> Obj.repr (new horizontalScreenPatrolAI (Obj.obj arguments)))
 
 

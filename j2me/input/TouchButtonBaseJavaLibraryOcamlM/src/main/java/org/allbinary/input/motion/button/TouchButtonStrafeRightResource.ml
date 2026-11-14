@@ -16,6 +16,7 @@
 (* package org.allbinary.input.motion.button *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class touchButtonStrafeRightResource () =
   object
@@ -34,9 +35,9 @@ let instance : TouchButtonResource.touchButtonResource = ((new touchButtonStrafe
 let get_instance () = instance
 let () = java_register_static "TouchButtonStrafeRightResource.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : TouchButtonResource.touchButtonResource =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> TouchButtonResource.touchButtonResource)
+        (Obj.magic (instance))
         end
 let () = java_register_static "TouchButtonStrafeRightResource.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.game.input.mapping *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.game.input.mapping.event.InputMappingEvent *)
 (* import org.allbinary.game.input.mapping.event.InputMappingEventListenerInterface *)
 (* import org.allbinary.logic.communication.log.ForcedLogUtil *)
@@ -28,7 +29,7 @@ class motionInputMappingEventListener () =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 

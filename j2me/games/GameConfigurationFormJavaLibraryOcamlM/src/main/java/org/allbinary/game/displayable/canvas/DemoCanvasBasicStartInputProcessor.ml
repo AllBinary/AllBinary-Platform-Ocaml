@@ -28,7 +28,7 @@ open Allbinary_java [@@warning "-33"]
 
 class demoCanvasBasicStartInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (gameCanvas : RunnableCanvas.runnableCanvas)) =
   object (self)
-    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, (-1), gameCanvas)
+    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, (- 1), (gameCanvas : RunnableCanvas.runnableCanvas :> Canvas.canvas))
     
     
 
@@ -39,7 +39,7 @@ class demoCanvasBasicStartInputProcessor ((gameKeyEventList : BasicArrayList.bas
         let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((Obj.magic 0) :> GameKeyEvent.gameKeyEvent)) in ();
         for index = 0 to !size - 1 do
             gameKeyEvent := (Obj.magic !list#objectArray.(index));
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Start GameKey: "))#append (((StringUtil.getInstance ())#toString (!gameKeyEvent)))))), self, (GameInputStrings.getInstance ())#pROCESS_INPUT))
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Start GameKey: "))#append (((StringUtil.getInstance ())#toString (!gameKeyEvent)))))), (Obj.magic self), (GameInputStrings.getInstance ())#pROCESS_INPUT))
         done;
         ignore (((self#getCanvas ())#getCustomCommandListener ())#commandAction ((GameCommandsFactory.getInstance ())#sTART_COMMAND, (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))));
         !size

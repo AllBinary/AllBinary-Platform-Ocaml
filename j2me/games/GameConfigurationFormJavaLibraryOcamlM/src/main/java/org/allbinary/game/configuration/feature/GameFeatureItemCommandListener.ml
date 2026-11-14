@@ -45,13 +45,13 @@ class gameFeatureItemCommandListener (gameOptionsForm_arg) =
         begin
         (try
             let itemLabel : string ref = ref (((Obj.magic item)#getLabel ())) in ();
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#iTEM_LABEL))#append (!itemLabel)))), self, (MidletStrings.getInstance ())#cOMMAND_ACTION));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#iTEM_LABEL))#append (!itemLabel)))), (Obj.magic self), (MidletStrings.getInstance ())#cOMMAND_ACTION));
             if (java_instanceof (Obj.repr (Obj.magic item)) "GameConfigurationGauge") then begin
                 ignore ((Obj.magic (java_call_static "GameConfigurationUtil.getInstance" (Obj.repr ())))#change ((Obj.magic gameOptionsForm), (Obj.magic (Obj.magic item))))
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, (MidletStrings.getInstance ())#cOMMAND_ACTION, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), (MidletStrings.getInstance ())#cOMMAND_ACTION, e))
         end)
         end [@@warning "-20"]
 

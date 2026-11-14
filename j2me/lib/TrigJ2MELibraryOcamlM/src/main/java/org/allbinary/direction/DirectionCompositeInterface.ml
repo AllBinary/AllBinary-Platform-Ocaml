@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual directionCompositeInterface =
   object
-    method virtual getDirection : unit -> Direction.direction
+    method virtual getDirection : 'return . unit -> 'return
   end
 
 

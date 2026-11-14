@@ -19,8 +19,8 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual intermissionCompositeInterface =
   object
-    method virtual getStartIntermissionInterface : unit -> IntermissionInterface.intermissionInterface
-    method virtual getEndLevelIntermissionInterface : unit -> IntermissionInterface.intermissionInterface
+    method virtual getStartIntermissionInterface : 'return . unit -> 'return
+    method virtual getEndLevelIntermissionInterface : 'return . unit -> 'return
   end
 
 

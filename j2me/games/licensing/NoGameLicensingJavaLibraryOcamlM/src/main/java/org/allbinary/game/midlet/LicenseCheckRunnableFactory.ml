@@ -16,6 +16,7 @@
 (* package org.allbinary.game.midlet *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.thread.ABRunnable *)
 (* import org.allbinary.thread.NullABRunnable *)
 
@@ -23,9 +24,9 @@ class licenseCheckRunnableFactory () =
   object
     
 
-    method getInstance : 'any1. 'any1 -> ABRunnable.aBRunnable = fun (_specialDemoGameMidlet) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (_specialDemoGameMidlet) ->
         begin
-        ((NullABRunnable.getInstance ()) :> ABRunnable.aBRunnable)
+        (Obj.magic ((NullABRunnable.getInstance ())))
         end [@@warning "-20"]
 
     initializer

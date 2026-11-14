@@ -45,44 +45,44 @@ class sounds ((soundsFactoryInterface_arg : SoundsFactoryInterface.soundsFactory
 
     method init () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#iNIT));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#iNIT));
         let commonLabels : CommonLabels.commonLabels ref = ref (((CommonLabels.getInstance ()) :> CommonLabels.commonLabels)) in ();
         let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
         ignore (soundsFactoryInterface#init ());
-        let soundInterfaceArray : Obj.t ref = ref ((Obj.repr (soundsFactoryInterface#getSoundInterfaceArray ()))) in ();
+        let soundInterfaceArray : Sound.sound array ref = ref ((soundsFactoryInterface#getSoundInterfaceArray ())) in ();
         let smallIntegerSingletonFactory : SmallIntegerSingletonFactory.smallIntegerSingletonFactory ref = ref (((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory)) in ();
         let indexInteger : int ref = ref ((Obj.magic 0)) in ();
         let indexString : string ref = ref ("") in ();
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        for i = 0 to (Array.length (Obj.magic !soundInterfaceArray)) - 1 do
-            let soundInterface : Obj.t ref = ref ((Obj.repr (Obj.magic !soundInterfaceArray).(i))) in ();
-            if ((Obj.magic !soundInterface) != (Obj.magic 0)) then begin
+        for i = 0 to (Array.length !soundInterfaceArray) - 1 do
+            let soundInterface : Sound.sound ref = ref ((!soundInterfaceArray.(i) :> Sound.sound)) in ();
+            if (!soundInterface != (Obj.magic 0)) then begin
                 indexInteger := (!smallIntegerSingletonFactory#getAt (i));
                 indexString := (string_of_int !indexInteger);
                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
                 ignore (!stringBuffer#append (!commonLabels#iNDEX_LABEL));
                 ignore (!stringBuffer#append (!indexString));
                 ignore (!stringBuffer#append (soundStrings#sOUND));
-                ignore (!stringBuffer#append ((java_get_class (Obj.repr (Obj.magic !soundInterface)))));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, commonStrings#iNIT));
-                ignore ((Obj.magic !soundInterface)#init ());
+                ignore (!stringBuffer#append ((java_get_class (Obj.repr !soundInterface))));
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iNIT));
+                ignore (!soundInterface#init ());
                 ignore (!progressCanvas#addNormalPortion (100, (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (soundStrings#iNIT_SOUND))#append (!indexString))))))
             end
         done;
         ignore (soundsFactoryInterface#setInitialized (true));
-        ignore ((Obj.magic logUtil)#putF (commonStrings#eND, self, commonStrings#iNIT))
+        ignore ((Obj.magic logUtil)#putF (commonStrings#eND, (Obj.magic self), commonStrings#iNIT))
         end
     
 
     method stopAll () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, soundStrings#sTOP_ALL));
-        let soundInterfaceArray : Obj.t ref = ref ((Obj.repr (soundsFactoryInterface#getSoundInterfaceArray ()))) in ();
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), soundStrings#sTOP_ALL));
+        let soundInterfaceArray : Sound.sound array ref = ref ((soundsFactoryInterface#getSoundInterfaceArray ())) in ();
         let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
         let player : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = 0 to (Array.length (Obj.magic !soundInterfaceArray)) - 1 do
-            if ((Obj.magic !soundInterfaceArray).(index) != (Obj.magic 0)) then begin
-                player := Obj.repr (((Obj.magic !soundInterfaceArray).(index)#getPlayerP ()));
+        for index = 0 to (Array.length !soundInterfaceArray) - 1 do
+            if (!soundInterfaceArray.(index) != (Obj.magic 0)) then begin
+                player := Obj.repr ((!soundInterfaceArray.(index)#getPlayerP ()));
                 if ((Obj.magic !player) != (Obj.magic 0)) then begin
                     ignore ((Obj.magic !player)#stop ());
                     ignore (!progressCanvas#addPortion (100, soundStrings#sTOPPING_SOUND, index))
@@ -94,13 +94,13 @@ class sounds ((soundsFactoryInterface_arg : SoundsFactoryInterface.soundsFactory
 
     method closeAll () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, soundStrings#cLOSE_ALL));
-        let soundInterfaceArray : Obj.t ref = ref ((Obj.repr (soundsFactoryInterface#getSoundInterfaceArray ()))) in ();
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), soundStrings#cLOSE_ALL));
+        let soundInterfaceArray : Sound.sound array ref = ref ((soundsFactoryInterface#getSoundInterfaceArray ())) in ();
         let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
         let player : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = 0 to (Array.length (Obj.magic !soundInterfaceArray)) - 1 do
-            if ((Obj.magic !soundInterfaceArray).(index) != (Obj.magic 0)) then begin
-                player := Obj.repr (((Obj.magic !soundInterfaceArray).(index)#getPlayerP ()));
+        for index = 0 to (Array.length !soundInterfaceArray) - 1 do
+            if (!soundInterfaceArray.(index) != (Obj.magic 0)) then begin
+                player := Obj.repr ((!soundInterfaceArray.(index)#getPlayerP ()));
                 if ((Obj.magic !player) != (Obj.magic 0)) then begin
                     ignore ((Obj.magic !player)#close ());
                     ignore (!progressCanvas#addPortion (100, soundStrings#cLOSING_SOUND, index))

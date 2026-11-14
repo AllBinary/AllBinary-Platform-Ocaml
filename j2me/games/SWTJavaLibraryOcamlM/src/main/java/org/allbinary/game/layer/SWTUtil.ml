@@ -21,10 +21,12 @@ let isSWT : bool ref = ref (true)
 let get_isSWT () = !isSWT
 let set_isSWT value' = isSWT := value'
 let () = java_register_static "SWTUtil.get_isSWT" (fun _ -> Obj.repr (get_isSWT ()))
+let () = java_register_static "SWTUtil.set_isSWT" (fun value' -> set_isSWT (Obj.obj value'); Obj.repr ())
 let sWT : string ref = ref ("SWT")
 let get_sWT () = !sWT
 let set_sWT value' = sWT := value'
 let () = java_register_static "SWTUtil.get_sWT" (fun _ -> Obj.repr (get_sWT ()))
+let () = java_register_static "SWTUtil.set_sWT" (fun value' -> set_sWT (Obj.obj value'); Obj.repr ())
 class sWTUtil () =
   object
 

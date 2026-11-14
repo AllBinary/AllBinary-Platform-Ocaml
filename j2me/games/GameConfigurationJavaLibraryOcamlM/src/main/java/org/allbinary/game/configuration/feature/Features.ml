@@ -34,6 +34,7 @@ let sINGLETON : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "Features.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "Features.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 class features () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -65,9 +66,9 @@ class features () =
         let gameFeature = Obj.repr gameFeature in
         begin
         if (not (list#contains ((Obj.magic gameFeature)))) then begin
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ((java_string_of (Obj.repr (Obj.magic gameFeature))))))), self, commonStrings#aDD));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ((java_string_of (Obj.repr (Obj.magic gameFeature))))))), (Obj.magic self), commonStrings#aDD));
             ignore (list#add ((Obj.magic gameFeature)));
-            ignore ((GameFeatureEventHandler.getInstance ())#fireEvent ((new GameFeatureEvent.gameFeatureEvent ((Obj.magic gameFeature), (java_string_of (Obj.repr (Obj.magic gameFeature)))))))
+            ignore ((GameFeatureEventHandler.getInstance ())#fireEvent ((new GameFeatureEvent.gameFeatureEvent ((Obj.repr ((Obj.magic gameFeature))), (java_string_of (Obj.repr (Obj.magic gameFeature)))))))
         end
         end [@@warning "-20"]
     
@@ -75,7 +76,7 @@ class features () =
     method removeDefault : 'any1. 'any1 -> unit = fun (gameFeature) ->
         let gameFeature = Obj.repr gameFeature in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ((java_string_of (Obj.repr (Obj.magic gameFeature))))))), self, "removeDefault"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ((java_string_of (Obj.repr (Obj.magic gameFeature))))))), (Obj.magic self), "removeDefault"));
         (self#remove ((Obj.magic gameFeature)));
         ignore (defaultList#remove ((Obj.magic gameFeature)))
         end [@@warning "-20"]
@@ -85,9 +86,9 @@ class features () =
         let gameFeature = Obj.repr gameFeature in
         begin
         if (list#contains ((Obj.magic gameFeature))) then begin
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#rEMOVE));
+            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#rEMOVE));
             ignore (list#remove ((Obj.magic gameFeature)));
-            ignore ((GameFeatureEventHandler.getInstance ())#fireEvent ((new GameFeatureEvent.gameFeatureEvent ((Obj.magic gameFeature), (java_string_of (Obj.repr (Obj.magic gameFeature)))))))
+            ignore ((GameFeatureEventHandler.getInstance ())#fireEvent ((new GameFeatureEvent.gameFeatureEvent ((Obj.repr ((Obj.magic gameFeature))), (java_string_of (Obj.repr (Obj.magic gameFeature)))))))
         end
         end [@@warning "-20"]
     
@@ -119,7 +120,7 @@ class features () =
             (self#addDefault ((Obj.magic (java_call_static "MainFeatureFactory.getInstance" (Obj.repr ())))#fULL_SCREEN));
             (self#addDefault ((Obj.magic (java_call_static "MainFeatureFactory.getInstance" (Obj.repr ())))#lOAD_ONDEMAND))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, self, commonStrings#iNIT, e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#iNIT, e))))
         end)
         end
     
@@ -155,19 +156,19 @@ class features () =
         ();
         ();
         ();
-        list <- (new BasicArrayListD.basicArrayListD ());
-        defaultList <- (new BasicArrayListD.basicArrayListD ());
+        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
+        defaultList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         (self#init ())
       end
   end [@@warning "-20"]
 let () = java_register_constructor "Features" (fun arguments -> Obj.repr (new features (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !sINGLETON) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            sINGLETON := (new features ())
+            sINGLETON := (Obj.repr ((new features ())))
         end;
-        (Obj.magic !sINGLETON)
+        (Obj.magic ((Obj.magic !sINGLETON)))
         end
 let () = java_register_static "Features.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

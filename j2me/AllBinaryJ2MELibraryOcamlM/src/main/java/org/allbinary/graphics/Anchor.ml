@@ -23,6 +23,7 @@ let tOP_LEFT : int ref = ref (((Obj.magic (java_call_static "Graphics.get_tOP" (
 let get_tOP_LEFT () = !tOP_LEFT
 let set_tOP_LEFT value' = tOP_LEFT := value'
 let () = java_register_static "Anchor.get_tOP_LEFT" (fun _ -> Obj.repr (get_tOP_LEFT ()))
+let () = java_register_static "Anchor.set_tOP_LEFT" (fun value' -> set_tOP_LEFT (Obj.obj value'); Obj.repr ())
 class anchor () =
   object
 

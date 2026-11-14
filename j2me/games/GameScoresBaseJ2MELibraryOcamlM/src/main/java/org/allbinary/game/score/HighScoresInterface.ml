@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual highScoresInterface =
   object
-    method virtual getList : unit -> BasicArrayList.basicArrayList
+    method virtual getList : 'return . unit -> 'return
     method virtual addHighScore : 'any1 . 'any1 -> unit
     method virtual getTotal : unit -> int
     method virtual isBestScore : 'any1 . 'any1 -> bool

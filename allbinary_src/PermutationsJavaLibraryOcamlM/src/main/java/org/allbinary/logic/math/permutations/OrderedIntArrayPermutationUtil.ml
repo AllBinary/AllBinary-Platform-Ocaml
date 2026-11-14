@@ -18,6 +18,7 @@
 open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import org.allbinary.logic.util.visitor.Visitor *)
+(* import org.allbinary.logic.string.StringMaker *)
 
 class orderedIntArrayPermutationUtil () =
   object (self)
@@ -80,7 +81,7 @@ class orderedIntArrayPermutationUtil () =
         (print_endline (java_string_of (Obj.repr (!iterations))));
         for _count = 0 to (!iterations - 1) - 1 do
             (self#getNext (data));
-            ignore ((Obj.magic visitor)#visit (self))
+            ignore ((Obj.magic visitor)#visit ((Obj.magic self)))
         done;
         (print_endline (java_string_of (Obj.repr (fINISHED))))
         end [@@warning "-20"]
@@ -99,9 +100,9 @@ let instance = (new orderedIntArrayPermutationUtil ())
 let get_instance () = instance
 let () = java_register_static "OrderedIntArrayPermutationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let rec getInstance () =
+let rec getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 
 and main ((_args : string array)) : unit =
@@ -114,7 +115,7 @@ and main ((_args : string array)) : unit =
         let permutationVisitor : IntPermutationVisitor.intPermutationVisitor ref = ref (((new IntPermutationVisitor.intPermutationVisitor (!data)) :> IntPermutationVisitor.intPermutationVisitor)) in ();
         let oRIGINAL_DATA_LABEL : string ref = ref ("Original Data: ") in ();
         (print_string (java_string_of (Obj.repr (!oRIGINAL_DATA_LABEL))));
-        ignore (!permutationVisitor#print (!data));
+        ignore (!permutationVisitor#print (!data, (new StringMaker.stringMaker ())));
         ignore ((getInstance ())#generate (!data, !permutationVisitor))
         end
 let () = java_register_static "OrderedIntArrayPermutationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

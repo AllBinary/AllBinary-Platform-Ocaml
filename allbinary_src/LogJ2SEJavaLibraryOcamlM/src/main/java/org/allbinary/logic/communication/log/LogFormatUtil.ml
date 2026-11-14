@@ -91,20 +91,16 @@ class logFormatUtil () =
         end
     
 
-    method getF ((className : string), (functionName : string)) : StringMaker.stringMaker =
-        let functionName = ref functionName in
+    method getF : 'return. string * string -> 'return = fun ((className : string), (functionName : string)) ->
         begin
-        if (!functionName = (Obj.magic 0)) then begin
-            functionName := nONE
-        end;
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
         ignore (!stringBuffer#append (tIME));
         ignore (!stringBuffer#append (((Obj.magic timeStampUtil)#getAsString ())));
         ignore (!stringBuffer#append (cLASS_NAME));
         ignore (!stringBuffer#append (className));
         ignore (!stringBuffer#append (fUNCTION_CALL));
-        ignore (!stringBuffer#append (!functionName));
-        (!stringBuffer :> StringMaker.stringMaker)
+        ignore (!stringBuffer#append (functionName));
+        (Obj.magic (!stringBuffer))
         end
     
 
@@ -116,11 +112,7 @@ class logFormatUtil () =
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             ignore (!stringBuffer#append (lOG_ERROR));
             let exceptionAsString : string ref = ref ((java_string_of (Obj.repr exception_))) in ();
-            if (!exceptionAsString <> (Obj.magic 0)) then begin
-                ignore (!stringBuffer#append (!exceptionAsString))
-            end else begin
-                ignore (!stringBuffer#append (eMPTY))
-            end;
+            ignore (!stringBuffer#append (!exceptionAsString));
             ignore (!stringBuffer#append (sTACK_TRACE));
             if ((Obj.repr exception_) != (Obj.repr nullUtil#nULL_OBJECT)) then begin
                 ignore (!stringBuffer#append (((Obj.magic exceptionUtil)#getStackTrace ((Obj.magic exception_)))))
@@ -159,9 +151,9 @@ let instance = (new logFormatUtil ())
 let get_instance () = instance
 let () = java_register_static "LogFormatUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LogFormatUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

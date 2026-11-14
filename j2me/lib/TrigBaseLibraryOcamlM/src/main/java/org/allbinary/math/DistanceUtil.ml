@@ -30,7 +30,7 @@ class distanceUtil () =
         begin
         let dx : int ref = ref ((x1 - x2)) in ();
         let dy : int ref = ref ((y1 - y2)) in ();
-        (java_to_int (Obj.repr ((mathUtil#sqrt ((((!dx * !dx)) + ((!dy * !dy))))))))
+        (mathUtil#sqrt ((((!dx * !dx)) + ((!dy * !dy)))))
         end
 
     initializer
@@ -45,9 +45,9 @@ let instance = (new distanceUtil ())
 let get_instance () = instance
 let () = java_register_static "DistanceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "DistanceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

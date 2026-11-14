@@ -28,25 +28,34 @@ class timeUtil () =
 
     method setCalendar ((calendar_arg : java_calendar), (yearString : string), (monthString : string), (dayString : string), (hourString : string)) : unit =
         begin
-        let year : int ref = ref (((Obj.obj (java_new "Integer" (Obj.repr (yearString))))#intValue ())) in ();
-        let month : int ref = ref (((Obj.obj (java_new "Integer" (Obj.repr (monthString))))#intValue ())) in ();
-        let day : int ref = ref (((Obj.obj (java_new "Integer" (Obj.repr (dayString))))#intValue ())) in ();
-        let hour : int ref = ref (((Obj.obj (java_new "Integer" (Obj.repr (hourString))))#intValue ())) in ();
+        let year : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (yearString))))))) in ();
+        let month : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (monthString))))))) in ();
+        let day : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (dayString))))))) in ();
+        let hour : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (hourString))))))) in ();
         ignore (calendar_arg#set (!year, !month, !day, !hour, 0))
         end
     
 
-    (* Java overload setCalendar(Calendar, String, String, String, String, String, String) is not converted: OCaml has one method per name *)
+    method setCalendarWithTime ((calendar_arg : java_calendar), (yearString : string), (monthString : string), (dayString : string), (hourString : string), (minuteString : string), (secondString : string)) : unit =
+        begin
+        let year : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (yearString))))))) in ();
+        let month : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (monthString))))))) in ();
+        let day : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (dayString))))))) in ();
+        let hour : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (hourString))))))) in ();
+        let minute : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (minuteString))))))) in ();
+        let second : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (secondString))))))) in ();
+        ignore (calendar_arg#set (!year, !month, !day, !hour, !minute, !second))
+        end
     
 
     method setExpirationCalendar ((calendar_arg : java_calendar), (yearsString : string), (monthsString : string), (daysString : string), (hoursString : string), (minutesString : string), (secondsString : string)) : unit =
         begin
-        let year : int ref = ref (((calendar_arg#get ((Obj.magic (java_call_static "Calendar.get_yEAR" (Obj.repr ()))))) + ((Obj.obj (java_new "Integer" (Obj.repr (yearsString))))#intValue ()))) in ();
-        let month : int ref = ref (((calendar_arg#get ((Obj.magic (java_call_static "Calendar.get_mONTH" (Obj.repr ()))))) + ((Obj.obj (java_new "Integer" (Obj.repr (monthsString))))#intValue ()))) in ();
-        let day : int ref = ref (((calendar_arg#get ((Obj.magic (java_call_static "Calendar.get_dAY_OF_MONTH" (Obj.repr ()))))) + ((Obj.obj (java_new "Integer" (Obj.repr (daysString))))#intValue ()))) in ();
-        let hour : int ref = ref (((calendar_arg#get ((Obj.magic (java_call_static "Calendar.get_hOUR" (Obj.repr ()))))) + ((Obj.obj (java_new "Integer" (Obj.repr (hoursString))))#intValue ()))) in ();
-        let minute : int ref = ref (((calendar_arg#get ((Obj.magic (java_call_static "Calendar.get_mINUTE" (Obj.repr ()))))) + ((Obj.obj (java_new "Integer" (Obj.repr (minutesString))))#intValue ()))) in ();
-        let second : int ref = ref (((calendar_arg#get ((Obj.magic (java_call_static "Calendar.get_sECOND" (Obj.repr ()))))) + ((Obj.obj (java_new "Integer" (Obj.repr (secondsString))))#intValue ()))) in ();
+        let year : int ref = ref (((calendar_arg#get (java_calendar_YEAR)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (yearsString)))))))) in ();
+        let month : int ref = ref (((calendar_arg#get (java_calendar_MONTH)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (monthsString)))))))) in ();
+        let day : int ref = ref (((calendar_arg#get (java_calendar_DAY_OF_MONTH)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (daysString)))))))) in ();
+        let hour : int ref = ref (((calendar_arg#get (java_calendar_HOUR)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (hoursString)))))))) in ();
+        let minute : int ref = ref (((calendar_arg#get (java_calendar_MINUTE)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (minutesString)))))))) in ();
+        let second : int ref = ref (((calendar_arg#get (java_calendar_SECOND)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (secondsString)))))))) in ();
         ignore (calendar_arg#set (!year, !month, !day, !hour, !minute, !second))
         end
     
@@ -70,9 +79,9 @@ let instance = (new timeUtil ())
 let get_instance () = instance
 let () = java_register_static "TimeUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TimeUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

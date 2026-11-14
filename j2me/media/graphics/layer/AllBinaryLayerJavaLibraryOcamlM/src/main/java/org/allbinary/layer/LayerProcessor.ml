@@ -19,14 +19,14 @@ open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
 (* import org.allbinary.string.CommonStrings *)
 
-class layerProcessor (layerManager_arg) =
+class layerProcessor ((layerManager_arg : LayerManager.layerManager)) =
   object (self)
     val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
     method commonStrings = commonStrings
     method set_commonStrings value' = commonStrings <- value'
-    val mutable layerManager : Obj.t = Obj.repr 0
-    method layerManager : 'r. 'r = Obj.magic layerManager
-    method set_layerManager : 'v. 'v -> unit = fun value' -> layerManager <- Obj.repr value'
+    val mutable layerManager : LayerManager.layerManager = (Obj.magic 0)
+    method layerManager = layerManager
+    method set_layerManager value' = layerManager <- value'
     
     
 
@@ -44,17 +44,17 @@ class layerProcessor (layerManager_arg) =
 
     method getLayerManager : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic layerManager)))
+        (Obj.magic (layerManager))
         end
     
 
     method process : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
         let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
         begin
-        let layerManager_arg : Obj.t ref = ref ((Obj.repr (self#getLayerManager ()))) in ();
-        let size : int ref = ref (((Obj.magic !layerManager_arg)#getSize ())) in ();
+        let layerManager_arg : LayerManager.layerManager ref = ref (((self#getLayerManager ()) :> LayerManager.layerManager)) in ();
+        let size : int ref = ref ((!layerManager_arg#getSize ())) in ();
         for index = 0 to !size - 1 do
-            (self#processAt ((Obj.magic allBinaryLayerManager), (Obj.magic ((Obj.magic !layerManager_arg)#getLayerAt (index))), index))
+            (self#processAt ((Obj.magic allBinaryLayerManager), (Obj.magic (!layerManager_arg#getLayerAt (index))), index))
         done
         end [@@warning "-20"]
 
@@ -63,9 +63,9 @@ class layerProcessor (layerManager_arg) =
         commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
         ();
         ();
-        layerManager <- Obj.repr (layerManager_arg)
+        layerManager <- layerManager_arg
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "LayerProcessor" (fun arguments -> Obj.repr (new layerProcessor (Obj.obj arguments)))
 
 

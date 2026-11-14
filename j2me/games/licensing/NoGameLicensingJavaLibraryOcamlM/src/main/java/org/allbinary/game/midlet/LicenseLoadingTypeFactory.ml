@@ -48,9 +48,9 @@ let instance = (new licenseLoadingTypeFactory ())
 let get_instance () = instance
 let () = java_register_static "LicenseLoadingTypeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getIntance () =
+let getIntance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LicenseLoadingTypeFactory.getIntance" (fun arguments -> Obj.repr (getIntance (Obj.obj arguments)))
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.game.layer.pickup *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.animation.Animation *)
 (* import org.allbinary.animation.NullAnimationFactory *)
 (* import org.allbinary.layer.AllBinaryLayer *)
@@ -23,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.ABHashtable *)
 (* import org.allbinary.util.BasicArrayList *)
 
-class countedPickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerType.pickedUpLayerType), (iconLayer : IconLayer.iconLayer), animationInterface) =
+class countedPickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerType.pickedUpLayerType), (iconLayer : IconLayer.iconLayer), (animationInterface : Animation.animation)) =
   object (self)
     inherit PickedUpLayerInterfaceFactory.pickedUpLayerInterfaceFactory (pickeUpLayerType, iconLayer, animationInterface)
     val mutable id : int = 0
@@ -32,7 +33,7 @@ class countedPickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerTyp
     
     
 
-    method getNextInstance : 'any1. 'any1 * int * int * int -> AllBinaryLayer.allBinaryLayer = fun (_hashtable, (_x : int), (_y : int), (_z : int)) ->
+    method getNextInstance : 'any1 'return. 'any1 * int * int * int -> 'return = fun (_hashtable, (_x : int), (_y : int), (_z : int)) ->
         begin
         raise (Failure ((CommonStrings.getInstance ())#nOT_IMPLEMENTED))
         end [@@warning "-7-20"]
@@ -40,7 +41,7 @@ class countedPickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerTyp
 
     method getTotal () : int =
         begin
-        (-1)
+        (- 1)
         end [@@warning "-7"]
     
 
@@ -56,7 +57,7 @@ class countedPickedUpLayerInterfaceFactory ((pickeUpLayerType : PickedUpLayerTyp
         (* super(...) is the inherit clause *) ();
         let list : BasicArrayList.basicArrayList ref = ref ((((CountedPickedUpLayerInterfaceFactoryPool.getInstance ())#getList ()) :> BasicArrayList.basicArrayList)) in ();
         id <- (!list#size ());
-        ignore (!list#add (self))
+        ignore (!list#add ((Obj.magic self)))
       end
   end
 let () = java_register_constructor "CountedPickedUpLayerInterfaceFactory" (fun arguments -> Obj.repr (new countedPickedUpLayerInterfaceFactory (Obj.obj arguments)))

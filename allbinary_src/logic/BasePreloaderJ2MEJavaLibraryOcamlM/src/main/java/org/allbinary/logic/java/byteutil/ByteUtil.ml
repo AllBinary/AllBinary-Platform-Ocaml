@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.java.byteutil *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class byteUtil () =
   object (self)
@@ -75,7 +76,7 @@ class byteUtil () =
             mask := 64
         end;
         if (index = 7) then begin
-            mask := (-127)
+            mask := (- 127)
         end;
         (self#xor (array, !mask))
         end
@@ -104,7 +105,7 @@ class byteUtil () =
         try
         begin
         if (newSize <> (Array.length oldByteArray)) then begin
-            stats.(0) <- (-1);
+            stats.(0) <- (- 1);
             stats.(2) <- newSize;
             stats.(3) <- (Array.length oldByteArray);
             raise (Java_return (Obj.repr (false)))
@@ -135,9 +136,9 @@ let instance = (new byteUtil ())
 let get_instance () = instance
 let () = java_register_static "ByteUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ByteUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

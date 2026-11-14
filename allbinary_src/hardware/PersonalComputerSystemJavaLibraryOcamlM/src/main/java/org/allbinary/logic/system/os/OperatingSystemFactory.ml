@@ -46,7 +46,7 @@ class operatingSystemFactory () =
     
     
 
-    method getOperatingSystemInstance () : GenericOperatingSystem.genericOperatingSystem =
+    method getOperatingSystemInstance : 'return. unit -> 'return = fun () ->
         begin
         (try
             let operatingSystems : OperatingSystems.operatingSystems ref = ref (((OperatingSystems.getInstance ()) :> OperatingSystems.operatingSystems)) in ();
@@ -55,36 +55,36 @@ class operatingSystemFactory () =
             let osArch : string ref = ref (((Obj.magic !systemProperties)#getArch ())) in ();
             let osVersion : string ref = ref (((Obj.magic !systemProperties)#getVersion ())) in ();
             if (not hasDetected) then begin
-                ignore ((Obj.magic logUtil)#putF (("osName: " ^ !osName), self, commonStrings#gET_INSTANCE));
+                ignore ((Obj.magic logUtil)#putF (("osName: " ^ !osName), (Obj.magic self), commonStrings#gET_INSTANCE));
                 hasDetected <- true;
                 if ((java_string_index_of !osName (Obj.repr (!operatingSystems#lINUX))) >= 0) then begin
                     if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#fACTORYERROR)) then begin
-                        ignore ((Obj.magic logUtil)#putF ("Found a Linux OS", self, commonStrings#gET_INSTANCE))
+                        ignore ((Obj.magic logUtil)#putF ("Found a Linux OS", (Obj.magic self), commonStrings#gET_INSTANCE))
                     end;
                     genericOperatingSystem <- ((LinuxOperatingSystemFactory.getInstance ())#getOperatingSystemInstance ())
                 end else if ((java_string_index_of !osName (Obj.repr (!operatingSystems#wINDOWS))) >= 0) then begin
                     if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#fACTORYERROR)) then begin
-                        ignore ((Obj.magic logUtil)#putF ("Found a Windows OS", self, commonStrings#gET_INSTANCE))
+                        ignore ((Obj.magic logUtil)#putF ("Found a Windows OS", (Obj.magic self), commonStrings#gET_INSTANCE))
                     end;
                     genericOperatingSystem <- ((WindowsOperatingSystemFactory.getInstance ())#getOperatingSystemInstance ())
                 end else if ((java_string_index_of !osName (Obj.repr (!operatingSystems#sOLARIS))) >= 0) then begin
                     if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#fACTORYERROR)) then begin
-                        ignore ((Obj.magic logUtil)#putF ("Found a Solaris OS", self, commonStrings#gET_INSTANCE))
+                        ignore ((Obj.magic logUtil)#putF ("Found a Solaris OS", (Obj.magic self), commonStrings#gET_INSTANCE))
                     end;
                     genericOperatingSystem <- ((SolarisOperatingSystemFactory.getInstance ())#getOperatingSystemInstance ())
                 end else begin
                     raise (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("OS Not Supported: "))#append (!osName))))))
                 end;
-                let log : Log.log ref = ref (((Obj.magic (java_call_static "LogFactory.getInstanceF" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("OperatingSystem Info: "))#append (((StringUtil.getInstance ())#toString (genericOperatingSystem)))))), self, commonStrings#gET_INSTANCE)))) :> Log.log)) in ();
+                let log : Log.log ref = ref (((Obj.magic (java_call_static "LogFactory.getInstanceF" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("OperatingSystem Info: "))#append (((StringUtil.getInstance ())#toString (genericOperatingSystem)))))), (Obj.magic self), commonStrings#gET_INSTANCE)))) :> Log.log)) in ();
                 (print_endline (java_string_of (Obj.repr ((java_string_of (Obj.repr !log))))));
                 ignore ((Obj.magic logUtil)#putL (!log))
             end;
-            (genericOperatingSystem :> GenericOperatingSystem.genericOperatingSystem)
+            (Obj.magic (genericOperatingSystem))
         with e -> begin
             if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#fACTORYERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#gET_INSTANCE, e))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#gET_INSTANCE, e))
             end;
-            ((NoOperatingSystem.get_nO_OPERATING_SYSTEM ()) :> GenericOperatingSystem.genericOperatingSystem)
+            (Obj.magic ((NoOperatingSystem.get_nO_OPERATING_SYSTEM ())))
         end)
         end
 
@@ -104,9 +104,9 @@ let instance = (new operatingSystemFactory ())
 let get_instance () = instance
 let () = java_register_static "OperatingSystemFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "OperatingSystemFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

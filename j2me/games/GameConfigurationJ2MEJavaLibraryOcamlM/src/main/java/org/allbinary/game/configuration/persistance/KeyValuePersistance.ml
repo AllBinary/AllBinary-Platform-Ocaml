@@ -55,7 +55,7 @@ class keyValuePersistance ((recordId : string)) =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, self, (self#persistanceStrings)#lOAD_ALL))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, (Obj.magic self), (self#persistanceStrings)#lOAD_ALL))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
@@ -67,21 +67,21 @@ class keyValuePersistance ((recordId : string)) =
             let smallIntegerSingletonFactory : SmallIntegerSingletonFactory.smallIntegerSingletonFactory ref = ref (((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory)) in ();
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             let recordAsBytes : int array ref = ref ((Obj.magic 0)) in ();
-            let byteArrayInputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-            let inputStream : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+            let byteArrayInputStream : java_byte_array_input_stream ref = ref (((Obj.magic 0) :> java_byte_array_input_stream)) in ();
+            let inputStream : java_data_input_stream ref = ref (((Obj.magic 0) :> java_data_input_stream)) in ();
             while ((Obj.magic !recordEnum)#hasNextElement ()) do
                 let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
                 ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#lOADING_ID))#appendint (!id)))), self, (self#persistanceStrings)#lOAD_ALL));
+                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#lOADING_ID))#appendint (!id)))), (Obj.magic self), (self#persistanceStrings)#lOAD_ALL));
                 recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
                 if (!recordAsBytes != (Obj.magic 0)) then begin
-                    byteArrayInputStream := Obj.repr ((new ByteArrayInputStream.byteArrayInputStream (!recordAsBytes)));
-                    inputStream := Obj.repr ((Obj.obj (java_new "DataInputStream" (Obj.repr ((Obj.magic !byteArrayInputStream))))));
+                    byteArrayInputStream := (new java_byte_array_input_stream (!recordAsBytes));
+                    inputStream := (Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStream))));
                     hashtable := Obj.repr ((Obj.obj (java_new "ABHashtable" (Obj.repr ()))));
                     for _index = 0 to size - 1 do
-                        name := ((Obj.magic !inputStream)#readUTF ());
-                        ignore ((Obj.magic !inputStream)#readUTF ());
-                        value := ((Obj.magic !inputStream)#readUTF ());
+                        name := (!inputStream#readUTF ());
+                        ignore (!inputStream#readUTF ());
+                        value := (!inputStream#readUTF ());
                         ignore ((Obj.magic !hashtable)#put (!name, !value))
                     done;
                     ignore ((self#valueList)#add ((Obj.magic !hashtable)));
@@ -101,25 +101,25 @@ class keyValuePersistance ((recordId : string)) =
         let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
         Fun.protect ~finally:(fun () -> 
             if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, self, (self#commonStrings)#sAVE))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#persistanceStrings)#cLOSING_RECORDSTORE, (Obj.magic self), (self#commonStrings)#sAVE))));
                 ignore ((Obj.magic !recordStore)#closeRecordStore ())
             end
         ) (fun () -> (try
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#persistanceStrings)#sAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, (self#commonStrings)#sAVE));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#persistanceStrings)#sAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), (Obj.magic self), (self#commonStrings)#sAVE));
             recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))));
             let byteArrayOutputStream : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
-            let outputStream : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))))) in ();
+            let outputStream : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))) :> java_data_output_stream)) in ();
             let value : string ref = ref ("") in ();
             let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
             let objectArray : Obj.t array ref = ref (((HashtableUtil.getInstance ())#getKeysAsArray ((Obj.magic hashtable)))) in ();
             let anyType : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
             let size : int ref = ref ((Array.length !objectArray)) in ();
             for index = 0 to !size - 1 do
-                ignore ((Obj.magic !outputStream)#writeUTF ((Obj.magic !objectArray.(index))));
-                ignore ((Obj.magic !outputStream)#writeUTF (!commonSeps#eQUALS));
-                anyType := (Obj.magic !objectArray.(index));
+                ignore (!outputStream#writeUTF ((Obj.magic !objectArray.(index))));
+                ignore (!outputStream#writeUTF (!commonSeps#eQUALS));
+                anyType := (Obj.repr ((Obj.magic !objectArray.(index))));
                 value := (Obj.magic ((Obj.magic hashtable)#get (!anyType)));
-                ignore ((Obj.magic !outputStream)#writeUTF (!value))
+                ignore (!outputStream#writeUTF (!value))
             done;
             let tsUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))))) in ();
             let savedGameBytes : int array ref = ref (((Obj.magic !tsUtil_arg)#getByteArray ((java_string_of (Obj.repr !byteArrayOutputStream))))) in ();

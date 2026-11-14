@@ -20,7 +20,8 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual displayChangeEventListener =
   object
-    method virtual onDisplayChangeEvent : DisplayChangeEvent.displayChangeEvent -> unit
+    inherit EventListenerInterface.eventListenerInterface
+    method virtual onDisplayChangeEvent : 'any1 . 'any1 -> unit
   end
 
 

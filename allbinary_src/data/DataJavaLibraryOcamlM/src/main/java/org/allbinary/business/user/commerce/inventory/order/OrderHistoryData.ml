@@ -21,6 +21,7 @@ let mAXIDLEN : int ref = ref (19)
 let get_mAXIDLEN () = !mAXIDLEN
 let set_mAXIDLEN value' = mAXIDLEN := value'
 let () = java_register_static "OrderHistoryData.get_mAXIDLEN" (fun _ -> Obj.repr (get_mAXIDLEN ()))
+let () = java_register_static "OrderHistoryData.set_mAXIDLEN" (fun value' -> set_mAXIDLEN (Obj.obj value'); Obj.repr ())
 let dATEDELTA : string = "DATE_DELTA"
 let get_dATEDELTA () = dATEDELTA
 let () = java_register_static "OrderHistoryData.get_dATEDELTA" (fun _ -> Obj.repr (get_dATEDELTA ()))

@@ -16,9 +16,10 @@
 (* package org.allbinary.vector *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class pointsUtil () =
-  object (self)
+  object
     
 
     method adjustXY ((points : int array array array), (x : int), (y : int)) : int array array array =
@@ -42,13 +43,23 @@ class pointsUtil () =
         end
     
 
-    method adjust ((points : int array array), (both : int)) : int array array =
-        begin
-        (self#adjust (points, both, both))
-        end
+    (* Java overload adjust(ArrayType, INT) is not converted: OCaml has one method per name *)
     
 
-    (* Java overload adjust(ArrayType, INT, INT) is not converted: OCaml has one method per name *)
+    method adjust ((points : int array array), (x : int), (y : int)) : int array array =
+        begin
+        let newPoints : int array array ref = ref ((Array.make_matrix ((Array.length points)) (2) 0)) in ();
+        for index2 = 0 to (Array.length points) - 1 do
+            if (points.(index2).(0) != 1000) then begin
+                !newPoints.(index2).(0) <- (points.(index2).(0) + x);
+                !newPoints.(index2).(1) <- (points.(index2).(1) + y)
+            end else begin
+                !newPoints.(index2).(0) <- 1000;
+                !newPoints.(index2).(1) <- 1000
+            end
+        done;
+        !newPoints
+        end
 
     initializer
       begin
@@ -61,9 +72,9 @@ let instance = (new pointsUtil ())
 let get_instance () = instance
 let () = java_register_static "PointsUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "PointsUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

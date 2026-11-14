@@ -114,15 +114,15 @@ class primitiveLongUtil ((powerOfTen_arg : int), (_unused : Obj.t)) =
   end [@@warning "-20"]
 let () = java_register_constructor "PrimitiveLongUtil" (fun arguments -> Obj.repr (new primitiveLongUtil (Obj.obj arguments)))
 
-let createPowerOfTen ((powerOfTen_arg : int)) =
+let createPowerOfTen : 'return. int -> 'return = fun ((powerOfTen_arg : int)) ->
         begin
-        let primitiveLongUtil : Obj.t ref = ref ((Obj.repr (new primitiveLongUtil (powerOfTen_arg, (NullUtil.getInstance ())#nULL_OBJECT)))) in ();
+        let primitiveLongUtil : Obj.t ref = ref ((Obj.repr (new primitiveLongUtil (powerOfTen_arg, (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT)))))) in ();
         if ((powerOfTen_arg mod 10) <> 0) then begin
             let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
             ignore ((Obj.magic !logUtil_arg)#put (!commonStrings#eXCEPTION, (Obj.magic !primitiveLongUtil), !commonStrings#cONSTRUCTOR, (Failure ("Max must be power of 10"))))
         end;
-        (Obj.magic !primitiveLongUtil)
+        (Obj.magic ((Obj.magic !primitiveLongUtil)))
         end
 let () = java_register_static "PrimitiveLongUtil.createPowerOfTen" (fun arguments -> Obj.repr (createPowerOfTen (Obj.obj arguments)))
 

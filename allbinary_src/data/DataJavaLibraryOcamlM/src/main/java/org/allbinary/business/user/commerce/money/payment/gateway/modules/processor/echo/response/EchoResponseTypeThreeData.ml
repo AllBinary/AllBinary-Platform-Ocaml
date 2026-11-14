@@ -21,6 +21,7 @@ let nAME : string ref = ref ("ECHOTYPE3")
 let get_nAME () = !nAME
 let set_nAME value' = nAME := value'
 let () = java_register_static "EchoResponseTypeThreeData.get_nAME" (fun _ -> Obj.repr (get_nAME ()))
+let () = java_register_static "EchoResponseTypeThreeData.set_nAME" (fun value' -> set_nAME (Obj.obj value'); Obj.repr ())
 class echoResponseTypeThreeData () =
   object
     

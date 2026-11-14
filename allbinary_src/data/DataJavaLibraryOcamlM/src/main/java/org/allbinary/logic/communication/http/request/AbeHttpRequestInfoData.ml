@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.communication.http.request *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class abeHttpRequestInfoData () =
   object
@@ -57,9 +58,9 @@ let instance = (new abeHttpRequestInfoData ())
 let get_instance () = instance
 let () = java_register_static "AbeHttpRequestInfoData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "AbeHttpRequestInfoData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

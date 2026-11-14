@@ -28,7 +28,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 (* import org.allbinary.math.NoDecimalTrigTable *)
 
-class straightMultiProjectileWeaponPart (animationInterface, (sourceLayerInterface : AllBinaryLayer.allBinaryLayer), (weaponLayerCircularStaticPool_arg : WeaponLayerCircularPool.weaponLayerCircularPool), (total_arg : int), (weaponProperties : WeaponProperties.weaponProperties), (scoreableInterface : ScoreableInterface.scoreableInterface), (relativeRelationship : RelativeRelationship.relativeRelationship)) =
+class straightMultiProjectileWeaponPart ((animationInterface : Animation.animation), (sourceLayerInterface : AllBinaryLayer.allBinaryLayer), (weaponLayerCircularStaticPool_arg : WeaponLayerCircularPool.weaponLayerCircularPool), (total_arg : int), (weaponProperties : WeaponProperties.weaponProperties), (scoreableInterface : ScoreableInterface.scoreableInterface), (relativeRelationship : RelativeRelationship.relativeRelationship)) =
   object (self)
     inherit BasicWeaponPart.basicWeaponPart (animationInterface, sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
     val mutable weaponLayerCircularStaticPool : WeaponLayerCircularPool.weaponLayerCircularPool = (Obj.magic 0)
@@ -59,12 +59,12 @@ class straightMultiProjectileWeaponPart (animationInterface, (sourceLayerInterfa
         let beamY : int ref = ref (0) in ();
         let weaponLayer : WeaponLayer.weaponLayer ref = ref (((Obj.magic 0) :> WeaponLayer.weaponLayer)) in ();
         let increment : int ref = ref ((!reducedWidth / ((total - 1)))) in ();
-        let next : int ref = ref ((-!halfWidth)) in ();
+        let next : int ref = ref ((- !halfWidth)) in ();
         for _index = 0 to total - 1 do
-            sine := (java_to_int (Obj.repr (((!next * (noDecimalTrigTable#sin (angle)))))));
+            sine := ((!next * (noDecimalTrigTable#sin (angle))));
             beamX := (java_to_int (Obj.repr (((!sine / noDecimalTrigTable#sCALE)))));
-            cosine := (java_to_int (Obj.repr (((!next * (noDecimalTrigTable#cos (angle)))))));
-            beamY := (-(java_to_int (Obj.repr (((!cosine / noDecimalTrigTable#sCALE))))));
+            cosine := ((!next * (noDecimalTrigTable#cos (angle))));
+            beamY := (- (java_to_int (Obj.repr (((!cosine / noDecimalTrigTable#sCALE))))));
             weaponLayer := (weaponLayerCircularStaticPool#getInstanceWeaponLayer (!sourceLayerInterface, (!x + !beamX), (!y + !beamY), 0, angle, otherAngle, (Obj.magic weaponProperties), (Obj.magic scoreableInterface)));
             ignore ((Obj.magic allbinaryLayerManager)#append (!weaponLayer));
             next := (!next + !increment)
@@ -84,11 +84,11 @@ class straightMultiProjectileWeaponPart (animationInterface, (sourceLayerInterfa
   end
 let () = java_register_constructor "StraightMultiProjectileWeaponPart" (fun arguments -> Obj.repr (new straightMultiProjectileWeaponPart (Obj.obj arguments)))
 
-let createStraightMultiProjectileWeaponPart : 'any1 'any2. 'any1 * 'any2 -> _ = fun (animationInterface, weaponLayerCircularStaticPool_arg) ->
+let createStraightMultiProjectileWeaponPart : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (animationInterface, weaponLayerCircularStaticPool_arg) ->
         let animationInterface = Obj.repr animationInterface in
         let weaponLayerCircularStaticPool_arg = Obj.repr weaponLayerCircularStaticPool_arg in
         begin
-        (new straightMultiProjectileWeaponPart ((Obj.magic animationInterface), (AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()), (Obj.magic weaponLayerCircularStaticPool_arg), 2, (WeaponProperties.get_nULL_WEAPON_PROPERTIES ()), (NoScoreable.getInstance ()), (RelativeRelationship.get_nULL_RELATIVE_RELATIONSHIP ())))
+        (Obj.magic ((new straightMultiProjectileWeaponPart ((Obj.magic animationInterface), (AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()), (Obj.magic weaponLayerCircularStaticPool_arg), 2, (WeaponProperties.get_nULL_WEAPON_PROPERTIES ()), (NoScoreable.getInstance ()), (RelativeRelationship.get_nULL_RELATIVE_RELATIONSHIP ())))))
         end [@@warning "-20"]
 let () = java_register_static "StraightMultiProjectileWeaponPart.createStraightMultiProjectileWeaponPart" (fun arguments -> Obj.repr (createStraightMultiProjectileWeaponPart (Obj.obj arguments)))
 

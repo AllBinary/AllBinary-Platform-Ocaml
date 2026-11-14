@@ -16,6 +16,7 @@
 (* package org.allbinary.game.terrain *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.NullUtil *)
 (* import org.allbinary.logic.util.event.AllBinaryEventObject *)
 (* import org.allbinary.logic.util.event.AllBinaryEventObjectFactoryInterface *)
@@ -25,9 +26,9 @@ class terrainEventFactory () =
     
     
 
-    method getInstance () : AllBinaryEventObject.allBinaryEventObject =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new TerrainEvent.terrainEvent ((NullUtil.getInstance ())#nULL_OBJECT)) :> AllBinaryEventObject.allBinaryEventObject)
+        (Obj.magic ((new TerrainEvent.terrainEvent ((Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))))))
         end
 
     initializer

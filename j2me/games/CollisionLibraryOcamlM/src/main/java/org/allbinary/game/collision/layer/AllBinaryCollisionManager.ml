@@ -65,10 +65,11 @@ let allBinaryCollisionManager = ref ((new allBinaryCollisionManager ()))
 let get_allBinaryCollisionManager () = !allBinaryCollisionManager
 let set_allBinaryCollisionManager value' = allBinaryCollisionManager := value'
 let () = java_register_static "AllBinaryCollisionManager.get_allBinaryCollisionManager" (fun _ -> Obj.repr (get_allBinaryCollisionManager ()))
+let () = java_register_static "AllBinaryCollisionManager.set_allBinaryCollisionManager" (fun value' -> set_allBinaryCollisionManager (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !allBinaryCollisionManager
+        (Obj.magic (!allBinaryCollisionManager))
         end
 let () = java_register_static "AllBinaryCollisionManager.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

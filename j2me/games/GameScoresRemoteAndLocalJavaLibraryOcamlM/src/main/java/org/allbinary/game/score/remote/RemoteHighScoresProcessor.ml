@@ -49,7 +49,7 @@ class remoteHighScoresProcessor () =
         let abeClientInformation = Obj.repr abeClientInformation in
         let gameInfo = Obj.repr gameInfo in
         begin
-        ignore ((Obj.magic logUtil)#putF ("Begin Remote HighScores Retrieval", self, commonStrings#pROCESS));
+        ignore ((Obj.magic logUtil)#putF ("Begin Remote HighScores Retrieval", (Obj.magic self), commonStrings#pROCESS));
         let gameInfoData : GameInfoData.gameInfoData ref = ref (((GameInfoData.getInstance ()) :> GameInfoData.gameInfoData)) in ();
         let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic abeClientInformation)#toHashtable ()))) in ();
         ignore ((HashtableUtil.getInstance ())#putAll (((Obj.magic gameInfo)#toHashtable ()), (Obj.magic !hashtable)));

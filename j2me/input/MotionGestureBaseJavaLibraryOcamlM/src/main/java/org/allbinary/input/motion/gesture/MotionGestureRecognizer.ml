@@ -103,43 +103,43 @@ class motionGestureRecognizer ((id : int)) =
         ignore (line#setP1 (previous));
         ignore (line#setP2 ((Obj.magic current)));
         let minimumMotionGesture : int ref = ref (((MotionGestureConfigurationFactory.getInstance ())#getMinimumMotionGesture ())) in ();
-        if (((j2seMath#abs ((java_to_float (Obj.repr ((line#getDeltaX ())))))) < !minimumMotionGesture) && ((j2seMath#abs ((java_to_float (Obj.repr ((line#getDeltaY ())))))) < !minimumMotionGesture)) then begin
+        if (((j2seMath#abs ((line#getDeltaX ()))) < (float_of_int (!minimumMotionGesture))) && ((j2seMath#abs ((line#getDeltaY ()))) < (float_of_int (!minimumMotionGesture)))) then begin
             intermediate <- (Obj.magic current);
             raise (Java_return (Obj.repr (())))
         end;
         let gradient : float ref = ref ((line#getGradient ())) in ();
-        let absGradient : float ref = ref ((java_to_float (Obj.repr ((j2seMath#abs (!gradient)))))) in ();
+        let absGradient : float ref = ref ((j2seMath#abs (!gradient))) in ();
         let conf : MotionGestureConfiguration.motionGestureConfiguration ref = ref (((MotionGestureConfigurationFactory.getInstance ()) :> MotionGestureConfiguration.motionGestureConfiguration)) in ();
         let touchMotionGestureFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ()))))) in ();
         let newMotionGesture : MotionGestureInput.motionGestureInput ref = ref (((Obj.magic !touchMotionGestureFactory)#nO_MOTION :> MotionGestureInput.motionGestureInput)) in ();
         let diagonalToleranceHigher : float ref = ref (12.0) in ();
         let diagonalToleranceLower : float ref = ref (12.0) in ();
         if (!conf#isDiagonalMotionGestureAllowed ()) then begin
-            diagonalToleranceHigher := (java_to_float (Obj.repr (((90 - (!conf#getDiagonalTolerance ()))))));
-            diagonalToleranceLower := (java_to_float (Obj.repr ((!conf#getDiagonalTolerance ()))))
+            diagonalToleranceHigher := (float_of_int (((90 - (!conf#getDiagonalTolerance ())))));
+            diagonalToleranceLower := (float_of_int ((!conf#getDiagonalTolerance ())))
         end;
         if (!absGradient > (Float.tan (((!diagonalToleranceHigher) *. Float.pi /. 180.0)))) then begin
-            if ((line#getDeltaY ()) > 0) then begin
+            if ((line#getDeltaY ()) > 0.) then begin
                 newMotionGesture := (Obj.magic !touchMotionGestureFactory)#uP
             end else begin
                 newMotionGesture := (Obj.magic !touchMotionGestureFactory)#dOWN
             end
         end else begin
             if (!absGradient < (Float.tan (((!diagonalToleranceLower) *. Float.pi /. 180.0)))) then begin
-                if ((line#getDeltaX ()) > 0) then begin
+                if ((line#getDeltaX ()) > 0.) then begin
                     newMotionGesture := (Obj.magic !touchMotionGestureFactory)#lEFT
                 end else begin
                     newMotionGesture := (Obj.magic !touchMotionGestureFactory)#rIGHT
                 end
             end else begin
                 if (!gradient > 0.) then begin
-                    if ((line#getDeltaX ()) > 0) then begin
+                    if ((line#getDeltaX ()) > 0.) then begin
                         newMotionGesture := (Obj.magic !touchMotionGestureFactory)#dIAGONAL_UP_LEFT
                     end else begin
                         newMotionGesture := (Obj.magic !touchMotionGestureFactory)#dIAGONAL_DOWN_RIGHT
                     end
                 end else begin
-                    if ((line#getDeltaX ()) > 0) then begin
+                    if ((line#getDeltaX ()) > 0.) then begin
                         newMotionGesture := (Obj.magic !touchMotionGestureFactory)#dIAGONAL_DOWN_LEFT
                     end else begin
                         newMotionGesture := (Obj.magic !touchMotionGestureFactory)#dIAGONAL_UP_RIGHT
@@ -196,7 +196,7 @@ class motionGestureRecognizer ((id : int)) =
       begin
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         j2seMath <- ((J2SEMath.getInstance ()) :> J2SEMath.j2SEMath);
-        origin <- ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO :> GPoint.gPoint);
+        origin <- ((PointFactory.getInstance ())#zERO_ZERO :> GPoint.gPoint);
         previous <- (origin :> GPoint.gPoint);
         intermediate <- (origin :> GPoint.gPoint);
         line <- ((new Line.line (origin, origin)) :> Line.line);
@@ -215,7 +215,7 @@ class motionGestureRecognizer ((id : int)) =
             scrolledMotionGesturesHandler_arg := Obj.repr ((ScrolledMotionGesturesHandler.getInstance ()))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#cONSTRUCTOR, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
         end);
         motionGesturesHandler <- Obj.repr ((Obj.magic (Obj.magic !motionGesturesHandler_arg)));
         movedMotionGesturesHandler <- Obj.repr ((Obj.magic !movedMotionGesturesHandler_arg));

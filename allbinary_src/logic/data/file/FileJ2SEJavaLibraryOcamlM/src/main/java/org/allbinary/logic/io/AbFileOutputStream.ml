@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class abFileOutputStream ((name : string), (append : bool)) =
   object
-    inherit FileOutputStream.fileOutputStream (name, append)
+    inherit java_file_output_stream (Obj.magic (name, append))
     
 
     initializer
@@ -35,26 +35,26 @@ class abFileOutputStream ((name : string), (append : bool)) =
   end
 let () = java_register_constructor "AbFileOutputStream" (fun arguments -> Obj.repr (new abFileOutputStream (Obj.obj arguments)))
 
-let createFromAbFile : 'any1. 'any1 -> _ = fun (file) ->
+let createFromAbFile : 'any1 'return. 'any1 -> 'return = fun (file) ->
         let file = Obj.repr file in
         begin
-        (new abFileOutputStream (((Obj.magic file)#getPath ()), false))
+        (Obj.magic ((new abFileOutputStream (((Obj.magic file)#getPath ()), false))))
         end [@@warning "-20"]
 
-and createFromAbFileAppend : 'any1. 'any1 * bool -> _ = fun (file, (append : bool)) ->
+and createFromAbFileAppend : 'any1 'return. 'any1 * bool -> 'return = fun (file, (append : bool)) ->
         let file = Obj.repr file in
         begin
-        (new abFileOutputStream (((Obj.magic file)#getPath ()), append))
+        (Obj.magic ((new abFileOutputStream (((Obj.magic file)#getPath ()), append))))
         end [@@warning "-20"]
 
-and createFromFilePath ((name : string)) =
+and createFromFilePath : 'return. string -> 'return = fun ((name : string)) ->
         begin
-        (new abFileOutputStream (name, false))
+        (Obj.magic ((new abFileOutputStream (name, false))))
         end
 
-and createFromFilePathAppend ((name : string), (append : bool)) =
+and createFromFilePathAppend : 'return. string * bool -> 'return = fun ((name : string), (append : bool)) ->
         begin
-        (new abFileOutputStream (name, append))
+        (Obj.magic ((new abFileOutputStream (name, append))))
         end
 let () = java_register_static "AbFileOutputStream.createFromAbFile" (fun arguments -> Obj.repr (createFromAbFile (Obj.obj arguments)))
 let () = java_register_static "AbFileOutputStream.createFromAbFileAppend" (fun arguments -> Obj.repr (createFromAbFileAppend (Obj.obj arguments)))

@@ -36,9 +36,9 @@ open Allbinary_java [@@warning "-33"]
 let tYPE : string = "Type: "
 let get_tYPE () = tYPE
 let () = java_register_static "AllBinaryLayer.get_tYPE" (fun _ -> Obj.repr (get_tYPE ()))
-class allBinaryLayer ((name_arg : string), rectangle, (viewPosition_arg : ViewPositionBase.viewPositionBase)) =
+class allBinaryLayer ((name_arg : string), (rectangle : Rectangle.rectangle), (viewPosition_arg : ViewPositionBase.viewPositionBase)) =
   object (self)
-    inherit Layer.layer ((rectangle#getWidth ()), (rectangle#getHeight ()))
+    inherit Layer.layer ((rectangle#getWidth ()), (rectangle#getHeight ())) as super
     val mutable viewPositionEvent : ViewPositionEvent.viewPositionEvent = (Obj.magic 0)
     method viewPositionEvent = viewPositionEvent
     method set_viewPositionEvent value' = viewPositionEvent <- value'
@@ -55,6 +55,67 @@ class allBinaryLayer ((name_arg : string), rectangle, (viewPosition_arg : ViewPo
     method viewPosition = viewPosition
     method set_viewPosition value' = viewPosition <- value'
     
+    
+
+    method setPosition ((x : int), (y : int), (z : int)) : unit =
+        begin
+        ignore (super#setPosition (x, y, z))
+        end [@@warning "-7"]
+    
+
+    method moveDXYZ ((dx : int), (dy : int), (dz : int)) : unit =
+        begin
+        ignore (super#moveDXYZ (dx, dy, dz))
+        end [@@warning "-7"]
+    
+
+    method getXP () : int =
+        begin
+        (super#getXP ())
+        end [@@warning "-7"]
+    
+
+    method getYP () : int =
+        begin
+        (super#getYP ())
+        end [@@warning "-7"]
+    
+
+    method getZP () : int =
+        begin
+        (super#getZP ())
+        end [@@warning "-7"]
+    
+
+    method getWidth () : int =
+        begin
+        (super#getWidth ())
+        end [@@warning "-7"]
+    
+
+    method getHeight () : int =
+        begin
+        (super#getHeight ())
+        end [@@warning "-7"]
+    
+
+    method setVisible ((visible : bool)) : unit =
+        begin
+        ignore (super#setVisible (visible))
+        end [@@warning "-7"]
+    
+
+    method isVisible () : bool =
+        begin
+        (super#isVisible ())
+        end [@@warning "-7"]
+    
+
+    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
+        let graphics = Obj.repr graphics in
+        begin
+        ignore (super#paint ((Obj.magic graphics)))
+        end [@@warning "-7-20"]
     
 
     method onChangeEvent : 'any1. 'any1 -> unit = fun (_layerManagerEvent) ->
@@ -123,9 +184,9 @@ class allBinaryLayer ((name_arg : string), rectangle, (viewPosition_arg : ViewPo
         end [@@warning "-7"]
     
 
-    method getViewPosition () : ViewPositionBase.viewPositionBase =
+    method getViewPosition : 'return. unit -> 'return = fun () ->
         begin
-        (viewPosition :> ViewPositionBase.viewPositionBase)
+        (Obj.magic (viewPosition))
         end [@@warning "-7"]
     
 
@@ -174,13 +235,13 @@ class allBinaryLayer ((name_arg : string), rectangle, (viewPosition_arg : ViewPo
 
     method getType () : int =
         begin
-        (-1)
+        (- 1)
         end [@@warning "-7"]
     
 
     method getMultiPlayerType () : int =
         begin
-        (-1)
+        (- 1)
         end [@@warning "-7"]
     
 
@@ -196,19 +257,19 @@ class allBinaryLayer ((name_arg : string), rectangle, (viewPosition_arg : ViewPo
         ignore ((Obj.magic stringBuffer)#appendint ((self#getType ())));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#sPACE));
         ignore ((Obj.magic stringBuffer)#append (!positionStrings#x_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint ((java_to_int (Obj.repr ((self#getXP ()))))));
+        ignore ((Obj.magic stringBuffer)#appendint ((self#getXP ())));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#sPACE));
         ignore ((Obj.magic stringBuffer)#append (!positionStrings#y_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint ((java_to_int (Obj.repr ((self#getYP ()))))));
+        ignore ((Obj.magic stringBuffer)#appendint ((self#getYP ())));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#sPACE));
         ignore ((Obj.magic stringBuffer)#append (!positionStrings#z_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint ((java_to_int (Obj.repr ((self#getZP ()))))));
+        ignore ((Obj.magic stringBuffer)#appendint ((self#getZP ())));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#sPACE));
         ignore ((Obj.magic stringBuffer)#append (!commonLabels#wIDTH_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint ((java_to_int (Obj.repr ((self#getWidth ()))))));
+        ignore ((Obj.magic stringBuffer)#appendint ((self#getWidth ())));
         ignore ((Obj.magic stringBuffer)#append (!commonSeps#sPACE));
         ignore ((Obj.magic stringBuffer)#append (!commonLabels#hEIGHT_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint ((java_to_int (Obj.repr ((self#getHeight ()))))))
+        ignore ((Obj.magic stringBuffer)#appendint ((self#getHeight ())))
         end [@@warning "-7-20"]
     
 
@@ -221,7 +282,7 @@ class allBinaryLayer ((name_arg : string), rectangle, (viewPosition_arg : ViewPo
 
     initializer
       begin
-        viewPositionEvent <- ((new ViewPositionEvent.viewPositionEvent (self)) :> ViewPositionEvent.viewPositionEvent);
+        viewPositionEvent <- ((new ViewPositionEvent.viewPositionEvent ((Obj.magic self))) :> ViewPositionEvent.viewPositionEvent);
         halfWidth <- 0;
         halfHeight <- 0;
         ();
@@ -229,18 +290,14 @@ class allBinaryLayer ((name_arg : string), rectangle, (viewPosition_arg : ViewPo
         ();
         (* super(...) is the inherit clause *) ();
         let localName : string ref = ref ("") in ();
-        if (name_arg = (Obj.magic 0)) then begin
-            localName := (java_get_class (Obj.repr self))
-        end else begin
-            localName := (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (name_arg))#append ((CommonSeps.getInstance ())#cOLON))#append ((Printf.sprintf "%x" (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode (self))))))))
-        end;
+        localName := (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (name_arg))#append ((CommonSeps.getInstance ())#cOLON))#append ((Printf.sprintf "%x" (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#hashCode ((Obj.magic self)))))))));
         name <- !localName;
         let point : GPoint.gPoint ref = ref (((rectangle#getPoint ()) :> GPoint.gPoint)) in ();
-        ignore (self#setPosition ((!point#getX ()), (!point#getY ()), (!point#getZ ())));
+        (self#setPosition ((!point#getX ()), (!point#getY ()), (!point#getZ ())));
         (self#setHalfWidth ((((self#getWidth ()) asr 1))));
         (self#setHalfHeight ((((self#getHeight ()) asr 1))));
         viewPosition <- viewPosition_arg;
-        ignore (viewPosition#setAllbinaryLayer (self))
+        ignore (viewPosition#setAllbinaryLayer ((Obj.magic self)))
       end
   end
 let () = java_register_constructor "AllBinaryLayer" (fun arguments -> Obj.repr (new allBinaryLayer (Obj.obj arguments)))

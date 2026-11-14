@@ -81,7 +81,7 @@ class gameAdStateBase ((adConfiguration : AdConfiguration.adConfiguration)) =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-20"]
     
 
@@ -127,15 +127,15 @@ class gameAdStateBase ((adConfiguration : AdConfiguration.adConfiguration)) =
         end
     
 
-    method getAdvertisements () : Advertisements.advertisements =
+    method getAdvertisements : 'return. unit -> 'return = fun () ->
         begin
-        (advertisementsP :> Advertisements.advertisements)
+        (Obj.magic (advertisementsP))
         end
     
 
-    method getAdConfiguration () : AdConfiguration.adConfiguration =
+    method getAdConfiguration : 'return. unit -> 'return = fun () ->
         begin
-        (adConfigurationP :> AdConfiguration.adConfiguration)
+        (Obj.magic (adConfigurationP))
         end
     
 

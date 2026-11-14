@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual allBinaryGameCanvasInterface =
   object
     inherit DisplayableInterface.displayableInterface
-    method virtual getLayerManager : unit -> AllBinaryGameLayerManager.allBinaryGameLayerManager
+    method virtual getLayerManager : 'return . unit -> 'return
   end
 
 

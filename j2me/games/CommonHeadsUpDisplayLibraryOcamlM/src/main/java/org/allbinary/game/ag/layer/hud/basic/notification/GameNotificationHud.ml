@@ -42,7 +42,7 @@ class gameNotificationHud ((location : int), (direction : int), (bufferZone : in
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -51,7 +51,7 @@ class gameNotificationHud ((location : int), (direction : int), (bufferZone : in
         begin
         if ((Obj.repr lastGameNotificationEvent) != (Obj.repr (Obj.magic gameNotificationEvent))) then begin
             lastGameNotificationEvent <- (Obj.magic gameNotificationEvent);
-            ignore ((self#logUtil)#putF (((Obj.magic gameNotificationEvent)#getString ()), self, mETHOD_NAME))
+            ignore ((self#logUtil)#putF (((Obj.magic gameNotificationEvent)#getString ()), (Obj.magic self), mETHOD_NAME))
         end;
         (self#add (((Obj.magic gameNotificationEvent)#getString ()), ((Obj.magic gameNotificationEvent)#getSeconds ()), ((Obj.magic gameNotificationEvent)#getBasicColorP ()), ((Obj.magic gameNotificationEvent)#getPermanent ())))
         end [@@warning "-7-20"]

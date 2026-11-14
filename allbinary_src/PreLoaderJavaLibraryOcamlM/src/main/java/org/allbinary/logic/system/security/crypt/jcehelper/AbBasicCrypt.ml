@@ -29,12 +29,12 @@ open Allbinary_java [@@warning "-33"]
 
 class abBasicCrypt ((algorithm_arg : string), (key_arg : string)) =
   object (self)
-    val mutable cipher : Obj.t = Obj.repr 0
-    method cipher : 'r. 'r = Obj.magic cipher
-    method set_cipher : 'v. 'v -> unit = fun value' -> cipher <- Obj.repr value'
-    val mutable secretKey : Obj.t = Obj.repr 0
-    method secretKey : 'r. 'r = Obj.magic secretKey
-    method set_secretKey : 'v. 'v -> unit = fun value' -> secretKey <- Obj.repr value'
+    val mutable cipher : java_cipher = (Obj.magic 0)
+    method cipher = cipher
+    method set_cipher value' = cipher <- value'
+    val mutable secretKey : java_secret_key = (Obj.magic 0)
+    method secretKey = secretKey
+    method set_secretKey value' = secretKey <- value'
     val mutable algorithm : string = ""
     method algorithm = algorithm
     method set_algorithm value' = algorithm <- value'
@@ -47,15 +47,15 @@ class abBasicCrypt ((algorithm_arg : string), (key_arg : string)) =
     method init () : unit =
         begin
         (try
-            let sunJce : Obj.t ref = ref ((Obj.repr (new SunJCE.sunJCE ()))) in ();
-            ignore (Security.addProvider ((Obj.magic !sunJce)));
-            let keySpec : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "KeySpecFactory.getInstance" (Obj.repr ())))#getInstance (algorithm, key)))) in ();
-            let keyFactory : Obj.t ref = ref ((Obj.repr (SecretKeyFactory.getInstance (algorithm)))) in ();
-            secretKey <- Obj.repr (((Obj.magic !keyFactory)#generateSecret ((Obj.magic !keySpec))));
-            cipher <- Obj.repr ((Cipher.getInstance (algorithm)))
+            let sunJce : java_provider ref = ref (((new SunJCE.sunJCE ()) :> java_provider)) in ();
+            ignore (java_security_add_provider (!sunJce));
+            let keySpec : Obj.t ref = ref ((Obj.repr ((KeySpecFactory.getInstance ())#getInstance (algorithm, key)))) in ();
+            let keyFactory : java_secret_key_factory ref = ref (((java_secret_key_factory_get_instance (algorithm)) :> java_secret_key_factory)) in ();
+            secretKey <- (!keyFactory#generateSecret ((Obj.magic !keySpec)));
+            cipher <- (java_cipher_get_instance (algorithm))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("init Failed", self, !commonStrings#iNIT, e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("init Failed", (Obj.magic self), !commonStrings#iNIT, e))))
         end)
         end
     
@@ -63,11 +63,11 @@ class abBasicCrypt ((algorithm_arg : string), (key_arg : string)) =
     method encrypt ((array : int array)) : int array =
         begin
         (try
-            ignore ((Obj.magic cipher)#init ((Cipher.get_eNCRYPT_MODE ()), (Obj.magic secretKey)));
-            let ivArray : int array ref = ref (((Obj.magic secretKey)#getEncoded ())) in ();
-            let encrypted : int array ref = ref (((Obj.magic cipher)#doFinal (array))) in ();
+            ignore (cipher#init (java_cipher_ENCRYPT_MODE, secretKey));
+            let ivArray : int array ref = ref ((secretKey#getEncoded ())) in ();
+            let encrypted : int array ref = ref ((cipher#doFinal (array))) in ();
             let result : int array ref = ref ((Array.make (((Array.length !ivArray) + (Array.length !encrypted))) 0)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("ivArray Length: " ^ java_string_of (Obj.repr ((Array.length !ivArray)))), self, "encrypt"))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("ivArray Length: " ^ java_string_of (Obj.repr ((Array.length !ivArray)))), (Obj.magic self), "encrypt"))));
             for index = 0 to (Array.length !ivArray) - 1 do
                 !result.(index) <- !ivArray.(index)
             done;
@@ -76,7 +76,7 @@ class abBasicCrypt ((algorithm_arg : string), (key_arg : string)) =
             done;
             !result
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", self, "encrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", (Obj.magic self), "encrypt", e))));
             (Obj.magic 0)
         end)
         end
@@ -85,28 +85,28 @@ class abBasicCrypt ((algorithm_arg : string), (key_arg : string)) =
     method decrypt ((array : int array)) : int array =
         begin
         (try
-            ignore ((Obj.magic cipher)#init ((Cipher.get_dECRYPT_MODE ()), (Obj.magic secretKey)));
+            ignore (cipher#init (java_cipher_DECRYPT_MODE, secretKey));
             let ivArray : int array ref = ref ((Array.make (8) 0)) in ();
             for index = 0 to 8 - 1 do
                 !ivArray.(index) <- array.(index)
             done;
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("ivArray Length: " ^ java_string_of (Obj.repr ((Array.length !ivArray)))), self, "encrypt"))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("ivArray Length: " ^ java_string_of (Obj.repr ((Array.length !ivArray)))), (Obj.magic self), "encrypt"))));
             let result : int array ref = ref ((Array.make (((Array.length array) - (Array.length !ivArray))) 0)) in ();
             for index = (Array.length !ivArray) to (Array.length array) - 1 do
                 !result.((index - (Array.length !ivArray))) <- array.(index)
             done;
-            let decrypted : int array ref = ref (((Obj.magic cipher)#doFinal (!result))) in ();
+            let decrypted : int array ref = ref ((cipher#doFinal (!result))) in ();
             !result
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", self, "decrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", (Obj.magic self), "decrypt", e))));
             (Obj.magic 0)
         end)
         end
 
     initializer
       begin
-        cipher <- (Obj.repr (Obj.magic 0));
-        secretKey <- (Obj.repr (Obj.magic 0));
+        cipher <- ((Obj.magic 0) :> java_cipher);
+        secretKey <- ((Obj.magic 0) :> java_secret_key);
         algorithm <- "";
         key <- (Obj.magic 0);
         ();
@@ -116,10 +116,10 @@ class abBasicCrypt ((algorithm_arg : string), (key_arg : string)) =
             (self#init ())
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, self, "AbCrypt(alg,key)", e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), "AbCrypt(alg,key)", e))))
         end)
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "AbBasicCrypt" (fun arguments -> Obj.repr (new abBasicCrypt (Obj.obj arguments)))
 
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.game.ag.layer.pickup.health *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.layer.AllBinaryLayer *)
 (* import org.allbinary.layer.AllBinaryLayerFactoryInterface *)
 
@@ -23,9 +24,9 @@ class healLayerFactory () =
   object
     
 
-    method getInstance () : AllBinaryLayer.allBinaryLayer =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new HealLayer.healLayer ()) :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic ((new HealLayer.healLayer ())))
         end
 
     initializer

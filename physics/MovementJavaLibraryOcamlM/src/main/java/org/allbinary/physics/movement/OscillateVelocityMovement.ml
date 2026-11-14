@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class oscillateVelocityMovement ((speedBasicDecimal : BasicDecimal.basicDecimal), (oscillateMin_arg : int), (oscillateMax_arg : int)) =
   object (self)
-    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (speedBasicDecimal, (new VelocityProperties.velocityProperties ((java_to_int (Obj.repr ((speedBasicDecimal#getUnscaled ())))), (java_to_int (Obj.repr ((speedBasicDecimal#getUnscaled ()))))))) as super
+    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (speedBasicDecimal, ((new VelocityProperties.velocityProperties ((speedBasicDecimal#getUnscaled ()), (speedBasicDecimal#getUnscaled ()))) : VelocityProperties.velocityProperties :> BasicVelocityProperties.basicVelocityProperties)) as super
     val mutable oscillateMin : int = 0
     method oscillateMin = oscillateMin
     method set_oscillateMin value' = oscillateMin <- value'

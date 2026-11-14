@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual resourceRelativeRelationshipFactoryInterface =
   object
     inherit GameFeatureControlledInterface.gameFeatureControlledInterface
-    method virtual getResourceRelativeRelationshipList : string -> BasicArrayList.basicArrayList
+    method virtual getResourceRelativeRelationshipList : 'return . string -> 'return
     method virtual addResourceRelativeRelationship : 'any2 . string * 'any2 -> unit
   end
 

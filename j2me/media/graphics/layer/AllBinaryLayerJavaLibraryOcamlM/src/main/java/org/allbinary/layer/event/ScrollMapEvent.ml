@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class scrollMapEvent ((anyType : Obj.t)) =
   object
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable dx : int = 0
     method dx = dx
     method set_dx value' = dx <- value'

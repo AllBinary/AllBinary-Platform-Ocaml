@@ -36,7 +36,8 @@ let nULL_COLLIDABLE_COMPOSITE_LAYER : Obj.t ref = ref ((Obj.repr (NullUtil.getIn
 let get_nULL_COLLIDABLE_COMPOSITE_LAYER () = !nULL_COLLIDABLE_COMPOSITE_LAYER
 let set_nULL_COLLIDABLE_COMPOSITE_LAYER value' = nULL_COLLIDABLE_COMPOSITE_LAYER := value'
 let () = java_register_static "CollidableCompositeLayer.get_nULL_COLLIDABLE_COMPOSITE_LAYER" (fun _ -> Obj.repr (get_nULL_COLLIDABLE_COMPOSITE_LAYER ()))
-class collidableCompositeLayer ((name : string), layerInfo, (viewPosition : ViewPositionBase.viewPositionBase), collidableBaseBehaviorFactory) =
+let () = java_register_static "CollidableCompositeLayer.set_nULL_COLLIDABLE_COMPOSITE_LAYER" (fun value' -> set_nULL_COLLIDABLE_COMPOSITE_LAYER (Obj.obj value'); Obj.repr ())
+class collidableCompositeLayer ((name : string), (layerInfo : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase), collidableBaseBehaviorFactory) =
   object (self)
     inherit AllBinaryGameLayer.allBinaryGameLayer (name, layerInfo, viewPosition) as super
     val mutable collidableInferface : Obj.t = Obj.repr 0
@@ -45,10 +46,10 @@ class collidableCompositeLayer ((name : string), layerInfo, (viewPosition : View
     
     
 
-    method getArtificialIntelligenceInterface () : ArtificialIntelligenceInterface.artificialIntelligenceInterface =
+    method getArtificialIntelligenceInterface : 'return. unit -> 'return = fun () ->
         begin
-        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, self));
-        ((ArtificialIntelligence.getInstance ()) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, (Obj.magic self)));
+        (Obj.magic ((ArtificialIntelligence.getInstance ())))
         end [@@warning "-7"]
     
 
@@ -90,22 +91,22 @@ class collidableCompositeLayer ((name : string), layerInfo, (viewPosition : View
 
     initializer
       begin
-        collidableInferface <- (Obj.repr ((CollidableNeverCollideBehaviorFactory.getInstance ())#createBehavior ()));
+        collidableInferface <- (Obj.repr ((Obj.magic (java_call_static "CollidableNeverCollideBehaviorFactory.getInstance" (Obj.repr ())))#createBehavior ()));
         ();
         (* super(...) is the inherit clause *) ();
-        if ((Obj.repr collidableBaseBehaviorFactory) != (Obj.repr (CollidableNeverCollideBehaviorFactory.getInstance ()))) then begin
+        if ((Obj.repr collidableBaseBehaviorFactory) != (Obj.repr (Obj.magic (java_call_static "CollidableNeverCollideBehaviorFactory.getInstance" (Obj.repr ()))))) then begin
             (self#setCollidableInferface ((collidableBaseBehaviorFactory#createBehavior ())))
         end
       end
   end [@@warning "-20"]
 let () = java_register_constructor "CollidableCompositeLayer" (fun arguments -> Obj.repr (new collidableCompositeLayer (Obj.obj arguments)))
 
-let getNullInstance () =
+let getNullInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !nULL_COLLIDABLE_COMPOSITE_LAYER) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_COLLIDABLE_COMPOSITE_LAYER := (new collidableCompositeLayer ((StringUtil.getInstance ())#eMPTY_STRING, (RectangleFactory.get_sINGLETON ()), (ViewPositionBase.get_nULL_VIEW_POSITION ()), (CollidableNeverCollideBehaviorFactory.getInstance ())))
+            nULL_COLLIDABLE_COMPOSITE_LAYER := (Obj.repr ((new collidableCompositeLayer ((StringUtil.getInstance ())#eMPTY_STRING, (RectangleFactory.get_sINGLETON ()), (ViewPositionBase.get_nULL_VIEW_POSITION ()), (Obj.magic (java_call_static "CollidableNeverCollideBehaviorFactory.getInstance" (Obj.repr ())))))))
         end;
-        (Obj.magic !nULL_COLLIDABLE_COMPOSITE_LAYER)
+        (Obj.magic ((Obj.magic !nULL_COLLIDABLE_COMPOSITE_LAYER)))
         end
 let () = java_register_static "CollidableCompositeLayer.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
 

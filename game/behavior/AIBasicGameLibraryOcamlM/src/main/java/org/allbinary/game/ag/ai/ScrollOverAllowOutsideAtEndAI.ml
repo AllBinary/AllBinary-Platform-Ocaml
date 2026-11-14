@@ -37,15 +37,15 @@ class scrollOverAllowOutsideAtEndAI ((ownerLayerInterface : AllBinaryLayer.allBi
         let height : int ref = ref ((!ownerLayerInterface#getHeight ())) in ();
         let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
         if (!x > (!displayInfo#getLastWidth ())) then begin
-            ignore (!ownerLayerInterface#setPosition ((-!width), !y, (!ownerLayerInterface#getZP ())))
+            ignore (!ownerLayerInterface#setPosition ((- !width), !y, (!ownerLayerInterface#getZP ())))
         end;
         if (!y > (!displayInfo#getLastHeight ())) then begin
-            ignore (!ownerLayerInterface#setPosition (!x, (-!height), (!ownerLayerInterface#getZP ())))
+            ignore (!ownerLayerInterface#setPosition (!x, (- !height), (!ownerLayerInterface#getZP ())))
         end;
-        if (!x < (-!width)) then begin
+        if (!x < (- !width)) then begin
             ignore (!ownerLayerInterface#setPosition (((!displayInfo#getLastWidth ()) + !width), !y, (!ownerLayerInterface#getZP ())))
         end;
-        if (!y < (-!height)) then begin
+        if (!y < (- !height)) then begin
             ignore (!ownerLayerInterface#setPosition (!x, ((!displayInfo#getLastHeight ()) + !height), (!ownerLayerInterface#getZP ())))
         end
         end [@@warning "-7-20"]

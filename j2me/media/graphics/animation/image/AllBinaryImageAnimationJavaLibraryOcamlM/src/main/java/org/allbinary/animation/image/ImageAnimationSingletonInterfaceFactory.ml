@@ -21,9 +21,9 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.animation.SingletonAnimationInterfaceFactory *)
 (* import org.allbinary.image.AnimationFrameToImageUtil *)
 
-class imageAnimationSingletonInterfaceFactory (animationInterface, (width : int), (height : int)) =
+class imageAnimationSingletonInterfaceFactory ((animationInterface : Animation.animation), (width : int), (height : int)) =
   object
-    inherit SingletonAnimationInterfaceFactory.singletonAnimationInterfaceFactory ((new ImageAnimation.imageAnimation (((AnimationFrameToImageUtil.getInstance ())#getInstanceWH (width, height, animationInterface)), (AnimationBehavior.getInstance ()))))
+    inherit SingletonAnimationInterfaceFactory.singletonAnimationInterfaceFactory (((new ImageAnimation.imageAnimation (((AnimationFrameToImageUtil.getInstance ())#getInstanceWH (width, height, animationInterface)), (AnimationBehavior.getInstance ()))) : ImageAnimation.imageAnimation :> Animation.animation))
     
 
     initializer

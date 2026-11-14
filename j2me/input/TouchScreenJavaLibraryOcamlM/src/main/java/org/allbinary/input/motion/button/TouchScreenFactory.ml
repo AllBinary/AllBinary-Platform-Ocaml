@@ -22,6 +22,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringUtil *)
 (* import org.allbinary.string.CommonStrings *)
 
+let sINGLETON_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_sINGLETON : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !sINGLETON_cell with Lazy.Undefined -> java_null)
+let set_sINGLETON value' = sINGLETON_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "TouchScreenFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "TouchScreenFactory.set_sINGLETON" (fun value' -> set_sINGLETON value'; Obj.repr ())
 class touchScreenFactory () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -85,9 +90,9 @@ class touchScreenFactory () =
         end [@@warning "-20"]
     
 
-    method getTouchScreenType () : TouchScreenType.touchScreenType =
+    method getTouchScreenType : 'return. unit -> 'return = fun () ->
         begin
-        (touchScreenType :> TouchScreenType.touchScreenType)
+        (Obj.magic (touchScreenType))
         end
     
 
@@ -118,20 +123,18 @@ class touchScreenFactory () =
             (self#setMultiTouch (false))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, sINGLETON, !commonStrings#gET_INSTANCE, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic (get_sINGLETON ())), !commonStrings#gET_INSTANCE, e))
         end)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "TouchScreenFactory" (fun arguments -> Obj.repr (new touchScreenFactory (Obj.obj arguments)))
 
-let sINGLETON = (new touchScreenFactory ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "TouchScreenFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic ((Obj.magic (get_sINGLETON ()))))
         end
 let () = java_register_static "TouchScreenFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = sINGLETON_cell := lazy (Obj.repr ((new touchScreenFactory ())))
 
 

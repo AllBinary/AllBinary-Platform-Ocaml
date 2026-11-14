@@ -25,13 +25,13 @@ class clientInformationFactory () =
   object (self)
     
 
-    method getInstance () : ClientInformation.clientInformation =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
         let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic !logUtil)#putF (!commonStrings#nOT_IMPLEMENTED, self, !commonStrings#gET_INSTANCE));
+        ignore ((Obj.magic !logUtil)#putF (!commonStrings#nOT_IMPLEMENTED, (Obj.magic self), !commonStrings#gET_INSTANCE));
         let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
-        ((new ClientInformation.clientInformation (!stringUtil#nULL_STRING, !stringUtil#nULL_STRING, !stringUtil#nULL_STRING, !stringUtil#nULL_STRING)) :> ClientInformation.clientInformation)
+        (Obj.magic ((new ClientInformation.clientInformation (!stringUtil#nULL_STRING, !stringUtil#nULL_STRING, !stringUtil#nULL_STRING, !stringUtil#nULL_STRING))))
         end
 
     initializer

@@ -63,21 +63,21 @@ class gameInfo ((gameType_arg : GameType.gameType), (gameMode_arg : GameMode.gam
     
     
 
-    method getGameType () : GameType.gameType =
+    method getGameType : 'return. unit -> 'return = fun () ->
         begin
-        (gameType :> GameType.gameType)
+        (Obj.magic (gameType))
         end
     
 
-    method getGameMode () : GameMode.gameMode =
+    method getGameMode : 'return. unit -> 'return = fun () ->
         begin
-        (gameMode :> GameMode.gameMode)
+        (Obj.magic (gameMode))
         end
     
 
-    method getPlayerType () : PlayerType.playerType =
+    method getPlayerType : 'return. unit -> 'return = fun () ->
         begin
-        (playerType :> PlayerType.playerType)
+        (Obj.magic (playerType))
         end
     
 
@@ -102,7 +102,7 @@ class gameInfo ((gameType_arg : GameType.gameType), (gameMode_arg : GameMode.gam
     method setCurrentLevel ((currentLevel_arg : int)) : unit =
         begin
         currentLevel <- currentLevel_arg;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (nEW_LEVEL))#appendint ((self#getCurrentLevel ()))))), self, sET_CURRENT_LEVEL))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (nEW_LEVEL))#appendint ((self#getCurrentLevel ()))))), (Obj.magic self), sET_CURRENT_LEVEL))
         end
     
 
@@ -111,7 +111,7 @@ class gameInfo ((gameType_arg : GameType.gameType), (gameMode_arg : GameMode.gam
         if ((self#getCurrentLevel ()) < (self#getHighestLevel ())) then begin
             currentLevel <- currentLevel + 1
         end;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#nEXT))#append ((CommonSeps.getInstance ())#sPACE))#append (nEW_LEVEL))#appendint ((self#getCurrentLevel ()))))), self, nEXT_GAME_LEVEL))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#nEXT))#append ((CommonSeps.getInstance ())#sPACE))#append (nEW_LEVEL))#appendint ((self#getCurrentLevel ()))))), (Obj.magic self), nEXT_GAME_LEVEL))
         end
     
 
@@ -195,7 +195,7 @@ class gameInfo ((gameType_arg : GameType.gameType), (gameMode_arg : GameMode.gam
   end [@@warning "-20"]
 let () = java_register_constructor "GameInfo" (fun arguments -> Obj.repr (new gameInfo (Obj.obj arguments)))
 
-let nONE = (new gameInfo ((GameTypeFactory.getInstance ())#nONE, (GameMode.get_nONE ()), (PlayerTypesFactory.getInstance ())#pLAYER_TYPE_ONE, (-1), (-1)))
+let nONE = (new gameInfo ((GameTypeFactory.getInstance ())#nONE, (GameMode.get_nONE ()), (PlayerTypesFactory.getInstance ())#pLAYER_TYPE_ONE, (- 1), (- 1)))
 let get_nONE () = nONE
 let () = java_register_static "GameInfo.get_nONE" (fun _ -> Obj.repr (get_nONE ()))
 

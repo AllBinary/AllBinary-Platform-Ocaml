@@ -44,7 +44,7 @@ class dragVelocityBehavior () =
         let velocityProperties = Obj.repr velocityProperties in
         begin
         let basicDecimal : BasicDecimal.basicDecimal ref = ref ((((Obj.magic velocityProperties)#getVelocityXBasicDecimalP ()) :> BasicDecimal.basicDecimal)) in ();
-        if ((!basicDecimal#getUnscaled ()) != 0) then begin
+        if ((!basicDecimal#getUnscaled ()) <> 0) then begin
             ignore (!basicDecimal#multiplyint (nominator));
             ignore (!basicDecimal#divideint (denominator))
         end

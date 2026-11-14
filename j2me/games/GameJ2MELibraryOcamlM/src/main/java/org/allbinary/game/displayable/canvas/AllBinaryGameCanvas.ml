@@ -188,12 +188,12 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     val mutable gameTickDisplayInfoSingleton : GameTickDisplayInfoSingleton.gameTickDisplayInfoSingleton = (Obj.magic 0)
     method gameTickDisplayInfoSingleton = gameTickDisplayInfoSingleton
     method set_gameTickDisplayInfoSingleton value' = gameTickDisplayInfoSingleton <- value'
-    val mutable gameRunnable : GameCanvasRunnable.gameCanvasRunnable = (Obj.magic 0)
-    method gameRunnable = gameRunnable
-    method set_gameRunnable value' = gameRunnable <- value'
-    val mutable gamePauseRunnable : GameCanvasPauseRunnable.gameCanvasPauseRunnable = (Obj.magic 0)
-    method gamePauseRunnable = gamePauseRunnable
-    method set_gamePauseRunnable value' = gamePauseRunnable <- value'
+    val mutable gameRunnable : Obj.t = Obj.repr 0
+    method gameRunnable : 'r. 'r = Obj.magic gameRunnable
+    method set_gameRunnable : 'v. 'v -> unit = fun value' -> gameRunnable <- Obj.repr value'
+    val mutable gamePauseRunnable : Obj.t = Obj.repr 0
+    method gamePauseRunnable : 'r. 'r = Obj.magic gamePauseRunnable
+    method set_gamePauseRunnable : 'v. 'v -> unit = fun value' -> gamePauseRunnable <- Obj.repr value'
     val mutable formUtil : FormUtil.formUtil = (Obj.magic 0)
     method formUtil = formUtil
     method set_formUtil value' = formUtil <- value'
@@ -365,12 +365,12 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     val mutable gameKeyEventHandler : GameKeyEventHandler.gameKeyEventHandler = (Obj.magic 0)
     method gameKeyEventHandler = gameKeyEventHandler
     method set_gameKeyEventHandler value' = gameKeyEventHandler <- value'
-    val mutable gameBehavior : DemoGameBehavior.demoGameBehavior = (Obj.magic 0)
-    method gameBehavior = gameBehavior
-    method set_gameBehavior value' = gameBehavior <- value'
-    val mutable menuBehavior : BaseMenuBehavior.baseMenuBehavior = (Obj.magic 0)
-    method menuBehavior = menuBehavior
-    method set_menuBehavior value' = menuBehavior <- value'
+    val mutable gameBehavior : Obj.t = Obj.repr 0
+    method gameBehavior : 'r. 'r = Obj.magic gameBehavior
+    method set_gameBehavior : 'v. 'v -> unit = fun value' -> gameBehavior <- Obj.repr value'
+    val mutable menuBehavior : Obj.t = Obj.repr 0
+    method menuBehavior : 'r. 'r = Obj.magic menuBehavior
+    method set_menuBehavior : 'v. 'v -> unit = fun value' -> menuBehavior <- Obj.repr value'
     val mutable progressPaintable : PaintableInterface.paintableInterface = (Obj.magic 0)
     method progressPaintable = progressPaintable
     method set_progressPaintable value' = progressPaintable <- value'
@@ -380,15 +380,15 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     val mutable gameCanvasStartListener : DemoPaintableInterface.demoPaintableInterface = (Obj.magic 0)
     method gameCanvasStartListener = gameCanvasStartListener
     method set_gameCanvasStartListener value' = gameCanvasStartListener <- value'
-    val mutable rawGameInputProcessor : Obj.t = Obj.repr 0
-    method rawGameInputProcessor : 'r. 'r = Obj.magic rawGameInputProcessor
-    method set_rawGameInputProcessor : 'v. 'v -> unit = fun value' -> rawGameInputProcessor <- Obj.repr value'
-    val mutable rawInputProcessor : Obj.t = Obj.repr 0
-    method rawInputProcessor : 'r. 'r = Obj.magic rawInputProcessor
-    method set_rawInputProcessor : 'v. 'v -> unit = fun value' -> rawInputProcessor <- Obj.repr value'
-    val mutable inputProcessor : Obj.t = Obj.repr 0
-    method inputProcessor : 'r. 'r = Obj.magic inputProcessor
-    method set_inputProcessor : 'v. 'v -> unit = fun value' -> inputProcessor <- Obj.repr value'
+    val mutable rawGameInputProcessor : InputProcessor.inputProcessor = (Obj.magic 0)
+    method rawGameInputProcessor = rawGameInputProcessor
+    method set_rawGameInputProcessor value' = rawGameInputProcessor <- value'
+    val mutable rawInputProcessor : InputProcessor.inputProcessor = (Obj.magic 0)
+    method rawInputProcessor = rawInputProcessor
+    method set_rawInputProcessor value' = rawInputProcessor <- value'
+    val mutable inputProcessor : InputProcessor.inputProcessor = (Obj.magic 0)
+    method inputProcessor = inputProcessor
+    method set_inputProcessor value' = inputProcessor <- value'
     val mutable yIELD_SLEEP : int = 0
     method yIELD_SLEEP = yIELD_SLEEP
     method set_yIELD_SLEEP value' = yIELD_SLEEP <- value'
@@ -400,26 +400,26 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         begin
         (try
             let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((self#canvasStrings)#fD_WIDTH))#appendint ((java_to_int (Obj.repr ((MyFontProcessor.defaultCharWidth ((Obj.magic !font))))))))#append ((self#canvasStrings)#fD_HEIGHT))#appendint ((java_to_int (Obj.repr (((Obj.magic !font)#getHeight ())))))))), self, (self#canvasStrings)#uPDATE_MEASUREMENT));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((self#canvasStrings)#fD_WIDTH))#appendint ((MyFontProcessor.defaultCharWidth ((Obj.magic !font)))))#append ((self#canvasStrings)#fD_HEIGHT))#appendint (((Obj.magic !font)#getHeight ()))))), (Obj.magic self), (self#canvasStrings)#uPDATE_MEASUREMENT));
             fontHeightP <- ((Obj.magic !font)#getHeight ());
             ignore (myFormUtil#updateMeasurement ((Obj.magic graphics)));
-            let popupMenuRectangle : Obj.t ref = ref ((Obj.repr (myFormUtil#getPopupMenuRectangle ()))) in ();
+            let popupMenuRectangle : Rectangle.rectangle ref = ref (((myFormUtil#getPopupMenuRectangle ()) :> Rectangle.rectangle)) in ();
             let basicPopupMenuPaintable : BasicPopupMenuPaintable.basicPopupMenuPaintable ref = ref ((((Obj.magic (self#getOpenMenuPaintable ()))) :> BasicPopupMenuPaintable.basicPopupMenuPaintable)) in ();
-            ignore (!basicPopupMenuPaintable#init ((Obj.magic !popupMenuRectangle)));
+            ignore (!basicPopupMenuPaintable#init (!popupMenuRectangle));
             if ((Obj.repr (self#getPopupMenuInputProcessor ())) != (Obj.repr (NoMenuInputProcessor.getInstance ()))) then begin
                 let popupMenuInputProcessor_arg : Obj.t ref = ref ((Obj.repr ((Obj.magic (self#getPopupMenuInputProcessor ()))))) in ();
-                ignore ((Obj.magic !popupMenuInputProcessor_arg)#init ((Obj.magic !popupMenuRectangle)))
+                ignore ((Obj.magic !popupMenuInputProcessor_arg)#init (!popupMenuRectangle))
             end;
             myFontProcessor <- (MyFontProcessor.getInstance ())
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
         end)
         end [@@warning "-7-20"]
     
 
-    method getInGameMenuBehavior () : BaseMenuBehavior.baseMenuBehavior =
+    method getInGameMenuBehavior : 'return. unit -> 'return = fun () ->
         begin
-        ((Obj.magic (java_call_static "InGameMenuBehavior.getInstance" (Obj.repr ()))) :> BaseMenuBehavior.baseMenuBehavior)
+        (Obj.magic ((Obj.magic (java_call_static "InGameMenuBehavior.getInstance" (Obj.repr ())))))
         end [@@warning "-7"]
     
 
@@ -435,7 +435,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -443,11 +443,11 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         let displayChangeEvent = Obj.repr displayChangeEvent in
         begin
         (try
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((java_string_of (Obj.repr (DisplayInfoSingleton.getInstance ()))))))), self, (self#canvasStrings)#uPDATE_MEASUREMENT));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((java_string_of (Obj.repr (DisplayInfoSingleton.getInstance ()))))))), (Obj.magic self), (self#canvasStrings)#uPDATE_MEASUREMENT));
             myFontProcessor <- updateMyFontProcessor;
-            ignore (menuBehavior#onDisplayChangeEvent (self, (Obj.magic displayChangeEvent)))
+            ignore ((Obj.magic menuBehavior)#onDisplayChangeEvent ((Obj.magic self), (Obj.magic displayChangeEvent)))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
         end)
         end [@@warning "-7-20"]
     
@@ -455,8 +455,8 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method updateMenuFromEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
         begin
         let formType : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (formUtil#createFormRectangle ()))) in ();
-        ignore (menuForm#init ((Obj.magic !rectangle), !formType));
+        let rectangle : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
+        ignore (menuForm#init (!rectangle, !formType));
         if ((Obj.repr currentTouchInputFactory) != (Obj.repr (NoButtonsTouchInputFactory.getInstance ()))) then begin
             ignore (touchButtonFactory#toggle ((self#isPaused ()), (currentTouchInputFactory#getList ())))
         end;
@@ -472,7 +472,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
                 ignore (secondaryPlayerQueue#process ())
             end
         end;
-        if ((menuInputProcessor#processInputList ()) != (-1)) then begin
+        if ((menuInputProcessor#processInputList ()) <> (- 1)) then begin
             ignore ((self#runnableCanvasRefreshHelper)#process ())
         end
         end [@@warning "-7"]
@@ -482,10 +482,10 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         begin
         if ((Obj.repr popupMenuInputProcessor) == (Obj.repr (NoMenuInputProcessor.getInstance ()))) then begin
             let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            let popupMenuRectangle : Obj.t ref = ref ((Obj.repr (myFormUtil#getPopupMenuRectangle ()))) in ();
+            let popupMenuRectangle : Rectangle.rectangle ref = ref (((myFormUtil#getPopupMenuRectangle ()) :> Rectangle.rectangle)) in ();
             if (!features#isFeature (touchFeatureFactory#tOUCH_ENABLED)) then begin
-                (self#setOpenMenuPaintable ((new BasicPopupMenuPaintable.basicPopupMenuPaintable ((Obj.magic !popupMenuRectangle), (gameLayerManager#getBackgroundBasicColor ()), (gameLayerManager#getForegroundBasicColor ())))));
-                (self#setPopupMenuInputProcessor ((Obj.obj (java_new "PopupMenuInputProcessor" (Obj.repr ((new BasicArrayListD.basicArrayListD ()), (-1), self, (Obj.magic !popupMenuRectangle)))))))
+                (self#setOpenMenuPaintable ((new BasicPopupMenuPaintable.basicPopupMenuPaintable (!popupMenuRectangle, (gameLayerManager#getBackgroundBasicColor ()), (gameLayerManager#getForegroundBasicColor ())))));
+                (self#setPopupMenuInputProcessor ((Obj.obj (java_new "PopupMenuInputProcessor" (Obj.repr (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1), (Obj.magic self), !popupMenuRectangle))))))
             end
         end else begin
             ()
@@ -496,9 +496,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method initMenu () : unit =
         begin
         (try
-            ignore (menuBehavior#initMenu (self))
+            ignore ((Obj.magic menuBehavior)#initMenu ((Obj.magic self)))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "initMenu", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "initMenu", e))
         end)
         end [@@warning "-7"]
     
@@ -510,18 +510,18 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         let gameLimitedCommandTextItemArrayFactory : GameLimitedCommandTextItemArrayFactory.gameLimitedCommandTextItemArrayFactory ref = ref (((GameLimitedCommandTextItemArrayFactory.getInstance ()) :> GameLimitedCommandTextItemArrayFactory.gameLimitedCommandTextItemArrayFactory)) in ();
         let commandTextItemArrayFactory : CommandTextItemArrayFactory.commandTextItemArrayFactory ref = ref (((!gameLimitedCommandTextItemArrayFactory#getCommandTextItemArrayFactory ()) :> CommandTextItemArrayFactory.commandTextItemArrayFactory)) in ();
         let items : Obj.t ref = ref ((Obj.repr (!commandTextItemArrayFactory#getInstance ((self#getCommandStack ()), (gameLayerManager#getBackgroundBasicColor ()), (gameLayerManager#getForegroundBasicColor ()))))) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (formUtil#createFormRectangle ()))) in ();
-        (self#setMenuForm ((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), (Obj.magic !rectangle), !formType, 25, false, (gameLayerManager#getBackgroundBasicColor ()), (gameLayerManager#getForegroundBasicColor ())))));
+        let rectangle : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
+        (self#setMenuForm ((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), !rectangle, !formType, 25, false, (gameLayerManager#getBackgroundBasicColor ()), (gameLayerManager#getForegroundBasicColor ())))));
         let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((self#getMenuForm ()) :> ScrollSelectionForm.scrollSelectionForm)) in ();
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
         if (!features#isFeature (touchFeatureFactory#tOUCH_ENABLED)) then begin
-            mainMenuInputProcessor <- (Obj.obj (java_new "PopupCommandFormInputProcessor" (Obj.repr ((new BasicArrayListD.basicArrayListD ()), (-1), self, !scrollSelectionForm, (Obj.magic (self#getPopupMenuInputProcessor ()))))))
+            mainMenuInputProcessor <- ((Obj.obj (java_new "PopupCommandFormInputProcessor" (Obj.repr (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1), (Obj.magic self), !scrollSelectionForm, (Obj.magic (self#getPopupMenuInputProcessor ())))))) :> BasicMenuInputProcessor.basicMenuInputProcessor)
         end else begin
             ()
         end;
         (self#setMenuInputProcessor ((self#getPopupMenuInputProcessor ())));
         if ((Obj.repr !scrollSelectionForm) != (Obj.repr (ScrollSelectionFormNoneFactory.getInstance ()))) then begin
-            (self#setFormPaintable ((new FormPaintable.formPaintable (!scrollSelectionForm))))
+            (self#setFormPaintable ((new FormPaintable.formPaintable ((!scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm :> PaintableForm.paintableForm)))))
         end else begin
             ()
         end;
@@ -532,9 +532,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method updateMenu () : unit =
         begin
         (try
-            ignore (menuBehavior#updateMenu (self))
+            ignore ((Obj.magic menuBehavior)#updateMenu ((Obj.magic self)))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "initMenu", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "initMenu", e))
         end)
         end [@@warning "-7"]
     
@@ -551,14 +551,14 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
             ignore (!scrollSelectionForm#append ((Obj.magic !items).(index)))
         done;
         let formType : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-        let rectangle : Obj.t ref = ref ((Obj.repr (formUtil#createFormRectangle ()))) in ();
-        ignore (!scrollSelectionForm#init ((Obj.magic !rectangle), !formType))
+        let rectangle : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
+        ignore (!scrollSelectionForm#init (!rectangle, !formType))
         end [@@warning "-7"]
     
 
     method pause () : unit =
         begin
-        ignore (gameBehavior#pause (self));
+        ignore ((Obj.magic gameBehavior)#pause ((Obj.magic self)));
         (self#closeMenu ());
         ignore (super#pause ());
         ignore (touchButtonFactory#toggle ((self#isPaused ()), ((BasicArrayListUtil.getInstance ())#getImmutableInstance ())));
@@ -568,12 +568,12 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method unPause () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, gameStrings#uNPAUSE));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), gameStrings#uNPAUSE));
         (self#closeMenu ());
         ignore ((self#tsUtil)#gc ());
         ignore (super#unPause ());
         ignore (touchButtonFactory#toggle ((self#isPaused ()), ((BasicArrayListUtil.getInstance ())#getImmutableInstance ())));
-        ignore (gameBehavior#unPause (self))
+        ignore ((Obj.magic gameBehavior)#unPause ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -591,7 +591,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method popupMenu () : unit =
         begin
-        ignore (menuBehavior#popupMenu (self))
+        ignore ((Obj.magic menuBehavior)#popupMenu ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -607,7 +607,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method toggleMenu () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, gameStrings#tOGGLE_MENU));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), gameStrings#tOGGLE_MENU));
         if ((Obj.repr (self#getMenuPaintable ())) == (Obj.repr (self#getOpenMenuPaintable ()))) then begin
             (self#pause ());
             (self#updateMenu ());
@@ -621,7 +621,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method closeMenu () : unit =
         begin
-        ignore (menuBehavior#closeMenu (self))
+        ignore ((Obj.magic menuBehavior)#closeMenu ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -659,13 +659,13 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method setProcessGameProcessorInit () : unit =
         begin
-        (self#setProcessGameProcessor ((Obj.obj (java_new "GameProcessor" (Obj.repr (self))))))
+        (self#setProcessGameProcessor ((Obj.obj (java_new "GameProcessor" (Obj.repr ((Obj.magic self)))))))
         end [@@warning "-7"]
     
 
     method initSpecialPaint () : unit =
         begin
-        ignore (menuBehavior#initSpecialPaint (self))
+        ignore ((Obj.magic menuBehavior)#initSpecialPaint ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -677,7 +677,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         (self#setLayerManager ((Obj.magic gameLayerManager_arg)));
         if (not buffered) then begin
             let bUFF_MESSAGE : string ref = ref ("XXX Not Buffering Causes Concurrency Issues XXX") in ();
-            ignore ((self#logUtil)#putF (!bUFF_MESSAGE, self, (self#commonStrings)#cONSTRUCTOR))
+            ignore ((self#logUtil)#putF (!bUFF_MESSAGE, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR))
         end else begin
             raise (Failure ("Buffering is disabled"))
         end;
@@ -685,20 +685,20 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
         if (!features#isFeature ((GameFeatureFactory.getInstance ())#cHEATING)) then begin
             isCheating <- true;
-            cheatProcessor <- (Obj.obj (java_new "CheatGameInputProcessor" (Obj.repr (self))));
+            cheatProcessor <- ((Obj.obj (java_new "CheatGameInputProcessor" (Obj.repr ((Obj.magic self))))) :> PlayerGameInput.playerGameInput);
             ignore (gameKeyEventHandler#addListener (cheatProcessor))
         end else begin
             isCheating <- false;
             cheatProcessor <- (NoPlayerGameInput.getInstance ())
         end;
-        realEndGameProcessor <- (Obj.obj (java_new "EndGameProcessor" (Obj.repr (self))));
+        realEndGameProcessor <- ((Obj.obj (java_new "EndGameProcessor" (Obj.repr ((Obj.magic self))))) :> Processor.processor);
         (self#setEndGameProcessor ((Processor.getInstance ())));
-        realStartIntermissionProcessor <- (Obj.obj (java_new "StartIntermissionProcessor" (Obj.repr (self))));
+        realStartIntermissionProcessor <- ((Obj.obj (java_new "StartIntermissionProcessor" (Obj.repr ((Obj.magic self))))) :> Processor.processor);
         startIntermissionProcessor <- (Processor.getInstance ());
-        (self#setEndGameStatePaintable ((Obj.obj (java_new "EndGamePaintable" (Obj.repr (self))))));
+        (self#setEndGameStatePaintable ((Obj.obj (java_new "EndGamePaintable" (Obj.repr ((Obj.magic self)))))));
         (self#setEndGamePaintable ((NullPaintable.getInstance ())));
         (self#setIntermissionPaintable ((NullPaintable.getInstance ())));
-        ignore ((self#getStartIntermissionInterface ())#setListener (self))
+        ignore ((self#getStartIntermissionInterface ())#setListener ((Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -719,21 +719,21 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method mediaInit () : unit =
         begin
-        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, (Obj.magic self)))
         end [@@warning "-7"]
     
 
     method initConfigurable : 'any1. 'any1 -> unit = fun (abeClientInformation) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
-        let progressCanvas_arg : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-        ignore (!progressCanvas_arg#addNormalPortion (50, "Setting Configurables"));
-        ignore ((GameInitializationUtil.getInstance ())#initGame ((Obj.magic abeClientInformation), self, gameInitializationInterfaceFactoryInterface));
+        let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
+        ignore (!progressCanvas#addNormalPortion (50, "Setting Configurables"));
+        ignore ((GameInitializationUtil.getInstance ())#initGame ((Obj.magic abeClientInformation), (Obj.magic self), gameInitializationInterfaceFactoryInterface));
         let gameFeatureFactory : GameFeatureFactory.gameFeatureFactory ref = ref (((GameFeatureFactory.getInstance ()) :> GameFeatureFactory.gameFeatureFactory)) in ();
         let changedGameFeatureListener : ChangedGameFeatureListener.changedGameFeatureListener ref = ref (((ChangedGameFeatureListener.getInstance ()) :> ChangedGameFeatureListener.changedGameFeatureListener)) in ();
         if (!changedGameFeatureListener#isChangedFeature (!gameFeatureFactory#sOUND)) then begin
             let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Sound Changing To: "))#appendboolean ((!features#isFeature (!gameFeatureFactory#sOUND)))))), self, "initConfigurable"));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Sound Changing To: "))#appendboolean ((!features#isFeature (!gameFeatureFactory#sOUND)))))), (Obj.magic self), "initConfigurable"));
             (self#mediaInit ());
             ignore (!changedGameFeatureListener#remove (!gameFeatureFactory#sOUND))
         end;
@@ -776,7 +776,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         begin
         if ((Obj.repr (Obj.magic nextTouchInput)) != (Obj.repr currentTouchInputFactory)) then begin
             currentTouchInputFactory <- (Obj.magic nextTouchInput);
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr currentTouchInputFactory)), self, gameInputStrings#uDPATE_CURRENT_TOUCH_INPUT_FACTORY))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr currentTouchInputFactory)), (Obj.magic self), gameInputStrings#uDPATE_CURRENT_TOUCH_INPUT_FACTORY))));
             ignore (touchButtonFactory#toggle ((self#isPaused ()), (currentTouchInputFactory#getList ())))
         end
         end [@@warning "-7-20"]
@@ -784,7 +784,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method updateTouch () : unit =
         begin
-        ignore (gameBehavior#updateTouch (self))
+        ignore ((Obj.magic gameBehavior)#updateTouch ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -845,7 +845,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         begin
         (try
             let itemLabel : string ref = ref (((Obj.magic item)#getLabel ())) in ();
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#iTEM_LABEL))#append (!itemLabel)))), self, "itemStateChanged"));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#iTEM_LABEL))#append (!itemLabel)))), (Obj.magic self), "itemStateChanged"));
             if (java_instanceof (Obj.repr (Obj.magic item)) "ChoiceGroup") then begin
                 let gameFeatureUtil : GameFeatureUtil.gameFeatureUtil ref = ref (((GameFeatureUtil.getInstance ()) :> GameFeatureUtil.gameFeatureUtil)) in ();
                 if (!gameFeatureUtil#isExclusive (!itemLabel)) then begin
@@ -859,14 +859,14 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
             (self#updateScreenButtonPaintable ());
             ignore ((Obj.magic sensorGameUpdateProcessor)#sendNotifications (gameLayerManager))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "itemStateChanged", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "itemStateChanged", e))
         end)
         end [@@warning "-7-20"]
     
 
     method updateScreenButtonPaintable () : unit =
         begin
-        ignore (gameBehavior#updateScreenButtonPaintable (self))
+        ignore ((Obj.magic gameBehavior)#updateScreenButtonPaintable ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -886,9 +886,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7"]
     
 
-    method getLayerManager () : AllBinaryGameLayerManager.allBinaryGameLayerManager =
+    method getLayerManager : 'return. unit -> 'return = fun () ->
         begin
-        (gameLayerManager :> AllBinaryGameLayerManager.allBinaryGameLayerManager)
+        (Obj.magic (gameLayerManager))
         end [@@warning "-7"]
     
 
@@ -913,7 +913,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method processGameOver () : unit =
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, self, gameStrings#sET_GAME_OVER))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, (Obj.magic self), gameStrings#sET_GAME_OVER))));
         (self#setGameOver (true));
         ignore (self#removePauseCommand ());
         (self#setGameState (gameStateFactory#sHOW_END_RESULT_GAME_STATE));
@@ -933,25 +933,25 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         if highScoreSubmitted_arg then begin
             ignore (highScoresHelper#setSelectedHighScores ((NullHighScoresSingletonFactory.getInstance ())))
         end;
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("isHighScoreSubmitted: "))#appendboolean (highScoreSubmitted_arg)))), self, "setHighScoreSubmitted"))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("isHighScoreSubmitted: "))#appendboolean (highScoreSubmitted_arg)))), (Obj.magic self), "setHighScoreSubmitted"))
         end [@@warning "-7"]
     
 
-    method getGameState () : GameState.gameState =
+    method getGameState : 'return. unit -> 'return = fun () ->
         begin
-        (gameState :> GameState.gameState)
+        (Obj.magic (gameState))
         end [@@warning "-7"]
     
 
     method setGameState : 'any1. 'any1 -> unit = fun (gameState_arg) ->
         let gameState_arg = Obj.repr gameState_arg in
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameStrings#gAME_STATE))#append (((self#stringUtil)#toString ((Obj.magic gameState_arg))))))), self, gameStrings#sET_GAME_STATE));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameStrings#gAME_STATE))#append (((self#stringUtil)#toString ((Obj.magic gameState_arg))))))), (Obj.magic self), gameStrings#sET_GAME_STATE));
         gameState <- (Obj.magic gameState_arg);
         ignore (gameStateTimeHelper#setStartTimeTNT ());
         (self#updateEndGameProcessor ());
         (self#updateGameKeyEventProcessor ());
-        ignore (gameBehavior#setGameState (self))
+        ignore ((Obj.magic gameBehavior)#setGameState ((Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -983,13 +983,13 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method removeAllGameKeyInputListeners () : unit =
         begin
-        ignore (gameBehavior#removeAllGameKeyInputListeners (self))
+        ignore ((Obj.magic gameBehavior)#removeAllGameKeyInputListeners ((Obj.magic self)))
         end [@@warning "-7"]
     
 
     method removeAllGameKeyInputListeners2 () : unit =
         begin
-        ignore ((self#logUtil)#putF ("Remove PlayerInput Listeners", self, "removeAllGameKeyInputListeners"));
+        ignore ((self#logUtil)#putF ("Remove PlayerInput Listeners", (Obj.magic self), "removeAllGameKeyInputListeners"));
         for index = ((localPlayerGameInputList#size ()) - 1) downto 0 do
             let playerGameInput : PlayerGameInput.playerGameInput ref = ref (((Obj.magic (localPlayerGameInputList#get (index))) :> PlayerGameInput.playerGameInput)) in ();
             (self#removeKeyInputListener (!playerGameInput));
@@ -1007,7 +1007,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method updateEndGameProcessor () : unit =
         begin
-        ignore (gameBehavior#updateEndGameProcessor (self))
+        ignore ((Obj.magic gameBehavior)#updateEndGameProcessor ((Obj.magic self)))
         end [@@warning "-7"]
     
 
@@ -1029,9 +1029,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method cleanupGame () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cLEANUP));
-        let progressCanvas_arg : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-        ignore (!progressCanvas_arg#addNormalPortion (10, "Cleaning Up"));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cLEANUP));
+        let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
+        ignore (!progressCanvas#addNormalPortion (10, "Cleaning Up"));
         ignore (primaryPlayerQueue#clear ());
         ignore (secondaryPlayerQueue#clear ());
         ignore ((GameLevelDisplayChangeEventListenersFactory.getInstance ())#clear ())
@@ -1066,54 +1066,54 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         begin
         ignore (screenCapture#endRecording ());
         ignore (screenCapture#startRecording ());
-        let progressCanvas_arg : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
+        let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-        ignore (!progressCanvas_arg#addNormalPortion (portion, "Generic Build"));
+        ignore (!progressCanvas#addNormalPortion (portion, "Generic Build"));
         (self#removeAllGameKeyInputListenersOnBuild ());
         (self#updateTouch ());
-        ignore (!progressCanvas_arg#addNormalPortion (portion, "High Scores"));
+        ignore (!progressCanvas#addNormalPortion (portion, "High Scores"));
         ignore (highScoresFactoryInterface#fetchHighScores ((gameLayerManager#getGameInfo ()), highScoresHelper));
         (self#setHighScoresPaintable ((NullPaintable.getInstance ())));
-        ignore (!progressCanvas_arg#addNormalPortion (portion, "Finishing."));
-        ignore ((self#getEndGameInfoP ())#update (((self#getLayerManager ())#getGameInfo ()), self));
+        ignore (!progressCanvas#addNormalPortion (portion, "Finishing."));
+        ignore ((self#getEndGameInfoP ())#update (((self#getLayerManager ())#getGameInfo ()), (Obj.magic self)));
         isSingleKeyRepeatableProcessing <- (!features#isFeature ((InputFeatureFactory.getInstance ())#sINGLE_KEY_REPEAT_PRESS));
         (self#setGameOver (false));
-        ignore (!progressCanvas_arg#addNormalPortion (portion, "Finishing.."));
+        ignore (!progressCanvas#addNormalPortion (portion, "Finishing.."));
         (self#updateColor ());
         ignore ((self#getStartIntermissionPaintable ())#update ());
         if (not (self#isRunningInAnotherThread ())) then begin
             raise (Java_return (Obj.repr (())))
         end;
-        ignore (!progressCanvas_arg#addNormalPortion (portion, "Finishing..."));
+        ignore (!progressCanvas#addNormalPortion (portion, "Finishing..."));
         if ((self#isMainCanvas ()) || (not (self#isInitialized ()))) then begin
             if (!features#isFeature ((MainFeatureFactory.getInstance ())#lOAD_ONDEMAND)) then begin
                 if ((self#getCustomCommandListener ()) != (Obj.magic 0)) then begin
-                    ignore (!progressCanvas_arg#end_ ())
+                    ignore (!progressCanvas#end_ ())
                 end
             end else begin
-                ignore (!progressCanvas_arg#end_ ())
+                ignore (!progressCanvas#end_ ())
             end;
             (self#setInitialized (true))
         end;
         if ((Obj.repr (self#getCustomCommandListener ())) == (Obj.repr (NullCommandListener.get_nULL_COMMAND_LISTENER ()))) then begin
-            ignore ((self#logUtil)#putF ("Show Game Paintable in DemoCanvas Thread", self, bUILD_GAME));
+            ignore ((self#logUtil)#putF ("Show Game Paintable in DemoCanvas Thread", (Obj.magic self), bUILD_GAME));
             ignore (gameCanvasStartListener#showGamePaintable ())
         end else begin
-            ignore ((self#logUtil)#putF ("No GameCanvasStartListener", self, bUILD_GAME))
+            ignore ((self#logUtil)#putF ("No GameCanvasStartListener", (Obj.magic self), bUILD_GAME))
         end;
         ignore (colorFillPaintable#setBasicColorP ((gameLayerManager#getBackgroundBasicColor ())));
-        ignore (gameBehavior#buildGame (self))
+        ignore ((Obj.magic gameBehavior)#buildGame ((Obj.magic self)))
         end
         with Java_return value -> Obj.obj value [@@warning "-7"]
     
 
     method buildGame2 () : unit =
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#eNABLE_PLAYER_GAME_INPUTS))#appendint ((localPlayerGameInputList#size ()))))), self, bUILD_GAME))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#eNABLE_PLAYER_GAME_INPUTS))#appendint ((localPlayerGameInputList#size ()))))), (Obj.magic self), bUILD_GAME))));
         let playerGameInput : PlayerGameInput.playerGameInput ref = ref (((Obj.magic 0) :> PlayerGameInput.playerGameInput)) in ();
         for index = ((localPlayerGameInputList#size ()) - 1) downto 0 do
             playerGameInput := (Obj.magic (localPlayerGameInputList#get (index)));
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#eNABLE_PLAYER_GAME_INPUT))#append ((java_string_of (Obj.repr !playerGameInput)))))), self, bUILD_GAME))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#eNABLE_PLAYER_GAME_INPUT))#append ((java_string_of (Obj.repr !playerGameInput)))))), (Obj.magic self), bUILD_GAME))));
             ignore (!playerGameInput#removeNonAIInputGameKeyEvents ());
             (self#addKeyInputListener (!playerGameInput))
         done
@@ -1136,11 +1136,11 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method loadState () : unit =
         begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#lOAD));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#lOAD));
         let hashtable_arg : Obj.t ref = ref ((Obj.repr (self#getLoadStateHashtable ()))) in ();
         if (((Obj.magic !hashtable_arg) != (Obj.magic 0)) && (((Obj.magic !hashtable_arg)#size ()) > 0)) then begin
             let levelAsString : string ref = ref ((Obj.magic ((Obj.magic !hashtable_arg)#get ((Obj.magic (GameInfo.get_lEVEL_NAME ())))))) in ();
-            let level : int ref = ref (((string_of_int (!levelAsString))#intValue ())) in ();
+            let level : int ref = ref ((java_int_value (Obj.repr (int_of_string (Stdlib.String.trim (!levelAsString)))))) in ();
             let gameInfo : GameInfo.gameInfo ref = ref (((gameLayerManager#getGameInfo ()) :> GameInfo.gameInfo)) in ();
             ignore (!gameInfo#setCurrentLevel (!level))
         end
@@ -1149,7 +1149,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method getLoadStateHashtable : 'return. unit -> 'return = fun () ->
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append (((self#stringUtil)#toString ((Obj.magic hashtable))))))), self, "getLoadStateHashtable"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append (((self#stringUtil)#toString ((Obj.magic hashtable))))))), (Obj.magic self), "getLoadStateHashtable"));
         (Obj.magic ((Obj.magic hashtable)))
         end [@@warning "-7"]
     
@@ -1157,7 +1157,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method setLoadStateHashtable : 'any1. 'any1 -> unit = fun (hashtable_arg) ->
         let hashtable_arg = Obj.repr hashtable_arg in
         begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append (((self#stringUtil)#toString ((Obj.magic hashtable_arg))))))), self, "setLoadStateHashtable"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append (((self#stringUtil)#toString ((Obj.magic hashtable_arg))))))), (Obj.magic self), "setLoadStateHashtable"));
         hashtable <- Obj.repr ((Obj.magic hashtable_arg))
         end [@@warning "-7-20"]
     
@@ -1167,14 +1167,14 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         let hashtable_arg : Obj.t ref = ref ((Obj.repr ((self#stdUtil)#createHashtable ()))) in ();
         let level : int ref = ref (((gameLayerManager#getGameInfo ())#getCurrentLevel ())) in ();
         ignore ((Obj.magic !hashtable_arg)#put ((java_string_of (Obj.repr (GameInfo.get_lEVEL_NAME ()))), (string_of_int (!level))));
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("End: "))#append (((self#stringUtil)#toString ((Obj.magic !hashtable_arg))))))), self, "getCurrentStateHashtable"));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("End: "))#append (((self#stringUtil)#toString ((Obj.magic !hashtable_arg))))))), (Obj.magic self), "getCurrentStateHashtable"));
         (Obj.magic ((Obj.magic !hashtable_arg)))
         end [@@warning "-7"]
     
 
     method paintGameOver : 'any1. 'any1 -> unit = fun (_graphics) ->
         begin
-        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -1253,21 +1253,21 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method keyPressedByDevice ((keyCode : int), (deviceId : int)) : unit =
         begin
-        ignore ((Obj.magic inputProcessor)#keyPressedByDevice (keyCode, deviceId))
+        ignore (inputProcessor#keyPressedByDevice (keyCode, deviceId))
         end [@@warning "-7"]
     
 
     method keyRepeatedByDevice ((keyCode : int), (deviceId : int)) : unit =
         begin
         if isSingleKeyRepeatableProcessing then begin
-            ignore ((Obj.magic inputProcessor)#keyPressedByDevice (keyCode, deviceId))
+            ignore (inputProcessor#keyPressedByDevice (keyCode, deviceId))
         end
         end [@@warning "-7"]
     
 
     method keyReleasedByDevice ((keyCode : int), (deviceId : int)) : unit =
         begin
-        ignore ((Obj.magic inputProcessor)#keyReleasedByDevice (self, keyCode, deviceId))
+        ignore (inputProcessor#keyReleasedByDevice ((Obj.magic self), keyCode, deviceId))
         end [@@warning "-7"]
     
 
@@ -1282,9 +1282,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         let portion : int ref = ref (30) in ();
         if (isProgress && (self#isMainCanvas ())) then begin
             let myCommandsFactory : MyCommandsFactory.myCommandsFactory ref = ref (((MyCommandsFactory.getInstance ()) :> MyCommandsFactory.myCommandsFactory)) in ();
-            let progressCanvas_arg : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-            ignore (!progressCanvas_arg#start ());
-            ignore ((self#getCustomCommandListener ())#commandAction (!myCommandsFactory#sET_DISPLAYABLE, !progressCanvas_arg));
+            let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
+            ignore (!progressCanvas#start ());
+            ignore ((self#getCustomCommandListener ())#commandAction (!myCommandsFactory#sET_DISPLAYABLE, !progressCanvas));
             portion := 4
         end;
         !portion
@@ -1325,7 +1325,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method notifyDonePainting () : unit =
         begin
         begin (* synchronized *)
-            ignore ((self#threadObjectUtil)#notifyObject (self))
+            ignore ((self#threadObjectUtil)#notifyObject ((Obj.magic self)))
         end
         end [@@warning "-7"]
     
@@ -1351,9 +1351,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method run () : unit =
         begin
         (try
-            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, self, (self#commonStrings)#rUN));
-            let progressCanvas_arg : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-            ignore (!progressCanvas_arg#addNormalPortion (50, "Game Thread"));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN));
+            let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
+            ignore (!progressCanvas#addNormalPortion (50, "Game Thread"));
             (self#setCurrentThread ());
             (self#setRunning (true));
             if ((Obj.repr (self#getCustomCommandListener ())) == (Obj.repr (NullCommandListener.get_nULL_COMMAND_LISTENER ()))) then begin
@@ -1368,10 +1368,10 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
             let gameAdState : Obj.t ref = ref ((Obj.repr (gameAdStateFactory#getCurrentInstance ()))) in ();
             ignore ((Obj.magic !gameAdState)#init ());
             ignore ((Obj.magic !gameAdState)#setGameIsReady (true));
-            ignore (gameBehavior#run (self));
-            ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, self, (self#commonStrings)#rUN))
+            ignore ((Obj.magic gameBehavior)#run ((Obj.magic self)));
+            ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN))
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#rUN, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#rUN, e))
         end)
         end [@@warning "-7"]
     
@@ -1381,24 +1381,24 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
         if ((!features#isDefault (openGLFeatureFactory#oPENGL_AS_GAME_THREAD)) || (J2MEUtil.isHTML ())) then begin
             if (!features#isDefault (openGLFeatureFactory#oPENGL_AS_GAME_THREAD)) then begin
-                ignore ((self#logUtil)#putF ((openGLFeatureFactory#oPENGL_AS_GAME_THREAD#getName ()), self, (self#commonStrings)#rUN))
+                ignore ((self#logUtil)#putF ((openGLFeatureFactory#oPENGL_AS_GAME_THREAD#getName ()), (Obj.magic self), (self#commonStrings)#rUN))
             end;
             if (J2MEUtil.isHTML ()) then begin
-                ignore ((self#logUtil)#putF ((GraphicsStrings.getInstance ())#hTML, self, (self#commonStrings)#rUN))
+                ignore ((self#logUtil)#putF ((GraphicsStrings.getInstance ())#hTML, (Obj.magic self), (self#commonStrings)#rUN))
             end;
             let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic !currentDisplayableFactory)#setRunnable (gameRunnable));
-            ignore ((Obj.magic !currentDisplayableFactory)#setDisplayable (self));
+            ignore ((Obj.magic !currentDisplayableFactory)#setRunnable ((Obj.magic gameRunnable)));
+            ignore ((Obj.magic !currentDisplayableFactory)#setDisplayable ((Obj.magic self)));
             ignore ((Obj.magic (java_call_static "OpenGLThreadUtil.getInstance" (Obj.repr ())))#onResume ())
         end else if (!features#isDefault (openGLFeatureFactory#oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS)) then begin
-            ignore ((self#logUtil)#putF ((openGLFeatureFactory#oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS#getName ()), self, (self#commonStrings)#rUN));
+            ignore ((self#logUtil)#putF ((openGLFeatureFactory#oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS#getName ()), (Obj.magic self), (self#commonStrings)#rUN));
             ignore ((Obj.magic (java_call_static "OpenGLThreadUtil.getInstance" (Obj.repr ())))#onResume ());
             while (self#isRunning ()) do
                 (self#run3 ())
             done;
             (self#end_ ())
         end else begin
-            ignore ((self#logUtil)#putF ("this thread", self, (self#commonStrings)#rUN));
+            ignore ((self#logUtil)#putF ("this thread", (Obj.magic self), (self#commonStrings)#rUN));
             while (self#isRunning ()) do
                 (self#run3 ())
             done;
@@ -1433,7 +1433,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
                 end
             end
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#sET_RUNNING), e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#sET_RUNNING), e))
         end)
         end [@@warning "-7"]
     
@@ -1452,7 +1452,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method endGameThread () : unit =
         begin
-        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener (self));
+        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener ((Obj.magic self)));
         ignore ((GameLevelDisplayChangeEventListenersFactory.getInstance ())#clear ());
         let gameAdState : Obj.t ref = ref ((Obj.repr (gameAdStateFactory#getCurrentInstance ()))) in ();
         ignore ((Obj.magic !gameAdState)#notPlayingAdState ())
@@ -1469,7 +1469,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method setHighScore : 'any1. 'any1 * string * int * bool * bool -> unit = fun (abeClientInformation, (name : string), (score : int), (autoSubmit : bool), (isLast : bool)) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
-        ignore (gameBehavior#setHighScore ((Obj.magic abeClientInformation), self, name, score, autoSubmit, isLast))
+        ignore ((Obj.magic gameBehavior)#setHighScore ((Obj.magic abeClientInformation), (Obj.magic self), name, score, autoSubmit, isLast))
         end [@@warning "-7-20"]
     
 
@@ -1482,15 +1482,14 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
             ignore ((self#getCustomCommandListener ())#commandAction ((GameCommandsFactory.getInstance ())#sET_MENU_DISPLAYABLE, !textBox))
         end;
         if autoSubmit then begin
-            (* Java nested class SaveHighScoreRunnable: move it to its own module *) ();
-            ignore ((SecondaryThreadPool.getInstance ())#runTask ((new SaveHighScoreRunnable.saveHighScoreRunnable ())))
+            ignore ((SecondaryThreadPool.getInstance ())#runTask ((new SaveHighScoreRunnable.saveHighScoreRunnable (isLast, !textBox))))
         end
         end [@@warning "-7-20"]
     
 
-    method getGameStateTimeHelper () : TimeDelayHelper.timeDelayHelper =
+    method getGameStateTimeHelper : 'return. unit -> 'return = fun () ->
         begin
-        (gameStateTimeHelper :> TimeDelayHelper.timeDelayHelper)
+        (Obj.magic (gameStateTimeHelper))
         end [@@warning "-7"]
     
 
@@ -1519,28 +1518,28 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getStartIntermissionInterface () : IntermissionInterface.intermissionInterface =
+    method getStartIntermissionInterface : 'return. unit -> 'return = fun () ->
         begin
-        (startIntermissionInterface :> IntermissionInterface.intermissionInterface)
+        (Obj.magic (startIntermissionInterface))
         end [@@warning "-7"]
     
 
-    method getEndLevelIntermissionInterface () : IntermissionInterface.intermissionInterface =
+    method getEndLevelIntermissionInterface : 'return. unit -> 'return = fun () ->
         begin
-        (endLevelIntermissionInterface :> IntermissionInterface.intermissionInterface)
+        (Obj.magic (endLevelIntermissionInterface))
         end [@@warning "-7"]
     
 
     method setTouchPaintableP : 'any1. 'any1 -> unit = fun (paintable) ->
         let paintable = Obj.repr paintable in
         begin
-        touchPaintable <- (Obj.magic paintable)
+        touchPaintable <- ((Obj.magic paintable) :> Paintable.paintable)
         end [@@warning "-7-20"]
     
 
-    method getTouchPaintableP () : Paintable.paintable =
+    method getTouchPaintableP : 'return. unit -> 'return = fun () ->
         begin
-        (touchPaintable :> Paintable.paintable)
+        (Obj.magic (touchPaintable))
         end [@@warning "-7"]
     
 
@@ -1551,9 +1550,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getEndGamePaintable () : Paintable.paintable =
+    method getEndGamePaintable : 'return. unit -> 'return = fun () ->
         begin
-        (endGamePaintable :> Paintable.paintable)
+        (Obj.magic (endGamePaintable))
         end [@@warning "-7"]
     
 
@@ -1564,9 +1563,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getIntermissionPaintable () : Paintable.paintable =
+    method getIntermissionPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (intermissionPaintable :> Paintable.paintable)
+        (Obj.magic (intermissionPaintable))
         end [@@warning "-7"]
     
 
@@ -1583,15 +1582,15 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getHighScoresPaintable () : Paintable.paintable =
+    method getHighScoresPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (highScoresPaintable :> Paintable.paintable)
+        (Obj.magic (highScoresPaintable))
         end [@@warning "-7"]
     
 
-    method getRealHighScoresPaintable () : HighScoresPaintable.highScoresPaintable =
+    method getRealHighScoresPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (realHighScoresPaintable :> HighScoresPaintable.highScoresPaintable)
+        (Obj.magic (realHighScoresPaintable))
         end [@@warning "-7"]
     
 
@@ -1620,15 +1619,15 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getMenuInputProcessor () : BasicMenuInputProcessor.basicMenuInputProcessor =
+    method getMenuInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (menuInputProcessor :> BasicMenuInputProcessor.basicMenuInputProcessor)
+        (Obj.magic (menuInputProcessor))
         end [@@warning "-7"]
     
 
-    method getMenuForm () : ScrollSelectionForm.scrollSelectionForm =
+    method getMenuForm : 'return. unit -> 'return = fun () ->
         begin
-        (menuForm :> ScrollSelectionForm.scrollSelectionForm)
+        (Obj.magic (menuForm))
         end [@@warning "-7"]
     
 
@@ -1658,9 +1657,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getTouchButtonsPaintable () : Paintable.paintable =
+    method getTouchButtonsPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (touchButtonsPaintable :> Paintable.paintable)
+        (Obj.magic (touchButtonsPaintable))
         end [@@warning "-7"]
     
 
@@ -1671,9 +1670,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getGameInputProcessor () : Processor.processor =
+    method getGameInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (gameInputProcessor :> Processor.processor)
+        (Obj.magic (gameInputProcessor))
         end [@@warning "-7"]
     
 
@@ -1684,9 +1683,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getEndGameProcessor () : Processor.processor =
+    method getEndGameProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (endGameProcessor :> Processor.processor)
+        (Obj.magic (endGameProcessor))
         end [@@warning "-7"]
     
 
@@ -1697,9 +1696,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getEndGameStatePaintable () : Paintable.paintable =
+    method getEndGameStatePaintable : 'return. unit -> 'return = fun () ->
         begin
-        (endGameStatePaintable :> Paintable.paintable)
+        (Obj.magic (endGameStatePaintable))
         end [@@warning "-7"]
     
 
@@ -1710,9 +1709,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getNonBotPaintableP () : Paintable.paintable =
+    method getNonBotPaintableP : 'return. unit -> 'return = fun () ->
         begin
-        (nonBotPaintable :> Paintable.paintable)
+        (Obj.magic (nonBotPaintable))
         end [@@warning "-7"]
     
 
@@ -1723,9 +1722,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getStartIntermissionPaintable () : InitUpdatePaintable.initUpdatePaintable =
+    method getStartIntermissionPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (startIntermissionPaintable :> InitUpdatePaintable.initUpdatePaintable)
+        (Obj.magic (startIntermissionPaintable))
         end [@@warning "-7"]
     
 
@@ -1736,9 +1735,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getMainStateProcessor () : Processor.processor =
+    method getMainStateProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (mainStateProcessor :> Processor.processor)
+        (Obj.magic (mainStateProcessor))
         end [@@warning "-7"]
     
 
@@ -1749,9 +1748,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getProcessGameProcessor () : Processor.processor =
+    method getProcessGameProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (processGameProcessor :> Processor.processor)
+        (Obj.magic (processGameProcessor))
         end [@@warning "-7"]
     
 
@@ -1762,9 +1761,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getOpenMenuPaintable () : Paintable.paintable =
+    method getOpenMenuPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (openMenuPaintable :> Paintable.paintable)
+        (Obj.magic (openMenuPaintable))
         end [@@warning "-7"]
     
 
@@ -1775,9 +1774,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getPopupMenuInputProcessor () : BasicMenuInputProcessor.basicMenuInputProcessor =
+    method getPopupMenuInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (popupMenuInputProcessor :> BasicMenuInputProcessor.basicMenuInputProcessor)
+        (Obj.magic (popupMenuInputProcessor))
         end [@@warning "-7"]
     
 
@@ -1789,26 +1788,26 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
 
     method getRawGameInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic rawGameInputProcessor)))
+        (Obj.magic (rawGameInputProcessor))
         end [@@warning "-7"]
     
 
     method getRawInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic rawInputProcessor)))
+        (Obj.magic (rawInputProcessor))
         end [@@warning "-7"]
     
 
     method setInputProcessor : 'any1. 'any1 -> unit = fun (inputProcessor_arg) ->
         let inputProcessor_arg = Obj.repr inputProcessor_arg in
         begin
-        inputProcessor <- Obj.repr ((Obj.magic inputProcessor_arg))
+        inputProcessor <- (Obj.magic inputProcessor_arg)
         end [@@warning "-7-20"]
     
 
     method getInputProcessor : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic inputProcessor)))
+        (Obj.magic (inputProcessor))
         end [@@warning "-7"]
     
 
@@ -1819,9 +1818,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getMenuPaintable () : Paintable.paintable =
+    method getMenuPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (menuPaintable :> Paintable.paintable)
+        (Obj.magic (menuPaintable))
         end [@@warning "-7"]
     
 
@@ -1832,9 +1831,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getFormPaintable () : Paintable.paintable =
+    method getFormPaintable : 'return. unit -> 'return = fun () ->
         begin
-        (formPaintable :> Paintable.paintable)
+        (Obj.magic (formPaintable))
         end [@@warning "-7"]
     
 
@@ -1845,9 +1844,9 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         end [@@warning "-7-20"]
     
 
-    method getGameSpecificPaintableP () : Paintable.paintable =
+    method getGameSpecificPaintableP : 'return. unit -> 'return = fun () ->
         begin
-        (gameSpecificPaintable :> Paintable.paintable)
+        (Obj.magic (gameSpecificPaintable))
         end [@@warning "-7"]
     
 
@@ -1875,6 +1874,18 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         begin
         tYPE
         end [@@warning "-7"]
+    
+
+    method getTitle () : string =
+        begin
+        (super#getTitle ())
+        end [@@warning "-7"]
+    
+
+    method isPaused () : bool =
+        begin
+        (super#isPaused ())
+        end [@@warning "-7"]
 
     initializer
       begin
@@ -1889,11 +1900,11 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         gameStateFactory <- ((GameStateFactory.getInstance ()) :> GameStateFactory.gameStateFactory);
         gameTickTimeDelayHelper <- ((GameTickTimeDelayHelperFactory.getInstance ()) :> GameTickTimeDelayHelper.gameTickTimeDelayHelper);
         gameTickDisplayInfoSingleton <- ((GameTickDisplayInfoSingleton.getInstance ()) :> GameTickDisplayInfoSingleton.gameTickDisplayInfoSingleton);
-        gameRunnable <- ((new GameCanvasRunnable.gameCanvasRunnable (self)) :> GameCanvasRunnable.gameCanvasRunnable);
-        gamePauseRunnable <- ((new GameCanvasPauseRunnable.gameCanvasPauseRunnable (self)) :> GameCanvasPauseRunnable.gameCanvasPauseRunnable);
+        gameRunnable <- (Obj.repr (Obj.obj (java_new "GameCanvasRunnable" (Obj.repr ((Obj.magic self))))));
+        gamePauseRunnable <- (Obj.repr (Obj.obj (java_new "GameCanvasPauseRunnable" (Obj.repr ((Obj.magic self))))));
         formUtil <- ((FormUtil.getInstance ()) :> FormUtil.formUtil);
         myFormUtil <- ((MyFormUtil.getInstance ()) :> MyFormUtil.myFormUtil);
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         gameSpecificPaintable <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
         sensorGameUpdateProcessor <- (Obj.repr (Obj.obj (java_new "SingleSensorGameUpdateProcessor" (Obj.repr ()))));
@@ -1948,14 +1959,14 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         screenCapture <- ((ScreenCaptureFactory.getInstance ()) :> ScreenCapture.screenCapture);
         basicMotionGesturesHandler <- (Obj.repr (Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ()))));
         gameKeyEventHandler <- ((GameKeyEventHandler.getInstance ()) :> GameKeyEventHandler.gameKeyEventHandler);
-        gameBehavior <- ((Obj.magic 0) :> DemoGameBehavior.demoGameBehavior);
-        menuBehavior <- ((Obj.magic 0) :> BaseMenuBehavior.baseMenuBehavior);
+        gameBehavior <- (Obj.repr (Obj.magic 0));
+        menuBehavior <- (Obj.repr (Obj.magic 0));
         progressPaintable <- ((ProgressCanvasFactory.getLazyInstance ()) :> PaintableInterface.paintableInterface);
         fontHeightP <- 0;
         gameCanvasStartListener <- ((NullDemoPaintable.get_nULL_DEMO_PAINTABLE ()) :> DemoPaintableInterface.demoPaintableInterface);
-        rawGameInputProcessor <- (Obj.repr (new GameCanvasInputProcessor.gameCanvasInputProcessor (self)));
-        rawInputProcessor <- (Obj.repr (new FormInputProcessor.formInputProcessor (self)));
-        inputProcessor <- (Obj.repr (self#getRawGameInputProcessor ()));
+        rawGameInputProcessor <- ((Obj.obj (java_new "GameCanvasInputProcessor" (Obj.repr ((Obj.magic self))))) :> InputProcessor.inputProcessor);
+        rawInputProcessor <- ((Obj.obj (java_new "FormInputProcessor" (Obj.repr ((Obj.magic self))))) :> InputProcessor.inputProcessor);
+        inputProcessor <- ((self#getRawGameInputProcessor ()) :> InputProcessor.inputProcessor);
         yIELD_SLEEP <- 100;
         ();
         (* super(...) is the inherit clause *) ();
@@ -1964,16 +1975,16 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
         (self#init (gameLayerManager_arg, buffered));
         highScoresFactoryInterface <- highScoresFactoryInterface_arg;
         if (((Obj.repr ((gameLayerManager#getGameInfo ())#getGameType ())) == (Obj.repr gameTypeFactory#bOT)) || ((Obj.repr ((gameLayerManager#getGameInfo ())#getGameType ())) == (Obj.repr gameTypeFactory#nONE))) then begin
-            gameBehavior <- (DemoGameBehavior.getInstance ());
-            menuBehavior <- (BaseMenuBehavior.getInstance ())
+            gameBehavior <- Obj.repr ((Obj.magic (java_call_static "DemoGameBehavior.getInstance" (Obj.repr ()))));
+            menuBehavior <- Obj.repr ((Obj.magic (java_call_static "BaseMenuBehavior.getInstance" (Obj.repr ()))))
         end else begin
-            gameBehavior <- (BaseGameBehavior.getInstance ());
-            menuBehavior <- (self#getInGameMenuBehavior ())
+            gameBehavior <- Obj.repr ((Obj.magic (java_call_static "BaseGameBehavior.getInstance" (Obj.repr ()))));
+            menuBehavior <- Obj.repr ((self#getInGameMenuBehavior ()))
         end;
         (self#initPopupMenu ());
         (self#initMenu ());
         (self#initSpecialPaint ());
-        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface (self))
+        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "AllBinaryGameCanvas" (fun arguments -> Obj.repr (new allBinaryGameCanvas (Obj.obj arguments)))

@@ -77,7 +77,7 @@ class pacePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLa
         end [@@warning "-7-20"]
     
 
-    method setFiringDirectionForTargetIfInRange () : Direction.direction =
+    method setFiringDirectionForTargetIfInRange : 'return. unit -> 'return = fun () ->
         begin
         let directionFactory : DirectionFactory.directionFactory ref = ref (((DirectionFactory.getInstance ()) :> DirectionFactory.directionFactory)) in ();
         let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
@@ -106,7 +106,7 @@ class pacePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLa
                 end
             end
         done;
-        (!direction :> Direction.direction)
+        (Obj.magic (!direction))
         end [@@warning "-7"]
     
 
@@ -118,7 +118,7 @@ class pacePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLa
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -148,8 +148,8 @@ class pacePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLa
         isFollowLimitedByTerrain <- false;
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((TrackingEventHandler.getInstance ())#addListenerInterface (self));
-        trackingList <- (new BasicArrayListD.basicArrayListD ())
+        ignore ((TrackingEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)));
+        trackingList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
       end
   end
 let () = java_register_constructor "PacePatrolAI" (fun arguments -> Obj.repr (new pacePatrolAI (Obj.obj arguments)))

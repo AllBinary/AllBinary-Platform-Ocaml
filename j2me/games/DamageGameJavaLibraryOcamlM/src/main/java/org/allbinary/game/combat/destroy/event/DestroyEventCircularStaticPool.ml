@@ -36,12 +36,12 @@ class destroyEventCircularStaticPool () =
         end [@@warning "-20"]
     
 
-    method getInstanceForLayer : 'any1. 'any1 -> DestroyedEvent.destroyedEvent = fun (layerInterface) ->
+    method getInstanceForLayer : 'any1 'return. 'any1 -> 'return = fun (layerInterface) ->
         let layerInterface = Obj.repr layerInterface in
         begin
         let destroyedEvent : DestroyedEvent.destroyedEvent ref = ref (((Obj.magic (eVENT_POOL#getNextInstance ())) :> DestroyedEvent.destroyedEvent)) in ();
         ignore (!destroyedEvent#setLayerInterfaceForCircularStaticPool ((Obj.magic layerInterface)));
-        (!destroyedEvent :> DestroyedEvent.destroyedEvent)
+        (Obj.magic (!destroyedEvent))
         end [@@warning "-20"]
 
     initializer
@@ -57,9 +57,9 @@ let instance = (new destroyEventCircularStaticPool ())
 let get_instance () = instance
 let () = java_register_static "DestroyEventCircularStaticPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "DestroyEventCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

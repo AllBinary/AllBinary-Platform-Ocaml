@@ -26,6 +26,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "UpTrackballInputToGameKeyEventAction.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "UpTrackballInputToGameKeyEventAction.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class upTrackballInputToGameKeyEventAction () =
   object
     inherit GameKeyCompleteMotionGestureInputEvent.gameKeyCompleteMotionGestureInputEvent ("Up Action", (TrackballMotionGestureFactory.getInstance ())#uP, (((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#getInputMapping ()))
@@ -42,7 +43,7 @@ let () = java_register_constructor "UpTrackballInputToGameKeyEventAction" (fun a
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new upTrackballInputToGameKeyEventAction ())
+            instance := (Obj.repr ((new upTrackballInputToGameKeyEventAction ())))
         end;
         (Obj.magic ((Obj.magic !instance)))
         end

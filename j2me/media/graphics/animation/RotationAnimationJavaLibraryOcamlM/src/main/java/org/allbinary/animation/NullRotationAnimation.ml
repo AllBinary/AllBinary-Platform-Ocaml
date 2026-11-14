@@ -26,17 +26,17 @@ class nullRotationAnimation ((angleInfo : AngleInfo.angleInfo), (circularIndexUt
   end
 let () = java_register_constructor "NullRotationAnimation" (fun arguments -> Obj.repr (new nullRotationAnimation (Obj.obj arguments)))
 
-let createTotalAngle : 'any1 'any3. 'any1 * int * 'any3 -> _ = fun (angleInfo, (totalAngle : int), animationBehavior) ->
+let createTotalAngle : 'any1 'any3 'return. 'any1 * int * 'any3 -> 'return = fun (angleInfo, (totalAngle : int), animationBehavior) ->
         let angleInfo = Obj.repr angleInfo in
         let animationBehavior = Obj.repr animationBehavior in
         begin
-        (new nullRotationAnimation ((Obj.magic angleInfo), (CircularIndexUtil.createInstance ((totalAngle / (((Obj.magic angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ())))), (Obj.magic animationBehavior)))
+        (Obj.magic ((new nullRotationAnimation ((Obj.magic angleInfo), (CircularIndexUtil.createInstance ((totalAngle / (((Obj.magic angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ())))), (Obj.magic animationBehavior)))))
         end [@@warning "-20"]
 
-and createQuarter : 'any1. 'any1 -> _ = fun (animationBehavior) ->
+and createQuarter : 'any1 'return. 'any1 -> 'return = fun (animationBehavior) ->
         let animationBehavior = Obj.repr animationBehavior in
         begin
-        (new nullRotationAnimation ((AngleInfo.getInstance ((AngleFactory.getInstance ())#qUARTER_TOTAL_ANGLE)), (CircularIndexUtil.createInstance (4)), (Obj.magic animationBehavior)))
+        (Obj.magic ((new nullRotationAnimation ((AngleInfo.getInstance ((AngleFactory.getInstance ())#qUARTER_TOTAL_ANGLE)), (CircularIndexUtil.createInstance (4)), (Obj.magic animationBehavior)))))
         end [@@warning "-20"]
 let () = java_register_static "NullRotationAnimation.createTotalAngle" (fun arguments -> Obj.repr (createTotalAngle (Obj.obj arguments)))
 let () = java_register_static "NullRotationAnimation.createQuarter" (fun arguments -> Obj.repr (createQuarter (Obj.obj arguments)))

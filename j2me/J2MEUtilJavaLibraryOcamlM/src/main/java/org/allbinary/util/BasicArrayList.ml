@@ -192,7 +192,7 @@ class basicArrayList ((objectArray_arg : Obj.t array)) =
                 end
             done
         end;
-        (-1)
+        (- 1)
         end
         with Java_return value -> Obj.obj value
     
@@ -214,7 +214,7 @@ class basicArrayList ((objectArray_arg : Obj.t array)) =
                 end
             done
         end;
-        (-1)
+        (- 1)
         end
         with Java_return value -> Obj.obj value
     
@@ -278,13 +278,13 @@ class basicArrayList ((objectArray_arg : Obj.t array)) =
         end
     
 
-    method toArray () : Obj.t array =
+    method toArray : 'return. unit -> 'return = fun () ->
         begin
-        (arrayUtil#copyOf (objectArray, currentIndex))
+        (Obj.magic ((arrayUtil#copyOf (objectArray, currentIndex))))
         end
     
 
-    method toArrayType ((objectArray_arg : Obj.t array)) : Obj.t array =
+    method toArrayType : 'return. Obj.t array -> 'return = fun ((objectArray_arg : Obj.t array)) ->
         try
         begin
         if ((Array.length objectArray_arg) < currentIndex) then begin
@@ -294,7 +294,7 @@ class basicArrayList ((objectArray_arg : Obj.t array)) =
         if ((Array.length objectArray_arg) > currentIndex) then begin
             objectArray_arg.(currentIndex) <- (Obj.magic 0)
         end;
-        objectArray_arg
+        (Obj.magic (objectArray_arg))
         end
         with Java_return value -> Obj.obj value
     
@@ -305,7 +305,7 @@ class basicArrayList ((objectArray_arg : Obj.t array)) =
         let list : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "BasicArrayListS" (Obj.repr (!size)))))) in ();
         let anyType : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
         for index = 0 to !size - 1 do
-            anyType := objectArray.(index);
+            anyType := (Obj.repr (objectArray.(index)));
             ignore ((Obj.magic !list)#add (!anyType))
         done;
         (Obj.repr ((Obj.magic !list)))

@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual artificialIntelligenceInterfaceFactoryInterface =
   object
-    method virtual getInstance : 'any1 'any2 'any3 . 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface
+    method virtual getInstance : 'any1 'any2 'any3 'return . 'any1 * 'any2 * 'any3 -> 'return
   end
 
 

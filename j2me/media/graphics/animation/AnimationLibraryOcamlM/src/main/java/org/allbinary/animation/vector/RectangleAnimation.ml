@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class rectangleAnimation ((width_arg : int), (height_arg : int), (basicColor : BasicColor.basicColor)) =
   object (self)
-    inherit Animation.animation ()
+    inherit Animation.animation () as super
     val mutable width : int = 0
     method width = width
     method set_width value' = width <- value'
@@ -58,6 +58,19 @@ class rectangleAnimation ((width_arg : int), (height_arg : int), (basicColor : B
         begin
         height <- height_arg
         end [@@warning "-7"]
+    
+
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getBasicColorP ())))
+        end [@@warning "-7"]
+    
+
+    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor) ->
+        let basicColor = Obj.repr basicColor in
+        begin
+        ignore (super#setBasicColorP ((Obj.magic basicColor)))
+        end [@@warning "-7-20"]
 
     initializer
       begin
@@ -66,7 +79,7 @@ class rectangleAnimation ((width_arg : int), (height_arg : int), (basicColor : B
         ();
         width <- width_arg;
         height <- height_arg;
-        ignore (self#setBasicColorP (basicColor))
+        (self#setBasicColorP (basicColor))
       end
   end
 let () = java_register_constructor "RectangleAnimation" (fun arguments -> Obj.repr (new rectangleAnimation (Obj.obj arguments)))

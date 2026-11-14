@@ -32,9 +32,10 @@ let inputProcessor : SpecialGameInputInterface.specialGameInputInterface ref = r
 let get_inputProcessor () = !inputProcessor
 let set_inputProcessor value' = inputProcessor := value'
 let () = java_register_static "CheatGameInputProcessor.get_inputProcessor" (fun _ -> Obj.repr (get_inputProcessor ()))
+let () = java_register_static "CheatGameInputProcessor.set_inputProcessor" (fun value' -> set_inputProcessor (Obj.obj value'); Obj.repr ())
 class cheatGameInputProcessor (gameCanvas_arg) =
   object (self)
-    inherit PlayerGameInput.playerGameInput ((new BasicArrayListD.basicArrayListD ()), (new BasicArrayListD.basicArrayListD ()), (-1))
+    inherit PlayerGameInput.playerGameInput (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), ((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1))
     val mutable pROCESS_GAME : string = ""
     method pROCESS_GAME = pROCESS_GAME
     method set_pROCESS_GAME value' = pROCESS_GAME <- value'
@@ -85,7 +86,7 @@ class cheatGameInputProcessor (gameCanvas_arg) =
             done;
             ignore (!list#clear ())
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#uPDATE, e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#uPDATE, e))
         end)
         end [@@warning "-7"]
 

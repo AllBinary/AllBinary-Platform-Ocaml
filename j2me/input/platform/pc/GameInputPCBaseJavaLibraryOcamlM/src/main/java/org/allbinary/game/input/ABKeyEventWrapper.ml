@@ -16,6 +16,7 @@
 (* package org.allbinary.game.input *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import java.awt.event.KeyEvent *)
 (* import jsinterop.annotations.JsType *)
 
@@ -789,9 +790,9 @@ let instance = (new aBKeyEventWrapper ())
 let get_instance () = instance
 let () = java_register_static "ABKeyEventWrapper.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ABKeyEventWrapper.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

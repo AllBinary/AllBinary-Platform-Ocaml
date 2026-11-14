@@ -31,17 +31,17 @@ class artificialIntelligenceInterfaceFactoryInterfaceFactory () =
 
     method clear () : unit =
         begin
-        list <- (new BasicArrayListD.basicArrayListD ())
+        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
         end
     
 
-    method getInstanceFromCollection : 'any1. 'any1 -> ArtificialIntelligenceInterfaceFactoryInterface.artificialIntelligenceInterfaceFactoryInterface = fun (hashtable) ->
+    method getInstanceFromCollection : 'any1 'return. 'any1 -> 'return = fun (hashtable) ->
         let hashtable = Obj.repr hashtable in
         begin
         let typeInteger : int ref = ref ((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (BasicAI.get_iD ())))))) in ();
         let type_ : int ref = ref (!typeInteger) in ();
         let artificialIntelligenceInterfaceFactoryInterface : ArtificialIntelligenceInterfaceFactoryInterface.artificialIntelligenceInterfaceFactoryInterface ref = ref (((Obj.magic list#objectArray.((!type_ - 1))) :> ArtificialIntelligenceInterfaceFactoryInterface.artificialIntelligenceInterfaceFactoryInterface)) in ();
-        (!artificialIntelligenceInterfaceFactoryInterface :> ArtificialIntelligenceInterfaceFactoryInterface.artificialIntelligenceInterfaceFactoryInterface)
+        (Obj.magic (!artificialIntelligenceInterfaceFactoryInterface))
         end [@@warning "-20"]
     
 
@@ -63,10 +63,11 @@ let sINGLETON = ref ((new artificialIntelligenceInterfaceFactoryInterfaceFactory
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "ArtificialIntelligenceInterfaceFactoryInterfaceFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "ArtificialIntelligenceInterfaceFactoryInterfaceFactory.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "ArtificialIntelligenceInterfaceFactoryInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

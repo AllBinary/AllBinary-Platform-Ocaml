@@ -43,14 +43,14 @@ class resourceRelativeRelationshipFactory () =
         end
     
 
-    method getResourceRelativeRelationshipList ((resource : string)) : BasicArrayList.basicArrayList =
+    method getResourceRelativeRelationshipList : 'return. string -> 'return = fun ((resource : string)) ->
         try
         begin
         let listCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic hashtable)#get (resource)))) in ();
         if (!listCanBeNull == (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr ((basicArrayListUtil#getImmutableInstance ()))))
         end;
-        ((Obj.magic !listCanBeNull) :> BasicArrayList.basicArrayList)
+        (Obj.magic ((Obj.magic !listCanBeNull)))
         end
         with Java_return value -> Obj.obj value
     
@@ -60,7 +60,7 @@ class resourceRelativeRelationshipFactory () =
         begin
         let list : BasicArrayList.basicArrayList ref = ref (((self#getResourceRelativeRelationshipList (resource)) :> BasicArrayList.basicArrayList)) in ();
         if ((Obj.repr !list) == (Obj.repr (basicArrayListUtil#getImmutableInstance ()))) then begin
-            list := (new BasicArrayListD.basicArrayListD ())
+            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
         end;
         ignore (!list#add ((Obj.magic hardPoint)));
         ignore ((Obj.magic hashtable)#put (resource, !list))

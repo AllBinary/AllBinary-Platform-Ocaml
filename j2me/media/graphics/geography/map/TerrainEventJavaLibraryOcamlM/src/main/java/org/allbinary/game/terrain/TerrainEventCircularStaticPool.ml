@@ -32,12 +32,12 @@ class terrainEventCircularStaticPool () =
         end
     
 
-    method getNext : 'any1. 'any1 -> TerrainEvent.terrainEvent = fun (basicTerrainInfo) ->
+    method getNext : 'any1 'return. 'any1 -> 'return = fun (basicTerrainInfo) ->
         let basicTerrainInfo = Obj.repr basicTerrainInfo in
         begin
         let trackingEvent : TerrainEvent.terrainEvent ref = ref (((Obj.magic (eVENT_POOL#getNextInstance ())) :> TerrainEvent.terrainEvent)) in ();
         ignore (!trackingEvent#setBasicTerrainInfoForCircularStaticPool ((Obj.magic basicTerrainInfo)));
-        (!trackingEvent :> TerrainEvent.terrainEvent)
+        (Obj.magic (!trackingEvent))
         end [@@warning "-20"]
 
     initializer
@@ -52,9 +52,9 @@ let instance = (new terrainEventCircularStaticPool ())
 let get_instance () = instance
 let () = java_register_static "TerrainEventCircularStaticPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "TerrainEventCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

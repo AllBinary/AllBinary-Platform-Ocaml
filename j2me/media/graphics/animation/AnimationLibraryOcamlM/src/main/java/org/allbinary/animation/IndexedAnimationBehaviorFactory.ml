@@ -16,6 +16,7 @@
 (* package org.allbinary.animation *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class indexedAnimationBehaviorFactory ((loopTotal_arg : int), (frameDelayTime_arg : int)) =
   object
@@ -29,9 +30,9 @@ class indexedAnimationBehaviorFactory ((loopTotal_arg : int), (frameDelayTime_ar
     
     
 
-    method getOrCreateInstance () : AnimationBehavior.animationBehavior =
+    method getOrCreateInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new IndexedAnimationBehavior.indexedAnimationBehavior (loopTotal, frameDelayTime)) :> AnimationBehavior.animationBehavior)
+        (Obj.magic ((new IndexedAnimationBehavior.indexedAnimationBehavior (loopTotal, frameDelayTime))))
         end [@@warning "-7"]
 
     initializer

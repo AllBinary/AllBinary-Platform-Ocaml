@@ -83,14 +83,14 @@ class imageCacheBase () =
             ignore (availableListOfList.(index)#clear ());
             ignore (availableListOfList.(index)#addAllList (listOfList.(index)))
         done;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("ImageCache: "))#append ((java_string_of (Obj.repr self)))))), self, "releaseAll"))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("ImageCache: "))#append ((java_string_of (Obj.repr self)))))), (Obj.magic self), "releaseAll"))
         end
     
 
     method getIndexWH ((width : int), (height : int)) : int =
         try
         begin
-        let foundIndex : int ref = ref ((-1)) in ();
+        let foundIndex : int ref = ref ((- 1)) in ();
         let size : int ref = ref ((Array.length widths)) in ();
         for index = 0 to !size - 1 do
             if ((widths.(index) = width) && (heights.(index) = height)) then begin
@@ -106,7 +106,7 @@ class imageCacheBase () =
     method getFromAvailable : 'return. int * int * int -> 'return = fun ((foundIndex : int), (_width : int), (_height : int)) ->
         try
         begin
-        if (foundIndex <> (-1)) then begin
+        if (foundIndex <> (- 1)) then begin
             if ((availableListOfList.(foundIndex)#size ()) > 0) then begin
                 let list : BasicArrayList.basicArrayList ref = ref ((availableListOfList.(foundIndex) :> BasicArrayList.basicArrayList)) in ();
                 raise (Java_return (Obj.repr ((Obj.magic (!list#removeAt (((!list#size ()) - 1)))))))

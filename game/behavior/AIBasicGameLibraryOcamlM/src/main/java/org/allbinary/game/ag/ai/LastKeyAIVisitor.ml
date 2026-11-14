@@ -41,12 +41,12 @@ class lastKeyAIVisitor () =
         (try
             let basicAI : BasicAI.basicAI ref = ref (((Obj.magic anyType) :> BasicAI.basicAI)) in ();
             let key : int ref = ref ((!basicAI#getLastKey ())) in ();
-            if (!key <> (-1)) then begin
+            if (!key <> (- 1)) then begin
                 ignore (!basicAI#processKeyAI (!key))
             end
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#vISIT, e))
+            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#vISIT, e))
         end);
         (Obj.repr (tRUE))
         end [@@warning "-7"]

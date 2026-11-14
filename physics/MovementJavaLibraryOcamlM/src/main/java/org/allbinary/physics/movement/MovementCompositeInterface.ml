@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual movementCompositeInterface =
   object
-    method virtual getMovement : unit -> Movement.movement
+    method virtual getMovement : 'return . unit -> 'return
   end
 
 

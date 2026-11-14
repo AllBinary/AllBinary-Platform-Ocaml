@@ -16,6 +16,7 @@
 (* package org.allbinary.game.ag.layer.pickup.life *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.layer.AllBinaryLayer *)
 (* import org.allbinary.layer.AllBinaryLayerFactoryInterface *)
 
@@ -23,9 +24,9 @@ class lifeLayerFactory () =
   object
     
 
-    method getInstance () : AllBinaryLayer.allBinaryLayer =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new LifeLayer.lifeLayer ()) :> AllBinaryLayer.allBinaryLayer)
+        (Obj.magic ((new LifeLayer.lifeLayer ())))
         end
 
     initializer

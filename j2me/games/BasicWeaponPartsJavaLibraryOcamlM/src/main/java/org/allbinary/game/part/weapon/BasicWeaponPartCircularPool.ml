@@ -36,14 +36,14 @@ class basicWeaponPartCircularPool () =
         end [@@warning "-20"]
     
 
-    method getInstance : 'any1 'any2 'any3 'any4. 'any1 * 'any2 * 'any3 * 'any4 -> BasicWeaponPart.basicWeaponPart = fun (sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship) ->
+    method getInstance : 'any1 'any2 'any3 'any4 'return. 'any1 * 'any2 * 'any3 * 'any4 -> 'return = fun (sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship) ->
         let sourceLayerInterface = Obj.repr sourceLayerInterface in
         let weaponProperties = Obj.repr weaponProperties in
         let scoreableInterface = Obj.repr scoreableInterface in
         let relativeRelationship = Obj.repr relativeRelationship in
         begin
         ignore (basicWeaponPart#init ((Obj.magic sourceLayerInterface), (Obj.magic weaponProperties), (Obj.magic scoreableInterface), (Obj.magic relativeRelationship)));
-        (basicWeaponPart :> BasicWeaponPart.basicWeaponPart)
+        (Obj.magic (basicWeaponPart))
         end [@@warning "-20"]
 
     initializer

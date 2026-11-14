@@ -32,13 +32,13 @@ open Allbinary_java [@@warning "-33"]
 
 class commandCurrentSelectionForm ((title : string), items, (border : int), (moveForSmallScreen : bool), (backgroundBasicColor : BasicColor.basicColor), (foregroundBasicColor : BasicColor.basicColor)) =
   object (self)
-    inherit ScrollCurrentSelectionForm.scrollCurrentSelectionForm (title, items, (ItemPaintableFactory.getInstance ()), border, (-3), moveForSmallScreen, backgroundBasicColor, foregroundBasicColor) as super
-    val mutable selectedAnimationArray : Obj.t = Obj.repr 0
-    method selectedAnimationArray : 'r. 'r = Obj.magic selectedAnimationArray
-    method set_selectedAnimationArray : 'v. 'v -> unit = fun value' -> selectedAnimationArray <- Obj.repr value'
-    val mutable unSelectedAnimationArray : Obj.t = Obj.repr 0
-    method unSelectedAnimationArray : 'r. 'r = Obj.magic unSelectedAnimationArray
-    method set_unSelectedAnimationArray : 'v. 'v -> unit = fun value' -> unSelectedAnimationArray <- Obj.repr value'
+    inherit ScrollCurrentSelectionForm.scrollCurrentSelectionForm (title, items, (ItemPaintableFactory.getInstance ()), border, (- 3), moveForSmallScreen, backgroundBasicColor, foregroundBasicColor) as super
+    val mutable selectedAnimationArray : Animation.animation array = (Obj.magic 0)
+    method selectedAnimationArray = selectedAnimationArray
+    method set_selectedAnimationArray value' = selectedAnimationArray <- value'
+    val mutable unSelectedAnimationArray : Animation.animation array = (Obj.magic 0)
+    method unSelectedAnimationArray = unSelectedAnimationArray
+    method set_unSelectedAnimationArray value' = unSelectedAnimationArray <- value'
     
     
 
@@ -52,25 +52,26 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
 
     method initAnimations () : unit =
         begin
-        let nullAnimation : Obj.t ref = ref ((Obj.repr ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)))) in ();
-        let index : int ref = ref ((Array.length (Obj.magic selectedAnimationArray))) in ();
+        let nullAnimation : Animation.animation ref = ref ((((NullAnimationFactory.getFactoryInstance ())#getInstance (0)) :> Animation.animation)) in ();
+        let index : int ref = ref ((Array.length selectedAnimationArray)) in ();
         while ((index := !index - 1; !index) >= 0) do
-            (Obj.magic selectedAnimationArray).(!index) <- (Obj.magic !nullAnimation)
+            selectedAnimationArray.(!index) <- (!nullAnimation :> Animation.animation)
         done;
-        let index : int ref = ref ((Array.length (Obj.magic unSelectedAnimationArray))) in ();
+        let index : int ref = ref ((Array.length unSelectedAnimationArray)) in ();
         while ((index := !index - 1; !index) >= 0) do
-            (Obj.magic unSelectedAnimationArray).(!index) <- (Obj.magic !nullAnimation)
+            unSelectedAnimationArray.(!index) <- (!nullAnimation :> Animation.animation)
         done
         end [@@warning "-7"]
     
 
-    method addAll (items) : unit =
+    method addAll : 'any1. 'any1 -> unit = fun (items) ->
+        let items = Obj.repr items in
         begin
-        let index : int ref = ref ((Array.length items)) in ();
+        let index : int ref = ref ((Array.length (Obj.magic items))) in ();
         while ((index := !index - 1; !index) >= 0) do
-            (self#addAt (!index, items.(!index)))
+            (self#addAt (!index, (Obj.magic items).(!index)))
         done
-        end [@@warning "-7"]
+        end [@@warning "-7-20"]
     
 
     method addAt : 'any2. int * 'any2 -> unit = fun ((index : int), item) ->
@@ -82,30 +83,31 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
         let width : int ref = ref (((Obj.magic item)#getMinimumWidth ())) in ();
         let height : int ref = ref (((Obj.magic item)#getMinimumHeight ())) in ();
         let adjustedBorder : int ref = ref (3) in ();
-        let offset : int ref = ref ((-(((self#halfBorder) + !adjustedBorder)))) in ();
+        let offset : int ref = ref ((- (((self#halfBorder) + !adjustedBorder)))) in ();
         let rectWidth : int ref = ref (((!width + (self#border)) - !adjustedBorder)) in ();
         let rectHeight : int ref = ref (((!height + (self#border)) - !adjustedBorder)) in ();
         if ((J2MEUtil.isJ2ME ()) || (J2MEUtil.isHTML ())) then begin
-            (Obj.magic selectedAnimationArray).(index) <- (new RectangleAdjustedAnimation.rectangleAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !selectedButtonColor))
+            selectedAnimationArray.(index) <- ((new RectangleAdjustedAnimation.rectangleAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !selectedButtonColor)) :> Animation.animation)
         end else begin
-            (Obj.magic selectedAnimationArray).(index) <- (new RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !selectedButtonColor))
+            selectedAnimationArray.(index) <- ((new RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !selectedButtonColor)) :> Animation.animation)
         end;
         adjustedBorder := 4;
         if ((J2MEUtil.isJ2ME ()) || (J2MEUtil.isHTML ())) then begin
-            (Obj.magic unSelectedAnimationArray).(index) <- (new RectangleAdjustedAnimation.rectangleAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !buttonColor))
+            unSelectedAnimationArray.(index) <- ((new RectangleAdjustedAnimation.rectangleAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !buttonColor)) :> Animation.animation)
         end else begin
-            (Obj.magic unSelectedAnimationArray).(index) <- (new RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !buttonColor))
+            unSelectedAnimationArray.(index) <- ((new RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation (!rectWidth, !rectHeight, !offset, !offset, !buttonColor)) :> Animation.animation)
         end
         end [@@warning "-7-20"]
     
 
-    method updateAll : 'any1. 'any1 * _ -> unit = fun (graphics, items) ->
+    method updateAll : 'any1 'any2. 'any1 * 'any2 -> unit = fun (graphics, items) ->
         let graphics = Obj.repr graphics in
+        let items = Obj.repr items in
         begin
-        let index : int ref = ref ((Array.length items)) in ();
+        let index : int ref = ref ((Array.length (Obj.magic items))) in ();
         while ((index := !index - 1; !index) >= 0) do
-            ignore (items.(!index)#preMeasurement ((Obj.magic graphics)));
-            (self#updateAt (!index, items.(!index)))
+            ignore ((Obj.magic items).(!index)#preMeasurement ((Obj.magic graphics)));
+            (self#updateAt (!index, (Obj.magic items).(!index)))
         done
         end [@@warning "-7-20"]
     
@@ -119,18 +121,18 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
         let width : int ref = ref (((Obj.magic item)#getMinimumWidth ())) in ();
         let height : int ref = ref (((Obj.magic item)#getMinimumHeight ())) in ();
         let adjustedBorder : int ref = ref (3) in ();
-        let offset : int ref = ref ((-(((self#halfBorder) + !adjustedBorder)))) in ();
+        let offset : int ref = ref ((- (((self#halfBorder) + !adjustedBorder)))) in ();
         let rectWidth : int ref = ref (((!width + (self#border)) - !adjustedBorder)) in ();
         let rectHeight : int ref = ref (((!height + (self#border)) - !adjustedBorder)) in ();
         if ((J2MEUtil.isJ2ME ()) || (J2MEUtil.isHTML ())) then begin
-            let rectangleAdjustedAnimation : RectangleAdjustedAnimation.rectangleAdjustedAnimation ref = ref (((Obj.magic (Obj.magic selectedAnimationArray).(index)) :> RectangleAdjustedAnimation.rectangleAdjustedAnimation)) in ();
+            let rectangleAdjustedAnimation : RectangleAdjustedAnimation.rectangleAdjustedAnimation ref = ref (((Obj.magic selectedAnimationArray.(index)) :> RectangleAdjustedAnimation.rectangleAdjustedAnimation)) in ();
             ignore (!rectangleAdjustedAnimation#setWidth (!rectWidth));
             ignore (!rectangleAdjustedAnimation#setHeight (!rectHeight));
             ignore (!rectangleAdjustedAnimation#setOffsetX (!offset));
             ignore (!rectangleAdjustedAnimation#setOffsetY (!offset));
             ignore (!rectangleAdjustedAnimation#setBasicColorP (!selectedButtonColor))
         end else begin
-            let rectangleAdjustedAnimation : RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation ref = ref (((Obj.magic (Obj.magic selectedAnimationArray).(index)) :> RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation)) in ();
+            let rectangleAdjustedAnimation : RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation ref = ref (((Obj.magic selectedAnimationArray.(index)) :> RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation)) in ();
             ignore (!rectangleAdjustedAnimation#setWidth (!rectWidth));
             ignore (!rectangleAdjustedAnimation#setHeight (!rectHeight));
             ignore (!rectangleAdjustedAnimation#setOffsetX (!offset));
@@ -139,14 +141,14 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
         end;
         adjustedBorder := 4;
         if ((J2MEUtil.isJ2ME ()) || (J2MEUtil.isHTML ())) then begin
-            let rectangleAdjustedAnimation : RectangleAdjustedAnimation.rectangleAdjustedAnimation ref = ref (((Obj.magic (Obj.magic unSelectedAnimationArray).(index)) :> RectangleAdjustedAnimation.rectangleAdjustedAnimation)) in ();
+            let rectangleAdjustedAnimation : RectangleAdjustedAnimation.rectangleAdjustedAnimation ref = ref (((Obj.magic unSelectedAnimationArray.(index)) :> RectangleAdjustedAnimation.rectangleAdjustedAnimation)) in ();
             ignore (!rectangleAdjustedAnimation#setWidth (!rectWidth));
             ignore (!rectangleAdjustedAnimation#setHeight (!rectHeight));
             ignore (!rectangleAdjustedAnimation#setOffsetX (!offset));
             ignore (!rectangleAdjustedAnimation#setOffsetY (!offset));
             ignore (!rectangleAdjustedAnimation#setBasicColorP (!buttonColor))
         end else begin
-            let rectangleAdjustedAnimation : RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation ref = ref (((Obj.magic (Obj.magic unSelectedAnimationArray).(index)) :> RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation)) in ();
+            let rectangleAdjustedAnimation : RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation ref = ref (((Obj.magic unSelectedAnimationArray.(index)) :> RectangleFilledAdjustedAnimation.rectangleFilledAdjustedAnimation)) in ();
             ignore (!rectangleAdjustedAnimation#setWidth (!rectWidth));
             ignore (!rectangleAdjustedAnimation#setHeight (!rectHeight));
             ignore (!rectangleAdjustedAnimation#setOffsetX (!offset));
@@ -212,7 +214,7 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
         let graphics = Obj.repr graphics in
         let item = Obj.repr item in
         begin
-        ignore ((Obj.magic selectedAnimationArray).(index)#paintXY ((Obj.magic graphics), x, y));
+        ignore (selectedAnimationArray.(index)#paintXY ((Obj.magic graphics), x, y));
         (super#paintItem ((Obj.magic graphics), index, (Obj.magic item), x, y))
         end [@@warning "-7-20"]
     
@@ -221,20 +223,20 @@ class commandCurrentSelectionForm ((title : string), items, (border : int), (mov
         let graphics = Obj.repr graphics in
         let item = Obj.repr item in
         begin
-        ignore ((Obj.magic unSelectedAnimationArray).(index)#paintXY ((Obj.magic graphics), x, y));
+        ignore (unSelectedAnimationArray.(index)#paintXY ((Obj.magic graphics), x, y));
         (super#paintUnselectedItem ((Obj.magic graphics), index, (Obj.magic item), x, y))
         end [@@warning "-7-20"]
 
     initializer
       begin
-        selectedAnimationArray <- (Obj.repr (Array.make (16) (Obj.magic 0)));
-        unSelectedAnimationArray <- (Obj.repr (Array.make (16) (Obj.magic 0)));
+        selectedAnimationArray <- (Array.make (16) (Obj.magic 0));
+        unSelectedAnimationArray <- (Array.make (16) (Obj.magic 0));
         ();
         (* super(...) is the inherit clause *) ();
         (self#initAnimations ());
         (self#addAll (items))
       end
-  end [@@warning "-20"]
+  end
 let () = java_register_constructor "CommandCurrentSelectionForm" (fun arguments -> Obj.repr (new commandCurrentSelectionForm (Obj.obj arguments)))
 
 

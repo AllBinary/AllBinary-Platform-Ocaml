@@ -30,7 +30,7 @@ class imageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.angleInfo)
     
     
 
-    method init : 'any2. _ * 'any2 * int -> unit = fun (_imageArray, _angleInfo, (totalAngle : int)) ->
+    method init : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_imageArray, _angleInfo, (totalAngle : int)) ->
         begin
         expectedTotalFrames <- (totalAngle / (((self#angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ()));
         ignore ((self#angleInfo)#adjustAngle (0));
@@ -40,11 +40,12 @@ class imageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.angleInfo)
         end [@@warning "-7-20"]
     
 
-    method setImageArray (imageArray) : unit =
+    method setImageArray : 'any1. 'any1 -> unit = fun (imageArray) ->
+        let imageArray = Obj.repr imageArray in
         begin
-        ignore (super#setImageArray (imageArray));
+        ignore (super#setImageArray ((Obj.magic imageArray)));
         ignore ((self#angleInfo)#adjustAngle (0))
-        end [@@warning "-7"]
+        end [@@warning "-7-20"]
 
     initializer
       begin
@@ -56,12 +57,12 @@ class imageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.angleInfo)
   end
 let () = java_register_constructor "ImageArrayRotationAnimation" (fun arguments -> Obj.repr (new imageArrayRotationAnimation (Obj.obj arguments)))
 
-let createAnimation : 'any1 'any2. 'any1 * 'any2 -> _ = fun (anyType, animationBehavior) ->
+let createAnimation : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (anyType, animationBehavior) ->
         let anyType = Obj.repr anyType in
         let animationBehavior = Obj.repr animationBehavior in
         begin
         let imageRotationAnimationInfo : ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo ref = ref (((Obj.magic anyType) :> ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo)) in ();
-        (new imageArrayRotationAnimation ((!imageRotationAnimationInfo#getImageArray ()), (!imageRotationAnimationInfo#getAngleInfoP ()), (!imageRotationAnimationInfo#getTotalAngle ()), (Obj.magic animationBehavior)))
+        (Obj.magic ((new imageArrayRotationAnimation ((!imageRotationAnimationInfo#getImageArray ()), (!imageRotationAnimationInfo#getAngleInfoP ()), (!imageRotationAnimationInfo#getTotalAngle ()), (Obj.magic animationBehavior)))))
         end [@@warning "-20"]
 let () = java_register_static "ImageArrayRotationAnimation.createAnimation" (fun arguments -> Obj.repr (createAnimation (Obj.obj arguments)))
 

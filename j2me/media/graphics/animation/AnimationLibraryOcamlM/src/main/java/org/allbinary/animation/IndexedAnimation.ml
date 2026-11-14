@@ -36,9 +36,9 @@ class indexedAnimation ((animationBehavior : AnimationBehavior.animationBehavior
     
     
 
-    method getAnimationBehavior () : AnimationBehavior.animationBehavior =
+    method getAnimationBehavior : 'return. unit -> 'return = fun () ->
         begin
-        (animationBehaviorP :> AnimationBehavior.animationBehavior)
+        (Obj.magic (animationBehaviorP))
         end [@@warning "-7"]
     
 

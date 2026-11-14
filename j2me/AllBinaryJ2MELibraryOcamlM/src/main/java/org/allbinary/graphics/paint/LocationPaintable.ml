@@ -16,6 +16,7 @@
 (* package org.allbinary.graphics.paint *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import javax.microedition.lcdui.Graphics *)
 
 class locationPaintable () =
@@ -38,9 +39,9 @@ let instance = (new locationPaintable ())
 let get_instance () = instance
 let () = java_register_static "LocationPaintable.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LocationPaintable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,14 +16,15 @@
 (* package org.allbinary.graphics.opengles.shader *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : OpenGLObject3dProcessor.openGLObject3dProcessor = ((new OpenGLObject3dProcessor.openGLObject3dProcessor ()) :> OpenGLObject3dProcessor.openGLObject3dProcessor)
 let get_instance () = instance
 let () = java_register_static "NullOpenGLTextureProcessor.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : OpenGLObject3dProcessor.openGLObject3dProcessor =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> OpenGLObject3dProcessor.openGLObject3dProcessor)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "NullOpenGLTextureProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

@@ -26,7 +26,7 @@ class screenRepaintProcessorFactory () =
     
     
 
-    method create : 'any1. 'any1 -> Processor.processor = fun (displayable) ->
+    method create : 'any1 'return. 'any1 -> 'return = fun (displayable) ->
         let displayable = Obj.repr displayable in
         try
         begin
@@ -50,9 +50,9 @@ let instance = (new screenRepaintProcessorFactory ())
 let get_instance () = instance
 let () = java_register_static "ScreenRepaintProcessorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ScreenRepaintProcessorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

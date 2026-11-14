@@ -31,14 +31,15 @@ class selectSound () =
   end
 let () = java_register_constructor "SelectSound" (fun arguments -> Obj.repr (new selectSound (Obj.obj arguments)))
 
-let soundInterface : Obj.t ref = ref ((Obj.repr (new selectSound ())))
-let get_soundInterface () = Obj.magic !soundInterface
-let set_soundInterface value' = soundInterface := Obj.repr value'
+let soundInterface : Sound.sound ref = ref (((new selectSound ()) :> Sound.sound))
+let get_soundInterface () = !soundInterface
+let set_soundInterface value' = soundInterface := value'
 let () = java_register_static "SelectSound.get_soundInterface" (fun _ -> Obj.repr (get_soundInterface ()))
+let () = java_register_static "SelectSound.set_soundInterface" (fun value' -> set_soundInterface (Obj.obj value'); Obj.repr ())
 
 let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic !soundInterface)))
+        (Obj.magic (!soundInterface))
         end
 let () = java_register_static "SelectSound.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

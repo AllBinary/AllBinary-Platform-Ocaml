@@ -47,6 +47,7 @@ let sINGLETON : Obj.t ref = ref ((Obj.repr (new boundsChangeEventHandler ())))
 let get_sINGLETON () = Obj.magic !sINGLETON
 let set_sINGLETON value' = sINGLETON := Obj.repr value'
 let () = java_register_static "BoundsChangeEventHandler.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "BoundsChangeEventHandler.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
 let getInstance : 'return. unit -> 'return = fun () ->
         begin

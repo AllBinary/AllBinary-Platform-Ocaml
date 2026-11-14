@@ -54,7 +54,7 @@ class cryptService () =
         (try
             let key : string ref = ref (((AbKeys.getInstance ())#getKey ((Obj.magic abeClientInformation), name))) in ();
             let decrypted : int array ref = ref ((abCryptUtil#decrypt ((Obj.magic inputStream), !key))) in ();
-            (Obj.magic ((new ByteArrayInputStream.byteArrayInputStream (!decrypted))))
+            (Obj.magic ((new java_byte_array_input_stream (!decrypted))))
         with e -> begin
             (self#showLicenseDialog ((Obj.magic abeClientInformation), e))
         end);
@@ -66,7 +66,7 @@ class cryptService () =
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
         (try
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e));
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#iNIT, e));
             let basicTextJDialog : BasicTextJDialog.basicTextJDialog ref = ref (((new BasicTextJDialog.basicTextJDialog ((Printexc.to_string e))) :> BasicTextJDialog.basicTextJDialog)) in ();
             (try
                 let abeLicenseInterface : AbeLicenseInterface.abeLicenseInterface ref = ref ((((AbeLicenseInterfaceFactory.getInstance ())#getLicenseInstance ((Obj.magic abeClientInformation))) :> AbeLicenseInterface.abeLicenseInterface)) in ();
@@ -76,12 +76,12 @@ class cryptService () =
                     end
                 end
             with e2 -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e2))
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#iNIT, e2))
             end);
             ignore (!basicTextJDialog#addCloseListener ((new ExitCloseListener.exitCloseListener ())));
             ignore (!basicTextJDialog#setVisible (true))
         with e3 -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#iNIT, e3))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#iNIT, e3))
         end)
         end [@@warning "-20"]
 
@@ -91,8 +91,8 @@ class cryptService () =
         commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
         abCryptUtil <- ((AbCryptUtil.getInstance ()) :> AbCryptUtil.abCryptUtil);
         ();
-        ignore ((Globals.getInstance ())#init (((java_get_class (Obj.repr self))#getClassLoader ()), "./"));
-        ignore ((Obj.magic logUtil)#putF (("Set Globals: " ^ java_string_of (Obj.repr ((URLGLOBALS.getWebappPath ())))), self, commonStrings#cONSTRUCTOR))
+        ignore ((Globals.getInstance ())#init ((Obj.magic java_null), "./"));
+        ignore ((Obj.magic logUtil)#putF (("Set Globals: " ^ java_string_of (Obj.repr ((URLGLOBALS.getWebappPath ())))), (Obj.magic self), commonStrings#cONSTRUCTOR))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "CryptService" (fun arguments -> Obj.repr (new cryptService (Obj.obj arguments)))

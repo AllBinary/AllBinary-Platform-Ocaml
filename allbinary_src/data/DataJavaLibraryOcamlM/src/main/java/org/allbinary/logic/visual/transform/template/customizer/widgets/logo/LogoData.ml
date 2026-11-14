@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.transform.template.customizer.widgets.logo *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class logoData () =
   object
@@ -49,9 +50,9 @@ let instance = (new logoData ())
 let get_instance () = instance
 let () = java_register_static "LogoData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LogoData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

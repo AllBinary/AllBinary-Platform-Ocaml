@@ -57,6 +57,19 @@ class rectangleFilledAdjustedAnimation ((width : int), (height : int), (offsetX_
         begin
         offsetY <- offsetY_arg
         end [@@warning "-7"]
+    
+
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getBasicColorP ())))
+        end [@@warning "-7"]
+    
+
+    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor) ->
+        let basicColor = Obj.repr basicColor in
+        begin
+        ignore (super#setBasicColorP ((Obj.magic basicColor)))
+        end [@@warning "-7-20"]
 
     initializer
       begin
@@ -66,7 +79,7 @@ class rectangleFilledAdjustedAnimation ((width : int), (height : int), (offsetX_
         (* super(...) is the inherit clause *) ();
         offsetX <- offsetX_arg;
         offsetY <- offsetY_arg;
-        ignore (self#setBasicColorP (basicColor))
+        (self#setBasicColorP (basicColor))
       end
   end
 let () = java_register_constructor "RectangleFilledAdjustedAnimation" (fun arguments -> Obj.repr (new rectangleFilledAdjustedAnimation (Obj.obj arguments)))

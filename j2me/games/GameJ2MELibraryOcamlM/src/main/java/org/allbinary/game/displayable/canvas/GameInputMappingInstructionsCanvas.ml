@@ -27,6 +27,16 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.draw.DrawStringUtil *)
 (* import org.allbinary.logic.string.StringUtil *)
 
+let dISPLAY_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_dISPLAY : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !dISPLAY_cell with Lazy.Undefined -> java_null)
+let set_dISPLAY value' = dISPLAY_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameInputMappingInstructionsCanvas.get_dISPLAY" (fun _ -> Obj.repr (get_dISPLAY ()))
+let () = java_register_static "GameInputMappingInstructionsCanvas.set_dISPLAY" (fun value' -> set_dISPLAY value'; Obj.repr ())
+let cLOSE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_cLOSE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !cLOSE_cell with Lazy.Undefined -> java_null)
+let set_cLOSE value' = cLOSE_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameInputMappingInstructionsCanvas.get_cLOSE" (fun _ -> Obj.repr (get_cLOSE ()))
+let () = java_register_static "GameInputMappingInstructionsCanvas.set_cLOSE" (fun value' -> set_cLOSE value'; Obj.repr ())
 let nAME : string = "GameInputMappingInstructionsCanvas"
 let get_nAME () = nAME
 let () = java_register_static "GameInputMappingInstructionsCanvas.get_nAME" (fun _ -> Obj.repr (get_nAME ()))
@@ -55,7 +65,7 @@ class gameInputMappingInstructionsCanvas (commandListener, (allBinaryGameLayerMa
         let cmdListener = Obj.repr cmdListener in
         begin
         ignore (self#removeAllCommands ());
-        ignore (self#addCommand ((Obj.magic cLOSE)));
+        ignore (self#addCommand ((Obj.magic (get_cLOSE ()))));
         ignore (self#setCommandListener ((Obj.magic cmdListener)))
         end [@@warning "-7-20"]
     
@@ -82,18 +92,14 @@ class gameInputMappingInstructionsCanvas (commandListener, (allBinaryGameLayerMa
         anchor <- (Anchor.get_tOP_LEFT ());
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
         colorFillPaintable <- ((Obj.magic (java_call_static "ColorFillPaintableFactory.getInstance" (Obj.repr ())))#getInstance ((allBinaryGameLayerManager#getBackgroundBasicColor ()), false))
       end
   end
 let () = java_register_constructor "GameInputMappingInstructionsCanvas" (fun arguments -> Obj.repr (new gameInputMappingInstructionsCanvas (Obj.obj arguments)))
 
-let dISPLAY : Obj.t = (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ("Help", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 1)))))
-let get_dISPLAY () = Obj.magic dISPLAY
-let () = java_register_static "GameInputMappingInstructionsCanvas.get_dISPLAY" (fun _ -> Obj.repr (get_dISPLAY ()))
+let () = dISPLAY_cell := lazy (Obj.repr ((Obj.obj (java_new "Command" (Obj.repr ("Help", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 1))))))
 
-let cLOSE : Obj.t = (Obj.repr (Obj.obj (java_new "Command" (Obj.repr ("Close", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 1)))))
-let get_cLOSE () = Obj.magic cLOSE
-let () = java_register_static "GameInputMappingInstructionsCanvas.get_cLOSE" (fun _ -> Obj.repr (get_cLOSE ()))
+let () = cLOSE_cell := lazy (Obj.repr ((Obj.obj (java_new "Command" (Obj.repr ("Close", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 1))))))
 
 

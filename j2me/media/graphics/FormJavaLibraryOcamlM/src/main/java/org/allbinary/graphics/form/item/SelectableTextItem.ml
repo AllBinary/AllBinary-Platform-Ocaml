@@ -38,7 +38,7 @@ class selectableTextItem ((label : string), (layout : int), (altText : string), 
         ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
         let stringComponent : Obj.t ref = ref ((Obj.repr (self#getLabelStringComponent ()))) in ();
         if ((Obj.magic !stringComponent) != (Obj.magic 0)) then begin
-            ignore ((Obj.magic graphics)#setColor ((((Obj.magic !stringComponent)#getForegroundBasicColor ())#intValue ())))
+            ignore ((Obj.magic graphics)#setColor ((java_int_value (Obj.repr ((Obj.magic !stringComponent)#getForegroundBasicColor ())))))
         end;
         ignore ((Obj.magic graphics)#drawString ((self#getLabel ()), (x + 2), y, 0))
         end [@@warning "-7-20"]

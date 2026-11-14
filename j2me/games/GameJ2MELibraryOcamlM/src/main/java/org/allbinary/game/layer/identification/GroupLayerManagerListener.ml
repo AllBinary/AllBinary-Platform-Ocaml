@@ -59,31 +59,31 @@ class groupLayerManagerListener () =
     method getGroupSizeFromInterface : 'any1. 'any1 -> int = fun (groupInterfaceCompositeInterface) ->
         let groupInterfaceCompositeInterface = Obj.repr groupInterfaceCompositeInterface in
         begin
-        let groupInterfaceArray : Obj.t ref = ref ((Obj.repr ((Obj.magic groupInterfaceCompositeInterface)#getGroupInterface ()))) in ();
-        (self#getGroupSize ((Obj.magic !groupInterfaceArray).(0)))
+        let groupInterfaceArray : Group.group array ref = ref (((Obj.magic groupInterfaceCompositeInterface)#getGroupInterface ())) in ();
+        (self#getGroupSize (!groupInterfaceArray.(0)))
         end [@@warning "-7-20"]
     
 
     method getGroupSize : 'any1. 'any1 -> int = fun (groupInterface) ->
         let groupInterface = Obj.repr groupInterface in
         begin
-        let id : int ref = ref ((java_to_int (Obj.repr (((Obj.magic groupInterface)#getGroupId ()))))) in ();
+        let id : int ref = ref (((Obj.magic groupInterface)#getGroupId ())) in ();
         (self#getGroupSizeById (!id))
         end [@@warning "-7-20"]
     
 
-    method getList : 'any1. 'any1 -> BasicArrayList.basicArrayList = fun (groupInterface) ->
+    method getList : 'any1 'return. 'any1 -> 'return = fun (groupInterface) ->
         let groupInterface = Obj.repr groupInterface in
         begin
-        let id : int ref = ref ((java_to_int (Obj.repr (((Obj.magic groupInterface)#getGroupId ()))))) in ();
-        ((self#getListById (!id)) :> BasicArrayList.basicArrayList)
+        let id : int ref = ref (((Obj.magic groupInterface)#getGroupId ())) in ();
+        (Obj.magic ((self#getListById (!id))))
         end [@@warning "-7-20"]
     
 
-    method getListById ((groupId : int)) : BasicArrayList.basicArrayList =
+    method getListById : 'return. int -> 'return = fun ((groupId : int)) ->
         begin
         let groupList : BasicArrayList.basicArrayList ref = ref (((Obj.magic list#objectArray.(groupId)) :> BasicArrayList.basicArrayList)) in ();
-        (!groupList :> BasicArrayList.basicArrayList)
+        (Obj.magic (!groupList))
         end [@@warning "-7"]
     
 
@@ -99,13 +99,13 @@ class groupLayerManagerListener () =
         let groupInterface = Obj.repr groupInterface in
         try
         begin
-        let id : int ref = ref ((java_to_int (Obj.repr (((Obj.magic groupInterface)#getGroupId ()))))) in ();
+        let id : int ref = ref (((Obj.magic groupInterface)#getGroupId ())) in ();
         let size : int ref = ref ((list#size ())) in ();
         for index = (!size - 1) downto 0 do
             if (!id <> index) then begin
                 let groupSize : int ref = ref ((self#getGroupSizeById (index))) in ();
                 if (!groupSize <> 0) then begin
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Group Size: "))#appendint (!groupSize)))), self, "areAllOtherGroupsEmpty"));
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Group Size: "))#appendint (!groupSize)))), (Obj.magic self), "areAllOtherGroupsEmpty"));
                     raise (Java_return (Obj.repr (false)))
                 end
             end
@@ -120,15 +120,15 @@ class groupLayerManagerListener () =
         try
         begin
         let size : int ref = ref (((Obj.magic excludeGroupList)#size ())) in ();
-        let groupInterfaceArray : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let groupInterface : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let groupInterfaceArray : Group.group array ref = ref ((Obj.magic 0)) in ();
+        let groupInterface : Group.group ref = ref (((Obj.magic 0) :> Group.group)) in ();
         let groupId : int ref = ref (0) in ();
         for index = (!size - 1) downto 0 do
-            groupInterfaceArray := Obj.repr ((Obj.magic (Obj.magic excludeGroupList)#objectArray.(index)));
-            let size2 : int ref = ref ((Array.length (Obj.magic !groupInterfaceArray))) in ();
+            groupInterfaceArray := (Obj.magic (Obj.magic excludeGroupList)#objectArray.(index));
+            let size2 : int ref = ref ((Array.length !groupInterfaceArray)) in ();
             for index2 = 0 to !size2 - 1 do
-                groupInterface := Obj.repr ((Obj.magic !groupInterfaceArray).(index2));
-                groupId := (java_to_int (Obj.repr (((Obj.magic !groupInterface)#getGroupId ()))));
+                groupInterface := !groupInterfaceArray.(index2);
+                groupId := (!groupInterface#getGroupId ());
                 if (!groupId = id) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
@@ -167,7 +167,7 @@ class groupLayerManagerListener () =
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -175,15 +175,15 @@ class groupLayerManagerListener () =
         let layerManagerEvent = Obj.repr layerManagerEvent in
         begin
         let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref ((((Obj.magic layerManagerEvent)#getLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let groupInterfaceArray : Obj.t ref = ref ((Obj.repr (!layerInterface#getGroupInterface ()))) in ();
-        let size : int ref = ref ((Array.length (Obj.magic !groupInterfaceArray))) in ();
+        let groupInterfaceArray : Group.group array ref = ref ((!layerInterface#getGroupInterface ())) in ();
+        let size : int ref = ref ((Array.length !groupInterfaceArray)) in ();
         let id : int ref = ref (0) in ();
         let groupList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
         for index = 0 to !size - 1 do
-            id := (java_to_int (Obj.repr (((Obj.magic !groupInterfaceArray).(index)#getGroupId ()))));
+            id := (java_to_int (Obj.repr ((!groupInterfaceArray.(index)#getGroupId ()))));
             groupList := (Obj.magic list#objectArray.(!id));
             if (!groupList == (Obj.magic 0)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("id: "))#appendint (!id)))), self, "onCreateLayerManagerEvent"))
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("id: "))#appendint (!id)))), (Obj.magic self), "onCreateLayerManagerEvent"))
             end;
             if (not (!groupList#contains (!layerInterface))) then begin
                 ignore (!groupList#add (!layerInterface))
@@ -198,12 +198,12 @@ class groupLayerManagerListener () =
         let layerManagerEvent = Obj.repr layerManagerEvent in
         begin
         let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref ((((Obj.magic layerManagerEvent)#getLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let groupInterfaceArray : Obj.t ref = ref ((Obj.repr (!layerInterface#getGroupInterface ()))) in ();
-        let size : int ref = ref ((Array.length (Obj.magic !groupInterfaceArray))) in ();
+        let groupInterfaceArray : Group.group array ref = ref ((!layerInterface#getGroupInterface ())) in ();
+        let size : int ref = ref ((Array.length !groupInterfaceArray)) in ();
         let id : int ref = ref (0) in ();
         let groupList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
         for index = 0 to !size - 1 do
-            id := (java_to_int (Obj.repr (((Obj.magic !groupInterfaceArray).(index)#getGroupId ()))));
+            id := (java_to_int (Obj.repr ((!groupInterfaceArray.(index)#getGroupId ()))));
             groupList := (Obj.magic list#objectArray.(!id));
             ignore (!groupList#remove (!layerInterface))
         done
@@ -226,7 +226,7 @@ class groupLayerManagerListener () =
             ignore (!stringBuffer#appendint ((!groupList#size ())));
             ignore (!stringBuffer#append (!sPACE))
         done;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), self, "log"))
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "log"))
         end [@@warning "-7"]
 
     initializer
@@ -234,7 +234,7 @@ class groupLayerManagerListener () =
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         ();
-        ignore ((LayerManagerEventHandler.getInstance ())#addListener (self))
+        ignore ((LayerManagerEventHandler.getInstance ())#addListener ((Obj.magic self)))
       end
   end [@@warning "-20"]
 let () = java_register_constructor "GroupLayerManagerListener" (fun arguments -> Obj.repr (new groupLayerManagerListener (Obj.obj arguments)))
@@ -243,10 +243,11 @@ let sINGLETON = ref ((new groupLayerManagerListener ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "GroupLayerManagerListener.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "GroupLayerManagerListener.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "GroupLayerManagerListener.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

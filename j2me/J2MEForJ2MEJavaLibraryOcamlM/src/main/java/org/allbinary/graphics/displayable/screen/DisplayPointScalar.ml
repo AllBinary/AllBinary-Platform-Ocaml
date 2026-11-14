@@ -35,10 +35,10 @@ class displayPointScalar () =
         end
     
 
-    method process : 'any1. 'any1 -> GPoint.gPoint = fun (point) ->
+    method process : 'any1 'return. 'any1 -> 'return = fun (point) ->
         let point = Obj.repr point in
         begin
-        ((Obj.magic point) :> GPoint.gPoint)
+        (Obj.magic ((Obj.magic point)))
         end [@@warning "-20"]
 
     initializer
@@ -52,9 +52,9 @@ let instance = (new displayPointScalar ())
 let get_instance () = instance
 let () = java_register_static "DisplayPointScalar.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "DisplayPointScalar.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

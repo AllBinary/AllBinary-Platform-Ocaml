@@ -62,7 +62,7 @@ class customTextAnimationFactory ((text_arg : string), (fontSize : int), (animat
         begin
         let customTextAnimation : CustomTextAnimation.customTextAnimation ref = ref (((Obj.magic 0) :> CustomTextAnimation.customTextAnimation)) in ();
         if ((dx <> 0) || (dy <> 0)) then begin
-            customTextAnimation := (new AdjustCustomTextAnimation.adjustCustomTextAnimation (text, scaleProperties#scaleHeight, dx, dy, (animationBehaviorFactory#getOrCreateInstance ())))
+            customTextAnimation := ((new AdjustCustomTextAnimation.adjustCustomTextAnimation (text, scaleProperties#scaleHeight, dx, dy, (animationBehaviorFactory#getOrCreateInstance ()))) :> CustomTextAnimation.customTextAnimation)
         end else begin
             customTextAnimation := (new CustomTextAnimation.customTextAnimation (text, scaleProperties#scaleHeight, (animationBehaviorFactory#getOrCreateInstance ())))
         end;
@@ -110,13 +110,13 @@ class customTextAnimationFactory ((text_arg : string), (fontSize : int), (animat
   end [@@warning "-20"]
 let () = java_register_constructor "CustomTextAnimationFactory" (fun arguments -> Obj.repr (new customTextAnimationFactory (Obj.obj arguments)))
 
-let createDXY : 'any5. string * int * int * int * 'any5 -> _ = fun ((text_arg : string), (fontSize : int), (dx_arg : int), (dy_arg : int), animationBehaviorFactory_arg) ->
+let createDXY : 'any5 'return. string * int * int * int * 'any5 -> 'return = fun ((text_arg : string), (fontSize : int), (dx_arg : int), (dy_arg : int), animationBehaviorFactory_arg) ->
         let animationBehaviorFactory_arg = Obj.repr animationBehaviorFactory_arg in
         begin
         let customTextAnimationFactory : Obj.t ref = ref ((Obj.repr (new customTextAnimationFactory (text_arg, fontSize, (Obj.magic animationBehaviorFactory_arg))))) in ();
         ignore ((Obj.magic !customTextAnimationFactory)#set_dx (dx_arg));
         ignore ((Obj.magic !customTextAnimationFactory)#set_dy (dy_arg));
-        (Obj.magic !customTextAnimationFactory)
+        (Obj.magic ((Obj.magic !customTextAnimationFactory)))
         end [@@warning "-20"]
 let () = java_register_static "CustomTextAnimationFactory.createDXY" (fun arguments -> Obj.repr (createDXY (Obj.obj arguments)))
 

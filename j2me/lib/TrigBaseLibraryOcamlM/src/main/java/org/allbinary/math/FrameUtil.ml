@@ -21,6 +21,11 @@ open Allbinary_java [@@warning "-33"]
 (* import jsinterop.annotations.JsMethod *)
 (* import jsinterop.annotations.JsConstructor *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "FrameUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "FrameUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class frameUtil () =
   object (self)
     
@@ -66,14 +71,12 @@ class frameUtil () =
   end
 let () = java_register_constructor "FrameUtil" (fun arguments -> Obj.repr (new frameUtil (Obj.obj arguments)))
 
-let instance = (new frameUtil ())
-let get_instance () = instance
-let () = java_register_static "FrameUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "FrameUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new frameUtil ())))
 
 

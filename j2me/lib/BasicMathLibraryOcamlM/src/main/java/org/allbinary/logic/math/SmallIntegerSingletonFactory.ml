@@ -55,17 +55,17 @@ class smallIntegerSingletonFactory () =
                 ()
             end else if (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ()))) then begin
                 let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-                ignore ((Obj.magic !logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Android InputFactory was initialized before GameMidlet: "))#appendint (mIN)))), self, "getMin"));
+                ignore ((Obj.magic !logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Android InputFactory was initialized before GameMidlet: "))#appendint (mIN)))), (Obj.magic self), "getMin"));
                 (self#initWithRange (0x291, 6))
             end else begin
                 let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-                ignore ((Obj.magic !logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("InputFactory was initialized before GameMidlet or KeyFactoryInitializer - Currently this is occurs on JS build by TouchMotionGestureFactory constructor: "))#appendint (mIN)))), self, "getMin"));
+                ignore ((Obj.magic !logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("InputFactory was initialized before GameMidlet or KeyFactoryInitializer - Currently this is occurs on JS build by TouchMotionGestureFactory constructor: "))#appendint (mIN)))), (Obj.magic self), "getMin"));
                 (self#initWithRange (0x2D0, 6))
             end
         end;
         if (mIN <= !minAllowed) then begin
             let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic !logUtil)#put ("This means you loaded the InputFactory before determining the platform input size requirements.", self, "getMin", (Failure ("Exception"))))
+            ignore ((Obj.magic !logUtil)#put ("This means you loaded the InputFactory before determining the platform input size requirements.", (Obj.magic self), "getMin", (Failure ("Exception"))))
         end;
         mIN
         end
@@ -93,7 +93,7 @@ class smallIntegerSingletonFactory () =
             iNTEGER_ARRAY.((index + nEGATIVE_MAX)) <- (Obj.obj (java_new "Integer" (Obj.repr (index))))
         done;
         for index = (negativeValue - 1) downto lastNegativeMin do
-            iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Integer" (Obj.repr ((-index)))))
+            iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Integer" (Obj.repr ((- index)))))
         done;
         if (lastMin < value) then begin
             lastMin <- value;
@@ -112,7 +112,7 @@ class smallIntegerSingletonFactory () =
                 iNTEGER_ARRAY.((index + nEGATIVE_MAX)) <- (Obj.obj (java_new "Integer" (Obj.repr (index))))
             done;
             for index = (nEGATIVE_MAX - 1) downto lastNegativeMin do
-                iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Integer" (Obj.repr ((-index)))))
+                iNTEGER_ARRAY.(index) <- (Obj.obj (java_new "Integer" (Obj.repr ((- index)))))
             done;
             lastMin <- pOSITIVE_MAX;
             mIN <- lastMin;
@@ -132,7 +132,7 @@ class smallIntegerSingletonFactory () =
         try
         begin
         if ((index + nEGATIVE_MAX) > ((Array.length iNTEGER_ARRAY) - 1)) then begin
-            raise (Java_return (Obj.repr (iNTEGER_ARRAY.(((-1) + nEGATIVE_MAX)))))
+            raise (Java_return (Obj.repr (iNTEGER_ARRAY.(((- 1) + nEGATIVE_MAX)))))
         end;
         iNTEGER_ARRAY.((index + nEGATIVE_MAX))
         end
@@ -177,9 +177,9 @@ let instance = (new smallIntegerSingletonFactory ())
 let get_instance () = instance
 let () = java_register_static "SmallIntegerSingletonFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "SmallIntegerSingletonFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

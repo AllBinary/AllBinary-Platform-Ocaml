@@ -47,7 +47,7 @@ class textItemNumberVisitor () =
                     ignore ((TextNotificationUtil.getInstance ())#fireError ("Numbers Only"))
                 with e -> begin
                     let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                    ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, self, !commonStrings#vISIT, e))
+                    ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#vISIT, e))
                 end);
                 raise (Java_return (Obj.repr ((BooleanFactory.getInstance ())#fALSE)))
             end

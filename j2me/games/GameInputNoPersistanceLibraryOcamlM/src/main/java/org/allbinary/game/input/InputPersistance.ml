@@ -53,7 +53,7 @@ class inputPersistance ((name : string)) =
         while ((Obj.magic !recordEnum)#hasNextElement ()) do
             id := ((Obj.magic !recordEnum)#nextRecordId ());
             ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#lOADING_ID))#appendint (!id)))), self, (self#persistanceStrings)#lOAD_ALL));
+            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#lOADING_ID))#appendint (!id)))), (Obj.magic self), (self#persistanceStrings)#lOAD_ALL));
             hashtable := Obj.repr (((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()));
             ignore ((self#valueList)#add ((Obj.magic !hashtable)));
             ignore ((self#idList)#add ((!smallIntegerSingletonFactory#getAt (!id))))
@@ -66,18 +66,18 @@ class inputPersistance ((name : string)) =
         let abeClientInformation = Obj.repr abeClientInformation in
         let hashtable = Obj.repr hashtable in
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#persistanceStrings)#nOT_SAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), self, (self#commonStrings)#sAVE))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#persistanceStrings)#nOT_SAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), (Obj.magic self), (self#commonStrings)#sAVE))));
         let recordStore : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))))) in ();
-        let gameActionInput : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let gameActionInput : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
         let list : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-        let input : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let input : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
         let inputObjectArray : Obj.t array ref = ref ((hashtableUtil#getKeysAsArray ((Obj.magic hashtable)))) in ();
         let size : int ref = ref ((Array.length !inputObjectArray)) in ();
         for index = 0 to !size - 1 do
-            gameActionInput := Obj.repr ((Obj.magic !inputObjectArray.(index)));
+            gameActionInput := (Obj.magic !inputObjectArray.(index));
             list := (Obj.magic ((Obj.magic hashtable)#get (!inputObjectArray.(index))));
             for index2 = 0 to (!list#size ()) - 1 do
-                input := Obj.repr ((Obj.magic (!list#get (index2))))
+                input := (Obj.magic (!list#get (index2)))
             done
         done;
         ignore ((Obj.magic !recordStore)#closeRecordStore ())

@@ -20,15 +20,15 @@ open Allbinary_java [@@warning "-33"]
 
 class singleLayerLayerProcessor () =
   object (self)
-    inherit LayerProcessor.layerProcessor ((new SingleLayerLayerManager.singleLayerLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new SingleLayerLayerManager.singleLayerLayerManager ()) : SingleLayerLayerManager.singleLayerLayerManager :> LayerManager.layerManager))
     
     
 
     method process : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
         let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
         begin
-        let layerManager : Obj.t ref = ref ((Obj.repr (self#getLayerManager ()))) in ();
-        ignore (self#processAt ((Obj.magic allBinaryLayerManager), (Obj.magic ((Obj.magic !layerManager)#getLayerAt (0))), 0))
+        let layerManager : LayerManager.layerManager ref = ref (((self#getLayerManager ()) :> LayerManager.layerManager)) in ();
+        ignore (self#processAt ((Obj.magic allBinaryLayerManager), (Obj.magic (!layerManager#getLayerAt (0))), 0))
         end [@@warning "-7-20"]
 
     initializer

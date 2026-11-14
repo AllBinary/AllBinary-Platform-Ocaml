@@ -35,7 +35,7 @@ class featuredResourceRelativeRelationshipFactory () =
     
     
 
-    method getRelativeRelationshipList : 'any2. string * 'any2 -> BasicArrayList.basicArrayList = fun ((resource : string), layer) ->
+    method getRelativeRelationshipList : 'any2 'return. string * 'any2 -> 'return = fun ((resource : string), layer) ->
         let layer = Obj.repr layer in
         try
         begin
@@ -55,18 +55,18 @@ class featuredResourceRelativeRelationshipFactory () =
         with Java_return value -> Obj.obj value [@@warning "-7-20"]
     
 
-    method duplicate : 'any1 'any2. 'any1 * 'any2 -> BasicArrayList.basicArrayList = fun (list, layer) ->
+    method duplicate : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (list, layer) ->
         let list = Obj.repr list in
         let layer = Obj.repr layer in
         begin
-        let pointFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ()))))) in ();
+        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
         let newList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
         let size : int ref = ref (((Obj.magic list)#size ())) in ();
         for index = 0 to !size - 1 do
             let relativeRelationship : RelativeRelationship.relativeRelationship ref = ref (((Obj.magic (Obj.magic list)#objectArray.(index)) :> RelativeRelationship.relativeRelationship)) in ();
-            ignore (!newList#add ((new RelativeLayerRelationship.relativeLayerRelationship ((Obj.magic layer), ((Obj.magic !pointFactory)#createXY ((!relativeRelationship#getX ()), (!relativeRelationship#getY ()))), ((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))))
+            ignore (!newList#add ((new RelativeLayerRelationship.relativeLayerRelationship ((Obj.magic layer), (!pointFactory#createXY ((!relativeRelationship#getX ()), (!relativeRelationship#getY ()))), ((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))))
         done;
-        (!newList :> BasicArrayList.basicArrayList)
+        (Obj.magic (!newList))
         end [@@warning "-7-20"]
 
     initializer
@@ -82,10 +82,11 @@ let iNSTANCE = ref ((new featuredResourceRelativeRelationshipFactory ()))
 let get_iNSTANCE () = !iNSTANCE
 let set_iNSTANCE value' = iNSTANCE := value'
 let () = java_register_static "FeaturedResourceRelativeRelationshipFactory.get_iNSTANCE" (fun _ -> Obj.repr (get_iNSTANCE ()))
+let () = java_register_static "FeaturedResourceRelativeRelationshipFactory.set_iNSTANCE" (fun value' -> set_iNSTANCE (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !iNSTANCE
+        (Obj.magic (!iNSTANCE))
         end
 let () = java_register_static "FeaturedResourceRelativeRelationshipFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

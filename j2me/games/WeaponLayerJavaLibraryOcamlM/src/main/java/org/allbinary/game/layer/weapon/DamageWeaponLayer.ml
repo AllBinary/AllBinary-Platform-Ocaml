@@ -22,7 +22,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.physics.movement.Movement *)
 (* import org.allbinary.view.ViewPositionBase *)
 
-class damageWeaponLayer ((name : string), remoteInfo, (movement : Movement.movement), animationInterface, destroyedAnimationInterface, rectangle, (viewPosition : ViewPositionBase.viewPositionBase), (_username : string), (_actorSessionId : int), (_id : int), (multiPlayerType : int)) =
+class damageWeaponLayer ((name : string), remoteInfo, (movement : Movement.movement), (animationInterface : Animation.animation), (destroyedAnimationInterface : Animation.animation), (rectangle : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase), (_username : string), (_actorSessionId : int), (_id : int), (multiPlayerType : int)) =
   object (self)
     inherit WeaponLayer.weaponLayer (name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
     

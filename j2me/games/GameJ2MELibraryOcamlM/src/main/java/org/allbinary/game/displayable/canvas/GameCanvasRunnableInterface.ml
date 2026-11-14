@@ -25,6 +25,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual gameCanvasRunnableInterface =
   object
+    inherit RunnableInterface.runnableInterface
     inherit PaintableInterface.paintableInterface
     inherit GameStateCompositeInterface.gameStateCompositeInterface
     method virtual getTitle : unit -> string

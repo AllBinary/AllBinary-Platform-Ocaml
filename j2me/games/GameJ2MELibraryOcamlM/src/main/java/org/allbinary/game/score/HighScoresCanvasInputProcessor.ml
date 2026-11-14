@@ -26,7 +26,7 @@ open Allbinary_java [@@warning "-33"]
 
 class highScoresCanvasInputProcessor (highScoresCanvas_arg) =
   object (self)
-    inherit PlayerGameInput.playerGameInput ((new BasicArrayListD.basicArrayListD ()), (new BasicArrayListD.basicArrayListD ()), (-1)) as super
+    inherit PlayerGameInput.playerGameInput (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), ((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1)) as super
     val mutable highScoresCanvas : Obj.t = Obj.repr 0
     method highScoresCanvas : 'r. 'r = Obj.magic highScoresCanvas
     method set_highScoresCanvas : 'v. 'v -> unit = fun value' -> highScoresCanvas <- Obj.repr value'

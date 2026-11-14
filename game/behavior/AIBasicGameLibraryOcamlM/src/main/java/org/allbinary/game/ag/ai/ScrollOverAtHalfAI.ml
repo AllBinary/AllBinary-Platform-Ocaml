@@ -42,10 +42,10 @@ class scrollOverAtHalfAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer),
         if (!y > ((!displayInfo#getLastHeight ()) - !halfHeight)) then begin
             ignore (!ownerLayerInterface#setPosition (!x, (!halfHeight + 1), (!ownerLayerInterface#getZP ())))
         end;
-        if (!x < (-!halfWidth)) then begin
+        if (!x < (- !halfWidth)) then begin
             ignore (!ownerLayerInterface#setPosition (((!displayInfo#getLastWidth ()) - !halfWidth), !y, (!ownerLayerInterface#getZP ())))
         end;
-        if (!y < (-!halfHeight)) then begin
+        if (!y < (- !halfHeight)) then begin
             ignore (!ownerLayerInterface#setPosition (!x, ((!displayInfo#getLastHeight ()) - !halfHeight), (!ownerLayerInterface#getZP ())))
         end
         end [@@warning "-7-20"]

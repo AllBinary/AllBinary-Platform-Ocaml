@@ -16,6 +16,7 @@
 (* package org.allbinary.emulator *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class initEmulatorFactory () =
   object
@@ -47,9 +48,9 @@ let instance = (new initEmulatorFactory ())
 let get_instance () = instance
 let () = java_register_static "InitEmulatorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "InitEmulatorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

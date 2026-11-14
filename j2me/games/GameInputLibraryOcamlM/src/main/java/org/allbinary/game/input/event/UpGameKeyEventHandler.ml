@@ -31,16 +31,16 @@ class upGameKeyEventHandler () =
     method set_playerInputIdFactory value' = playerInputIdFactory <- value'
     
 
-    method getInstanceForDevice ((deviceId : int)) : UpGameKeyEventHandlerBase.upGameKeyEventHandlerBase =
+    method getInstanceForDevice : 'return. int -> 'return = fun ((deviceId : int)) ->
         begin
         let playerInputId : int ref = ref ((playerInputIdFactory#getPlayerForDevice (deviceId))) in ();
-        (instanceArray.(!playerInputId) :> UpGameKeyEventHandlerBase.upGameKeyEventHandlerBase)
+        (Obj.magic (instanceArray.(!playerInputId)))
         end [@@warning "-7"]
     
 
-    method getInstanceForPlayer ((playerInputId : int)) : UpGameKeyEventHandlerBase.upGameKeyEventHandlerBase =
+    method getInstanceForPlayer : 'return. int -> 'return = fun ((playerInputId : int)) ->
         begin
-        (instanceArray.(playerInputId) :> UpGameKeyEventHandlerBase.upGameKeyEventHandlerBase)
+        (Obj.magic (instanceArray.(playerInputId)))
         end [@@warning "-7"]
     
     
@@ -86,9 +86,9 @@ let instance = (new upGameKeyEventHandler ())
 let get_instance () = instance
 let () = java_register_static "UpGameKeyEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "UpGameKeyEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.system.security.crypt.jcehelper *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import java.security.spec.KeySpec *)
 (* import javax.crypto.spec.DESKeySpec *)
 (* import javax.crypto.spec.DESedeKeySpec *)
@@ -54,9 +55,9 @@ let instance = (new keySpecFactory ())
 let get_instance () = instance
 let () = java_register_static "KeySpecFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "KeySpecFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

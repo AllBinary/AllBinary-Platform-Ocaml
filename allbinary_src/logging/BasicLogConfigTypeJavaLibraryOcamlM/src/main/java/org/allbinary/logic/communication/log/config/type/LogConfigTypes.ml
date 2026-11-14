@@ -23,6 +23,7 @@ let lOGGING : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.bas
 let get_lOGGING () = !lOGGING
 let set_lOGGING value' = lOGGING := value'
 let () = java_register_static "LogConfigTypes.get_lOGGING" (fun _ -> Obj.repr (get_lOGGING ()))
+let () = java_register_static "LogConfigTypes.set_lOGGING" (fun value' -> set_lOGGING (Obj.obj value'); Obj.repr ())
 class logConfigTypes () =
   object
     

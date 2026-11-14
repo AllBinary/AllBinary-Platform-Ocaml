@@ -80,7 +80,7 @@ class upKeyEventHandlerBase () =
                 let playerGameInput : PlayerGameInput.playerGameInput ref = ref (((Obj.magic list#objectArray.(!index)) :> PlayerGameInput.playerGameInput)) in ();
                 ignore (!playerGameInput#onUpKeyEvent (eventObject))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end)
         done;
         let index : int ref = ref (0) in ();
@@ -90,7 +90,7 @@ class upKeyEventHandlerBase () =
                 eventListenerInterface := (Obj.magic ((self#eventListenerInterfaceList)#get (!index)));
                 (self#processForInteger (eventObject, !eventListenerInterface))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (EventStrings.getInstance ())#fIRE_EVENT, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
             end);
             index := !index + 1
         done
@@ -117,7 +117,7 @@ class upKeyEventHandlerBase () =
                 ignore (!stringBuffer#append (lISTENER_LABEL));
                 ignore (!stringBuffer#append ((java_string_of (Obj.repr !eventListenerInterface))))
             with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#tOSTRING, e))
+                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#tOSTRING, e))
             end)
         done;
         (java_string_of (Obj.repr !stringBuffer))

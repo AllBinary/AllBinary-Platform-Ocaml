@@ -52,20 +52,12 @@ and decode ((value : string)) : int array =
         (try
             let tokenizer : Tokenizer.tokenizer ref = ref (((new Tokenizer.tokenizer ((CommonSeps.getInstance ())#sPACE)) :> Tokenizer.tokenizer)) in ();
             let vector : BasicArrayList.basicArrayList ref = ref (((!tokenizer#getTokensFromString (value, (new BasicArrayListD.basicArrayListD ()))) :> BasicArrayList.basicArrayList)) in ();
-            let byteVector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             let size : int ref = ref ((!vector#size ())) in ();
+            let decode : int array ref = ref ((Array.make (!size) 0)) in ();
             let byteOfData : string ref = ref ("") in ();
             for index = 0 to !size - 1 do
                 byteOfData := (Obj.magic !vector#objectArray.(index));
-                ignore (!byteVector#add (!byteOfData))
-            done;
-            let decode : int array ref = ref ((Array.make ((!byteVector#size ())) 0)) in ();
-            let decodeIndex : int ref = ref (0) in ();
-            let aByte : int ref = ref ((Obj.magic 0)) in ();
-            for index = 0 to !size - 1 do
-                aByte := (Obj.magic !byteVector#objectArray.(index));
-                !decode.(!decodeIndex) <- !aByte;
-                decodeIndex := !decodeIndex + 1
+                !decode.(index) <- (int_of_string (!byteOfData))
             done;
             !decode
         with e -> begin

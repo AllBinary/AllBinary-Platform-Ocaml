@@ -40,7 +40,7 @@ class basicCrypt ((keyAsString : string)) =
         (try
             (self#mutilate (array))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", self, "encrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", (Obj.magic self), "encrypt", e))));
             (NullUtil.getInstance ())#nULL_BYTE_ARRAY
         end)
         end
@@ -51,7 +51,7 @@ class basicCrypt ((keyAsString : string)) =
         (try
             (self#mutilate (array))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", self, "decrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", (Obj.magic self), "decrypt", e))));
             (NullUtil.getInstance ())#nULL_BYTE_ARRAY
         end)
         end
@@ -78,7 +78,7 @@ class basicCrypt ((keyAsString : string)) =
             key_arg := ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#getByteArray (keyAsString))
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, self, "AbCrypt(alg,key)", e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), "AbCrypt(alg,key)", e))))
         end);
         key <- !key_arg
       end

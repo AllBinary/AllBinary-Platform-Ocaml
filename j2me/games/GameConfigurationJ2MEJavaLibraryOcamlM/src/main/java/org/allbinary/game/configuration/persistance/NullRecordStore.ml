@@ -33,5 +33,6 @@ let nULL_RECORD_STORE = ref ((new nullRecordStore ()))
 let get_nULL_RECORD_STORE () = !nULL_RECORD_STORE
 let set_nULL_RECORD_STORE value' = nULL_RECORD_STORE := value'
 let () = java_register_static "NullRecordStore.get_nULL_RECORD_STORE" (fun _ -> Obj.repr (get_nULL_RECORD_STORE ()))
+let () = java_register_static "NullRecordStore.set_nULL_RECORD_STORE" (fun value' -> set_nULL_RECORD_STORE (Obj.obj value'); Obj.repr ())
 
 

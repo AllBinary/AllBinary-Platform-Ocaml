@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual fileJDialogListenerInterface =
   object
-    method virtual onFiles : Obj.t -> unit
+    method virtual onFiles : java_file array -> unit
   end
 
 

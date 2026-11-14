@@ -43,15 +43,15 @@ class stupidTimer () =
         begin
         let tookTooLong : bool ref = ref (false) in ();
         let wAITING_FOR : string ref = ref ("Waiting for: ") in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!wAITING_FOR))#append (((StringUtil.getInstance ())#toString ((Obj.magic visitorInterface))))))), self, commonStrings#vISIT))));
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!wAITING_FOR))#append (((StringUtil.getInstance ())#toString ((Obj.magic visitorInterface))))))), (Obj.magic self), commonStrings#vISIT))));
         let index : int ref = ref (0) in ();
         while (self#visitBool ((Obj.magic visitorInterface))) do
             if ((!index mod 10) = 0) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!wAITING_FOR))#appendint (!index)))), self, commonStrings#vISIT))))
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!wAITING_FOR))#appendint (!index)))), (Obj.magic self), commonStrings#vISIT))))
             end;
             index := !index + 1;
             begin (* synchronized *)
-                ignore (threadObjectUtil#waitObjectFor (self, 1800))
+                ignore (threadObjectUtil#waitObjectFor ((Obj.magic self), 1800))
             end;
             if ((Obj.magic timeDelayHelper)#isTimeTNT ()) then begin
                 tookTooLong := true;
@@ -59,9 +59,9 @@ class stupidTimer () =
             end
         done;
         if !tookTooLong then begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, self, commonStrings#vISIT, (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Took Too Long: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic visitorInterface)))))))))))
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#vISIT, (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Took Too Long: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic visitorInterface)))))))))))
         end else begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic timeDelayHelper))), self, commonStrings#vISIT))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (Obj.magic timeDelayHelper))), (Obj.magic self), commonStrings#vISIT))))
         end
         end [@@warning "-20"]
     
@@ -69,7 +69,7 @@ class stupidTimer () =
     method stopWaiting () : unit =
         begin
         begin (* synchronized *)
-            ignore (threadObjectUtil#notifyObject (self))
+            ignore (threadObjectUtil#notifyObject ((Obj.magic self)))
         end
         end
 

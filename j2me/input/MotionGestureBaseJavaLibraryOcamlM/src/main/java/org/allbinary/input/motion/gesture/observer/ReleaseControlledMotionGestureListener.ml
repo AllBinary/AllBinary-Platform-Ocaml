@@ -53,7 +53,7 @@ class releaseControlledMotionGestureListener ((signed_arg : CompleteMotionGestur
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, (Obj.magic self)))
         end [@@warning "-20"]
     
 
@@ -130,25 +130,28 @@ class releaseControlledMotionGestureListener ((signed_arg : CompleteMotionGestur
 
     method released : 'any1. 'any1 -> unit = fun (ev) ->
         let ev = Obj.repr ev in
+        try
         begin
         (try
             if (isMouseGestureOccurring = false) then begin
-                ()
+                raise (Java_return (Obj.repr (())))
             end;
             isMouseGestureOccurring <- false;
             ignore (signed#onMotionGestureCompleted (motionGestureCollection));
             ignore (motionGestureCollection#clear ())
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (((StringUtil.getInstance ())#toString (((Obj.magic ev)#getMotionGesture ()))))))), self, "release", e))
+            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#eXCEPTION_LABEL))#append (((StringUtil.getInstance ())#toString (((Obj.magic ev)#getMotionGesture ()))))))), (Obj.magic self), "release", e))
         end)
-        end [@@warning "-20"]
+        end
+        with Java_return value -> Obj.obj value [@@warning "-20"]
     
 
     method onMotionGestureEvent : 'any1. 'any1 -> unit = fun (ev) ->
         let ev = Obj.repr ev in
+        try
         begin
         if (isMouseGestureOccurring = false) then begin
-            ()
+            raise (Java_return (Obj.repr (())))
         end;
         let motionGestureInput : MotionGestureInput.motionGestureInput ref = ref ((((Obj.magic ev)#getMotionGesture ()) :> MotionGestureInput.motionGestureInput)) in ();
         if ((Obj.repr !motionGestureInput) == (Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#pRESSED)) then begin
@@ -161,7 +164,8 @@ class releaseControlledMotionGestureListener ((signed_arg : CompleteMotionGestur
                 ignore (motionGestureCollection#add (((Obj.magic ev)#getMotionGesture ())))
             end
         end
-        end [@@warning "-20"]
+        end
+        with Java_return value -> Obj.obj value [@@warning "-20"]
 
     initializer
       begin
@@ -172,7 +176,7 @@ class releaseControlledMotionGestureListener ((signed_arg : CompleteMotionGestur
         motionGestureCollection <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         ();
         ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#cONSTRUCTOR));
         signed <- signed_arg
       end
   end [@@warning "-20"]

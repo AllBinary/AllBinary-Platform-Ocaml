@@ -39,7 +39,7 @@ class limitCommandsVisitor () =
         begin
         let command : Obj.t ref = ref ((Obj.repr (Obj.magic anyType))) in ();
         let booleanFactory : BooleanFactory.booleanFactory ref = ref (((BooleanFactory.getInstance ()) :> BooleanFactory.booleanFactory)) in ();
-        if (((isNotSmallDisplay || (((Obj.magic !command)#getPriority ()) == 1)) || ((Obj.repr (Obj.magic !command)) == (Obj.repr (GameCommandsFactory.getInstance ())#eXIT_COMMAND))) || ((Obj.repr (Obj.magic !command)) == (Obj.repr (GameCommandsFactory.getInstance ())#eXIT_WITHOUT_PROGRESS_COMMAND))) then begin
+        if (((isNotSmallDisplay || (((Obj.magic !command)#getPriority ()) = 1)) || ((Obj.repr (Obj.magic !command)) == (Obj.repr (GameCommandsFactory.getInstance ())#eXIT_COMMAND))) || ((Obj.repr (Obj.magic !command)) == (Obj.repr (GameCommandsFactory.getInstance ())#eXIT_WITHOUT_PROGRESS_COMMAND))) then begin
             raise (Java_return (Obj.repr (!booleanFactory#tRUE)))
         end else begin
             raise (Java_return (Obj.repr (!booleanFactory#fALSE)))

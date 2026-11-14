@@ -82,7 +82,7 @@ class health ((maxHealth_arg : int)) =
             ignore (!stringBuffer#appendint (ahealth));
             ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
             ignore (!stringBuffer#append ((java_string_of (Obj.repr self))));
-            ignore (ForcedLogUtil.log ((java_string_of (Obj.repr !stringBuffer)), self));
+            ignore (ForcedLogUtil.log ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self)));
             raise (Java_return (Obj.repr (())))
         end;
         let health_arg : int ref = ref (((self#getHealth ()) - ahealth)) in ();

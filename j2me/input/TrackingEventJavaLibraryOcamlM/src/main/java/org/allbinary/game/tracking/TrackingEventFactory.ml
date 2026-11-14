@@ -16,6 +16,7 @@
 (* package org.allbinary.game.tracking *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.util.event.AllBinaryEventObject *)
 (* import org.allbinary.logic.util.event.AllBinaryEventObjectFactoryInterface *)
 
@@ -24,9 +25,9 @@ class trackingEventFactory () =
     
     
 
-    method getInstance () : AllBinaryEventObject.allBinaryEventObject =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((new TrackingEvent.trackingEvent ((TrackingEventHandler.getInstance ()))) :> AllBinaryEventObject.allBinaryEventObject)
+        (Obj.magic ((new TrackingEvent.trackingEvent ((Obj.repr ((TrackingEventHandler.getInstance ())))))))
         end
 
     initializer

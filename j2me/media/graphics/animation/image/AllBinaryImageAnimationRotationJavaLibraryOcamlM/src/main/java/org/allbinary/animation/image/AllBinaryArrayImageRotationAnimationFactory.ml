@@ -64,7 +64,7 @@ class allBinaryArrayImageRotationAnimationFactory (image, (width : int), (height
             (Obj.magic !scaledImageArray).(index) <- ((self#animationFactoryImageScaleUtil)#createImage ((Obj.magic !image), ((Obj.magic !image)#getWidth ()), ((Obj.magic !image)#getHeight ()), (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight))
         done;
         if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
-            ignore ((self#animationFactoryImageScaleUtil)#processAdjust (self));
+            ignore ((self#animationFactoryImageScaleUtil)#processAdjust ((Obj.magic self)));
             raise (Java_return (Obj.repr ((new AdjustedImageArrayRotationAnimation.adjustedImageArrayRotationAnimation ((Obj.magic !scaledImageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
         end else begin
             raise (Java_return (Obj.repr ((new ImageArrayRotationAnimation.imageArrayRotationAnimation ((Obj.magic !scaledImageArray), (AngleInfo.getInstance ((self#getAngleIncrement ()))), (java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE))), ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
@@ -73,10 +73,11 @@ class allBinaryArrayImageRotationAnimationFactory (image, (width : int), (height
         with Java_return value -> Obj.obj value [@@warning "-7"]
     
 
-    method setImageArray (imageArray_arg) : unit =
+    method setImageArray : 'any1. 'any1 -> unit = fun (imageArray_arg) ->
+        let imageArray_arg = Obj.repr imageArray_arg in
         begin
-        imageArray <- Obj.repr (imageArray_arg)
-        end [@@warning "-7"]
+        imageArray <- Obj.repr ((Obj.magic imageArray_arg))
+        end [@@warning "-7-20"]
     
 
     method getAngleIncrement () : int =
@@ -96,20 +97,20 @@ class allBinaryArrayImageRotationAnimationFactory (image, (width : int), (height
   end [@@warning "-20"]
 let () = java_register_constructor "AllBinaryArrayImageRotationAnimationFactory" (fun arguments -> Obj.repr (new allBinaryArrayImageRotationAnimationFactory (Obj.obj arguments)))
 
-let createFactory : 'any1. 'any1 * int * int -> _ = fun (image, (dx : int), (dy : int)) ->
+let createFactory : 'any1 'return. 'any1 * int * int -> 'return = fun (image, (dx : int), (dy : int)) ->
         let image = Obj.repr image in
         begin
         let arrayImageRotationAnimationFactory : Obj.t ref = ref ((Obj.repr (new allBinaryArrayImageRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), ((AngleFactory.getInstance ())#tOTAL_ANGLE / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ())), (AnimationBehaviorFactory.getInstance ()))))) in ();
         ignore ((Obj.magic !arrayImageRotationAnimationFactory)#initDXY (dx, dy));
-        (Obj.magic !arrayImageRotationAnimationFactory)
+        (Obj.magic ((Obj.magic !arrayImageRotationAnimationFactory)))
         end [@@warning "-20"]
 
-and createFactoryA : 'any1. 'any1 * int * int * int -> _ = fun (image, (dx : int), (dy : int), (angleIncrement_arg : int)) ->
+and createFactoryA : 'any1 'return. 'any1 * int * int * int -> 'return = fun (image, (dx : int), (dy : int), (angleIncrement_arg : int)) ->
         let image = Obj.repr image in
         begin
         let arrayImageRotationAnimationFactory : Obj.t ref = ref ((Obj.repr (new allBinaryArrayImageRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), angleIncrement_arg, (AnimationBehaviorFactory.getInstance ()))))) in ();
         ignore ((Obj.magic !arrayImageRotationAnimationFactory)#initDXY (dx, dy));
-        (Obj.magic !arrayImageRotationAnimationFactory)
+        (Obj.magic ((Obj.magic !arrayImageRotationAnimationFactory)))
         end [@@warning "-20"]
 let () = java_register_static "AllBinaryArrayImageRotationAnimationFactory.createFactory" (fun arguments -> Obj.repr (createFactory (Obj.obj arguments)))
 let () = java_register_static "AllBinaryArrayImageRotationAnimationFactory.createFactoryA" (fun arguments -> Obj.repr (createFactoryA (Obj.obj arguments)))

@@ -68,9 +68,9 @@ class clientInformation ((name_arg : string), (version_arg : string), (specialNa
         end
     
 
-    method getOperatingSystemInterface () : GenericOperatingSystem.genericOperatingSystem =
+    method getOperatingSystemInterface : 'return. unit -> 'return = fun () ->
         begin
-        (operatingSystemInterface :> GenericOperatingSystem.genericOperatingSystem)
+        (Obj.magic (operatingSystemInterface))
         end
     
 
@@ -98,9 +98,9 @@ class clientInformation ((name_arg : string), (version_arg : string), (specialNa
         end
     
 
-    method getLicenseServers () : BasicArrayList.basicArrayList =
+    method getLicenseServers : 'return. unit -> 'return = fun () ->
         begin
-        (licenseServers :> BasicArrayList.basicArrayList)
+        (Obj.magic (licenseServers))
         end
     
 
@@ -139,7 +139,7 @@ class clientInformation ((name_arg : string), (version_arg : string), (specialNa
     method isSameId ((alicenseId : string)) : bool =
         try
         begin
-        if (((Obj.magic tsUtil)#compareTo ((self#getLicenseId ()), alicenseId)) == 0) then begin
+        if (((Obj.magic tsUtil)#compareTo ((self#getLicenseId ()), alicenseId)) = 0) then begin
             raise (Java_return (Obj.repr (true)))
         end else begin
             raise (Java_return (Obj.repr (false)))
@@ -161,7 +161,7 @@ class clientInformation ((name_arg : string), (version_arg : string), (specialNa
             let newServerName : string ref = ref ((Obj.magic (Obj.magic list)#objectArray.(index))) in ();
             for _index2 = !currentSize downto 0 do
                 let nextOldServerName : string ref = ref ((Obj.magic licenseServers#objectArray.(index))) in ();
-                if (((Obj.magic tsUtil)#compareTo (!newServerName, !nextOldServerName)) != 0) then begin
+                if (((Obj.magic tsUtil)#compareTo (!newServerName, !nextOldServerName)) <> 0) then begin
                     raise (Java_return (Obj.repr (true)))
                 end
             done

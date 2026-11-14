@@ -31,17 +31,12 @@ class exceptionUtil () =
     
 
     method getStackTrace ((e : exn)) : string =
-        try
         begin
         let bs : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
         ignore (prerr_endline (Printexc.to_string e));
         let output : string ref = ref ((java_string_of (Obj.repr !bs))) in ();
-        if (!output <> (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((Obj.obj (java_new "String" (Obj.repr (!output)))))))
-        end;
-        nONE
+        (Obj.obj (java_new "String" (Obj.repr (!output))))
         end
-        with Java_return value -> Obj.obj value
 
     initializer
       begin
@@ -57,9 +52,9 @@ let instance = (new exceptionUtil ())
 let get_instance () = instance
 let () = java_register_static "ExceptionUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ExceptionUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

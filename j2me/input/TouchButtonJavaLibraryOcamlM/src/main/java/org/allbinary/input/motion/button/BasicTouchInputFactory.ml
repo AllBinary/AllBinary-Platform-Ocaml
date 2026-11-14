@@ -30,6 +30,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "BasicTouchInputFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "BasicTouchInputFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class basicTouchInputFactory () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -117,7 +118,7 @@ class basicTouchInputFactory () =
         let list_arg = Obj.repr list_arg in
         let inputToGameKeyMapping = Obj.repr inputToGameKeyMapping in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#appendint (((Obj.magic list_arg)#size ()))))), self, "updateAll"));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#appendint (((Obj.magic list_arg)#size ()))))), (Obj.magic self), "updateAll"));
         let touchButtonInput : TouchButtonInput.touchButtonInput ref = ref (((Obj.magic 0) :> TouchButtonInput.touchButtonInput)) in ();
         for index = (((Obj.magic list_arg)#size ()) - 1) downto 0 do
             touchButtonInput := (Obj.magic (Obj.magic list_arg)#objectArray.(index));
@@ -126,9 +127,9 @@ class basicTouchInputFactory () =
         end [@@warning "-20"]
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
-        (list :> BasicArrayList.basicArrayList)
+        (Obj.magic (list))
         end
 
     initializer
@@ -168,12 +169,12 @@ class basicTouchInputFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "BasicTouchInputFactory" (fun arguments -> Obj.repr (new basicTouchInputFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new basicTouchInputFactory ())
+            instance := (Obj.repr ((new basicTouchInputFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "BasicTouchInputFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

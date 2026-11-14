@@ -16,6 +16,7 @@
 (* package org.allbinary.graphics.form *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class lockableFormPaintableFactory ((lockedIndex_arg : int)) =
   object
@@ -26,9 +27,9 @@ class lockableFormPaintableFactory ((lockedIndex_arg : int)) =
     
     
 
-    method getInstanceItemPaintable : 'any1. 'any1 -> ItemPaintable.itemPaintable = fun (_paintableForm) ->
+    method getInstanceItemPaintable : 'any1 'return. 'any1 -> 'return = fun (_paintableForm) ->
         begin
-        ((new LockablePaintable.lockablePaintable (lockedIndex)) :> ItemPaintable.itemPaintable)
+        (Obj.magic ((new LockablePaintable.lockablePaintable (lockedIndex))))
         end [@@warning "-7-20"]
 
     initializer

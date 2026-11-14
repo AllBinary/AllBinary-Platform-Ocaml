@@ -40,7 +40,7 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
         let basicColor = Obj.repr basicColor in
         begin
         let changed : bool ref = ref (false) in ();
-        if (((self#getBasicColorP ()) == (Obj.magic 0)) || ((Obj.repr ((self#getBasicColorP ())#intValue ())) != (Obj.repr ((Obj.magic basicColor)#intValue ())))) then begin
+        if (((self#getBasicColorP ()) == (Obj.magic 0)) || ((java_int_value (Obj.repr (self#getBasicColorP ()))) != ((Obj.magic basicColor)#intValue ()))) then begin
             changed := true
         end;
         ignore (super#setBasicColorP ((Obj.magic basicColor)));
@@ -54,7 +54,7 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
         let basicColor = Obj.repr basicColor in
         begin
         let changed : bool ref = ref (false) in ();
-        if (((self#getChangeBasicColor ()) == (Obj.magic 0)) || ((Obj.repr ((self#getChangeBasicColor ())#intValue ())) != (Obj.repr ((Obj.magic basicColor)#intValue ())))) then begin
+        if (((self#getChangeBasicColor ()) == (Obj.magic 0)) || ((java_int_value (Obj.repr (self#getChangeBasicColor ()))) != ((Obj.magic basicColor)#intValue ()))) then begin
             changed := true
         end;
         ignore (super#changeBasicColor ((Obj.magic basicColor)));
@@ -154,7 +154,7 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
                 end
             done
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "paintVectors", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "paintVectors", e))
         end)
         end [@@warning "-7-20"]
     
@@ -190,6 +190,12 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
         currentPoints <- currentPoints_arg;
         circularIndexUtil <- (CircularIndexUtil.createInstance ((Array.length currentPoints_arg)))
         end [@@warning "-7"]
+    
+
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getBasicColorP ())))
+        end [@@warning "-7"]
 
     initializer
       begin
@@ -203,7 +209,7 @@ class vectorAnimation ((currentPoints_arg : int array array array), (basicColor 
   end
 let () = java_register_constructor "VectorAnimation" (fun arguments -> Obj.repr (new vectorAnimation (Obj.obj arguments)))
 
-let createVectorAnimation : 'any2 'any3. int array array * 'any2 * 'any3 -> _ = fun ((currentPoints2 : int array array), basicColor, animationBehavior) ->
+let createVectorAnimation : 'any2 'any3 'return. int array array * 'any2 * 'any3 -> 'return = fun ((currentPoints2 : int array array), basicColor, animationBehavior) ->
         let basicColor = Obj.repr basicColor in
         let animationBehavior = Obj.repr animationBehavior in
         begin
@@ -213,7 +219,7 @@ let createVectorAnimation : 'any2 'any3. int array array * 'any2 * 'any3 -> _ = 
             !currentPoints_arg.(0).(index).(0) <- currentPoints2.(index).(0);
             !currentPoints_arg.(0).(index).(1) <- currentPoints2.(index).(1)
         done;
-        (new vectorAnimation (!currentPoints_arg, (Obj.magic basicColor), (Obj.magic animationBehavior)))
+        (Obj.magic ((new vectorAnimation (!currentPoints_arg, (Obj.magic basicColor), (Obj.magic animationBehavior)))))
         end [@@warning "-20"]
 let () = java_register_static "VectorAnimation.createVectorAnimation" (fun arguments -> Obj.repr (createVectorAnimation (Obj.obj arguments)))
 

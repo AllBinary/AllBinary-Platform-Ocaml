@@ -44,9 +44,9 @@ class layerCollisionUtil () =
         let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
         let gameFeatureFactory : GameFeatureFactory.gameFeatureFactory ref = ref (((GameFeatureFactory.getInstance ()) :> GameFeatureFactory.gameFeatureFactory)) in ();
         if (((Obj.magic (java_call_static "OpenGLFeatureUtil.getInstance" (Obj.repr ())))#isAnyThreed ()) && (not (!features#isFeature (!gameFeatureFactory#cOLLISIONS_FORCED_TWO_DIMENSIONAL)))) then begin
-            collisionProcessor <- (new CollisionThreedProcessor.collisionThreedProcessor ())
+            collisionProcessor <- ((new CollisionThreedProcessor.collisionThreedProcessor ()) :> CollisionProcessor.collisionProcessor)
         end else begin
-            collisionProcessor <- (new Collision2DProcessor.collision2DProcessor ())
+            collisionProcessor <- ((new Collision2DProcessor.collision2DProcessor ()) :> CollisionProcessor.collisionProcessor)
         end
       end
   end
@@ -56,9 +56,9 @@ let instance = (new layerCollisionUtil ())
 let get_instance () = instance
 let () = java_register_static "LayerCollisionUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "LayerCollisionUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

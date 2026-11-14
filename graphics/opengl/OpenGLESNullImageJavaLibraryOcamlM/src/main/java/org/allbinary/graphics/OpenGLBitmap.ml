@@ -35,7 +35,7 @@ class openGLBitmap ((bitmap_arg : Obj.t)) =
       begin
         ();
         ();
-        bitmap <- bitmap_arg
+        bitmap <- (Obj.repr (bitmap_arg))
       end
   end
 let () = java_register_constructor "OpenGLBitmap" (fun arguments -> Obj.repr (new openGLBitmap (Obj.obj arguments)))

@@ -9,6 +9,7 @@ open Allbinary_java [@@warning "-33"]
 class virtual allBinaryMidletViewInterface =
   object
     inherit MidletCompositeInterface.midletCompositeInterface
+    inherit EmulatorViewInterface.emulatorViewInterface
     inherit DemoGameMidletEventListener.demoGameMidletEventListener
     inherit GameInitializedListenerInterface.gameInitializedListenerInterface
     method virtual onResume : unit -> unit

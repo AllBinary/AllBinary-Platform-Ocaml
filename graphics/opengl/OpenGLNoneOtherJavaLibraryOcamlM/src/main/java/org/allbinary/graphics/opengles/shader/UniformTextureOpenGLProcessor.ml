@@ -24,10 +24,7 @@ class uniformTextureOpenGLProcessor ((_shaderComposite : ShaderComposite.shaderC
     
     
 
-    method process : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_gl, _unused, (_index : int)) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+    (* Java overload process(GL10, Any, INT) is not converted: OCaml has one method per name *)
 
     initializer
       begin

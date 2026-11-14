@@ -24,9 +24,9 @@ open Allbinary_java [@@warning "-33"]
 let getString ((keyCode : int)) : string =
         try
         begin
-        let input : Obj.t ref = ref ((Obj.repr ((InputFactory.getInstance ())#getInstanceById (keyCode)))) in ();
-        if ((Obj.magic !input) != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr (((Obj.magic !input)#getName ()))))
+        let input : Input.input ref = ref ((((InputFactory.getInstance ())#getInstanceById (keyCode)) :> Input.input)) in ();
+        if (!input != (Obj.magic 0)) then begin
+            raise (Java_return (Obj.repr ((!input#getName ()))))
         end else begin
             raise (Java_return (Obj.repr ((StringUtil.getInstance ())#eMPTY_STRING)))
         end
@@ -52,7 +52,7 @@ class j2MEGameKey ((key : int), (keyName : string)) =
         let id : int ref = ref ((self#getId ())) in ();
         if (!id >= 0) then begin
             let inputFactory : InputFactory.inputFactory ref = ref (((InputFactory.getInstance ()) :> InputFactory.inputFactory)) in ();
-            ignore (!inputFactory#add (!id, self))
+            ignore (!inputFactory#add (!id, (Obj.magic self)))
         end
       end
   end

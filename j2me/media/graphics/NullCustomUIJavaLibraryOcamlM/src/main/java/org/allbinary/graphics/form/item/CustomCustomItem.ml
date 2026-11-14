@@ -28,7 +28,7 @@ class customCustomItem ((label : string), (backgroundBasicColor : BasicColor.bas
 
     initializer
       begin
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         ();
         (* super(...) is the inherit clause *) ()

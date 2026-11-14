@@ -35,9 +35,9 @@ class rectangle ((point_arg : GPoint.gPoint), (width_arg : int), (height_arg : i
     
     
 
-    method getPoint () : GPoint.gPoint =
+    method getPoint : 'return. unit -> 'return = fun () ->
         begin
-        (point :> GPoint.gPoint)
+        (Obj.magic (point))
         end
     
 

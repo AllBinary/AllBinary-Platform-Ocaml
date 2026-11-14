@@ -38,5 +38,6 @@ let nULL_RECORD_FILTER = ref ((new nullRecordFilter ()))
 let get_nULL_RECORD_FILTER () = !nULL_RECORD_FILTER
 let set_nULL_RECORD_FILTER value' = nULL_RECORD_FILTER := value'
 let () = java_register_static "NullRecordFilter.get_nULL_RECORD_FILTER" (fun _ -> Obj.repr (get_nULL_RECORD_FILTER ()))
+let () = java_register_static "NullRecordFilter.set_nULL_RECORD_FILTER" (fun value' -> set_nULL_RECORD_FILTER (Obj.obj value'); Obj.repr ())
 
 

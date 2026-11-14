@@ -29,6 +29,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.logic.string.StringUtil *)
 (* import org.allbinary.string.CommonStrings *)
 
+let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
+let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "ThreadFactoryUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "ThreadFactoryUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
 class threadFactoryUtil () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -56,17 +61,17 @@ class threadFactoryUtil () =
         if (J2MEUtil.isHTML ()) then begin
             if ((type_ = (Obj.magic (java_call_static "DemoCanvas.get_tYPE" (Obj.repr ())))) || (type_ = (Obj.magic (java_call_static "AllBinaryGameCanvas.get_tYPE" (Obj.repr ()))))) then begin
                 let demoGameSingleThreadStartRunnable : RunnableCanvasSingleThreadStartRunnable.runnableCanvasSingleThreadStartRunnable ref = ref (((new RunnableCanvasSingleThreadStartRunnable.runnableCanvasSingleThreadStartRunnable ((Obj.magic runnable))) :> RunnableCanvasSingleThreadStartRunnable.runnableCanvasSingleThreadStartRunnable)) in ();
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Using Pseudo Thread for DemoCanvas/AllBinaryGameCanvas under PlayN/HTML5: "))#append (((StringUtil.getInstance ())#toString (runnable)))))), self, !commonStrings#cONSTRUCTOR))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Using Pseudo Thread for DemoCanvas/AllBinaryGameCanvas under PlayN/HTML5: "))#append (((StringUtil.getInstance ())#toString (runnable)))))), (Obj.magic self), !commonStrings#cONSTRUCTOR))));
                 let primaryThreadPool : Obj.t ref = ref ((Obj.repr (PrimaryThreadPool.getInstance ()))) in ();
                 ignore ((Obj.magic !primaryThreadPool)#runTask (!demoGameSingleThreadStartRunnable))
             end else begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Using Pseudo Thread for Runnable under PlayN/HTML5: "))#append (((StringUtil.getInstance ())#toString (runnable)))))), self, !commonStrings#cONSTRUCTOR))));
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Using Pseudo Thread for Runnable under PlayN/HTML5: "))#append (((StringUtil.getInstance ())#toString (runnable)))))), (Obj.magic self), !commonStrings#cONSTRUCTOR))));
                 let primaryThreadPool : Obj.t ref = ref ((Obj.repr (PrimaryThreadPool.getInstance ()))) in ();
                 ignore ((Obj.magic !primaryThreadPool)#runTask (runnable))
             end
         end;
         let thread : java_thread ref = ref (((Obj.obj (java_new "Thread" (Obj.repr (runnable, (java_string_of (Obj.repr runnable)))))) :> java_thread)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !thread)), self, !commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !thread)), (Obj.magic self), !commonStrings#cONSTRUCTOR));
         (!thread :> java_thread)
         end
     
@@ -84,14 +89,12 @@ class threadFactoryUtil () =
   end [@@warning "-20"]
 let () = java_register_constructor "ThreadFactoryUtil" (fun arguments -> Obj.repr (new threadFactoryUtil (Obj.obj arguments)))
 
-let instance = (new threadFactoryUtil ())
-let get_instance () = instance
-let () = java_register_static "ThreadFactoryUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic ((Obj.magic (get_instance ()))))
         end
 let () = java_register_static "ThreadFactoryUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instance_cell := lazy (Obj.repr ((new threadFactoryUtil ())))
 
 

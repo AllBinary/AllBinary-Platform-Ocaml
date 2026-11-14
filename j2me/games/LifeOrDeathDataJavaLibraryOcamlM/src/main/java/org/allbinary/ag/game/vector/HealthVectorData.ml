@@ -21,6 +21,7 @@ let points : int array array array ref = ref ([| [| [| 2; 1 |]; [| 3; 2 |]; [| 3
 let get_points () = !points
 let set_points value' = points := value'
 let () = java_register_static "HealthVectorData.get_points" (fun _ -> Obj.repr (get_points ()))
+let () = java_register_static "HealthVectorData.set_points" (fun value' -> set_points (Obj.obj value'); Obj.repr ())
 class healthVectorData () =
   object
 

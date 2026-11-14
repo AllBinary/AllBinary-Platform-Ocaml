@@ -52,9 +52,9 @@ class constantVelocityNotifyViewChangeMovement () =
         let layer = Obj.repr layer in
         begin
         let scaleFactorValue : int ref = ref ((speedBasicDecimal#getScaledFactorValue ())) in ();
-        let xVector : int ref = ref ((java_to_int (Obj.repr ((((axisMathVectorUtil#calculateX (radius, angle)) / !scaleFactorValue)))))) in ();
-        let yVector : int ref = ref ((java_to_int (Obj.repr ((((axisMathVectorUtil#calculateY (radius, angle)) / !scaleFactorValue)))))) in ();
-        let zVector : int ref = ref ((java_to_int (Obj.repr ((((axisMathVectorUtil#calculateZ (radius, otherAngle)) / !scaleFactorValue)))))) in ();
+        let xVector : int ref = ref ((((axisMathVectorUtil#calculateX (radius, angle)) / !scaleFactorValue))) in ();
+        let yVector : int ref = ref ((((axisMathVectorUtil#calculateY (radius, angle)) / !scaleFactorValue))) in ();
+        let zVector : int ref = ref ((((axisMathVectorUtil#calculateZ (radius, otherAngle)) / !scaleFactorValue))) in ();
         ignore ((Obj.magic layer)#moveDXYZ (!xVector, !yVector, !zVector))
         end [@@warning "-7-20"]
     

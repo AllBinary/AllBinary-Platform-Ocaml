@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 
 class gameNotificationEvent ((anyType : Obj.t), (string_arg : string), (seconds_arg : int), (basicColor_arg : BasicColor.basicColor), (permanent : bool)) =
   object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     val mutable string : string = ""
     method string = string
     method set_string value' = string <- value'
@@ -52,9 +52,9 @@ class gameNotificationEvent ((anyType : Obj.t), (string_arg : string), (seconds_
         end [@@warning "-7"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end [@@warning "-7"]
     
 

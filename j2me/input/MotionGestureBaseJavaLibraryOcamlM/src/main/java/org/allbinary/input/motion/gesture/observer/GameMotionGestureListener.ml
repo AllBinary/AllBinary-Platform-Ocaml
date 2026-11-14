@@ -50,7 +50,7 @@ class gameMotionGestureListener ((signed_arg : CompleteMotionGestureListenerInte
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, (Obj.magic self)))
         end [@@warning "-20"]
     
 
@@ -128,7 +128,7 @@ class gameMotionGestureListener ((signed_arg : CompleteMotionGestureListenerInte
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             ignore (!stringBuffer#append (commonStrings#eXCEPTION_LABEL));
             ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString (((Obj.magic ev)#getMotionGesture ())))));
-            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr !stringBuffer)), self, "release", e))
+            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "release", e))
         end)
         end [@@warning "-20"]
     
@@ -158,7 +158,7 @@ class gameMotionGestureListener ((signed_arg : CompleteMotionGestureListenerInte
             let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
             ignore (!stringBuffer#append (commonStrings#eXCEPTION_LABEL));
             ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString (((Obj.magic ev)#getMotionGesture ())))));
-            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr !stringBuffer)), self, "onMotionGestureEvent", e))
+            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "onMotionGestureEvent", e))
         end)
         end [@@warning "-20"]
 
@@ -170,7 +170,7 @@ class gameMotionGestureListener ((signed_arg : CompleteMotionGestureListenerInte
         touchGestureCollection <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         ();
         ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#cONSTRUCTOR));
         signed <- signed_arg
       end
   end [@@warning "-20"]

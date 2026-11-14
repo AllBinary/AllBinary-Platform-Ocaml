@@ -16,14 +16,15 @@
 (* package org.allbinary.input.motion.button *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : BaseTouchInput.baseTouchInput = ((new BaseTouchInput.baseTouchInput ()) :> BaseTouchInput.baseTouchInput)
 let get_instance () = instance
 let () = java_register_static "NoButtonsTouchInputFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : BaseTouchInput.baseTouchInput =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> BaseTouchInput.baseTouchInput)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "NoButtonsTouchInputFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

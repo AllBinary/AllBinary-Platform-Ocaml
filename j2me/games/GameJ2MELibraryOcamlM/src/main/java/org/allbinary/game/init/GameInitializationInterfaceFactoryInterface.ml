@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual gameInitializationInterfaceFactoryInterface =
   object
-    method virtual getInstance : unit -> GameInitializationInterface.gameInitializationInterface
+    method virtual getInstance : 'return . unit -> 'return
   end
 
 

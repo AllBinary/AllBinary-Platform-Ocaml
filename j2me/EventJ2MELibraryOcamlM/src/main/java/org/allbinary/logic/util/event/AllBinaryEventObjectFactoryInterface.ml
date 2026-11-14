@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual allBinaryEventObjectFactoryInterface =
   object
-    method virtual getInstance : unit -> AllBinaryEventObject.allBinaryEventObject
+    method virtual getInstance : 'return . unit -> 'return
   end
 
 

@@ -38,7 +38,19 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.view.event.ViewPositionEvent *)
 (* import org.allbinary.view.event.ViewPositionEventListenerInterface *)
 
-class allBinaryGameLayer ((name : string), layerInfo, (viewPosition : ViewPositionBase.viewPositionBase)) =
+
+let createPaintable : 'return. unit -> 'return = fun () ->
+        try
+        begin
+        if (SWTUtil.get_isSWT ()) then begin
+            raise (Java_return (Obj.repr ((new SWTBlackPaintable.sWTBlackPaintable ()))))
+        end;
+        (Obj.magic ((NullPaintable.getInstance ())))
+        end
+        with Java_return value -> Obj.obj value
+
+let () = java_register_static "AllBinaryGameLayer.createPaintable" (fun arguments -> Obj.repr (createPaintable (Obj.obj arguments)))
+class allBinaryGameLayer ((name : string), (layerInfo : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
   object (self)
     inherit AllBinaryLayer.allBinaryLayer (name, layerInfo, viewPosition) as super
     val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
@@ -71,9 +83,9 @@ class allBinaryGameLayer ((name : string), layerInfo, (viewPosition : ViewPositi
         end [@@warning "-7"]
     
 
-    method getGameKeyEventList () : BasicArrayList.basicArrayList =
+    method getGameKeyEventList : 'return. unit -> 'return = fun () ->
         begin
-        (gameKeyEventList :> BasicArrayList.basicArrayList)
+        (Obj.magic (gameKeyEventList))
         end [@@warning "-7"]
     
 
@@ -91,7 +103,7 @@ class allBinaryGameLayer ((name : string), layerInfo, (viewPosition : ViewPositi
 
     method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
         begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, self))
+        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
         end [@@warning "-7-20"]
     
 
@@ -103,7 +115,7 @@ class allBinaryGameLayer ((name : string), layerInfo, (viewPosition : ViewPositi
 
     method onChangeEvent : 'any1. 'any1 -> unit = fun (_layerManagerEvent) ->
         begin
-        if (GameLayerUtil.isOnScreen (self)) then begin
+        if (GameLayerUtil.isOnScreen ((Obj.magic self))) then begin
             ignore (self#setVisible (true))
         end else begin
             ignore (self#setVisible (false))
@@ -147,18 +159,7 @@ class allBinaryGameLayer ((name : string), layerInfo, (viewPosition : ViewPositi
         commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
         basicSetColorUtil <- ((BasicColorSetUtil.getInstance ()) :> BasicColorSetUtil.basicColorSetUtil);
         rED <- ((BasicColorFactory.getInstance ())#rED :> BasicColor.basicColor);
-        paintable <- ((if (SWTUtil.get_isSWT ()) then (object (self)
-        inherit Paintable.paintable () as super
-        basicSetColorUtil <- ((BasicColorSetUtil.getInstance ()) :> BasicColorSetUtil.basicColorSetUtil)
-        bLACK <- ((BasicColorFactory.getInstance ())#bLACK :> BasicColor.basicColor)
-        
-
-        method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-            let graphics = Obj.repr graphics in
-            begin
-            ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#bLACK)))
-            end [@@warning "-20"]
-    end) else (NullPaintable.getInstance ())) :> Paintable.paintable);
+        paintable <- ((createPaintable ()) :> Paintable.paintable);
         gameKeyEventList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         ();
         (* super(...) is the inherit clause *) ()

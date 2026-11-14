@@ -48,14 +48,14 @@ class fileJDialog () =
         begin
         jFileChooser1 <- Obj.repr ((new JFileChooser.jFileChooser ()));
         ignore (self#setDefaultCloseOperation ((javax.get_swing ())#windowConstants#dISPOSE_ON_CLOSE));
-        ignore ((Obj.magic jFileChooser1)#addActionListener ((object (self)
+        ignore ((Obj.magic jFileChooser1)#addActionListener ((let outer_self = self in object (self)
             inherit ActionListener.actionListener () as super
             
 
             method actionPerformed : 'any1. 'any1 -> unit = fun (evt) ->
                 let evt = Obj.repr evt in
                 begin
-                (self#jFileChooser1ActionPerformed ((Obj.magic evt)))
+                (outer_self#jFileChooser1ActionPerformed ((Obj.magic evt)))
                 end [@@warning "-20"]
         end)));
         let layout : Obj.t ref = ref ((Obj.repr (new GroupLayout.groupLayout ((self#getContentPane ()))))) in ();
@@ -69,14 +69,14 @@ class fileJDialog () =
     method jFileChooser1ActionPerformed : 'any1. 'any1 -> unit = fun (evt) ->
         let evt = Obj.repr evt in
         begin
-        ignore ((Obj.magic logUtil)#putF (("Starting Action Command: " ^ java_string_of (Obj.repr (((Obj.magic evt)#getActionCommand ())))), self, "ActionPerformed"));
-        let files : Obj.t ref = ref ((Obj.repr ((self#getJFileChooser1 ())#getSelectedFiles ()))) in ();
+        ignore ((Obj.magic logUtil)#putF (("Starting Action Command: " ^ java_string_of (Obj.repr (((Obj.magic evt)#getActionCommand ())))), (Obj.magic self), "ActionPerformed"));
+        let files : java_file array ref = ref (((self#getJFileChooser1 ())#getSelectedFiles ())) in ();
         if ((Obj.repr ((Obj.magic evt)#getActionCommand ())) == (Obj.repr (self#getJFileChooser1 ())#cANCEL_SELECTION)) then begin
             ignore (self#setVisible (false))
         end;
         if ((Obj.repr ((Obj.magic evt)#getActionCommand ())) == (Obj.repr (self#getJFileChooser1 ())#aPPROVE_SELECTION)) then begin
-            if (((Obj.magic !files) != (Obj.magic 0)) && ((Array.length (Obj.magic !files)) > 0)) then begin
-                ignore (finishedListenerInterface#onFiles ((Obj.magic !files)))
+            if ((!files != (Obj.magic 0)) && ((Array.length !files) > 0)) then begin
+                ignore (finishedListenerInterface#onFiles (!files))
             end
         end
         end [@@warning "-7-20"]

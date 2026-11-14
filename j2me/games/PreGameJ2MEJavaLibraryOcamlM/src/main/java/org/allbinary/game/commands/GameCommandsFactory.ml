@@ -27,6 +27,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "GameCommandsFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "GameCommandsFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class gameCommandsFactory () =
   object
     val mutable tOGGLE_FULLSCREEN : Obj.t = Obj.repr 0
@@ -147,12 +148,12 @@ class gameCommandsFactory () =
   end [@@warning "-20"]
 let () = java_register_constructor "GameCommandsFactory" (fun arguments -> Obj.repr (new gameCommandsFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new gameCommandsFactory ())
+            instance := (Obj.repr ((new gameCommandsFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "GameCommandsFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

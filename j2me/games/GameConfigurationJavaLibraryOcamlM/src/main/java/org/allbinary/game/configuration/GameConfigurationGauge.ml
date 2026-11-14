@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class gameConfigurationGauge ((gameConfiguration : GameConfiguration.gameConfiguration)) =
   object
-    inherit Gauge.gauge ((gameConfiguration#getName ()), ((gameConfiguration#isModifiable ())#booleanValue ()), (((gameConfiguration#getMaxValue ())#intValue ()) - ((gameConfiguration#getMinValue ())#intValue ())), (((gameConfiguration#getValue ())#intValue ()) - ((gameConfiguration#getMinValue ())#intValue ())))
+    inherit Gauge.gauge ((gameConfiguration#getName ()), (java_boolean_value (Obj.repr (gameConfiguration#isModifiable ()))), ((java_int_value (Obj.repr (gameConfiguration#getMaxValue ()))) - (java_int_value (Obj.repr (gameConfiguration#getMinValue ())))), ((java_int_value (Obj.repr (gameConfiguration#getValue ()))) - (java_int_value (Obj.repr (gameConfiguration#getMinValue ())))))
     
 
     initializer

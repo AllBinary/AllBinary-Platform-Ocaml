@@ -16,7 +16,13 @@
 (* package org.allbinary.game.ag.life *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
+let nO_LIFE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_nO_LIFE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !nO_LIFE_cell with Lazy.Undefined -> java_null)
+let set_nO_LIFE value' = nO_LIFE_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "Life.get_nO_LIFE" (fun _ -> Obj.repr (get_nO_LIFE ()))
+let () = java_register_static "Life.set_nO_LIFE" (fun value' -> set_nO_LIFE value'; Obj.repr ())
 class life ((lives_arg : int), (maxlives_arg : int)) =
   object (self)
     val mutable lives : int = 0
@@ -130,18 +136,16 @@ class life ((lives_arg : int), (maxlives_arg : int)) =
   end
 let () = java_register_constructor "Life" (fun arguments -> Obj.repr (new life (Obj.obj arguments)))
 
-let nO_LIFE = (createLife ())
-let get_nO_LIFE () = nO_LIFE
-let () = java_register_static "Life.get_nO_LIFE" (fun _ -> Obj.repr (get_nO_LIFE ()))
-
-let createLife () =
+let createLife : 'return. unit -> 'return = fun () ->
         begin
         (try
-            (new life (0, 0))
+            (Obj.magic ((new life (0, 0))))
         with e -> begin
             raise (Failure ("RuntimeException"))
         end)
         end
 let () = java_register_static "Life.createLife" (fun arguments -> Obj.repr (createLife (Obj.obj arguments)))
+
+let () = nO_LIFE_cell := lazy (Obj.repr ((createLife ())))
 
 

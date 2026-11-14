@@ -30,10 +30,11 @@ let pickedUpLayerInterfaceFactoryInterface : PickedUpLayerInterfaceFactoryInterf
 let get_pickedUpLayerInterfaceFactoryInterface () = !pickedUpLayerInterfaceFactoryInterface
 let set_pickedUpLayerInterfaceFactoryInterface value' = pickedUpLayerInterfaceFactoryInterface := value'
 let () = java_register_static "HealPickedUpLayerInterfaceFactory.get_pickedUpLayerInterfaceFactoryInterface" (fun _ -> Obj.repr (get_pickedUpLayerInterfaceFactoryInterface ()))
+let () = java_register_static "HealPickedUpLayerInterfaceFactory.set_pickedUpLayerInterfaceFactoryInterface" (fun value' -> set_pickedUpLayerInterfaceFactoryInterface (Obj.obj value'); Obj.repr ())
 
-let getInstance () : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (!pickedUpLayerInterfaceFactoryInterface :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
+        (Obj.magic (!pickedUpLayerInterfaceFactoryInterface))
         end
 
 let () = java_register_static "HealPickedUpLayerInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
@@ -60,7 +61,7 @@ class healPickedUpLayerInterfaceFactory () =
 
     initializer
       begin
-        pool <- ((new HealLayerCircularStaticPool.healLayerCircularStaticPool ((new HealLayerFactory.healLayerFactory ()), 1)) :> HealLayerCircularStaticPool.healLayerCircularStaticPool);
+        pool <- ((new HealLayerCircularStaticPool.healLayerCircularStaticPool (((new HealLayerFactory.healLayerFactory ()) : HealLayerFactory.healLayerFactory :> AllBinaryLayerFactoryInterface.allBinaryLayerFactoryInterface), 1)) :> HealLayerCircularStaticPool.healLayerCircularStaticPool);
         ();
         (* super(...) is the inherit clause *) ()
       end

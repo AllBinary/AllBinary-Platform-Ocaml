@@ -25,13 +25,13 @@ class pickupLayerCircularStaticPool () =
     
     
 
-    method getInstanceXYZ : 'any1. 'any1 * int * int * int -> PickedUpLayerInterface.pickedUpLayerInterface = fun (pickedUpLayerInterfaceFactoryInterface, (x : int), (y : int), (z : int)) ->
+    method getInstanceXYZ : 'any1 'return. 'any1 * int * int * int -> 'return = fun (pickedUpLayerInterfaceFactoryInterface, (x : int), (y : int), (z : int)) ->
         let pickedUpLayerInterfaceFactoryInterface = Obj.repr pickedUpLayerInterfaceFactoryInterface in
         begin
         let pickupLayer : PickupLayer.pickupLayer ref = ref (((Obj.magic (self#getNextInstance ())) :> PickupLayer.pickupLayer)) in ();
         ignore (!pickupLayer#initXYZ (x, y, z));
         ignore (!pickupLayer#init ((Obj.magic pickedUpLayerInterfaceFactoryInterface), ((Obj.magic pickedUpLayerInterfaceFactoryInterface)#getAnimationInterface ())));
-        (!pickupLayer :> PickedUpLayerInterface.pickedUpLayerInterface)
+        (Obj.magic (!pickupLayer))
         end [@@warning "-7-20"]
 
     initializer
@@ -46,10 +46,11 @@ let sINGLETON = ref ((new pickupLayerCircularStaticPool ()))
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "PickupLayerCircularStaticPool.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "PickupLayerCircularStaticPool.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        !sINGLETON
+        (Obj.magic (!sINGLETON))
         end
 let () = java_register_static "PickupLayerCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -46,7 +46,7 @@ class abeLicenseInterfaceFactory () =
     
     
 
-    method getLicenseInstance : 'any1. 'any1 -> AbeLicenseInterface.abeLicenseInterface = fun (abeClientInformation) ->
+    method getLicenseInstance : 'any1 'return. 'any1 -> 'return = fun (abeClientInformation) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         try
         begin
@@ -59,20 +59,20 @@ class abeLicenseInterfaceFactory () =
         with Java_return value -> Obj.obj value [@@warning "-20"]
     
 
-    method get : 'any1. 'any1 -> AbeLicenseInterface.abeLicenseInterface = fun (abeClientInformation) ->
+    method get : 'any1 'return. 'any1 -> 'return = fun (abeClientInformation) ->
         let abeClientInformation = Obj.repr abeClientInformation in
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF ("Getting Keys", self, commonStrings#gET));
+            ignore ((Obj.magic logUtil)#putF ("Getting Keys", (Obj.magic self), commonStrings#gET));
             abeLicenseInterface <- (AbeNoLicense.getInstance ());
             let licenseClient : AbeLicenseClient.abeLicenseClient ref = ref (((new AbeLicenseClient.abeLicenseClient ()) :> AbeLicenseClient.abeLicenseClient)) in ();
             abeLicenseInterface <- (!licenseClient#get ((Obj.magic abeClientInformation)));
             if (abeLicenseInterface != (Obj.magic 0)) then begin
-                ignore ((Obj.magic logUtil)#putF (("Default Key: " ^ java_string_of (Obj.repr ((abeLicenseInterface#getKey ((AbeClientInformationData.getInstance ())#kEY))))), self, commonStrings#gET))
+                ignore ((Obj.magic logUtil)#putF (("Default Key: " ^ java_string_of (Obj.repr ((abeLicenseInterface#getKey ((AbeClientInformationData.getInstance ())#kEY))))), (Obj.magic self), commonStrings#gET))
             end;
-            (abeLicenseInterface :> AbeLicenseInterface.abeLicenseInterface)
+            (Obj.magic (abeLicenseInterface))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Licensing IO Error", self, commonStrings#gET, e));
+            ignore ((Obj.magic logUtil)#put ("Licensing IO Error", (Obj.magic self), commonStrings#gET, e));
             raise (Failure ("License Server Connection Error"))
         end)
         end [@@warning "-20"]
@@ -88,7 +88,7 @@ class abeLicenseInterfaceFactory () =
             time <- !currentTime;
             raise (Java_return (Obj.repr (true)))
         end else begin
-            false
+            raise (Java_return (Obj.repr (false)))
         end
         end
         with Java_return value -> Obj.obj value
@@ -123,9 +123,9 @@ let sINGLETON = (new abeLicenseInterfaceFactory ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "AbeLicenseInterfaceFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        sINGLETON
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "AbeLicenseInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

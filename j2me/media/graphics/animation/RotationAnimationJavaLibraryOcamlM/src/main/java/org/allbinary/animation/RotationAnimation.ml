@@ -27,7 +27,7 @@ open Allbinary_java [@@warning "-33"]
 
 class rotationAnimation ((angleInfo_arg : AngleInfo.angleInfo), (circularIndexUtil_arg : CircularIndexUtil.circularIndexUtil), (animationBehavior : AnimationBehavior.animationBehavior)) =
   object (self)
-    inherit IndexedAnimation.indexedAnimation (animationBehavior) as super
+    inherit IndexedAnimation.indexedAnimation (animationBehavior)
     val mutable frameUtil : FrameUtil.frameUtil = (Obj.magic 0)
     method frameUtil = frameUtil
     method set_frameUtil value' = frameUtil <- value'
@@ -127,15 +127,15 @@ class rotationAnimation ((angleInfo_arg : AngleInfo.angleInfo), (circularIndexUt
         end [@@warning "-7"]
     
 
-    method getAngleInfoP () : AngleInfo.angleInfo =
+    method getAngleInfoP : 'return. unit -> 'return = fun () ->
         begin
-        (angleInfo :> AngleInfo.angleInfo)
+        (Obj.magic (angleInfo))
         end [@@warning "-7"]
     
 
     method toString () : string =
         begin
-        (java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((super#toString ())))#append ("circularIndexUtil: "))#append ((java_string_of (Obj.repr circularIndexUtil))))#append ("angleInfo: "))#append ((java_string_of (Obj.repr angleInfo))))))
+        (java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (("Object@" ^ string_of_int (Oo.id self))))#append ("circularIndexUtil: "))#append ((java_string_of (Obj.repr circularIndexUtil))))#append ("angleInfo: "))#append ((java_string_of (Obj.repr angleInfo))))))
         end [@@warning "-7"]
 
     initializer

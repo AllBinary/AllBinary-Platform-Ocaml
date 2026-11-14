@@ -25,6 +25,7 @@ let sINGLETON : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT
 let get_sINGLETON () = !sINGLETON
 let set_sINGLETON value' = sINGLETON := value'
 let () = java_register_static "FileStreamFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let () = java_register_static "FileStreamFactory.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
 class fileStreamFactory () =
   object
     
@@ -34,7 +35,7 @@ class fileStreamFactory () =
         begin
         let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath (path, fileName)) :> AbPath.abPath)) in ();
         let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-        (Obj.magic ((Obj.obj (java_new "AbFileInputStream" (Obj.repr ((Obj.magic !file)))))))
+        (Obj.magic ((Obj.magic (java_call_static "AbFileInputStream.createFromAbFile" (Obj.repr ((Obj.magic !file)))))))
         end
     
 
@@ -65,12 +66,12 @@ class fileStreamFactory () =
   end
 let () = java_register_constructor "FileStreamFactory" (fun arguments -> Obj.repr (new fileStreamFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !sINGLETON) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            sINGLETON := (new fileStreamFactory ())
+            sINGLETON := (Obj.repr ((new fileStreamFactory ())))
         end;
-        (Obj.magic !sINGLETON)
+        (Obj.magic ((Obj.magic !sINGLETON)))
         end
 let () = java_register_static "FileStreamFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

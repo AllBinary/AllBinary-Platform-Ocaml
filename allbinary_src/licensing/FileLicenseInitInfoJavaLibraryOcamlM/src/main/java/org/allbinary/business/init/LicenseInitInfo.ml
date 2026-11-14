@@ -60,7 +60,7 @@ class licenseInitInfo () =
 
     method clearServers () : unit =
         begin
-        serverVector <- (new BasicArrayListD.basicArrayListD ())
+        serverVector <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
         end
     
 
@@ -76,9 +76,9 @@ class licenseInitInfo () =
         end
     
 
-    method getServerList () : BasicArrayList.basicArrayList =
+    method getServerList : 'return. unit -> 'return = fun () ->
         begin
-        (serverVector :> BasicArrayList.basicArrayList)
+        (Obj.magic (serverVector))
         end
     
 

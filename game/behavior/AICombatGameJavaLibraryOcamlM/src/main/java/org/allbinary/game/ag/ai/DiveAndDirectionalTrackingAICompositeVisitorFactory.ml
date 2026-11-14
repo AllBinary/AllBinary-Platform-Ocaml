@@ -16,15 +16,16 @@
 (* package org.allbinary.game.ag.ai *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.logic.util.visitor.Visitor *)
 
 class diveAndDirectionalTrackingAICompositeVisitorFactory () =
   object
     
 
-    method getInstance : 'any1. 'any1 -> Visitor.visitor = fun (_diveBombAI) ->
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (_diveBombAI) ->
         begin
-        ((Visitor.getInstance ()) :> Visitor.visitor)
+        (Obj.magic ((Visitor.getInstance ())))
         end [@@warning "-20"]
 
     initializer

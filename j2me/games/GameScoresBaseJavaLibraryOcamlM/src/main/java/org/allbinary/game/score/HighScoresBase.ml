@@ -40,7 +40,7 @@ class highScoresBase () =
         end [@@warning "-20"]
     
 
-    method createHighScoresHelper () : HighScoresHelperBaseInterface.highScoresHelperBaseInterface =
+    method createHighScoresHelper : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ("RuntimeException"))
         end

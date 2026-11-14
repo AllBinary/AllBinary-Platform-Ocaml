@@ -16,6 +16,7 @@
 (* package org.allbinary.game.input *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import org.allbinary.layer.AllBinaryLayerManager *)
 (* import org.allbinary.logic.string.StringUtil *)
 
@@ -41,9 +42,9 @@ class nullPlayerGameInputComposite () =
         end
     
 
-    method getPlayerGameInput () : PlayerGameInput.playerGameInput =
+    method getPlayerGameInput : 'return. unit -> 'return = fun () ->
         begin
-        ((NoPlayerGameInput.getInstance ()) :> PlayerGameInput.playerGameInput)
+        (Obj.magic ((NoPlayerGameInput.getInstance ())))
         end
 
     initializer

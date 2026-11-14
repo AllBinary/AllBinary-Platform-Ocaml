@@ -53,7 +53,7 @@ class logBuffer () =
         logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
         ();
         ();
-        logEntryVector <- (new BasicArrayListD.basicArrayListD ())
+        logEntryVector <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
       end
   end [@@warning "-20"]
 let () = java_register_constructor "LogBuffer" (fun arguments -> Obj.repr (new logBuffer (Obj.obj arguments)))

@@ -137,9 +137,9 @@ class startIntermissionPaintable ((gameCanvas_arg : AllBinaryGameCanvas.allBinar
         end [@@warning "-7-20"]
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end [@@warning "-7"]
 
     initializer
@@ -151,7 +151,7 @@ class startIntermissionPaintable ((gameCanvas_arg : AllBinaryGameCanvas.allBinar
         ();
         ();
         ();
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
         basicColor <- ((BasicColorFactory.getInstance ())#bLACK :> BasicColor.basicColor);
         ();

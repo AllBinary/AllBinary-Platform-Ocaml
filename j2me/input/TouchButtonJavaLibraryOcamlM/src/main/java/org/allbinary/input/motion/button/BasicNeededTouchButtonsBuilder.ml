@@ -32,27 +32,27 @@ class basicNeededTouchButtonsBuilder () =
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#cONSTRUCTOR));
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
             let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
             let touchButtonLocationHelper : TouchButtonLocationHelper.touchButtonLocationHelper ref = ref (((new TouchButtonLocationHelper.touchButtonLocationHelper ()) :> TouchButtonLocationHelper.touchButtonLocationHelper)) in ();
             let basicTouchButtonCellPositionFactory : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "BasicTouchButtonCellPositionFactory" (Obj.repr ()))))) in ();
             let commonButtons : CommonButtons.commonButtons ref = ref (((CommonButtons.getInstance ()) :> CommonButtons.commonButtons)) in ();
-            let animationInterface : Obj.t ref = ref ((Obj.repr ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)))) in ();
-            let uP : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#uP, (Obj.magic !animationInterface), (Obj.magic !animationInterface), !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#sECOND_FROM_BOTTOM_LEFT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
-            let dOWN : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#dOWN, (Obj.magic !animationInterface), (Obj.magic !animationInterface), !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#bOTTOM_LEFT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
-            let lEFT : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#lEFT, (Obj.magic !animationInterface), (Obj.magic !animationInterface), !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#bOTTOM_SECOND_FROM_RIGHT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
-            let rIGHT : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#rIGHT, (Obj.magic !animationInterface), (Obj.magic !animationInterface), !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#bOTTOM_RIGHT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
+            let animationInterface : Animation.animation ref = ref ((((NullAnimationFactory.getFactoryInstance ())#getInstance (0)) :> Animation.animation)) in ();
+            let uP : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#uP, !animationInterface, !animationInterface, !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#sECOND_FROM_BOTTOM_LEFT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
+            let dOWN : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#dOWN, !animationInterface, !animationInterface, !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#bOTTOM_LEFT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
+            let lEFT : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#lEFT, !animationInterface, !animationInterface, !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#bOTTOM_SECOND_FROM_RIGHT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
+            let rIGHT : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "TouchButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#rIGHT, !animationInterface, !animationInterface, !commonButtons#nORMAL_BUTTON, (Obj.magic !basicTouchButtonCellPositionFactory)#bOTTOM_RIGHT, (!touchButtonLocationHelper#getColumnsRemainderHalf ()), (!touchButtonLocationHelper#getRowsRemainderHalf ()))))))) in ();
             ignore (!list#add ((Obj.magic !uP)));
             ignore (!list#add ((Obj.magic !dOWN)));
             ignore (!list#add ((Obj.magic !lEFT)));
             ignore (!list#add ((Obj.magic !rIGHT)));
-            (!list :> BasicArrayList.basicArrayList)
+            (Obj.magic (!list))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET_LIST, e));
-            (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#gET_LIST, e));
+            (Obj.magic (((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))
         end)
         end [@@warning "-7"]
 

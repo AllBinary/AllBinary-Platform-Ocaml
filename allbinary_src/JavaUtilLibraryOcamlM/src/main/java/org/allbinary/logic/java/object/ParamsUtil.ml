@@ -31,7 +31,7 @@ let viewParams ((params : string array)) : string =
             done;
             raise (Java_return (Obj.repr ((java_string_of (Obj.repr !stringBuffer)))))
         end else begin
-            "Params Null"
+            raise (Java_return (Obj.repr ("Params Null")))
         end
         end
         with Java_return value -> Obj.obj value

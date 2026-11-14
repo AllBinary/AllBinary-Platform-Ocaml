@@ -28,7 +28,7 @@ open Allbinary_java [@@warning "-33"]
 
 class healLayer () =
   object (self)
-    inherit AllBinaryLayer.allBinaryLayer ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.obj (java_new "Rectangle" (Obj.repr ((Obj.magic (java_call_static "PointFactory.getInstance" (Obj.repr ())))#zERO_ZERO, 0, 0)))), (ViewPosition.getInstanceD ()))
+    inherit AllBinaryLayer.allBinaryLayer ((StringUtil.getInstance ())#eMPTY_STRING, (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, 0, 0)), (ViewPosition.getInstanceD ()))
     
     
 
@@ -44,7 +44,7 @@ class healLayer () =
         if ((Obj.magic healthInterface)#isAlive ()) then begin
             ignore ((Obj.magic healthInterface)#healMax ())
         end else begin
-            ignore ((self#logUtil)#putF ("Heal attempt on dead: Does not currently occur", self, "visit"))
+            ignore ((self#logUtil)#putF ("Heal attempt on dead: Does not currently occur", (Obj.magic self), "visit"))
         end
         end [@@warning "-7-20"]
 

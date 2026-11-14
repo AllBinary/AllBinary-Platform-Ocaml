@@ -78,7 +78,7 @@ class replace ((hashMap_arg : java_hash_map)) =
             let begin2 : int ref = ref (0) in ();
             while (!index < (String.length !replace)) do
                 let begin_ : int ref = ref ((java_string_index_of_from !replace (Obj.repr (!keys.(0))) (!index))) in ();
-                if (!begin_ <> (-1)) then begin
+                if (!begin_ <> (- 1)) then begin
                     foundTotal := !foundTotal + 1;
                     if ((!foundTotal mod 100) = 0) then begin
                         (print_endline (java_string_of (Obj.repr ((fOUND_KEY ^ java_string_of (Obj.repr (!foundTotal)))))))
@@ -94,7 +94,7 @@ class replace ((hashMap_arg : java_hash_map)) =
                     if ((Array.length !keys) > 1) then begin
                         nextSecondKey := !keys.(1);
                         begin2 := (java_string_index_of_from !replace (Obj.repr (!nextSecondKey)) (!index));
-                        if (!begin2 <> (-1)) then begin
+                        if (!begin2 <> (- 1)) then begin
                             let end2 : int ref = ref ((!begin2 + (String.length !nextSecondKey))) in ();
                             ignore (!newStringBuffer#delete (0, (!newStringBuffer#length ())));
                             ignore (!newStringBuffer#append ((String.sub !replace (0) ((!begin2) - (0)))));
@@ -115,7 +115,7 @@ class replace ((hashMap_arg : java_hash_map)) =
         done;
         if (!totalNumberOfReplaces > 0) then begin
             if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#rEPLACE)) then begin
-                ignore ((Obj.magic logUtil)#putF (("Total Number Of Replaces: " ^ java_string_of (Obj.repr (!totalNumberOfReplaces))), self, aLL))
+                ignore ((Obj.magic logUtil)#putF (("Total Number Of Replaces: " ^ java_string_of (Obj.repr (!totalNumberOfReplaces))), (Obj.magic self), aLL))
             end
         end;
         !replace
@@ -138,7 +138,7 @@ class replace ((hashMap_arg : java_hash_map)) =
             while (!index < (String.length !replace)) do
                 ignore (!newStringBuffer#delete (0, (!newStringBuffer#length ())));
                 let begin_ : int ref = ref ((java_string_index_of_from !replace (Obj.repr (!key)) (!index))) in ();
-                if (!begin_ <> (-1)) then begin
+                if (!begin_ <> (- 1)) then begin
                     (print_endline (java_string_of (Obj.repr (fOUND_KEY))));
                     let end_ : int ref = ref (((java_string_index_of_from !replace (Obj.repr ('\n')) ((!begin_ + (String.length !key)))) + 1)) in ();
                     if (!end_ >= 0) then begin
@@ -154,7 +154,7 @@ class replace ((hashMap_arg : java_hash_map)) =
             done
         done;
         if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#rEPLACE)) then begin
-            ignore ((Obj.magic logUtil)#putF (("Total Number Of Replaces: " ^ java_string_of (Obj.repr (!totalNumberOfReplaces))), self, aLL))
+            ignore ((Obj.magic logUtil)#putF (("Total Number Of Replaces: " ^ java_string_of (Obj.repr (!totalNumberOfReplaces))), (Obj.magic self), aLL))
         end;
         !replace
         end

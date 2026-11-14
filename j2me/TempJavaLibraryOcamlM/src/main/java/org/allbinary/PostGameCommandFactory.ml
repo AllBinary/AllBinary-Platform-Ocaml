@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 (* import javax.microedition.lcdui.Canvas *)
 
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         raise (Failure ("RuntimeException"))
         end

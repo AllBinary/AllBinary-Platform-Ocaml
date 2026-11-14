@@ -25,6 +25,7 @@ let max : int ref = ref (100)
 let get_max () = !max
 let set_max value' = max := value'
 let () = java_register_static "AllBinarySensor.get_max" (fun _ -> Obj.repr (get_max ()))
+let () = java_register_static "AllBinarySensor.set_max" (fun value' -> set_max (Obj.obj value'); Obj.repr ())
 
 let setMax ((max_arg : int)) : unit =
         begin
@@ -69,13 +70,13 @@ class allBinarySensor () =
 
     method shutdown () : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, "shutdown"))
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "shutdown"))
         end
     
 
     method onSensorChange () : unit =
         begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, self))
+        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, (Obj.magic self)))
         end
 
     initializer

@@ -30,7 +30,7 @@ let rec viewAll : 'any1. 'any1 * string -> string = fun (anyType, (lineBreak : s
         if (anyType != (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr ((viewAll ((java_get_class (Obj.repr anyType)), lineBreak)))))
         end else begin
-            "Object Null"
+            raise (Java_return (Obj.repr ("Object Null")))
         end
         end
         with Java_return value -> Obj.obj value

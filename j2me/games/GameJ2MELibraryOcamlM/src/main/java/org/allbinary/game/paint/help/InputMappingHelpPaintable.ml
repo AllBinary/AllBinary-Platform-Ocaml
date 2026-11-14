@@ -109,7 +109,7 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
         let list : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
         let keyMappings : string ref = ref ("") in ();
         let actionString : string ref = ref ("") in ();
-        let input : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let input : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
         let size2 : int ref = ref (0) in ();
         for index = 0 to !size - 1 do
             list := keyMappingArray.(index);
@@ -125,8 +125,8 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
             !updateMyFontProperties_arg#sepArray.(index) <- (Array.make (!size2) (Obj.magic 0));
             !updateMyFontProperties_arg#sepWidthArray.(index) <- (Array.make (!size2) 0);
             for index2 = 0 to !size2 - 1 do
-                input := Obj.repr ((Obj.magic !list#objectArray.(index2)));
-                !updateMyFontProperties_arg#inputDeltaXArray.(index).(index2) <- ((Obj.magic !font)#stringWidth (((Obj.magic !input)#getName ())));
+                input := (Obj.magic !list#objectArray.(index2));
+                !updateMyFontProperties_arg#inputDeltaXArray.(index).(index2) <- ((Obj.magic !font)#stringWidth ((!input#getName ())));
                 !updateMyFontProperties_arg#sepArray.(index).(index2) <- eMPTY_STRING;
                 if ((index2 + 1) < (!list#size ())) then begin
                     if ((!list#size ()) = 2) then begin
@@ -154,7 +154,7 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
         let selectedInput = Obj.repr selectedInput in
         begin
         let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ("selected GameKey: "))#append ((stringUtil#toString ((Obj.magic selectedGameKey)))))#append (" Input: "))#append ((stringUtil#toString ((Obj.magic selectedInput))))))), self, commonStrings#uPDATE));
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ("selected GameKey: "))#append ((stringUtil#toString ((Obj.magic selectedGameKey)))))#append (" Input: "))#append ((stringUtil#toString ((Obj.magic selectedInput))))))), (Obj.magic self), commonStrings#uPDATE));
         let gameKeyMapping : PersistentInputMapping.persistentInputMapping ref = ref ((((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ()) :> PersistentInputMapping.persistentInputMapping)) in ();
         let size : int ref = ref ((Array.length gameInputMappingArray)) in ();
         let keyInfo : string array ref = ref ((Array.make (!size) (Obj.magic 0))) in ();
@@ -175,12 +175,12 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
             done;
             if ((Obj.repr !gameKey) == (Obj.repr (Obj.magic selectedGameKey))) then begin
                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ("Found: selected GameKey: "))#append ((stringUtil#toString ((Obj.magic selectedGameKey))))))), self, commonStrings#uPDATE));
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ("Found: selected GameKey: "))#append ((stringUtil#toString ((Obj.magic selectedGameKey))))))), (Obj.magic self), commonStrings#uPDATE));
                 !actionBasicColor_arg.(index) <- (selectedBasicColor :> BasicColor.basicColor);
                 let indexOfSelectedInput : int ref = ref ((!list#indexOf ((Obj.magic selectedInput)))) in ();
                 if (!indexOfSelectedInput >= 0) then begin
                     ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ("Found: selected Input: "))#append ((stringUtil#toString ((Obj.magic selectedInput))))))), self, commonStrings#uPDATE));
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ("Found: selected Input: "))#append ((stringUtil#toString ((Obj.magic selectedInput))))))), (Obj.magic self), commonStrings#uPDATE));
                     !inputBasicColorArray_arg.(index).(!indexOfSelectedInput) <- selectedBasicColor
                 end
             end else begin
@@ -201,11 +201,11 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
         let keyList = Obj.repr keyList in
         begin
         let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let key : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let key : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
         let size : int ref = ref (((Obj.magic keyList)#size ())) in ();
         for index = 0 to !size - 1 do
-            key := Obj.repr ((Obj.magic (Obj.magic keyList)#objectArray.(index)));
-            ignore (!stringBuffer#append (((Obj.magic !key)#getName ())));
+            key := (Obj.magic (Obj.magic keyList)#objectArray.(index));
+            ignore (!stringBuffer#append ((!key#getName ())));
             if ((index + 1) < ((Obj.magic keyList)#size ())) then begin
                 if (((Obj.magic keyList)#size ()) = 2) then begin
                     ignore (!stringBuffer#append (aND))
@@ -235,7 +235,7 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
         let deltaX : int ref = ref (0) in ();
         let size2 : int ref = ref (0) in ();
         let actionString : string ref = ref ("") in ();
-        let input : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let input : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
         let list : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
         let sep : string ref = ref ("") in ();
         let beginWidth : int ref = ref (0) in ();
@@ -245,14 +245,14 @@ class inputMappingHelpPaintable ((gameInputMappingArray_arg : GameInputMapping.g
             list := keyMappingArray.(index);
             size2 := (!list#size ());
             beginWidth := updateMyFontProperties#keymappingBeginWidthArray.(index);
-            ignore ((Obj.magic graphics)#setColor ((actionBasicColor.(index)#intValue ())));
+            ignore ((Obj.magic graphics)#setColor ((java_int_value (Obj.repr actionBasicColor.(index)))));
             actionString := updateMyFontProperties#actionStringArray.(index);
             ignore ((Obj.magic graphics)#drawString (!actionString, ((!halfWidth - !beginWidth) + !deltaX), !y, (self#anchor)));
             deltaX := (!deltaX + updateMyFontProperties#actionStringDeltaXArray.(index));
             for index2 = 0 to !size2 - 1 do
-                input := Obj.repr ((Obj.magic !list#objectArray.(index2)));
-                ignore ((Obj.magic graphics)#setColor ((inputBasicColorArray.(index).(index2)#intValue ())));
-                ignore ((Obj.magic graphics)#drawString (((Obj.magic !input)#getName ()), ((!halfWidth - !beginWidth) + !deltaX), !y, (self#anchor)));
+                input := (Obj.magic !list#objectArray.(index2));
+                ignore ((Obj.magic graphics)#setColor ((java_int_value (Obj.repr inputBasicColorArray.(index).(index2)))));
+                ignore ((Obj.magic graphics)#drawString ((!input#getName ()), ((!halfWidth - !beginWidth) + !deltaX), !y, (self#anchor)));
                 deltaX := (!deltaX + updateMyFontProperties#inputDeltaXArray.(index).(index2));
                 sep := updateMyFontProperties#sepArray.(index).(index2);
                 ignore ((Obj.magic graphics)#setColor (((self#basicColor)#intValue ())));

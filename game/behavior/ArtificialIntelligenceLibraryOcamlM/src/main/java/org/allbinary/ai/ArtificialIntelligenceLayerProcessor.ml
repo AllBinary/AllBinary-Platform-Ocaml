@@ -23,7 +23,7 @@ open Allbinary_java [@@warning "-33"]
 
 class artificialIntelligenceLayerProcessor () =
   object
-    inherit LayerProcessor.layerProcessor ((new ArtificialIntelligenceLayerManager.artificialIntelligenceLayerManager ()))
+    inherit LayerProcessor.layerProcessor (((new ArtificialIntelligenceLayerManager.artificialIntelligenceLayerManager ()) : ArtificialIntelligenceLayerManager.artificialIntelligenceLayerManager :> LayerManager.layerManager))
     
     
 

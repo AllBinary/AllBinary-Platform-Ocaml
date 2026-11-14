@@ -16,14 +16,15 @@
 (* package org.allbinary.game.init *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class basicBuildGameInitializerFactory () =
   object
     
 
-    method getInstance () : GameInitializationInterface.gameInitializationInterface =
+    method getInstance : 'return. unit -> 'return = fun () ->
         begin
-        ((BaseGameInitialization.get_nULL_BASE_GAME_INITIALIZATION ()) :> GameInitializationInterface.gameInitializationInterface)
+        (Obj.magic ((BaseGameInitialization.get_nULL_BASE_GAME_INITIALIZATION ())))
         end
 
     initializer
@@ -37,5 +38,6 @@ let nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY = ref ((new basicBuildGameInitializ
 let get_nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY () = !nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY
 let set_nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY value' = nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY := value'
 let () = java_register_static "BasicBuildGameInitializerFactory.get_nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY" (fun _ -> Obj.repr (get_nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY ()))
+let () = java_register_static "BasicBuildGameInitializerFactory.set_nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY" (fun value' -> set_nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY (Obj.obj value'); Obj.repr ())
 
 

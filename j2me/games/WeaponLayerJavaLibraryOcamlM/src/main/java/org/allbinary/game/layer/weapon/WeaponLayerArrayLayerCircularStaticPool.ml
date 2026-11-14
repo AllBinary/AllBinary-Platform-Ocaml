@@ -20,46 +20,69 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.CircularIndexUtil *)
 
 class weaponLayerArrayLayerCircularStaticPool () =
-  object
+  object (self)
     val mutable mAX : int = 0
     method mAX = mAX
     method set_mAX value' = mAX <- value'
     val mutable circularIndexUtil : CircularIndexUtil.circularIndexUtil = (Obj.magic 0)
     method circularIndexUtil = circularIndexUtil
     method set_circularIndexUtil value' = circularIndexUtil <- value'
-    val mutable aLL_WEAPONLAYER_ARRAY : Obj.t array array array = (Obj.magic 0)
-    method aLL_WEAPONLAYER_ARRAY = aLL_WEAPONLAYER_ARRAY
-    method set_aLL_WEAPONLAYER_ARRAY value' = aLL_WEAPONLAYER_ARRAY <- value'
+    val mutable wEAPONLAYER_ARRAY : WeaponLayer.weaponLayer array array = (Obj.magic 0)
+    method wEAPONLAYER_ARRAY = wEAPONLAYER_ARRAY
+    method set_wEAPONLAYER_ARRAY value' = wEAPONLAYER_ARRAY <- value'
+    val mutable tWO_WEAPONLAYER_ARRAY : WeaponLayer.weaponLayer array array = (Obj.magic 0)
+    method tWO_WEAPONLAYER_ARRAY = tWO_WEAPONLAYER_ARRAY
+    method set_tWO_WEAPONLAYER_ARRAY value' = tWO_WEAPONLAYER_ARRAY <- value'
+    val mutable tHREE_WEAPONLAYER_ARRAY : WeaponLayer.weaponLayer array array = (Obj.magic 0)
+    method tHREE_WEAPONLAYER_ARRAY = tHREE_WEAPONLAYER_ARRAY
+    method set_tHREE_WEAPONLAYER_ARRAY value' = tHREE_WEAPONLAYER_ARRAY <- value'
     
 
     method init () : unit =
         begin
-        let wEAPONLAYER_ARRAY : Obj.t array array ref = ref ((Array.make ((mAX * 2)) [||])) in ();
-        let tWO_WEAPONLAYER_ARRAY : Obj.t array array ref = ref ((Array.make (mAX) [||])) in ();
-        let tHREE_WEAPONLAYER_ARRAY : Obj.t array array ref = ref ((Array.make (mAX) [||])) in ();
+        let wEAPONLAYER_ARRAY_arg : WeaponLayer.weaponLayer array array ref = ref ((Array.make ((mAX * 2)) [||])) in ();
+        let tWO_WEAPONLAYER_ARRAY_arg : WeaponLayer.weaponLayer array array ref = ref ((Array.make (mAX) [||])) in ();
+        let tHREE_WEAPONLAYER_ARRAY_arg : WeaponLayer.weaponLayer array array ref = ref ((Array.make (mAX) [||])) in ();
         for index = 0 to mAX - 1 do
-            !wEAPONLAYER_ARRAY.(index) <- (Array.make (1) (Obj.magic 0));
-            !tWO_WEAPONLAYER_ARRAY.(index) <- (Array.make (2) (Obj.magic 0));
-            !tHREE_WEAPONLAYER_ARRAY.(index) <- (Array.make (3) (Obj.magic 0))
+            !wEAPONLAYER_ARRAY_arg.(index) <- (Array.make (1) (Obj.magic 0));
+            !tWO_WEAPONLAYER_ARRAY_arg.(index) <- (Array.make (2) (Obj.magic 0));
+            !tHREE_WEAPONLAYER_ARRAY_arg.(index) <- (Array.make (3) (Obj.magic 0))
         done;
-        aLL_WEAPONLAYER_ARRAY.(1) <- !wEAPONLAYER_ARRAY;
-        aLL_WEAPONLAYER_ARRAY.(2) <- !tWO_WEAPONLAYER_ARRAY;
-        aLL_WEAPONLAYER_ARRAY.(3) <- !tHREE_WEAPONLAYER_ARRAY
+        wEAPONLAYER_ARRAY <- !wEAPONLAYER_ARRAY_arg;
+        tWO_WEAPONLAYER_ARRAY <- !tWO_WEAPONLAYER_ARRAY_arg;
+        tHREE_WEAPONLAYER_ARRAY <- !tHREE_WEAPONLAYER_ARRAY_arg
         end
     
 
-    method getInstanceArray ((size : int)) : WeaponLayer.weaponLayer array =
+    method getWeaponLayerArrays : 'return. int -> 'return = fun ((size : int)) ->
+        try
         begin
-        let weaponLayerArray : WeaponLayer.weaponLayer array ref = ref ((Obj.magic aLL_WEAPONLAYER_ARRAY.(size).((circularIndexUtil#getIndex ())))) in ();
+        if (size = 1) then begin
+            raise (Java_return (Obj.repr (wEAPONLAYER_ARRAY)))
+        end else if (size = 2) then begin
+            raise (Java_return (Obj.repr (tWO_WEAPONLAYER_ARRAY)))
+        end else if (size = 3) then begin
+            raise (Java_return (Obj.repr (tHREE_WEAPONLAYER_ARRAY)))
+        end;
+        raise (Failure ("RuntimeException"))
+        end
+        with Java_return value -> Obj.obj value
+    
+
+    method getInstanceArray : 'return. int -> 'return = fun ((size : int)) ->
+        begin
+        let weaponLayerArray : WeaponLayer.weaponLayer array ref = ref ((self#getWeaponLayerArrays (size)).((circularIndexUtil#getIndex ()))) in ();
         ignore (circularIndexUtil#next ());
-        !weaponLayerArray
+        (Obj.magic (!weaponLayerArray))
         end
 
     initializer
       begin
         mAX <- 5;
         circularIndexUtil <- ((CircularIndexUtil.createInstance (mAX)) :> CircularIndexUtil.circularIndexUtil);
-        aLL_WEAPONLAYER_ARRAY <- (Array.make (4) [||]);
+        wEAPONLAYER_ARRAY <- (Obj.magic 0);
+        tWO_WEAPONLAYER_ARRAY <- (Obj.magic 0);
+        tHREE_WEAPONLAYER_ARRAY <- (Obj.magic 0);
         ()
       end
   end
@@ -69,9 +92,9 @@ let instance = (new weaponLayerArrayLayerCircularStaticPool ())
 let get_instance () = instance
 let () = java_register_static "WeaponLayerArrayLayerCircularStaticPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "WeaponLayerArrayLayerCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

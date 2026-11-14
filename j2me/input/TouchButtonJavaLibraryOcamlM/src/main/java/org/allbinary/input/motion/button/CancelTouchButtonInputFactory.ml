@@ -24,6 +24,7 @@ let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)
 let get_instance () = !instance
 let set_instance value' = instance := value'
 let () = java_register_static "CancelTouchButtonInputFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+let () = java_register_static "CancelTouchButtonInputFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
 class cancelTouchButtonInputFactory () =
   object
     val mutable cancelInputArray : TouchButtonInput.touchButtonInput array = (Obj.magic 0)
@@ -32,10 +33,10 @@ class cancelTouchButtonInputFactory () =
     
     
 
-    method getCancel : 'any1. 'any1 -> TouchButtonInput.touchButtonInput = fun (touchButtonInput) ->
+    method getCancel : 'any1 'return. 'any1 -> 'return = fun (touchButtonInput) ->
         let touchButtonInput = Obj.repr touchButtonInput in
         begin
-        (cancelInputArray.(((Obj.magic touchButtonInput)#getSourceId ())) :> TouchButtonInput.touchButtonInput)
+        (Obj.magic (cancelInputArray.(((Obj.magic touchButtonInput)#getSourceId ()))))
         end [@@warning "-20"]
 
     initializer
@@ -54,12 +55,12 @@ class cancelTouchButtonInputFactory () =
   end
 let () = java_register_constructor "CancelTouchButtonInputFactory" (fun arguments -> Obj.repr (new cancelTouchButtonInputFactory (Obj.obj arguments)))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
         if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (new cancelTouchButtonInputFactory ())
+            instance := (Obj.repr ((new cancelTouchButtonInputFactory ())))
         end;
-        (Obj.magic !instance)
+        (Obj.magic ((Obj.magic !instance)))
         end
 let () = java_register_static "CancelTouchButtonInputFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

@@ -48,18 +48,18 @@ class abCrypt ((algorithm_arg : string)) =
         let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
         (try
             (try
-                ignore (Security.addProvider ((new BouncyCastleProvider.bouncyCastleProvider ())))
+                ignore (java_security_add_provider ((new BouncyCastleProvider.bouncyCastleProvider ())))
             with e -> begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, self, !commonStrings#iNIT, e))))
+                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iNIT, e))))
             end);
             let key : int array ref = ref (((Obj.magic tsUtil)#getByteArray (keyAsString))) in ();
-            let keySpec : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "KeySpecFactory.getInstance" (Obj.repr ())))#getInstance (algorithm, !key)))) in ();
-            let keyFactory : Obj.t ref = ref ((Obj.repr (SecretKeyFactory.getInstance (algorithm)))) in ();
-            let secretKey : Obj.t ref = ref ((Obj.repr ((Obj.magic !keyFactory)#generateSecret ((Obj.magic !keySpec))))) in ();
-            let cipher : Obj.t ref = ref ((Obj.repr (Cipher.getInstance (algorithm)))) in ();
-            secretComposite <- (new SecretComposite.secretComposite ((Obj.magic !secretKey), (Obj.magic !cipher), !key))
+            let keySpec : Obj.t ref = ref ((Obj.repr ((KeySpecFactory.getInstance ())#getInstance (algorithm, !key)))) in ();
+            let keyFactory : java_secret_key_factory ref = ref (((java_secret_key_factory_get_instance (algorithm)) :> java_secret_key_factory)) in ();
+            let secretKey : java_secret_key ref = ref (((!keyFactory#generateSecret ((Obj.magic !keySpec))) :> java_secret_key)) in ();
+            let cipher : java_cipher ref = ref (((java_cipher_get_instance (algorithm)) :> java_cipher)) in ();
+            secretComposite <- ((new SecretComposite.secretComposite (!secretKey, !cipher, !key)) :> BaseSecretComposite.baseSecretComposite)
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("init Failed", self, !commonStrings#iNIT, e))))
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("init Failed", (Obj.magic self), !commonStrings#iNIT, e))))
         end)
         end
     
@@ -69,7 +69,7 @@ class abCrypt ((algorithm_arg : string)) =
         (try
             (secretComposite#encrypt (array))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", self, "encrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", (Obj.magic self), "encrypt", e))));
             (NullUtil.getInstance ())#nULL_BYTE_ARRAY
         end)
         end
@@ -80,7 +80,7 @@ class abCrypt ((algorithm_arg : string)) =
         (try
             (secretComposite#decrypt (array))
         with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", self, "decrypt", e))));
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", (Obj.magic self), "decrypt", e))));
             (NullUtil.getInstance ())#nULL_BYTE_ARRAY
         end)
         end

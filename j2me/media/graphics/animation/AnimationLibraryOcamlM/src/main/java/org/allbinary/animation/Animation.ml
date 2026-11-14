@@ -78,9 +78,9 @@ class animation () =
         end
     
 
-    method getBasicColorP () : BasicColor.basicColor =
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
         begin
-        (basicColor :> BasicColor.basicColor)
+        (Obj.magic (basicColor))
         end
     
 
@@ -98,9 +98,9 @@ class animation () =
         end [@@warning "-20"]
     
 
-    method getChangeBasicColor () : BasicColor.basicColor =
+    method getChangeBasicColor : 'return. unit -> 'return = fun () ->
         begin
-        (changeBasicColorP :> BasicColor.basicColor)
+        (Obj.magic (changeBasicColorP))
         end
     
 

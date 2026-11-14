@@ -33,9 +33,9 @@ class baseAnimationInterfaceFactoryInterfaceComposite ((basicAnimationInterfaceF
         end
     
 
-    method getBasicAnimationInterfaceFactoryInterfaceArray () : BasicAnimationInterfaceFactoryInterface.basicAnimationInterfaceFactoryInterface array =
+    method getBasicAnimationInterfaceFactoryInterfaceArray : 'return. unit -> 'return = fun () ->
         begin
-        basicAnimationInterfaceFactoryInterfaceArray
+        (Obj.magic (basicAnimationInterfaceFactoryInterfaceArray))
         end
     
 

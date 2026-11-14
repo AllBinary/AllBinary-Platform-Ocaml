@@ -20,7 +20,7 @@ open Allbinary_java [@@warning "-33"]
 
 class viewPositionEvent ((anyType : Obj.t)) =
   object
-    inherit AllBinaryEventObject.allBinaryEventObject (anyType)
+    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
     
 
     initializer

@@ -24,6 +24,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.graphics.opengles.OpenGLFeatureFactory *)
 (* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
 
+let instanceC_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_instanceC : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instanceC_cell with Lazy.Undefined -> java_null)
+let set_instanceC value' = instanceC_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "BaseGameBehavior.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
+let () = java_register_static "BaseGameBehavior.set_instanceC" (fun value' -> set_instanceC value'; Obj.repr ())
 class baseGameBehavior () =
   object
     inherit DemoGameBehavior.demoGameBehavior ()
@@ -121,14 +126,12 @@ class baseGameBehavior () =
   end
 let () = java_register_constructor "BaseGameBehavior" (fun arguments -> Obj.repr (new baseGameBehavior (Obj.obj arguments)))
 
-let instanceC = (new baseGameBehavior ())
-let get_instanceC () = instanceC
-let () = java_register_static "BaseGameBehavior.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
-
-let getInstance () : DemoGameBehavior.demoGameBehavior =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instanceC :> DemoGameBehavior.demoGameBehavior)
+        (Obj.magic ((Obj.magic (get_instanceC ()))))
         end
 let () = java_register_static "BaseGameBehavior.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+let () = instanceC_cell := lazy (Obj.repr ((new baseGameBehavior ())))
 
 

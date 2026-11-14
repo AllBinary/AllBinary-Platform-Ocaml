@@ -21,7 +21,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.layer.AllBinaryLayer *)
 
 
-let getInstance () : CollisionHelper.collisionHelper =
+let getInstance : 'return. unit -> 'return = fun () ->
         try
         begin
         if ((Features.getInstance ())#isFeature ((GameFeatureFactory.getInstance ())#cOLLISIONS_WITH_SOURCE)) then begin

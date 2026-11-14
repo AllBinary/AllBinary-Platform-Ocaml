@@ -16,6 +16,7 @@
 (* package org.allbinary.graphics.form *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 (* import javax.microedition.lcdui.Graphics *)
 (* import org.allbinary.graphics.form.item.ABCustomItem *)
 
@@ -39,9 +40,9 @@ let instance = (new itemIndexPaintable ())
 let get_instance () = instance
 let () = java_register_static "ItemIndexPaintable.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ItemIndexPaintable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

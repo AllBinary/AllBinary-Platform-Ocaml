@@ -28,12 +28,12 @@ class spinnerAIFactory () =
   object
     
 
-    method getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (_hashtable, ownerLayerInterface, gameInput) ->
+    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (_hashtable, ownerLayerInterface, gameInput) ->
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
         begin
         let direction : int array ref = ref ([| (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ()))) |]) in ();
-        ((new SpinnerAI.spinnerAI (!direction, (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((new SpinnerAI.spinnerAI (!direction, (Obj.magic ownerLayerInterface), (Obj.magic gameInput)))))
         end [@@warning "-20"]
 
     initializer

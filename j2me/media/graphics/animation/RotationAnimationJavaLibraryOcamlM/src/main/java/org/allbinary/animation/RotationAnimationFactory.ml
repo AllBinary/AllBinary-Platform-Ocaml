@@ -61,10 +61,10 @@ class rotationAnimationFactory ((totalAngle_arg : int), (angleIncrement_arg : in
   end
 let () = java_register_constructor "RotationAnimationFactory" (fun arguments -> Obj.repr (new rotationAnimationFactory (Obj.obj arguments)))
 
-let createFactory () =
+let createFactory : 'return. unit -> 'return = fun () ->
         begin
         let totalAngle_arg : int ref = ref ((AngleFactory.getInstance ())#tOTAL_ANGLE) in ();
-        (new rotationAnimationFactory (!totalAngle_arg, (java_to_int (Obj.repr (((!totalAngle_arg / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ()))))))))
+        (Obj.magic ((new rotationAnimationFactory (!totalAngle_arg, (java_to_int (Obj.repr (((!totalAngle_arg / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ()))))))))))
         end
 let () = java_register_static "RotationAnimationFactory.createFactory" (fun arguments -> Obj.repr (createFactory (Obj.obj arguments)))
 

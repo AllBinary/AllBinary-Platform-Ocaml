@@ -28,6 +28,7 @@ let classLoader : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJE
 let get_classLoader () = !classLoader
 let set_classLoader value' = classLoader := value'
 let () = java_register_static "ResourceUtil.get_classLoader" (fun _ -> Obj.repr (get_classLoader ()))
+let () = java_register_static "ResourceUtil.set_classLoader" (fun value' -> set_classLoader (Obj.obj value'); Obj.repr ())
 class resourceUtil () =
   object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
@@ -38,15 +39,15 @@ class resourceUtil () =
 
     method setLoadingPaths ((_path : string), (_ext : string)) : unit =
         begin
-        ignore ((Obj.magic logUtil)#putF ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, self, "setLoadingPaths"))
+        ignore ((Obj.magic logUtil)#putF ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, (Obj.magic self), "setLoadingPaths"))
         end
     
 
     method setClassLoader : 'any1. 'any1 -> unit = fun (classLoader_arg) ->
         let classLoader_arg = Obj.repr classLoader_arg in
         begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Resource Loader: "))#append ((java_get_class (Obj.repr (Obj.magic classLoader_arg))))))), self, "setClassLoader"));
-        classLoader := (Obj.magic classLoader_arg)
+        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Resource Loader: "))#append ((java_get_class (Obj.repr (Obj.magic classLoader_arg))))))), (Obj.magic self), "setClassLoader"));
+        classLoader := (Obj.repr ((Obj.magic classLoader_arg)))
         end [@@warning "-20"]
     
 
@@ -69,7 +70,7 @@ class resourceUtil () =
         let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
         let index : int ref = ref ((java_string_index_of resource (Obj.repr (!commonSeps#cOLON)))) in ();
         let resourcePath : string ref = ref ((String.sub resource ((!index + startIndex)) (String.length resource - ((!index + startIndex))))) in ();
-        let inputStream : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr resource))#getResourceAsStream (!resourcePath)))) in ();
+        let inputStream : Obj.t ref = ref ((Obj.repr (java_get_resource_as_stream (!resourcePath)))) in ();
         if ((Obj.magic !inputStream) != (Obj.magic 0)) then begin
             raise (Java_return (Obj.repr ((Obj.magic !inputStream))))
         end;
@@ -105,9 +106,9 @@ let instance = (new resourceUtil ())
 let get_instance () = instance
 let () = java_register_static "ResourceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "ResourceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

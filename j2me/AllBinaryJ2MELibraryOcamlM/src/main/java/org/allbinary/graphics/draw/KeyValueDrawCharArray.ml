@@ -72,7 +72,7 @@ class keyValueDrawCharArray ((label : string), (x : int)) =
 
     initializer
       begin
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor (self)) :> MyFontProcessor.myFontProcessor);
+        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
         ();
         ();
         valueX <- 0;

@@ -16,6 +16,7 @@
 (* package org.allbinary.graphics.paint *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class nullInitUpdatePaintable () =
   object
@@ -34,9 +35,9 @@ let sINGLETON = (new nullInitUpdatePaintable ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "NullInitUpdatePaintable.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () : InitUpdatePaintable.initUpdatePaintable =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (sINGLETON :> InitUpdatePaintable.initUpdatePaintable)
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "NullInitUpdatePaintable.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

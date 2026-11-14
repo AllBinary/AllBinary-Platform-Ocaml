@@ -19,7 +19,7 @@ open Allbinary_java [@@warning "-33"]
 
 class virtual allBinaryLayerFactoryInterface =
   object
-    method virtual getInstance : unit -> AllBinaryLayer.allBinaryLayer
+    method virtual getInstance : 'return . unit -> 'return
   end
 
 

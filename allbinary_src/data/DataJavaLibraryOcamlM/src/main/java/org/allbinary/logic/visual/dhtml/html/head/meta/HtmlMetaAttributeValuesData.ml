@@ -16,6 +16,7 @@
 (* package org.allbinary.logic.visual.dhtml.html.head.meta *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 class htmlMetaAttributeValuesData () =
   object
@@ -45,9 +46,9 @@ let instance = (new htmlMetaAttributeValuesData ())
 let get_instance () = instance
 let () = java_register_static "HtmlMetaAttributeValuesData.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "HtmlMetaAttributeValuesData.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

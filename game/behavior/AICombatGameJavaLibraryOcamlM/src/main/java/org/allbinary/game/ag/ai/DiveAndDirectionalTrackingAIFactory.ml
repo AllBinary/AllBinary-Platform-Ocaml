@@ -30,19 +30,19 @@ class diveAndDirectionalTrackingAIFactory () =
   object
     
 
-    method getInstance : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 -> ArtificialIntelligenceInterface.artificialIntelligenceInterface = fun (hashtable, ownerLayerInterface, gameInput) ->
+    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (hashtable, ownerLayerInterface, gameInput) ->
         let hashtable = Obj.repr hashtable in
         let ownerLayerInterface = Obj.repr ownerLayerInterface in
         let gameInput = Obj.repr gameInput in
         begin
         let visitorCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic hashtable)#get ((Obj.magic (BasicAI.get_aI_VISITOR ())))))) in ();
         if (!visitorCanBeNull == (Obj.magic 0)) then begin
-            visitorCanBeNull := (ThrustAIVisitorFactory.getInstance ())
+            visitorCanBeNull := (Obj.repr ((ThrustAIVisitorFactory.getInstance ())))
         end;
         let hashtable2 : Obj.t ref = ref ((Obj.repr ((new BasicProbabilityAIDataFactory.basicProbabilityAIDataFactory ())#getInstance ()))) in ();
         ignore ((Obj.magic !hashtable2)#put ((BasicAI.get_aI_VISITOR ()), (LastKeyAIVisitorFactory.getInstance ())));
         let artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface ref = ref ((((new BasicRandomAIFactory.basicRandomAIFactory ())#getInstance ((Obj.magic !hashtable2), (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)) in ();
-        ((new DiveAndDirectionalTrackingAI.diveAndDirectionalTrackingAI ((Obj.magic ownerLayerInterface), !artificialIntelligenceInterface, (Obj.magic gameInput), (Obj.magic !visitorCanBeNull))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)
+        (Obj.magic ((new DiveAndDirectionalTrackingAI.diveAndDirectionalTrackingAI ((Obj.magic ownerLayerInterface), !artificialIntelligenceInterface, (Obj.magic gameInput), (Obj.magic !visitorCanBeNull)))))
         end [@@warning "-20"]
 
     initializer

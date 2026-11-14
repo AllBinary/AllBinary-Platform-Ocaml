@@ -26,6 +26,7 @@ let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUti
 let get_hashtable () = Obj.magic !hashtable
 let set_hashtable value' = hashtable := Obj.repr value'
 let () = java_register_static "GameConfigurationTextInput.get_hashtable" (fun _ -> Obj.repr (get_hashtable ()))
+let () = java_register_static "GameConfigurationTextInput.set_hashtable" (fun value' -> set_hashtable (Obj.obj value'); Obj.repr ())
 
 let update : 'any1. 'any1 -> unit = fun (textField) ->
         let textField = Obj.repr textField in
@@ -83,7 +84,7 @@ class gameConfigurationTextInput ((label_arg : string), (text_arg : string)) =
         ();
         (self#setText (text_arg));
         (self#setLabel (label_arg));
-        ignore ((Obj.magic !hashtable)#put ((self#getLabel ()), self))
+        ignore ((Obj.magic !hashtable)#put ((self#getLabel ()), (Obj.magic self)))
       end
   end
 let () = java_register_constructor "GameConfigurationTextInput" (fun arguments -> Obj.repr (new gameConfigurationTextInput (Obj.obj arguments)))
@@ -92,10 +93,12 @@ let sIMULATOR_IP = ref ((new gameConfigurationTextInput ("IP: ", "192.168.1.3"))
 let get_sIMULATOR_IP () = !sIMULATOR_IP
 let set_sIMULATOR_IP value' = sIMULATOR_IP := value'
 let () = java_register_static "GameConfigurationTextInput.get_sIMULATOR_IP" (fun _ -> Obj.repr (get_sIMULATOR_IP ()))
+let () = java_register_static "GameConfigurationTextInput.set_sIMULATOR_IP" (fun value' -> set_sIMULATOR_IP (Obj.obj value'); Obj.repr ())
 
 let sIMULATOR_PORT = ref ((new gameConfigurationTextInput ("Port: ", "8010")))
 let get_sIMULATOR_PORT () = !sIMULATOR_PORT
 let set_sIMULATOR_PORT value' = sIMULATOR_PORT := value'
 let () = java_register_static "GameConfigurationTextInput.get_sIMULATOR_PORT" (fun _ -> Obj.repr (get_sIMULATOR_PORT ()))
+let () = java_register_static "GameConfigurationTextInput.set_sIMULATOR_PORT" (fun value' -> set_sIMULATOR_PORT (Obj.obj value'); Obj.repr ())
 
 

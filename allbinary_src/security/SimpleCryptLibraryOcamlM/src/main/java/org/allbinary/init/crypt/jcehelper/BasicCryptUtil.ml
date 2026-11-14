@@ -44,7 +44,7 @@ class basicCryptUtil () =
         let ch : int ref = ref (0) in ();
         while true do
             ch := ((Obj.magic inputStream)#read ());
-            if (!ch = (-1)) then begin
+            if (!ch = (- 1)) then begin
                 raise Java_break
             end;
             ignore (!buffer#write (!ch))
@@ -55,7 +55,7 @@ class basicCryptUtil () =
         if (!index > 0) then begin
             decryptedString := (String.sub !decryptedString (!index) (String.length !decryptedString - (!index)))
         end;
-        (Obj.magic ((new ByteArrayInputStream.byteArrayInputStream (((Obj.magic tsUtil)#getByteArray (!decryptedString))))))
+        (Obj.magic ((new java_byte_array_input_stream (((Obj.magic tsUtil)#getByteArray (!decryptedString))))))
         end [@@warning "-20"]
 
     initializer
@@ -72,9 +72,9 @@ let instance = (new basicCryptUtil ())
 let get_instance () = instance
 let () = java_register_static "BasicCryptUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        instance
+        (Obj.magic (instance))
         end
 let () = java_register_static "BasicCryptUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

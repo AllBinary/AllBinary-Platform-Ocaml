@@ -16,14 +16,15 @@
 (* package org.allbinary.graphics *)
 
 open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
 
 let instance : ScreenCapture.screenCapture = ((new ScreenCapture.screenCapture ()) :> ScreenCapture.screenCapture)
 let get_instance () = instance
 let () = java_register_static "ScreenCaptureNoneFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
 
-let getInstance () : ScreenCapture.screenCapture =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (instance :> ScreenCapture.screenCapture)
+        (Obj.magic (instance))
         end
 
 let () = java_register_static "ScreenCaptureNoneFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))

@@ -106,7 +106,7 @@ class layerManager (layerManagerLogging_arg) =
         begin (* synchronized *)
             ignore ((Obj.magic layerManagerLogging)#remove ((Obj.magic layerInterface)));
             let result : bool ref = ref ((list#remove ((Obj.magic layerInterface)))) in ();
-            ignore ((Obj.magic layerManagerLogging)#removeResult (self, (Obj.magic layerInterface), !result))
+            ignore ((Obj.magic layerManagerLogging)#removeResult ((Obj.magic self), (Obj.magic layerInterface), !result))
         end
         end [@@warning "-20"]
     
@@ -138,12 +138,12 @@ class layerManager (layerManagerLogging_arg) =
         let g = Obj.repr g in
         begin
         begin (* synchronized *)
-            let comp : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+            let comp : Layer.layer ref = ref (((Obj.magic 0) :> Layer.layer)) in ();
             let index : int ref = ref ((list#size ())) in ();
             while ((index := !index - 1; !index) >= 0) do
-                comp := Obj.repr ((Obj.magic list#objectArray.(!index)));
-                if (((Obj.magic !comp) != (Obj.magic 0)) && ((Obj.magic !comp)#isVisible ())) then begin
-                    ignore ((Obj.magic !comp)#paint ((Obj.magic g)))
+                comp := (Obj.magic list#objectArray.(!index));
+                if ((!comp != (Obj.magic 0)) && (!comp#isVisible ())) then begin
+                    ignore (!comp#paint ((Obj.magic g)))
                 end
             done
         end
@@ -159,7 +159,7 @@ class layerManager (layerManagerLogging_arg) =
         list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
         anyType <- ((new SynchObject.synchObject ()) :> SynchObject.synchObject);
         ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, self, commonStrings#cONSTRUCTOR));
+        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#cONSTRUCTOR));
         layerManagerLogging <- Obj.repr (layerManagerLogging_arg)
       end
   end [@@warning "-20"]

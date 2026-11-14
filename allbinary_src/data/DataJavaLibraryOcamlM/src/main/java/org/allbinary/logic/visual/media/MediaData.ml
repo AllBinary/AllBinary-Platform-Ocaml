@@ -24,8 +24,9 @@ let hashMap : java_hash_map ref = ref ((((Obj.magic (java_call_static "StdUtil.g
 let get_hashMap () = !hashMap
 let set_hashMap value' = hashMap := value'
 let () = java_register_static "MediaData.get_hashMap" (fun _ -> Obj.repr (get_hashMap ()))
+let () = java_register_static "MediaData.set_hashMap" (fun value' -> set_hashMap (Obj.obj value'); Obj.repr ())
 
-let get ((a_Name : string)) =
+let get : 'return. string -> 'return = fun ((a_Name : string)) ->
         try
         begin
         let mediaData : Obj.t ref = ref ((Obj.repr (Obj.magic (!hashMap#get (a_Name))))) in ();
@@ -37,9 +38,9 @@ let get ((a_Name : string)) =
         end
         with Java_return value -> Obj.obj value
 
-and getDefault () =
+and getDefault : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#jPG
+        (Obj.magic ((Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#jPG))
         end
 
 and toHashMap () : java_hash_map =
@@ -86,7 +87,7 @@ class mediaData ((a_Name : string)) =
         let mediaData = Obj.repr mediaData in
         try
         begin
-        if (((Obj.repr self) == (Obj.repr (Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#gIF)) && ((Obj.repr (Obj.magic mediaData)) == (Obj.repr (Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#jPG))) then begin
+        if (((Obj.repr (Obj.magic self)) == (Obj.repr (Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#gIF)) && ((Obj.repr (Obj.magic mediaData)) == (Obj.repr (Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#jPG))) then begin
             raise (Java_return (Obj.repr (true)))
         end;
         false
@@ -108,7 +109,7 @@ class mediaData ((a_Name : string)) =
         name <- a_Name;
         extension <- ("." ^ name);
         type_ <- (MediaTypeData.getInstance ())#nOT_RESIZABLE_MEDIA;
-        ignore (!hashMap#put (a_Name, self))
+        ignore (!hashMap#put (a_Name, (Obj.magic self)))
       end
   end
 let () = java_register_constructor "MediaData" (fun arguments -> Obj.repr (new mediaData (Obj.obj arguments)))

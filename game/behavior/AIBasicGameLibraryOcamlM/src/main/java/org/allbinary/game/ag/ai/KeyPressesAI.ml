@@ -40,7 +40,7 @@ class keyPressesAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLa
         begin
         if on then begin
             for index = 0 to (Array.length keys) - 1 do
-                ignore (super#processKeyAI ((keys.(index)#intValue ())))
+                ignore (super#processKeyAI ((java_int_value (Obj.repr keys.(index)))))
             done
         end
         end [@@warning "-7-20"]

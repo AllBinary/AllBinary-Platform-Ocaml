@@ -26,6 +26,11 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.util.BasicArrayList *)
 (* import org.allbinary.util.BasicArrayListD *)
 
+let nULL_GAME_NOTIFICATION_EVENT_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_nULL_GAME_NOTIFICATION_EVENT : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !nULL_GAME_NOTIFICATION_EVENT_cell with Lazy.Undefined -> java_null)
+let set_nULL_GAME_NOTIFICATION_EVENT value' = nULL_GAME_NOTIFICATION_EVENT_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "GameNotification.get_nULL_GAME_NOTIFICATION_EVENT" (fun _ -> Obj.repr (get_nULL_GAME_NOTIFICATION_EVENT ()))
+let () = java_register_static "GameNotification.set_nULL_GAME_NOTIFICATION_EVENT" (fun value' -> set_nULL_GAME_NOTIFICATION_EVENT value'; Obj.repr ())
 class gameNotification () =
   object
     val mutable stringList : BasicArrayList.basicArrayList = (Obj.magic 0)
@@ -73,8 +78,6 @@ class gameNotification () =
   end
 let () = java_register_constructor "GameNotification" (fun arguments -> Obj.repr (new gameNotification (Obj.obj arguments)))
 
-let nULL_GAME_NOTIFICATION_EVENT : GameNotificationEvent.gameNotificationEvent = ((new GameNotificationEvent.gameNotificationEvent ((NullUtil.getInstance ())#nULL_OBJECT, (StringUtil.getInstance ())#eMPTY_STRING, (Obj.obj (java_new "Integer" (Obj.repr (0)))), (BasicColorFactory.getInstance ())#rED, (BooleanFactory.getInstance ())#fALSE)) :> GameNotificationEvent.gameNotificationEvent)
-let get_nULL_GAME_NOTIFICATION_EVENT () = nULL_GAME_NOTIFICATION_EVENT
-let () = java_register_static "GameNotification.get_nULL_GAME_NOTIFICATION_EVENT" (fun _ -> Obj.repr (get_nULL_GAME_NOTIFICATION_EVENT ()))
+let () = nULL_GAME_NOTIFICATION_EVENT_cell := lazy (Obj.repr ((new GameNotificationEvent.gameNotificationEvent ((Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT)), (StringUtil.getInstance ())#eMPTY_STRING, (Obj.obj (java_new "Integer" (Obj.repr (0)))), (BasicColorFactory.getInstance ())#rED, (BooleanFactory.getInstance ())#fALSE))))
 
 

@@ -31,15 +31,15 @@ class basicTouchButtonsBuilder () =
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
     
 
-    method getList () : BasicArrayList.basicArrayList =
+    method getList : 'return. unit -> 'return = fun () ->
         begin
         (try
-            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, self, (self#commonStrings)#gET_LIST));
+            ignore ((Obj.magic logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#gET_LIST));
             let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            (!list :> BasicArrayList.basicArrayList)
+            (Obj.magic (!list))
         with e -> begin
-            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, self, (self#commonStrings)#gET_LIST, e));
-            (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList)
+            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#gET_LIST, e));
+            (Obj.magic (((BasicArrayListUtil.getInstance ())#getImmutableInstance ())))
         end)
         end [@@warning "-7"]
 
@@ -55,9 +55,9 @@ let sINGLETON = (new basicTouchButtonsBuilder ())
 let get_sINGLETON () = sINGLETON
 let () = java_register_static "BasicTouchButtonsBuilder.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
 
-let getInstance () : BaseTouchInput.baseTouchInput =
+let getInstance : 'return. unit -> 'return = fun () ->
         begin
-        (sINGLETON :> BaseTouchInput.baseTouchInput)
+        (Obj.magic (sINGLETON))
         end
 let () = java_register_static "BasicTouchButtonsBuilder.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 

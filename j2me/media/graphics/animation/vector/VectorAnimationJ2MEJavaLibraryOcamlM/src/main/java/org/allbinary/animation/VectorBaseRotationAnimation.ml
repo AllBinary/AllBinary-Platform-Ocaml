@@ -26,7 +26,7 @@ open Allbinary_java [@@warning "-33"]
 
 class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPoints_arg : int array array array), (basicColor : BasicColor.basicColor), (animationBehavior : AnimationBehavior.animationBehavior)) =
   object (self)
-    inherit RotationAnimation.rotationAnimation (angleInfo, (CircularIndexUtil.createInstance ((360 / ((angleInfo#getAngleIncrementInfo ())#getAngleIncrement ())))), animationBehavior)
+    inherit RotationAnimation.rotationAnimation (angleInfo, (CircularIndexUtil.createInstance ((360 / ((angleInfo#getAngleIncrementInfo ())#getAngleIncrement ())))), animationBehavior) as super
     val mutable currentPoints : int array array array = (Obj.magic 0)
     method currentPoints = currentPoints
     method set_currentPoints value' = currentPoints <- value'
@@ -105,7 +105,7 @@ class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPo
                 end
             done
         with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, self, "paintVectors", e))
+            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "paintVectors", e))
         end)
         end [@@warning "-7-20"]
     
@@ -121,6 +121,19 @@ class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPo
         currentPoints <- currentPoints_arg;
         (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance ((Array.length currentPoints))))
         end [@@warning "-7"]
+    
+
+    method getBasicColorP : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getBasicColorP ())))
+        end [@@warning "-7"]
+    
+
+    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor) ->
+        let basicColor = Obj.repr basicColor in
+        begin
+        ignore (super#setBasicColorP ((Obj.magic basicColor)))
+        end [@@warning "-7-20"]
 
     initializer
       begin
@@ -128,7 +141,7 @@ class vectorBaseRotationAnimation ((angleInfo : AngleInfo.angleInfo), (currentPo
         ();
         (* super(...) is the inherit clause *) ();
         (self#setPoints (currentPoints_arg));
-        ignore (self#setBasicColorP (basicColor))
+        (self#setBasicColorP (basicColor))
       end
   end
 let () = java_register_constructor "VectorBaseRotationAnimation" (fun arguments -> Obj.repr (new vectorBaseRotationAnimation (Obj.obj arguments)))
