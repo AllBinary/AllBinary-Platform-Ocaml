@@ -42,7 +42,11 @@ class vectorRotationGenerator () =
     
     
 
-    (* Java overload getInstance(VectorInfo) is not converted: OCaml has one method per name *)
+    method getInstance : 'any1. 'any1 -> int array array array = fun (vectorRotationInfo) ->
+        let vectorRotationInfo = Obj.repr vectorRotationInfo in
+        begin
+        (self#getInstanceFrames (((Obj.magic vectorRotationInfo)#getWidth ()), ((Obj.magic vectorRotationInfo)#getHeight ()), ((Obj.magic vectorRotationInfo)#getPoints ()), ((Obj.magic vectorRotationInfo)#getTotalFrames ())))
+        end [@@warning "-20"]
     
 
     method getInstanceFrames ((width : int), (height : int), (points : int array array), (frames : int)) : int array array array =

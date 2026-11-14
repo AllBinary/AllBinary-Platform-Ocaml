@@ -39,14 +39,14 @@ class partnerIdentifierFileUtil () =
         (try
             let resourceUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ResourceUtil.getInstance" (Obj.repr ()))))) in ();
             let inputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !resourceUtil)#getResourceAsStream (fILE_NAME)))) in ();
-            let inputStreamReader : Obj.t ref = ref ((Obj.repr (new InputStreamReader.inputStreamReader ((Obj.magic !inputStream))))) in ();
+            let inputStreamReader : java_input_stream_reader ref = ref (((new java_input_stream_reader (Obj.repr ((Obj.magic !inputStream)))) :> java_input_stream_reader)) in ();
             let chars : char array ref = ref ((Array.make (30) '\000')) in ();
-            let size : int ref = ref (((Obj.magic !inputStreamReader)#read (!chars))) in ();
+            let size : int ref = ref ((!inputStreamReader#read (!chars))) in ();
             let partnerString : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
             if (!size > 0) then begin
                 partnerString := (Obj.obj (java_new "String" (Obj.repr (!chars, 0, !size))))
             end;
-            ignore ((Obj.magic !inputStreamReader)#close ());
+            ignore (!inputStreamReader#close ());
             !partnerString
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();

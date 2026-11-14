@@ -52,7 +52,7 @@ class basicProbabilityAIDataFactory () =
         !repeatLikelyhoodIntegerArray.((Obj.magic (java_call_static "Canvas.get_kEY_NUM7" (Obj.repr ())))) <- (!smallIntegerSingletonFactory#getAt (0));
         !repeatLikelyhoodIntegerArray.((Obj.magic (java_call_static "Canvas.get_kEY_NUM9" (Obj.repr ())))) <- (!smallIntegerSingletonFactory#getAt (0));
         !repeatLikelyhoodIntegerArray.((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))) <- (!smallIntegerSingletonFactory#getAt (10));
-        let inputProbability : InputProbability.inputProbability ref = ref (((new InputProbability.inputProbability (!likelyhoodIntegerArray, !repeatLikelyhoodIntegerArray, 42, (NoTimeDelayHelper.get_sINGLETON ()))) :> InputProbability.inputProbability)) in ();
+        let inputProbability : InputProbability.inputProbability ref = ref (((new InputProbability.inputProbability (!likelyhoodIntegerArray, !repeatLikelyhoodIntegerArray, 42, ((NoTimeDelayHelper.get_sINGLETON ()) : NoTimeDelayHelper.noTimeDelayHelper :> TimeDelayHelper.timeDelayHelper))) :> InputProbability.inputProbability)) in ();
         (Obj.magic ((!inputProbability#toHashtable ())))
         end
 

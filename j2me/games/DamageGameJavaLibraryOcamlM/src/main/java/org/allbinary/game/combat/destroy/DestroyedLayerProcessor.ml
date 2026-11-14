@@ -79,7 +79,7 @@ let () = java_register_constructor "DestroyedLayerProcessor" (fun arguments -> O
 
 let init () : unit =
         begin
-        dESTROYED_LAYER_PROCESSOR := (new destroyedLayerProcessor ())
+        dESTROYED_LAYER_PROCESSOR := ((new destroyedLayerProcessor ()) :> BasicLayerProcessor.basicLayerProcessor)
         end
 let () = java_register_static "DestroyedLayerProcessor.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
 

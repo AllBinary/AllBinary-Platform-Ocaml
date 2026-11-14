@@ -39,7 +39,14 @@ class vectorMirrorGenerator () =
     (* Java overload getInstance(ArrayType, INT) is not converted: OCaml has one method per name *)
     
 
-    (* Java overload getInstance(BasicArrayList, INT) is not converted: OCaml has one method per name *)
+    method getInstance : 'any1 'return. 'any1 * int -> 'return = fun (pointBasicArrayList, (width : int)) ->
+        let pointBasicArrayList = Obj.repr pointBasicArrayList in
+        begin
+        let graphicsPipe : BasicGraphicsPipeline.basicGraphicsPipeline ref = ref (((new BasicGraphicsPipeline.basicGraphicsPipeline ((Obj.magic pointBasicArrayList))) :> BasicGraphicsPipeline.basicGraphicsPipeline)) in ();
+        ignore (!graphicsPipe#createMatrix ());
+        ignore (!graphicsPipe#mirror (width));
+        (Obj.magic ((!graphicsPipe#getMatrix ())))
+        end [@@warning "-20"]
 
     initializer
       begin

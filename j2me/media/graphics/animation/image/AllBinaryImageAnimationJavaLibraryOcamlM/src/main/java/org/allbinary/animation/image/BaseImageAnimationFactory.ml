@@ -75,8 +75,8 @@ class baseImageAnimationFactory (image_arg, (sequenceArray_arg : int array), (wi
         begin
         scaleProperties <- (Obj.magic scaleProperties_arg);
         if scaleProperties#shouldScale then begin
-            scaleProperties#set_scaleWidth ((java_to_int (Obj.repr (((animationFactoryInitializationVisitor#width * scaleProperties#scaleX))))));
-            scaleProperties#set_scaleHeight ((java_to_int (Obj.repr (((animationFactoryInitializationVisitor#height * scaleProperties#scaleY))))))
+            scaleProperties#set_scaleWidth ((int_of_float ((((float_of_int (animationFactoryInitializationVisitor#width)) *. scaleProperties#scaleX)))));
+            scaleProperties#set_scaleHeight ((int_of_float ((((float_of_int (animationFactoryInitializationVisitor#height)) *. scaleProperties#scaleY)))))
         end else begin
             ()
         end

@@ -112,7 +112,7 @@ class abBasicCrypt ((algorithm_arg : string), (key_arg : string)) =
         ();
         (try
             algorithm <- algorithm_arg;
-            key <- (key_arg#getBytes ());
+            key <- (java_string_get_bytes key_arg);
             (self#init ())
         with e -> begin
             let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();

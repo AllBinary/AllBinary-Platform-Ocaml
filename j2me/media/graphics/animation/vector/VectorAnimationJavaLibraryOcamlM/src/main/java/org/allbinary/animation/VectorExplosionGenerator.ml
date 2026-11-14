@@ -58,7 +58,14 @@ class vectorExplosionGenerator () =
         end [@@warning "-20"]
     
 
-    (* Java overload getInstance(ArrayType, INT, VectorExplosionType) is not converted: OCaml has one method per name *)
+    method getInstance : 'any3. int array array * int * 'any3 -> int array array array = fun ((points : int array array), (howMuch : int), type_) ->
+        let type_ = Obj.repr type_ in
+        begin
+        let pointsBasicArrayList : BasicArrayList.basicArrayList ref = ref (((self#getInstanceStartFrame (points, howMuch, (Obj.magic type_), true)) :> BasicArrayList.basicArrayList)) in ();
+        let tempBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic !pointsBasicArrayList#objectArray.(0)) :> BasicArrayList.basicArrayList)) in ();
+        let newPoints : int array array array ref = ref ((vectorAnimationUtil#toAnimationArrayFromListOfPointListWithPointsPerFrame (!pointsBasicArrayList, (!tempBasicArrayList#size ())))) in ();
+        !newPoints
+        end [@@warning "-20"]
     
 
     method getInstanceStartFrame : 'any3 'return. int array array * int * 'any3 * bool -> 'return = fun ((points : int array array), (howMuch : int), type_, (startFrame : bool)) ->

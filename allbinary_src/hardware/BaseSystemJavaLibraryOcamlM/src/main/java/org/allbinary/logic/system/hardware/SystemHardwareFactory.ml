@@ -24,7 +24,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.string.CommonStrings *)
 
 class systemHardwareFactory () =
-  object
+  object (self)
     val mutable logUtil : Obj.t = Obj.repr 0
     method logUtil : 'r. 'r = Obj.magic logUtil
     method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
@@ -37,7 +37,19 @@ class systemHardwareFactory () =
     
     
 
-    (* Java overload getInstance(GenericOperatingSystem) is not converted: OCaml has one method per name *)
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (operatingSystemInterface) ->
+        let operatingSystemInterface = Obj.repr operatingSystemInterface in
+        begin
+        (try
+            if ((Obj.repr hardwareInterface) == (Obj.repr (NoHardware.getInstance ()))) then begin
+                hardwareInterface <- ((Obj.magic (java_call_static "HardwareFactory.getInstance" (Obj.repr ())))#getInstance ((Obj.magic operatingSystemInterface)))
+            end;
+            ignore ((Obj.magic logUtil)#putF ("Found Hardware", (Obj.magic self), commonStrings#cONSTRUCTOR))
+        with e -> begin
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#cONSTRUCTOR, e))
+        end);
+        (Obj.magic (hardwareInterface))
+        end [@@warning "-20"]
 
     initializer
       begin

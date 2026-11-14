@@ -217,7 +217,7 @@ class highScoresCanvas (commandListener, (allBinaryGameLayerManager : AllBinaryG
         ();
         (* super(...) is the inherit clause *) ();
         ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
-        highScoresPaintable <- (paintable_arg :> HighScoresPaintable.highScoresPaintable);
+        highScoresPaintable <- paintable_arg;
         highScoresFactoryInterface <- highScoresFactoryInterface_arg;
         highScoresCanvasInputProcessor <- Obj.repr ((highScoresCanvasInputProcessorFactoryInterface#getInstance ((Obj.magic self))));
         gameInfo <- gameInfo_arg;

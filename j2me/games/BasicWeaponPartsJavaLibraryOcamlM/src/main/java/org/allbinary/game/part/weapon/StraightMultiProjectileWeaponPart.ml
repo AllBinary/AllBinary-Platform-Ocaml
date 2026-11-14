@@ -62,9 +62,9 @@ class straightMultiProjectileWeaponPart ((animationInterface : Animation.animati
         let next : int ref = ref ((- !halfWidth)) in ();
         for _index = 0 to total - 1 do
             sine := ((!next * (noDecimalTrigTable#sin (angle))));
-            beamX := (java_to_int (Obj.repr (((!sine / noDecimalTrigTable#sCALE)))));
+            beamX := ((!sine / noDecimalTrigTable#sCALE));
             cosine := ((!next * (noDecimalTrigTable#cos (angle))));
-            beamY := (- (java_to_int (Obj.repr (((!cosine / noDecimalTrigTable#sCALE))))));
+            beamY := (- ((!cosine / noDecimalTrigTable#sCALE)));
             weaponLayer := (weaponLayerCircularStaticPool#getInstanceWeaponLayer (!sourceLayerInterface, (!x + !beamX), (!y + !beamY), 0, angle, otherAngle, (Obj.magic weaponProperties), (Obj.magic scoreableInterface)));
             ignore ((Obj.magic allbinaryLayerManager)#append (!weaponLayer));
             next := (!next + !increment)

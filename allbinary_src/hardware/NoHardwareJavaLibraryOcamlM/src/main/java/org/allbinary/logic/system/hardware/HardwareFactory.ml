@@ -27,7 +27,14 @@ class hardwareFactory () =
     
     
 
-    (* Java overload getInstance(OperatingSystemInterface) is not converted: OCaml has one method per name *)
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (_os) ->
+        begin
+        (try
+            (Obj.magic (sINGLETON))
+        with e -> begin
+            raise e
+        end)
+        end [@@warning "-20"]
 
     initializer
       begin

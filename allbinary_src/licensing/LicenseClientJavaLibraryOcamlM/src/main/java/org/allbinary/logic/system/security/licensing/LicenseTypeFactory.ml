@@ -32,7 +32,17 @@ class licenseTypeFactory () =
     method set_nORMAL value' = nORMAL <- value'
     
 
-    (* Java overload getInstance(String) is not converted: OCaml has one method per name *)
+    method getInstance : 'return. string -> 'return = fun ((name : string)) ->
+        try
+        begin
+        if ((String.compare (dEMO#getName ()) (name)) == 0) then begin
+            raise (Java_return (Obj.repr (dEMO)))
+        end else if ((String.compare (nORMAL#getName ()) (name)) == 0) then begin
+            raise (Java_return (Obj.repr (nORMAL)))
+        end;
+        (Obj.magic (uNKNOWN))
+        end
+        with Java_return value -> Obj.obj value
 
     initializer
       begin

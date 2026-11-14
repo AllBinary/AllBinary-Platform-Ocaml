@@ -31,7 +31,7 @@ let get_nAME () = nAME
 let () = java_register_static "FallingPickupLayer.get_nAME" (fun _ -> Obj.repr (get_nAME ()))
 class fallingPickupLayer (remoteInfo) =
   object (self)
-    inherit PickupLayer.pickupLayer (nAME, remoteInfo, 0, (CountedPickedUpLayerInterfaceFactory.get_nULL_COUNTED_PICKUP_LAYER_FACTORY ()), ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)), (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, 0, 0)), (ViewPosition.getInstanceD ()))
+    inherit PickupLayer.pickupLayer (nAME, remoteInfo, 0, ((CountedPickedUpLayerInterfaceFactory.get_nULL_COUNTED_PICKUP_LAYER_FACTORY ()) : CountedPickedUpLayerInterfaceFactory.countedPickedUpLayerInterfaceFactory :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface), ((NullAnimationFactory.getFactoryInstance ())#getInstance (0)), (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, 0, 0)), (ViewPosition.getInstanceD ()))
     
     
 

@@ -34,7 +34,11 @@ class adjustedImageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.an
     
     
 
-    (* Java overload init(INT, INT) is not converted: OCaml has one method per name *)
+    method init ((dx_arg : int), (dy_arg : int)) : unit =
+        begin
+        (self#setDx (dx_arg));
+        (self#setDy (dy_arg))
+        end [@@warning "-7"]
     
 
     method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->

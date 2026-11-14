@@ -153,7 +153,7 @@ class noDecimalTrigTable () =
                 angleOfTarget := (self#antiTan (!dx.(index), !dy.(index2)));
                 angle := (!angleFactory#getAt (!angleOfTarget));
                 ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((((((((((!stringMaker#append ((CommonLabels.getInstance ())#iNDEX_LABEL))#appendint (index))#append (" index2: "))#appendint (index2))#append ((PositionStrings.getInstance ())#dX_LABEL))#appendint (!dx.(index)))#append ((PositionStrings.getInstance ())#dY_LABEL))#appendint (!dy.(index2)))#append (!tARGET_ANGLE))#appendshort (!angleOfTarget))#append ((CommonSeps.getInstance ())#eQUALS))#appendshort ((java_to_int (Obj.repr ((!angle#getValue ())))))))), (Obj.magic self), !mETHOD_NAME))))
+                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((((((((((((!stringMaker#append ((CommonLabels.getInstance ())#iNDEX_LABEL))#appendint (index))#append (" index2: "))#appendint (index2))#append ((PositionStrings.getInstance ())#dX_LABEL))#appendint (!dx.(index)))#append ((PositionStrings.getInstance ())#dY_LABEL))#appendint (!dy.(index2)))#append (!tARGET_ANGLE))#appendshort (!angleOfTarget))#append ((CommonSeps.getInstance ())#eQUALS))#appendshort ((!angle#getValue ()))))), (Obj.magic self), !mETHOD_NAME))))
             done
         done;
         angleOfTarget := (self#antiTan (!dx.(0), !dy.(0)));

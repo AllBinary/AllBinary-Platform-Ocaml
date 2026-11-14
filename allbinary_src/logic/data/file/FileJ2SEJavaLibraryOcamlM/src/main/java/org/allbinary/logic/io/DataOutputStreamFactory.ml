@@ -32,7 +32,13 @@ class dataOutputStreamFactory () =
         end [@@warning "-20"]
     
 
-    (* Java overload getInstance(String, String) is not converted: OCaml has one method per name *)
+    method getInstance : 'return. string * string -> 'return = fun ((filePath : string), (fileName : string)) ->
+        begin
+        let fileStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
+        let fileOutputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !fileStreamFactory)#getFileOutputStreamInstance (filePath, fileName)))) in ();
+        let idOutData : AbDataOutputStream.abDataOutputStream ref = ref (((new AbDataOutputStream.abDataOutputStream ((Obj.magic !fileOutputStream))) :> AbDataOutputStream.abDataOutputStream)) in ();
+        (Obj.magic (!idOutData))
+        end
 
     initializer
       begin

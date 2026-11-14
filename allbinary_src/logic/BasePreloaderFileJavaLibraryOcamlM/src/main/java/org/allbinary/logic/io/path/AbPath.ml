@@ -97,7 +97,7 @@ class abPath ((aPath : string), (name : string)) =
             let beginIndex : int ref = ref ((java_string_index_of !tempPath (Obj.repr (commonSeps#cOLON)))) in ();
             if (!beginIndex >= 0) then begin
                 beginIndex := !beginIndex + 1;
-                while (((Obj.repr (String.get !tempPath (!beginIndex))) == (Obj.repr (Obj.magic abPathData)#sEPARATORCHAR)) || ((Obj.repr (String.get !tempPath (!beginIndex))) == (Obj.repr !filePathData#sEPARATORCHAR))) do
+                while (((String.get !tempPath (!beginIndex)) == (Obj.magic abPathData)#sEPARATORCHAR) || ((String.get !tempPath (!beginIndex)) == !filePathData#sEPARATORCHAR)) do
                     beginIndex := !beginIndex + 1;
                     numberOfSeps <- numberOfSeps + 1;
                     if (numberOfSeps > 2) then begin

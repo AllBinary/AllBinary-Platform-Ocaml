@@ -341,13 +341,13 @@ class diveAndDirectionalTrackingAI ((ownerLayerInterface : AllBinaryLayer.allBin
     method setLastKey ((lastKey : int)) : unit =
         begin
         ignore (super#setLastKey (lastKey));
-        if ((Obj.repr (self#getLastKey ())) == (Obj.repr (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ()))))) then begin
+        if ((self#getLastKey ()) == (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))) then begin
             lastDirection <- (DirectionFactory.getInstance ())#lEFT
-        end else if ((Obj.repr (self#getLastKey ())) == (Obj.repr (Obj.magic (java_call_static "Canvas.get_dOWN" (Obj.repr ()))))) then begin
+        end else if ((self#getLastKey ()) == (Obj.magic (java_call_static "Canvas.get_dOWN" (Obj.repr ())))) then begin
             lastDirection <- (DirectionFactory.getInstance ())#dOWN
-        end else if ((Obj.repr (self#getLastKey ())) == (Obj.repr (Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ()))))) then begin
+        end else if ((self#getLastKey ()) == (Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))) then begin
             lastDirection <- (DirectionFactory.getInstance ())#uP
-        end else if ((Obj.repr (self#getLastKey ())) == (Obj.repr (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ()))))) then begin
+        end else if ((self#getLastKey ()) == (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))) then begin
             lastDirection <- (DirectionFactory.getInstance ())#rIGHT
         end
         end [@@warning "-7"]

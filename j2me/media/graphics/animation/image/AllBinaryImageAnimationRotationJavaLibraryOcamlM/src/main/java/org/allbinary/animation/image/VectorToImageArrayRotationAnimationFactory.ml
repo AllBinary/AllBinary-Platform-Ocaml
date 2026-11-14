@@ -48,7 +48,7 @@ class vectorToImageArrayRotationAnimationFactory ((vectorInfo : VectorInfo.vecto
         begin
         let angleFactory : AngleFactory.angleFactory ref = ref (((AngleFactory.getInstance ()) :> AngleFactory.angleFactory)) in ();
         angleIncrement <- (!angleFactory#tOTAL_ANGLE / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ()));
-        imageArray <- Obj.repr (((ImageToRotationImageArrayUtil.getInstance ())#generate ((self#getImage ()), (self#getAngleIncrement ()), (java_to_int (Obj.repr (!angleFactory#tOTAL_ANGLE))))))
+        imageArray <- Obj.repr (((ImageToRotationImageArrayUtil.getInstance ())#generate ((self#getImage ()), (self#getAngleIncrement ()), !angleFactory#tOTAL_ANGLE)))
         end [@@warning "-7"]
     
 

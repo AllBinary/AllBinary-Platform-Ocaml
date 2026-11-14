@@ -70,7 +70,7 @@ let () = java_register_constructor "HealPickedUpLayerInterfaceFactory" (fun argu
 
 let init () : unit =
         begin
-        pickedUpLayerInterfaceFactoryInterface := (new healPickedUpLayerInterfaceFactory ())
+        pickedUpLayerInterfaceFactoryInterface := ((new healPickedUpLayerInterfaceFactory ()) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
         end
 let () = java_register_static "HealPickedUpLayerInterfaceFactory.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
 

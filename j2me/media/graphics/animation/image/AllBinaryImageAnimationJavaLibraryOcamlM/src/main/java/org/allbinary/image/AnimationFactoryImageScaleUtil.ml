@@ -64,15 +64,15 @@ class animationFactoryImageScaleUtil () =
         let baseImageAnimationFactory = Obj.repr baseImageAnimationFactory in
         begin
         let scaleProperties : ScaleProperties.scaleProperties ref = ref ((((Obj.magic baseImageAnimationFactory)#getScalePropertiesP ()) :> ScaleProperties.scaleProperties)) in ();
-        if ((!scaleProperties#scaleWidth != 0) && (!scaleProperties#scaleHeight != 0)) then begin
+        if ((!scaleProperties#scaleWidth <> 0) && (!scaleProperties#scaleHeight <> 0)) then begin
             let animationFactoryInitializationVisitor : AnimationFactoryInitializationVisitor.animationFactoryInitializationVisitor ref = ref ((((Obj.magic baseImageAnimationFactory)#getAnimationFactoryInitializationVisitorP ()) :> AnimationFactoryInitializationVisitor.animationFactoryInitializationVisitor)) in ();
-            let scaleX : float ref = ref ((((java_to_float (Obj.repr (!scaleProperties#scaleWidth)))) /. ((java_to_float (Obj.repr (!animationFactoryInitializationVisitor#width)))))) in ();
-            let scaleY : float ref = ref ((((java_to_float (Obj.repr (!scaleProperties#scaleHeight)))) /. ((java_to_float (Obj.repr (!animationFactoryInitializationVisitor#height)))))) in ();
+            let scaleX : float ref = ref ((((float_of_int (!scaleProperties#scaleWidth))) /. ((float_of_int (!animationFactoryInitializationVisitor#width))))) in ();
+            let scaleY : float ref = ref ((((float_of_int (!scaleProperties#scaleHeight))) /. ((float_of_int (!animationFactoryInitializationVisitor#height))))) in ();
             if ((((!scaleX = 1.0) && (!scaleY = 1.0))) || (((!scaleX = 0.0) || (!scaleY = 0.0)))) then begin
                 ()
             end else begin
-                !animationFactoryInitializationVisitor#set_dx ((java_to_int (Obj.repr (((!animationFactoryInitializationVisitor#originalDx *. !scaleX))))));
-                !animationFactoryInitializationVisitor#set_dy ((java_to_int (Obj.repr (((!animationFactoryInitializationVisitor#originalDy *. !scaleY))))))
+                !animationFactoryInitializationVisitor#set_dx ((int_of_float ((((float_of_int (!animationFactoryInitializationVisitor#originalDx)) *. !scaleX)))));
+                !animationFactoryInitializationVisitor#set_dy ((int_of_float ((((float_of_int (!animationFactoryInitializationVisitor#originalDy)) *. !scaleY)))))
             end
         end else begin
             ()

@@ -25,7 +25,18 @@ class colorFillPaintableFactory () =
   object
     
 
-    (* Java overload getInstance(BasicColor, BOOLEAN) is not converted: OCaml has one method per name *)
+    method getInstance : 'any1 'return. 'any1 * bool -> 'return = fun (basicColor, (_forThreedCanvas : bool)) ->
+        let basicColor = Obj.repr basicColor in
+        try
+        begin
+        let operatingSystem : GenericOperatingSystem.genericOperatingSystem ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ()) :> GenericOperatingSystem.genericOperatingSystem)) in ();
+        if (!operatingSystem#isOverScan ()) then begin
+            raise (Java_return (Obj.repr ((new OverScanColorFillPaintable.overScanColorFillPaintable ((Obj.magic basicColor))))))
+        end else begin
+            raise (Java_return (Obj.repr ((new ColorFillPaintable.colorFillPaintable ((Obj.magic basicColor))))))
+        end
+        end
+        with Java_return value -> Obj.obj value [@@warning "-20"]
 
     initializer
       begin

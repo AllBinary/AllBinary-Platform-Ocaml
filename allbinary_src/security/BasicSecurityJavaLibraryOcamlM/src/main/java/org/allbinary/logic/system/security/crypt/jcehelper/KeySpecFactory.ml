@@ -25,7 +25,7 @@ open Allbinary_java [@@warning "-33"]
 (* import org.allbinary.string.CommonStrings *)
 
 class keySpecFactory () =
-  object
+  object (self)
     val mutable dES : string = ""
     method dES = dES
     method set_dES value' = dES <- value'
@@ -38,7 +38,25 @@ class keySpecFactory () =
     
     
 
-    (* Java overload getInstance(String, ArrayType) is not converted: OCaml has one method per name *)
+    method getInstance : 'return. string * int array -> 'return = fun ((algorithm : string), (keyData : int array)) ->
+        try
+        begin
+        (try
+            let tsUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))))) in ();
+            if (((Obj.magic !tsUtil)#compareTo (algorithm, dES)) = 0) then begin
+                raise (Java_return (Obj.repr ((new java_des_key_spec (keyData)))))
+            end else if (((Obj.magic !tsUtil)#compareTo (algorithm, dESEDE)) = 0) then begin
+                raise (Java_return (Obj.repr ((new java_des_key_spec (keyData)))))
+            end else begin
+                raise (Failure ("RuntimeException"))
+            end
+        with e -> begin
+            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))));
+            raise (Failure ("RuntimeException"))
+        end)
+        end
+        with Java_return value -> Obj.obj value
 
     initializer
       begin

@@ -84,7 +84,7 @@ let () = java_register_constructor "MineCountedPickedUpLayerInterfaceFactory" (f
 
 let init () : unit =
         begin
-        pickedUpLayerInterfaceFactoryInterface := (new mineCountedPickedUpLayerInterfaceFactory ())
+        pickedUpLayerInterfaceFactoryInterface := ((new mineCountedPickedUpLayerInterfaceFactory ()) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
         end
 let () = java_register_static "MineCountedPickedUpLayerInterfaceFactory.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
 

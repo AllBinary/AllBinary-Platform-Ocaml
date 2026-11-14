@@ -94,7 +94,7 @@ class titleAnimation ((animationInterfaceArray_arg : IndexedAnimation.indexedAni
         try
         begin
         let indexedAnimationBehavior : IndexedAnimationBehavior.indexedAnimationBehavior ref = ref (((Obj.magic (self#getAnimationBehavior ())) :> IndexedAnimationBehavior.indexedAnimationBehavior)) in ();
-        if (((!indexedAnimationBehavior#loopTotal == (- 1)) || (!indexedAnimationBehavior#loopIndex < !indexedAnimationBehavior#loopTotal)) || ((self#getFrame ()) <> 0)) then begin
+        if (((!indexedAnimationBehavior#loopTotal = (- 1)) || (!indexedAnimationBehavior#loopIndex < !indexedAnimationBehavior#loopTotal)) || ((self#getFrame ()) <> 0)) then begin
             raise (Java_return (Obj.repr (false)))
         end else begin
             raise (Java_return (Obj.repr (true)))

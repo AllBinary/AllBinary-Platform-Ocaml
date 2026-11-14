@@ -131,31 +131,31 @@ class basicHud ((location_arg : int), (direction_arg : int), (bufferZone_arg : i
         let y_arg : int ref = ref (0) in ();
         let anchor : int ref = ref (0) in ();
         let basicHudFactory : BasicHudFactory.basicHudFactory ref = ref (((BasicHudFactory.getInstance ()) :> BasicHudFactory.basicHudFactory)) in ();
-        if (!basicHudFactory#bOTTOMLEFT == (self#getLocation ())) then begin
+        if (!basicHudFactory#bOTTOMLEFT = (self#getLocation ())) then begin
             x_arg := (bufferZone + 2);
             y_arg := ((height - maxHeight) - bufferZone);
             anchor := ((Obj.magic (java_call_static "Graphics.get_bOTTOM" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_lEFT" (Obj.repr ()))))
-        end else if (!basicHudFactory#bOTTOMRIGHT == (self#getLocation ())) then begin
+        end else if (!basicHudFactory#bOTTOMRIGHT = (self#getLocation ())) then begin
             x_arg := (width - maxWidth);
             y_arg := ((height - maxHeight) - bufferZone);
             anchor := ((Obj.magic (java_call_static "Graphics.get_bOTTOM" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_rIGHT" (Obj.repr ()))))
-        end else if (!basicHudFactory#tOPLEFT == (self#getLocation ())) then begin
+        end else if (!basicHudFactory#tOPLEFT = (self#getLocation ())) then begin
             x_arg := (bufferZone + 2);
             y_arg := bufferZoneY;
             anchor := (Anchor.get_tOP_LEFT ())
-        end else if (!basicHudFactory#tOPRIGHT == (self#getLocation ())) then begin
+        end else if (!basicHudFactory#tOPRIGHT = (self#getLocation ())) then begin
             x_arg := (width - maxWidth);
             y_arg := bufferZoneY;
             anchor := ((Obj.magic (java_call_static "Graphics.get_tOP" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_rIGHT" (Obj.repr ()))))
-        end else if (!basicHudFactory#tOPCENTER == (self#getLocation ())) then begin
+        end else if (!basicHudFactory#tOPCENTER = (self#getLocation ())) then begin
             x_arg := ((((width - maxWidth)) / 2));
             y_arg := bufferZoneY;
             anchor := ((Obj.magic (java_call_static "Graphics.get_tOP" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_hCENTER" (Obj.repr ()))))
-        end else if (!basicHudFactory#bOTTOMCENTER == (self#getLocation ())) then begin
+        end else if (!basicHudFactory#bOTTOMCENTER = (self#getLocation ())) then begin
             x_arg := ((((width - maxWidth)) / 2));
             y_arg := ((height - maxHeight) - bufferZone);
             anchor := ((Obj.magic (java_call_static "Graphics.get_bOTTOM" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_hCENTER" (Obj.repr ()))))
-        end else if (!basicHudFactory#aBSOLUTE == (self#getLocation ())) then begin
+        end else if (!basicHudFactory#aBSOLUTE = (self#getLocation ())) then begin
             x_arg := maxHeight;
             y_arg := maxWidth;
             anchor := 0

@@ -22,7 +22,10 @@ class fileFactory () =
   object
     
 
-    (* Java overload getInstance(String) is not converted: OCaml has one method per name *)
+    method getInstance : 'return. string -> 'return = fun ((filePath : string)) ->
+        begin
+        (Obj.magic ((Obj.magic (java_call_static "AbFile.createAbFileFromRawPath" (Obj.repr (filePath))))))
+        end
     
 
     (* Java overload getInstance(AbFile, String) is not converted: OCaml has one method per name *)

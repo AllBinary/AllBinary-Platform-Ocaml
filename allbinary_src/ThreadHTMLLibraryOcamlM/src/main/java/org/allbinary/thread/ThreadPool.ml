@@ -111,7 +111,7 @@ class threadPool ((_poolName : string), (_numThreads_arg : int), (_priority : in
             for index = 0 to !size - 1 do
                 runnable := (Obj.magic (taskQueue#get (index)));
                 if ((!runnable#getPriority ()) > ((Obj.magic task)#getPriority ())) then begin
-                    lowerPriorityRunnable := (!runnable :> PriorityRunnable.priorityRunnable);
+                    lowerPriorityRunnable := !runnable;
                     raise Java_break
                 end
             done;

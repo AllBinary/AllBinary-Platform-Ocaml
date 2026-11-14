@@ -186,7 +186,7 @@ class abFile ((file_arg : java_file)) =
 
     method listFiles : 'return. unit -> 'return = fun () ->
         begin
-        (Obj.magic ((Obj.magic (file#listFiles ()))))
+        (Obj.magic ((Obj.magic (java_file_list_files file))))
         end
     
 

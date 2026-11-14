@@ -94,7 +94,7 @@ class flockingAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLaye
         ();
         (* super(...) is the inherit clause *) ();
         let allowedDistance_arg : int ref = ref ((Obj.magic (hashtable#get ((BasePatrolAI.get_mAX_DISTANCE ()))))) in ();
-        allowedDistance <- (!allowedDistance_arg#intValue ())
+        allowedDistance <- !allowedDistance_arg
       end
   end
 let () = java_register_constructor "FlockingAI" (fun arguments -> Obj.repr (new flockingAI (Obj.obj arguments)))

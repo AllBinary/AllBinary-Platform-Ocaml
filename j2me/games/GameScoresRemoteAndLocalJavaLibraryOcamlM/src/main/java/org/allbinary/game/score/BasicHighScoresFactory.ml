@@ -87,7 +87,7 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
         let gameInfo = Obj.repr gameInfo in
         let highScoresResultsListener = Obj.repr highScoresResultsListener in
         begin
-        ignore ((SecondaryThreadPool.getInstance ())#runTask ((object (self)
+        ignore ((SecondaryThreadPool.getInstance ())#runTask ((let outer_self = self in object (self)
             inherit ARunnable.aRunnable () as super
             
 
@@ -95,20 +95,20 @@ class basicHighScoresFactory ((abeClientInformation_arg : AbeClientInformationIn
                 begin
                 let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
                 (try
-                    ignore ((Obj.magic !logUtil_arg)#putF ((self#commonStrings)#sTART, (Obj.magic self), fETCH));
-                    (Obj.magic highScoresArray).(0) <- (Obj.magic (java_call_static "RecordStoreHighScores.getInstance" (Obj.repr (abeClientInformation, !gameInfo, tOP, pERSONAL_HIGH_SCORES, sCORES, (new ScoreComparator.scoreComparator (true))))));
-                    let gameType : GameType.gameType ref = ref (((!gameInfo#getGameType ()) :> GameType.gameType)) in ();
+                    ignore ((Obj.magic !logUtil_arg)#putF ((outer_self#commonStrings)#sTART, (Obj.magic self), fETCH));
+                    (Obj.magic highScoresArray).(0) <- (Obj.magic (java_call_static "RecordStoreHighScores.getInstance" (Obj.repr (abeClientInformation, (Obj.magic gameInfo), tOP, pERSONAL_HIGH_SCORES, sCORES, (new ScoreComparator.scoreComparator (true))))));
+                    let gameType : GameType.gameType ref = ref ((((Obj.magic gameInfo)#getGameType ()) :> GameType.gameType)) in ();
                     let gameTypeFactory : GameTypeFactory.gameTypeFactory ref = ref (((GameTypeFactory.getInstance ()) :> GameTypeFactory.gameTypeFactory)) in ();
-                    let gameInfo2 : GameInfo.gameInfo ref = ref ((!gameInfo :> GameInfo.gameInfo)) in ();
+                    let gameInfo2 : GameInfo.gameInfo ref = ref (((Obj.magic gameInfo) :> GameInfo.gameInfo)) in ();
                     if (((Obj.repr !gameType) == (Obj.repr !gameTypeFactory#sINGLE_PLAYER)) || ((Obj.repr !gameType) == (Obj.repr !gameTypeFactory#bOT))) then begin
                         gameInfo2 := (BasicHighScoresGameInfoFactory.getInstance ())#sINGLE_PLAYER_SERVER
                     end else if ((Obj.repr !gameType) == (Obj.repr !gameTypeFactory#mULTI_PLAYER)) then begin
                         gameInfo2 := (BasicHighScoresGameInfoFactory.getInstance ())#mULTI_PLAYER_SERVER
                     end;
-                    (Obj.magic highScoresArray).(1) <- (RemoteHighScores.getInstancePreload (abeClientInformation, softwareInformation, !gameInfo2, wORLD_TOP_SCORES, sCORES, (BooleanFactory.getInstance ())#fALSE, !preload));
-                    ignore ((Obj.magic !logUtil_arg)#putF ((self#commonStrings)#eND, (Obj.magic self), fETCH));
+                    (Obj.magic highScoresArray).(1) <- (RemoteHighScores.getInstancePreload (abeClientInformation, softwareInformation, !gameInfo2, wORLD_TOP_SCORES, sCORES, (BooleanFactory.getInstance ())#fALSE, preload));
+                    ignore ((Obj.magic !logUtil_arg)#putF ((outer_self#commonStrings)#eND, (Obj.magic self), fETCH));
                     (LastFetchHighScoresFactory.getInstance ())#set_highScoresArray ((Obj.magic highScoresArray));
-                    ignore (!highScoresResultsListener#setHighScoresArray ((Obj.magic highScoresArray)))
+                    ignore ((Obj.magic highScoresResultsListener)#setHighScoresArray ((Obj.magic highScoresArray)))
                 with e -> begin
                     ignore ((Obj.magic !logUtil_arg)#put (commonStrings#eXCEPTION, (Obj.magic self), fETCH, e))
                 end)

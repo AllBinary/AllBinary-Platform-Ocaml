@@ -50,7 +50,7 @@ class sequenceAI ((artificialIntelligenceInterfaceArray : ArtificialIntelligence
         begin
         index <- index + 1;
         let artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface ref = ref (((self#getSelectedArtificialIntelligenceInterface ()) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)) in ();
-        if ((Obj.repr (!artificialIntelligenceInterface#getId ())) == (Obj.repr (ArtificialIntelligence.get_aI_ID ()))) then begin
+        if ((!artificialIntelligenceInterface#getId ()) == (ArtificialIntelligence.get_aI_ID ())) then begin
             let artificialIntelligenceTransitionInterface : ArtificialIntelligenceTransitionInterface.artificialIntelligenceTransitionInterface ref = ref (((Obj.magic !artificialIntelligenceInterface) :> ArtificialIntelligenceTransitionInterface.artificialIntelligenceTransitionInterface)) in ();
             ignore (!artificialIntelligenceTransitionInterface#transition ())
         end

@@ -64,7 +64,7 @@ class playerGameInput ((gameKeyEventList : BasicArrayList.basicArrayList), (remo
 
     method onDownKey ((gameKeyEvent : int)) : unit =
         begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ((java_string_of (Obj.repr gameKeyEvent)))))), (Obj.magic self), gameInputStrings#oN_DOWN_GAME_KEY))))
+        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#sTART_LABEL))#append ((string_of_int gameKeyEvent))))), (Obj.magic self), gameInputStrings#oN_DOWN_GAME_KEY))))
         end [@@warning "-7"]
     
 

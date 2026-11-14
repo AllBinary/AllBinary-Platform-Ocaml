@@ -30,7 +30,7 @@ class imageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.angleInfo)
     
     
 
-    method init : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_imageArray, _angleInfo, (totalAngle : int)) ->
+    method initImageArray : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_imageArray, _angleInfo, (totalAngle : int)) ->
         begin
         expectedTotalFrames <- (totalAngle / (((self#angleInfo)#getAngleIncrementInfo ())#getAngleIncrement ()));
         ignore ((self#angleInfo)#adjustAngle (0));
@@ -52,7 +52,7 @@ class imageArrayRotationAnimation (imageArray, (angleInfo : AngleInfo.angleInfo)
         expectedTotalFrames <- 0;
         ();
         (* super(...) is the inherit clause *) ();
-        (self#init (imageArray, angleInfo, totalAngle))
+        (self#initImageArray (imageArray, angleInfo, totalAngle))
       end
   end
 let () = java_register_constructor "ImageArrayRotationAnimation" (fun arguments -> Obj.repr (new imageArrayRotationAnimation (Obj.obj arguments)))

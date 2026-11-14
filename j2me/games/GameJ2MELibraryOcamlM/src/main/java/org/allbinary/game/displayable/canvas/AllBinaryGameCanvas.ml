@@ -1533,7 +1533,7 @@ class allBinaryGameCanvas (commandListener, (gameLayerManager_arg : AllBinaryGam
     method setTouchPaintableP : 'any1. 'any1 -> unit = fun (paintable) ->
         let paintable = Obj.repr paintable in
         begin
-        touchPaintable <- ((Obj.magic paintable) :> Paintable.paintable)
+        touchPaintable <- (Obj.magic paintable)
         end [@@warning "-7-20"]
     
 

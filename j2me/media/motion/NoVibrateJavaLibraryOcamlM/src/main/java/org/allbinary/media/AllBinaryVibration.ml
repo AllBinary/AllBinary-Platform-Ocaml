@@ -55,7 +55,7 @@ let init () : unit =
         if ((java_int_value (Obj.repr ((GameConfigurationCentral.getInstance ())#vIBRATION#getValue ()))) == 0) then begin
             vIBRATION := (AllBinaryNoVibration.get_nO_VIBRATION ())
         end else begin
-            vIBRATION := (new allBinaryVibration ())
+            vIBRATION := ((new allBinaryVibration ()) :> AllBinaryVibrationME.allBinaryVibrationME)
         end
         end
 let () = java_register_static "AllBinaryVibration.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))

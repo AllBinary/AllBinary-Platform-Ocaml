@@ -34,7 +34,7 @@ let () = java_register_constructor "TestRemoteHighScoresNotFinished" (fun argume
 
 let main ((_args : string array)) : unit =
         begin
-        (new testRemoteHighScoresNotFinished ())
+        ignore (new testRemoteHighScoresNotFinished ())
         end
 let () = java_register_static "TestRemoteHighScoresNotFinished.main" (fun arguments -> Obj.repr (main (Obj.obj arguments)))
 

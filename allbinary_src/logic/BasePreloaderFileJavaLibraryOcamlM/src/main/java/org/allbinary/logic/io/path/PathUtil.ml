@@ -92,7 +92,7 @@ class pathUtil () =
     method isValidStart ((path : string)) : bool =
         try
         begin
-        if (((Obj.repr (String.get path (0))) == (Obj.repr (Obj.magic abPathData)#sEPARATORCHAR)) || ((String.get path (0)) == '.')) then begin
+        if (((String.get path (0)) == (Obj.magic abPathData)#sEPARATORCHAR) || ((String.get path (0)) == '.')) then begin
             raise (Java_return (Obj.repr (true)))
         end else begin
             raise (Java_return (Obj.repr (false)))
@@ -108,7 +108,7 @@ class pathUtil () =
         if (!stringValidationUtil#isEmpty (path)) then begin
             raise (Java_return (Obj.repr (false)))
         end;
-        if ((Obj.repr (String.get path (((String.length path) - 1)))) == (Obj.repr (Obj.magic abPathData)#sEPARATORCHAR)) then begin
+        if ((String.get path (((String.length path) - 1))) == (Obj.magic abPathData)#sEPARATORCHAR) then begin
             raise (Java_return (Obj.repr (true)))
         end else begin
             raise (Java_return (Obj.repr (false)))

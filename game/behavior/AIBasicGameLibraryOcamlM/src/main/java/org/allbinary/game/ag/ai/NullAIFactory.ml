@@ -29,7 +29,12 @@ let set_nULL_AI value' = nULL_AI := value'
 let () = java_register_static "NullAIFactory.get_nULL_AI" (fun _ -> Obj.repr (get_nULL_AI ()))
 let () = java_register_static "NullAIFactory.set_nULL_AI" (fun value' -> set_nULL_AI (Obj.obj value'); Obj.repr ())
 
-(* Java overload getInstance() is not converted: OCaml has one method per name *)
+let getInstance : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic (!nULL_AI))
+        end
+
+let () = java_register_static "NullAIFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
 class nullAIFactory () =
   object
     

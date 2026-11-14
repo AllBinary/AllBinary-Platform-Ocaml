@@ -71,7 +71,7 @@ let () = java_register_constructor "Points30kPickedUpLayerInterfaceFactory" (fun
 
 let init () : unit =
         begin
-        pickedUpLayerInterfaceFactoryInterface := (new points30kPickedUpLayerInterfaceFactory ())
+        pickedUpLayerInterfaceFactoryInterface := ((new points30kPickedUpLayerInterfaceFactory ()) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)
         end
 let () = java_register_static "Points30kPickedUpLayerInterfaceFactory.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
 

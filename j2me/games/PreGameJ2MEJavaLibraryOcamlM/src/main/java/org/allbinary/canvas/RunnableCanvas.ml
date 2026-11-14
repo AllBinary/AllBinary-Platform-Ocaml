@@ -172,7 +172,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         begin
         loopTimeHelper#set_delay (wait);
         pauseWait <- (wait * 3);
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("setWait - delay: "))#appendint ((java_to_int (Obj.repr (loopTimeHelper#delay))))))), (Obj.magic self), (self#commonStrings)#cONSTRUCTOR))
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("setWait - delay: "))#appendint (loopTimeHelper#delay)))), (Obj.magic self), (self#commonStrings)#cONSTRUCTOR))
         end [@@warning "-7"]
     
 
@@ -265,7 +265,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
             end
         end;
         let elapsedTime : int ref = ref ((loopTimeHelper#getElapsedTNT ())) in ();
-        let wait : int ref = ref ((java_to_int (Obj.repr (loopTimeHelper#delay)))) in ();
+        let wait : int ref = ref (loopTimeHelper#delay) in ();
         if (!elapsedTime > !wait) then begin
             elapsedTime := !wait
         end else begin
@@ -323,7 +323,7 @@ class runnableCanvas (commandListener, (childNameList : BasicArrayList.basicArra
         notified <- false;
         ();
         (* super(...) is the inherit clause *) ();
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("RunnableCanvas delay: "))#appendint ((java_to_int (Obj.repr (loopTimeHelper#delay))))))), (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
+        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("RunnableCanvas delay: "))#appendint (loopTimeHelper#delay)))), (Obj.magic self), (self#commonStrings)#cONSTRUCTOR));
         runnableCanvasRefreshHelper <- ((new RunnableCanvasRefreshHelper.runnableCanvasRefreshHelper ((Obj.magic self))) :> Processor.processor);
         if (commandListener != (Obj.magic 0)) then begin
             (self#initCommands (commandListener))
