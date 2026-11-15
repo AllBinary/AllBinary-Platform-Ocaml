@@ -124,7 +124,7 @@
 
         <module>../../../allbinary_src/licensing/ApplicationConfigurationJavaLibraryOcamlM</module>
         <module>../../../allbinary_src/licensing/ApplicationConfigurationNoFSJavaLibraryOcamlM</module>
-        <module>../../input/AllBinaryMagneticFieldSensorJavaLibraryOcamlM</module>
+<!--        <module>../../input/AllBinaryMagneticFieldSensorJavaLibraryOcamlM</module>-->
         <module>../../android/VirtualKeyboardJavaLibraryOcamlM</module>
 
     </modules>
