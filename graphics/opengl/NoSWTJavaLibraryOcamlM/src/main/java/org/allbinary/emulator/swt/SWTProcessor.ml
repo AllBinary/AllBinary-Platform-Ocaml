@@ -17,7 +17,7 @@
 
 open Allbinary_java [@@warning "-33"]
 [@@@warning "-20"]
-(* import org.eclipse.swt.widgets.Display *)
+(* import org.eclipse.swt.widgets.EclipseDisplay *)
 (* import org.allbinary.thread.NullRunnable *)
 
 class sWTProcessor () =

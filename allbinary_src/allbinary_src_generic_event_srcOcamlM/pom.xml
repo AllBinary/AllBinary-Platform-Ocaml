@@ -47,7 +47,8 @@
         
         <dependency>
             <groupId>org.allbinary</groupId>
-            <artifactId>LoggingAndroidAllOcaml</artifactId>
+            <!--<artifactId>LoggingAndroidAllOcaml</artifactId>-->
+            <artifactId>LoggingJ2MEAllOcaml</artifactId>
 
             <!--
 <artifactId>LoggingJ2MEAllOcaml</artifactId>

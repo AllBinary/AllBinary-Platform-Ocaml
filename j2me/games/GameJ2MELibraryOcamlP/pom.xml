@@ -46,6 +46,7 @@
         <module>../../../replace_these_stub_projects/allbinary_src/J2MEOnlyJavaLibraryOcamlM</module>
         <module>../../../replace_these_stub_projects/allbinary_src/J2MECompatibilityJavaLibraryOcamlM</module>
         <module>../../../replace_these_stub_projects/allbinary_src/J2MEJsInteropCompatibilityJavaLibraryOcamlM</module>
+        <module>../../../replace_these_stub_projects/graphics/YourSWTJavaLibraryOcamlM</module>
 
         <module>../../DebugJavaLibraryOcamlM</module>             
         <module>../../ResourceLibraryOcamlM</module>

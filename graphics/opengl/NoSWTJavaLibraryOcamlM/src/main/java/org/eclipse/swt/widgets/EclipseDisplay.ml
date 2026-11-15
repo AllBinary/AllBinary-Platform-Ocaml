@@ -17,7 +17,7 @@
 
 open Allbinary_java [@@warning "-33"]
 
-class display () =
+class eclipseDisplay () =
   object
     
 
@@ -31,6 +31,6 @@ class display () =
         ()
       end
   end
-let () = java_register_constructor "Display" (fun arguments -> Obj.repr (new display (Obj.obj arguments)))
+let () = java_register_constructor "EclipseDisplay" (fun arguments -> Obj.repr (new eclipseDisplay (Obj.obj arguments)))
 
 

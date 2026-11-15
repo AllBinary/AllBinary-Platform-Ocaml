@@ -49,7 +49,7 @@
 
         <module>../../games/licensing/PartnerJ2MEJavaLibraryOcamlM</module>
         <module>../../games/licensing/PartnerHTMLJavaLibraryOcamlM</module>
-        <module>../../games/licensing/PartnerAndroidJavaLibraryOcamlM</module>
+        <!--<module>../../games/licensing/PartnerAndroidJavaLibraryOcamlM</module>-->
         <module>../../games/licensing/NoGameLicensingJavaLibraryOcamlM</module>
         <module>../../games/licensing/GameLicensingOnlyDemoJavaLibraryOcamlM</module>
         <module>../../games/licensing/GameLicensingOnlyNormalJavaLibraryOcamlM</module>
@@ -61,7 +61,7 @@
         <module>../../games/GameScoresBaseJ2MELibraryOcamlM</module>
         -->
         <module>../../games/GameScoresLocalJavaLibraryOcamlM</module>
-        <module>../../games/GameScoresRemoteAndLocalJavaLibraryOcamlM</module>
+<!--        <module>../../games/GameScoresRemoteAndLocalJavaLibraryOcamlM</module>-->
 
         <module>../../../store/ThirdPartyStoreJavaLibraryOcamlM</module>
         <module>../../../store/NoThirdPartyStoreJavaLibraryOcamlM</module>
